@@ -1,5 +1,22 @@
 # Chapter 5: Control Flow in Rust
 
+## Introduction
+
+Control flow is at the heart of any programming language, determining how a program executes based on conditions and iterations. Rust's approach to control flow combines familiar constructs with powerful, expression-based semantics that set it apart from many other languages.
+
+By the end of this chapter, you'll understand:
+
+- The critical distinction between expressions and statements in Rust
+- How conditional logic works in Rust using `if` and `else`
+- The various loop constructs available in Rust
+- How Rust's loops differ from those in other programming languages
+- Working with ranges to create sequences of values
+- The powerful pattern matching capabilities of `match` expressions
+- How to control program flow with `break`, `continue`, and early returns
+- Using labeled loops for complex nested structures
+- Applying control flow to handle errors effectively
+- Building a complete number guessing game that combines these concepts
+
 ## Expressions vs Statements
 
 One of the most distinctive features of Rust is its expression-based nature. Understanding the difference between expressions and statements is fundamental to thinking in Rust.
@@ -19,7 +36,7 @@ fn main() {
     // Expression: evaluates to a value
     let x = 5 + 5; // 5 + 5 is an expression that evaluates to 10
 
-    // The expression 3 * 4 evaluates to 12
+    // Block expressions evaluate to the last expression in the block
     let z = {
         let inner = 3;
         inner * 4 // Note: no semicolon here, making it an expression
@@ -40,6 +57,8 @@ The lack of a semicolon at the end of a block makes it an expression that evalua
 
 ### Expressions in Function Returns
 
+Expressions are particularly useful when returning values from functions:
+
 ```rust
 // This function returns the value of the final expression
 fn expression_return() -> i32 {
@@ -58,6 +77,31 @@ fn main() {
     println!("statement_return: {}", statement_return());   // 6
 }
 ```
+
+### The Unit Type
+
+In Rust, the unit type `()` is used to indicate "no value." It's similar to `void` in other languages, but it's an actual type:
+
+```rust
+fn main() {
+    // Statements have type ()
+    let x = (let y = 6); // Error: let statements don't return a value
+
+    // Functions with no return value implicitly return ()
+    fn print_hello() {
+        println!("Hello");
+    }
+
+    let result = print_hello(); // result has type ()
+
+    // Explicitly returning unit
+    fn explicit_unit() -> () {
+        return ();
+    }
+}
+```
+
+Understanding when you're working with expressions vs. statements will help you write more idiomatic Rust code.
 
 ## Conditional Expressions
 
@@ -83,6 +127,8 @@ fn main() {
 
 ### If as an Expression
 
+Because `if` is an expression, it can return a value:
+
 ```rust
 fn main() {
     let condition = true;
@@ -101,6 +147,8 @@ fn main() {
 When using `if` as an expression, all branches must return the same type, and every possible condition must be covered. This is enforced by the compiler.
 
 ### Nested Conditions
+
+You can nest conditions within each other:
 
 ```rust
 fn main() {
@@ -122,13 +170,26 @@ fn main() {
 }
 ```
 
+### Ternary-like Expressions
+
+Rust doesn't have a traditional ternary operator (`condition ? true_case : false_case`), but the `if-else` expression serves the same purpose:
+
+```rust
+fn main() {
+    let age = 20;
+    let status = if age >= 18 { "adult" } else { "minor" };
+
+    println!("Status: {}", status); // "adult"
+}
+```
+
 ## Loops
 
-Rust provides three kinds of loops: `loop`, `while`, and `for`.
+Rust provides three kinds of loops: `loop`, `while`, and `for`. Each has its own use cases and advantages.
 
 ### The Loop Expression
 
-The `loop` keyword gives us an infinite loop that continues until explicitly broken.
+The `loop` keyword gives us an infinite loop that continues until explicitly broken:
 
 ```rust
 fn main() {
@@ -172,6 +233,8 @@ fn main() {
 }
 ```
 
+This is particularly useful for retry logic or when you need to compute a value through iteration.
+
 ### While Loops
 
 `while` loops combine a condition with a loop, running until the condition is no longer true:
@@ -182,13 +245,14 @@ fn main() {
 
     while number != 0 {
         println!("{}!", number);
-
         number -= 1;
     }
 
     println!("LIFTOFF!!!");
 }
 ```
+
+While loops are ideal when you need to continue looping until a specific condition is met.
 
 ### For Loops
 
@@ -216,27 +280,38 @@ fn main() {
 }
 ```
 
+For loops in Rust are safe and prevent common errors like off-by-one errors or accessing elements outside of array bounds.
+
 ## How Rust's Loops Differ from Other Languages
 
-Rust's loops might look familiar, but they have some important differences:
+Rust's loops might look familiar, but they have several important differences from loops in other languages:
 
-1. **Expression-oriented**: All loops can be expressions that return values
-2. **Explicit iteration**: No C-style for loops with initialization, condition, and increment
-3. **Safety**: No out-of-bounds access in for loops
-4. **Iterators**: The for loop uses Rust's iterator system, which is very powerful
+### 1. Expression-oriented
 
-### Comparison with C/C++ Style For Loops
+All loops can be expressions that return values:
 
-In C/C++/Java/JavaScript, you might write:
+```rust
+let result = loop {
+    if some_condition {
+        break some_value;
+    }
+};
+```
+
+This expression-oriented approach allows for more concise code in many situations.
+
+### 2. No C-style For Loops
+
+Rust doesn't have the traditional C-style for loop with initialization, condition, and increment:
 
 ```c
-// C-style loop
+// C-style loop - NOT AVAILABLE IN RUST
 for (int i = 0; i < 10; i++) {
     printf("%d\n", i);
 }
 ```
 
-In Rust, you would use a range:
+Instead, Rust uses ranges and iterators:
 
 ```rust
 // Rust loop
@@ -245,7 +320,32 @@ for i in 0..10 {
 }
 ```
 
-The Rust approach is cleaner, safer (no risk of an off-by-one error), and works with Rust's iterator system.
+### 3. Safety First
+
+Rust's loops are designed to be safe. There's no risk of off-by-one errors or accessing elements outside of a collection's bounds.
+
+### 4. Iterator-based
+
+Rust's `for` loops are built on the iterator system, which provides a uniform interface for iterating over different types of collections. This makes them more powerful and flexible.
+
+### 5. Ownership-aware
+
+Loops respect Rust's ownership system. When you iterate over a collection, you can choose to take ownership of elements, borrow them, or use mutable references:
+
+```rust
+let v = vec![1, 2, 3];
+
+// Borrow elements
+for item in &v {
+    println!("{}", item);
+}
+
+// Take ownership (v is moved into the for loop)
+for item in v {
+    println!("{}", item);
+}
+// v is no longer accessible here
+```
 
 ## Range Expressions
 
@@ -254,8 +354,8 @@ Ranges in Rust are a concise way to express a sequence of values:
 ```rust
 fn main() {
     // Range expressions
-    let range1 = 1..5;    // Includes 1, 2, 3, 4
-    let range2 = 1..=5;   // Includes 1, 2, 3, 4, 5
+    let range1 = 1..5;    // Includes 1, 2, 3, 4 (exclusive upper bound)
+    let range2 = 1..=5;   // Includes 1, 2, 3, 4, 5 (inclusive upper bound)
 
     // Using ranges in for loops
     for i in 1..5 {
@@ -277,8 +377,26 @@ fn main() {
         print!("{} ", i);  // Prints 0 2 4 6 8
     }
     println!();
+
+    // Ranges can be used for slicing
+    let numbers = [1, 2, 3, 4, 5];
+    let slice = &numbers[1..4]; // [2, 3, 4]
+
+    // Ranges can be unbounded
+    let from_three = 3..;  // From 3 to infinity (conceptually)
+    let up_to_five = ..5;  // From negative infinity to 5 (exclusive)
+    let everything = ..;   // The entire range
+
+    // Using ranges in pattern matching
+    let x = 5;
+    match x {
+        1..=5 => println!("x is between 1 and 5"),
+        _ => println!("x is something else"),
+    }
 }
 ```
+
+Ranges are a powerful feature that make iterating over sequences concise and readable.
 
 ## Match Expressions Basics
 
@@ -344,6 +462,8 @@ fn main() {
 }
 ```
 
+This requirement ensures that you've considered all possible cases, preventing subtle bugs.
+
 ## Pattern Matching Basics
 
 Pattern matching goes beyond simple values in `match` expressions. It allows you to destructure complex data types.
@@ -359,6 +479,25 @@ fn main() {
         (0, y) => println!("X-axis at y={}", y),
         (x, 0) => println!("Y-axis at x={}", x),
         (x, y) => println!("Point at ({}, {})", x, y),
+    }
+}
+```
+
+### Destructuring Structs
+
+```rust
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    match p {
+        Point { x: 0, y } => println!("On the y-axis at y={}", y),
+        Point { x, y: 0 } => println!("On the x-axis at x={}", x),
+        Point { x, y } => println!("Point at ({}, {})", x, y),
     }
 }
 ```
@@ -395,6 +534,22 @@ fn main() {
 }
 ```
 
+### Binding with @ Operator
+
+The `@` operator lets you bind a value while also testing it:
+
+```rust
+fn main() {
+    let x = 5;
+
+    match x {
+        n @ 1..=5 => println!("Got a small number: {}", n),
+        n @ 6..=10 => println!("Got a medium number: {}", n),
+        n => println!("Got a big number: {}", n),
+    }
+}
+```
+
 ## Early Returns, Break, and Continue
 
 Rust provides several ways to control the flow of execution within loops and functions.
@@ -422,43 +577,31 @@ fn main() {
 }
 ```
 
+Early returns are a clean way to handle special cases without deeply nested conditionals.
+
 ### Break and Continue
 
 As we've seen, `break` exits a loop, while `continue` skips to the next iteration:
 
 ```rust
 fn main() {
-    let mut count = 0;
-
-    'counting_up: loop {
-        println!("count = {}", count);
-
-        let mut remaining = 10;
-
-        loop {
-            println!("remaining = {}", remaining);
-
-            if remaining == 9 {
-                break; // Break from the inner loop
-            }
-
-            if count == 2 {
-                break 'counting_up; // Break from the outer loop
-            }
-
-            remaining -= 1;
+    for i in 0..10 {
+        if i % 2 == 0 {
+            continue; // Skip even numbers
         }
 
-        count += 1;
-    }
+        if i > 7 {
+            break; // Stop once we reach 8
+        }
 
-    println!("End count = {}", count);
+        println!("{}", i); // Prints 1, 3, 5, 7
+    }
 }
 ```
 
 ## Loop Labels
 
-As shown in the previous example, Rust allows you to label loops and break or continue specific loops in nested scenarios:
+Rust allows you to label loops and break or continue specific loops in nested scenarios:
 
 ```rust
 fn main() {
@@ -480,6 +623,8 @@ fn main() {
 }
 ```
 
+Loop labels are especially useful when you have nested loops and need to control which loop is affected by `break` or `continue`.
+
 ## Using Match Expressions for Error Handling
 
 One common use of `match` is to handle possible error conditions with `Option` and `Result` types:
@@ -496,13 +641,29 @@ fn main() {
 
     // Using match with Result
     let parse_result = "42".parse::<i32>();
-
     match parse_result {
         Ok(number) => println!("Parsed number: {}", number),
         Err(error) => println!("Failed to parse: {}", error),
     }
+
+    // Using if let for simpler matching
+    if let Some(value) = numbers.get(1) {
+        println!("Value at index 1: {}", value);
+    }
+
+    // Using while let for conditional loops
+    let mut stack = Vec::new();
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+
+    while let Some(value) = stack.pop() {
+        println!("Popped: {}", value);
+    }
 }
 ```
+
+This pattern-based approach to error handling is one of Rust's distinctive features, allowing for expressive and type-safe code.
 
 ## 🔨 Project: Number Guessing Game
 
@@ -677,6 +838,8 @@ This game demonstrates several control flow concepts:
 3. **Early returns with `continue`**: To skip invalid inputs
 4. **If/else conditionals**: For providing hints and feedback
 5. **Pattern matching with ranges**: In the final rating system
+6. **Break statements**: To exit loops when a guess is correct
+7. **Nested loops**: For the main game loop and the play-again prompt
 
 ### Step 6: Extending the Game
 
@@ -688,10 +851,43 @@ Here are some ways to extend the game:
 4. Add a graphical interface with a Rust GUI framework
 5. Save high scores to a file
 
-## Looking Ahead
+## Summary
 
-In this chapter, we've explored Rust's control flow constructs, understanding how expressions differ from statements and how they affect Rust's programming style. We've learned about conditional expressions, different types of loops, pattern matching, and early returns.
+In this chapter, we've explored Rust's control flow constructs, understanding how expressions differ from statements and how they affect Rust's programming style. We've covered:
 
-In the next chapter, we'll dive into functions and procedures, exploring how to organize code into reusable units. We'll learn about parameters, return values, and how functions in Rust build upon the expression-based nature of the language.
+- How Rust's expression-based nature distinguishes it from other languages
+- Working with conditional expressions using `if` and `else`
+- The three types of loops: `loop`, `while`, and `for`
+- How Rust's loops differ from loops in other languages
+- Creating and using ranges for sequences of values
+- Powerful pattern matching with `match` expressions
+- Controlling execution flow with `break`, `continue`, and early returns
+- Labeling loops for fine-grained control in nested loops
+- Using match expressions for effective error handling
+- Building a complete number guessing game application
 
-The expression-oriented approach you've learned in this chapter forms the foundation for much of Rust's syntax. As you continue your Rust journey, you'll find that thinking in terms of expressions makes your code more concise and often more readable. The pattern matching capabilities of `match` will become increasingly powerful as we explore more complex data structures in later chapters.
+These control flow mechanisms are the building blocks for more complex Rust programs. The expression-oriented approach you've learned forms the foundation for much of Rust's syntax. As you continue your Rust journey, you'll find that thinking in terms of expressions makes your code more concise and often more readable.
+
+In the next chapter, we'll dive into functions and procedures, exploring how to organize code into reusable units. We'll learn about parameters, return values, and how functions in Rust build upon the expression-based nature of the language that we've explored here.
+
+## Exercises
+
+1. **Expression Practice**: Write a program that uses block expressions to calculate and assign values to variables. Experiment with adding semicolons to see how it changes the behavior.
+
+2. **Control Flow Refactoring**: Take a program written in another language that uses imperative control flow and rewrite it using Rust's expression-based approach.
+
+3. **Pattern Matching Challenge**: Create a program that matches different shapes (circles, rectangles, triangles) and calculates their areas using pattern matching.
+
+4. **Loop Label Exercise**: Write a program with nested loops that uses labeled breaks and continues to generate a specific pattern.
+
+5. **Error Handling**: Write a function that parses different types of input (numbers, dates, etc.) and uses match expressions to handle all possible error cases.
+
+6. **Advanced Guessing Game**: Extend the number guessing game with one or more of the suggested enhancements from Step 6.
+
+## Further Reading
+
+- [The Rust Programming Language: Control Flow](https://doc.rust-lang.org/book/ch03-05-control-flow.html)
+- [Rust By Example: Flow of Control](https://doc.rust-lang.org/rust-by-example/flow_control.html)
+- [The Rust Reference: Expressions](https://doc.rust-lang.org/reference/expressions.html)
+- [Pattern Matching in Rust](https://doc.rust-lang.org/book/ch18-00-patterns.html)
+- [Error Handling in Rust](https://doc.rust-lang.org/book/ch09-00-error-handling.html)
