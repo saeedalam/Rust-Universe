@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rust Universe: Fearless Systems Engineering</title>
+    <meta
+      name="description"
+      content="Rust Universe: Fearless Systems Engineering by Saeed Alam. A comprehensive guide to Rust programming covering fundamentals to advanced systems engineering across 52 chapters."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Three.js for 3D book effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+      /* Additional styles for the redesigned landing page */
+      .book-cover {
+        max-width: 400px; /* Smaller cover image */
+        height: auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      .book-cover:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+      }
+
+      .hero {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI4MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIGlkPSJhIj48c3RvcCBzdG9wLWNvbG9yPSIjMUExQTJFIiBvZmZzZXQ9IjAlIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzBGMzQ2MCIgb2Zmc2V0PSIxMDAlIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZD0iTTAgMGgxNDQwdjgwMEgweiIgZmlsbD0idXJsKCNhKSIgZmlsbC1ydWxlPSJldmVub2RkIiBvcGFjaXR5PSIuNCIvPjwvc3ZnPg==");
+        opacity: 0.8;
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6rem 0;
+      }
+
+      .hero-text {
+        max-width: 600px;
+      }
+
+      .animated-title {
+        font-size: 4.5rem;
+        background: linear-gradient(45deg, #fb8a2e, #e94057);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+      }
+
+      .animated-subtitle {
+        font-size: 2.5rem;
+        color: #e2e8f0;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+      }
+
+      .lead {
+        color: #cbd5e0;
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .book-meta {
+        display: flex;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #a0aec0;
+      }
+
+      .meta-item i {
+        color: #fb8a2e;
+      }
+
+      .badge {
+        display: inline-block;
+        background: rgba(249, 115, 22, 0.2);
+        color: #fb8a2e;
+        padding: 0.25rem 0.75rem;
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      /* Floating elements animation */
+      .floating-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .floating-element {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at center,
+          rgba(249, 115, 22, 0.3) 0%,
+          rgba(249, 115, 22, 0) 70%
+        );
+        animation: float 15s infinite ease-in-out;
+      }
+
+      .floating-element:nth-child(1) {
+        top: 10%;
+        left: 10%;
+        width: 80px;
+        height: 80px;
+        animation-duration: 20s;
+      }
+
+      .floating-element:nth-child(2) {
+        top: 20%;
+        right: 15%;
+        width: 60px;
+        height: 60px;
+        animation-duration: 25s;
+        animation-delay: 1s;
+      }
+
+      .floating-element:nth-child(3) {
+        bottom: 15%;
+        left: 20%;
+        width: 70px;
+        height: 70px;
+        animation-duration: 22s;
+        animation-delay: 2s;
+      }
+
+      .floating-element:nth-child(4) {
+        bottom: 25%;
+        right: 25%;
+        width: 50px;
+        height: 50px;
+        animation-duration: 18s;
+        animation-delay: 3s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0);
+        }
+        25% {
+          transform: translateY(-30px) translateX(15px);
+        }
+        50% {
+          transform: translateY(10px) translateX(30px);
+        }
+        75% {
+          transform: translateY(20px) translateX(-15px);
+        }
+      }
+
+      /* Featured callout */
+      .featured-callout {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #fb8a2e, #e94057);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        transform: rotate(5deg);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        z-index: 2;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 992px) {
+        .hero-content {
+          flex-direction: column-reverse;
+          text-align: center;
+          padding: 3rem 0;
+        }
+
+        .hero-text {
+          max-width: 100%;
+          padding: 0 1rem;
+        }
+
+        .book-meta {
+          justify-content: center;
+        }
+
+        .animated-title {
+          font-size: 3rem;
+        }
+
+        .animated-subtitle {
+          font-size: 1.8rem;
+        }
+
+        .book-cover {
+          max-width: 300px;
+          margin-bottom: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <nav class="main-nav">
+          <a href="#" class="logo">
+            <span class="logo-text">Rust Universe</span>
+            <div class="logo-icon"><i class="fas fa-meteor"></i></div>
+          </a>
+          <div class="nav-links">
+            <a href="#about" class="nav-link-animated">About</a>
+            <a href="#contents" class="nav-link-animated">Contents</a>
+            <a href="#features" class="nav-link-animated">Features</a>
+            <a href="#formats" class="nav-link-animated">Formats</a>
+            <a href="#author" class="nav-link-animated">Author</a>
+          </div>
+          <div class="action-buttons">
+            <a href="#sample" class="btn btn-secondary">Sample</a>
+            <a href="#buy" class="btn btn-primary">Get the Book</a>
+          </div>
+          <button class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+      </div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <div class="badge">Comprehensive Guide</div>
+            <h1 class="animated-title">Rust Universe</h1>
+            <h2 class="animated-subtitle">Fearless Systems Engineering</h2>
+            <p class="lead">
+              The definitive resource for mastering Rust programming, spanning
+              10 sections and 52 chapters. From basic syntax to distributed
+              systems, this comprehensive guide takes you from beginner to
+              professional with practical projects and real-world applications.
+            </p>
+            <div class="hero-cta">
+              <a href="#buy" class="btn btn-primary btn-large">
+                Get Your Copy
+                <i class="fas fa-arrow-right"></i>
+              </a>
+              <a href="#sample" class="btn btn-outline btn-large">
+                Read Sample
+                <i class="fas fa-book-open"></i>
+              </a>
+            </div>
+            <div class="book-meta">
+              <div class="meta-item">
+                <i class="fas fa-book"></i>
+                <span>52 Chapters</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-code"></i>
+                <span>100+ Projects</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-laptop-code"></i>
+                <span>PDF, EPUB & Print</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-image">
+            <div class="featured-callout">New Edition!</div>
+            <div id="book-3d-container" class="book-3d-wrapper">
+              <!-- 3D book will be rendered here -->
+            </div>
+            <img
+              src="compressed-assets/rust-universe-cover.png"
+              alt="Rust Universe Book Cover"
+              class="book-cover fallback-cover"
+              id="book-cover-image"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title">About This Book</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>
+              <strong>Rust Universe</strong> is a comprehensive guide designed
+              to take you from Rust beginner to professional developer. This
+              book covers the entire Rust ecosystem with a practical,
+              project-based approach that reinforces concepts through hands-on
+              learning.
+            </p>
+            <p>
+              Whether you're new to programming or an experienced developer
+              looking to add Rust to your toolkit, this book provides clear
+              explanations, real-world examples, and coding best practices to
+              help you master Rust's unique features.
+            </p>
+            <div class="book-features-list">
+              <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span
+                  >Comprehensive coverage of Rust fundamentals and advanced
+                  topics</span
+                >
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span>100+ hands-on projects and exercises with solutions</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span
+                  >Modern application development across web, CLI, systems and
+                  more</span
+                >
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span
+                  >Deep dives into memory safety, ownership, and
+                  concurrency</span
+                >
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span
+                  >Performance optimization techniques and design patterns</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="about-callout">
+            <div class="callout-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h3>For All Skill Levels</h3>
+            <p>
+              Clear learning paths for absolute beginners, experienced
+              developers transitioning from other languages, and system
+              programmers looking to leverage Rust's safety and performance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contents" class="section alternate">
+      <div class="container">
+        <h2 class="section-title">Book Contents</h2>
+        <div class="toc-container">
+          <div class="toc-column">
+            <div class="toc-section">
+              <h3><span>01</span> Fundamentals</h3>
+              <ul>
+                <li>About This Book</li>
+                <li>Introduction to Rust</li>
+                <li>Getting Started with the Rust Toolchain</li>
+                <li>Basic Syntax and Data Types</li>
+                <li>Control Flow in Rust</li>
+                <li>Functions and Procedures</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>02</span> Ownership - Rust's Secret Weapon</h3>
+              <ul>
+                <li>Understanding Ownership</li>
+                <li>Borrowing and References</li>
+                <li>Working with Strings and Slices</li>
+                <li>Advanced Ownership Patterns</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>03</span> Organizing Code</h3>
+              <ul>
+                <li>Structs and Custom Types</li>
+                <li>Enums and Pattern Matching</li>
+                <li>Modules and Organizing Code</li>
+                <li>Collections and Data Structures</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>04</span> Generic Programming</h3>
+              <ul>
+                <li>Introduction to Generics</li>
+                <li>Traits and Polymorphism</li>
+                <li>Advanced Trait Patterns</li>
+                <li>Understanding Lifetimes</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>05</span> Error Handling</h3>
+              <ul>
+                <li>Panic and Unrecoverable Errors</li>
+                <li>Result, Option, and Recoverable Errors</li>
+                <li>Error Handling Patterns and Libraries</li>
+              </ul>
+            </div>
+          </div>
+          <div class="toc-column">
+            <div class="toc-section">
+              <h3><span>06</span> Advanced Rust</h3>
+              <ul>
+                <li>Iterators and Functional Programming</li>
+                <li>Closures in Depth</li>
+                <li>Concurrency Fundamentals</li>
+                <li>Asynchronous Programming</li>
+                <li>Macros and Metaprogramming</li>
+                <li>Unsafe Rust</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>07</span> Practical Rust</h3>
+              <ul>
+                <li>Writing Tests in Rust</li>
+                <li>Command-Line Applications</li>
+                <li>Web Development with Rust</li>
+                <li>Database Interaction</li>
+                <li>Network Programming</li>
+                <li>Systems Programming</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>08</span> The Rust Ecosystem</h3>
+              <ul>
+                <li>Package Management with Cargo</li>
+                <li>Build Systems and Tooling</li>
+                <li>Performance Optimization</li>
+                <li>Interoperability with Other Languages</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>09</span> Modern Rust Applications</h3>
+              <ul>
+                <li>Building a Database</li>
+                <li>Game Development</li>
+                <li>Cloud Native Rust</li>
+                <li>Distributed Systems</li>
+                <li>Machine Learning and Data Science</li>
+                <li>Embedded Systems and IoT</li>
+                <li>Production-Ready Rust</li>
+              </ul>
+            </div>
+            <div class="toc-section">
+              <h3><span>10</span> Capstone Projects</h3>
+              <ul>
+                <li>Building a Search Engine</li>
+                <li>Developing a Programming Language</li>
+                <li>Creating a Blockchain Application</li>
+                <li>Real-Time Data Processing System</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="section-title">Key Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-project-diagram"></i>
+            </div>
+            <h3>Project-Based Learning</h3>
+            <p>
+              Build real-world applications in every chapter that reinforce
+              concepts and expand your portfolio
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-code"></i></div>
+            <h3>Modern Rust Practices</h3>
+            <p>
+              Learn idiomatic Rust patterns and best practices that make your
+              code clean, efficient, and maintainable
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-book-reader"></i></div>
+            <h3>Clear Learning Paths</h3>
+            <p>
+              Custom learning tracks for developers coming from different
+              language backgrounds like Python, JavaScript, C++
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+            <h3>Performance Optimization</h3>
+            <p>
+              Techniques for writing blazing-fast, memory-efficient Rust
+              applications with benchmarking guidance
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3>Safety & Concurrency</h3>
+            <p>
+              Deep dives into Rust's memory safety guarantees and fearless
+              concurrency capabilities
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-server"></i></div>
+            <h3>Systems Programming</h3>
+            <p>
+              Learn low-level system control without the usual pitfalls, from
+              embedded systems to OS development
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sample" class="section alternate">
+      <div class="container">
+        <h2 class="section-title">Sample Chapter</h2>
+        <div class="sample-container">
+          <div class="sample-header">
+            <h3>Chapter 5: Control Flow in Rust</h3>
+            <a href="#download-sample" class="btn btn-outline"
+              >Download Full Sample</a
+            >
+          </div>
+          <div class="sample-content">
+            <div class="code-block">
+              <pre><code class="language-rust">// Example: Using match with enums
+enum Direction {
+    North,
+    South,
+    East,
+    West,
+}
+
+fn describe_direction(dir: Direction) {
+    match dir {
+        Direction::North => println!("Heading north!"),
+        Direction::South => println!("Going south!"),
+        Direction::East => println!("Eastward bound!"),
+        Direction::West => println!("Westward ho!"),
+    }
+}</code></pre>
+            </div>
+            <p class="sample-text">
+              Rust's control flow mechanisms provide powerful ways to direct
+              your program's execution path. In this chapter, we'll explore
+              conditional statements, loops, pattern matching, and early
+              returns.
+            </p>
+            <p class="sample-text">
+              Unlike many other languages, Rust treats
+              <code>if</code> expressions as true expressions that return
+              values. This approach allows for concise, functional-style code
+              that's both readable and expressive.
+            </p>
+            <div class="sample-callout">
+              <div class="callout-title">
+                <i class="fas fa-lightbulb"></i>
+                <span>Key Insight</span>
+              </div>
+              <p>
+                Rust's <code>match</code> expression is exhaustive, meaning it
+                requires you to handle all possible cases. This feature prevents
+                many common bugs found in other languages and is one of Rust's
+                safety guarantees.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="formats" class="section">
+      <div class="container">
+        <h2 class="section-title">Available Formats</h2>
+        <div class="formats-container">
+          <div class="format-card">
+            <div class="format-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <h3>PDF Edition</h3>
+            <ul class="format-features">
+              <li>Professionally typeset</li>
+              <li>Interactive table of contents</li>
+              <li>Hyperlinked references</li>
+              <li>Optimized for digital reading</li>
+              <li>Print-friendly layout</li>
+            </ul>
+          </div>
+          <div class="format-card">
+            <div class="format-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <h3>EPUB Edition</h3>
+            <ul class="format-features">
+              <li>Reflowable text</li>
+              <li>Adjustable font sizes</li>
+              <li>Works on all e-readers</li>
+              <li>Night mode compatible</li>
+              <li>Optimized code formatting</li>
+            </ul>
+          </div>
+          <div class="format-card">
+            <div class="format-icon">
+              <i class="fas fa-print"></i>
+            </div>
+            <h3>Print Edition</h3>
+            <ul class="format-features">
+              <li>High-quality binding</li>
+              <li>Premium paper quality</li>
+              <li>Clear code typography</li>
+              <li>Margin notes space</li>
+              <li>Color diagrams & code samples</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="author" class="section alternate">
+      <div class="container">
+        <h2 class="section-title">About the Author</h2>
+        <div class="author-container">
+          <div class="author-image">
+            <!-- Replace with actual author image -->
+            <div class="author-placeholder">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <div class="author-info">
+            <h3>Saeed Alam</h3>
+            <p class="author-title">Rust Developer & Educator</p>
+            <p class="author-bio">
+              Saeed Alam is a seasoned software engineer specializing in systems
+              programming and language design. With over 15 years of experience
+              across multiple programming paradigms, Saeed has been working with
+              Rust since its early days and has contributed to several
+              open-source Rust projects.
+            </p>
+            <p class="author-bio">
+              As an educator, Saeed has taught programming concepts to thousands
+              of developers through workshops, online courses, and technical
+              writing. He is passionate about making complex concepts accessible
+              and helping developers write safer, more efficient code.
+            </p>
+            <div class="author-social">
+              <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="#" class="social-link"><i class="fas fa-globe"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="buy" class="section cta-section">
+      <div class="container">
+        <h2 class="section-title">Get Your Copy Today</h2>
+        <div class="pricing-container">
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3>Digital Edition</h3>
+              <div class="price">$49</div>
+            </div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> PDF & EPUB formats</li>
+              <li><i class="fas fa-check"></i> Free lifetime updates</li>
+              <li><i class="fas fa-check"></i> Code repository access</li>
+              <li><i class="fas fa-check"></i> Digital supplements</li>
+            </ul>
+            <a href="#checkout" class="btn btn-primary btn-block">
+              Buy Digital Edition
+            </a>
+          </div>
+          <div class="pricing-card featured">
+            <div class="tag">Best Value</div>
+            <div class="pricing-header">
+              <h3>Complete Package</h3>
+              <div class="price">$69</div>
+            </div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> PDF, EPUB & Print formats</li>
+              <li><i class="fas fa-check"></i> Free lifetime updates</li>
+              <li><i class="fas fa-check"></i> Code repository access</li>
+              <li><i class="fas fa-check"></i> Digital supplements</li>
+              <li><i class="fas fa-check"></i> Exercise solutions</li>
+              <li><i class="fas fa-check"></i> Community access</li>
+            </ul>
+            <a href="#checkout" class="btn btn-primary btn-block">
+              Buy Complete Package
+            </a>
+          </div>
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3>Team License</h3>
+              <div class="price">$199</div>
+            </div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> License for 5 team members</li>
+              <li><i class="fas fa-check"></i> All formats included</li>
+              <li><i class="fas fa-check"></i> Team exercises & projects</li>
+              <li><i class="fas fa-check"></i> Priority support</li>
+              <li><i class="fas fa-check"></i> Bulk discounts available</li>
+            </ul>
+            <a href="#checkout" class="btn btn-primary btn-block">
+              Buy Team License
+            </a>
+          </div>
+        </div>
+        <div class="guarantee">
+          <i class="fas fa-shield-alt"></i>
+          <p>60-day money-back guarantee. No questions asked.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <a href="#" class="footer-logo">Rust Universe</a>
+            <p>Fearless Systems Engineering</p>
+          </div>
+          <div class="footer-links">
+            <div class="footer-column">
+              <h4>Navigation</h4>
+              <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contents">Contents</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#formats">Formats</a></li>
+                <li><a href="#author">Author</a></li>
+              </ul>
+            </div>
+            <div class="footer-column">
+              <h4>Resources</h4>
+              <ul>
+                <li><a href="#sample">Sample Chapter</a></li>
+                <li><a href="#code">Source Code</a></li>
+                <li><a href="#updates">Updates</a></li>
+                <li><a href="#errata">Errata</a></li>
+              </ul>
+            </div>
+            <div class="footer-column">
+              <h4>Connect</h4>
+              <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2023 Rust Universe. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Main scripts -->
+    <script src="script.js"></script>
+    <script src="book3d.js"></script>
+  </body>
+</html>
