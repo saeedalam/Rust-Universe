@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html" class="active"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,13 +184,13 @@
                     <main>
                         <h1 id="chapter-37-interoperability-with-other-languages"><a class="header" href="#chapter-37-interoperability-with-other-languages">Chapter 37: Interoperability with Other Languages</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In the real world, software rarely exists in isolation. Modern applications often need to interact with existing codebases written in different programming languages, utilize established libraries, or integrate with specific platforms. This is where Rust’s interoperability capabilities become crucial.</p>
+<p>In the real world, software rarely exists in isolation. Modern applications often need to interact with existing codebases written in different programming languages, utilize established libraries, or integrate with specific platforms. This is where Rust's interoperability capabilities become crucial.</p>
 <p>Rust was designed from the ground up with interoperability in mind. Its lack of a runtime or garbage collector, precise control over memory layout, and zero-cost abstractions make it exceptionally well-suited for integrating with other languages and systems. Whether you need to call C libraries from Rust, expose Rust functionality to Python, or compile your code to WebAssembly for use in browsers, Rust provides the tools and capabilities to make these interactions safe and efficient.</p>
-<p>This chapter explores Rust’s interoperability features, focusing on how to bridge Rust with other programming languages and environments. We’ll examine the technical aspects of foreign function interfaces (FFIs), binding generation tools, memory management across language boundaries, and the practical challenges of creating multi-language systems. By the end of this chapter, you’ll have a comprehensive understanding of how to leverage Rust in a polyglot software environment.</p>
+<p>This chapter explores Rust's interoperability features, focusing on how to bridge Rust with other programming languages and environments. We'll examine the technical aspects of foreign function interfaces (FFIs), binding generation tools, memory management across language boundaries, and the practical challenges of creating multi-language systems. By the end of this chapter, you'll have a comprehensive understanding of how to leverage Rust in a polyglot software environment.</p>
 <h2 id="why-interoperability-matters"><a class="header" href="#why-interoperability-matters">Why Interoperability Matters</a></h2>
-<p>Before diving into the technical details, it’s important to understand why interoperability is crucial in modern software development:</p>
+<p>Before diving into the technical details, it's important to understand why interoperability is crucial in modern software development:</p>
 <h3 id="leveraging-existing-codebases"><a class="header" href="#leveraging-existing-codebases">Leveraging Existing Codebases</a></h3>
-<p>Most software projects don’t start from scratch. Organizations have invested years or decades in developing libraries, frameworks, and applications. Rewriting everything in Rust is rarely practical or economically viable. Interoperability allows you to:</p>
+<p>Most software projects don't start from scratch. Organizations have invested years or decades in developing libraries, frameworks, and applications. Rewriting everything in Rust is rarely practical or economically viable. Interoperability allows you to:</p>
 <ul>
 <li>Gradually migrate performance-critical components to Rust</li>
 <li>Use Rust for new features while maintaining existing systems</li>
@@ -216,49 +223,49 @@
 <p>Rust can serve as a performance optimization layer for applications primarily written in higher-level languages:</p>
 <ul>
 <li>Compute-intensive operations can be implemented in Rust</li>
-<li>Memory-critical components can benefit from Rust’s safety and control</li>
-<li>Concurrent operations can leverage Rust’s thread safety guarantees</li>
+<li>Memory-critical components can benefit from Rust's safety and control</li>
+<li>Concurrent operations can leverage Rust's thread safety guarantees</li>
 </ul>
-<p>With these benefits in mind, let’s explore how Rust interacts with other languages, starting with the most fundamental: C and C++.</p>
+<p>With these benefits in mind, let's explore how Rust interacts with other languages, starting with the most fundamental: C and C++.</p>
 <h2 id="c-and-c-bindings-with-bindgen"><a class="header" href="#c-and-c-bindings-with-bindgen">C and C++ Bindings with bindgen</a></h2>
-<p>C remains the lingua franca of programming languages, serving as the common denominator for cross-language communication. Rust’s ability to seamlessly integrate with C (and by extension, C++) is one of its strongest interoperability features.</p>
+<p>C remains the lingua franca of programming languages, serving as the common denominator for cross-language communication. Rust's ability to seamlessly integrate with C (and by extension, C++) is one of its strongest interoperability features.</p>
 <h3 id="the-foreign-function-interface-ffi"><a class="header" href="#the-foreign-function-interface-ffi">The Foreign Function Interface (FFI)</a></h3>
-<p>At the core of Rust’s C interoperability is its Foreign Function Interface (FFI). FFI allows Rust code to call functions written in other languages and vice versa. Rust’s FFI is designed to be:</p>
+<p>At the core of Rust's C interoperability is its Foreign Function Interface (FFI). FFI allows Rust code to call functions written in other languages and vice versa. Rust's FFI is designed to be:</p>
 <ul>
 <li><strong>Zero-cost</strong>: The overhead of crossing language boundaries is minimal</li>
-<li><strong>Safe</strong>: Rust’s type system helps prevent many common FFI bugs</li>
+<li><strong>Safe</strong>: Rust's type system helps prevent many common FFI bugs</li>
 <li><strong>Explicit</strong>: FFI interactions are clearly marked with <code>unsafe</code> blocks</li>
 </ul>
 <h3 id="calling-c-from-rust"><a class="header" href="#calling-c-from-rust">Calling C from Rust</a></h3>
-<p>Let’s start with a simple example of calling a C function from Rust:</p>
+<p>Let's start with a simple example of calling a C function from Rust:</p>
 <pre><pre class="playground"><code class="language-rust">// Declare the external C function
-extern "C" {
+extern &quot;C&quot; {
     fn abs(input: i32) -&gt; i32;
 }
 
 fn main() {
     // Call the C function (this is unsafe because Rust cannot verify the C code)
     let result = unsafe { abs(-42) };
-    println!("Absolute value: {}", result);
+    println!(&quot;Absolute value: {}&quot;, result);
 }</code></pre></pre>
 <p>This example demonstrates several key points:</p>
 <ol>
-<li>The <code>extern "C"</code> block declares functions from external C code</li>
+<li>The <code>extern &quot;C&quot;</code> block declares functions from external C code</li>
 <li>Calling C functions requires an <code>unsafe</code> block because Rust cannot verify their safety</li>
-<li>Rust’s primitive types map directly to C types (e.g., <code>i32</code> in Rust is <code>int</code> in C)</li>
+<li>Rust's primitive types map directly to C types (e.g., <code>i32</code> in Rust is <code>int</code> in C)</li>
 </ol>
 <p>For more complex scenarios, we need to consider:</p>
 <ul>
 <li><strong>Type mapping</strong>: How Rust types correspond to C types</li>
 <li><strong>Memory layout</strong>: How structures are represented in memory</li>
-<li><strong>Error handling</strong>: How to handle C’s error reporting mechanisms</li>
+<li><strong>Error handling</strong>: How to handle C's error reporting mechanisms</li>
 <li><strong>Ownership</strong>: How to manage resources across language boundaries</li>
 </ul>
 <h3 id="manual-bindings"><a class="header" href="#manual-bindings">Manual Bindings</a></h3>
 <p>For simple C libraries, you can write FFI bindings manually:</p>
 <pre><pre class="playground"><code class="language-rust">// Bindings to a subset of the `libc` C standard library
-#[link(name = "c")]
-extern "C" {
+#[link(name = &quot;c&quot;)]
+extern &quot;C&quot; {
     fn strlen(s: *const i8) -&gt; usize;
     fn strcpy(dest: *mut i8, src: *const i8) -&gt; *mut i8;
     fn malloc(size: usize) -&gt; *mut u8;
@@ -274,17 +281,17 @@ fn rust_string_length(s: &amp;str) -&gt; usize {
 }
 
 fn main() {
-    let length = rust_string_length("Hello, C!");
-    println!("Length: {}", length);
+    let length = rust_string_length(&quot;Hello, C!&quot;);
+    println!(&quot;Length: {}&quot;, length);
 }</code></pre></pre>
 <p>This approach works for small interfaces but quickly becomes tedious and error-prone for larger libraries.</p>
 <h3 id="automatic-binding-generation-with-bindgen"><a class="header" href="#automatic-binding-generation-with-bindgen">Automatic Binding Generation with bindgen</a></h3>
 <p>To simplify the process of creating FFI bindings, the Rust community has developed <code>bindgen</code>, a tool that automatically generates Rust FFI bindings from C/C++ header files:</p>
 <pre><pre class="playground"><code class="language-rust">// Add these to Cargo.toml:
 // [dependencies]
-// libc = "0.2"
+// libc = &quot;0.2&quot;
 // [build-dependencies]
-// bindgen = "0.63"
+// bindgen = &quot;0.63&quot;
 
 // In build.rs:
 extern crate bindgen;
@@ -294,25 +301,25 @@ use std::path::PathBuf;
 
 fn main() {
     // Tell cargo to look for shared libraries in the specified directory
-    println!("cargo:rustc-link-search=/path/to/library");
+    println!(&quot;cargo:rustc-link-search=/path/to/library&quot;);
 
     // Tell cargo to link against the library
-    println!("cargo:rustc-link-lib=my_c_library");
+    println!(&quot;cargo:rustc-link-lib=my_c_library&quot;);
 
     // Only regenerate bindings if header changes
-    println!("cargo:rerun-if-changed=include/my_library.h");
+    println!(&quot;cargo:rerun-if-changed=include/my_library.h&quot;);
 
     // Generate bindings
     let bindings = bindgen::Builder::default()
-        .header("include/my_library.h")
+        .header(&quot;include/my_library.h&quot;)
         .generate()
-        .expect("Unable to generate bindings");
+        .expect(&quot;Unable to generate bindings&quot;);
 
     // Write bindings to an output file
-    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+    let out_path = PathBuf::from(env::var(&quot;OUT_DIR&quot;).unwrap());
     bindings
-        .write_to_file(out_path.join("bindings.rs"))
-        .expect("Couldn't write bindings!");
+        .write_to_file(out_path.join(&quot;bindings.rs&quot;))
+        .expect(&quot;Couldn't write bindings!&quot;);
 }
 
 // In lib.rs:
@@ -321,7 +328,7 @@ fn main() {
 #![allow(non_snake_case)]
 
 // Include the generated bindings
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));</code></pre></pre>
+include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/bindings.rs&quot;));</code></pre></pre>
 <p>This approach has several advantages:</p>
 <ol>
 <li><strong>Automation</strong>: No need to manually translate C declarations to Rust</li>
@@ -330,7 +337,7 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));</code></pre></pre>
 <li><strong>Completeness</strong>: Captures constants, types, and functions automatically</li>
 </ol>
 <h3 id="working-with-c-structures"><a class="header" href="#working-with-c-structures">Working with C Structures</a></h3>
-<p>When dealing with C structures, we need to be careful about memory layout. Rust’s <code>repr(C)</code> attribute ensures that Rust structures have the same memory layout as equivalent C structures:</p>
+<p>When dealing with C structures, we need to be careful about memory layout. Rust's <code>repr(C)</code> attribute ensures that Rust structures have the same memory layout as equivalent C structures:</p>
 <pre><pre class="playground"><code class="language-rust">// C structure:
 // struct Point {
 //     double x;
@@ -343,7 +350,7 @@ struct Point {
     y: f64,
 }
 
-extern "C" {
+extern &quot;C&quot; {
     fn calculate_distance(p1: Point, p2: Point) -&gt; f64;
 }
 
@@ -352,22 +359,22 @@ fn main() {
     let point2 = Point { x: 3.0, y: 4.0 };
 
     let distance = unsafe { calculate_distance(point1, point2) };
-    println!("Distance: {}", distance);
+    println!(&quot;Distance: {}&quot;, distance);
 }</code></pre></pre>
 <h3 id="memory-management-across-boundaries"><a class="header" href="#memory-management-across-boundaries">Memory Management Across Boundaries</a></h3>
 <p>One of the trickiest aspects of FFI is managing memory across language boundaries. Consider these guidelines:</p>
 <ol>
 <li><strong>Allocation responsibility</strong>: The language that allocates memory should typically be responsible for freeing it</li>
 <li><strong>Ownership transfer</strong>: Be explicit about who owns the data after a function call</li>
-<li><strong>Lifetime management</strong>: Use Rust’s lifetime system to prevent use-after-free errors</li>
+<li><strong>Lifetime management</strong>: Use Rust's lifetime system to prevent use-after-free errors</li>
 </ol>
-<p>Here’s an example of proper memory management when dealing with C strings:</p>
+<p>Here's an example of proper memory management when dealing with C strings:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
 
-extern "C" {
+extern &quot;C&quot; {
     fn get_string() -&gt; *mut c_char;
     fn free_string(s: *mut c_char);
 }
@@ -393,19 +400,19 @@ fn get_rust_string() -&gt; String {
 <pre><pre class="playground"><code class="language-rust">use std::os::raw::{c_void, c_int};
 
 // Type for our callback function
-type CallbackFn = extern "C" fn(value: c_int, user_data: *mut c_void) -&gt; c_int;
+type CallbackFn = extern &quot;C&quot; fn(value: c_int, user_data: *mut c_void) -&gt; c_int;
 
-extern "C" {
+extern &quot;C&quot; {
     fn register_callback(callback: CallbackFn, user_data: *mut c_void);
     fn trigger_callback();
 }
 
 // This function will be called from C
-extern "C" fn rust_callback(value: c_int, user_data: *mut c_void) -&gt; c_int {
+extern &quot;C&quot; fn rust_callback(value: c_int, user_data: *mut c_void) -&gt; c_int {
     unsafe {
         // Convert the void pointer back to our original type
         let data = &amp;mut *(user_data as *mut CallbackContext);
-        println!("Called from C with value {} and message: {}", value, data.message);
+        println!(&quot;Called from C with value {} and message: {}&quot;, value, data.message);
         data.counter += 1;
         data.counter
     }
@@ -419,7 +426,7 @@ struct CallbackContext {
 fn main() {
     // Create a context that will be passed to the callback
     let mut context = Box::new(CallbackContext {
-        message: "Hello from Rust!".to_string(),
+        message: &quot;Hello from Rust!&quot;.to_string(),
         counter: 0,
     });
 
@@ -435,7 +442,7 @@ fn main() {
     // properly cleaned up when no longer needed
 }</code></pre></pre>
 <h3 id="c-integration"><a class="header" href="#c-integration">C++ Integration</a></h3>
-<p>While Rust can easily interface with C, C++ interoperability is more complex due to C++’s additional features like:</p>
+<p>While Rust can easily interface with C, C++ interoperability is more complex due to C++'s additional features like:</p>
 <ul>
 <li>Name mangling</li>
 <li>Templates</li>
@@ -446,13 +453,13 @@ fn main() {
 <p>Bindgen supports many C++ features, but there are some limitations. For the most reliable C++ integration:</p>
 <ol>
 <li>Create a C API wrapper around your C++ code</li>
-<li>Use <code>extern "C"</code> in your C++ code to prevent name mangling</li>
+<li>Use <code>extern &quot;C&quot;</code> in your C++ code to prevent name mangling</li>
 <li>Avoid passing C++ objects directly across the boundary</li>
 </ol>
-<p>Here’s a simple example of how to interface with C++:</p>
+<p>Here's a simple example of how to interface with C++:</p>
 <pre><code class="language-cpp">// In C++ header (my_cpp_lib.hpp):
 #ifdef __cplusplus
-extern "C" {
+extern &quot;C&quot; {
 #endif
 
 // C-compatible interface to C++ functionality
@@ -468,9 +475,9 @@ size_t vector_size(void* vec);
 
 // In C++ implementation (my_cpp_lib.cpp):
 #include &lt;vector&gt;
-#include "my_cpp_lib.hpp"
+#include &quot;my_cpp_lib.hpp&quot;
 
-extern "C" {
+extern &quot;C&quot; {
     void* create_vector() {
         return new std::vector&lt;int&gt;();
     }
@@ -495,7 +502,7 @@ extern "C" {
 <p>Then in Rust:</p>
 <pre><pre class="playground"><code class="language-rust">use std::os::raw::c_void;
 
-extern "C" {
+extern &quot;C&quot; {
     fn create_vector() -&gt; *mut c_void;
     fn delete_vector(vec: *mut c_void);
     fn vector_push_back(vec: *mut c_void, value: i32);
@@ -544,12 +551,12 @@ fn main() {
     vec.push(2);
     vec.push(3);
 
-    println!("Vector size: {}", vec.size());
-    println!("Vector[1]: {}", vec.get(1).unwrap());
+    println!(&quot;Vector size: {}&quot;, vec.size());
+    println!(&quot;Vector[1]: {}&quot;, vec.get(1).unwrap());
 }</code></pre></pre>
 <p>This approach creates a clean separation between the C++ implementation and the Rust code, making it easier to maintain and reason about.</p>
 <h2 id="creating-ffi-interfaces"><a class="header" href="#creating-ffi-interfaces">Creating FFI Interfaces</a></h2>
-<p>Now that we’ve seen how to use C/C++ code from Rust, let’s explore how to expose Rust functionality to other languages through FFI. This is essential for creating Rust libraries that can be used from C, C++, or any language with C FFI capabilities.</p>
+<p>Now that we've seen how to use C/C++ code from Rust, let's explore how to expose Rust functionality to other languages through FFI. This is essential for creating Rust libraries that can be used from C, C++, or any language with C FFI capabilities.</p>
 <h3 id="designing-an-ffi-friendly-api"><a class="header" href="#designing-an-ffi-friendly-api">Designing an FFI-friendly API</a></h3>
 <p>When creating a Rust library for use by other languages, keep these principles in mind:</p>
 <ol>
@@ -560,7 +567,7 @@ fn main() {
 <li><strong>Document memory management responsibilities</strong></li>
 </ol>
 <h3 id="basic-export-to-c"><a class="header" href="#basic-export-to-c">Basic Export to C</a></h3>
-<p>Here’s a simple example of exporting Rust functions to C:</p>
+<p>Here's a simple example of exporting Rust functions to C:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// In lib.rs
@@ -568,12 +575,12 @@ use std::os::raw::{c_char, c_int};
 use std::ffi::{CStr, CString};
 
 #[no_mangle]
-pub extern "C" fn add(a: c_int, b: c_int) -&gt; c_int {
+pub extern &quot;C&quot; fn add(a: c_int, b: c_int) -&gt; c_int {
     a + b
 }
 
 #[no_mangle]
-pub extern "C" fn process_string(input: *const c_char) -&gt; *mut c_char {
+pub extern &quot;C&quot; fn process_string(input: *const c_char) -&gt; *mut c_char {
     // Safety check for null pointers
     if input.is_null() {
         return std::ptr::null_mut();
@@ -597,7 +604,7 @@ pub extern "C" fn process_string(input: *const c_char) -&gt; *mut c_char {
 }
 
 #[no_mangle]
-pub extern "C" fn free_string(ptr: *mut c_char) {
+pub extern &quot;C&quot; fn free_string(ptr: *mut c_char) {
     if !ptr.is_null() {
         unsafe {
             // Take ownership back from C and drop the string
@@ -608,8 +615,8 @@ pub extern "C" fn free_string(ptr: *mut c_char) {
 <span class="boring">}</span></code></pre></pre>
 <p>Key points in this example:</p>
 <ul>
-<li><strong><code>#[no_mangle]</code></strong> ensures the Rust compiler doesn’t change the function name, making it accessible from C</li>
-<li><strong><code>extern "C"</code></strong> specifies the C calling convention</li>
+<li><strong><code>#[no_mangle]</code></strong> ensures the Rust compiler doesn't change the function name, making it accessible from C</li>
+<li><strong><code>extern &quot;C&quot;</code></strong> specifies the C calling convention</li>
 <li>We convert between Rust and C string representations</li>
 <li>We provide a function to free memory allocated by Rust</li>
 </ul>
@@ -620,7 +627,7 @@ pub extern "C" fn free_string(ptr: *mut c_char) {
 #define MYLIB_H
 
 #ifdef __cplusplus
-extern "C" {
+extern &quot;C&quot; {
 #endif
 
 int add(int a, int b);
@@ -636,13 +643,13 @@ void free_string(char* ptr);
 <h3 id="building-a-c-compatible-library"><a class="header" href="#building-a-c-compatible-library">Building a C-compatible Library</a></h3>
 <p>To compile your Rust code as a C-compatible library, configure your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "mylib"
-version = "0.1.0"
-edition = "2021"
+name = &quot;mylib&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [lib]
-name = "mylib"
-crate-type = ["cdylib", "staticlib"]
+name = &quot;mylib&quot;
+crate-type = [&quot;cdylib&quot;, &quot;staticlib&quot;]
 </code></pre>
 <p>The <code>crate-type</code> specifies:</p>
 <ul>
@@ -652,15 +659,15 @@ crate-type = ["cdylib", "staticlib"]
 <h3 id="using-the-library-from-c"><a class="header" href="#using-the-library-from-c">Using the Library from C</a></h3>
 <p>Now you can use your Rust library from C:</p>
 <pre><code class="language-c">#include &lt;stdio.h&gt;
-#include "mylib.h"
+#include &quot;mylib.h&quot;
 
 int main() {
     int result = add(40, 2);
-    printf("Result: %d\n", result);
+    printf(&quot;Result: %d\n&quot;, result);
 
-    char* processed = process_string("hello from c");
+    char* processed = process_string(&quot;hello from c&quot;);
     if (processed) {
-        printf("Processed: %s\n", processed);
+        printf(&quot;Processed: %s\n&quot;, processed);
         free_string(processed);
     }
 
@@ -668,7 +675,7 @@ int main() {
 }
 </code></pre>
 <h3 id="managing-complex-types"><a class="header" href="#managing-complex-types">Managing Complex Types</a></h3>
-<p>For more complex interactions, you’ll often need to work with opaque pointers:</p>
+<p>For more complex interactions, you'll often need to work with opaque pointers:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// In Rust
@@ -679,7 +686,7 @@ pub struct ComplexObject {
 }
 
 #[no_mangle]
-pub extern "C" fn create_object() -&gt; *mut ComplexObject {
+pub extern &quot;C&quot; fn create_object() -&gt; *mut ComplexObject {
     let obj = Box::new(ComplexObject {
         data: Vec::new(),
         name: String::new(),
@@ -688,7 +695,7 @@ pub extern "C" fn create_object() -&gt; *mut ComplexObject {
 }
 
 #[no_mangle]
-pub extern "C" fn destroy_object(ptr: *mut ComplexObject) {
+pub extern &quot;C&quot; fn destroy_object(ptr: *mut ComplexObject) {
     if !ptr.is_null() {
         unsafe {
             // Take ownership back from C and drop the object
@@ -698,7 +705,7 @@ pub extern "C" fn destroy_object(ptr: *mut ComplexObject) {
 }
 
 #[no_mangle]
-pub extern "C" fn object_add_value(ptr: *mut ComplexObject, value: c_int) -&gt; c_int {
+pub extern &quot;C&quot; fn object_add_value(ptr: *mut ComplexObject, value: c_int) -&gt; c_int {
     if ptr.is_null() {
         return -1;
     }
@@ -719,7 +726,7 @@ int object_add_value(ComplexObject* obj, int value);
 </code></pre>
 <p>This approach keeps the implementation details hidden from C while providing a safe interface.</p>
 <h3 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h3>
-<p>Since C doesn’t have exceptions or a <code>Result</code> type, error handling requires careful design:</p>
+<p>Since C doesn't have exceptions or a <code>Result</code> type, error handling requires careful design:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Error codes
@@ -729,7 +736,7 @@ pub const ERROR_INVALID_INPUT: c_int = 2;
 pub const ERROR_OUT_OF_MEMORY: c_int = 3;
 
 #[no_mangle]
-pub extern "C" fn process_data(
+pub extern &quot;C&quot; fn process_data(
     input: *const c_char,
     output: *mut *mut c_char,
     error: *mut c_int
@@ -773,7 +780,7 @@ fn process_data_internal(input: *const c_char) -&gt; Result&lt;CString, c_int&gt
 <p>Instead of manually writing C headers, you can use the <code>cbindgen</code> tool to automatically generate headers from your Rust code:</p>
 <pre><pre class="playground"><code class="language-rust">// Add to Cargo.toml:
 // [build-dependencies]
-// cbindgen = "0.24"
+// cbindgen = &quot;0.24&quot;
 
 // In build.rs:
 extern crate cbindgen;
@@ -781,13 +788,13 @@ extern crate cbindgen;
 use std::env;
 
 fn main() {
-    let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let crate_dir = env::var(&quot;CARGO_MANIFEST_DIR&quot;).unwrap();
 
     cbindgen::Builder::new()
         .with_crate(crate_dir)
         .generate()
-        .expect("Unable to generate bindings")
-        .write_to_file("include/mylib.h");
+        .expect(&quot;Unable to generate bindings&quot;)
+        .write_to_file(&quot;include/mylib.h&quot;);
 }</code></pre></pre>
 <p>This ensures your C header file stays in sync with your Rust code.</p>
 <h2 id="python-integration-with-pyo3"><a class="header" href="#python-integration-with-pyo3">Python Integration with PyO3</a></h2>
@@ -800,21 +807,21 @@ fn main() {
 <li>Write Python extension modules in Rust</li>
 <li>Embed a Python interpreter in a Rust application</li>
 </ol>
-<p>Let’s focus on the most common use case: creating Python extension modules in Rust.</p>
+<p>Let's focus on the most common use case: creating Python extension modules in Rust.</p>
 <h3 id="creating-a-simple-python-module-in-rust"><a class="header" href="#creating-a-simple-python-module-in-rust">Creating a Simple Python Module in Rust</a></h3>
 <p>First, set up your Rust project:</p>
 <pre><code class="language-toml"># Cargo.toml
 [package]
-name = "rust_extension"
-version = "0.1.0"
-edition = "2021"
+name = &quot;rust_extension&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [lib]
-name = "rust_extension"
-crate-type = ["cdylib"]
+name = &quot;rust_extension&quot;
+crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
-pyo3 = { version = "0.18.0", features = ["extension-module"] }
+pyo3 = { version = &quot;0.18.0&quot;, features = [&quot;extension-module&quot;] }
 </code></pre>
 <p>Now, implement a simple module:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -860,7 +867,7 @@ impl Counter {
     }
 
     fn __repr__(&amp;self) -&gt; PyResult&lt;String&gt; {
-        Ok(format!("Counter({})", self.count))
+        Ok(format!(&quot;Counter({})&quot;, self.count))
     }
 }
 
@@ -890,10 +897,10 @@ maturin develop
 
 # Call Rust functions
 result = rust_extension.add(40, 2)
-print(f"Result: {result}")  # Output: Result: 42
+print(f&quot;Result: {result}&quot;)  # Output: Result: 42
 
-processed = rust_extension.process_string("hello from python")
-print(f"Processed: {processed}")  # Output: Processed: HELLO FROM PYTHON
+processed = rust_extension.process_string(&quot;hello from python&quot;)
+print(f&quot;Processed: {processed}&quot;)  # Output: Processed: HELLO FROM PYTHON
 </code></pre>
 <h3 id="working-with-python-objects"><a class="header" href="#working-with-python-objects">Working with Python Objects</a></h3>
 <p>PyO3 allows you to work directly with Python objects in Rust:</p>
@@ -908,7 +915,7 @@ fn analyze_dict(dict: &amp;PyDict) -&gt; PyResult&lt;u64&gt; {
 
     for (key, value) in dict {
         let key_str = key.extract::&lt;String&gt;()?;
-        println!("Key: {}", key_str);
+        println!(&quot;Key: {}&quot;, key_str);
 
         if let Ok(num) = value.extract::&lt;u64&gt;() {
             sum += num;
@@ -923,9 +930,9 @@ fn create_nested_structure&lt;'py&gt;(py: Python&lt;'py&gt;) -&gt; PyResult&lt;&
     let dict = PyDict::new(py);
     let list = PyList::new(py, &amp;[1, 2, 3, 4, 5]);
 
-    dict.set_item("numbers", list)?;
-    dict.set_item("greeting", "Hello from Rust")?;
-    dict.set_item("status", true)?;
+    dict.set_item(&quot;numbers&quot;, list)?;
+    dict.set_item(&quot;greeting&quot;, &quot;Hello from Rust&quot;)?;
+    dict.set_item(&quot;status&quot;, true)?;
 
     Ok(dict)
 }
@@ -940,7 +947,7 @@ use pyo3::exceptions::PyValueError;
 #[pyfunction]
 fn divide(a: f64, b: f64) -&gt; PyResult&lt;f64&gt; {
     if b == 0.0 {
-        Err(PyValueError::new_err("Cannot divide by zero"))
+        Err(PyValueError::new_err(&quot;Cannot divide by zero&quot;))
     } else {
         Ok(a / b)
     }
@@ -963,18 +970,18 @@ fn call_python_code(py: Python, func: PyObject, arg: i32) -&gt; PyResult&lt;i32&
 use pyo3::types::IntoPyDict;
 
 fn use_numpy(py: Python) -&gt; PyResult&lt;()&gt; {
-    let numpy = py.import("numpy")?;
+    let numpy = py.import(&quot;numpy&quot;)?;
 
     // Create a NumPy array
-    let array = numpy.call_method1("array", ([[1, 2], [3, 4]],))?;
+    let array = numpy.call_method1(&quot;array&quot;, ([[1, 2], [3, 4]],))?;
 
     // Call NumPy functions
-    let transposed = array.call_method0("transpose")?;
-    let multiplied = numpy.call_method1("matmul", (array, transposed))?;
+    let transposed = array.call_method0(&quot;transpose&quot;)?;
+    let multiplied = numpy.call_method1(&quot;matmul&quot;, (array, transposed))?;
 
     // Convert results to Rust
     let result: Vec&lt;Vec&lt;i32&gt;&gt; = multiplied.extract()?;
-    println!("{:?}", result);
+    println!(&quot;{:?}&quot;, result);
 
     Ok(())
 }
@@ -988,7 +995,7 @@ fn use_numpy(py: Python) -&gt; PyResult&lt;()&gt; {
 <li><strong>Consider Using NumPy</strong>: For numerical data, NumPy arrays provide efficient memory sharing</li>
 <li><strong>Release the GIL When Possible</strong>: Use <code>py.allow_threads()</code> for CPU-bound operations</li>
 </ol>
-<p>Here’s an example of releasing the Global Interpreter Lock (GIL) for CPU-intensive work:</p>
+<p>Here's an example of releasing the Global Interpreter Lock (GIL) for CPU-intensive work:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[pyfunction]
@@ -1010,7 +1017,7 @@ fn cpu_intensive_task(py: Python, data: Vec&lt;f64&gt;) -&gt; PyResult&lt;f64&gt
 use pyo3::prelude::*;
 
 // Add to Cargo.toml:
-// numpy = "0.18"
+// numpy = &quot;0.18&quot;
 
 #[pyfunction]
 fn process_numpy_array&lt;'py&gt;(py: Python&lt;'py&gt;, input: &amp;PyArray1&lt;f64&gt;) -&gt; PyResult&lt;&amp;'py PyArray1&lt;f64&gt;&gt; {
@@ -1050,19 +1057,19 @@ maturin publish
 <p>The most direct way to use Rust from Node.js is to create native modules using <a href="https://github.com/napi-rs/napi-rs">napi-rs</a>, which provides bindings to the Node.js N-API:</p>
 <pre><code class="language-toml"># Cargo.toml
 [package]
-name = "rust-node-addon"
-version = "0.1.0"
-edition = "2021"
+name = &quot;rust-node-addon&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
-napi = "2.12.2"
-napi-derive = "2.12.2"
+napi = &quot;2.12.2&quot;
+napi-derive = &quot;2.12.2&quot;
 
 [build-dependencies]
-napi-build = "2.0.1"
+napi-build = &quot;2.0.1&quot;
 </code></pre>
 <p>Implementing a simple Node.js module:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1158,7 +1165,7 @@ fn read_file_with_callback(path: String, callback: JsFunction) -&gt; Result&lt;U
 <li><strong>Use TypedArrays</strong>: When working with binary data, use TypedArrays for efficient transfer</li>
 <li><strong>Keep the Event Loop Responsive</strong>: Long-running Rust functions should be async or use callbacks</li>
 </ol>
-<p>Here’s an example of working with TypedArrays efficiently:</p>
+<p>Here's an example of working with TypedArrays efficiently:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[napi]
@@ -1209,7 +1216,7 @@ fn process_image_data(data: Buffer, width: u32, height: u32) -&gt; Result&lt;Buf
 <li>Compile to WebAssembly</li>
 <li>Load and use the WebAssembly module in JavaScript</li>
 </ol>
-<p>Let’s go through each step:</p>
+<p>Let's go through each step:</p>
 <h4 id="setting-up-the-toolchain"><a class="header" href="#setting-up-the-toolchain">Setting Up the Toolchain</a></h4>
 <p>First, install the WebAssembly target for Rust:</p>
 <pre><code class="language-bash">rustup target add wasm32-unknown-unknown
@@ -1224,15 +1231,15 @@ cd wasm-example
 </code></pre>
 <p>Configure <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "wasm-example"
-version = "0.1.0"
-edition = "2021"
+name = &quot;wasm-example&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
-wasm-bindgen = "0.2"
+wasm-bindgen = &quot;0.2&quot;
 </code></pre>
 <p>Write Rust code with <code>wasm-bindgen</code> annotations:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1283,7 +1290,7 @@ impl Point {
 
 // Call JavaScript from Rust
 #[wasm_bindgen]
-extern "C" {
+extern &quot;C&quot; {
     // Import the `alert` function from the browser
     fn alert(s: &amp;str);
 
@@ -1295,8 +1302,8 @@ extern "C" {
 // A function that calls JavaScript
 #[wasm_bindgen]
 pub fn greet(name: &amp;str) {
-    alert(&amp;format!("Hello, {}!", name));
-    log(&amp;format!("Greeting logged for {}", name));
+    alert(&amp;format!(&quot;Hello, {}!&quot;, name));
+    log(&amp;format!(&quot;Greeting logged for {}&quot;, name));
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="building-webassembly"><a class="header" href="#building-webassembly">Building WebAssembly</a></h4>
@@ -1316,27 +1323,27 @@ pub fn greet(name: &amp;str) {
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
-    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
     &lt;title&gt;Rust WebAssembly Example&lt;/title&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;h1&gt;Rust WebAssembly Example&lt;/h1&gt;
-    &lt;button id="run-button"&gt;Run Fibonacci&lt;/button&gt;
-    &lt;div id="result"&gt;&lt;/div&gt;
+    &lt;button id=&quot;run-button&quot;&gt;Run Fibonacci&lt;/button&gt;
+    &lt;div id=&quot;result&quot;&gt;&lt;/div&gt;
 
-    &lt;script type="module"&gt;
-      import init, { fibonacci, Point, greet } from "./pkg/wasm_example.js";
+    &lt;script type=&quot;module&quot;&gt;
+      import init, { fibonacci, Point, greet } from &quot;./pkg/wasm_example.js&quot;;
 
       async function run() {
         // Initialize the WebAssembly module
         await init();
 
         // Set up the button click handler
-        document.getElementById("run-button").addEventListener("click", () =&gt; {
+        document.getElementById(&quot;run-button&quot;).addEventListener(&quot;click&quot;, () =&gt; {
           // Call Rust functions
           const result = fibonacci(40);
           document.getElementById(
-            "result"
+            &quot;result&quot;
           ).textContent = `Fibonacci(40) = ${result}`;
 
           // Create and use a Rust object
@@ -1344,7 +1351,7 @@ pub fn greet(name: &amp;str) {
           console.log(`Distance from origin: ${point.distance_from_origin()}`);
 
           // Call a function that calls back to JavaScript
-          greet("WebAssembly");
+          greet(&quot;WebAssembly&quot;);
         });
       }
 
@@ -1360,23 +1367,23 @@ pub fn greet(name: &amp;str) {
 <li><strong><a href="https://github.com/rustwasm/wasm-bindgen/tree/main/crates/web-sys">web-sys</a></strong>: Provides bindings to Web APIs</li>
 <li><strong><a href="https://github.com/rustwasm/wasm-bindgen/tree/main/crates/js-sys">js-sys</a></strong>: Provides bindings to JavaScript standard library</li>
 </ol>
-<p>Here’s an example using <code>wasm-pack</code> and <code>web-sys</code>:</p>
+<p>Here's an example using <code>wasm-pack</code> and <code>web-sys</code>:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-wasm-bindgen = "0.2"
-web-sys = { version = "0.3", features = [
-    "console",
-    "Document",
-    "Element",
-    "HtmlElement",
-    "Window",
-    "Event",
-    "MouseEvent"
+wasm-bindgen = &quot;0.2&quot;
+web-sys = { version = &quot;0.3&quot;, features = [
+    &quot;console&quot;,
+    &quot;Document&quot;,
+    &quot;Element&quot;,
+    &quot;HtmlElement&quot;,
+    &quot;Window&quot;,
+    &quot;Event&quot;,
+    &quot;MouseEvent&quot;
 ]}
-js-sys = "0.3"
+js-sys = &quot;0.3&quot;
 </code></pre>
 <h2 id="embedded-systems-programming"><a class="header" href="#embedded-systems-programming">Embedded Systems Programming</a></h2>
-<p>Embedded systems are specialized computing systems that perform dedicated functions within larger mechanical or electrical systems. Rust’s combination of safety, performance, and fine-grained control makes it particularly well-suited for embedded development.</p>
+<p>Embedded systems are specialized computing systems that perform dedicated functions within larger mechanical or electrical systems. Rust's combination of safety, performance, and fine-grained control makes it particularly well-suited for embedded development.</p>
 <h3 id="rust-in-embedded-systems"><a class="header" href="#rust-in-embedded-systems">Rust in Embedded Systems</a></h3>
 <p>Rust offers several advantages for embedded development:</p>
 <ol>
@@ -1387,26 +1394,26 @@ js-sys = "0.3"
 <li><strong>Small Runtime</strong>: Minimal footprint that works well on constrained devices</li>
 </ol>
 <h3 id="targeting-bare-metal"><a class="header" href="#targeting-bare-metal">Targeting Bare Metal</a></h3>
-<p>To target bare metal devices (those without an operating system), you’ll typically:</p>
+<p>To target bare metal devices (those without an operating system), you'll typically:</p>
 <ol>
 <li>Use a specific target triple for your architecture</li>
 <li>Disable the standard library</li>
 <li>Provide custom implementations for essential functionality</li>
 </ol>
-<p>Here’s a basic example for an ARM Cortex-M microcontroller:</p>
+<p>Here's a basic example for an ARM Cortex-M microcontroller:</p>
 <pre><code class="language-toml"># Cargo.toml
 [package]
-name = "embedded-example"
-version = "0.1.0"
-edition = "2021"
+name = &quot;embedded-example&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [dependencies]
-cortex-m = "0.7"
-cortex-m-rt = "0.7"
-panic-halt = "0.2"
+cortex-m = &quot;0.7&quot;
+cortex-m-rt = &quot;0.7&quot;
+panic-halt = &quot;0.2&quot;
 
 [profile.release]
-opt-level = "s"  # Optimize for size
+opt-level = &quot;s&quot;  # Optimize for size
 lto = true       # Enable link-time optimization
 codegen-units = 1  # Better optimization but slower build
 debug = true     # Symbols are nice and they don't increase size on Flash
@@ -1617,7 +1624,7 @@ fn configure_interrupts() {
 <h2 id="no_std-environments"><a class="header" href="#no_std-environments">No_std Environments</a></h2>
 <p>The standard library (<code>std</code>) provides many useful abstractions but requires an operating system for features like threads, files, and networking. For environments without an operating system (like embedded systems) or with special requirements, Rust provides the ability to work without the standard library using <code>#![no_std]</code>.</p>
 <h3 id="understanding-no_std"><a class="header" href="#understanding-no_std">Understanding no_std</a></h3>
-<p>When you use <code>#![no_std]</code>, you’re indicating that your code doesn’t depend on the Rust standard library. However, you still have access to the core library (<code>core</code>), which provides fundamental types and functions that don’t require OS support:</p>
+<p>When you use <code>#![no_std]</code>, you're indicating that your code doesn't depend on the Rust standard library. However, you still have access to the core library (<code>core</code>), which provides fundamental types and functions that don't require OS support:</p>
 <ul>
 <li>Basic types (<code>u8</code>, <code>i32</code>, <code>bool</code>, etc.)</li>
 <li>Containers like <code>Option</code> and <code>Result</code></li>
@@ -1628,7 +1635,7 @@ fn configure_interrupts() {
 <li>Basic operations on primitives</li>
 </ul>
 <h3 id="creating-a-no_std-library"><a class="header" href="#creating-a-no_std-library">Creating a no_std Library</a></h3>
-<p>Here’s how to create a simple <code>no_std</code> library:</p>
+<p>Here's how to create a simple <code>no_std</code> library:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Indicate this crate doesn't use the standard library
@@ -1661,7 +1668,7 @@ impl Point {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Note that we had to use <code>libm</code> for the square root function since <code>core</code> doesn’t provide math functions that might require OS support.</p>
+<p>Note that we had to use <code>libm</code> for the square root function since <code>core</code> doesn't provide math functions that might require OS support.</p>
 <h3 id="creating-a-no_std-executable"><a class="header" href="#creating-a-no_std-executable">Creating a no_std Executable</a></h3>
 <p>For executables, you need to provide implementations for several language items that the standard library would normally provide:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1674,7 +1681,7 @@ use core::panic::PanicInfo;
 
 // Entry point for the application
 #[no_mangle]
-pub extern "C" fn _start() -&gt; ! {
+pub extern &quot;C&quot; fn _start() -&gt; ! {
     // Your code here
 
     loop {}
@@ -1687,7 +1694,7 @@ fn panic(_info: &amp;PanicInfo) -&gt; ! {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="allocations-in-no_std"><a class="header" href="#allocations-in-no_std">Allocations in no_std</a></h3>
-<p>By default, <code>no_std</code> environments don’t support dynamic memory allocation. However, you can add allocation support with the <code>alloc</code> crate and a custom allocator:</p>
+<p>By default, <code>no_std</code> environments don't support dynamic memory allocation. However, you can add allocation support with the <code>alloc</code> crate and a custom allocator:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>#![no_std]
 #![feature(alloc_error_handler)]
@@ -1744,7 +1751,7 @@ fn process_data() {
 
     // Fixed-capacity string (capacity 64)
     let mut string: String&lt;64&gt; = String::new();
-    string.push_str("Hello").unwrap();
+    string.push_str(&quot;Hello&quot;).unwrap();
 
     // Fixed-capacity map (capacity 16)
     let mut map: FnvIndexMap&lt;u8, u8, 16&gt; = FnvIndexMap::new();
@@ -1757,7 +1764,7 @@ fn process_data() {
 </span><span class="boring">fn main() {
 </span>// Export a function with C ABI
 #[no_mangle]
-pub extern "C" fn process_data(input: *const u8, length: usize, output: *mut u8) -&gt; i32 {
+pub extern &quot;C&quot; fn process_data(input: *const u8, length: usize, output: *mut u8) -&gt; i32 {
     if input.is_null() || output.is_null() {
         return -1;
     }
@@ -1786,19 +1793,19 @@ pub extern "C" fn process_data(input: *const u8, length: usize, output: *mut u8)
 use defmt_rtt as _;
 
 fn main() -&gt; ! {
-    info!("Application started");
+    info!(&quot;Application started&quot;);
 
     let value = 42;
-    debug!("Value: {}", value);
+    debug!(&quot;Value: {}&quot;, value);
 
     if some_condition() {
-        warn!("Unusual condition detected");
+        warn!(&quot;Unusual condition detected&quot;);
     }
 
     loop {
         // Main application logic
         if error_detected() {
-            error!("Critical error!");
+            error!(&quot;Critical error!&quot;);
         }
     }
 }</code></pre></pre>
@@ -1809,24 +1816,24 @@ fn main() -&gt; ! {
 <ul>
 <li>C ABI: The most common and widely supported</li>
 <li>System V ABI: Used on many Unix-like systems</li>
-<li>Windows ABI: Microsoft’s calling conventions</li>
+<li>Windows ABI: Microsoft's calling conventions</li>
 <li>Platform-specific ABIs: ARM, x86, RISC-V, etc.</li>
 </ul>
 <p>Rust uses the <code>extern</code> keyword to specify which ABI to use when declaring or defining functions:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Function using the C ABI
-extern "C" fn c_compatible_function(value: i32) -&gt; i32 {
+extern &quot;C&quot; fn c_compatible_function(value: i32) -&gt; i32 {
     value + 1
 }
 
 // Function using the System V ABI
-extern "sysv64" fn system_v_function(value: i32) -&gt; i32 {
+extern &quot;sysv64&quot; fn system_v_function(value: i32) -&gt; i32 {
     value + 2
 }
 
 // Function using the Windows ABI (stdcall)
-extern "stdcall" fn windows_function(value: i32) -&gt; i32 {
+extern &quot;stdcall&quot; fn windows_function(value: i32) -&gt; i32 {
     value + 3
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1862,23 +1869,23 @@ enum CompatibleEnum {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Type for a C-compatible function pointer
-type Callback = extern "C" fn(i32) -&gt; i32;
+type Callback = extern &quot;C&quot; fn(i32) -&gt; i32;
 
 // Higher-order function that takes a callback
-extern "C" fn process_with_callback(value: i32, callback: Callback) -&gt; i32 {
+extern &quot;C&quot; fn process_with_callback(value: i32, callback: Callback) -&gt; i32 {
     callback(value)
 }
 
 // Implementing a callback
-extern "C" fn rust_callback(value: i32) -&gt; i32 {
-    println!("Called from C with value: {}", value);
+extern &quot;C&quot; fn rust_callback(value: i32) -&gt; i32 {
+    println!(&quot;Called from C with value: {}&quot;, value);
     value * 2
 }
 
 // Using the callback
 fn use_callback() {
     let result = process_with_callback(42, rust_callback);
-    println!("Result: {}", result);
+    println!(&quot;Result: {}&quot;, result);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="variadic-functions"><a class="header" href="#variadic-functions">Variadic Functions</a></h3>
@@ -1888,13 +1895,13 @@ fn use_callback() {
 </span>use std::os::raw::{c_char, c_int};
 use std::ffi::CStr;
 
-extern "C" {
+extern &quot;C&quot; {
     fn printf(format: *const c_char, ...) -&gt; c_int;
 }
 
 fn call_printf() {
     unsafe {
-        let format = std::ffi::CString::new("%d + %d = %d\n").unwrap();
+        let format = std::ffi::CString::new(&quot;%d + %d = %d\n&quot;).unwrap();
         printf(format.as_ptr(), 5, 7, 5 + 7);
     }
 }
@@ -1908,15 +1915,15 @@ fn call_printf() {
 </ul>
 <p><strong>Dynamic linking</strong> loads the code at runtime:</p>
 <ul>
-<li>Advantages: Smaller binaries, updates don’t require recompilation of clients</li>
+<li>Advantages: Smaller binaries, updates don't require recompilation of clients</li>
 <li>Disadvantages: Runtime dependencies, potential for version conflicts</li>
 </ul>
 <p>Configure linking in <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[lib]
-name = "my_lib"
-crate-type = ["staticlib"]    # For static linking
+name = &quot;my_lib&quot;
+crate-type = [&quot;staticlib&quot;]    # For static linking
 # or
-crate-type = ["cdylib"]       # For dynamic linking
+crate-type = [&quot;cdylib&quot;]       # For dynamic linking
 </code></pre>
 <h3 id="platform-specific-considerations"><a class="header" href="#platform-specific-considerations">Platform-Specific Considerations</a></h3>
 <p>Different platforms have different ABI requirements:</p>
@@ -1926,7 +1933,7 @@ crate-type = ["cdylib"]       # For dynamic linking
 </span>// Windows DLL export
 #[no_mangle]
 #[allow(non_snake_case)]
-pub extern "stdcall" fn DllMain(
+pub extern &quot;stdcall&quot; fn DllMain(
     _instance: *const u8,
     reason: u32,
     _reserved: *const u8,
@@ -1949,7 +1956,7 @@ pub extern "stdcall" fn DllMain(
 </span><span class="boring">fn main() {
 </span>// Objective-C compatible function
 #[no_mangle]
-pub extern "C" fn rust_function_for_objc() -&gt; bool {
+pub extern &quot;C&quot; fn rust_function_for_objc() -&gt; bool {
     // Implementation
     true
 }
@@ -1958,9 +1965,9 @@ pub extern "C" fn rust_function_for_objc() -&gt; bool {
 <p>Rust mangles function names by default for internal use. To expose functions with their original names:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// Export with the exact name "calculate_sum"
+</span>// Export with the exact name &quot;calculate_sum&quot;
 #[no_mangle]
-pub extern "C" fn calculate_sum(a: i32, b: i32) -&gt; i32 {
+pub extern &quot;C&quot; fn calculate_sum(a: i32, b: i32) -&gt; i32 {
     a + b
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1975,7 +1982,7 @@ pub extern "C" fn calculate_sum(a: i32, b: i32) -&gt; i32 {
 </span><span class="boring">fn main() {
 </span>// Explicitly control symbol visibility
 #[no_mangle]
-pub extern "C" fn public_api_function() {
+pub extern &quot;C&quot; fn public_api_function() {
     // Implementation
 }
 
@@ -1994,7 +2001,7 @@ fn internal_helper_function() {
 <li>Handle memory management carefully</li>
 <li>Document ownership and lifetime requirements</li>
 </ol>
-<p>Here’s how to structure a multi-language library:</p>
+<p>Here's how to structure a multi-language library:</p>
 <pre><code>my-library/
 ├── src/                # Rust implementation
 │   ├── lib.rs          # Core functionality
@@ -2016,12 +2023,12 @@ fn internal_helper_function() {
 </span><span class="boring">fn main() {
 </span>// C-compatible API (in c_api.rs)
 #[no_mangle]
-pub extern "C" fn library_create_user(name: *const c_char, age: i32) -&gt; *mut User {
+pub extern &quot;C&quot; fn library_create_user(name: *const c_char, age: i32) -&gt; *mut User {
     // Implementation
 }
 
 #[no_mangle]
-pub extern "C" fn library_destroy_user(user: *mut User) {
+pub extern &quot;C&quot; fn library_destroy_user(user: *mut User) {
     // Implementation
 }
 
@@ -2048,7 +2055,7 @@ impl Drop for PyUser {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="memory-management-strategies"><a class="header" href="#memory-management-strategies">Memory Management Strategies</a></h3>
-<p>When Rust code allocates memory that’s used by other languages, you need a clear strategy:</p>
+<p>When Rust code allocates memory that's used by other languages, you need a clear strategy:</p>
 <ol>
 <li><strong>Explicit Deallocation</strong>: Provide functions like <code>free_string</code> for the caller to free memory</li>
 <li><strong>Ownership Transfer</strong>: Document when ownership transfers to or from Rust</li>
@@ -2059,9 +2066,9 @@ impl Drop for PyUser {
 </span><span class="boring">fn main() {
 </span>// Using a custom allocator provided by the host language
 #[no_mangle]
-pub extern "C" fn library_set_allocator(
-    alloc: extern "C" fn(size: usize) -&gt; *mut u8,
-    dealloc: extern "C" fn(ptr: *mut u8),
+pub extern &quot;C&quot; fn library_set_allocator(
+    alloc: extern &quot;C&quot; fn(size: usize) -&gt; *mut u8,
+    dealloc: extern &quot;C&quot; fn(ptr: *mut u8),
 ) {
     // Store these functions and use them for allocation
 }
@@ -2077,12 +2084,12 @@ mod tests {
 
     #[test]
     fn test_c_api() {
-        let name = CString::new("Test User").unwrap();
+        let name = CString::new(&quot;Test User&quot;).unwrap();
         let user = unsafe { library_create_user(name.as_ptr(), 25) };
         assert!(!user.is_null());
 
         let retrieved_name = unsafe { CStr::from_ptr(library_get_user_name(user)) };
-        assert_eq!(retrieved_name.to_str().unwrap(), "Test User");
+        assert_eq!(retrieved_name.to_str().unwrap(), &quot;Test User&quot;);
 
         unsafe { library_destroy_user(user) };
     }
@@ -2098,14 +2105,14 @@ mod tests {
 <li><strong>CI/CD</strong>: Automate testing across languages and platforms</li>
 </ol>
 <h2 id="-project-language-bridge---create-a-library-usable-from-multiple-languages"><a class="header" href="#-project-language-bridge---create-a-library-usable-from-multiple-languages">🔨 Project: Language Bridge - Create a Library Usable from Multiple Languages</a></h2>
-<p>In this project, we’ll create a Rust library that can be used from C, Python, and JavaScript. Our library will implement a simple text analysis tool that provides functions for:</p>
+<p>In this project, we'll create a Rust library that can be used from C, Python, and JavaScript. Our library will implement a simple text analysis tool that provides functions for:</p>
 <ol>
 <li>Counting words in text</li>
 <li>Finding the most common words</li>
 <li>Calculating readability metrics</li>
 </ol>
 <h3 id="step-1-define-the-core-rust-implementation"><a class="header" href="#step-1-define-the-core-rust-implementation">Step 1: Define the Core Rust Implementation</a></h3>
-<p>First, let’s implement the core functionality in Rust:</p>
+<p>First, let's implement the core functionality in Rust:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// lib.rs
@@ -2185,7 +2192,7 @@ fn count_syllables(words: &amp;[String]) -&gt; usize {
         let mut prev_is_vowel = false;
 
         for c in word.chars() {
-            let is_vowel = "aeiouy".contains(c);
+            let is_vowel = &quot;aeiouy&quot;.contains(c);
             if is_vowel &amp;&amp; !prev_is_vowel {
                 count += 1;
             }
@@ -2205,7 +2212,7 @@ fn calculate_flesch_kincaid(word_count: usize, sentence_count: usize, syllable_c
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-2-create-a-c-compatible-api"><a class="header" href="#step-2-create-a-c-compatible-api">Step 2: Create a C-Compatible API</a></h3>
-<p>Next, let’s create a C-compatible API that will serve as the foundation for all language bindings:</p>
+<p>Next, let's create a C-compatible API that will serve as the foundation for all language bindings:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// c_api.rs
@@ -2220,7 +2227,7 @@ pub struct WordFrequency {
 }
 
 #[no_mangle]
-pub extern "C" fn text_analyze(text: *const c_char) -&gt; *mut TextStats {
+pub extern &quot;C&quot; fn text_analyze(text: *const c_char) -&gt; *mut TextStats {
     let c_str = unsafe {
         if text.is_null() {
             return std::ptr::null_mut();
@@ -2238,7 +2245,7 @@ pub extern "C" fn text_analyze(text: *const c_char) -&gt; *mut TextStats {
 }
 
 #[no_mangle]
-pub extern "C" fn text_stats_destroy(stats: *mut TextStats) {
+pub extern &quot;C&quot; fn text_stats_destroy(stats: *mut TextStats) {
     if !stats.is_null() {
         unsafe {
             let _ = Box::from_raw(stats);
@@ -2247,7 +2254,7 @@ pub extern "C" fn text_stats_destroy(stats: *mut TextStats) {
 }
 
 #[no_mangle]
-pub extern "C" fn text_stats_word_count(stats: *const TextStats) -&gt; c_int {
+pub extern &quot;C&quot; fn text_stats_word_count(stats: *const TextStats) -&gt; c_int {
     if stats.is_null() {
         return 0;
     }
@@ -2258,7 +2265,7 @@ pub extern "C" fn text_stats_word_count(stats: *const TextStats) -&gt; c_int {
 }
 
 #[no_mangle]
-pub extern "C" fn text_stats_sentence_count(stats: *const TextStats) -&gt; c_int {
+pub extern &quot;C&quot; fn text_stats_sentence_count(stats: *const TextStats) -&gt; c_int {
     if stats.is_null() {
         return 0;
     }
@@ -2269,7 +2276,7 @@ pub extern "C" fn text_stats_sentence_count(stats: *const TextStats) -&gt; c_int
 }
 
 #[no_mangle]
-pub extern "C" fn text_stats_flesch_kincaid(stats: *const TextStats) -&gt; c_double {
+pub extern &quot;C&quot; fn text_stats_flesch_kincaid(stats: *const TextStats) -&gt; c_double {
     if stats.is_null() {
         return 0.0;
     }
@@ -2280,7 +2287,7 @@ pub extern "C" fn text_stats_flesch_kincaid(stats: *const TextStats) -&gt; c_dou
 }
 
 #[no_mangle]
-pub extern "C" fn text_stats_most_common_words(
+pub extern &quot;C&quot; fn text_stats_most_common_words(
     stats: *const TextStats,
     result: *mut WordFrequency,
     max_count: c_int,
@@ -2311,7 +2318,7 @@ pub extern "C" fn text_stats_most_common_words(
 }
 
 #[no_mangle]
-pub extern "C" fn text_free_word_frequency(word_freq: *mut WordFrequency, count: c_int) {
+pub extern &quot;C&quot; fn text_free_word_frequency(word_freq: *mut WordFrequency, count: c_int) {
     if word_freq.is_null() || count &lt;= 0 {
         return;
     }
@@ -2333,18 +2340,18 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let crate_dir = env::var(&quot;CARGO_MANIFEST_DIR&quot;).unwrap();
     let config = cbindgen::Config::default();
 
     cbindgen::Builder::new()
         .with_crate(crate_dir.clone())
         .with_config(config)
         .generate()
-        .expect("Unable to generate bindings")
-        .write_to_file(PathBuf::from(crate_dir).join("include/text_analysis.h"));
+        .expect(&quot;Unable to generate bindings&quot;)
+        .write_to_file(PathBuf::from(crate_dir).join(&quot;include/text_analysis.h&quot;));
 }</code></pre></pre>
 <h3 id="step-4-create-python-bindings"><a class="header" href="#step-4-create-python-bindings">Step 4: Create Python Bindings</a></h3>
-<p>Now, let’s create Python bindings using PyO3:</p>
+<p>Now, let's create Python bindings using PyO3:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// python_bindings.rs
@@ -2400,7 +2407,7 @@ fn text_analysis(_py: Python, m: &amp;PyModule) -&gt; PyResult&lt;()&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-5-create-javascript-bindings"><a class="header" href="#step-5-create-javascript-bindings">Step 5: Create JavaScript Bindings</a></h3>
-<p>For JavaScript, we’ll use WebAssembly:</p>
+<p>For JavaScript, we'll use WebAssembly:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// wasm_bindings.rs
@@ -2449,63 +2456,63 @@ pub fn analyze_text(text: &amp;str) -&gt; JsTextStats {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-6-package-and-test"><a class="header" href="#step-6-package-and-test">Step 6: Package and Test</a></h3>
-<p>Finally, let’s configure our project for building all the bindings:</p>
+<p>Finally, let's configure our project for building all the bindings:</p>
 <pre><code class="language-toml"># Cargo.toml
 [package]
-name = "text_analysis"
-version = "0.1.0"
-edition = "2021"
+name = &quot;text_analysis&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [lib]
-name = "text_analysis"
-crate-type = ["cdylib", "rlib"]
+name = &quot;text_analysis&quot;
+crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 
 [dependencies]
 # Core dependencies
-libc = "0.2"
+libc = &quot;0.2&quot;
 
 # Python bindings
-pyo3 = { version = "0.18.0", optional = true, features = ["extension-module"] }
+pyo3 = { version = &quot;0.18.0&quot;, optional = true, features = [&quot;extension-module&quot;] }
 
 # Wasm bindings
-wasm-bindgen = { version = "0.2", optional = true }
-serde = { version = "1.0", features = ["derive"], optional = true }
-serde_json = { version = "1.0", optional = true }
-serde-wasm-bindgen = { version = "0.5", optional = true }
+wasm-bindgen = { version = &quot;0.2&quot;, optional = true }
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;], optional = true }
+serde_json = { version = &quot;1.0&quot;, optional = true }
+serde-wasm-bindgen = { version = &quot;0.5&quot;, optional = true }
 
 [features]
 default = []
-python = ["pyo3"]
-wasm = ["wasm-bindgen", "serde", "serde_json", "serde-wasm-bindgen"]
+python = [&quot;pyo3&quot;]
+wasm = [&quot;wasm-bindgen&quot;, &quot;serde&quot;, &quot;serde_json&quot;, &quot;serde-wasm-bindgen&quot;]
 
 [build-dependencies]
-cbindgen = "0.24"
+cbindgen = &quot;0.24&quot;
 </code></pre>
 <p>Create examples for each language:</p>
 <h4 id="c-example"><a class="header" href="#c-example">C Example:</a></h4>
 <pre><code class="language-c">// examples/c/main.c
 #include &lt;stdio.h&gt;
-#include "text_analysis.h"
+#include &quot;text_analysis.h&quot;
 
 int main() {
-    const char* text = "This is a sample text. It contains several sentences! How many? Let's count them.";
+    const char* text = &quot;This is a sample text. It contains several sentences! How many? Let's count them.&quot;;
 
     TextStats* stats = text_analyze(text);
     if (!stats) {
-        printf("Failed to analyze text\n");
+        printf(&quot;Failed to analyze text\n&quot;);
         return 1;
     }
 
-    printf("Word count: %d\n", text_stats_word_count(stats));
-    printf("Sentence count: %d\n", text_stats_sentence_count(stats));
-    printf("Flesch-Kincaid score: %.2f\n", text_stats_flesch_kincaid(stats));
+    printf(&quot;Word count: %d\n&quot;, text_stats_word_count(stats));
+    printf(&quot;Sentence count: %d\n&quot;, text_stats_sentence_count(stats));
+    printf(&quot;Flesch-Kincaid score: %.2f\n&quot;, text_stats_flesch_kincaid(stats));
 
     WordFrequency words[5];
     int count = text_stats_most_common_words(stats, words, 5);
 
-    printf("Most common words:\n");
+    printf(&quot;Most common words:\n&quot;);
     for (int i = 0; i &lt; count; i++) {
-        printf("  %s: %d\n", words[i].word, words[i].count);
+        printf(&quot;  %s: %d\n&quot;, words[i].word, words[i].count);
     }
 
     text_free_word_frequency(words, count);
@@ -2519,34 +2526,34 @@ int main() {
 from text_analysis import analyze_text
 
 def main():
-    text = "This is a sample text. It contains several sentences! How many? Let's count them."
+    text = &quot;This is a sample text. It contains several sentences! How many? Let's count them.&quot;
     stats = analyze_text(text)
 
-    print(f"Word count: {stats.word_count}")
-    print(f"Sentence count: {stats.sentence_count}")
-    print(f"Flesch-Kincaid score: {stats.flesch_kincaid_score:.2f}")
+    print(f&quot;Word count: {stats.word_count}&quot;)
+    print(f&quot;Sentence count: {stats.sentence_count}&quot;)
+    print(f&quot;Flesch-Kincaid score: {stats.flesch_kincaid_score:.2f}&quot;)
 
-    print("Most common words:")
+    print(&quot;Most common words:&quot;)
     for word, count in stats.most_common_words:
-        print(f"  {word}: {count}")
+        print(f&quot;  {word}: {count}&quot;)
 
-if __name__ == "__main__":
+if __name__ == &quot;__main__&quot;:
     main()
 </code></pre>
 <h4 id="javascript-example"><a class="header" href="#javascript-example">JavaScript Example:</a></h4>
 <pre><code class="language-javascript">// examples/javascript/main.js
-import { analyze_text } from "text_analysis";
+import { analyze_text } from &quot;text_analysis&quot;;
 
 function main() {
   const text =
-    "This is a sample text. It contains several sentences! How many? Let's count them.";
+    &quot;This is a sample text. It contains several sentences! How many? Let's count them.&quot;;
   const stats = analyze_text(text);
 
   console.log(`Word count: ${stats.word_count}`);
   console.log(`Sentence count: ${stats.sentence_count}`);
   console.log(`Flesch-Kincaid score: ${stats.flesch_kincaid_score.toFixed(2)}`);
 
-  console.log("Most common words:");
+  console.log(&quot;Most common words:&quot;);
   const words = stats.get_most_common_words();
   for (const [word, count] of words) {
     console.log(`  ${word}: ${count}`);
@@ -2568,7 +2575,7 @@ wasm-bindgen --target web --out-dir ./pkg ./target/wasm32-unknown-unknown/releas
 </code></pre>
 <p>This project demonstrates how to create a Rust library that can be used seamlessly from multiple languages, with each language binding providing an idiomatic interface while sharing the core implementation.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored Rust’s extensive interoperability capabilities, which enable it to work seamlessly with other programming languages and environments. This interoperability is a key strength of Rust, allowing developers to leverage Rust’s safety and performance benefits while integrating with existing codebases and ecosystems.</p>
+<p>In this chapter, we've explored Rust's extensive interoperability capabilities, which enable it to work seamlessly with other programming languages and environments. This interoperability is a key strength of Rust, allowing developers to leverage Rust's safety and performance benefits while integrating with existing codebases and ecosystems.</p>
 <p>We began by understanding why interoperability matters in modern software development, whether for leveraging existing codebases, utilizing language-specific strengths, expanding reach, or optimizing performance-critical components.</p>
 <p>We then dove into specific interoperability scenarios:</p>
 <ul>
@@ -2585,14 +2592,14 @@ wasm-bindgen --target web --out-dir ./pkg ./target/wasm32-unknown-unknown/releas
 <p>We concluded with a practical project that demonstrated how to create a Rust library with bindings for C, Python, and JavaScript, showcasing how a single core implementation can be exposed to multiple languages with idiomatic interfaces.</p>
 <p>The key insights from this chapter include:</p>
 <ol>
-<li><strong>Rust’s Zero-Cost Abstractions</strong> make it excellent for interoperability, as they don’t impose runtime overhead</li>
+<li><strong>Rust's Zero-Cost Abstractions</strong> make it excellent for interoperability, as they don't impose runtime overhead</li>
 <li><strong>Memory Management</strong> is crucial when crossing language boundaries, requiring careful handling of ownership and lifetimes</li>
 <li><strong>Type Conversion</strong> between Rust and other languages needs explicit attention, especially for complex data structures</li>
 <li><strong>ABI Compatibility</strong> must be carefully maintained, using <code>#[repr(C)]</code>, <code>#[no_mangle]</code>, and proper calling conventions</li>
 <li><strong>Language-Specific Bindings</strong> should provide idiomatic interfaces while sharing core implementation</li>
 <li><strong>Cross-Language Testing</strong> is essential to ensure correctness across all target languages</li>
 </ol>
-<p>By mastering Rust’s interoperability features, you can gradually introduce Rust into existing projects, create high-performance libraries for multiple languages, and leverage Rust’s strengths in any programming environment.</p>
+<p>By mastering Rust's interoperability features, you can gradually introduce Rust into existing projects, create high-performance libraries for multiple languages, and leverage Rust's strengths in any programming environment.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>

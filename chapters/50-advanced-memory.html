@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html" class="active"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,23 +184,23 @@
                     <main>
                         <h1 id="chapter-50-advanced-memory-management-and-optimization"><a class="header" href="#chapter-50-advanced-memory-management-and-optimization">Chapter 50: Advanced Memory Management and Optimization</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Memory management is at the heart of Rust’s value proposition. The language’s ownership system, borrowing rules, and lifetime mechanisms provide memory safety without garbage collection, giving developers fine-grained control over memory usage while preventing common bugs like use-after-free, double-free, and data races.</p>
-<p>However, mastering Rust’s memory management goes far beyond understanding the basic ownership model. Professional Rust developers need to dive deeper into how memory is allocated, tracked, and optimized to build high-performance systems that can operate efficiently across different environments—from resource-constrained embedded devices to high-throughput server applications.</p>
-<p>This chapter explores advanced memory management techniques and optimization strategies that can help you squeeze maximum performance out of your Rust code. We’ll examine custom allocators, zero-allocation patterns, memory profiling tools, and benchmarking methodologies that will enable you to write code that’s not just safe but blazingly fast and memory-efficient.</p>
-<p>By the end of this chapter, you’ll have the knowledge to:</p>
+<p>Memory management is at the heart of Rust's value proposition. The language's ownership system, borrowing rules, and lifetime mechanisms provide memory safety without garbage collection, giving developers fine-grained control over memory usage while preventing common bugs like use-after-free, double-free, and data races.</p>
+<p>However, mastering Rust's memory management goes far beyond understanding the basic ownership model. Professional Rust developers need to dive deeper into how memory is allocated, tracked, and optimized to build high-performance systems that can operate efficiently across different environments—from resource-constrained embedded devices to high-throughput server applications.</p>
+<p>This chapter explores advanced memory management techniques and optimization strategies that can help you squeeze maximum performance out of your Rust code. We'll examine custom allocators, zero-allocation patterns, memory profiling tools, and benchmarking methodologies that will enable you to write code that's not just safe but blazingly fast and memory-efficient.</p>
+<p>By the end of this chapter, you'll have the knowledge to:</p>
 <ul>
-<li>Understand the low-level details of Rust’s memory model</li>
+<li>Understand the low-level details of Rust's memory model</li>
 <li>Create and use custom allocators tailored to specific workloads</li>
 <li>Implement zero-allocation strategies for performance-critical code</li>
 <li>Profile and benchmark memory usage with precision</li>
 <li>Optimize code for different hardware architectures and memory hierarchies</li>
 <li>Apply advanced optimization techniques used by Rust experts</li>
 </ul>
-<p>Let’s begin our journey into the depths of Rust’s memory management system and discover how to harness its full potential.</p>
-<h2 id="understanding-rusts-memory-model-in-depth"><a class="header" href="#understanding-rusts-memory-model-in-depth">Understanding Rust’s Memory Model in Depth</a></h2>
-<p>Before diving into advanced techniques, it’s crucial to have a solid understanding of how Rust manages memory at a fundamental level. This knowledge forms the foundation for the optimization strategies we’ll explore later.</p>
+<p>Let's begin our journey into the depths of Rust's memory management system and discover how to harness its full potential.</p>
+<h2 id="understanding-rusts-memory-model-in-depth"><a class="header" href="#understanding-rusts-memory-model-in-depth">Understanding Rust's Memory Model in Depth</a></h2>
+<p>Before diving into advanced techniques, it's crucial to have a solid understanding of how Rust manages memory at a fundamental level. This knowledge forms the foundation for the optimization strategies we'll explore later.</p>
 <h3 id="memory-layout-in-rust"><a class="header" href="#memory-layout-in-rust">Memory Layout in Rust</a></h3>
-<p>Rust gives you control over how data is laid out in memory, which is essential for performance optimization. Let’s explore the memory layout of different Rust types:</p>
+<p>Rust gives you control over how data is laid out in memory, which is essential for performance optimization. Let's explore the memory layout of different Rust types:</p>
 <h4 id="primitive-types"><a class="header" href="#primitive-types">Primitive Types</a></h4>
 <p>Primitive types have fixed, predictable sizes:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -207,8 +214,8 @@ let d: bool = true;     // 1 byte
 <p>You can check the size of any type using <code>std::mem::size_of</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>println!("Size of i32: {} bytes", std::mem::size_of::&lt;i32&gt;());
-println!("Size of f64: {} bytes", std::mem::size_of::&lt;f64&gt;());
+</span>println!(&quot;Size of i32: {} bytes&quot;, std::mem::size_of::&lt;i32&gt;());
+println!(&quot;Size of f64: {} bytes&quot;, std::mem::size_of::&lt;f64&gt;());
 <span class="boring">}</span></code></pre></pre>
 <h4 id="compound-types"><a class="header" href="#compound-types">Compound Types</a></h4>
 <p>Structs and enums have more complex layouts:</p>
@@ -220,7 +227,7 @@ println!("Size of f64: {} bytes", std::mem::size_of::&lt;f64&gt;());
 }
 
 // Size is sum of field sizes, plus potential padding
-println!("Size of Point: {} bytes", std::mem::size_of::&lt;Point&gt;());
+println!(&quot;Size of Point: {} bytes&quot;, std::mem::size_of::&lt;Point&gt;());
 <span class="boring">}</span></code></pre></pre>
 <p>By default, Rust may add padding between fields to ensure proper alignment. This can lead to wasted space but improves access speed.</p>
 <h4 id="memory-alignment"><a class="header" href="#memory-alignment">Memory Alignment</a></h4>
@@ -228,8 +235,8 @@ println!("Size of Point: {} bytes", std::mem::size_of::&lt;Point&gt;());
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Check alignment requirements
-println!("Alignment of i32: {} bytes", std::mem::align_of::&lt;i32&gt;());
-println!("Alignment of f64: {} bytes", std::mem::align_of::&lt;f64&gt;());
+println!(&quot;Alignment of i32: {} bytes&quot;, std::mem::align_of::&lt;i32&gt;());
+println!(&quot;Alignment of f64: {} bytes&quot;, std::mem::align_of::&lt;f64&gt;());
 <span class="boring">}</span></code></pre></pre>
 <p>Proper alignment is crucial for performance, as misaligned memory access can be significantly slower or even cause hardware exceptions on some architectures.</p>
 <h4 id="controlling-memory-layout"><a class="header" href="#controlling-memory-layout">Controlling Memory Layout</a></h4>
@@ -259,9 +266,9 @@ struct CStruct {
     c: u8,
 }
 
-println!("Size of DefaultStruct: {} bytes", std::mem::size_of::&lt;DefaultStruct&gt;());
-println!("Size of PackedStruct: {} bytes", std::mem::size_of::&lt;PackedStruct&gt;());
-println!("Size of CStruct: {} bytes", std::mem::size_of::&lt;CStruct&gt;());
+println!(&quot;Size of DefaultStruct: {} bytes&quot;, std::mem::size_of::&lt;DefaultStruct&gt;());
+println!(&quot;Size of PackedStruct: {} bytes&quot;, std::mem::size_of::&lt;PackedStruct&gt;());
+println!(&quot;Size of CStruct: {} bytes&quot;, std::mem::size_of::&lt;CStruct&gt;());
 <span class="boring">}</span></code></pre></pre>
 <p>The <code>#[repr(C)]</code> attribute is particularly important for FFI (Foreign Function Interface) as it guarantees a layout compatible with C code.</p>
 <h3 id="stack-vs-heap-allocation"><a class="header" href="#stack-vs-heap-allocation">Stack vs. Heap Allocation</a></h3>
@@ -285,23 +292,23 @@ let point = Point { x: 1.0, y: 2.0 };
 let vector: Vec&lt;i32&gt; = vec![0; 1000];
 
 // Heap-allocated string
-let string = String::from("Hello, world!");
+let string = String::from(&quot;Hello, world!&quot;);
 
 // Explicit heap allocation with Box
 let boxed_point = Box::new(Point { x: 1.0, y: 2.0 });
 <span class="boring">}</span></code></pre></pre>
-<p>Heap-allocated data is automatically deallocated when the owning variable goes out of scope, thanks to Rust’s ownership system.</p>
+<p>Heap-allocated data is automatically deallocated when the owning variable goes out of scope, thanks to Rust's ownership system.</p>
 <h3 id="memory-ownership-deep-dive"><a class="header" href="#memory-ownership-deep-dive">Memory Ownership Deep Dive</a></h3>
-<p>Rust’s ownership system is the cornerstone of its memory management:</p>
+<p>Rust's ownership system is the cornerstone of its memory management:</p>
 <h4 id="move-semantics-internals"><a class="header" href="#move-semantics-internals">Move Semantics Internals</a></h4>
-<p>When a value is moved, Rust doesn’t actually copy the data—it transfers ownership and prevents the original variable from being used:</p>
+<p>When a value is moved, Rust doesn't actually copy the data—it transfers ownership and prevents the original variable from being used:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let v1 = vec![1, 2, 3];
 let v2 = v1;  // Ownership moves to v2
 
 // This would cause a compile error:
-// println!("v1: {:?}", v1);
+// println!(&quot;v1: {:?}&quot;, v1);
 
 // Behind the scenes, Rust is preventing use of the original variable
 // without actually changing any memory
@@ -347,7 +354,7 @@ fn early_drop_example() {
     // This can be more efficient if v holds a lot of memory
 }
 <span class="boring">}</span></code></pre></pre>
-<p>The ability to precisely control when memory is released—without relying on garbage collection—is one of Rust’s most powerful features.</p>
+<p>The ability to precisely control when memory is released—without relying on garbage collection—is one of Rust's most powerful features.</p>
 <h3 id="the-global-allocator"><a class="header" href="#the-global-allocator">The Global Allocator</a></h3>
 <p>All heap allocations in Rust go through an allocator. By default, Rust uses the system allocator, but you can replace it with a custom one:</p>
 <pre><pre class="playground"><code class="language-rust">use std::alloc::{GlobalAlloc, Layout, System};
@@ -376,14 +383,14 @@ static ALLOCATOR: CountingAllocator = CountingAllocator {
 
 fn main() {
     let v = vec![1, 2, 3];
-    println!("Allocation count: {}", ALLOCATOR.allocation_count.load(std::sync::atomic::Ordering::SeqCst));
+    println!(&quot;Allocation count: {}&quot;, ALLOCATOR.allocation_count.load(std::sync::atomic::Ordering::SeqCst));
 }</code></pre></pre>
 <p>This example demonstrates how to create a custom global allocator that counts allocations while delegating the actual allocation to the system allocator.</p>
-<p>With this foundation in Rust’s memory model, we’re ready to explore more advanced memory management techniques and optimizations.</p>
+<p>With this foundation in Rust's memory model, we're ready to explore more advanced memory management techniques and optimizations.</p>
 <h2 id="custom-allocators-for-specialized-environments"><a class="header" href="#custom-allocators-for-specialized-environments">Custom Allocators for Specialized Environments</a></h2>
-<p>The default system allocator in Rust works well for general-purpose applications, but specialized environments often benefit from custom allocation strategies. In this section, we’ll explore how to create and use custom allocators tailored to specific workloads.</p>
+<p>The default system allocator in Rust works well for general-purpose applications, but specialized environments often benefit from custom allocation strategies. In this section, we'll explore how to create and use custom allocators tailored to specific workloads.</p>
 <h3 id="the-global-allocator-interface"><a class="header" href="#the-global-allocator-interface">The Global Allocator Interface</a></h3>
-<p>Rust’s <code>GlobalAlloc</code> trait defines the interface for all allocators:</p>
+<p>Rust's <code>GlobalAlloc</code> trait defines the interface for all allocators:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub unsafe trait GlobalAlloc {
@@ -402,7 +409,7 @@ fn main() {
 <span class="boring">}</span></code></pre></pre>
 <p>At minimum, an allocator must implement <code>alloc</code> and <code>dealloc</code>. The <code>alloc</code> method receives a <code>Layout</code> describing the size and alignment requirements, and returns a pointer to the allocated memory. The <code>dealloc</code> method frees previously allocated memory.</p>
 <h3 id="implementing-a-custom-global-allocator"><a class="header" href="#implementing-a-custom-global-allocator">Implementing a Custom Global Allocator</a></h3>
-<p>Let’s implement a simple custom allocator that logs allocation and deallocation events:</p>
+<p>Let's implement a simple custom allocator that logs allocation and deallocation events:</p>
 <pre><pre class="playground"><code class="language-rust">use std::alloc::{GlobalAlloc, Layout, System};
 use std::sync::atomic::{AtomicUsize, Ordering};
 
@@ -415,13 +422,13 @@ struct LoggingAllocator {
 unsafe impl GlobalAlloc for LoggingAllocator {
     unsafe fn alloc(&amp;self, layout: Layout) -&gt; *mut u8 {
         self.alloc_count.fetch_add(1, Ordering::SeqCst);
-        println!("Allocating {} bytes with alignment {}", layout.size(), layout.align());
+        println!(&quot;Allocating {} bytes with alignment {}&quot;, layout.size(), layout.align());
         self.inner.alloc(layout)
     }
 
     unsafe fn dealloc(&amp;self, ptr: *mut u8, layout: Layout) {
         self.dealloc_count.fetch_add(1, Ordering::SeqCst);
-        println!("Deallocating {} bytes with alignment {}", layout.size(), layout.align());
+        println!(&quot;Deallocating {} bytes with alignment {}&quot;, layout.size(), layout.align());
         self.inner.dealloc(ptr, layout)
     }
 }
@@ -435,14 +442,14 @@ static ALLOCATOR: LoggingAllocator = LoggingAllocator {
 
 fn main() {
     let v = vec![1, 2, 3];
-    println!("Vector: {:?}", v);
-    println!("Total allocations: {}", ALLOCATOR.alloc_count.load(Ordering::SeqCst));
-    println!("Total deallocations: {}", ALLOCATOR.dealloc_count.load(Ordering::SeqCst));
+    println!(&quot;Vector: {:?}&quot;, v);
+    println!(&quot;Total allocations: {}&quot;, ALLOCATOR.alloc_count.load(Ordering::SeqCst));
+    println!(&quot;Total deallocations: {}&quot;, ALLOCATOR.dealloc_count.load(Ordering::SeqCst));
 }</code></pre></pre>
 <p>This allocator logs every allocation and deallocation, which can be useful for debugging memory issues.</p>
 <h3 id="arena-allocators"><a class="header" href="#arena-allocators">Arena Allocators</a></h3>
 <p>Arena (or region-based) allocators are particularly useful for applications that allocate many small objects with the same lifetime. Instead of allocating and freeing individual objects, an arena allocator allocates a large chunk of memory and then sub-allocates from it.</p>
-<p>Here’s a simple implementation of an arena allocator:</p>
+<p>Here's a simple implementation of an arena allocator:</p>
 <pre><pre class="playground"><code class="language-rust">use std::cell::UnsafeCell;
 use std::mem;
 use std::ptr;
@@ -496,7 +503,7 @@ impl Arena {
             let layout = Layout::from_size_align(alloc_size, align).unwrap();
             let ptr = alloc(layout);
             if ptr.is_null() {
-                panic!("Arena allocation failed");
+                panic!(&quot;Arena allocation failed&quot;);
             }
 
             // Record the chunk to free it later
@@ -562,7 +569,7 @@ fn main() {
 <li><strong>Simplicity</strong>: No need to free individual objects</li>
 <li><strong>Predictability</strong>: No fragmentation issues</li>
 </ol>
-<p>They’re particularly useful for:</p>
+<p>They're particularly useful for:</p>
 <ul>
 <li>Compilers and interpreters that build and traverse ASTs</li>
 <li>Game engines for per-frame allocations</li>
@@ -570,7 +577,7 @@ fn main() {
 <li>Any application with a clear object lifetime hierarchy</li>
 </ul>
 <h3 id="raii-based-region-allocators"><a class="header" href="#raii-based-region-allocators">RAII-Based Region Allocators</a></h3>
-<p>We can combine arena allocation with Rust’s RAII (Resource Acquisition Is Initialization) pattern to create region allocators that are automatically cleaned up:</p>
+<p>We can combine arena allocation with Rust's RAII (Resource Acquisition Is Initialization) pattern to create region allocators that are automatically cleaned up:</p>
 <pre><pre class="playground"><code class="language-rust">use std::marker::PhantomData;
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::cell::UnsafeCell;
@@ -659,7 +666,7 @@ fn main() {
                 *(ptr as *mut u32) = i;
             }
         } else {
-            println!("Out of memory!");
+            println!(&quot;Out of memory!&quot;);
             break;
         }
     }
@@ -730,7 +737,7 @@ impl&lt;T&gt; Pool&lt;T&gt; {
     fn allocate_chunk(&amp;mut self) {
         // Allocate a chunk of memory
         let layout = std::alloc::Layout::array::&lt;T&gt;(self.objects_per_chunk)
-            .expect("Invalid layout");
+            .expect(&quot;Invalid layout&quot;);
         let chunk = unsafe { std::alloc::alloc(layout) };
         if chunk.is_null() {
             std::alloc::handle_alloc_error(layout);
@@ -758,7 +765,7 @@ impl&lt;T&gt; Drop for Pool&lt;T&gt; {
     fn drop(&amp;mut self) {
         for &amp;chunk in &amp;self.chunks {
             let layout = std::alloc::Layout::array::&lt;T&gt;(self.objects_per_chunk)
-                .expect("Invalid layout");
+                .expect(&quot;Invalid layout&quot;);
             unsafe {
                 std::alloc::dealloc(chunk, layout);
             }
@@ -824,11 +831,11 @@ fn main() {
 
     let mut values = Vec::new();
     for i in 0..100 {
-        values.push(pool.allocate(format!("Value {}", i)));
+        values.push(pool.allocate(format!(&quot;Value {}&quot;, i)));
     }
 
     for value in &amp;values {
-        println!("{}", value);
+        println!(&quot;{}&quot;, value);
     }
 
     // Values will be returned to the pool when dropped
@@ -914,14 +921,14 @@ fn main() {
                 }
 
                 LOCAL_ALLOC_COUNT.with(|count| {
-                    println!("Thread {} made {} allocations", i, *count.borrow());
+                    println!(&quot;Thread {} made {} allocations&quot;, i, *count.borrow());
                 });
             });
         }
     });
 }</code></pre></pre>
 <h3 id="integrating-with-the-allocator-api"><a class="header" href="#integrating-with-the-allocator-api">Integrating with the Allocator API</a></h3>
-<p>Rust’s allocator API is designed to be extensible. You can create allocators that work with the standard library collections:</p>
+<p>Rust's allocator API is designed to be extensible. You can create allocators that work with the standard library collections:</p>
 <pre><pre class="playground"><code class="language-rust">use std::alloc::{Allocator, Layout, AllocError};
 use std::ptr::NonNull;
 
@@ -971,7 +978,7 @@ fn main() {
         vec.push(i);
     }
 
-    println!("Made {} allocations", allocator.allocation_count());
+    println!(&quot;Made {} allocations&quot;, allocator.allocation_count());
 }</code></pre></pre>
 <h3 id="when-to-use-custom-allocators"><a class="header" href="#when-to-use-custom-allocators">When to Use Custom Allocators</a></h3>
 <p>Custom allocators are powerful but add complexity. Consider using them when:</p>
@@ -983,11 +990,11 @@ fn main() {
 <li><strong>Control over memory layout</strong>: For better cache performance or integration with hardware</li>
 </ol>
 <p>Remember that premature optimization is the root of all evil. Profile your application first to determine if allocation is indeed a bottleneck before implementing custom allocators.</p>
-<p>In the next section, we’ll explore allocation-free programming patterns that can help you minimize allocations in performance-critical code.</p>
+<p>In the next section, we'll explore allocation-free programming patterns that can help you minimize allocations in performance-critical code.</p>
 <h2 id="allocation-free-programming-patterns"><a class="header" href="#allocation-free-programming-patterns">Allocation-Free Programming Patterns</a></h2>
-<p>For the most performance-critical applications, the best allocation is often no allocation at all. In this section, we’ll explore techniques to minimize or eliminate heap allocations in Rust code.</p>
+<p>For the most performance-critical applications, the best allocation is often no allocation at all. In this section, we'll explore techniques to minimize or eliminate heap allocations in Rust code.</p>
 <h3 id="understanding-the-cost-of-allocations"><a class="header" href="#understanding-the-cost-of-allocations">Understanding the Cost of Allocations</a></h3>
-<p>Before diving into allocation-free patterns, it’s important to understand why allocations can be expensive:</p>
+<p>Before diving into allocation-free patterns, it's important to understand why allocations can be expensive:</p>
 <ol>
 <li><strong>System call overhead</strong>: Allocating memory may involve system calls, which are relatively slow</li>
 <li><strong>Synchronization</strong>: In multi-threaded applications, the allocator may need to lock data structures</li>
@@ -1062,7 +1069,7 @@ fn transform(point: Point) -&gt; Point {
 <span class="boring">}</span></code></pre></pre>
 <p>By making types <code>Copy</code>, we avoid allocations when passing them around. This works well for small, fixed-size types.</p>
 <h3 id="slices-over-owned-collections"><a class="header" href="#slices-over-owned-collections">Slices Over Owned Collections</a></h3>
-<p>When you don’t need ownership, prefer slices over owned collections:</p>
+<p>When you don't need ownership, prefer slices over owned collections:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Instead of:
@@ -1092,7 +1099,7 @@ fn find_max_slice&lt;'a&gt;(data: &amp;'a [i32]) -&gt; &amp;'a [i32] {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>This approach works particularly well when you’re returning a subset of an existing collection.</p>
+<p>This approach works particularly well when you're returning a subset of an existing collection.</p>
 <h3 id="custom-iterators"><a class="header" href="#custom-iterators">Custom Iterators</a></h3>
 <p>Custom iterators can process data without allocating intermediate collections:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1195,7 +1202,7 @@ fn main() {
     let mut processor = StringProcessor::new();
 
     for _ in 0..1000 {
-        let processed = processor.process("Hello, world!");
+        let processed = processor.process(&quot;Hello, world!&quot;);
         let transformed = processor.transform(processed);
         // Use transformed...
     }
@@ -1217,7 +1224,7 @@ fn sort_in_place(data: &amp;mut [i32]) {
     data.sort();
 }
 <span class="boring">}</span></code></pre></pre>
-<p>This pattern works well when you have mutable access to the data and don’t need to preserve the original.</p>
+<p>This pattern works well when you have mutable access to the data and don't need to preserve the original.</p>
 <h3 id="zero-copy-parsing"><a class="header" href="#zero-copy-parsing">Zero-Copy Parsing</a></h3>
 <p>For parsing data, consider zero-copy approaches that reference the original data rather than creating new owned data:</p>
 <pre><pre class="playground"><code class="language-rust">use nom::{
@@ -1236,20 +1243,20 @@ struct User&lt;'a&gt; {
 
 // Parse without allocating new strings
 fn parse_user(input: &amp;str) -&gt; IResult&lt;&amp;str, User&gt; {
-    let (input, _) = tag("User:")(input)?;
+    let (input, _) = tag(&quot;User:&quot;)(input)?;
     let (input, _) = space0(input)?;
     let (input, name) = alphanumeric1(input)?;
     let (input, _) = space0(input)?;
-    let (input, email) = preceded(tag("&lt;"), alphanumeric1)(input)?;
-    let (input, _) = tag("&gt;")(input)?;
+    let (input, email) = preceded(tag(&quot;&lt;&quot;), alphanumeric1)(input)?;
+    let (input, _) = tag(&quot;&gt;&quot;)(input)?;
 
     Ok((input, User { name, email }))
 }
 
 fn main() {
-    let input = "User: john &lt;john@example.com&gt;";
+    let input = &quot;User: john &lt;john@example.com&gt;&quot;;
     let (_, user) = parse_user(input).unwrap();
-    println!("Name: {}, Email: {}", user.name, user.email);
+    println!(&quot;Name: {}, Email: {}&quot;, user.name, user.email);
 }</code></pre></pre>
 <p>This example uses the <code>nom</code> crate for zero-copy parsing, where the parsed structures contain references to the original input rather than owning copies of the data.</p>
 <h3 id="string-interning"><a class="header" href="#string-interning">String Interning</a></h3>
@@ -1283,12 +1290,12 @@ fn main() {
     let mut interner = StringInterner::new();
 
     // These will share the same allocation
-    let s1 = interner.intern("hello");
-    let s2 = interner.intern("hello");
-    let s3 = interner.intern("world");
+    let s1 = interner.intern(&quot;hello&quot;);
+    let s2 = interner.intern(&quot;hello&quot;);
+    let s3 = interner.intern(&quot;world&quot;);
 
-    println!("s1 and s2 same allocation: {}", Rc::ptr_eq(&amp;s1, &amp;s2));
-    println!("s1 and s3 same allocation: {}", Rc::ptr_eq(&amp;s1, &amp;s3));
+    println!(&quot;s1 and s2 same allocation: {}&quot;, Rc::ptr_eq(&amp;s1, &amp;s2));
+    println!(&quot;s1 and s3 same allocation: {}&quot;, Rc::ptr_eq(&amp;s1, &amp;s3));
 }</code></pre></pre>
 <p>String interning is particularly useful for applications like compilers, interpreters, and document processors that handle many identical strings.</p>
 <h3 id="small-string-optimization"><a class="header" href="#small-string-optimization">Small String Optimization</a></h3>
@@ -1340,11 +1347,11 @@ impl Deref for SmallString {
 }
 
 fn main() {
-    let small = SmallString::new("hello");
-    let large = SmallString::new("this is a much longer string that won't fit inline");
+    let small = SmallString::new(&quot;hello&quot;);
+    let large = SmallString::new(&quot;this is a much longer string that won't fit inline&quot;);
 
-    println!("Small: {}", small.as_str());
-    println!("Large: {}", large.as_str());
+    println!(&quot;Small: {}&quot;, small.as_str());
+    println!(&quot;Large: {}&quot;, large.as_str());
 }</code></pre></pre>
 <p>This optimization avoids heap allocations for small strings, which can significantly improve performance in applications that work with many strings.</p>
 <h3 id="custom-dst-dynamically-sized-type-layout"><a class="header" href="#custom-dst-dynamically-sized-type-layout">Custom DST (Dynamically Sized Type) Layout</a></h3>
@@ -1453,10 +1460,10 @@ impl Drop for StringList {
 
 fn main() {
     let mut list = StringList::new();
-    list.push("hello");
-    list.push("world");
+    list.push(&quot;hello&quot;);
+    list.push(&quot;world&quot;);
 
-    println!("{} {}", list.get(0).unwrap(), list.get(1).unwrap());
+    println!(&quot;{} {}&quot;, list.get(0).unwrap(), list.get(1).unwrap());
 }</code></pre></pre>
 <p>This approach stores all strings in a single contiguous memory block, improving cache locality and reducing indirection.</p>
 <h3 id="zero-copy-deserialization"><a class="header" href="#zero-copy-deserialization">Zero-Copy Deserialization</a></h3>
@@ -1475,17 +1482,17 @@ struct User&lt;'a&gt; {
 }
 
 fn main() {
-    let data = r#"{"name":"John","email":"john@example.com","age":30}"#;
+    let data = r#&quot;{&quot;name&quot;:&quot;John&quot;,&quot;email&quot;:&quot;john@example.com&quot;,&quot;age&quot;:30}&quot;#;
 
     // Deserialize without unnecessary allocations
     let user: User = serde_json::from_str(data).unwrap();
 
     // These strings will be borrowed from the original JSON if possible
-    println!("Name: {}, Email: {}, Age: {}", user.name, user.email, user.age);
+    println!(&quot;Name: {}, Email: {}, Age: {}&quot;, user.name, user.email, user.age);
 }</code></pre></pre>
-<p>Using <code>Cow&lt;'a, str&gt;</code> with serde’s <code>#[serde(borrow)]</code> attribute allows the deserialized structure to borrow strings from the original input when possible, avoiding allocations.</p>
+<p>Using <code>Cow&lt;'a, str&gt;</code> with serde's <code>#[serde(borrow)]</code> attribute allows the deserialized structure to borrow strings from the original input when possible, avoiding allocations.</p>
 <h3 id="avoiding-closures-that-capture"><a class="header" href="#avoiding-closures-that-capture">Avoiding Closures That Capture</a></h3>
-<p>Closures that capture variables may cause allocations. When possible, use functions or closures that don’t capture:</p>
+<p>Closures that capture variables may cause allocations. When possible, use functions or closures that don't capture:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Instead of:
@@ -1526,15 +1533,15 @@ fn main() {
     let small = [1, 2, 3, 4];
     let large = [1; 100];
 
-    println!("Sum of small: {}", sum(&amp;small));
-    println!("Sum of large: {}", sum(&amp;large));
+    println!(&quot;Sum of small: {}&quot;, sum(&amp;small));
+    println!(&quot;Sum of large: {}&quot;, sum(&amp;large));
 }</code></pre></pre>
 <p>This allows you to write generic code that works with stack-allocated arrays of different sizes, avoiding the need for heap allocations.</p>
-<p>In the next section, we’ll explore memory profiling techniques to identify allocation bottlenecks in your Rust applications.</p>
+<p>In the next section, we'll explore memory profiling techniques to identify allocation bottlenecks in your Rust applications.</p>
 <h2 id="memory-profiling-techniques"><a class="header" href="#memory-profiling-techniques">Memory Profiling Techniques</a></h2>
-<p>Understanding your application’s memory usage patterns is crucial for optimization. This section explores various tools and techniques for profiling memory usage in Rust applications.</p>
+<p>Understanding your application's memory usage patterns is crucial for optimization. This section explores various tools and techniques for profiling memory usage in Rust applications.</p>
 <h3 id="understanding-memory-metrics"><a class="header" href="#understanding-memory-metrics">Understanding Memory Metrics</a></h3>
-<p>Before diving into profiling tools, it’s important to understand the key metrics to measure:</p>
+<p>Before diving into profiling tools, it's important to understand the key metrics to measure:</p>
 <ol>
 <li><strong>Total memory usage</strong>: The overall memory footprint of your application</li>
 <li><strong>Allocation frequency</strong>: How often your code allocates memory</li>
@@ -1575,21 +1582,21 @@ impl ProfilingAllocator {
         let count = self.allocation_count.load(Ordering::SeqCst);
         let bytes = self.bytes_allocated.load(Ordering::SeqCst);
 
-        println!("Total allocations: {}", count);
-        println!("Total memory allocated: {} bytes", bytes);
+        println!(&quot;Total allocations: {}&quot;, count);
+        println!(&quot;Total memory allocated: {} bytes&quot;, bytes);
 
         // Report size distribution
-        println!("\nAllocation size distribution:");
+        println!(&quot;\nAllocation size distribution:&quot;);
         let sizes = self.allocation_sizes.lock().unwrap();
         let mut size_vec: Vec&lt;_&gt; = sizes.iter().collect();
         size_vec.sort_by_key(|&amp;(size, _)| size);
 
         for (size, count) in size_vec {
-            println!("  {} bytes: {} allocations", size, count);
+            println!(&quot;  {} bytes: {} allocations&quot;, size, count);
         }
 
         // Report allocation rates
-        println!("\nAllocation rate over time:");
+        println!(&quot;\nAllocation rate over time:&quot;);
         let times = self.allocation_times.lock().unwrap();
         if !times.is_empty() {
             let start_time = times[0].1;
@@ -1606,7 +1613,7 @@ impl ProfilingAllocator {
             }
 
             for (second, count) in counts_per_second.iter().enumerate() {
-                println!("  Second {}: {} allocations", second, count);
+                println!(&quot;  Second {}: {} allocations&quot;, second, count);
             }
         }
     }
@@ -1707,8 +1714,8 @@ massif-visualizer massif.out.*
 <h3 id="tracking-allocations-with-tracy"><a class="header" href="#tracking-allocations-with-tracy">Tracking Allocations with tracy</a></h3>
 <p>For real-time profiling, tracy provides comprehensive insights:</p>
 <pre><pre class="playground"><code class="language-rust">// Add dependencies to Cargo.toml:
-// tracy-client = "0.14"
-// tracy-client-sys = "0.16"
+// tracy-client = &quot;0.14&quot;
+// tracy-client-sys = &quot;0.16&quot;
 
 use tracy_client::Client;
 
@@ -1717,7 +1724,7 @@ fn main() {
 
     // Profile a specific section
     {
-        let _span = tracy_client::span!("Allocation heavy section");
+        let _span = tracy_client::span!(&quot;Allocation heavy section&quot;);
 
         // Your code here...
         let large_vec = vec![0; 1_000_000];
@@ -1737,7 +1744,7 @@ fn main() {
 <h3 id="memory-usage-at-runtime"><a class="header" href="#memory-usage-at-runtime">Memory Usage at Runtime</a></h3>
 <p>For continuous monitoring of memory usage during runtime, you can use the <code>jemallocator</code> and its statistics feature:</p>
 <pre><pre class="playground"><code class="language-rust">// Add to Cargo.toml:
-// jemallocator = { version = "0.5", features = ["stats"] }
+// jemallocator = { version = &quot;0.5&quot;, features = [&quot;stats&quot;] }
 
 use jemallocator::Jemalloc;
 
@@ -1758,21 +1765,21 @@ fn print_memory_stats() {
     let stats = jemalloc_ctl::stats::allocated().unwrap();
     let resident = jemalloc_ctl::stats::resident().unwrap();
 
-    println!("Allocated: {} bytes", stats);
-    println!("Resident: {} bytes", resident);
+    println!(&quot;Allocated: {} bytes&quot;, stats);
+    println!(&quot;Resident: {} bytes&quot;, resident);
 }</code></pre></pre>
 <h3 id="identifying-memory-leaks"><a class="header" href="#identifying-memory-leaks">Identifying Memory Leaks</a></h3>
-<p>Memory leaks can be particularly problematic. Here’s how to identify them:</p>
+<p>Memory leaks can be particularly problematic. Here's how to identify them:</p>
 <h4 id="with-valgrind"><a class="header" href="#with-valgrind">With Valgrind</a></h4>
 <pre><code class="language-bash">valgrind --leak-check=full ./target/release/your_program
 </code></pre>
 <h4 id="with-address-sanitizer-asan"><a class="header" href="#with-address-sanitizer-asan">With Address Sanitizer (ASAN)</a></h4>
 <pre><code class="language-bash"># Add to .cargo/config.toml
-# [target.'cfg(target_os = "linux")']
-# rustflags = ["-C", "sanitizer=address"]
+# [target.'cfg(target_os = &quot;linux&quot;)']
+# rustflags = [&quot;-C&quot;, &quot;sanitizer=address&quot;]
 
 # Compile with ASAN
-RUSTFLAGS="-Z sanitizer=address" cargo run --target x86_64-unknown-linux-gnu
+RUSTFLAGS=&quot;-Z sanitizer=address&quot; cargo run --target x86_64-unknown-linux-gnu
 </code></pre>
 <h4 id="with-custom-leak-tracking"><a class="header" href="#with-custom-leak-tracking">With Custom Leak Tracking</a></h4>
 <p>For more complex scenarios, you might need custom leak tracking:</p>
@@ -1803,12 +1810,12 @@ impl LeakTrackingAllocator {
         let allocations = self.allocations.lock().unwrap();
 
         if allocations.is_empty() {
-            println!("No memory leaks detected!");
+            println!(&quot;No memory leaks detected!&quot;);
         } else {
-            println!("MEMORY LEAKS DETECTED:");
+            println!(&quot;MEMORY LEAKS DETECTED:&quot;);
             for (addr, info) in allocations.iter() {
-                println!("Leak at {:x}, size {}", addr, info.size);
-                println!("Backtrace:\n{}", info.backtrace);
+                println!(&quot;Leak at {:x}, size {}&quot;, addr, info.size);
+                println!(&quot;Backtrace:\n{}&quot;, info.backtrace);
             }
         }
     }
@@ -1848,7 +1855,7 @@ fn main() {
     ALLOCATOR.report_leaks();
 }</code></pre></pre>
 <h3 id="analyzing-cache-performance"><a class="header" href="#analyzing-cache-performance">Analyzing Cache Performance</a></h3>
-<p>Memory performance is often limited by cache efficiency. Here’s how to analyze it:</p>
+<p>Memory performance is often limited by cache efficiency. Here's how to analyze it:</p>
 <h4 id="using-cachegrind"><a class="header" href="#using-cachegrind">Using cachegrind</a></h4>
 <pre><code class="language-bash">valgrind --tool=cachegrind ./target/release/your_program
 cg_annotate cachegrind.out.*
@@ -1889,7 +1896,7 @@ impl CacheAnalyzer {
         }
 
         let duration = start.elapsed();
-        println!("Sequential access sum: {} (to prevent optimization)", sum);
+        println!(&quot;Sequential access sum: {} (to prevent optimization)&quot;, sum);
         duration
     }
 
@@ -1905,7 +1912,7 @@ impl CacheAnalyzer {
         }
 
         let duration = start.elapsed();
-        println!("Random access sum: {} (to prevent optimization)", sum);
+        println!(&quot;Random access sum: {} (to prevent optimization)&quot;, sum);
         duration
     }
 }
@@ -1914,18 +1921,18 @@ fn main() {
     let mut analyzer = CacheAnalyzer::new(100); // 100MB
 
     let seq_time = analyzer.measure_sequential_access();
-    println!("Sequential access time: {:?}", seq_time);
+    println!(&quot;Sequential access time: {:?}&quot;, seq_time);
 
     let random_time = analyzer.measure_random_access(16 * 1024); // 16KB stride
-    println!("Random access time: {:?}", random_time);
+    println!(&quot;Random access time: {:?}&quot;, random_time);
 
-    println!("Random/Sequential ratio: {:.2}",
+    println!(&quot;Random/Sequential ratio: {:.2}&quot;,
              random_time.as_secs_f64() / seq_time.as_secs_f64());
 }</code></pre></pre>
 <h3 id="memory-profiling-best-practices"><a class="header" href="#memory-profiling-best-practices">Memory Profiling Best Practices</a></h3>
 <ol>
 <li>
-<p><strong>Establish a baseline</strong>: Profile your application before optimization to know what’s normal</p>
+<p><strong>Establish a baseline</strong>: Profile your application before optimization to know what's normal</p>
 </li>
 <li>
 <p><strong>Focus on hot spots</strong>: Identify the 20% of code that causes 80% of allocations</p>
@@ -1955,8 +1962,8 @@ fn main() {
 <p><strong>Document findings</strong>: Create a memory profile document for your application</p>
 </li>
 </ol>
-<p>By applying these profiling techniques, you can gain deep insights into your application’s memory behavior and identify opportunities for optimization.</p>
-<p>In the next section, we’ll explore SIMD (Single Instruction, Multiple Data) optimizations for CPU-intensive operations.</p>
+<p>By applying these profiling techniques, you can gain deep insights into your application's memory behavior and identify opportunities for optimization.</p>
+<p>In the next section, we'll explore SIMD (Single Instruction, Multiple Data) optimizations for CPU-intensive operations.</p>
 <h2 id="simd-optimization-techniques"><a class="header" href="#simd-optimization-techniques">SIMD Optimization Techniques</a></h2>
 <p>SIMD (Single Instruction, Multiple Data) is a powerful technique for optimizing performance-critical code by processing multiple data elements in parallel with a single instruction. Modern CPUs support various SIMD instruction sets, and Rust provides excellent tools for leveraging these capabilities.</p>
 <h3 id="understanding-simd-fundamentals"><a class="header" href="#understanding-simd-fundamentals">Understanding SIMD Fundamentals</a></h3>
@@ -1983,8 +1990,8 @@ SIMD:    [a₁, a₂, a₃, a₄] + [b₁, b₂, b₃, b₄] → [c₁, c₂, c�
 <li><strong>SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2</strong>: 128-bit operations (Intel/AMD)</li>
 <li><strong>AVX, AVX2</strong>: 256-bit operations (Intel/AMD)</li>
 <li><strong>AVX-512</strong>: 512-bit operations (newer Intel CPUs)</li>
-<li><strong>NEON</strong>: ARM’s SIMD instruction set</li>
-<li><strong>WASM SIMD</strong>: WebAssembly’s SIMD extension</li>
+<li><strong>NEON</strong>: ARM's SIMD instruction set</li>
+<li><strong>WASM SIMD</strong>: WebAssembly's SIMD extension</li>
 </ul>
 <h3 id="using-simd-in-rust"><a class="header" href="#using-simd-in-rust">Using SIMD in Rust</a></h3>
 <p>Rust provides several ways to use SIMD:</p>
@@ -1993,7 +2000,7 @@ SIMD:    [a₁, a₂, a₃, a₄] + [b₁, b₂, b₃, b₄] → [c₁, c₂, c�
 <li><strong>Explicit SIMD with intrinsics</strong>: Using CPU-specific intrinsic functions</li>
 <li><strong>Portable SIMD with crates</strong>: Using crates that abstract over different CPU architectures</li>
 </ol>
-<p>Let’s explore each approach:</p>
+<p>Let's explore each approach:</p>
 <h3 id="automatic-vectorization"><a class="header" href="#automatic-vectorization">Automatic Vectorization</a></h3>
 <p>The Rust compiler (LLVM) can automatically vectorize certain loops:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2016,7 +2023,7 @@ SIMD:    [a₁, a₂, a₃, a₄] + [b₁, b₂, b₃, b₄] → [c₁, c₂, c�
 <li><strong>Use the right data types</strong>: SIMD works best with fixed-size numeric types</li>
 <li><strong>Use the <code>-C target-cpu=native</code> flag</strong>: Enables CPU-specific optimizations</li>
 </ol>
-<pre><code class="language-bash">RUSTFLAGS="-C target-cpu=native" cargo build --release
+<pre><code class="language-bash">RUSTFLAGS=&quot;-C target-cpu=native&quot; cargo build --release
 </code></pre>
 <p>You can check if your code was vectorized using tools like <code>cargo-asm</code>:</p>
 <pre><code class="language-bash">cargo install cargo-asm
@@ -2026,14 +2033,14 @@ cargo asm --release my_crate::sum_arrays
 <p>For more control, you can use CPU-specific intrinsics directly:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[cfg(target_arch = "x86")]
+</span>#[cfg(target_arch = &quot;x86&quot;)]
 use std::arch::x86::*;
-#[cfg(target_arch = "x86_64")]
+#[cfg(target_arch = &quot;x86_64&quot;)]
 use std::arch::x86_64::*;
 
 // Function that uses SSE intrinsics
 pub fn sum_arrays_sse(a: &amp;[f32], b: &amp;[f32], c: &amp;mut [f32]) {
-    if is_x86_feature_detected!("sse") {
+    if is_x86_feature_detected!(&quot;sse&quot;) {
         unsafe {
             sum_arrays_sse_impl(a, b, c);
         }
@@ -2045,7 +2052,7 @@ pub fn sum_arrays_sse(a: &amp;[f32], b: &amp;[f32], c: &amp;mut [f32]) {
     }
 }
 
-#[target_feature(enable = "sse")]
+#[target_feature(enable = &quot;sse&quot;)]
 unsafe fn sum_arrays_sse_impl(a: &amp;[f32], b: &amp;[f32], c: &amp;mut [f32]) {
     let len = a.len();
     let chunks = len / 4;
@@ -2137,7 +2144,7 @@ fn sum_arrays_packed(a: &amp;[f32], b: &amp;[f32], c: &amp;mut [f32]) {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="real-world-example-image-processing-with-simd"><a class="header" href="#real-world-example-image-processing-with-simd">Real-world Example: Image Processing with SIMD</a></h3>
-<p>Let’s implement a simple grayscale conversion using SIMD:</p>
+<p>Let's implement a simple grayscale conversion using SIMD:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::arch::x86_64::*;
@@ -2148,11 +2155,11 @@ pub fn rgb_to_grayscale(rgb: &amp;[u8], gray: &amp;mut [u8]) {
     assert_eq!(rgb.len() % 3, 0);
     assert_eq!(rgb.len() / 3, gray.len());
 
-    if is_x86_feature_detected!("avx2") {
+    if is_x86_feature_detected!(&quot;avx2&quot;) {
         unsafe {
             rgb_to_grayscale_avx2(rgb, gray);
         }
-    } else if is_x86_feature_detected!("sse4.1") {
+    } else if is_x86_feature_detected!(&quot;sse4.1&quot;) {
         unsafe {
             rgb_to_grayscale_sse41(rgb, gray);
         }
@@ -2172,7 +2179,7 @@ fn rgb_to_grayscale_scalar(rgb: &amp;[u8], gray: &amp;mut [u8]) {
     }
 }
 
-#[target_feature(enable = "sse4.1")]
+#[target_feature(enable = &quot;sse4.1&quot;)]
 unsafe fn rgb_to_grayscale_sse41(rgb: &amp;[u8], gray: &amp;mut [u8]) {
     let len = rgb.len() / 3;
     let chunks = len / 4;
@@ -2249,7 +2256,7 @@ unsafe fn rgb_to_grayscale_sse41(rgb: &amp;[u8], gray: &amp;mut [u8]) {
     }
 }
 
-#[target_feature(enable = "avx2")]
+#[target_feature(enable = &quot;avx2&quot;)]
 unsafe fn rgb_to_grayscale_avx2(rgb: &amp;[u8], gray: &amp;mut [u8]) {
     // Similar implementation but using AVX2 intrinsics for 8 pixels at once
     // ...
@@ -2409,21 +2416,21 @@ let aligned_data: Vec&lt;f32&gt; = aligned_vec![f32; 1024; 32]; // 32-byte align
 <li><strong>Consider data layout</strong>: Structure of Arrays often works better than Array of Structures</li>
 <li><strong>Minimize branching</strong>: Branches inside SIMD code can eliminate performance gains</li>
 <li><strong>Optimize memory access patterns</strong>: Sequential access is much faster than random access</li>
-<li><strong>Benchmark different approaches</strong>: SIMD optimization isn’t always intuitive</li>
+<li><strong>Benchmark different approaches</strong>: SIMD optimization isn't always intuitive</li>
 <li><strong>Keep code readable</strong>: Document your SIMD code well as it can be hard to understand</li>
 </ol>
 <h3 id="when-to-use-simd"><a class="header" href="#when-to-use-simd">When to Use SIMD</a></h3>
 <p>SIMD optimization is most effective when:</p>
 <ul>
-<li><strong>You’re processing large amounts of data</strong>: The overhead of setting up SIMD is amortized</li>
+<li><strong>You're processing large amounts of data</strong>: The overhead of setting up SIMD is amortized</li>
 <li><strong>Operations are simple and uniform</strong>: The same operation applied to many elements</li>
 <li><strong>Memory access is sequential</strong>: SIMD works best with contiguous data</li>
 <li><strong>Branches are predictable or absent</strong>: Branching can reduce SIMD effectiveness</li>
 <li><strong>Data fits the SIMD register width</strong>: Maximize usage of SIMD registers</li>
 </ul>
-<p>In the next section, we’ll explore CPU cache optimization techniques to further improve performance.</p>
+<p>In the next section, we'll explore CPU cache optimization techniques to further improve performance.</p>
 <h2 id="cpu-cache-optimization-techniques"><a class="header" href="#cpu-cache-optimization-techniques">CPU Cache Optimization Techniques</a></h2>
-<p>Understanding and optimizing for the CPU cache hierarchy is essential for achieving maximum performance in Rust applications. In this section, we’ll explore how CPU caches work and techniques to make your code more cache-friendly.</p>
+<p>Understanding and optimizing for the CPU cache hierarchy is essential for achieving maximum performance in Rust applications. In this section, we'll explore how CPU caches work and techniques to make your code more cache-friendly.</p>
 <h3 id="understanding-the-cpu-cache-hierarchy"><a class="header" href="#understanding-the-cpu-cache-hierarchy">Understanding the CPU Cache Hierarchy</a></h3>
 <p>Modern CPUs have multiple levels of caches:</p>
 <ol>
@@ -2435,7 +2442,7 @@ let aligned_data: Vec&lt;f32&gt; = aligned_vec![f32; 1024; 32]; // 32-byte align
 <p>This hierarchy creates a performance cliff—accessing data in L1 cache is up to 100 times faster than accessing main memory. Code that efficiently uses caches can be dramatically faster.</p>
 <h3 id="cache-lines-and-spatial-locality"><a class="header" href="#cache-lines-and-spatial-locality">Cache Lines and Spatial Locality</a></h3>
 <p>Data is transferred between memory and cache in fixed-size blocks called cache lines (typically 64 bytes on x86/x64 architectures). When you access one byte, the entire cache line containing that byte is loaded.</p>
-<p>This property gives us our first optimization principle: <strong>spatial locality</strong>—accessing memory that is close together is faster because it’s likely to be in the same cache line.</p>
+<p>This property gives us our first optimization principle: <strong>spatial locality</strong>—accessing memory that is close together is faster because it's likely to be in the same cache line.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Cache-friendly access pattern (good spatial locality)
@@ -2470,7 +2477,7 @@ fn sum_2d_array_column_major(array: &amp;[&amp;[i32]]) -&gt; i32 {
 <span class="boring">}</span></code></pre></pre>
 <p>The row-major version accesses memory sequentially, making efficient use of cache lines. The column-major version jumps across memory, leading to more cache misses.</p>
 <h3 id="temporal-locality"><a class="header" href="#temporal-locality">Temporal Locality</a></h3>
-<p>The second principle is <strong>temporal locality</strong>—accessing the same memory location multiple times within a short period is faster because it’s likely to still be in cache.</p>
+<p>The second principle is <strong>temporal locality</strong>—accessing the same memory location multiple times within a short period is faster because it's likely to still be in cache.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Poor temporal locality
@@ -2495,7 +2502,7 @@ fn better_temporal_locality(data: &amp;[i32], indices: &amp;[usize]) -&gt; i32 {
     sum
 }
 <span class="boring">}</span></code></pre></pre>
-<p>By sorting the indices, we improve temporal locality as we’re more likely to access nearby memory locations together.</p>
+<p>By sorting the indices, we improve temporal locality as we're more likely to access nearby memory locations together.</p>
 <h3 id="cache-aware-data-structures"><a class="header" href="#cache-aware-data-structures">Cache-Aware Data Structures</a></h3>
 <p>Designing data structures with cache behavior in mind can significantly improve performance:</p>
 <h4 id="arrays-vs-linked-lists"><a class="header" href="#arrays-vs-linked-lists">Arrays vs. Linked Lists</a></h4>
@@ -2625,7 +2632,7 @@ fn transpose_recursive(a: &amp;[Vec&lt;f64&gt;], b: &amp;mut [Vec&lt;f64&gt;],
 <span class="boring">}</span></code></pre></pre>
 <p>This recursive divide-and-conquer approach naturally adapts to different cache sizes.</p>
 <h3 id="prefetching"><a class="header" href="#prefetching">Prefetching</a></h3>
-<p>Modern CPUs can prefetch data before it’s needed. You can hint the CPU to prefetch data:</p>
+<p>Modern CPUs can prefetch data before it's needed. You can hint the CPU to prefetch data:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::arch::x86_64::_mm_prefetch;
@@ -2652,7 +2659,7 @@ fn process_byte(b: u8) {
 <p>Prefetching is most effective when:</p>
 <ul>
 <li>Memory access patterns are predictable but not sequential</li>
-<li>You’re performing complex operations that give the CPU time to prefetch</li>
+<li>You're performing complex operations that give the CPU time to prefetch</li>
 <li>You have enough independent work to hide memory latency</li>
 </ul>
 <h3 id="memory-access-patterns"><a class="header" href="#memory-access-patterns">Memory Access Patterns</a></h3>
@@ -2719,7 +2726,7 @@ cg_annotate cachegrind.out.*
 <ol>
 <li><strong>Measure first</strong>: Profile to identify cache bottlenecks before optimizing</li>
 <li><strong>Prioritize sequential access</strong>: Arrange data to be accessed sequentially when possible</li>
-<li><strong>Keep related data together</strong>: Group data that’s accessed together</li>
+<li><strong>Keep related data together</strong>: Group data that's accessed together</li>
 <li><strong>Mind your working set size</strong>: Keep frequently used data small enough to fit in cache</li>
 <li><strong>Align data</strong>: Align data structures to cache line boundaries</li>
 <li><strong>Minimize pointer chasing</strong>: Replace linked structures with arrays when possible</li>
@@ -2745,7 +2752,7 @@ cg_annotate cachegrind.out.*
 </span><span class="boring">fn main() {
 </span>// Add to Cargo.toml:
 // [dev-dependencies]
-// criterion = "0.3"
+// criterion = &quot;0.3&quot;
 
 // benches/my_benchmark.rs
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
@@ -2759,7 +2766,7 @@ fn fibonacci(n: u64) -&gt; u64 {
 }
 
 fn criterion_benchmark(c: &amp;mut Criterion) {
-    c.bench_function("fib 20", |b| b.iter(|| fibonacci(black_box(20))));
+    c.bench_function(&quot;fib 20&quot;, |b| b.iter(|| fibonacci(black_box(20))));
 }
 
 criterion_group!(benches, criterion_benchmark);
@@ -2785,10 +2792,10 @@ criterion_main!(benches);
 </span><span class="boring">fn main() {
 </span>// Benchmark with realistic data sizes
 fn bench_sorting(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("sorting");
+    let mut group = c.benchmark_group(&quot;sorting&quot;);
 
     for size in [100, 1000, 10000, 100000].iter() {
-        group.bench_with_input(format!("sort_{}", size), size, |b, &amp;size| {
+        group.bench_with_input(format!(&quot;sort_{}&quot;, size), size, |b, &amp;size| {
             b.iter_batched(
                 || {
                     // Setup: create random vector
@@ -2815,9 +2822,9 @@ fn bench_sorting(c: &amp;mut Criterion) {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn bench_memory_usage(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("memory");
+    let mut group = c.benchmark_group(&quot;memory&quot;);
 
-    group.bench_function("vec_capacity", |b| {
+    group.bench_function(&quot;vec_capacity&quot;, |b| {
         b.iter_batched(
             || {
                 // Setup
@@ -2837,16 +2844,16 @@ fn bench_sorting(c: &amp;mut Criterion) {
     group.finish();
 }
 <span class="boring">}</span></code></pre></pre>
-<p>You’ll need external tools like valgrind/massif to measure peak memory usage accurately.</p>
+<p>You'll need external tools like valgrind/massif to measure peak memory usage accurately.</p>
 <h3 id="benchmarking-multi-threaded-code"><a class="header" href="#benchmarking-multi-threaded-code">Benchmarking Multi-threaded Code</a></h3>
 <p>For multi-threaded benchmarks:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn bench_parallel(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("parallel");
+    let mut group = c.benchmark_group(&quot;parallel&quot;);
 
     for threads in [1, 2, 4, 8].iter() {
-        group.bench_with_input(format!("threads_{}", threads), threads, |b, &amp;threads| {
+        group.bench_with_input(format!(&quot;threads_{}&quot;, threads), threads, |b, &amp;threads| {
             b.iter(|| {
                 rayon::ThreadPoolBuilder::new()
                     .num_threads(threads)
@@ -2904,7 +2911,7 @@ jobs:
 <p><strong>Run multiple iterations</strong>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>c.bench_function("my_benchmark", |b| {
+</span>c.bench_function(&quot;my_benchmark&quot;, |b| {
     b.iter(|| /* ... */);
 }).sample_size(100);
 <span class="boring">}</span></code></pre></pre>
@@ -2917,7 +2924,7 @@ jobs:
 <ol>
 <li><strong>Benchmark real workloads</strong>: Synthetic benchmarks may not reflect real performance</li>
 <li><strong>Test different input sizes</strong>: Understand how performance scales</li>
-<li><strong>Isolate what you’re measuring</strong>: Don’t include setup/teardown time</li>
+<li><strong>Isolate what you're measuring</strong>: Don't include setup/teardown time</li>
 <li><strong>Use statistical analysis</strong>: Consider variance, not just mean</li>
 <li><strong>Document methodology</strong>: Record hardware, software, and methodology details</li>
 <li><strong>Compare relative performance</strong>: Absolute numbers are less useful than comparisons</li>
@@ -2927,14 +2934,14 @@ jobs:
 <li><strong>Update benchmarks as code evolves</strong>: Keep benchmarks representative</li>
 </ol>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>Memory management and optimization are critical aspects of high-performance Rust programming. In this chapter, we’ve explored advanced techniques for controlling memory allocation, profiling memory usage, writing allocation-free code, leveraging SIMD instructions, and optimizing for CPU caches.</p>
+<p>Memory management and optimization are critical aspects of high-performance Rust programming. In this chapter, we've explored advanced techniques for controlling memory allocation, profiling memory usage, writing allocation-free code, leveraging SIMD instructions, and optimizing for CPU caches.</p>
 <p>The key takeaways from this chapter include:</p>
 <ol>
 <li>
-<p><strong>Understanding Rust’s memory model</strong> is essential for writing efficient code. The ownership system, borrowing rules, and lifetime mechanisms give you fine-grained control over memory while maintaining safety.</p>
+<p><strong>Understanding Rust's memory model</strong> is essential for writing efficient code. The ownership system, borrowing rules, and lifetime mechanisms give you fine-grained control over memory while maintaining safety.</p>
 </li>
 <li>
-<p><strong>Custom allocators</strong> can dramatically improve performance for specific workloads. Whether you’re using arena allocators for short-lived objects, pool allocators for fixed-size allocations, or thread-local allocators for concurrent workloads, choosing the right allocation strategy can make a significant difference.</p>
+<p><strong>Custom allocators</strong> can dramatically improve performance for specific workloads. Whether you're using arena allocators for short-lived objects, pool allocators for fixed-size allocations, or thread-local allocators for concurrent workloads, choosing the right allocation strategy can make a significant difference.</p>
 </li>
 <li>
 <p><strong>Allocation-free programming patterns</strong> minimize heap allocations in performance-critical paths. Techniques like static buffers, value semantics, and buffer reuse can eliminate allocations entirely in many cases.</p>
@@ -2952,7 +2959,7 @@ jobs:
 <p><strong>Benchmarking methodologies</strong> ensure optimizations actually improve performance. Systematic, statistically sound benchmarking practices are essential for effective optimization.</p>
 </li>
 </ol>
-<p>Remember that optimization is always a trade-off. The techniques in this chapter often increase code complexity, maintenance burden, and sometimes even binary size. Apply them judiciously, focusing on the critical paths identified through profiling. As Donald Knuth famously said, “Premature optimization is the root of all evil.”</p>
+<p>Remember that optimization is always a trade-off. The techniques in this chapter often increase code complexity, maintenance burden, and sometimes even binary size. Apply them judiciously, focusing on the critical paths identified through profiling. As Donald Knuth famously said, &quot;Premature optimization is the root of all evil.&quot;</p>
 <p>The most effective approach is iterative:</p>
 <ol>
 <li>Build a correct, clean, idiomatic solution</li>
@@ -2961,7 +2968,7 @@ jobs:
 <li>Benchmark to verify improvements</li>
 <li>Repeat as necessary</li>
 </ol>
-<p>By mastering the advanced memory management and optimization techniques covered in this chapter, you’ll be able to push the performance of your Rust applications to their limits while maintaining the safety and reliability that Rust is known for.</p>
+<p>By mastering the advanced memory management and optimization techniques covered in this chapter, you'll be able to push the performance of your Rust applications to their limits while maintaining the safety and reliability that Rust is known for.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
@@ -2996,7 +3003,7 @@ jobs:
 </li>
 </ol>
 <h2 id="project-high-performance-data-processor"><a class="header" href="#project-high-performance-data-processor">Project: High-Performance Data Processor</a></h2>
-<p>Let’s apply what we’ve learned to a practical project: a high-performance data processor for time series data. This project will implement a system that can ingest, process, and analyze large volumes of time series data with minimal memory overhead and maximum throughput.</p>
+<p>Let's apply what we've learned to a practical project: a high-performance data processor for time series data. This project will implement a system that can ingest, process, and analyze large volumes of time series data with minimal memory overhead and maximum throughput.</p>
 <p>The project should include:</p>
 <ol>
 <li><strong>Custom memory management</strong>: Use arena allocators for ingestion, pool allocators for analysis objects</li>

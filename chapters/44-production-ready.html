@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html" class="active"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,10 +185,10 @@
                         <h1 id="chapter-44-production-ready-rust"><a class="header" href="#chapter-44-production-ready-rust">Chapter 44: Production-Ready Rust</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Building robust, reliable software is one thing; preparing it for production environments is another challenge entirely. Production environments introduce a host of considerations beyond functional correctness: performance under load, handling failures gracefully, monitoring system health, securing against attacks, and scaling to meet demand.</p>
-<p>Rust’s focus on reliability, performance, and safety makes it an excellent choice for production systems. However, taking a Rust application from development to production requires understanding both Rust-specific considerations and general production best practices.</p>
-<p>In this chapter, we’ll explore the journey of deploying Rust applications to production environments. We’ll cover containerization, orchestration, monitoring, security, and more. By the end, you’ll have a comprehensive understanding of what it takes to make your Rust applications production-ready.</p>
+<p>Rust's focus on reliability, performance, and safety makes it an excellent choice for production systems. However, taking a Rust application from development to production requires understanding both Rust-specific considerations and general production best practices.</p>
+<p>In this chapter, we'll explore the journey of deploying Rust applications to production environments. We'll cover containerization, orchestration, monitoring, security, and more. By the end, you'll have a comprehensive understanding of what it takes to make your Rust applications production-ready.</p>
 <h2 id="deployment-strategies"><a class="header" href="#deployment-strategies">Deployment Strategies</a></h2>
-<p>Before diving into specific technologies, let’s discuss deployment strategies. The way you deploy your application can significantly impact its reliability, performance, and maintainability.</p>
+<p>Before diving into specific technologies, let's discuss deployment strategies. The way you deploy your application can significantly impact its reliability, performance, and maintainability.</p>
 <h3 id="traditional-deployment"><a class="header" href="#traditional-deployment">Traditional Deployment</a></h3>
 <p>Traditional deployment involves installing your application directly on servers:</p>
 <pre><code class="language-bash"># Build the release binary
@@ -280,17 +287,17 @@ struct Settings {
 
 impl Settings {
     pub fn new() -&gt; Result&lt;Self, ConfigError&gt; {
-        let run_mode = env::var("RUN_MODE").unwrap_or_else(|_| "development".into());
+        let run_mode = env::var(&quot;RUN_MODE&quot;).unwrap_or_else(|_| &quot;development&quot;.into());
 
         let s = Config::builder()
             // Start with default values
-            .set_default("debug", false)?
-            .set_default("port", 8080)?
+            .set_default(&quot;debug&quot;, false)?
+            .set_default(&quot;port&quot;, 8080)?
             // Add configuration from file
-            .add_source(File::with_name("config/default"))
-            .add_source(File::with_name(&amp;format!("config/{}", run_mode)).required(false))
-            // Add environment variables with prefix "APP_"
-            .add_source(Environment::with_prefix("APP").separator("_"))
+            .add_source(File::with_name(&quot;config/default&quot;))
+            .add_source(File::with_name(&amp;format!(&quot;config/{}&quot;, run_mode)).required(false))
+            // Add environment variables with prefix &quot;APP_&quot;
+            .add_source(Environment::with_prefix(&quot;APP&quot;).separator(&quot;_&quot;))
             .build()?;
 
         // Deserialize the configuration
@@ -305,13 +312,13 @@ impl Settings {
 async fn health_check() -&gt; Result&lt;impl Reply, Rejection&gt; {
     // Verify database connection, external services, etc.
     // Return appropriate status code based on health status
-    Ok("OK")
+    Ok(&quot;OK&quot;)
 }
 
 #[tokio::main]
 async fn main() {
     // Set up routes
-    let health_route = warp::path("health")
+    let health_route = warp::path(&quot;health&quot;)
         .and(warp::get())
         .and_then(health_check);
 
@@ -334,8 +341,8 @@ async fn main() {
 
     // Spawn a task to listen for Ctrl+C
     tokio::spawn(async move {
-        signal::ctrl_c().await.expect("Failed to listen for ctrl+c");
-        println!("Shutdown signal received, initiating graceful shutdown");
+        signal::ctrl_c().await.expect(&quot;Failed to listen for ctrl+c&quot;);
+        println!(&quot;Shutdown signal received, initiating graceful shutdown&quot;);
         shutdown_clone.notify_one();
     });
 
@@ -346,8 +353,8 @@ async fn main() {
     shutdown.notified().await;
 
     // Wait for server to shut down
-    server_handle.await.expect("Server task failed");
-    println!("Server shut down gracefully");
+    server_handle.await.expect(&quot;Server task failed&quot;);
+    println!(&quot;Server shut down gracefully&quot;);
 }
 
 async fn run_server(shutdown: Arc&lt;Notify&gt;) {
@@ -356,36 +363,36 @@ async fn run_server(shutdown: Arc&lt;Notify&gt;) {
     // For example, stop accepting new connections but finish existing ones
 }</code></pre></pre>
 <h4 id="feature-flags"><a class="header" href="#feature-flags">Feature Flags</a></h4>
-<p>Use Cargo’s feature flags to build different versions of your application for different environments:</p>
+<p>Use Cargo's feature flags to build different versions of your application for different environments:</p>
 <pre><code class="language-toml"># Cargo.toml
 [features]
-default = ["json_logs"]
-json_logs = ["dep:serde_json"]
-metrics = ["dep:prometheus"]
+default = [&quot;json_logs&quot;]
+json_logs = [&quot;dep:serde_json&quot;]
+metrics = [&quot;dep:prometheus&quot;]
 </code></pre>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[cfg(feature = "json_logs")]
+</span>#[cfg(feature = &quot;json_logs&quot;)]
 fn setup_logging() {
     // Setup JSON logging
 }
 
-#[cfg(not(feature = "json_logs"))]
+#[cfg(not(feature = &quot;json_logs&quot;))]
 fn setup_logging() {
     // Setup plain text logging
 }
 <span class="boring">}</span></code></pre></pre>
-<p>By designing your application with these considerations in mind, you’ll be well-equipped to implement any deployment strategy that fits your needs.</p>
+<p>By designing your application with these considerations in mind, you'll be well-equipped to implement any deployment strategy that fits your needs.</p>
 <h2 id="containerization-with-docker"><a class="header" href="#containerization-with-docker">Containerization with Docker</a></h2>
 <p>Containers have revolutionized deployment by packaging applications with their dependencies in a consistent, isolated environment. Docker is the most popular containerization platform, and it works exceptionally well with Rust applications.</p>
 <h3 id="creating-a-dockerfile-for-rust"><a class="header" href="#creating-a-dockerfile-for-rust">Creating a Dockerfile for Rust</a></h3>
-<p>A Dockerfile is a script of instructions for building a Docker image. Here’s a multi-stage Dockerfile for a Rust application:</p>
+<p>A Dockerfile is a script of instructions for building a Docker image. Here's a multi-stage Dockerfile for a Rust application:</p>
 <pre><code class="language-dockerfile"># Builder stage
 FROM rust:1.70 as builder
 WORKDIR /usr/src/app
 COPY Cargo.toml Cargo.lock ./
 # Create a dummy main.rs to cache dependencies
-RUN mkdir -p src &amp;&amp; echo "fn main() {}" &gt; src/main.rs
+RUN mkdir -p src &amp;&amp; echo &quot;fn main() {}&quot; &gt; src/main.rs
 RUN cargo build --release
 # Now build the actual application
 COPY . .
@@ -399,7 +406,7 @@ RUN apt-get update &amp;&amp; apt-get install -y \
 COPY --from=builder /usr/src/app/target/release/my_app /usr/local/bin/my_app
 ENV RUST_LOG=info
 EXPOSE 8080
-CMD ["my_app"]
+CMD [&quot;my_app&quot;]
 </code></pre>
 <p>This Dockerfile uses a multi-stage build to:</p>
 <ol>
@@ -408,7 +415,7 @@ CMD ["my_app"]
 <li>Configure runtime environment variables and expose ports</li>
 </ol>
 <h3 id="optimizing-docker-images-for-rust"><a class="header" href="#optimizing-docker-images-for-rust">Optimizing Docker Images for Rust</a></h3>
-<p>Rust’s static binaries make it a perfect candidate for creating minimal Docker images:</p>
+<p>Rust's static binaries make it a perfect candidate for creating minimal Docker images:</p>
 <pre><code class="language-dockerfile">FROM rust:1.70 as builder
 WORKDIR /usr/src/app
 COPY . .
@@ -418,13 +425,13 @@ RUN cargo build --release
 FROM scratch
 COPY --from=builder /usr/src/app/target/release/my_app /my_app
 EXPOSE 8080
-CMD ["/my_app"]
+CMD [&quot;/my_app&quot;]
 </code></pre>
 <p>The <code>scratch</code> image is completely empty, resulting in a Docker image that only contains your Rust binary. However, there are some caveats:</p>
 <ul>
 <li>Your binary must be statically linked (no dynamic libraries)</li>
-<li>You won’t have access to any system utilities or libraries</li>
-<li>SSL certificates and timezone data won’t be available</li>
+<li>You won't have access to any system utilities or libraries</li>
+<li>SSL certificates and timezone data won't be available</li>
 </ul>
 <p>A more practical minimal image is Alpine Linux:</p>
 <pre><code class="language-dockerfile">FROM rust:1.70-alpine as builder
@@ -438,18 +445,18 @@ FROM alpine:3.18
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /usr/src/app/target/release/my_app /usr/local/bin/my_app
 EXPOSE 8080
-CMD ["my_app"]
+CMD [&quot;my_app&quot;]
 </code></pre>
-<p>Alpine Linux uses musl libc, which is compatible with Rust’s standard library. The resulting image is typically around 10-20MB.</p>
+<p>Alpine Linux uses musl libc, which is compatible with Rust's standard library. The resulting image is typically around 10-20MB.</p>
 <h3 id="docker-compose-for-local-development"><a class="header" href="#docker-compose-for-local-development">Docker Compose for Local Development</a></h3>
-<p>Docker Compose is a tool for defining and running multi-container Docker applications. It’s particularly useful for local development with dependencies like databases:</p>
+<p>Docker Compose is a tool for defining and running multi-container Docker applications. It's particularly useful for local development with dependencies like databases:</p>
 <pre><code class="language-yaml"># docker-compose.yml
-version: "3"
+version: &quot;3&quot;
 services:
   app:
     build: .
     ports:
-      - "8080:8080"
+      - &quot;8080:8080&quot;
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432/mydb
       - RUST_LOG=debug
@@ -483,7 +490,7 @@ docker-compose down
 <ol>
 <li><strong>Use build caching effectively</strong>: Structure your Dockerfile to maximize caching of dependency compilation</li>
 <li><strong>Multi-stage builds</strong>: Use separate stages for building and running</li>
-<li><strong>Minimize image size</strong>: Only include what’s necessary in the final image</li>
+<li><strong>Minimize image size</strong>: Only include what's necessary in the final image</li>
 <li><strong>Consider distroless images</strong>: Images like <code>gcr.io/distroless/cc</code> provide minimal runtime dependencies</li>
 <li><strong>Pin exact versions</strong>: Use specific versions of base images to avoid surprises</li>
 </ol>
@@ -514,7 +521,7 @@ RUN apt-get update -y \
     &amp;&amp; rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app/target/release/my_app my_app
 EXPOSE 8080
-ENTRYPOINT ["./my_app"]
+ENTRYPOINT [&quot;./my_app&quot;]
 </code></pre>
 <p>This setup:</p>
 <ol>
@@ -526,7 +533,7 @@ ENTRYPOINT ["./my_app"]
 <p>While Docker provides containerization, Kubernetes offers container orchestration—automating deployment, scaling, and management of containerized applications. Kubernetes is particularly valuable for production Rust applications that need to scale horizontally or have complex deployment requirements.</p>
 <h3 id="kubernetes-basics"><a class="header" href="#kubernetes-basics">Kubernetes Basics</a></h3>
 <p>Kubernetes organizes containers into Pods, which are the smallest deployable units. Pods are managed by Controllers like Deployments, which ensure the desired number of Pod replicas are running.</p>
-<p>Here’s a simple Kubernetes Deployment for a Rust application:</p>
+<p>Here's a simple Kubernetes Deployment for a Rust application:</p>
 <pre><code class="language-yaml"># deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -551,7 +558,7 @@ spec:
             - containerPort: 8080
           env:
             - name: RUST_LOG
-              value: "info"
+              value: &quot;info&quot;
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
@@ -559,11 +566,11 @@ spec:
                   key: url
           resources:
             limits:
-              cpu: "1"
-              memory: "512Mi"
+              cpu: &quot;1&quot;
+              memory: &quot;512Mi&quot;
             requests:
-              cpu: "500m"
-              memory: "256Mi"
+              cpu: &quot;500m&quot;
+              memory: &quot;256Mi&quot;
           livenessProbe:
             httpGet:
               path: /health
@@ -584,7 +591,7 @@ spec:
 <li>Defines resource requirements</li>
 <li>Configures health checks to determine if the container is alive and ready to serve traffic</li>
 </ol>
-<p>To expose the application, you’d also create a Service:</p>
+<p>To expose the application, you'd also create a Service:</p>
 <pre><code class="language-yaml"># service.yaml
 apiVersion: v1
 kind: Service
@@ -611,7 +618,7 @@ spec:
             secretKeyRef:
               name: db-credentials
               key: url
-      command: ["./run-migrations"]
+      command: [&quot;./run-migrations&quot;]
   containers:
     - name: rust-app
       # ...
@@ -623,33 +630,33 @@ use std::env;
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
+    let database_url = env::var(&quot;DATABASE_URL&quot;)
+        .expect(&quot;DATABASE_URL must be set&quot;);
 
     let pool = PgPoolOptions::new()
         .max_connections(5)
         .connect(&amp;database_url)
         .await?;
 
-    sqlx::migrate!("./migrations")
+    sqlx::migrate!(&quot;./migrations&quot;)
         .run(&amp;pool)
         .await?;
 
-    println!("Migrations completed successfully");
+    println!(&quot;Migrations completed successfully&quot;);
     Ok(())
 }</code></pre></pre>
 <h4 id="resource-management"><a class="header" href="#resource-management">Resource Management</a></h4>
 <p>Rust applications are known for their efficiency, but proper resource configuration is still important. Start by benchmarking your application to understand its resource needs, then set appropriate requests and limits:</p>
 <pre><code class="language-yaml">resources:
   limits:
-    cpu: "1"
-    memory: "512Mi"
+    cpu: &quot;1&quot;
+    memory: &quot;512Mi&quot;
   requests:
-    cpu: "500m"
-    memory: "256Mi"
+    cpu: &quot;500m&quot;
+    memory: &quot;256Mi&quot;
 </code></pre>
 <h4 id="graceful-shutdown-1"><a class="header" href="#graceful-shutdown-1">Graceful Shutdown</a></h4>
-<p>Kubernetes sends SIGTERM to containers before shutting them down, followed by SIGKILL if they don’t terminate within the grace period. Your Rust application should handle SIGTERM to shut down gracefully:</p>
+<p>Kubernetes sends SIGTERM to containers before shutting them down, followed by SIGKILL if they don't terminate within the grace period. Your Rust application should handle SIGTERM to shut down gracefully:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use tokio::signal;
@@ -658,12 +665,12 @@ async fn shutdown_signal() {
     let ctrl_c = async {
         signal::ctrl_c()
             .await
-            .expect("Failed to install Ctrl+C handler");
+            .expect(&quot;Failed to install Ctrl+C handler&quot;);
     };
 
     let terminate = async {
         signal::unix::signal(signal::unix::SignalKind::terminate())
-            .expect("Failed to install signal handler")
+            .expect(&quot;Failed to install signal handler&quot;)
             .recv()
             .await;
     };
@@ -673,7 +680,7 @@ async fn shutdown_signal() {
         _ = terminate =&gt; {},
     }
 
-    println!("Shutdown signal received, starting graceful shutdown");
+    println!(&quot;Shutdown signal received, starting graceful shutdown&quot;);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="helm-charts-for-rust-applications"><a class="header" href="#helm-charts-for-rust-applications">Helm Charts for Rust Applications</a></h3>
@@ -725,10 +732,10 @@ use std::sync::Arc;
 
 #[derive(CustomResource, Serialize, Deserialize, Debug, Clone, JsonSchema)]
 #[kube(
-    group = "example.com",
-    version = "v1",
-    kind = "MyApp",
-    plural = "myapps",
+    group = &quot;example.com&quot;,
+    version = &quot;v1&quot;,
+    kind = &quot;MyApp&quot;,
+    plural = &quot;myapps&quot;,
     namespaced
 )]
 struct MyAppSpec {
@@ -743,10 +750,10 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let client = Client::try_default().await?;
 
     // Get a namespace-specific MyApp API
-    let myapps: Api&lt;MyApp&gt; = Api::namespaced(client.clone(), "default");
+    let myapps: Api&lt;MyApp&gt; = Api::namespaced(client.clone(), &quot;default&quot;);
 
     // Watch for changes to MyApp resources
-    let watcher = myapps.watch(&amp;ListParams::default(), "0").await?;
+    let watcher = myapps.watch(&amp;ListParams::default(), &quot;0&quot;).await?;
     let mut stream = watcher.boxed();
 
     while let Some(event) = stream.next().await {
@@ -756,7 +763,7 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
                 // ...
             }
             Err(e) =&gt; {
-                eprintln!("Error watching MyApp: {}", e);
+                eprintln!(&quot;Error watching MyApp: {}&quot;, e);
             }
         }
     }
@@ -766,13 +773,13 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <h2 id="monitoring-and-observability"><a class="header" href="#monitoring-and-observability">Monitoring and Observability</a></h2>
 <p>Monitoring is essential for understanding the health and performance of your application in production. Observability goes a step further, providing insights into the internal state of your application through external outputs.</p>
 <h3 id="metrics-collection"><a class="header" href="#metrics-collection">Metrics Collection</a></h3>
-<p>Metrics provide quantitative information about your application’s performance and behavior. In Rust, you can use libraries like <code>prometheus</code> to collect and expose metrics:</p>
+<p>Metrics provide quantitative information about your application's performance and behavior. In Rust, you can use libraries like <code>prometheus</code> to collect and expose metrics:</p>
 <pre><pre class="playground"><code class="language-rust">use prometheus::{Encoder, Registry, TextEncoder};
 use prometheus::{Counter, Gauge, Histogram, HistogramOpts, Opts};
 use warp::{Filter, Rejection, Reply};
 
 fn metrics_endpoint(registry: Registry) -&gt; impl Filter&lt;Extract = impl Reply, Error = Rejection&gt; + Clone {
-    warp::path("metrics").map(move || {
+    warp::path(&quot;metrics&quot;).map(move || {
         let encoder = TextEncoder::new();
         let metric_families = registry.gather();
         let mut buffer = vec![];
@@ -787,18 +794,18 @@ fn main() {
 
     // Create metrics
     let request_counter = Counter::with_opts(Opts::new(
-        "http_requests_total",
-        "Total number of HTTP requests",
+        &quot;http_requests_total&quot;,
+        &quot;Total number of HTTP requests&quot;,
     )).unwrap();
 
     let response_time = Histogram::with_opts(HistogramOpts::new(
-        "http_response_time_seconds",
-        "HTTP response time in seconds",
+        &quot;http_response_time_seconds&quot;,
+        &quot;HTTP response time in seconds&quot;,
     )).unwrap();
 
     let active_connections = Gauge::with_opts(Opts::new(
-        "http_active_connections",
-        "Number of active HTTP connections",
+        &quot;http_active_connections&quot;,
+        &quot;Number of active HTTP connections&quot;,
     )).unwrap();
 
     // Register metrics with the registry
@@ -814,7 +821,7 @@ fn main() {
         .run(([0, 0, 0, 0], 8080));
 }</code></pre></pre>
 <h3 id="logging-best-practices"><a class="header" href="#logging-best-practices">Logging Best Practices</a></h3>
-<p>Effective logging provides visibility into your application’s behavior. Here are some best practices for logging in Rust:</p>
+<p>Effective logging provides visibility into your application's behavior. Here are some best practices for logging in Rust:</p>
 <ol>
 <li><strong>Use Structured Logging</strong>: Use structured logs to make them machine-parseable</li>
 </ol>
@@ -826,25 +833,25 @@ fn setup_logger() -&gt; Logger {
     let drain = slog_async::Async::new(drain).build().fuse();
 
     slog::Logger::root(drain, o!(
-        "version" =&gt; env!("CARGO_PKG_VERSION"),
-        "environment" =&gt; std::env::var("ENVIRONMENT").unwrap_or_else(|_| "development".into())
+        &quot;version&quot; =&gt; env!(&quot;CARGO_PKG_VERSION&quot;),
+        &quot;environment&quot; =&gt; std::env::var(&quot;ENVIRONMENT&quot;).unwrap_or_else(|_| &quot;development&quot;.into())
     ))
 }
 
 fn main() {
     let logger = setup_logger();
 
-    info!(logger, "Application starting";
-          "database_url" =&gt; std::env::var("DATABASE_URL").unwrap_or_default());
+    info!(logger, &quot;Application starting&quot;;
+          &quot;database_url&quot; =&gt; std::env::var(&quot;DATABASE_URL&quot;).unwrap_or_default());
 
     // Later in the code
-    debug!(logger, "Processing request";
-           "request_id" =&gt; "abc123", "user_id" =&gt; 42);
+    debug!(logger, &quot;Processing request&quot;;
+           &quot;request_id&quot; =&gt; &quot;abc123&quot;, &quot;user_id&quot; =&gt; 42);
 
     // Error handling
     if let Err(e) = some_operation() {
-        error!(logger, "Operation failed";
-               "error" =&gt; %e, "context" =&gt; "during startup");
+        error!(logger, &quot;Operation failed&quot;;
+               &quot;error&quot; =&gt; %e, &quot;context&quot; =&gt; &quot;during startup&quot;);
     }
 }</code></pre></pre>
 <ol start="2">
@@ -853,19 +860,19 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// ERROR: Something has gone wrong that requires immediate attention
-error!(logger, "Failed to connect to database"; "error" =&gt; %e);
+error!(logger, &quot;Failed to connect to database&quot;; &quot;error&quot; =&gt; %e);
 
 // WARN: Something unexpected happened but doesn't require immediate action
-warn!(logger, "Retrying database connection"; "attempt" =&gt; 3);
+warn!(logger, &quot;Retrying database connection&quot;; &quot;attempt&quot; =&gt; 3);
 
 // INFO: Normal operational messages useful for regular monitoring
-info!(logger, "Processing batch complete"; "items" =&gt; 100);
+info!(logger, &quot;Processing batch complete&quot;; &quot;items&quot; =&gt; 100);
 
 // DEBUG: Detailed information useful for debugging
-debug!(logger, "Query execution plan"; "plan" =&gt; ?plan);
+debug!(logger, &quot;Query execution plan&quot;; &quot;plan&quot; =&gt; ?plan);
 
 // TRACE: Very detailed information, usually only enabled during development
-trace!(logger, "Variable values"; "x" =&gt; x, "y" =&gt; y);
+trace!(logger, &quot;Variable values&quot;; &quot;x&quot; =&gt; x, &quot;y&quot; =&gt; y);
 <span class="boring">}</span></code></pre></pre>
 <ol start="3">
 <li><strong>Include Context in Logs</strong>: Add relevant context to make logs useful</li>
@@ -875,30 +882,30 @@ trace!(logger, "Variable values"; "x" =&gt; x, "y" =&gt; y);
 </span>fn process_request(req: Request, logger: &amp;Logger) -&gt; Result&lt;Response, Error&gt; {
     // Create a child logger with request-specific context
     let req_logger = logger.new(o!(
-        "request_id" =&gt; req.id().to_string(),
-        "user_id" =&gt; req.user_id(),
-        "endpoint" =&gt; req.path().to_string()
+        &quot;request_id&quot; =&gt; req.id().to_string(),
+        &quot;user_id&quot; =&gt; req.user_id(),
+        &quot;endpoint&quot; =&gt; req.path().to_string()
     ));
 
-    info!(req_logger, "Processing request");
+    info!(req_logger, &quot;Processing request&quot;);
 
     // Rest of the function
     match do_something(&amp;req) {
         Ok(result) =&gt; {
-            info!(req_logger, "Request processed successfully";
-                  "response_time_ms" =&gt; 42);
+            info!(req_logger, &quot;Request processed successfully&quot;;
+                  &quot;response_time_ms&quot; =&gt; 42);
             Ok(Response::new(result))
         },
         Err(e) =&gt; {
-            error!(req_logger, "Request processing failed";
-                   "error" =&gt; %e);
+            error!(req_logger, &quot;Request processing failed&quot;;
+                   &quot;error&quot; =&gt; %e);
             Err(e)
         }
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="advanced-monitoring-and-observability-patterns"><a class="header" href="#advanced-monitoring-and-observability-patterns">Advanced Monitoring and Observability Patterns</a></h2>
-<p>Beyond basic monitoring and logging, advanced patterns can provide deeper insights into your application’s behavior and health.</p>
+<p>Beyond basic monitoring and logging, advanced patterns can provide deeper insights into your application's behavior and health.</p>
 <h3 id="red-black-deployments-with-metrics-validation"><a class="header" href="#red-black-deployments-with-metrics-validation">Red-Black Deployments with Metrics Validation</a></h3>
 <p>Implement automated canary analysis in your deployment process:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -969,8 +976,8 @@ impl CanaryAnalysis {
 
 // Example usage in a deployment controller
 async fn canary_deployment() {
-    let success_counter = Counter::new("requests_success", "Successful requests").unwrap();
-    let error_counter = Counter::new("requests_error", "Failed requests").unwrap();
+    let success_counter = Counter::new(&quot;requests_success&quot;, &quot;Successful requests&quot;).unwrap();
+    let error_counter = Counter::new(&quot;requests_error&quot;, &quot;Failed requests&quot;).unwrap();
 
     let canary = CanaryAnalysis::new(
         success_counter,
@@ -980,7 +987,7 @@ async fn canary_deployment() {
     );
 
     // Deploy canary
-    println!("Deploying canary version...");
+    println!(&quot;Deploying canary version...&quot;);
 
     // Monitor for 10 minutes
     let start = Instant::now();
@@ -988,7 +995,7 @@ async fn canary_deployment() {
 
     while start.elapsed() &lt; monitoring_period {
         if !canary.is_healthy().await {
-            println!("Canary is unhealthy! Rolling back...");
+            println!(&quot;Canary is unhealthy! Rolling back...&quot;);
             // Rollback logic would go here
             return;
         }
@@ -996,12 +1003,12 @@ async fn canary_deployment() {
         sleep(Duration::from_secs(30)).await;
     }
 
-    println!("Canary is healthy! Proceeding with full deployment...");
+    println!(&quot;Canary is healthy! Proceeding with full deployment...&quot;);
     // Complete deployment logic would go here
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="slo-monitoring-and-error-budgeting"><a class="header" href="#slo-monitoring-and-error-budgeting">SLO Monitoring and Error Budgeting</a></h3>
-<p>Implement Service Level Objective (SLO) monitoring to track your service’s reliability:</p>
+<p>Implement Service Level Objective (SLO) monitoring to track your service's reliability:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use prometheus::{Counter, Registry};
@@ -1023,13 +1030,13 @@ impl SLOMonitor {
         let registry = Registry::new();
 
         let success_counter = Counter::new(
-            format!("{}_requests_success", service_name),
-            format!("Successful requests for {}", service_name),
+            format!(&quot;{}_requests_success&quot;, service_name),
+            format!(&quot;Successful requests for {}&quot;, service_name),
         ).unwrap();
 
         let failure_counter = Counter::new(
-            format!("{}_requests_failure", service_name),
-            format!("Failed requests for {}", service_name),
+            format!(&quot;{}_requests_failure&quot;, service_name),
+            format!(&quot;Failed requests for {}&quot;, service_name),
         ).unwrap();
 
         registry.register(Box::new(success_counter.clone())).unwrap();
@@ -1093,7 +1100,7 @@ async fn slo_middleware(
 
     // Check for anomalies
     if detector.check_for_anomalies().await {
-        println!("Anomaly detected in response time: {:?}", duration);
+        println!(&quot;Anomaly detected in response time: {:?}&quot;, duration);
         // In a real system, you might log this or send an alert
     }
 
@@ -1101,7 +1108,7 @@ async fn slo_middleware(
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="distributed-tracing-implementation"><a class="header" href="#distributed-tracing-implementation">Distributed Tracing Implementation</a></h3>
-<p>Distributed tracing provides visibility into request flows across services. Here’s how to implement it in Rust using OpenTelemetry:</p>
+<p>Distributed tracing provides visibility into request flows across services. Here's how to implement it in Rust using OpenTelemetry:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use opentelemetry::global;
@@ -1114,7 +1121,7 @@ fn init_tracer() -&gt; Result&lt;opentelemetry::sdk::trace::Tracer, Box&lt;dyn E
     global::set_text_map_propagator(opentelemetry_jaeger::Propagator::new());
 
     let tracer = new_pipeline()
-        .with_service_name("my-rust-service")
+        .with_service_name(&quot;my-rust-service&quot;)
         .install_simple()?;
 
     Ok(tracer)
@@ -1123,12 +1130,12 @@ fn init_tracer() -&gt; Result&lt;opentelemetry::sdk::trace::Tracer, Box&lt;dyn E
 async fn handle_request(tracer: &amp;opentelemetry::sdk::trace::Tracer, req: Request) -&gt; Result&lt;Response, Error&gt; {
     // Start a new span for this request
     let mut span = tracer
-        .span_builder(format!("{} {}", req.method(), req.uri().path()))
+        .span_builder(format!(&quot;{} {}&quot;, req.method(), req.uri().path()))
         .with_kind(SpanKind::Server)
         .with_attributes(vec![
-            KeyValue::new("http.method", req.method().to_string()),
-            KeyValue::new("http.route", req.uri().path().to_string()),
-            KeyValue::new("http.user_agent", req.headers().get("user-agent").map_or("", |h| h.to_str().unwrap_or(""))),
+            KeyValue::new(&quot;http.method&quot;, req.method().to_string()),
+            KeyValue::new(&quot;http.route&quot;, req.uri().path().to_string()),
+            KeyValue::new(&quot;http.user_agent&quot;, req.headers().get(&quot;user-agent&quot;).map_or(&quot;&quot;, |h| h.to_str().unwrap_or(&quot;&quot;))),
         ])
         .start(tracer);
 
@@ -1155,11 +1162,11 @@ async fn handle_request(tracer: &amp;opentelemetry::sdk::trace::Tracer, req: Req
     // Record the result in the span
     match &amp;result {
         Ok(response) =&gt; {
-            span.set_attribute(KeyValue::new("http.status_code", response.status().as_u16() as i64));
+            span.set_attribute(KeyValue::new(&quot;http.status_code&quot;, response.status().as_u16() as i64));
             span.set_status(Status::Ok);
         },
         Err(e) =&gt; {
-            span.set_attribute(KeyValue::new("error", e.to_string()));
+            span.set_attribute(KeyValue::new(&quot;error&quot;, e.to_string()));
             span.set_status(Status::Error);
         }
     };
@@ -1173,7 +1180,7 @@ where
     F: Future&lt;Output = T&gt;,
 {
     let mut span = tracer
-        .span_builder("database.query")
+        .span_builder(&quot;database.query&quot;)
         .with_kind(SpanKind::Client)
         .start(tracer);
 
@@ -1188,8 +1195,8 @@ async fn call_external_service(req: &amp;Request) -&gt; Result&lt;ExternalData, 
     let client = reqwest::Client::new();
 
     let mut req_builder = client
-        .get("https://api.example.com/data")
-        .header("Content-Type", "application/json");
+        .get(&quot;https://api.example.com/data&quot;)
+        .header(&quot;Content-Type&quot;, &quot;application/json&quot;);
 
     // Inject trace context into outgoing request
     global::get_text_map_propagator().inject_context(
@@ -1221,15 +1228,15 @@ fn setup_production_logger() -&gt; Logger {
     let drain = slog_async::Async::new(drain).build().fuse();
 
     slog::Logger::root(drain, o!(
-        "version" =&gt; env!("CARGO_PKG_VERSION"),
-        "service" =&gt; "my-rust-service",
-        "environment" =&gt; std::env::var("ENVIRONMENT").unwrap_or_else(|_| "production".into())
+        &quot;version&quot; =&gt; env!(&quot;CARGO_PKG_VERSION&quot;),
+        &quot;service&quot; =&gt; &quot;my-rust-service&quot;,
+        &quot;environment&quot; =&gt; std::env::var(&quot;ENVIRONMENT&quot;).unwrap_or_else(|_| &quot;production&quot;.into())
     ))
 }
 
 // Add correlation IDs to tie together related logs
 fn with_correlation_id(logger: &amp;Logger, correlation_id: &amp;str) -&gt; Logger {
-    logger.new(o!("correlation_id" =&gt; correlation_id.to_string()))
+    logger.new(o!(&quot;correlation_id&quot; =&gt; correlation_id.to_string()))
 }
 
 // Example request handler with rich logging
@@ -1237,9 +1244,9 @@ async fn handle_request(req: Request, logger: &amp;Logger) -&gt; Result&lt;Respo
     // Extract or generate correlation ID
     let correlation_id = req
         .headers()
-        .get("X-Correlation-ID")
-        .map(|h| h.to_str().unwrap_or(""))
-        .unwrap_or("")
+        .get(&quot;X-Correlation-ID&quot;)
+        .map(|h| h.to_str().unwrap_or(&quot;&quot;))
+        .unwrap_or(&quot;&quot;)
         .to_string();
 
     let correlation_id = if correlation_id.is_empty() {
@@ -1251,10 +1258,10 @@ async fn handle_request(req: Request, logger: &amp;Logger) -&gt; Result&lt;Respo
     let request_logger = with_correlation_id(logger, &amp;correlation_id);
 
     // Log request details
-    info!(request_logger, "Request received";
-          "method" =&gt; req.method().to_string(),
-          "path" =&gt; req.uri().path(),
-          "client_ip" =&gt; req.remote_addr().to_string());
+    info!(request_logger, &quot;Request received&quot;;
+          &quot;method&quot; =&gt; req.method().to_string(),
+          &quot;path&quot; =&gt; req.uri().path(),
+          &quot;client_ip&quot; =&gt; req.remote_addr().to_string());
 
     let start_time = std::time::Instant::now();
 
@@ -1266,21 +1273,21 @@ async fn handle_request(req: Request, logger: &amp;Logger) -&gt; Result&lt;Respo
     // Log result
     match &amp;result {
         Ok(response) =&gt; {
-            info!(request_logger, "Request completed successfully";
-                  "status" =&gt; response.status().as_u16(),
-                  "duration_ms" =&gt; elapsed.as_millis() as u64);
+            info!(request_logger, &quot;Request completed successfully&quot;;
+                  &quot;status&quot; =&gt; response.status().as_u16(),
+                  &quot;duration_ms&quot; =&gt; elapsed.as_millis() as u64);
         },
         Err(e) =&gt; {
-            error!(request_logger, "Request failed";
-                   "error" =&gt; %e,
-                   "duration_ms" =&gt; elapsed.as_millis() as u64);
+            error!(request_logger, &quot;Request failed&quot;;
+                   &quot;error&quot; =&gt; %e,
+                   &quot;duration_ms&quot; =&gt; elapsed.as_millis() as u64);
         }
     }
 
     // Add correlation ID to response headers
     let mut response = result?;
     response.headers_mut().insert(
-        "X-Correlation-ID",
+        &quot;X-Correlation-ID&quot;,
         correlation_id.parse().unwrap(),
     );
 
@@ -1310,8 +1317,8 @@ struct ResponseTimeAnomalyDetector {
 impl ResponseTimeAnomalyDetector {
     fn new(service_name: &amp;str, window_size: usize, threshold_z_score: f64, registry: &amp;Registry) -&gt; Self {
         let histogram = Histogram::with_opts(HistogramOpts::new(
-            format!("{}_response_time", service_name),
-            format!("Response time for {}", service_name),
+            format!(&quot;{}_response_time&quot;, service_name),
+            format!(&quot;Response time for {}&quot;, service_name),
         )).unwrap();
 
         registry.register(Box::new(histogram.clone())).unwrap();
@@ -1418,7 +1425,7 @@ impl ResponseTimeAnomalyDetector {
                     let mut alert_count_guard = alert_count.lock().await;
                     *alert_count_guard += outliers.len() as u64;
 
-                    println!("Anomaly detected! {} outliers found", outliers.len());
+                    println!(&quot;Anomaly detected! {} outliers found&quot;, outliers.len());
                     // In a real system, you would send alerts here
                 }
 
@@ -1444,7 +1451,7 @@ async fn response_time_middleware(
 
     // Check for anomalies
     if detector.check_for_anomalies().await {
-        println!("Anomaly detected in response time: {:?}", duration);
+        println!(&quot;Anomaly detected in response time: {:?}&quot;, duration);
         // In a real system, you might log this or send an alert
     }
 
@@ -1452,9 +1459,9 @@ async fn response_time_middleware(
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="security"><a class="header" href="#security">Security</a></h2>
-<p>Security is a critical aspect of production applications. Rust’s memory safety guarantees help eliminate entire classes of vulnerabilities, but you still need to consider many security aspects.</p>
+<p>Security is a critical aspect of production applications. Rust's memory safety guarantees help eliminate entire classes of vulnerabilities, but you still need to consider many security aspects.</p>
 <h3 id="secure-coding-practices"><a class="header" href="#secure-coding-practices">Secure Coding Practices</a></h3>
-<p>Even with Rust’s safety guarantees, some practices are essential for secure code:</p>
+<p>Even with Rust's safety guarantees, some practices are essential for secure code:</p>
 <ol>
 <li>
 <p><strong>Minimize <code>unsafe</code> code</strong>: Every line of <code>unsafe</code> code should be scrutinized, documented, and isolated behind a safe API.</p>
@@ -1487,7 +1494,7 @@ cargo update
 cargo audit
 </code></pre>
 <ol start="4">
-<li><strong>Handle errors properly</strong>: Ensure errors don’t leak sensitive information.</li>
+<li><strong>Handle errors properly</strong>: Ensure errors don't leak sensitive information.</li>
 </ol>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1523,7 +1530,7 @@ struct Claims {
 fn generate_token(user_id: &amp;str, roles: Vec&lt;String&gt;) -&gt; Result&lt;String, jsonwebtoken::errors::Error&gt; {
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .expect("Time went backwards")
+        .expect(&quot;Time went backwards&quot;)
         .as_secs() as usize;
 
     let claims = Claims {
@@ -1533,12 +1540,12 @@ fn generate_token(user_id: &amp;str, roles: Vec&lt;String&gt;) -&gt; Result&lt;S
         roles,
     };
 
-    let secret = std::env::var("JWT_SECRET").expect("JWT_SECRET must be set");
+    let secret = std::env::var(&quot;JWT_SECRET&quot;).expect(&quot;JWT_SECRET must be set&quot;);
     encode(&amp;Header::default(), &amp;claims, &amp;EncodingKey::from_secret(secret.as_bytes()))
 }
 
 fn verify_token(token: &amp;str) -&gt; Result&lt;Claims, jsonwebtoken::errors::Error&gt; {
-    let secret = std::env::var("JWT_SECRET").expect("JWT_SECRET must be set");
+    let secret = std::env::var(&quot;JWT_SECRET&quot;).expect(&quot;JWT_SECRET must be set&quot;);
     let validation = Validation::default();
 
     let token_data = decode::&lt;Claims&gt;(
@@ -1587,7 +1594,7 @@ async fn get_secret(secret_name: &amp;str) -&gt; Result&lt;String, Error&gt; {
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Get database credentials from AWS Secrets Manager
-    let db_credentials = get_secret("prod/my-app/db").await?;
+    let db_credentials = get_secret(&quot;prod/my-app/db&quot;).await?;
 
     // Use the credentials to connect to the database
     // ...
@@ -1629,7 +1636,7 @@ fn encrypt_data(data: &amp;[u8], key: &amp;[u8; 32]) -&gt; Result&lt;Vec&lt;u8&g
 
 fn decrypt_data(encrypted_data: &amp;[u8], key: &amp;[u8; 32]) -&gt; Result&lt;Vec&lt;u8&gt;, Box&lt;dyn std::error::Error&gt;&gt; {
     if encrypted_data.len() &lt; 12 {
-        return Err("Encrypted data too short".into());
+        return Err(&quot;Encrypted data too short&quot;.into());
     }
 
     // Split the data into nonce and ciphertext
@@ -1658,7 +1665,7 @@ use rustls_pemfile::{certs, rsa_private_keys};
 
 async fn configure_tls() -&gt; Result&lt;ServerConfig, Box&lt;dyn std::error::Error&gt;&gt; {
     // Load certificates
-    let cert_file = File::open("server.crt")?;
+    let cert_file = File::open(&quot;server.crt&quot;)?;
     let mut cert_reader = BufReader::new(cert_file);
     let cert_chain = certs(&amp;mut cert_reader)?
         .into_iter()
@@ -1666,11 +1673,11 @@ async fn configure_tls() -&gt; Result&lt;ServerConfig, Box&lt;dyn std::error::Er
         .collect();
 
     // Load private key
-    let key_file = File::open("server.key")?;
+    let key_file = File::open(&quot;server.key&quot;)?;
     let mut key_reader = BufReader::new(key_file);
     let mut keys = rsa_private_keys(&amp;mut key_reader)?;
     if keys.is_empty() {
-        return Err("No private keys found".into());
+        return Err(&quot;No private keys found&quot;.into());
     }
 
     let config = ServerConfig::builder()
@@ -1686,7 +1693,7 @@ async fn run_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let acceptor = TlsAcceptor::from(std::sync::Arc::new(tls_config));
 
     // Set up TCP listener
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:8443").await?;
+    let listener = tokio::net::TcpListener::bind(&quot;0.0.0.0:8443&quot;).await?;
 
     while let Ok((stream, _)) = listener.accept().await {
         let acceptor = acceptor.clone();
@@ -1696,7 +1703,7 @@ async fn run_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             let tls_stream = match acceptor.accept(stream).await {
                 Ok(tls_stream) =&gt; tls_stream,
                 Err(e) =&gt; {
-                    eprintln!("Failed to accept TLS connection: {}", e);
+                    eprintln!(&quot;Failed to accept TLS connection: {}&quot;, e);
                     return;
                 }
             };
@@ -1744,18 +1751,18 @@ cargo clippy -- -D warnings
 <pre><pre class="playground"><code class="language-rust">use warp::{Filter, http::header::{HeaderMap, HeaderValue}};
 
 fn with_security_headers() -&gt; impl Filter&lt;Extract = (), Error = std::convert::Infallible&gt; + Clone {
-    warp::reply::with::header("Content-Security-Policy", "default-src 'self'")
-        .and(warp::reply::with::header("X-Frame-Options", "DENY"))
-        .and(warp::reply::with::header("X-Content-Type-Options", "nosniff"))
-        .and(warp::reply::with::header("Referrer-Policy", "strict-origin-when-cross-origin"))
-        .and(warp::reply::with::header("Permissions-Policy", "geolocation=(), microphone=()"))
+    warp::reply::with::header(&quot;Content-Security-Policy&quot;, &quot;default-src 'self'&quot;)
+        .and(warp::reply::with::header(&quot;X-Frame-Options&quot;, &quot;DENY&quot;))
+        .and(warp::reply::with::header(&quot;X-Content-Type-Options&quot;, &quot;nosniff&quot;))
+        .and(warp::reply::with::header(&quot;Referrer-Policy&quot;, &quot;strict-origin-when-cross-origin&quot;))
+        .and(warp::reply::with::header(&quot;Permissions-Policy&quot;, &quot;geolocation=(), microphone=()&quot;))
 }
 
 fn with_cors() -&gt; impl Filter&lt;Extract = (), Error = std::convert::Infallible&gt; + Clone {
     let cors = warp::cors()
-        .allow_origins(vec!["https://example.com", "https://www.example.com"])
-        .allow_methods(vec!["GET", "POST", "PUT", "DELETE"])
-        .allow_headers(vec!["Content-Type", "Authorization"])
+        .allow_origins(vec![&quot;https://example.com&quot;, &quot;https://www.example.com&quot;])
+        .allow_methods(vec![&quot;GET&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;])
+        .allow_headers(vec![&quot;Content-Type&quot;, &quot;Authorization&quot;])
         .max_age(3600);
 
     cors
@@ -1869,14 +1876,14 @@ async fn main() {
 <li><strong>Minimize Unsafe Code</strong>: Avoid <code>unsafe</code> blocks when possible, and carefully audit them when necessary</li>
 <li><strong>Use Secure Defaults</strong>: Implement security by default, requiring explicit opt-out for less secure options</li>
 <li><strong>Input Validation</strong>: Validate all user input before processing</li>
-<li><strong>Proper Error Handling</strong>: Don’t expose internal errors to users</li>
+<li><strong>Proper Error Handling</strong>: Don't expose internal errors to users</li>
 <li><strong>Secure Configuration</strong>: Keep sensitive configuration (like API keys) out of your code</li>
 <li><strong>Authentication and Authorization</strong>: Implement proper authentication and authorization checks</li>
 <li><strong>HTTPS Everywhere</strong>: Use HTTPS for all external communications</li>
 <li><strong>Rate Limiting</strong>: Protect against brute force and denial of service attacks</li>
 <li><strong>Logging Security Events</strong>: Log security-relevant events for auditing</li>
 </ul>
-<p>Here’s an example of implementing rate limiting with the <code>governor</code> crate:</p>
+<p>Here's an example of implementing rate limiting with the <code>governor</code> crate:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use governor::{Quota, RateLimiter};
@@ -1889,7 +1896,7 @@ use warp::{Filter, Rejection, Reply};
 let rate_limiter = Arc::new(RateLimiter::direct(Quota::per_minute(NonZeroU32::new(5).unwrap())));
 
 // Define a route with rate limiting
-let limited_route = warp::path("api")
+let limited_route = warp::path(&quot;api&quot;)
     .and(warp::any().map(move || rate_limiter.clone()))
     .and_then(|limiter: Arc&lt;RateLimiter&lt;_, _, _&gt;&gt;| async move {
         if let Err(negative) = limiter.check() {
@@ -1902,7 +1909,7 @@ let limited_route = warp::path("api")
         }
     })
     .and(warp::path::end())
-    .map(|| warp::reply::html("API endpoint"));
+    .map(|| warp::reply::html(&quot;API endpoint&quot;));
 <span class="boring">}</span></code></pre></pre>
 <h2 id="advanced-security-auditing-techniques"><a class="header" href="#advanced-security-auditing-techniques">Advanced Security Auditing Techniques</a></h2>
 <p>While Rust helps prevent many security issues at compile time, production applications still need comprehensive security auditing. Here are advanced techniques to ensure your Rust applications remain secure:</p>
@@ -1928,8 +1935,8 @@ unsafe {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Pattern to watch for: User input flowing into sensitive operations
-let user_input = request.params.get("filename").unwrap_or_default();
-let file_path = format!("/data/{}", user_input); // Potential path traversal
+let user_input = request.params.get(&quot;filename&quot;).unwrap_or_default();
+let file_path = format!(&quot;/data/{}&quot;, user_input); // Potential path traversal
 let contents = std::fs::read_to_string(file_path)?;
 <span class="boring">}</span></code></pre></pre>
 </li>
@@ -1938,7 +1945,7 @@ let contents = std::fs::read_to_string(file_path)?;
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Anti-pattern: Hard-coded encryption keys
-let key = b"supersecretkey12"; // Never hard-code keys
+let key = b&quot;supersecretkey12&quot;; // Never hard-code keys
 let cipher = Aes128Gcm::new(key.into());
 <span class="boring">}</span></code></pre></pre>
 </li>
@@ -1982,7 +1989,7 @@ fn update_resource(resource_id: u64, user_id: u64, data: &amp;str) -&gt; Result&
 </li>
 </ol>
 <h4 id="fuzz-testing"><a class="header" href="#fuzz-testing">Fuzz Testing</a></h4>
-<p>Fuzz testing is particularly effective for Rust applications due to Rust’s strong memory safety guarantees. When a fuzz test triggers a panic, it often indicates a serious issue:</p>
+<p>Fuzz testing is particularly effective for Rust applications due to Rust's strong memory safety guarantees. When a fuzz test triggers a panic, it often indicates a serious issue:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use arbitrary::Arbitrary;
@@ -2089,7 +2096,7 @@ use rustc_session::declare_lint;
 declare_lint! {
     pub INSECURE_RANDOM,
     Warn,
-    "usage of potentially insecure random number generators"
+    &quot;usage of potentially insecure random number generators&quot;
 }
 
 pub struct InsecureRandomCheck;
@@ -2098,7 +2105,7 @@ impl LateLintPass for InsecureRandomCheck {
     fn check_expr(&amp;mut self, cx: &amp;LateContext, expr: &amp;Expr) {
         if let ExprKind::Call(func, _) = &amp;expr.kind {
             if self.is_rand_function(cx, func) {
-                cx.struct_span_lint(INSECURE_RANDOM, expr.span, "using potentially insecure random generator").emit();
+                cx.struct_span_lint(INSECURE_RANDOM, expr.span, &quot;using potentially insecure random generator&quot;).emit();
             }
         }
     }
@@ -2115,7 +2122,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: "0 0 * * 0"
+    - cron: &quot;0 0 * * 0&quot;
 
 jobs:
   audit:
@@ -2139,7 +2146,7 @@ jobs:
         run: cargo clippy --all-targets --all-features -- -D warnings
 </code></pre>
 <h3 id="supply-chain-security"><a class="header" href="#supply-chain-security">Supply Chain Security</a></h3>
-<p>Supply chain attacks have become increasingly common. Here’s how to secure your Rust application’s supply chain:</p>
+<p>Supply chain attacks have become increasingly common. Here's how to secure your Rust application's supply chain:</p>
 <h4 id="dependency-management-best-practices"><a class="header" href="#dependency-management-best-practices">Dependency Management Best Practices</a></h4>
 <ol>
 <li>
@@ -2158,10 +2165,10 @@ cargo vendor
 # Update .cargo/config.toml to use vendored dependencies
 cat &gt; .cargo/config.toml &lt;&lt; EOF
 [source.crates-io]
-replace-with = "vendored-sources"
+replace-with = &quot;vendored-sources&quot;
 
 [source.vendored-sources]
-directory = "vendor"
+directory = &quot;vendor&quot;
 EOF
 </code></pre>
 </li>
@@ -2176,8 +2183,8 @@ cargo crev verify
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
 # Prefer exact versions for security-critical dependencies
-tokio = "=1.21.2" # Exact version pinning with =
-serde = "1.0.147" # Without =, this allows compatible updates
+tokio = &quot;=1.21.2&quot; # Exact version pinning with =
+serde = &quot;1.0.147&quot; # Without =, this allows compatible updates
 </code></pre>
 </li>
 </ol>
@@ -2187,7 +2194,7 @@ serde = "1.0.147" # Without =, this allows compatible updates
 [package]
 # ...
 [profile.release]
-strip = "symbols"
+strip = &quot;symbols&quot;
 lto = true
 codegen-units = 1
 </code></pre>
@@ -2201,7 +2208,7 @@ RUN cargo build --release
 FROM scratch
 COPY --from=builder /usr/src/app/target/release/my_app /my_app
 EXPOSE 8080
-CMD ["/my_app"]
+CMD [&quot;/my_app&quot;]
 </code></pre>
 <h4 id="auditing-build-scripts"><a class="header" href="#auditing-build-scripts">Auditing Build Scripts</a></h4>
 <p>Build scripts in dependencies can execute arbitrary code during compilation. Regularly audit them:</p>
@@ -2225,8 +2232,8 @@ gpg --verify my_app.asc my_app
 </span>use std::process::Command;
 
 fn verify_signature(binary_path: &amp;str, signature_path: &amp;str) -&gt; Result&lt;bool, std::io::Error&gt; {
-    let output = Command::new("gpg")
-        .arg("--verify")
+    let output = Command::new(&quot;gpg&quot;)
+        .arg(&quot;--verify&quot;)
         .arg(signature_path)
         .arg(binary_path)
         .output()?;
@@ -2235,8 +2242,8 @@ fn verify_signature(binary_path: &amp;str, signature_path: &amp;str) -&gt; Resul
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>In this chapter, we’ve explored the key aspects of making Rust applications production-ready. We’ve covered deployment strategies, containerization with Docker, orchestration with Kubernetes, monitoring and observability, security, and scaling. We’ve also built a complete, production-ready microservice that demonstrates these concepts.</p>
-<p>Rust’s focus on safety, performance, and reliability makes it an excellent choice for production systems. By following the best practices outlined in this chapter, you can leverage Rust’s strengths while addressing the challenges of running applications in production.</p>
+<p>In this chapter, we've explored the key aspects of making Rust applications production-ready. We've covered deployment strategies, containerization with Docker, orchestration with Kubernetes, monitoring and observability, security, and scaling. We've also built a complete, production-ready microservice that demonstrates these concepts.</p>
+<p>Rust's focus on safety, performance, and reliability makes it an excellent choice for production systems. By following the best practices outlined in this chapter, you can leverage Rust's strengths while addressing the challenges of running applications in production.</p>
 <p>Remember that making an application production-ready is an ongoing process. Continuously monitor your application, gather feedback, and iterate on your implementation to ensure it meets the evolving needs of your users and your organization.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>

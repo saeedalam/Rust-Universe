@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html" class="active"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,10 +185,10 @@
                         <h1 id="chapter-45-building-a-search-engine"><a class="header" href="#chapter-45-building-a-search-engine">Chapter 45: Building a Search Engine</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Search engines are fundamental tools in our digital lives, enabling us to navigate the vast expanse of information available on the internet. Behind their seemingly simple interfaces lies sophisticated software that crawls, indexes, and retrieves information with remarkable speed and accuracy.</p>
-<p>In this chapter, we’ll build a production-quality search engine in Rust, leveraging the language’s performance, safety, and concurrency features. We’ll explore the core components of a search engine: web crawling, text processing, indexing, query processing, and result ranking. Along the way, we’ll apply clean code principles, solid architecture design, and efficient algorithms to create a scalable and maintainable system.</p>
-<p>By the end of this chapter, you’ll have a deep understanding of search engine fundamentals and a working implementation that demonstrates Rust’s strengths in building high-performance systems.</p>
+<p>In this chapter, we'll build a production-quality search engine in Rust, leveraging the language's performance, safety, and concurrency features. We'll explore the core components of a search engine: web crawling, text processing, indexing, query processing, and result ranking. Along the way, we'll apply clean code principles, solid architecture design, and efficient algorithms to create a scalable and maintainable system.</p>
+<p>By the end of this chapter, you'll have a deep understanding of search engine fundamentals and a working implementation that demonstrates Rust's strengths in building high-performance systems.</p>
 <h2 id="search-engine-fundamentals"><a class="header" href="#search-engine-fundamentals">Search Engine Fundamentals</a></h2>
-<p>Before diving into implementation, let’s understand the key components and concepts behind search engines.</p>
+<p>Before diving into implementation, let's understand the key components and concepts behind search engines.</p>
 <h3 id="search-engine-architecture"><a class="header" href="#search-engine-architecture">Search Engine Architecture</a></h3>
 <p>A typical search engine consists of several core components:</p>
 <ol>
@@ -200,7 +207,7 @@ Term3 -&gt; [Document1, Document4, Document6]
 </code></pre>
 <p>For each term (word), the index stores a list of documents containing that term. This allows the search engine to quickly find documents containing specific terms without scanning through all documents.</p>
 <h3 id="relevance-ranking"><a class="header" href="#relevance-ranking">Relevance Ranking</a></h3>
-<p>When a user searches for “rust programming language,” they expect documents about Rust (the programming language) to appear before documents about rust (the chemical process). Ranking algorithms determine this relevance, typically using factors like:</p>
+<p>When a user searches for &quot;rust programming language,&quot; they expect documents about Rust (the programming language) to appear before documents about rust (the chemical process). Ranking algorithms determine this relevance, typically using factors like:</p>
 <ul>
 <li>Term frequency (TF): How often a term appears in a document</li>
 <li>Inverse document frequency (IDF): How rare a term is across all documents</li>
@@ -208,7 +215,7 @@ Term3 -&gt; [Document1, Document4, Document6]
 <li>Proximity of search terms in the document</li>
 </ul>
 <h2 id="design-principles"><a class="header" href="#design-principles">Design Principles</a></h2>
-<p>We’ll apply several key design principles throughout our implementation:</p>
+<p>We'll apply several key design principles throughout our implementation:</p>
 <h3 id="clean-architecture"><a class="header" href="#clean-architecture">Clean Architecture</a></h3>
 <p>Our search engine will follow the Clean Architecture pattern, with clear separation between:</p>
 <ol>
@@ -219,7 +226,7 @@ Term3 -&gt; [Document1, Document4, Document6]
 </ol>
 <p>This separation ensures our code is maintainable, testable, and adaptable to changing requirements.</p>
 <h3 id="solid-principles"><a class="header" href="#solid-principles">SOLID Principles</a></h3>
-<p>We’ll adhere to the SOLID principles:</p>
+<p>We'll adhere to the SOLID principles:</p>
 <ul>
 <li><strong>Single Responsibility</strong>: Each component does exactly one thing</li>
 <li><strong>Open/Closed</strong>: Open for extension, closed for modification</li>
@@ -228,14 +235,14 @@ Term3 -&gt; [Document1, Document4, Document6]
 <li><strong>Dependency Inversion</strong>: Depend on abstractions, not concretions</li>
 </ul>
 <h3 id="concurrency-patterns"><a class="header" href="#concurrency-patterns">Concurrency Patterns</a></h3>
-<p>Search engines are inherently concurrent systems. We’ll use Rust’s concurrency features to implement patterns like:</p>
+<p>Search engines are inherently concurrent systems. We'll use Rust's concurrency features to implement patterns like:</p>
 <ul>
 <li><strong>Worker Pool</strong>: For parallel crawling and indexing</li>
 <li><strong>Producer-Consumer</strong>: For processing crawled documents</li>
 <li><strong>MapReduce</strong>: For distributed indexing tasks</li>
 </ul>
 <h2 id="project-setup"><a class="header" href="#project-setup">Project Setup</a></h2>
-<p>Let’s start by setting up our project structure:</p>
+<p>Let's start by setting up our project structure:</p>
 <pre><code class="language-bash">cargo new rusty_search --lib
 cd rusty_search
 </code></pre>
@@ -278,78 +285,78 @@ cd rusty_search
     ├── indexer_tests.rs
     └── query_tests.rs
 </code></pre>
-<p>Let’s set up our <code>Cargo.toml</code> with the required dependencies:</p>
+<p>Let's set up our <code>Cargo.toml</code> with the required dependencies:</p>
 <pre><code class="language-toml">[package]
-name = "rusty_search"
-version = "0.1.0"
-edition = "2021"
-authors = ["Your Name &lt;your.email@example.com&gt;"]
-description = "A production-ready search engine built in Rust"
+name = &quot;rusty_search&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
+authors = [&quot;Your Name &lt;your.email@example.com&gt;&quot;]
+description = &quot;A production-ready search engine built in Rust&quot;
 
 [dependencies]
 # HTTP and networking
-reqwest = { version = "0.11", features = ["json", "stream", "gzip"] }
-url = "2.3"
-robotstxt = "0.3"
+reqwest = { version = &quot;0.11&quot;, features = [&quot;json&quot;, &quot;stream&quot;, &quot;gzip&quot;] }
+url = &quot;2.3&quot;
+robotstxt = &quot;0.3&quot;
 
 # HTML parsing
-html5ever = "0.26"
-markup5ever = "0.11"
-scraper = "0.16"
+html5ever = &quot;0.26&quot;
+markup5ever = &quot;0.11&quot;
+scraper = &quot;0.16&quot;
 
 # Text processing
-unicode-segmentation = "1.10"
-unicode-normalization = "0.1"
-rust-stemmers = "1.2"
-stopwords = "0.1"
+unicode-segmentation = &quot;1.10&quot;
+unicode-normalization = &quot;0.1&quot;
+rust-stemmers = &quot;1.2&quot;
+stopwords = &quot;0.1&quot;
 
 # Data structures
-tantivy = "0.19"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-bincode = "1.3"
+tantivy = &quot;0.19&quot;
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0&quot;
+bincode = &quot;1.3&quot;
 
 # Concurrency and async
-tokio = { version = "1.28", features = ["full"] }
-futures = "0.3"
-async-trait = "0.1"
-rayon = "1.7"
+tokio = { version = &quot;1.28&quot;, features = [&quot;full&quot;] }
+futures = &quot;0.3&quot;
+async-trait = &quot;0.1&quot;
+rayon = &quot;1.7&quot;
 
 # Web framework
-axum = "0.6"
-tower = "0.4"
-tower-http = { version = "0.4", features = ["trace", "cors"] }
+axum = &quot;0.6&quot;
+tower = &quot;0.4&quot;
+tower-http = { version = &quot;0.4&quot;, features = [&quot;trace&quot;, &quot;cors&quot;] }
 
 # Logging and metrics
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-metrics = "0.20"
-metrics-exporter-prometheus = "0.11"
+tracing = &quot;0.1&quot;
+tracing-subscriber = { version = &quot;0.3&quot;, features = [&quot;env-filter&quot;] }
+metrics = &quot;0.20&quot;
+metrics-exporter-prometheus = &quot;0.11&quot;
 
 # CLI
-clap = { version = "4.2", features = ["derive"] }
+clap = { version = &quot;4.2&quot;, features = [&quot;derive&quot;] }
 
 # Testing
-criterion = "0.5"
-mockall = "0.11"
-fake = "2.5"
+criterion = &quot;0.5&quot;
+mockall = &quot;0.11&quot;
+fake = &quot;2.5&quot;
 
 [dev-dependencies]
-tokio-test = "0.4"
-wiremock = "0.5"
+tokio-test = &quot;0.4&quot;
+wiremock = &quot;0.5&quot;
 
 [[bench]]
-name = "indexing"
+name = &quot;indexing&quot;
 harness = false
 
 [[bench]]
-name = "searching"
+name = &quot;searching&quot;
 harness = false
 </code></pre>
 <h2 id="domain-models"><a class="header" href="#domain-models">Domain Models</a></h2>
-<p>Let’s start by implementing the core domain models. Following the Domain-Driven Design (DDD) approach, we’ll create models that reflect the essential concepts in search engine development.</p>
+<p>Let's start by implementing the core domain models. Following the Domain-Driven Design (DDD) approach, we'll create models that reflect the essential concepts in search engine development.</p>
 <h3 id="document-model"><a class="header" href="#document-model">Document Model</a></h3>
-<p>First, let’s define our <code>Document</code> entity, representing a web page or other searchable content:</p>
+<p>First, let's define our <code>Document</code> entity, representing a web page or other searchable content:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/domain/document.rs
@@ -480,7 +487,7 @@ impl From&lt;&amp;Document&gt; for DocumentSummary {
     fn from(doc: &amp;Document) -&gt; Self {
         // Create a snippet from the first 150 characters of content
         let snippet = if doc.content.len() &gt; 150 {
-            format!("{}...", &amp;doc.content[..147])
+            format!(&quot;{}...&quot;, &amp;doc.content[..147])
         } else {
             doc.content.clone()
         };
@@ -495,7 +502,7 @@ impl From&lt;&amp;Document&gt; for DocumentSummary {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="term-model"><a class="header" href="#term-model">Term Model</a></h3>
-<p>Next, let’s define the <code>Term</code> entity, representing words or phrases that can be searched:</p>
+<p>Next, let's define the <code>Term</code> entity, representing words or phrases that can be searched:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/domain/term.rs
@@ -628,7 +635,7 @@ impl TermFrequency {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="index-model"><a class="header" href="#index-model">Index Model</a></h3>
-<p>Now, let’s define the <code>IndexEntry</code> and related types for our inverted index:</p>
+<p>Now, let's define the <code>IndexEntry</code> and related types for our inverted index:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/domain/index.rs
@@ -815,7 +822,7 @@ impl PartialOrd for SearchResult {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="repository-interfaces"><a class="header" href="#repository-interfaces">Repository Interfaces</a></h3>
-<p>Following the Dependency Inversion Principle, let’s define interfaces for our repositories:</p>
+<p>Following the Dependency Inversion Principle, let's define interfaces for our repositories:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/domain/repository.rs
@@ -831,16 +838,16 @@ use super::term::Term;
 /// Error type for repository operations
 #[derive(Debug, thiserror::Error)]
 pub enum RepositoryError {
-    #[error("Entity not found: {0}")]
+    #[error(&quot;Entity not found: {0}&quot;)]
     NotFound(String),
 
-    #[error("Storage error: {0}")]
+    #[error(&quot;Storage error: {0}&quot;)]
     StorageError(String),
 
-    #[error("Serialization error: {0}")]
+    #[error(&quot;Serialization error: {0}&quot;)]
     SerializationError(String),
 
-    #[error("Invalid operation: {0}")]
+    #[error(&quot;Invalid operation: {0}&quot;)]
     InvalidOperation(String),
 }
 
@@ -885,12 +892,12 @@ pub trait IndexRepository: Send + Sync {
     async fn search(&amp;self, query: &amp;SearchQuery, limit: usize) -&gt; Result&lt;Vec&lt;SearchResult&gt;, RepositoryError&gt;;
 }
 <span class="boring">}</span></code></pre></pre>
-<p>This domain model establishes a clean, well-defined foundation for our search engine. By explicitly defining the core entities and repository interfaces, we’ve created a flexible architecture that allows for different implementations of the storage and retrieval mechanisms.</p>
-<p>In the next sections, we’ll implement the crawler, indexer, and query processing components that will work with these domain models.</p>
+<p>This domain model establishes a clean, well-defined foundation for our search engine. By explicitly defining the core entities and repository interfaces, we've created a flexible architecture that allows for different implementations of the storage and retrieval mechanisms.</p>
+<p>In the next sections, we'll implement the crawler, indexer, and query processing components that will work with these domain models.</p>
 <h2 id="web-crawler-implementation"><a class="header" href="#web-crawler-implementation">Web Crawler Implementation</a></h2>
-<p>The web crawler is responsible for discovering and fetching web pages. Let’s implement it following SOLID principles and using Rust’s concurrency features.</p>
+<p>The web crawler is responsible for discovering and fetching web pages. Let's implement it following SOLID principles and using Rust's concurrency features.</p>
 <h3 id="url-frontier"><a class="header" href="#url-frontier">URL Frontier</a></h3>
-<p>First, we’ll implement the URL frontier, which maintains the list of URLs to be crawled:</p>
+<p>First, we'll implement the URL frontier, which maintains the list of URLs to be crawled:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/crawler/url_frontier.rs
@@ -903,10 +910,10 @@ use async_trait::async_trait;
 /// Error type for URL frontier operations
 #[derive(Debug, thiserror::Error)]
 pub enum FrontierError {
-    #[error("URL parsing error: {0}")]
+    #[error(&quot;URL parsing error: {0}&quot;)]
     UrlParseError(String),
 
-    #[error("Invalid URL: {0}")]
+    #[error(&quot;Invalid URL: {0}&quot;)]
     InvalidUrl(String),
 }
 
@@ -1081,7 +1088,7 @@ impl UrlFrontier for MemoryUrlFrontier {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="robotstxt-parser"><a class="header" href="#robotstxt-parser">Robots.txt Parser</a></h3>
-<p>Next, let’s implement a parser for the Robots Exclusion Protocol:</p>
+<p>Next, let's implement a parser for the Robots Exclusion Protocol:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/crawler/robots.rs
@@ -1126,10 +1133,10 @@ impl RobotsCache {
         let port = url.port();
 
         let robots_url = format!(
-            "{}://{}{}/robots.txt",
+            &quot;{}://{}{}/robots.txt&quot;,
             scheme,
             host,
-            if let Some(p) = port { format!(":{}", p) } else { String::new() }
+            if let Some(p) = port { format!(&quot;:{}&quot;, p) } else { String::new() }
         );
 
         Url::parse(&amp;robots_url)
@@ -1140,7 +1147,7 @@ impl RobotsCache {
         let host = match url.host_str() {
             Some(h) =&gt; h.to_string(),
             None =&gt; {
-                warn!("URL has no host: {}", url);
+                warn!(&quot;URL has no host: {}&quot;, url);
                 return false;
             }
         };
@@ -1175,15 +1182,15 @@ impl RobotsCache {
         let robots_url = match Self::get_robots_url(url) {
             Ok(u) =&gt; u,
             Err(e) =&gt; {
-                warn!("Failed to parse robots.txt URL for {}: {}", url, e);
+                warn!(&quot;Failed to parse robots.txt URL for {}: {}&quot;, url, e);
                 // Create an empty parser that allows everything
-                let parser = RobotFileParser::new("");
+                let parser = RobotFileParser::new(&quot;&quot;);
                 parsers.insert(host.to_string(), (parser.clone(), Instant::now()));
                 return parser;
             }
         };
 
-        debug!("Fetching robots.txt from {}", robots_url);
+        debug!(&quot;Fetching robots.txt from {}&quot;, robots_url);
 
         // Create a new parser
         let parser = match self.fetch_robots_txt(&amp;robots_url).await {
@@ -1193,9 +1200,9 @@ impl RobotsCache {
                 parser
             }
             Err(e) =&gt; {
-                warn!("Failed to fetch robots.txt from {}: {}", robots_url, e);
+                warn!(&quot;Failed to fetch robots.txt from {}: {}&quot;, robots_url, e);
                 // Create an empty parser that allows everything
-                RobotFileParser::new("")
+                RobotFileParser::new(&quot;&quot;)
             }
         };
 
@@ -1208,7 +1215,7 @@ impl RobotsCache {
     /// Fetch robots.txt content
     async fn fetch_robots_txt(&amp;self, url: &amp;Url) -&gt; Result&lt;String, reqwest::Error&gt; {
         let response = self.client.get(url.as_str())
-            .header("User-Agent", &amp;self.user_agent)
+            .header(&quot;User-Agent&quot;, &amp;self.user_agent)
             .timeout(Duration::from_secs(10))
             .send()
             .await?;
@@ -1218,7 +1225,7 @@ impl RobotsCache {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="html-parser"><a class="header" href="#html-parser">HTML Parser</a></h3>
-<p>Let’s implement a parser for HTML documents that extracts links and content:</p>
+<p>Let's implement a parser for HTML documents that extracts links and content:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/crawler/html_parser.rs
@@ -1284,25 +1291,25 @@ impl HtmlParser {
 
     /// Extract the title from an HTML document
     fn extract_title(&amp;self, document: &amp;Html) -&gt; Option&lt;String&gt; {
-        let title_selector = Selector::parse("title").ok()?;
+        let title_selector = Selector::parse(&quot;title&quot;).ok()?;
         let title_element = document.select(&amp;title_selector).next()?;
 
-        Some(title_element.text().collect::&lt;Vec&lt;_&gt;&gt;().join(" ").trim().to_string())
+        Some(title_element.text().collect::&lt;Vec&lt;_&gt;&gt;().join(&quot; &quot;).trim().to_string())
     }
 
     /// Extract the main content from an HTML document
     fn extract_content(&amp;self, document: &amp;Html) -&gt; String {
         // Try to find main content elements
         let content_selectors = [
-            "article", "main", "#content", ".content",
-            "[role=main]", "[itemprop=articleBody]"
+            &quot;article&quot;, &quot;main&quot;, &quot;#content&quot;, &quot;.content&quot;,
+            &quot;[role=main]&quot;, &quot;[itemprop=articleBody]&quot;
         ];
 
         for selector_str in content_selectors {
             if let Ok(selector) = Selector::parse(selector_str) {
                 if let Some(element) = document.select(&amp;selector).next() {
                     // Get text from the element
-                    let text = element.text().collect::&lt;Vec&lt;_&gt;&gt;().join(" ");
+                    let text = element.text().collect::&lt;Vec&lt;_&gt;&gt;().join(&quot; &quot;);
                     if !text.trim().is_empty() {
                         return text.trim().to_string();
                     }
@@ -1311,9 +1318,9 @@ impl HtmlParser {
         }
 
         // Fall back to body text
-        if let Ok(body_selector) = Selector::parse("body") {
+        if let Ok(body_selector) = Selector::parse(&quot;body&quot;) {
             if let Some(body) = document.select(&amp;body_selector).next() {
-                return body.text().collect::&lt;Vec&lt;_&gt;&gt;().join(" ").trim().to_string();
+                return body.text().collect::&lt;Vec&lt;_&gt;&gt;().join(&quot; &quot;).trim().to_string();
             }
         }
 
@@ -1321,7 +1328,7 @@ impl HtmlParser {
         document.root_element()
             .text()
             .collect::&lt;Vec&lt;_&gt;&gt;()
-            .join(" ")
+            .join(&quot; &quot;)
             .trim()
             .to_string()
     }
@@ -1331,14 +1338,14 @@ impl HtmlParser {
         let mut urls = Vec::new();
 
         // Extract links from a, link, and area elements
-        if let Ok(link_selector) = Selector::parse("a[href], link[href], area[href]") {
+        if let Ok(link_selector) = Selector::parse(&quot;a[href], link[href], area[href]&quot;) {
             for element in document.select(&amp;link_selector) {
-                if let Some(href) = element.value().attr("href") {
+                if let Some(href) = element.value().attr(&quot;href&quot;) {
                     // Resolve relative URLs
                     match base_url.join(href) {
                         Ok(url) =&gt; {
                             // Only accept HTTP and HTTPS URLs
-                            if url.scheme() != "http" &amp;&amp; url.scheme() != "https" {
+                            if url.scheme() != &quot;http&quot; &amp;&amp; url.scheme() != &quot;https&quot; {
                                 continue;
                             }
 
@@ -1357,7 +1364,7 @@ impl HtmlParser {
                             urls.push(UrlEntry::new(url, priority, depth + 1));
                         }
                         Err(e) =&gt; {
-                            warn!("Failed to parse URL {}: {}", href, e);
+                            warn!(&quot;Failed to parse URL {}: {}&quot;, href, e);
                         }
                     }
                 }
@@ -1369,7 +1376,7 @@ impl HtmlParser {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="web-crawler"><a class="header" href="#web-crawler">Web Crawler</a></h3>
-<p>Now, let’s implement the main crawler that coordinates everything:</p>
+<p>Now, let's implement the main crawler that coordinates everything:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/crawler/spider.rs
@@ -1416,7 +1423,7 @@ pub struct CrawlerConfig {
 impl Default for CrawlerConfig {
     fn default() -&gt; Self {
         Self {
-            user_agent: "RustySearch/0.1 (+https://example.com/bot)".to_string(),
+            user_agent: &quot;RustySearch/0.1 (+https://example.com/bot)&quot;.to_string(),
             max_concurrent_requests: 10,
             politeness_delay: Duration::from_millis(500),
             request_timeout: Duration::from_secs(30),
@@ -1489,7 +1496,7 @@ where
             .user_agent(&amp;config.user_agent)
             .timeout(config.request_timeout)
             .build()
-            .expect("Failed to create HTTP client");
+            .expect(&quot;Failed to create HTTP client&quot;);
 
         // Create robots.txt cache
         let robots_cache = Arc::new(RobotsCache::new(
@@ -1526,7 +1533,7 @@ where
 
         // Add extracted URLs to frontier
         if let Err(e) = self.frontier.add_batch(result.urls).await {
-            warn!("Failed to add URLs to frontier: {}", e);
+            warn!(&quot;Failed to add URLs to frontier: {}&quot;, e);
         }
 
         Ok(())
@@ -1543,7 +1550,7 @@ where
         // Set running flag
         let mut running = self.running.write().await;
         if *running {
-            warn!("Crawler is already running");
+            warn!(&quot;Crawler is already running&quot;);
             return Ok(());
         }
         *running = true;
@@ -1555,17 +1562,17 @@ where
             .collect();
 
         if let Err(e) = self.frontier.add_batch(seed_entries).await {
-            error!("Failed to add seed URLs to frontier: {}", e);
+            error!(&quot;Failed to add seed URLs to frontier: {}&quot;, e);
             return Err(RepositoryError::InvalidOperation(e.to_string()));
         }
 
-        info!("Starting crawler with {} URLs in frontier", self.frontier.size().await);
+        info!(&quot;Starting crawler with {} URLs in frontier&quot;, self.frontier.size().await);
 
         // Process URLs until frontier is empty or crawler is stopped
         while !self.frontier.is_empty().await {
             // Check if we should stop
             if !*self.running.read().await {
-                info!("Crawler stopped");
+                info!(&quot;Crawler stopped&quot;);
                 break;
             }
 
@@ -1575,7 +1582,7 @@ where
                 let permit = self.concurrency_limiter.clone()
                     .acquire_owned()
                     .await
-                    .expect("Failed to acquire permit");
+                    .expect(&quot;Failed to acquire permit&quot;);
 
                 // Clone references for the task
                 let url = entry.url().clone();
@@ -1588,7 +1595,7 @@ where
                     let _permit = permit;
 
                     if let Err(e) = self_clone.crawl_url(url.clone(), depth).await {
-                        error!("Failed to crawl {}: {}", url, e);
+                        error!(&quot;Failed to crawl {}: {}&quot;, url, e);
                     }
                 });
             }
@@ -1598,16 +1605,16 @@ where
         let mut running = self.running.write().await;
         *running = false;
 
-        info!("Crawler finished");
+        info!(&quot;Crawler finished&quot;);
         Ok(())
     }
 
     async fn crawl_url(&amp;self, url: Url, depth: usize) -&gt; Result&lt;Option&lt;Document&gt;, RepositoryError&gt; {
-        debug!("Crawling {} (depth {})", url, depth);
+        debug!(&quot;Crawling {} (depth {})&quot;, url, depth);
 
         // Check robots.txt
         if !self.robots_cache.is_allowed(&amp;url).await {
-            info!("URL disallowed by robots.txt: {}", url);
+            info!(&quot;URL disallowed by robots.txt: {}&quot;, url);
             return Ok(None);
         }
 
@@ -1620,37 +1627,37 @@ where
 
         // Check if document already exists
         if self.repository.exists_by_url(&amp;url).await? {
-            debug!("URL already crawled: {}", url);
+            debug!(&quot;URL already crawled: {}&quot;, url);
             return Ok(None);
         }
 
         // Fetch the page
         let response = match self.client.get(url.as_str())
-            .header("User-Agent", &amp;self.config.user_agent)
+            .header(&quot;User-Agent&quot;, &amp;self.config.user_agent)
             .send()
             .await {
             Ok(r) =&gt; r,
             Err(e) =&gt; {
-                warn!("Failed to fetch {}: {}", url, e);
+                warn!(&quot;Failed to fetch {}: {}&quot;, url, e);
                 return Ok(None);
             }
         };
 
         // Check status code
         if !response.status().is_success() {
-            warn!("Non-success status code for {}: {}", url, response.status());
+            warn!(&quot;Non-success status code for {}: {}&quot;, url, response.status());
             return Ok(None);
         }
 
         // Get content type
         let content_type = response.headers()
-            .get("content-type")
+            .get(&quot;content-type&quot;)
             .and_then(|v| v.to_str().ok())
             .unwrap_or_default();
 
         // Only process HTML documents
-        if !content_type.contains("text/html") {
-            debug!("Skipping non-HTML content: {} ({})", url, content_type);
+        if !content_type.contains(&quot;text/html&quot;) {
+            debug!(&quot;Skipping non-HTML content: {} ({})&quot;, url, content_type);
             return Ok(None);
         }
 
@@ -1658,7 +1665,7 @@ where
         let html = match response.text().await {
             Ok(h) =&gt; h,
             Err(e) =&gt; {
-                warn!("Failed to get HTML from {}: {}", url, e);
+                warn!(&quot;Failed to get HTML from {}: {}&quot;, url, e);
                 return Ok(None);
             }
         };
@@ -1675,7 +1682,7 @@ where
     async fn stop(&amp;self) {
         let mut running = self.running.write().await;
         *running = false;
-        info!("Crawler stop requested");
+        info!(&quot;Crawler stop requested&quot;);
     }
 
     async fn is_running(&amp;self) -&gt; bool {
@@ -1720,7 +1727,7 @@ where
 </ul>
 </li>
 <li>
-<p><strong>Concurrency</strong>: We use Rust’s async/await and tokio to implement concurrent crawling with:</p>
+<p><strong>Concurrency</strong>: We use Rust's async/await and tokio to implement concurrent crawling with:</p>
 <ul>
 <li>A semaphore to limit the number of concurrent requests</li>
 <li>Tokio tasks for parallel processing</li>
@@ -1733,9 +1740,9 @@ where
 </ol>
 <p>This implementation is scalable, maintainable, and follows web crawling best practices like respecting robots.txt and implementing politeness delays.</p>
 <h2 id="indexer-implementation"><a class="header" href="#indexer-implementation">Indexer Implementation</a></h2>
-<p>The indexer processes documents from the crawler, extracting terms and building an inverted index. This is a critical component that determines the search engine’s performance and capabilities.</p>
+<p>The indexer processes documents from the crawler, extracting terms and building an inverted index. This is a critical component that determines the search engine's performance and capabilities.</p>
 <h3 id="text-processing"><a class="header" href="#text-processing">Text Processing</a></h3>
-<p>First, let’s implement text processing utilities to normalize and analyze text:</p>
+<p>First, let's implement text processing utilities to normalize and analyze text:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/indexer/text_processing.rs
@@ -1749,10 +1756,10 @@ lazy_static! {
     /// Common English stopwords
     static ref ENGLISH_STOPWORDS: HashSet&lt;String&gt; = {
         let words = vec![
-            "a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if",
-            "in", "into", "is", "it", "no", "not", "of", "on", "or", "such",
-            "that", "the", "their", "then", "there", "these", "they", "this",
-            "to", "was", "will", "with"
+            &quot;a&quot;, &quot;an&quot;, &quot;and&quot;, &quot;are&quot;, &quot;as&quot;, &quot;at&quot;, &quot;be&quot;, &quot;but&quot;, &quot;by&quot;, &quot;for&quot;, &quot;if&quot;,
+            &quot;in&quot;, &quot;into&quot;, &quot;is&quot;, &quot;it&quot;, &quot;no&quot;, &quot;not&quot;, &quot;of&quot;, &quot;on&quot;, &quot;or&quot;, &quot;such&quot;,
+            &quot;that&quot;, &quot;the&quot;, &quot;their&quot;, &quot;then&quot;, &quot;there&quot;, &quot;these&quot;, &quot;they&quot;, &quot;this&quot;,
+            &quot;to&quot;, &quot;was&quot;, &quot;will&quot;, &quot;with&quot;
         ];
         words.into_iter().map(String::from).collect()
     };
@@ -1891,7 +1898,7 @@ impl LanguageDetector {
 
         // Initialize with some basic language profiles
         // (In a real implementation, we'd load these from trained models)
-        detector.add_language_profile("en", Self::english_profile());
+        detector.add_language_profile(&quot;en&quot;, Self::english_profile());
 
         detector
     }
@@ -1907,12 +1914,12 @@ impl LanguageDetector {
         let mut profile = HashMap::new();
 
         // Common English trigrams and their frequencies
-        profile.insert("the".to_string(), 0.98);
-        profile.insert("and".to_string(), 0.95);
-        profile.insert("ing".to_string(), 0.93);
-        profile.insert("ion".to_string(), 0.90);
-        profile.insert("ent".to_string(), 0.88);
-        profile.insert("her".to_string(), 0.87);
+        profile.insert(&quot;the&quot;.to_string(), 0.98);
+        profile.insert(&quot;and&quot;.to_string(), 0.95);
+        profile.insert(&quot;ing&quot;.to_string(), 0.93);
+        profile.insert(&quot;ion&quot;.to_string(), 0.90);
+        profile.insert(&quot;ent&quot;.to_string(), 0.88);
+        profile.insert(&quot;her&quot;.to_string(), 0.87);
 
         profile
     }
@@ -1965,7 +1972,7 @@ impl LanguageDetector {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="tokenizer"><a class="header" href="#tokenizer">Tokenizer</a></h3>
-<p>Now, let’s implement the tokenizer that will extract terms from documents:</p>
+<p>Now, let's implement the tokenizer that will extract terms from documents:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/indexer/tokenizer.rs
@@ -2002,7 +2009,7 @@ impl Tokenizer {
 
     /// Tokenize a document
     pub fn tokenize(&amp;self, document: &amp;Document) -&gt; TokenizationResult {
-        debug!("Tokenizing document: {}", document.id());
+        debug!(&quot;Tokenizing document: {}&quot;, document.id());
 
         // Process title with higher weight
         let title_terms = self.processor.process_with_positions(document.title());
@@ -2048,7 +2055,7 @@ impl Tokenizer {
 <span class="boring">}</span></code></pre></pre>
 <p>These components form the foundation of our indexing pipeline. The <code>TextProcessor</code> handles text normalization, stopword removal, and stemming, while the <code>Tokenizer</code> uses the processor to extract terms from documents and calculate their frequencies.</p>
 <h3 id="inverted-index-1"><a class="header" href="#inverted-index-1">Inverted Index</a></h3>
-<p>Now, let’s implement the core of our search engine: the inverted index.</p>
+<p>Now, let's implement the core of our search engine: the inverted index.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/indexer/inverted_index.rs
@@ -2099,7 +2106,7 @@ where
 
     /// Add a document to the index
     pub async fn add_document(&amp;self, document: &amp;Document) -&gt; Result&lt;(), RepositoryError&gt; {
-        debug!("Adding document to index: {}", document.id());
+        debug!(&quot;Adding document to index: {}&quot;, document.id());
 
         // Tokenize the document
         let tokenization = self.tokenizer.tokenize(document);
@@ -2140,7 +2147,7 @@ where
 
     /// Remove a document from the index
     pub async fn remove_document(&amp;self, doc_id: &amp;Uuid) -&gt; Result&lt;(), RepositoryError&gt; {
-        debug!("Removing document from index: {}", doc_id);
+        debug!(&quot;Removing document from index: {}&quot;, doc_id);
 
         // Remove the document from all postings
         let mut index = self.index.write().await;
@@ -2176,7 +2183,7 @@ where
 
     /// Save the index to storage
     pub async fn save(&amp;self) -&gt; Result&lt;(), RepositoryError&gt; {
-        info!("Saving index to storage");
+        info!(&quot;Saving index to storage&quot;);
 
         let index = self.index.read().await;
         let entries: Vec&lt;IndexEntry&gt; = index.values().cloned().collect();
@@ -2187,7 +2194,7 @@ where
 
     /// Load the index from storage
     pub async fn load(&amp;self) -&gt; Result&lt;(), RepositoryError&gt; {
-        info!("Loading index from storage");
+        info!(&quot;Loading index from storage&quot;);
 
         let entries = self.storage.load_entries().await
             .map_err(|e| RepositoryError::StorageError(e.to_string()))?;
@@ -2211,7 +2218,7 @@ where
         let mut doc_count = self.doc_count.write().await;
         *doc_count = doc_count_set.len();
 
-        info!("Loaded index with {} terms and {} documents", index.len(), *doc_count);
+        info!(&quot;Loaded index with {} terms and {} documents&quot;, index.len(), *doc_count);
 
         Ok(())
     }
@@ -2244,14 +2251,14 @@ where
 
         index.get(term.text())
             .cloned()
-            .ok_or_else(|| RepositoryError::NotFound(format!("Term not found: {}", term.text())))
+            .ok_or_else(|| RepositoryError::NotFound(format!(&quot;Term not found: {}&quot;, term.text())))
     }
 
     async fn delete_entry(&amp;self, term: &amp;Term) -&gt; Result&lt;(), RepositoryError&gt; {
         let mut index = self.index.write().await;
 
         index.remove(term.text())
-            .ok_or_else(|| RepositoryError::NotFound(format!("Term not found: {}", term.text())))?;
+            .ok_or_else(|| RepositoryError::NotFound(format!(&quot;Term not found: {}&quot;, term.text())))?;
 
         Ok(())
     }
@@ -2548,7 +2555,7 @@ pub struct IndexStats {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="storage-backend"><a class="header" href="#storage-backend">Storage Backend</a></h3>
-<p>Now, let’s implement a simple storage backend for our index:</p>
+<p>Now, let's implement a simple storage backend for our index:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/indexer/storage.rs
@@ -2565,10 +2572,10 @@ use crate::domain::index::IndexEntry;
 /// Error type for index storage operations
 #[derive(Debug, thiserror::Error)]
 pub enum StorageError {
-    #[error("IO error: {0}")]
+    #[error(&quot;IO error: {0}&quot;)]
     IoError(#[from] std::io::Error),
 
-    #[error("Serialization error: {0}")]
+    #[error(&quot;Serialization error: {0}&quot;)]
     SerializationError(String),
 }
 
@@ -2609,21 +2616,21 @@ impl IndexStorage for FileIndexStorage {
             .map_err(|e| StorageError::SerializationError(e.to_string()))?;
 
         // Write to file
-        let path = dir.join("index.bin");
+        let path = dir.join(&quot;index.bin&quot;);
         let mut file = File::create(path).await?;
         file.write_all(&amp;serialized).await?;
 
-        info!("Saved {} index entries to {}", entries.len(), self.dir_path);
+        info!(&quot;Saved {} index entries to {}&quot;, entries.len(), self.dir_path);
 
         Ok(())
     }
 
     async fn load_entries(&amp;self) -&gt; Result&lt;Vec&lt;IndexEntry&gt;, StorageError&gt; {
-        let path = Path::new(&amp;self.dir_path).join("index.bin");
+        let path = Path::new(&amp;self.dir_path).join(&quot;index.bin&quot;);
 
         // Check if file exists
         if !path.exists() {
-            info!("Index file not found at {}, returning empty index", path.display());
+            info!(&quot;Index file not found at {}, returning empty index&quot;, path.display());
             return Ok(Vec::new());
         }
 
@@ -2635,11 +2642,11 @@ impl IndexStorage for FileIndexStorage {
         // Deserialize
         let entries: Vec&lt;IndexEntry&gt; = bincode::deserialize(&amp;buffer)
             .map_err(|e| {
-                error!("Failed to deserialize index: {}", e);
+                error!(&quot;Failed to deserialize index: {}&quot;, e);
                 StorageError::SerializationError(e.to_string())
             })?;
 
-        info!("Loaded {} index entries from {}", entries.len(), path.display());
+        info!(&quot;Loaded {} index entries from {}&quot;, entries.len(), path.display());
 
         Ok(entries)
     }
@@ -2668,13 +2675,13 @@ impl IndexStorage for FileIndexStorage {
 <li><strong>Repository Pattern</strong>: Abstracting data access through interfaces.</li>
 <li><strong>Strategy Pattern</strong>: Pluggable components like text processors and storage backends.</li>
 <li><strong>Builder Pattern</strong>: Constructing complex objects step by step.</li>
-<li><strong>Concurrency Control</strong>: Using Rust’s async/await with RwLock for thread safety.</li>
+<li><strong>Concurrency Control</strong>: Using Rust's async/await with RwLock for thread safety.</li>
 </ul>
-<p>In the next section, we’ll implement the query processing and search components that will allow users to interact with our search engine.</p>
+<p>In the next section, we'll implement the query processing and search components that will allow users to interact with our search engine.</p>
 <h2 id="query-processing"><a class="header" href="#query-processing">Query Processing</a></h2>
 <p>The query processing module is responsible for transforming user queries into a format that can be used to search the index. It includes query parsing, expansion, and execution.</p>
 <h3 id="query-parser"><a class="header" href="#query-parser">Query Parser</a></h3>
-<p>First, let’s implement a query parser that converts a text query into a structured search query:</p>
+<p>First, let's implement a query parser that converts a text query into a structured search query:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/query/parser.rs
@@ -2689,10 +2696,10 @@ use crate::indexer::text_processing::TextProcessor;
 /// Error type for query parsing
 #[derive(Debug, thiserror::Error)]
 pub enum QueryParseError {
-    #[error("Syntax error: {0}")]
+    #[error(&quot;Syntax error: {0}&quot;)]
     SyntaxError(String),
 
-    #[error("Empty query")]
+    #[error(&quot;Empty query&quot;)]
     EmptyQuery,
 }
 
@@ -2812,14 +2819,14 @@ impl QueryParser {
         }
 
         match chars.peek() {
-            Some(&amp;'"') =&gt; {
+            Some(&amp;'&quot;') =&gt; {
                 // Parse quoted phrase
                 chars.next(); // Consume opening quote
 
                 let mut phrase_text = String::new();
 
                 while let Some(c) = chars.next() {
-                    if c == '"' {
+                    if c == '&quot;' {
                         break;
                     }
                     phrase_text.push(c);
@@ -2845,7 +2852,7 @@ impl QueryParser {
 
                 // Expect closing parenthesis
                 if chars.next() != Some(')') {
-                    return Err(QueryParseError::SyntaxError("Missing closing parenthesis".to_string()));
+                    return Err(QueryParseError::SyntaxError(&quot;Missing closing parenthesis&quot;.to_string()));
                 }
 
                 Ok(Some(expr))
@@ -2861,7 +2868,7 @@ impl QueryParser {
 
                 // Parse the term to negate
                 let term = self.parse_term_or_phrase(chars)?
-                    .ok_or_else(|| QueryParseError::SyntaxError("Expected term after NOT operator".to_string()))?;
+                    .ok_or_else(|| QueryParseError::SyntaxError(&quot;Expected term after NOT operator&quot;.to_string()))?;
 
                 Ok(Some(SearchQuery::Not(Box::new(term))))
             }
@@ -2870,7 +2877,7 @@ impl QueryParser {
                 let mut term_text = String::new();
 
                 while let Some(&amp;c) = chars.peek() {
-                    if c.is_whitespace() || c == '(' || c == ')' || c == '"' || c == '&amp;' || c == '|' || c == '-' {
+                    if c.is_whitespace() || c == '(' || c == ')' || c == '&quot;' || c == '&amp;' || c == '|' || c == '-' {
                         break;
                     }
                     term_text.push(c);
@@ -2900,7 +2907,7 @@ impl QueryParser {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="query-expansion"><a class="header" href="#query-expansion">Query Expansion</a></h3>
-<p>Next, let’s implement query expansion to improve search results:</p>
+<p>Next, let's implement query expansion to improve search results:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/query/expansion.rs
@@ -2962,7 +2969,7 @@ impl QueryExpander for SynonymExpander {
                     return query.clone();
                 }
 
-                debug!("Expanding term '{}' with synonyms: {:?}", term.text(), synonyms);
+                debug!(&quot;Expanding term '{}' with synonyms: {:?}&quot;, term.text(), synonyms);
 
                 // Create OR query with original term and synonyms
                 let mut or_terms = vec![SearchQuery::Term(term.clone())];
@@ -3003,7 +3010,7 @@ impl QueryExpander for SynonymExpander {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="search-service"><a class="header" href="#search-service">Search Service</a></h3>
-<p>Now, let’s implement the search service that ties everything together:</p>
+<p>Now, let's implement the search service that ties everything together:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/query/search.rs
@@ -3079,7 +3086,7 @@ where
     ) -&gt; Result&lt;SearchResponse, SearchError&gt; {
         let start_time = std::time::Instant::now();
 
-        debug!("Searching for: {}", query_str);
+        debug!(&quot;Searching for: {}&quot;, query_str);
 
         // Parse the query
         let query = self.parser.parse(query_str)
@@ -3092,7 +3099,7 @@ where
             query
         };
 
-        debug!("Parsed query: {:?}", query);
+        debug!(&quot;Parsed query: {:?}&quot;, query);
 
         // Execute the search
         let search_results = self.index_repository.search(&amp;query, limit)
@@ -3110,14 +3117,14 @@ where
                     documents.push(DocumentSummary::from(&amp;doc));
                 }
                 Err(e) =&gt; {
-                    warn!("Failed to fetch document {}: {}", result.doc_id(), e);
+                    warn!(&quot;Failed to fetch document {}: {}&quot;, result.doc_id(), e);
                 }
             }
         }
 
         let execution_time_ms = start_time.elapsed().as_millis() as u64;
 
-        info!("Search completed in {}ms, found {} results", execution_time_ms, total_count);
+        info!(&quot;Search completed in {}ms, found {} results&quot;, execution_time_ms, total_count);
 
         Ok(SearchResponse {
             results: documents,
@@ -3135,15 +3142,15 @@ where
 /// Error type for search operations
 #[derive(Debug, thiserror::Error)]
 pub enum SearchError {
-    #[error("Query parse error: {0}")]
+    #[error(&quot;Query parse error: {0}&quot;)]
     QueryParseError(#[from] QueryParseError),
 
-    #[error("Repository error: {0}")]
+    #[error(&quot;Repository error: {0}&quot;)]
     RepositoryError(#[from] RepositoryError),
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="search-api"><a class="header" href="#search-api">Search API</a></h3>
-<p>Finally, let’s implement a simple REST API for our search engine:</p>
+<p>Finally, let's implement a simple REST API for our search engine:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/api/rest.rs
@@ -3218,11 +3225,11 @@ where
         });
 
         let app = Router::new()
-            .route("/search", get(Self::search))
-            .route("/documents/:id", get(Self::get_document))
+            .route(&quot;/search&quot;, get(Self::search))
+            .route(&quot;/documents/:id&quot;, get(Self::get_document))
             .with_state(app_state);
 
-        info!("Starting API server on {}", self.address);
+        info!(&quot;Starting API server on {}&quot;, self.address);
 
         axum::Server::bind(&amp;self.address)
             .serve(app.into_make_service())
@@ -3312,7 +3319,7 @@ where
 </ul>
 <p>This completes our search engine implementation, demonstrating a well-structured, maintainable, and efficient design.</p>
 <h2 id="practical-project-building-a-code-search-engine"><a class="header" href="#practical-project-building-a-code-search-engine">Practical Project: Building a Code Search Engine</a></h2>
-<p>Let’s apply what we’ve learned to create a specialized search engine for searching through code repositories. This practical project will demonstrate how our search engine architecture can be adapted for specific use cases.</p>
+<p>Let's apply what we've learned to create a specialized search engine for searching through code repositories. This practical project will demonstrate how our search engine architecture can be adapted for specific use cases.</p>
 <h3 id="project-requirements"><a class="header" href="#project-requirements">Project Requirements</a></h3>
 <p>Our code search engine should:</p>
 <ol>
@@ -3323,7 +3330,7 @@ where
 <li>Support filtering by file type, module, and other metadata</li>
 </ol>
 <h3 id="code-specific-tokenizer"><a class="header" href="#code-specific-tokenizer">Code-Specific Tokenizer</a></h3>
-<p>First, let’s create a specialized tokenizer for Rust code:</p>
+<p>First, let's create a specialized tokenizer for Rust code:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/indexer/code_tokenizer.rs
@@ -3348,12 +3355,12 @@ impl RustCodeTokenizer {
     /// Create a new Rust code tokenizer
     pub fn new(processor: TextProcessor) -&gt; Self {
         let rust_keywords = vec![
-            "as", "break", "const", "continue", "crate", "else", "enum", "extern",
-            "false", "fn", "for", "if", "impl", "in", "let", "loop", "match", "mod",
-            "move", "mut", "pub", "ref", "return", "self", "Self", "static", "struct",
-            "super", "trait", "true", "type", "unsafe", "use", "where", "while",
-            "async", "await", "dyn", "abstract", "become", "box", "do", "final",
-            "macro", "override", "priv", "typeof", "unsized", "virtual", "yield",
+            &quot;as&quot;, &quot;break&quot;, &quot;const&quot;, &quot;continue&quot;, &quot;crate&quot;, &quot;else&quot;, &quot;enum&quot;, &quot;extern&quot;,
+            &quot;false&quot;, &quot;fn&quot;, &quot;for&quot;, &quot;if&quot;, &quot;impl&quot;, &quot;in&quot;, &quot;let&quot;, &quot;loop&quot;, &quot;match&quot;, &quot;mod&quot;,
+            &quot;move&quot;, &quot;mut&quot;, &quot;pub&quot;, &quot;ref&quot;, &quot;return&quot;, &quot;self&quot;, &quot;Self&quot;, &quot;static&quot;, &quot;struct&quot;,
+            &quot;super&quot;, &quot;trait&quot;, &quot;true&quot;, &quot;type&quot;, &quot;unsafe&quot;, &quot;use&quot;, &quot;where&quot;, &quot;while&quot;,
+            &quot;async&quot;, &quot;await&quot;, &quot;dyn&quot;, &quot;abstract&quot;, &quot;become&quot;, &quot;box&quot;, &quot;do&quot;, &quot;final&quot;,
+            &quot;macro&quot;, &quot;override&quot;, &quot;priv&quot;, &quot;typeof&quot;, &quot;unsized&quot;, &quot;virtual&quot;, &quot;yield&quot;,
         ].into_iter().map(String::from).collect();
 
         Self {
@@ -3364,7 +3371,7 @@ impl RustCodeTokenizer {
 
     /// Tokenize a Rust source code document
     pub fn tokenize(&amp;self, document: &amp;Document) -&gt; TokenizationResult {
-        debug!("Tokenizing Rust code document: {}", document.id());
+        debug!(&quot;Tokenizing Rust code document: {}&quot;, document.id());
 
         // Start with base tokenization
         let base_result = self.base_tokenizer.tokenize(document);
@@ -3375,7 +3382,7 @@ impl RustCodeTokenizer {
         // Extract function definitions
         if let Some(functions) = self.extract_functions(document) {
             for (fn_name, positions) in functions {
-                let term = Term::with_position(format!("fn:{}", fn_name), positions[0]);
+                let term = Term::with_position(format!(&quot;fn:{}&quot;, fn_name), positions[0]);
 
                 if let Some(tf) = term_frequencies.get_mut(&amp;term.text().to_string()) {
                     for pos in positions {
@@ -3394,7 +3401,7 @@ impl RustCodeTokenizer {
         // Extract module declarations
         if let Some(modules) = self.extract_modules(document) {
             for (mod_name, positions) in modules {
-                let term = Term::with_position(format!("mod:{}", mod_name), positions[0]);
+                let term = Term::with_position(format!(&quot;mod:{}&quot;, mod_name), positions[0]);
 
                 if let Some(tf) = term_frequencies.get_mut(&amp;term.text().to_string()) {
                     for pos in positions {
@@ -3413,7 +3420,7 @@ impl RustCodeTokenizer {
         // Extract struct and enum declarations
         if let Some(types) = self.extract_types(document) {
             for (type_name, type_kind, positions) in types {
-                let term = Term::with_position(format!("{}:{}", type_kind, type_name), positions[0]);
+                let term = Term::with_position(format!(&quot;{}:{}&quot;, type_kind, type_name), positions[0]);
 
                 if let Some(tf) = term_frequencies.get_mut(&amp;term.text().to_string()) {
                     for pos in positions {
@@ -3440,7 +3447,7 @@ impl RustCodeTokenizer {
         let content = document.content();
 
         // Simple regex-based extraction (in a real implementation, we'd use a proper parser)
-        let fn_regex = regex::Regex::new(r"fn\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(").ok()?;
+        let fn_regex = regex::Regex::new(r&quot;fn\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(&quot;).ok()?;
 
         let mut functions = HashMap::new();
 
@@ -3462,7 +3469,7 @@ impl RustCodeTokenizer {
     fn extract_modules(&amp;self, document: &amp;Document) -&gt; Option&lt;HashMap&lt;String, Vec&lt;usize&gt;&gt;&gt; {
         let content = document.content();
 
-        let mod_regex = regex::Regex::new(r"mod\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*;").ok()?;
+        let mod_regex = regex::Regex::new(r&quot;mod\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*;&quot;).ok()?;
 
         let mut modules = HashMap::new();
 
@@ -3484,8 +3491,8 @@ impl RustCodeTokenizer {
     fn extract_types(&amp;self, document: &amp;Document) -&gt; Option&lt;Vec&lt;(String, String, Vec&lt;usize&gt;)&gt;&gt; {
         let content = document.content();
 
-        let struct_regex = regex::Regex::new(r"struct\s+([a-zA-Z_][a-zA-Z0-9_]*)").ok()?;
-        let enum_regex = regex::Regex::new(r"enum\s+([a-zA-Z_][a-zA-Z0-9_]*)").ok()?;
+        let struct_regex = regex::Regex::new(r&quot;struct\s+([a-zA-Z_][a-zA-Z0-9_]*)&quot;).ok()?;
+        let enum_regex = regex::Regex::new(r&quot;enum\s+([a-zA-Z_][a-zA-Z0-9_]*)&quot;).ok()?;
 
         let mut types = Vec::new();
 
@@ -3494,7 +3501,7 @@ impl RustCodeTokenizer {
                 let type_name = type_match.as_str().to_string();
                 let position = type_match.start();
 
-                types.push((type_name, "struct".to_string(), vec![position]));
+                types.push((type_name, &quot;struct&quot;.to_string(), vec![position]));
             }
         }
 
@@ -3503,7 +3510,7 @@ impl RustCodeTokenizer {
                 let type_name = type_match.as_str().to_string();
                 let position = type_match.start();
 
-                types.push((type_name, "enum".to_string(), vec![position]));
+                types.push((type_name, &quot;enum&quot;.to_string(), vec![position]));
             }
         }
 
@@ -3512,7 +3519,7 @@ impl RustCodeTokenizer {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="code-repository-crawler"><a class="header" href="#code-repository-crawler">Code Repository Crawler</a></h3>
-<p>Now, let’s create a crawler that can navigate a code repository:</p>
+<p>Now, let's create a crawler that can navigate a code repository:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/crawler/code_crawler.rs
@@ -3605,7 +3612,7 @@ where
         if metadata.len() &gt; self.config.max_file_size {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::Other,
-                format!("File too large: {} bytes", metadata.len())
+                format!(&quot;File too large: {} bytes&quot;, metadata.len())
             ));
         }
 
@@ -3617,13 +3624,13 @@ where
         let file_url = Url::from_file_path(path)
             .map_err(|_| std::io::Error::new(
                 std::io::ErrorKind::Other,
-                format!("Failed to convert path to URL: {:?}", path)
+                format!(&quot;Failed to convert path to URL: {:?}&quot;, path)
             ))?;
 
         // Get the file name as title
         let title = path.file_name()
             .and_then(|name| name.to_str())
-            .unwrap_or("Unknown")
+            .unwrap_or(&quot;Unknown&quot;)
             .to_string();
 
         // Create document
@@ -3649,20 +3656,20 @@ where
             if path.is_dir() {
                 // Skip excluded directories
                 if self.should_exclude_dir(&amp;path) {
-                    debug!("Skipping excluded directory: {:?}", path);
+                    debug!(&quot;Skipping excluded directory: {:?}&quot;, path);
                     continue;
                 }
 
                 // Recursively crawl subdirectory
                 match self.crawl_directory(&amp;path).await {
                     Ok(mut sub_docs) =&gt; documents.append(&amp;mut sub_docs),
-                    Err(e) =&gt; warn!("Error crawling directory {:?}: {}", path, e),
+                    Err(e) =&gt; warn!(&quot;Error crawling directory {:?}: {}&quot;, path, e),
                 }
             } else if path.is_file() &amp;&amp; self.should_include_file(&amp;path) {
                 // Process file
                 match self.process_file(&amp;path).await {
                     Ok(doc) =&gt; documents.push(doc),
-                    Err(e) =&gt; warn!("Error processing file {:?}: {}", path, e),
+                    Err(e) =&gt; warn!(&quot;Error processing file {:?}: {}&quot;, path, e),
                 }
             }
         }
@@ -3680,31 +3687,31 @@ where
         // Set running flag
         let mut running = self.running.write().await;
         if *running {
-            warn!("Crawler is already running");
+            warn!(&quot;Crawler is already running&quot;);
             return Ok(());
         }
         *running = true;
         drop(running);
 
-        info!("Starting code crawler at: {:?}", self.config.root_dir);
+        info!(&quot;Starting code crawler at: {:?}&quot;, self.config.root_dir);
 
         // Crawl the root directory
         let documents = match self.crawl_directory(&amp;self.config.root_dir).await {
             Ok(docs) =&gt; docs,
             Err(e) =&gt; {
-                error!("Failed to crawl directory: {}", e);
+                error!(&quot;Failed to crawl directory: {}&quot;, e);
                 let mut running = self.running.write().await;
                 *running = false;
                 return Err(RepositoryError::StorageError(e.to_string()));
             }
         };
 
-        info!("Found {} documents", documents.len());
+        info!(&quot;Found {} documents&quot;, documents.len());
 
         // Store documents
         for document in documents {
             if let Err(e) = self.repository.store(document).await {
-                warn!("Failed to store document: {}", e);
+                warn!(&quot;Failed to store document: {}&quot;, e);
             }
         }
 
@@ -3712,7 +3719,7 @@ where
         let mut running = self.running.write().await;
         *running = false;
 
-        info!("Code crawler finished");
+        info!(&quot;Code crawler finished&quot;);
         Ok(())
     }
 
@@ -3721,7 +3728,7 @@ where
         let path = match url.to_file_path() {
             Ok(p) =&gt; p,
             Err(_) =&gt; return Err(RepositoryError::InvalidOperation(
-                format!("URL is not a file path: {}", url)
+                format!(&quot;URL is not a file path: {}&quot;, url)
             )),
         };
 
@@ -3739,7 +3746,7 @@ where
     async fn stop(&amp;self) {
         let mut running = self.running.write().await;
         *running = false;
-        info!("Code crawler stop requested");
+        info!(&quot;Code crawler stop requested&quot;);
     }
 
     async fn is_running(&amp;self) -&gt; bool {
@@ -3748,7 +3755,7 @@ where
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
-<p>Now, let’s create a CLI application that uses our code search engine:</p>
+<p>Now, let's create a CLI application that uses our code search engine:</p>
 <pre><pre class="playground"><code class="language-rust">// src/main.rs
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -3784,17 +3791,17 @@ enum Commands {
         path: PathBuf,
 
         /// Extensions to include (comma-separated)
-        #[arg(short, long, default_value = "rs")]
+        #[arg(short, long, default_value = &quot;rs&quot;)]
         extensions: String,
 
         /// Directories to exclude (comma-separated)
-        #[arg(short, long, default_value = "target,.git")]
+        #[arg(short, long, default_value = &quot;target,.git&quot;)]
         exclude: String,
     },
     /// Start the search API server
     Serve {
         /// Host to bind to
-        #[arg(short, long, default_value = "127.0.0.1")]
+        #[arg(short, long, default_value = &quot;127.0.0.1&quot;)]
         host: String,
 
         /// Port to bind to
@@ -3825,11 +3832,11 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let cli = Cli::parse();
 
     // Set up common components
-    let data_dir = PathBuf::from("./data");
+    let data_dir = PathBuf::from(&quot;./data&quot;);
     std::fs::create_dir_all(&amp;data_dir)?;
 
     let doc_repository = Arc::new(MemoryDocumentRepository::new());
-    let storage = Arc::new(FileIndexStorage::new(data_dir.join("index").to_str().unwrap()));
+    let storage = Arc::new(FileIndexStorage::new(data_dir.join(&quot;index&quot;).to_str().unwrap()));
 
     let text_processor = TextProcessor::new_english();
     let tokenizer = Arc::new(RustCodeTokenizer::new(text_processor.clone()));
@@ -3837,7 +3844,7 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
     // Load index if it exists
     if let Err(e) = index.load().await {
-        error!("Failed to load index: {}", e);
+        error!(&quot;Failed to load index: {}&quot;, e);
     }
 
     // Set up query components
@@ -3875,43 +3882,43 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             // Create and run crawler
             let crawler = CodeCrawler::new(doc_repository.clone(), config);
 
-            info!("Starting indexing...");
+            info!(&quot;Starting indexing...&quot;);
             crawler.crawl(Vec::new()).await?;
 
             // Save index
-            info!("Saving index...");
+            info!(&quot;Saving index...&quot;);
             index.save().await?;
 
-            info!("Indexing complete!");
+            info!(&quot;Indexing complete!&quot;);
         }
         Commands::Serve { host, port } =&gt; {
             // Set up API server
-            let addr = format!("{}:{}", host, port).parse()?;
+            let addr = format!(&quot;{}:{}&quot;, host, port).parse()?;
             let server = ApiServer::new(search_service, addr);
 
-            info!("Starting server on {}:{}", host, port);
+            info!(&quot;Starting server on {}:{}&quot;, host, port);
             server.run().await?;
         }
         Commands::Search { query, limit } =&gt; {
             // Perform search
-            info!("Searching for: {}", query);
+            info!(&quot;Searching for: {}&quot;, query);
 
             match search_service.search(&amp;query, limit, true).await {
                 Ok(response) =&gt; {
-                    println!("Found {} results in {}ms:",
+                    println!(&quot;Found {} results in {}ms:&quot;,
                         response.total_count,
                         response.execution_time_ms
                     );
 
                     for (i, result) in response.results.iter().enumerate() {
-                        println!("{}. {}", i + 1, result.title());
-                        println!("   {}", result.url());
-                        println!("   {}", result.snippet());
+                        println!(&quot;{}. {}&quot;, i + 1, result.title());
+                        println!(&quot;   {}&quot;, result.url());
+                        println!(&quot;   {}&quot;, result.snippet());
                         println!();
                     }
                 }
                 Err(e) =&gt; {
-                    error!("Search failed: {}", e);
+                    error!(&quot;Search failed: {}&quot;, e);
                 }
             }
         }
@@ -3921,7 +3928,7 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 }</code></pre></pre>
 <p>This implementation demonstrates how our generic search engine architecture can be specialized for code search. The code-specific tokenizer extracts programming language constructs like functions, modules, and types, while the code crawler efficiently navigates repository structures.</p>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>In this chapter, we’ve built a comprehensive search engine from the ground up using Rust. We’ve covered all the essential components of a search engine:</p>
+<p>In this chapter, we've built a comprehensive search engine from the ground up using Rust. We've covered all the essential components of a search engine:</p>
 <ol>
 <li>
 <p><strong>Web Crawler</strong>: A scalable, concurrent crawler that respects robots.txt and crawling best practices.</p>
@@ -3939,21 +3946,21 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <p><strong>Search API</strong>: A clean REST interface for interacting with the search engine.</p>
 </li>
 </ol>
-<p>Throughout the implementation, we’ve applied several key design principles:</p>
+<p>Throughout the implementation, we've applied several key design principles:</p>
 <ul>
 <li><strong>Clean Architecture</strong>: Separating concerns into distinct layers with well-defined interfaces.</li>
 <li><strong>SOLID Principles</strong>: Creating modular, extensible components.</li>
-<li><strong>Concurrency</strong>: Leveraging Rust’s async/await for efficient parallel processing.</li>
+<li><strong>Concurrency</strong>: Leveraging Rust's async/await for efficient parallel processing.</li>
 <li><strong>Error Handling</strong>: Comprehensive error types and propagation.</li>
 <li><strong>Testing</strong>: Structure that facilitates unit and integration testing.</li>
 </ul>
-<p>The resulting search engine is not just a toy example but a solid foundation for building real-world search applications. We’ve demonstrated its flexibility by adapting it for code search, but the same architecture could be specialized for other domains like e-commerce, document management, or media search.</p>
+<p>The resulting search engine is not just a toy example but a solid foundation for building real-world search applications. We've demonstrated its flexibility by adapting it for code search, but the same architecture could be specialized for other domains like e-commerce, document management, or media search.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>Implement a document repository backed by a SQL database like PostgreSQL.</li>
 <li>Add support for faceted search (filtering by metadata).</li>
 <li>Implement a more sophisticated ranking algorithm like Okapi BM25.</li>
-<li>Add spell checking and “Did you mean?” suggestions.</li>
+<li>Add spell checking and &quot;Did you mean?&quot; suggestions.</li>
 <li>Implement search result highlighting that shows query terms in context.</li>
 <li>Create a web crawler that can handle JavaScript-rendered content.</li>
 <li>Add support for image search using image feature extraction.</li>
@@ -3961,7 +3968,7 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <li>Create a web interface for the search engine using a Rust web framework like Yew.</li>
 <li>Add authentication and per-user search history.</li>
 </ol>
-<p>By completing these exercises, you’ll gain a deeper understanding of search engine technology and further enhance your Rust programming skills.</p>
+<p>By completing these exercises, you'll gain a deeper understanding of search engine technology and further enhance your Rust programming skills.</p>
 
                     </main>
 

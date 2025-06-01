@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html" class="active"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,27 +185,27 @@
                         <h1 id="chapter-30-web-development-with-rust"><a class="header" href="#chapter-30-web-development-with-rust">Chapter 30: Web Development with Rust</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Web development has traditionally been dominated by languages like JavaScript, Python, and Ruby, which prioritize developer productivity and ecosystem maturity over raw performance. However, as web applications grow in complexity and scale, the need for efficient, reliable, and secure systems has never been greater. Rust, with its focus on performance, memory safety, and concurrency without runtime overhead, offers a compelling alternative for modern web development.</p>
-<p>In this chapter, we’ll explore the rapidly evolving landscape of web development in Rust. We’ll see how Rust’s core strengths—zero-cost abstractions, memory safety without garbage collection, and fearless concurrency—translate into web applications that are not only fast and resource-efficient but also robust and secure.</p>
+<p>In this chapter, we'll explore the rapidly evolving landscape of web development in Rust. We'll see how Rust's core strengths—zero-cost abstractions, memory safety without garbage collection, and fearless concurrency—translate into web applications that are not only fast and resource-efficient but also robust and secure.</p>
 <p>The Rust web ecosystem has matured significantly in recent years. While it may not yet match the breadth of options available in more established web development languages, it offers a growing collection of high-quality libraries and frameworks that cover most web development needs. From high-performance HTTP servers and expressive API frameworks to reactive frontend libraries powered by WebAssembly, Rust provides tools for building full-stack web applications.</p>
-<p>We’ll start by examining the web development landscape in Rust, understanding where it excels and what challenges remain. Then, we’ll dive into backend development with popular frameworks like Actix Web, Rocket, and Axum, exploring their different approaches to building web services. We’ll cover RESTful API design, database integration with SQLx, authentication, middleware, and more.</p>
-<p>For frontend development, we’ll explore how Rust, compiled to WebAssembly, is opening new possibilities for building fast, reliable web interfaces with frameworks like Yew and Leptos. We’ll also look at GraphQL implementation with async-graphql, WebSockets for real-time communication, and deployment strategies for Rust web applications.</p>
-<p>Whether you’re building a high-performance API, a real-time web application, or a full-stack system, this chapter will provide you with the knowledge to leverage Rust’s strengths for web development. By the end, you’ll understand how to build web applications that are not just fast and efficient, but also benefit from Rust’s guarantees of safety and reliability.</p>
+<p>We'll start by examining the web development landscape in Rust, understanding where it excels and what challenges remain. Then, we'll dive into backend development with popular frameworks like Actix Web, Rocket, and Axum, exploring their different approaches to building web services. We'll cover RESTful API design, database integration with SQLx, authentication, middleware, and more.</p>
+<p>For frontend development, we'll explore how Rust, compiled to WebAssembly, is opening new possibilities for building fast, reliable web interfaces with frameworks like Yew and Leptos. We'll also look at GraphQL implementation with async-graphql, WebSockets for real-time communication, and deployment strategies for Rust web applications.</p>
+<p>Whether you're building a high-performance API, a real-time web application, or a full-stack system, this chapter will provide you with the knowledge to leverage Rust's strengths for web development. By the end, you'll understand how to build web applications that are not just fast and efficient, but also benefit from Rust's guarantees of safety and reliability.</p>
 <h2 id="web-development-landscape-in-rust"><a class="header" href="#web-development-landscape-in-rust">Web Development Landscape in Rust</a></h2>
-<p>The Rust web development ecosystem is diverse and rapidly evolving, with different tools and frameworks catering to various development styles and requirements. Before diving into specific frameworks, let’s understand the overall landscape and where Rust fits into web development.</p>
-<h3 id="rusts-strengths-for-web-development"><a class="header" href="#rusts-strengths-for-web-development">Rust’s Strengths for Web Development</a></h3>
+<p>The Rust web development ecosystem is diverse and rapidly evolving, with different tools and frameworks catering to various development styles and requirements. Before diving into specific frameworks, let's understand the overall landscape and where Rust fits into web development.</p>
+<h3 id="rusts-strengths-for-web-development"><a class="header" href="#rusts-strengths-for-web-development">Rust's Strengths for Web Development</a></h3>
 <p>Rust brings several unique advantages to web development:</p>
 <ol>
 <li>
 <p><strong>Performance</strong>: Rust applications typically offer performance comparable to C and C++, with predictable resource usage and minimal overhead. This makes Rust ideal for high-throughput APIs and services where response time is critical.</p>
 </li>
 <li>
-<p><strong>Memory Safety</strong>: Rust’s ownership system eliminates entire classes of bugs like null pointer dereferencing, use-after-free, and data races—all without runtime overhead. For web applications handling sensitive data, this provides an additional layer of security.</p>
+<p><strong>Memory Safety</strong>: Rust's ownership system eliminates entire classes of bugs like null pointer dereferencing, use-after-free, and data races—all without runtime overhead. For web applications handling sensitive data, this provides an additional layer of security.</p>
 </li>
 <li>
-<p><strong>Concurrency</strong>: With its “fearless concurrency” model, Rust allows developers to build highly concurrent systems without the traditional pitfalls. This is particularly valuable for web servers handling thousands of simultaneous connections.</p>
+<p><strong>Concurrency</strong>: With its &quot;fearless concurrency&quot; model, Rust allows developers to build highly concurrent systems without the traditional pitfalls. This is particularly valuable for web servers handling thousands of simultaneous connections.</p>
 </li>
 <li>
-<p><strong>Type Safety</strong>: Rust’s strong type system catches many errors at compile time, reducing runtime surprises. This can be especially helpful when refactoring large codebases or evolving APIs.</p>
+<p><strong>Type Safety</strong>: Rust's strong type system catches many errors at compile time, reducing runtime surprises. This can be especially helpful when refactoring large codebases or evolving APIs.</p>
 </li>
 <li>
 <p><strong>Cross-Platform</strong>: Rust code can run on various platforms, from cloud servers to WebAssembly in browsers, enabling code reuse between frontend and backend.</p>
@@ -216,7 +223,7 @@
 <h4 id="web-frameworks"><a class="header" href="#web-frameworks">Web Frameworks</a></h4>
 <p>Built on top of these low-level components, several web frameworks offer different approaches to building web applications:</p>
 <ul>
-<li><strong>Actix Web</strong>: A high-performance, actor-based framework inspired by Erlang’s actor model.</li>
+<li><strong>Actix Web</strong>: A high-performance, actor-based framework inspired by Erlang's actor model.</li>
 <li><strong>Rocket</strong>: Focuses on developer experience with a focus on type safety and productivity.</li>
 <li><strong>Axum</strong>: A modular framework built on top of tokio, with a focus on ergonomics and composability.</li>
 <li><strong>warp</strong>: A lightweight, composable framework built around the concept of filters.</li>
@@ -247,7 +254,7 @@
 <li><strong>tonic</strong>: A gRPC implementation focused on high performance.</li>
 </ul>
 <h3 id="ecosystem-maturity-and-challenges"><a class="header" href="#ecosystem-maturity-and-challenges">Ecosystem Maturity and Challenges</a></h3>
-<p>While the Rust web ecosystem is growing quickly, it’s important to understand its current state and challenges:</p>
+<p>While the Rust web ecosystem is growing quickly, it's important to understand its current state and challenges:</p>
 <h4 id="strengths"><a class="header" href="#strengths">Strengths</a></h4>
 <ol>
 <li><strong>Performance and Resource Efficiency</strong>: Rust web frameworks consistently rank among the fastest in industry benchmarks.</li>
@@ -259,7 +266,7 @@
 <ol>
 <li><strong>Learning Curve</strong>: Rust itself has a steeper learning curve than many web development languages.</li>
 <li><strong>Ecosystem Breadth</strong>: While the core is solid, some specialized libraries may be less mature than equivalents in more established ecosystems.</li>
-<li><strong>Compile Times</strong>: Rust’s compile times can be longer than interpreted languages, affecting the development cycle.</li>
+<li><strong>Compile Times</strong>: Rust's compile times can be longer than interpreted languages, affecting the development cycle.</li>
 <li><strong>Hiring</strong>: Finding developers with Rust experience can be more challenging compared to more common web technologies.</li>
 </ol>
 <h3 id="when-to-choose-rust-for-web-development"><a class="header" href="#when-to-choose-rust-for-web-development">When to Choose Rust for Web Development</a></h3>
@@ -277,9 +284,9 @@
 <li>Small, simple web applications where the overhead of learning Rust may not be justified</li>
 <li>Teams without the capacity to invest in learning a new language with a steep learning curve</li>
 </ul>
-<p>In the following sections, we’ll explore each part of the Rust web stack in detail, starting with backend frameworks.</p>
+<p>In the following sections, we'll explore each part of the Rust web stack in detail, starting with backend frameworks.</p>
 <h2 id="backend-frameworks-overview"><a class="header" href="#backend-frameworks-overview">Backend Frameworks Overview</a></h2>
-<p>Rust offers several mature backend frameworks, each with its own philosophy and approach to building web services. In this section, we’ll explore the three most popular options: Actix Web, Rocket, and Axum.</p>
+<p>Rust offers several mature backend frameworks, each with its own philosophy and approach to building web services. In this section, we'll explore the three most popular options: Actix Web, Rocket, and Axum.</p>
 <h3 id="actix-web"><a class="header" href="#actix-web">Actix Web</a></h3>
 <p>Actix Web is one of the most established and high-performance web frameworks in the Rust ecosystem. Originally built on the actor model (via the actix actor framework), it has evolved into a standalone web framework that consistently ranks among the fastest in various benchmarks.</p>
 <h4 id="key-features"><a class="header" href="#key-features">Key Features</a></h4>
@@ -291,22 +298,22 @@
 <li><strong>State Management</strong>: Easy-to-use application state sharing between handlers.</li>
 </ul>
 <h4 id="basic-example"><a class="header" href="#basic-example">Basic Example</a></h4>
-<p>Here’s a simple “Hello, World!” application with Actix Web:</p>
+<p>Here's a simple &quot;Hello, World!&quot; application with Actix Web:</p>
 <pre><pre class="playground"><code class="language-rust">use actix_web::{web, App, HttpRequest, HttpServer, Responder};
 
 async fn greet(req: HttpRequest) -&gt; impl Responder {
-    let name = req.match_info().get("name").unwrap_or("World");
-    format!("Hello, {}!", name)
+    let name = req.match_info().get(&quot;name&quot;).unwrap_or(&quot;World&quot;);
+    format!(&quot;Hello, {}!&quot;, name)
 }
 
 #[actix_web::main]
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(|| async { "Hello, World!" }))
-            .route("/hello/{name}", web::get().to(greet))
+            .route(&quot;/&quot;, web::get().to(|| async { &quot;Hello, World!&quot; }))
+            .route(&quot;/hello/{name}&quot;, web::get().to(greet))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -319,35 +326,35 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
 <li>Projects that need WebSocket support or real-time communication</li>
 </ul>
 <h3 id="rocket"><a class="header" href="#rocket">Rocket</a></h3>
-<p>Rocket takes a different approach, prioritizing developer experience and type safety. It uses Rust’s type system extensively to provide ergonomic APIs and catch errors at compile time rather than runtime.</p>
+<p>Rocket takes a different approach, prioritizing developer experience and type safety. It uses Rust's type system extensively to provide ergonomic APIs and catch errors at compile time rather than runtime.</p>
 <h4 id="key-features-1"><a class="header" href="#key-features-1">Key Features</a></h4>
 <ul>
-<li><strong>Type Safety</strong>: Heavy use of Rust’s type system to provide safety guarantees.</li>
+<li><strong>Type Safety</strong>: Heavy use of Rust's type system to provide safety guarantees.</li>
 <li><strong>Request Guards</strong>: Powerful abstraction for request validation and processing.</li>
 <li><strong>Form Validation</strong>: Built-in form validation with custom error messages.</li>
 <li><strong>Template Support</strong>: Integrated templating with multiple engines.</li>
 <li><strong>Configuration</strong>: Environment-specific configuration with sensible defaults.</li>
 </ul>
 <h4 id="basic-example-1"><a class="header" href="#basic-example-1">Basic Example</a></h4>
-<p>Here’s a “Hello, World!” example with Rocket:</p>
+<p>Here's a &quot;Hello, World!&quot; example with Rocket:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[macro_use] extern crate rocket;
 
-#[get("/")]
+#[get(&quot;/&quot;)]
 fn index() -&gt; &amp;'static str {
-    "Hello, world!"
+    &quot;Hello, world!&quot;
 }
 
-#[get("/hello/&lt;name&gt;")]
+#[get(&quot;/hello/&lt;name&gt;&quot;)]
 fn hello(name: &amp;str) -&gt; String {
-    format!("Hello, {}!", name)
+    format!(&quot;Hello, {}!&quot;, name)
 }
 
 #[launch]
 fn rocket() -&gt; _ {
     rocket::build()
-        .mount("/", routes![index, hello])
+        .mount(&quot;/&quot;, routes![index, hello])
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="when-to-choose-rocket"><a class="header" href="#when-to-choose-rocket">When to Choose Rocket</a></h4>
@@ -369,7 +376,7 @@ fn rocket() -&gt; _ {
 <li><strong>Minimal Dependencies</strong>: Lighter dependency footprint compared to some alternatives.</li>
 </ul>
 <h4 id="basic-example-2"><a class="header" href="#basic-example-2">Basic Example</a></h4>
-<p>Here’s a simple example using Axum:</p>
+<p>Here's a simple example using Axum:</p>
 <pre><pre class="playground"><code class="language-rust">use axum::{
     routing::get,
     Router,
@@ -377,20 +384,20 @@ fn rocket() -&gt; _ {
 };
 
 async fn hello_world() -&gt; &amp;'static str {
-    "Hello, World!"
+    &quot;Hello, World!&quot;
 }
 
 async fn hello_name(Path(name): Path&lt;String&gt;) -&gt; String {
-    format!("Hello, {}!", name)
+    format!(&quot;Hello, {}!&quot;, name)
 }
 
 #[tokio::main]
 async fn main() {
     let app = Router::new()
-        .route("/", get(hello_world))
-        .route("/hello/:name", get(hello_name));
+        .route(&quot;/&quot;, get(hello_world))
+        .route(&quot;/hello/:name&quot;, get(hello_name));
 
-    axum::Server::bind(&amp;"0.0.0.0:3000".parse().unwrap())
+    axum::Server::bind(&amp;&quot;0.0.0.0:3000&quot;.parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
@@ -404,7 +411,7 @@ async fn main() {
 <li>Teams looking for a modern API design with minimal boilerplate</li>
 </ul>
 <h3 id="framework-comparison"><a class="header" href="#framework-comparison">Framework Comparison</a></h3>
-<p>To help you choose the right framework for your project, here’s a comparison of the three frameworks:</p>
+<p>To help you choose the right framework for your project, here's a comparison of the three frameworks:</p>
 <div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Actix Web</th><th>Rocket</th><th>Axum</th></tr></thead><tbody>
 <tr><td>Performance</td><td>Excellent</td><td>Good</td><td>Very Good</td></tr>
 <tr><td>Learning Curve</td><td>Moderate</td><td>Gentle</td><td>Moderate</td></tr>
@@ -417,10 +424,10 @@ async fn main() {
 <tr><td>Community</td><td>Active</td><td>Active</td><td>Active</td></tr>
 </tbody></table>
 </div>
-<p>The choice between these frameworks often comes down to your team’s preferences, your project’s requirements, and which programming style you find most natural. All three are capable options for building robust web services in Rust.</p>
-<p>In the next section, we’ll dive deeper into RESTful API design principles using these frameworks.</p>
+<p>The choice between these frameworks often comes down to your team's preferences, your project's requirements, and which programming style you find most natural. All three are capable options for building robust web services in Rust.</p>
+<p>In the next section, we'll dive deeper into RESTful API design principles using these frameworks.</p>
 <h2 id="restful-api-design"><a class="header" href="#restful-api-design">RESTful API Design</a></h2>
-<p>Building well-designed RESTful APIs is a fundamental skill for backend web development. In this section, we’ll explore how to design and implement RESTful APIs in Rust, focusing on best practices and patterns that leverage Rust’s strengths.</p>
+<p>Building well-designed RESTful APIs is a fundamental skill for backend web development. In this section, we'll explore how to design and implement RESTful APIs in Rust, focusing on best practices and patterns that leverage Rust's strengths.</p>
 <h3 id="restful-principles-in-rust"><a class="header" href="#restful-principles-in-rust">RESTful Principles in Rust</a></h3>
 <p>REST (Representational State Transfer) is an architectural style for designing networked applications. It relies on stateless, client-server communication, typically over HTTP, using standard operations like GET, POST, PUT, and DELETE.</p>
 <p>Key principles of RESTful API design include:</p>
@@ -432,12 +439,12 @@ async fn main() {
 <li><strong>HATEOAS (Hypertext As The Engine Of Application State)</strong>: Include links in responses to guide clients through the API.</li>
 </ol>
 <h3 id="designing-data-models-and-dtos"><a class="header" href="#designing-data-models-and-dtos">Designing Data Models and DTOs</a></h3>
-<p>When building APIs in Rust, you’ll typically define two types of structures:</p>
+<p>When building APIs in Rust, you'll typically define two types of structures:</p>
 <ol>
 <li><strong>Domain Models</strong>: Represent your core business entities and are used internally.</li>
 <li><strong>Data Transfer Objects (DTOs)</strong>: Define the shape of data sent to and from your API.</li>
 </ol>
-<p>Here’s an example of how you might define these in a Rust API:</p>
+<p>Here's an example of how you might define these in a Rust API:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Domain model
@@ -487,7 +494,7 @@ impl From&lt;User&gt; for UserResponseDto {
 <span class="boring">}</span></code></pre></pre>
 <p>This separation helps maintain a clear boundary between your internal representation and your API contract, making it easier to evolve your API without breaking changes to your internal code.</p>
 <h3 id="implementing-crud-operations"><a class="header" href="#implementing-crud-operations">Implementing CRUD Operations</a></h3>
-<p>Let’s implement a basic CRUD (Create, Read, Update, Delete) API for a resource using Actix Web:</p>
+<p>Let's implement a basic CRUD (Create, Read, Update, Delete) API for a resource using Actix Web:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use actix_web::{web, HttpResponse, Responder};
@@ -526,7 +533,7 @@ async fn get_user(
 ) -&gt; impl Responder {
     let user_id = match Uuid::parse_str(&amp;path.into_inner()) {
         Ok(id) =&gt; id,
-        Err(_) =&gt; return HttpResponse::BadRequest().body("Invalid user ID"),
+        Err(_) =&gt; return HttpResponse::BadRequest().body(&quot;Invalid user ID&quot;),
     };
 
     match data.user_repository.find_by_id(user_id).await {
@@ -534,7 +541,7 @@ async fn get_user(
             let response = UserResponseDto::from(user);
             HttpResponse::Ok().json(response)
         },
-        Ok(None) =&gt; HttpResponse::NotFound().body("User not found"),
+        Ok(None) =&gt; HttpResponse::NotFound().body(&quot;User not found&quot;),
         Err(e) =&gt; HttpResponse::InternalServerError().body(e.to_string()),
     }
 }
@@ -561,29 +568,29 @@ async fn delete_user(
 // Register routes
 pub fn configure_routes(cfg: &amp;mut web::ServiceConfig) {
     cfg.service(
-        web::scope("/api/users")
-            .route("", web::post().to(create_user))
-            .route("/{id}", web::get().to(get_user))
-            .route("/{id}", web::put().to(update_user))
-            .route("/{id}", web::delete().to(delete_user))
+        web::scope(&quot;/api/users&quot;)
+            .route(&quot;&quot;, web::post().to(create_user))
+            .route(&quot;/{id}&quot;, web::get().to(get_user))
+            .route(&quot;/{id}&quot;, web::put().to(update_user))
+            .route(&quot;/{id}&quot;, web::delete().to(delete_user))
     );
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="request-validation"><a class="header" href="#request-validation">Request Validation</a></h3>
-<p>Rust’s type system provides a strong foundation for request validation. Libraries like <code>validator</code> can be used to add declarative validation to your DTOs:</p>
+<p>Rust's type system provides a strong foundation for request validation. Libraries like <code>validator</code> can be used to add declarative validation to your DTOs:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use validator::{Validate, ValidationErrors};
 
 #[derive(Deserialize, Validate)]
 struct CreateUserDto {
-    #[validate(length(min = 3, message = "Username must be at least 3 characters"))]
+    #[validate(length(min = 3, message = &quot;Username must be at least 3 characters&quot;))]
     username: String,
 
-    #[validate(email(message = "Must provide a valid email address"))]
+    #[validate(email(message = &quot;Must provide a valid email address&quot;))]
     email: String,
 
-    #[validate(length(min = 8, message = "Password must be at least 8 characters"))]
+    #[validate(length(min = 8, message = &quot;Password must be at least 8 characters&quot;))]
     password: String,
 }
 <span class="boring">}</span></code></pre></pre>
@@ -600,7 +607,7 @@ struct CreateUserDto {
 
         // Custom validation logic
         if self.username.contains(&amp;self.password) {
-            errors.add("password", ValidationError::new("Password cannot contain username"));
+            errors.add(&quot;password&quot;, ValidationError::new(&quot;Password cannot contain username&quot;));
         }
 
         if errors.is_empty() {
@@ -617,19 +624,19 @@ struct CreateUserDto {
 </span><span class="boring">fn main() {
 </span>#[derive(Debug, thiserror::Error)]
 enum ApiError {
-    #[error("Resource not found")]
+    #[error(&quot;Resource not found&quot;)]
     NotFound,
 
-    #[error("Validation error: {0}")]
+    #[error(&quot;Validation error: {0}&quot;)]
     ValidationError(#[from] ValidationErrors),
 
-    #[error("Database error: {0}")]
+    #[error(&quot;Database error: {0}&quot;)]
     DatabaseError(#[from] sqlx::Error),
 
-    #[error("Unauthorized")]
+    #[error(&quot;Unauthorized&quot;)]
     Unauthorized,
 
-    #[error("Internal server error: {0}")]
+    #[error(&quot;Internal server error: {0}&quot;)]
     InternalError(String),
 }
 
@@ -650,9 +657,9 @@ impl ResponseError for ApiError {
 
         HttpResponse::build(status)
             .json(json!({
-                "error": {
-                    "status": status.as_u16(),
-                    "message": error_message
+                &quot;error&quot;: {
+                    &quot;status&quot;: status.as_u16(),
+                    &quot;message&quot;: error_message
                 }
             }))
     }
@@ -674,7 +681,7 @@ enum ResponseFormat {
 impl ResponseFormat {
     fn from_accept_header(accept: Option&lt;&amp;header::HeaderValue&gt;) -&gt; Self {
         match accept {
-            Some(value) if value.to_str().unwrap_or("").contains("application/xml") =&gt; Self::Xml,
+            Some(value) if value.to_str().unwrap_or(&quot;&quot;).contains(&quot;application/xml&quot;) =&gt; Self::Xml,
             _ =&gt; Self::Json,
         }
     }
@@ -693,13 +700,13 @@ impl&lt;T: Serialize&gt; Responder for ApiResponse&lt;T&gt; {
 
         match format {
             ResponseFormat::Json =&gt; HttpResponse::Ok()
-                .content_type("application/json")
+                .content_type(&quot;application/json&quot;)
                 .json(self.data),
             ResponseFormat::Xml =&gt; {
                 // Convert to XML using a library like quick-xml
                 let xml = quick_xml::se::to_string(&amp;self.data).unwrap_or_default();
                 HttpResponse::Ok()
-                    .content_type("application/xml")
+                    .content_type(&quot;application/xml&quot;)
                     .body(xml)
             }
         }
@@ -714,15 +721,15 @@ impl&lt;T: Serialize&gt; Responder for ApiResponse&lt;T&gt; {
 <li><strong>Header Versioning</strong>: Use a custom HTTP header (<code>API-Version: 1</code>).</li>
 <li><strong>Content Type Versioning</strong>: Include the version in the media type (<code>application/vnd.company.api.v1+json</code>).</li>
 </ol>
-<p>Here’s an example of URL versioning with Actix Web:</p>
+<p>Here's an example of URL versioning with Actix Web:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Main app configuration
 pub fn configure_app(cfg: &amp;mut web::ServiceConfig) {
     cfg.service(
-        web::scope("/api")
-            .service(web::scope("/v1").configure(v1::configure_routes))
-            .service(web::scope("/v2").configure(v2::configure_routes))
+        web::scope(&quot;/api&quot;)
+            .service(web::scope(&quot;/v1&quot;).configure(v1::configure_routes))
+            .service(web::scope(&quot;/v2&quot;).configure(v2::configure_routes))
     );
 }
 
@@ -730,9 +737,9 @@ pub fn configure_app(cfg: &amp;mut web::ServiceConfig) {
 mod v1 {
     pub fn configure_routes(cfg: &amp;mut web::ServiceConfig) {
         cfg.service(
-            web::scope("/users")
-                .route("", web::post().to(create_user_v1))
-                .route("/{id}", web::get().to(get_user_v1))
+            web::scope(&quot;/users&quot;)
+                .route(&quot;&quot;, web::post().to(create_user_v1))
+                .route(&quot;/{id}&quot;, web::get().to(get_user_v1))
                 // ...
         );
     }
@@ -742,9 +749,9 @@ mod v1 {
 mod v2 {
     pub fn configure_routes(cfg: &amp;mut web::ServiceConfig) {
         cfg.service(
-            web::scope("/users")
-                .route("", web::post().to(create_user_v2))
-                .route("/{id}", web::get().to(get_user_v2))
+            web::scope(&quot;/users&quot;)
+                .route(&quot;&quot;, web::post().to(create_user_v2))
+                .route(&quot;/{id}&quot;, web::get().to(get_user_v2))
                 // ...
         );
     }
@@ -769,21 +776,21 @@ use utoipa_swagger_ui::SwaggerUi;
         schemas(CreateUserDto, UserResponseDto, ApiError)
     ),
     tags(
-        (name = "users", description = "User management API")
+        (name = &quot;users&quot;, description = &quot;User management API&quot;)
     )
 )]
 struct ApiDoc;
 
 #[utoipa::path(
     post,
-    path = "/api/users",
+    path = &quot;/api/users&quot;,
     request_body = CreateUserDto,
     responses(
-        (status = 201, description = "User created successfully", body = UserResponseDto),
-        (status = 400, description = "Validation error", body = ApiError),
-        (status = 500, description = "Internal server error", body = ApiError)
+        (status = 201, description = &quot;User created successfully&quot;, body = UserResponseDto),
+        (status = 400, description = &quot;Validation error&quot;, body = ApiError),
+        (status = 500, description = &quot;Internal server error&quot;, body = ApiError)
     ),
-    tag = "users"
+    tag = &quot;users&quot;
 )]
 async fn create_user(/* ... */) -&gt; impl Responder {
     // Implementation...
@@ -793,26 +800,26 @@ async fn create_user(/* ... */) -&gt; impl Responder {
 HttpServer::new(|| {
     App::new()
         .service(
-            SwaggerUi::new("/swagger-ui/{_:.*}")
-                .url("/api-docs/openapi.json", ApiDoc::openapi())
+            SwaggerUi::new(&quot;/swagger-ui/{_:.*}&quot;)
+                .url(&quot;/api-docs/openapi.json&quot;, ApiDoc::openapi())
         )
         .configure(configure_app)
 })
 <span class="boring">}</span></code></pre></pre>
 <h3 id="best-practices-for-restful-apis-in-rust"><a class="header" href="#best-practices-for-restful-apis-in-rust">Best Practices for RESTful APIs in Rust</a></h3>
 <ol>
-<li><strong>Use the Type System</strong>: Leverage Rust’s type system for validation and to prevent bugs.</li>
+<li><strong>Use the Type System</strong>: Leverage Rust's type system for validation and to prevent bugs.</li>
 <li><strong>Apply the Repository Pattern</strong>: Separate your data access logic from your API handlers.</li>
 <li><strong>Implement Proper Error Handling</strong>: Create a consistent error handling strategy.</li>
 <li><strong>Use Middleware for Cross-Cutting Concerns</strong>: Apply middleware for logging, authentication, etc.</li>
-<li><strong>Embrace Async/Await</strong>: Use Rust’s async capabilities for non-blocking I/O operations.</li>
+<li><strong>Embrace Async/Await</strong>: Use Rust's async capabilities for non-blocking I/O operations.</li>
 <li><strong>Test Your API</strong>: Write unit and integration tests for your endpoints.</li>
 <li><strong>Document Your API</strong>: Provide clear documentation for your API consumers.</li>
 <li><strong>Follow HTTP Semantics</strong>: Use appropriate status codes and methods.</li>
 <li><strong>Apply Rate Limiting</strong>: Protect your API from abuse with rate limiting.</li>
 <li><strong>Monitor Performance</strong>: Use metrics and logging to track API performance.</li>
 </ol>
-<p>In the next section, we’ll explore how to integrate your Rust API with databases using SQLx.</p>
+<p>In the next section, we'll explore how to integrate your Rust API with databases using SQLx.</p>
 <h2 id="database-integration-with-sqlx"><a class="header" href="#database-integration-with-sqlx">Database Integration with SQLx</a></h2>
 <p>A critical component of most web applications is the ability to store and retrieve data from a database. In Rust, SQLx has emerged as one of the most popular libraries for database interaction. SQLx is an async, pure Rust SQL crate featuring compile-time checked queries without a DSL.</p>
 <h3 id="introduction-to-sqlx"><a class="header" href="#introduction-to-sqlx">Introduction to SQLx</a></h3>
@@ -820,15 +827,15 @@ HttpServer::new(|| {
 <ul>
 <li><strong>Compile-Time Checked Queries</strong>: SQLx can verify your SQL queries at compile time against your actual database schema.</li>
 <li><strong>Async First</strong>: Built with async/await support from the ground up.</li>
-<li><strong>Type-Safe</strong>: Results are mapped to Rust types, leveraging Rust’s type system.</li>
+<li><strong>Type-Safe</strong>: Results are mapped to Rust types, leveraging Rust's type system.</li>
 <li><strong>Multiple Database Support</strong>: Works with PostgreSQL, MySQL, SQLite, and Microsoft SQL Server.</li>
-<li><strong>No Runtime Reflection</strong>: Unlike traditional ORMs, SQLx doesn’t rely on runtime reflection.</li>
+<li><strong>No Runtime Reflection</strong>: Unlike traditional ORMs, SQLx doesn't rely on runtime reflection.</li>
 </ul>
-<p>Let’s explore how to integrate SQLx into a Rust web application.</p>
+<p>Let's explore how to integrate SQLx into a Rust web application.</p>
 <h3 id="setting-up-sqlx"><a class="header" href="#setting-up-sqlx">Setting Up SQLx</a></h3>
 <p>First, add SQLx to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "uuid", "time", "json"] }
+sqlx = { version = &quot;0.7&quot;, features = [&quot;runtime-tokio-native-tls&quot;, &quot;postgres&quot;, &quot;uuid&quot;, &quot;time&quot;, &quot;json&quot;] }
 </code></pre>
 <p>The features you select depend on your specific needs:</p>
 <ul>
@@ -837,7 +844,7 @@ sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "u
 <li>Additional features for specific data types like <code>uuid</code>, <code>time</code>, and <code>json</code>.</li>
 </ul>
 <h3 id="creating-a-database-connection-pool"><a class="header" href="#creating-a-database-connection-pool">Creating a Database Connection Pool</a></h3>
-<p>In a web application, it’s important to use a connection pool to efficiently manage database connections:</p>
+<p>In a web application, it's important to use a connection pool to efficiently manage database connections:</p>
 <pre><pre class="playground"><code class="language-rust">use sqlx::postgres::{PgPool, PgPoolOptions};
 use std::time::Duration;
 
@@ -854,19 +861,19 @@ async fn create_pool(database_url: &amp;str) -&gt; Result&lt;PgPool, sqlx::Error
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     dotenv().ok();
 
-    let database_url = std::env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
+    let database_url = std::env::var(&quot;DATABASE_URL&quot;)
+        .expect(&quot;DATABASE_URL must be set&quot;);
 
     let pool = create_pool(&amp;database_url)
         .await
-        .expect("Failed to create pool");
+        .expect(&quot;Failed to create pool&quot;);
 
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(pool.clone()))
             // Configure routes and other middleware
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -907,7 +914,7 @@ struct Post {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn find_user_by_id(pool: &amp;PgPool, id: Uuid) -&gt; Result&lt;Option&lt;User&gt;, sqlx::Error&gt; {
-    sqlx::query_as::&lt;_, User&gt;("SELECT * FROM users WHERE id = $1")
+    sqlx::query_as::&lt;_, User&gt;(&quot;SELECT * FROM users WHERE id = $1&quot;)
         .bind(id)
         .fetch_optional(pool)
         .await
@@ -923,9 +930,9 @@ async fn create_user(
     let id = Uuid::new_v4();
 
     sqlx::query_as::&lt;_, User&gt;(
-        "INSERT INTO users (id, username, email, password_hash, created_at, updated_at)
+        &quot;INSERT INTO users (id, username, email, password_hash, created_at, updated_at)
          VALUES ($1, $2, $3, $4, $5, $6)
-         RETURNING *"
+         RETURNING *&quot;
     )
     .bind(id)
     .bind(username)
@@ -938,13 +945,13 @@ async fn create_user(
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="compile-time-checked-queries"><a class="header" href="#compile-time-checked-queries">Compile-Time Checked Queries</a></h4>
-<p>One of SQLx’s standout features is compile-time query checking. Using the <code>query!</code> and <code>query_as!</code> macros, SQLx can verify your SQL against your actual database schema during compilation:</p>
+<p>One of SQLx's standout features is compile-time query checking. Using the <code>query!</code> and <code>query_as!</code> macros, SQLx can verify your SQL against your actual database schema during compilation:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn find_user_by_id(pool: &amp;PgPool, id: Uuid) -&gt; Result&lt;Option&lt;User&gt;, sqlx::Error&gt; {
     sqlx::query_as!(
         User,
-        "SELECT * FROM users WHERE id = $1",
+        &quot;SELECT * FROM users WHERE id = $1&quot;,
         id
     )
     .fetch_optional(pool)
@@ -967,9 +974,9 @@ async fn create_user(
 
     // Create the post
     let post = sqlx::query_as::&lt;_, Post&gt;(
-        "INSERT INTO posts (id, title, content, user_id, published, created_at, updated_at)
+        &quot;INSERT INTO posts (id, title, content, user_id, published, created_at, updated_at)
          VALUES ($1, $2, $3, $4, $5, $6, $7)
-         RETURNING *"
+         RETURNING *&quot;
     )
     .bind(Uuid::new_v4())
     .bind(title)
@@ -985,9 +992,9 @@ async fn create_user(
     for tag in tags {
         // First, ensure the tag exists
         let tag_id = sqlx::query_scalar::&lt;_, Uuid&gt;(
-            "INSERT INTO tags (name) VALUES ($1)
+            &quot;INSERT INTO tags (name) VALUES ($1)
              ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
-             RETURNING id"
+             RETURNING id&quot;
         )
         .bind(tag)
         .fetch_one(&amp;mut *tx)
@@ -995,8 +1002,8 @@ async fn create_user(
 
         // Then, link the post to the tag
         sqlx::query(
-            "INSERT INTO post_tags (post_id, tag_id)
-             VALUES ($1, $2)"
+            &quot;INSERT INTO post_tags (post_id, tag_id)
+             VALUES ($1, $2)&quot;
         )
         .bind(post.id)
         .bind(tag_id)
@@ -1011,7 +1018,7 @@ async fn create_user(
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="implementing-the-repository-pattern"><a class="header" href="#implementing-the-repository-pattern">Implementing the Repository Pattern</a></h3>
-<p>The repository pattern provides a clean abstraction over your data access code. Here’s how you might implement it with SQLx:</p>
+<p>The repository pattern provides a clean abstraction over your data access code. Here's how you might implement it with SQLx:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Define the repository trait
@@ -1040,7 +1047,7 @@ impl UserRepository for PgUserRepository {
     async fn find_by_id(&amp;self, id: Uuid) -&gt; Result&lt;Option&lt;User&gt;, sqlx::Error&gt; {
         sqlx::query_as!(
             User,
-            "SELECT * FROM users WHERE id = $1",
+            &quot;SELECT * FROM users WHERE id = $1&quot;,
             id
         )
         .fetch_optional(&amp;self.pool)
@@ -1050,7 +1057,7 @@ impl UserRepository for PgUserRepository {
     async fn find_by_email(&amp;self, email: &amp;str) -&gt; Result&lt;Option&lt;User&gt;, sqlx::Error&gt; {
         sqlx::query_as!(
             User,
-            "SELECT * FROM users WHERE email = $1",
+            &quot;SELECT * FROM users WHERE email = $1&quot;,
             email
         )
         .fetch_optional(&amp;self.pool)
@@ -1063,11 +1070,11 @@ impl UserRepository for PgUserRepository {
 
         sqlx::query_as!(
             User,
-            r#"
+            r#&quot;
             INSERT INTO users (id, username, email, password_hash, created_at, updated_at)
             VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *
-            "#,
+            &quot;#,
             id,
             user.username,
             user.email,
@@ -1091,7 +1098,7 @@ impl UserRepository for PgUserRepository {
 ) -&gt; impl Responder {
     let user_id = match Uuid::parse_str(&amp;path.into_inner()) {
         Ok(id) =&gt; id,
-        Err(_) =&gt; return HttpResponse::BadRequest().body("Invalid user ID"),
+        Err(_) =&gt; return HttpResponse::BadRequest().body(&quot;Invalid user ID&quot;),
     };
 
     match repo.find_by_id(user_id).await {
@@ -1099,7 +1106,7 @@ impl UserRepository for PgUserRepository {
             let response = UserResponseDto::from(user);
             HttpResponse::Ok().json(response)
         },
-        Ok(None) =&gt; HttpResponse::NotFound().body("User not found"),
+        Ok(None) =&gt; HttpResponse::NotFound().body(&quot;User not found&quot;),
         Err(e) =&gt; HttpResponse::InternalServerError().body(e.to_string()),
     }
 }
@@ -1120,7 +1127,7 @@ use std::path::Path;
 
 // In your application startup
 async fn run_migrations(pool: &amp;PgPool) -&gt; Result&lt;(), sqlx::Error&gt; {
-    let migrations = Path::new("./migrations");
+    let migrations = Path::new(&quot;./migrations&quot;);
     Migrator::new(migrations)
         .await?
         .run(pool)
@@ -1162,23 +1169,23 @@ mod tests {
     async fn setup_test_db() -&gt; PgPool {
         dotenv().ok();
 
-        let database_url = env::var("TEST_DATABASE_URL")
-            .expect("TEST_DATABASE_URL must be set");
+        let database_url = env::var(&quot;TEST_DATABASE_URL&quot;)
+            .expect(&quot;TEST_DATABASE_URL must be set&quot;);
 
         let pool = PgPoolOptions::new()
             .max_connections(5)
             .connect(&amp;database_url)
             .await
-            .expect("Failed to create pool");
+            .expect(&quot;Failed to create pool&quot;);
 
         // Run migrations to ensure schema is up to date
-        let migrations = Path::new("./migrations");
+        let migrations = Path::new(&quot;./migrations&quot;);
         Migrator::new(migrations)
             .await
-            .expect("Failed to initialize migrator")
+            .expect(&quot;Failed to initialize migrator&quot;)
             .run(&amp;pool)
             .await
-            .expect("Failed to run migrations");
+            .expect(&quot;Failed to run migrations&quot;);
 
         pool
     }
@@ -1189,22 +1196,22 @@ mod tests {
         let repo = PgUserRepository::new(pool);
 
         let new_user = NewUser {
-            username: "test_user".to_string(),
-            email: "test@example.com".to_string(),
-            password_hash: "hashed_password".to_string(),
+            username: &quot;test_user&quot;.to_string(),
+            email: &quot;test@example.com&quot;.to_string(),
+            password_hash: &quot;hashed_password&quot;.to_string(),
         };
 
-        let user = repo.create(new_user).await.expect("Failed to create user");
+        let user = repo.create(new_user).await.expect(&quot;Failed to create user&quot;);
 
-        assert_eq!(user.username, "test_user");
-        assert_eq!(user.email, "test@example.com");
+        assert_eq!(user.username, &quot;test_user&quot;);
+        assert_eq!(user.email, &quot;test@example.com&quot;);
 
         // Clean up
-        repo.delete(user.id).await.expect("Failed to delete user");
+        repo.delete(user.id).await.expect(&quot;Failed to delete user&quot;);
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<h4 id="using-sqlxs-testing-features"><a class="header" href="#using-sqlxs-testing-features">Using SQLx’s Testing Features</a></h4>
+<h4 id="using-sqlxs-testing-features"><a class="header" href="#using-sqlxs-testing-features">Using SQLx's Testing Features</a></h4>
 <p>SQLx provides features to make testing easier, like the ability to use transactions to automatically roll back changes:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1213,16 +1220,16 @@ async fn test_with_transaction() {
     let pool = setup_test_db().await;
 
     // Start a transaction
-    let mut tx = pool.begin().await.expect("Failed to start transaction");
+    let mut tx = pool.begin().await.expect(&quot;Failed to start transaction&quot;);
 
     // Create a repository with the transaction
     let repo = PgUserRepository::new(tx.as_mut());
 
     // Test your code
     let new_user = NewUser { /* ... */ };
-    let user = repo.create(new_user).await.expect("Failed to create user");
+    let user = repo.create(new_user).await.expect(&quot;Failed to create user&quot;);
 
-    assert_eq!(user.username, "test_user");
+    assert_eq!(user.username, &quot;test_user&quot;);
 
     // The transaction will be rolled back when tx is dropped,
     // so no cleanup is necessary
@@ -1233,17 +1240,17 @@ async fn test_with_transaction() {
 <li><strong>Use Connection Pooling</strong>: Always use a connection pool to manage database connections efficiently.</li>
 <li><strong>Implement the Repository Pattern</strong>: Separate database logic from business logic.</li>
 <li><strong>Use Transactions</strong>: Wrap related operations in transactions to ensure data integrity.</li>
-<li><strong>Leverage Compile-Time Checking</strong>: Use SQLx’s <code>query!</code> and <code>query_as!</code> macros to catch SQL errors at compile time.</li>
+<li><strong>Leverage Compile-Time Checking</strong>: Use SQLx's <code>query!</code> and <code>query_as!</code> macros to catch SQL errors at compile time.</li>
 <li><strong>Parameterize Queries</strong>: Always use parameters instead of string concatenation to prevent SQL injection.</li>
-<li><strong>Manage Migrations</strong>: Use SQLx’s migration system to track and apply schema changes.</li>
+<li><strong>Manage Migrations</strong>: Use SQLx's migration system to track and apply schema changes.</li>
 <li><strong>Test Database Code</strong>: Write integration tests for your database code.</li>
 <li><strong>Handle Errors Gracefully</strong>: Implement proper error handling for database operations.</li>
 <li><strong>Monitor Performance</strong>: Use logging and metrics to identify slow queries.</li>
 <li><strong>Consider Security</strong>: Be careful with sensitive data and implement proper access controls.</li>
 </ol>
-<p>In the next section, we’ll explore authentication and security in Rust web applications.</p>
+<p>In the next section, we'll explore authentication and security in Rust web applications.</p>
 <h2 id="authentication-and-security"><a class="header" href="#authentication-and-security">Authentication and Security</a></h2>
-<p>Security is a critical aspect of web application development. In this section, we’ll explore how to implement authentication, authorization, and other security measures in Rust web applications.</p>
+<p>Security is a critical aspect of web application development. In this section, we'll explore how to implement authentication, authorization, and other security measures in Rust web applications.</p>
 <h3 id="authentication-fundamentals"><a class="header" href="#authentication-fundamentals">Authentication Fundamentals</a></h3>
 <p>Authentication is the process of verifying the identity of a user. In web applications, common authentication methods include:</p>
 <ol>
@@ -1253,7 +1260,7 @@ async fn test_with_transaction() {
 <li><strong>Multi-factor Authentication (MFA)</strong>: Requires additional verification beyond just a password.</li>
 </ol>
 <h3 id="implementing-password-based-authentication"><a class="header" href="#implementing-password-based-authentication">Implementing Password-Based Authentication</a></h3>
-<p>Let’s start with the basics of password-based authentication in Rust:</p>
+<p>Let's start with the basics of password-based authentication in Rust:</p>
 <h4 id="secure-password-storage"><a class="header" href="#secure-password-storage">Secure Password Storage</a></h4>
 <p>Never store passwords in plain text. Instead, use a cryptographic hashing function designed for passwords:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1281,7 +1288,7 @@ async fn create_user(
 ) -&gt; Result&lt;User, ApiError&gt; {
     // Hash the password
     let password_hash = hash_password(password)
-        .map_err(|_| ApiError::InternalError("Failed to hash password".to_string()))?;
+        .map_err(|_| ApiError::InternalError(&quot;Failed to hash password&quot;.to_string()))?;
 
     // Store the user with the hashed password
     // ...
@@ -1296,7 +1303,7 @@ async fn login(
     // Find the user by email
     let user = sqlx::query_as!(
         User,
-        "SELECT * FROM users WHERE email = $1",
+        &quot;SELECT * FROM users WHERE email = $1&quot;,
         email
     )
     .fetch_optional(pool)
@@ -1305,7 +1312,7 @@ async fn login(
 
     // Verify the password
     let is_valid = verify_password(&amp;user.password_hash, password)
-        .map_err(|_| ApiError::InternalError("Failed to verify password".to_string()))?;
+        .map_err(|_| ApiError::InternalError(&quot;Failed to verify password&quot;.to_string()))?;
 
     if !is_valid {
         return Err(ApiError::InvalidCredentials);
@@ -1369,17 +1376,17 @@ async fn login(
     // Authenticate the user
     let user = match authenticate_user(&amp;data.pool, &amp;form.email, &amp;form.password).await {
         Ok(user) =&gt; user,
-        Err(_) =&gt; return HttpResponse::Unauthorized().body("Invalid credentials"),
+        Err(_) =&gt; return HttpResponse::Unauthorized().body(&quot;Invalid credentials&quot;),
     };
 
     // Create a JWT
     let token = match create_jwt(user.id, &amp;user.role, data.jwt_secret.as_bytes()) {
         Ok(token) =&gt; token,
-        Err(_) =&gt; return HttpResponse::InternalServerError().body("Could not create token"),
+        Err(_) =&gt; return HttpResponse::InternalServerError().body(&quot;Could not create token&quot;),
     };
 
     // Return the token
-    HttpResponse::Ok().json(json!({ "token": token }))
+    HttpResponse::Ok().json(json!({ &quot;token&quot;: token }))
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="implementing-authentication-middleware"><a class="header" href="#implementing-authentication-middleware">Implementing Authentication Middleware</a></h3>
@@ -1422,16 +1429,16 @@ pub async fn auth_middleware(
 // In your route configuration
 App::new()
     .service(
-        web::scope("/api")
+        web::scope(&quot;/api&quot;)
             .service(
-                web::scope("/public")
-                    .route("/login", web::post().to(login))
+                web::scope(&quot;/public&quot;)
+                    .route(&quot;/login&quot;, web::post().to(login))
                     // Other public routes
             )
             .service(
-                web::scope("/private")
+                web::scope(&quot;/private&quot;)
                     .wrap(HttpAuthentication::bearer(auth_middleware))
-                    .route("/profile", web::get().to(get_profile))
+                    .route(&quot;/profile&quot;, web::get().to(get_profile))
                     // Other protected routes
             )
     )
@@ -1451,12 +1458,12 @@ enum Role {
 fn check_admin(req: &amp;HttpRequest) -&gt; Result&lt;(), Error&gt; {
     // Get the claims from the request extensions
     if let Some(claims) = req.extensions().get::&lt;Claims&gt;() {
-        if claims.role == "admin" {
+        if claims.role == &quot;admin&quot; {
             return Ok(());
         }
     }
 
-    Err(ErrorForbidden("Insufficient permissions"))
+    Err(ErrorForbidden(&quot;Insufficient permissions&quot;))
 }
 
 // Use in a handler
@@ -1466,7 +1473,7 @@ async fn admin_only(req: HttpRequest) -&gt; impl Responder {
     }
 
     // Admin-only functionality
-    HttpResponse::Ok().body("Admin area")
+    HttpResponse::Ok().body(&quot;Admin area&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="cors-configuration"><a class="header" href="#cors-configuration">CORS Configuration</a></h3>
@@ -1478,8 +1485,8 @@ use actix_web::http::header;
 
 // In your app configuration
 let cors = Cors::default()
-    .allowed_origin("https://frontend.example.com")
-    .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
+    .allowed_origin(&quot;https://frontend.example.com&quot;)
+    .allowed_methods(vec![&quot;GET&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;])
     .allowed_headers(vec![header::AUTHORIZATION, header::CONTENT_TYPE])
     .max_age(3600);
 
@@ -1510,15 +1517,15 @@ App::new()
 // In a form handler
 async fn render_form(session: Session) -&gt; impl Responder {
     // Get the CSRF token from the session
-    let csrf_token = session.get::&lt;String&gt;("csrf-token").unwrap_or_else(|_| None);
+    let csrf_token = session.get::&lt;String&gt;(&quot;csrf-token&quot;).unwrap_or_else(|_| None);
 
     // Render the form with the token
     HttpResponse::Ok().body(format!(
-        r#"&lt;form method="post"&gt;
-            &lt;input type="hidden" name="csrf-token" value="{}"&gt;
+        r#&quot;&lt;form method=&quot;post&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;csrf-token&quot; value=&quot;{}&quot;&gt;
             &lt;!-- Other form fields --&gt;
-            &lt;button type="submit"&gt;Submit&lt;/button&gt;
-        &lt;/form&gt;"#,
+            &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;&quot;#,
         csrf_token.unwrap_or_default()
     ))
 }
@@ -1586,12 +1593,12 @@ App::new()
 App::new()
     .wrap(
         DefaultHeaders::new()
-            .add(("X-Content-Type-Options", "nosniff"))
-            .add(("X-Frame-Options", "DENY"))
-            .add(("X-XSS-Protection", "1; mode=block"))
-            .add(("Strict-Transport-Security", "max-age=31536000; includeSubDomains"))
-            .add(("Referrer-Policy", "strict-origin-when-cross-origin"))
-            .add(("Content-Security-Policy", "default-src 'self'"))
+            .add((&quot;X-Content-Type-Options&quot;, &quot;nosniff&quot;))
+            .add((&quot;X-Frame-Options&quot;, &quot;DENY&quot;))
+            .add((&quot;X-XSS-Protection&quot;, &quot;1; mode=block&quot;))
+            .add((&quot;Strict-Transport-Security&quot;, &quot;max-age=31536000; includeSubDomains&quot;))
+            .add((&quot;Referrer-Policy&quot;, &quot;strict-origin-when-cross-origin&quot;))
+            .add((&quot;Content-Security-Policy&quot;, &quot;default-src 'self'&quot;))
     )
     // ...
 <span class="boring">}</span></code></pre></pre>
@@ -1616,10 +1623,10 @@ App::new()
 // Using sessions in a handler
 async fn handler(session: Session) -&gt; impl Responder {
     // Get a value from the session
-    let user_id: Option&lt;String&gt; = session.get("user_id").unwrap_or(None);
+    let user_id: Option&lt;String&gt; = session.get(&quot;user_id&quot;).unwrap_or(None);
 
     // Set a value in the session
-    session.insert("user_id", "12345").unwrap();
+    session.insert(&quot;user_id&quot;, &quot;12345&quot;).unwrap();
 
     // Clear the session
     session.purge();
@@ -1640,12 +1647,12 @@ use url::Url;
 // Set up the OAuth client
 fn create_oauth_client() -&gt; BasicClient {
     BasicClient::new(
-        ClientId::new("client_id".to_string()),
-        Some(ClientSecret::new("client_secret".to_string())),
-        AuthUrl::new("https://provider.com/auth".to_string()).unwrap(),
-        Some(TokenUrl::new("https://provider.com/token".to_string()).unwrap())
+        ClientId::new(&quot;client_id&quot;.to_string()),
+        Some(ClientSecret::new(&quot;client_secret&quot;.to_string())),
+        AuthUrl::new(&quot;https://provider.com/auth&quot;.to_string()).unwrap(),
+        Some(TokenUrl::new(&quot;https://provider.com/token&quot;.to_string()).unwrap())
     )
-    .set_redirect_uri(RedirectUrl::new("http://localhost:8080/auth/callback".to_string()).unwrap())
+    .set_redirect_uri(RedirectUrl::new(&quot;http://localhost:8080/auth/callback&quot;.to_string()).unwrap())
 }
 
 // Initiate OAuth flow
@@ -1655,12 +1662,12 @@ async fn start_oauth(session: Session) -&gt; impl Responder {
     // Generate a CSRF token
     let (auth_url, csrf_token) = client
         .authorize_url(CsrfToken::new_random)
-        .add_scope(Scope::new("email".to_string()))
-        .add_scope(Scope::new("profile".to_string()))
+        .add_scope(Scope::new(&quot;email&quot;.to_string()))
+        .add_scope(Scope::new(&quot;profile&quot;.to_string()))
         .url();
 
     // Store the CSRF token in the session
-    session.insert("oauth_csrf", csrf_token.secret()).unwrap();
+    session.insert(&quot;oauth_csrf&quot;, csrf_token.secret()).unwrap();
 
     // Redirect to the OAuth provider
     HttpResponse::Found()
@@ -1674,21 +1681,21 @@ async fn oauth_callback(
     session: Session,
 ) -&gt; impl Responder {
     // Get the authorization code
-    let code = match query.get("code") {
+    let code = match query.get(&quot;code&quot;) {
         Some(code) =&gt; AuthorizationCode::new(code.to_string()),
-        None =&gt; return HttpResponse::BadRequest().body("No code provided"),
+        None =&gt; return HttpResponse::BadRequest().body(&quot;No code provided&quot;),
     };
 
     // Get the state (CSRF token)
-    let state = match query.get("state") {
+    let state = match query.get(&quot;state&quot;) {
         Some(state) =&gt; state,
-        None =&gt; return HttpResponse::BadRequest().body("No state provided"),
+        None =&gt; return HttpResponse::BadRequest().body(&quot;No state provided&quot;),
     };
 
     // Verify the CSRF token
-    let csrf = match session.get::&lt;String&gt;("oauth_csrf") {
+    let csrf = match session.get::&lt;String&gt;(&quot;oauth_csrf&quot;) {
         Ok(Some(csrf)) if csrf == state =&gt; csrf,
-        _ =&gt; return HttpResponse::BadRequest().body("Invalid CSRF token"),
+        _ =&gt; return HttpResponse::BadRequest().body(&quot;Invalid CSRF token&quot;),
     };
 
     // Exchange the authorization code for a token
@@ -1704,10 +1711,10 @@ async fn oauth_callback(
             // ...
 
             HttpResponse::Found()
-                .header(header::LOCATION, "/dashboard")
+                .header(header::LOCATION, &quot;/dashboard&quot;)
                 .finish()
         },
-        Err(e) =&gt; HttpResponse::InternalServerError().body(format!("Error: {}", e)),
+        Err(e) =&gt; HttpResponse::InternalServerError().body(format!(&quot;Error: {}&quot;, e)),
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1729,22 +1736,22 @@ async fn oauth_callback(
 <ol>
 <li><strong>Encryption at Rest</strong>: Encrypt sensitive data stored in your database.</li>
 <li><strong>Secure Communication</strong>: Use TLS for all network communication.</li>
-<li><strong>Minimal Data Retention</strong>: Only store necessary data, and delete what you don’t need.</li>
+<li><strong>Minimal Data Retention</strong>: Only store necessary data, and delete what you don't need.</li>
 <li><strong>Logging Considerations</strong>: Be careful not to log sensitive information like passwords or tokens.</li>
 <li><strong>Environment Variables</strong>: Use environment variables for secrets, not hardcoded values.</li>
 </ol>
-<p>In the next section, we’ll explore middleware and request handlers in Rust web frameworks.</p>
+<p>In the next section, we'll explore middleware and request handlers in Rust web frameworks.</p>
 <h2 id="middleware-and-request-handlers"><a class="header" href="#middleware-and-request-handlers">Middleware and Request Handlers</a></h2>
-<p>Middleware and request handlers are essential components of any web application. They allow you to intercept and process requests and responses, enabling features like logging, authentication, compression, and more. In this section, we’ll explore how middleware works in Rust web frameworks and how to implement custom middleware.</p>
+<p>Middleware and request handlers are essential components of any web application. They allow you to intercept and process requests and responses, enabling features like logging, authentication, compression, and more. In this section, we'll explore how middleware works in Rust web frameworks and how to implement custom middleware.</p>
 <h3 id="understanding-middleware-in-rust-web-frameworks"><a class="header" href="#understanding-middleware-in-rust-web-frameworks">Understanding Middleware in Rust Web Frameworks</a></h3>
-<p>Middleware in Rust web frameworks follows a similar pattern to other languages, but with Rust’s strong typing and ownership model providing additional safety guarantees. Middleware typically:</p>
+<p>Middleware in Rust web frameworks follows a similar pattern to other languages, but with Rust's strong typing and ownership model providing additional safety guarantees. Middleware typically:</p>
 <ol>
 <li>Intercepts requests before they reach handlers</li>
 <li>Can modify or process the request</li>
 <li>Can short-circuit request processing</li>
 <li>Can modify responses after handlers process them</li>
 </ol>
-<p>Let’s look at how middleware is implemented in different Rust web frameworks.</p>
+<p>Let's look at how middleware is implemented in different Rust web frameworks.</p>
 <h3 id="middleware-in-actix-web"><a class="header" href="#middleware-in-actix-web">Middleware in Actix Web</a></h3>
 <p>Actix Web provides a robust middleware system based on the <code>Service</code> and <code>Transform</code> traits from the <code>tower-service</code> crate. This allows for powerful composition of middleware.</p>
 <h4 id="built-in-middleware"><a class="header" href="#built-in-middleware">Built-in Middleware</a></h4>
@@ -1756,7 +1763,7 @@ async fn oauth_callback(
 
 #[actix_web::main]
 async fn main() -&gt; std::io::Result&lt;()&gt; {
-    std::env::set_var("RUST_LOG", "actix_web=info");
+    std::env::set_var(&quot;RUST_LOG&quot;, &quot;actix_web=info&quot;);
     env_logger::init();
 
     HttpServer::new(|| {
@@ -1768,12 +1775,12 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
             // Add security headers
             .wrap(
                 DefaultHeaders::new()
-                    .add(("X-Content-Type-Options", "nosniff"))
+                    .add((&quot;X-Content-Type-Options&quot;, &quot;nosniff&quot;))
             )
             // Configure routes
             .service(/* ... */)
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1837,7 +1844,7 @@ where
             let res = fut.await?;
 
             let duration = start.elapsed();
-            println!("Request took {}ms", duration.as_millis());
+            println!(&quot;Request took {}ms&quot;, duration.as_millis());
 
             Ok(res)
         })
@@ -1850,7 +1857,7 @@ App::new()
     // ...
 <span class="boring">}</span></code></pre></pre>
 <h3 id="middleware-in-rocket"><a class="header" href="#middleware-in-rocket">Middleware in Rocket</a></h3>
-<p>Rocket’s approach to middleware is different from Actix Web’s. Rocket uses “Fairings” for global request and response processing.</p>
+<p>Rocket's approach to middleware is different from Actix Web's. Rocket uses &quot;Fairings&quot; for global request and response processing.</p>
 <h4 id="using-fairings-in-rocket"><a class="header" href="#using-fairings-in-rocket">Using Fairings in Rocket</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1864,7 +1871,7 @@ struct RequestTimer;
 impl Fairing for RequestTimer {
     fn info(&amp;self) -&gt; Info {
         Info {
-            name: "Request Timer",
+            name: &quot;Request Timer&quot;,
             kind: Kind::Request | Kind::Response,
         }
     }
@@ -1878,13 +1885,13 @@ impl Fairing for RequestTimer {
         let start_time = request.local_cache::&lt;Instant&gt;();
         let duration = start_time.elapsed();
 
-        println!("Request to {} took {}ms", request.uri(), duration.as_millis());
+        println!(&quot;Request to {} took {}ms&quot;, request.uri(), duration.as_millis());
 
         // Add timing header to response
         response.set_header(
             rocket::http::Header::new(
-                "X-Response-Time",
-                format!("{}ms", duration.as_millis())
+                &quot;X-Response-Time&quot;,
+                format!(&quot;{}ms&quot;, duration.as_millis())
             )
         );
     }
@@ -1920,7 +1927,7 @@ async fn track_time&lt;B&gt;(req: Request&lt;B&gt;, next: Next&lt;B&gt;) -&gt; i
 
     // Record the time taken
     let duration = start.elapsed();
-    println!("Request took {}ms", duration.as_millis());
+    println!(&quot;Request took {}ms&quot;, duration.as_millis());
 
     // Return the response
     response
@@ -1928,11 +1935,11 @@ async fn track_time&lt;B&gt;(req: Request&lt;B&gt;, next: Next&lt;B&gt;) -&gt; i
 
 // In your app
 let app = Router::new()
-    .route("/", get(|| async { "Hello, World!" }))
+    .route(&quot;/&quot;, get(|| async { &quot;Hello, World!&quot; }))
     .layer(middleware::from_fn(track_time));
 <span class="boring">}</span></code></pre></pre>
 <h3 id="request-handlers"><a class="header" href="#request-handlers">Request Handlers</a></h3>
-<p>Request handlers are the functions that process specific routes in your web application. Let’s look at how handlers work in different frameworks.</p>
+<p>Request handlers are the functions that process specific routes in your web application. Let's look at how handlers work in different frameworks.</p>
 <h4 id="handlers-in-actix-web"><a class="header" href="#handlers-in-actix-web">Handlers in Actix Web</a></h4>
 <p>Actix Web handlers are async functions that take extractors as parameters and return types that implement the <code>Responder</code> trait:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1953,34 +1960,34 @@ struct UserResponse {
 }
 
 // Handler with path parameters
-#[get("/users/{id}")]
+#[get(&quot;/users/{id}&quot;)]
 async fn get_user(path: web::Path&lt;String&gt;) -&gt; impl Responder {
     let user_id = path.into_inner();
     // Fetch user from database...
     HttpResponse::Ok().json(UserResponse {
         id: user_id,
-        username: "johndoe".to_string(),
+        username: &quot;johndoe&quot;.to_string(),
     })
 }
 
 // Handler with JSON body
-#[post("/users")]
+#[post(&quot;/users&quot;)]
 async fn create_user(user: web::Json&lt;CreateUserRequest&gt;) -&gt; impl Responder {
     // Create user in database...
     HttpResponse::Created().json(UserResponse {
-        id: "new-id".to_string(),
+        id: &quot;new-id&quot;.to_string(),
         username: user.username.clone(),
     })
 }
 
 // Handler with query parameters
 async fn search_users(query: web::Query&lt;HashMap&lt;String, String&gt;&gt;) -&gt; impl Responder {
-    let term = query.get("q").unwrap_or(&amp;"".to_string());
+    let term = query.get(&quot;q&quot;).unwrap_or(&amp;&quot;&quot;.to_string());
     // Search users...
     HttpResponse::Ok().json(vec![
         UserResponse {
-            id: "1".to_string(),
-            username: format!("Result for {}", term),
+            id: &quot;1&quot;.to_string(),
+            username: format!(&quot;Result for {}&quot;, term),
         }
     ])
 }
@@ -1991,11 +1998,11 @@ async fn update_user_form(
     form: web::Form&lt;HashMap&lt;String, String&gt;&gt;,
 ) -&gt; impl Responder {
     // Update user...
-    format!("Updated user {} to {}", path.into_inner(), form.username)
+    format!(&quot;Updated user {} to {}&quot;, path.into_inner(), form.username)
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="handlers-in-rocket"><a class="header" href="#handlers-in-rocket">Handlers in Rocket</a></h4>
-<p>Rocket’s handlers are annotated functions that can use various guards to extract data:</p>
+<p>Rocket's handlers are annotated functions that can use various guards to extract data:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rocket::serde::{Deserialize, Serialize, json::Json};
@@ -2015,43 +2022,43 @@ struct UserResponse {
 }
 
 // Path parameters
-#[get("/users/&lt;id&gt;")]
+#[get(&quot;/users/&lt;id&gt;&quot;)]
 fn get_user(id: &amp;str) -&gt; Json&lt;UserResponse&gt; {
     // Fetch user from database...
     Json(UserResponse {
         id: id.to_string(),
-        username: "johndoe".to_string(),
+        username: &quot;johndoe&quot;.to_string(),
     })
 }
 
 // JSON body
-#[post("/users", data = "&lt;user&gt;")]
+#[post(&quot;/users&quot;, data = &quot;&lt;user&gt;&quot;)]
 fn create_user(user: Json&lt;User&gt;) -&gt; Json&lt;UserResponse&gt; {
     // Create user in database...
     Json(UserResponse {
-        id: "new-id".to_string(),
+        id: &quot;new-id&quot;.to_string(),
         username: user.username.clone(),
     })
 }
 
 // Query parameters
-#[get("/users?&lt;q&gt;")]
+#[get(&quot;/users?&lt;q&gt;&quot;)]
 fn search_users(q: Option&lt;&amp;str&gt;) -&gt; Json&lt;Vec&lt;UserResponse&gt;&gt; {
-    let term = q.unwrap_or("");
+    let term = q.unwrap_or(&quot;&quot;);
     // Search users...
     Json(vec![
         UserResponse {
-            id: "1".to_string(),
-            username: format!("Result for {}", term),
+            id: &quot;1&quot;.to_string(),
+            username: format!(&quot;Result for {}&quot;, term),
         }
     ])
 }
 
 // Form data
-#[post("/users/&lt;id&gt;", data = "&lt;form&gt;")]
+#[post(&quot;/users/&lt;id&gt;&quot;, data = &quot;&lt;form&gt;&quot;)]
 fn update_user_form(id: &amp;str, form: Form&lt;User&gt;) -&gt; String {
     // Update user...
-    format!("Updated user {} to {}", id, form.username)
+    format!(&quot;Updated user {} to {}&quot;, id, form.username)
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="handlers-in-axum"><a class="header" href="#handlers-in-axum">Handlers in Axum</a></h4>
@@ -2083,7 +2090,7 @@ async fn get_user(Path(id): Path&lt;String&gt;) -&gt; Json&lt;UserResponse&gt; {
     // Fetch user from database...
     Json(UserResponse {
         id,
-        username: "johndoe".to_string(),
+        username: &quot;johndoe&quot;.to_string(),
     })
 }
 
@@ -2091,19 +2098,19 @@ async fn get_user(Path(id): Path&lt;String&gt;) -&gt; Json&lt;UserResponse&gt; {
 async fn create_user(Json(user): Json&lt;User&gt;) -&gt; Json&lt;UserResponse&gt; {
     // Create user in database...
     Json(UserResponse {
-        id: "new-id".to_string(),
+        id: &quot;new-id&quot;.to_string(),
         username: user.username,
     })
 }
 
 // Query parameters
 async fn search_users(Query(params): Query&lt;HashMap&lt;String, String&gt;&gt;) -&gt; Json&lt;Vec&lt;UserResponse&gt;&gt; {
-    let term = params.get("q").unwrap_or(&amp;"".to_string());
+    let term = params.get(&quot;q&quot;).unwrap_or(&amp;&quot;&quot;.to_string());
     // Search users...
     Json(vec![
         UserResponse {
-            id: "1".to_string(),
-            username: format!("Result for {}", term),
+            id: &quot;1&quot;.to_string(),
+            username: format!(&quot;Result for {}&quot;, term),
         }
     ])
 }
@@ -2114,18 +2121,18 @@ async fn update_user_form(
     Form(form): Form&lt;User&gt;,
 ) -&gt; String {
     // Update user...
-    format!("Updated user {} to {}", id, form.username)
+    format!(&quot;Updated user {} to {}&quot;, id, form.username)
 }
 
 // Routing configuration
 let app = Router::new()
-    .route("/users/:id", get(get_user))
-    .route("/users", post(create_user))
-    .route("/users", get(search_users))
-    .route("/users/:id", post(update_user_form));
+    .route(&quot;/users/:id&quot;, get(get_user))
+    .route(&quot;/users&quot;, post(create_user))
+    .route(&quot;/users&quot;, get(search_users))
+    .route(&quot;/users/:id&quot;, post(update_user_form));
 <span class="boring">}</span></code></pre></pre>
 <h3 id="error-handling-in-request-handlers"><a class="header" href="#error-handling-in-request-handlers">Error Handling in Request Handlers</a></h3>
-<p>Proper error handling in request handlers is crucial for a robust API. Here’s how you might handle errors in different frameworks:</p>
+<p>Proper error handling in request handlers is crucial for a robust API. Here's how you might handle errors in different frameworks:</p>
 <h4 id="actix-web-error-handling"><a class="header" href="#actix-web-error-handling">Actix Web Error Handling</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2134,20 +2141,20 @@ use derive_more::{Display, Error};
 
 #[derive(Debug, Display, Error)]
 enum MyError {
-    #[display(fmt = "Internal error: {}", _0)]
+    #[display(fmt = &quot;Internal error: {}&quot;, _0)]
     InternalError(String),
 
-    #[display(fmt = "Not found: {}", _0)]
+    #[display(fmt = &quot;Not found: {}&quot;, _0)]
     NotFound(String),
 
-    #[display(fmt = "Bad request: {}", _0)]
+    #[display(fmt = &quot;Bad request: {}&quot;, _0)]
     BadRequest(String),
 }
 
 impl error::ResponseError for MyError {
     fn error_response(&amp;self) -&gt; HttpResponse {
         match *self {
-            MyError::InternalError(_) =&gt; HttpResponse::InternalServerError().json("Internal server error"),
+            MyError::InternalError(_) =&gt; HttpResponse::InternalServerError().json(&quot;Internal server error&quot;),
             MyError::NotFound(ref message) =&gt; HttpResponse::NotFound().json(message),
             MyError::BadRequest(ref message) =&gt; HttpResponse::BadRequest().json(message),
         }
@@ -2157,7 +2164,7 @@ impl error::ResponseError for MyError {
 async fn handler() -&gt; Result&lt;HttpResponse, MyError&gt; {
     // This might fail
     let result = do_something().map_err(|e| {
-        MyError::InternalError(format!("Something went wrong: {}", e))
+        MyError::InternalError(format!(&quot;Something went wrong: {}&quot;, e))
     })?;
 
     Ok(HttpResponse::Ok().json(result))
@@ -2175,13 +2182,13 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 enum ApiError {
-    #[error("Resource not found: {0}")]
+    #[error(&quot;Resource not found: {0}&quot;)]
     NotFound(String),
 
-    #[error("Bad request: {0}")]
+    #[error(&quot;Bad request: {0}&quot;)]
     BadRequest(String),
 
-    #[error("Internal server error: {0}")]
+    #[error(&quot;Internal server error: {0}&quot;)]
     InternalError(String),
 }
 
@@ -2205,11 +2212,11 @@ impl&lt;'r&gt; Responder&lt;'r, 'static&gt; for ApiError {
     }
 }
 
-#[get("/users/&lt;id&gt;")]
+#[get(&quot;/users/&lt;id&gt;&quot;)]
 fn get_user(id: &amp;str) -&gt; Result&lt;Json&lt;UserResponse&gt;, ApiError&gt; {
     // Fetch user from database
     let user = find_user(id).ok_or_else(|| {
-        ApiError::NotFound(format!("User with id {} not found", id))
+        ApiError::NotFound(format!(&quot;User with id {} not found&quot;, id))
     })?;
 
     Ok(Json(user))
@@ -2229,13 +2236,13 @@ use thiserror::Error;
 
 #[derive(Error, Debug)]
 enum AppError {
-    #[error("Not found: {0}")]
+    #[error(&quot;Not found: {0}&quot;)]
     NotFound(String),
 
-    #[error("Bad request: {0}")]
+    #[error(&quot;Bad request: {0}&quot;)]
     BadRequest(String),
 
-    #[error("Internal error: {0}")]
+    #[error(&quot;Internal error: {0}&quot;)]
     InternalError(String),
 }
 
@@ -2248,9 +2255,9 @@ impl IntoResponse for AppError {
         };
 
         let body = Json(json!({
-            "error": {
-                "message": error_message,
-                "status": status.as_u16()
+            &quot;error&quot;: {
+                &quot;message&quot;: error_message,
+                &quot;status&quot;: status.as_u16()
             }
         }));
 
@@ -2261,7 +2268,7 @@ impl IntoResponse for AppError {
 async fn get_user(Path(id): Path&lt;String&gt;) -&gt; Result&lt;Json&lt;UserResponse&gt;, AppError&gt; {
     // Fetch user from database
     let user = find_user(&amp;id).ok_or_else(|| {
-        AppError::NotFound(format!("User with id {} not found", id))
+        AppError::NotFound(format!(&quot;User with id {} not found&quot;, id))
     })?;
 
     Ok(Json(user))
@@ -2273,16 +2280,16 @@ async fn get_user(Path(id): Path&lt;String&gt;) -&gt; Result&lt;Json&lt;UserResp
 <li><strong>Use Middleware for Cross-Cutting Concerns</strong>: Logging, authentication, compression, etc.</li>
 <li><strong>Separate Business Logic from Handlers</strong>: Keep handlers thin and move complex logic to service layers.</li>
 <li><strong>Consistent Error Handling</strong>: Implement a unified error handling strategy.</li>
-<li><strong>Use Type-Safe Extractors</strong>: Leverage Rust’s type system to validate input data.</li>
+<li><strong>Use Type-Safe Extractors</strong>: Leverage Rust's type system to validate input data.</li>
 <li><strong>Optimize Middleware Order</strong>: Place frequently short-circuiting middleware early in the chain.</li>
 <li><strong>Handle Failures Gracefully</strong>: Provide meaningful error responses.</li>
 <li><strong>Validate Input Data</strong>: Always validate user inputs before processing.</li>
 <li><strong>Test Middleware and Handlers</strong>: Write unit and integration tests.</li>
 <li><strong>Document Your API</strong>: Use tools like OpenAPI/Swagger for documentation.</li>
 </ol>
-<p>In the next section, we’ll explore frontend development with WebAssembly and frameworks like Yew and Leptos.</p>
+<p>In the next section, we'll explore frontend development with WebAssembly and frameworks like Yew and Leptos.</p>
 <h2 id="frontend-with-webassembly-and-yewleptos"><a class="header" href="#frontend-with-webassembly-and-yewleptos">Frontend with WebAssembly and Yew/Leptos</a></h2>
-<p>While Rust has established itself as a powerful language for backend development, it’s also making significant inroads into frontend development through WebAssembly (Wasm). In this section, we’ll explore how to build web user interfaces using Rust with frameworks like Yew and Leptos.</p>
+<p>While Rust has established itself as a powerful language for backend development, it's also making significant inroads into frontend development through WebAssembly (Wasm). In this section, we'll explore how to build web user interfaces using Rust with frameworks like Yew and Leptos.</p>
 <h3 id="understanding-webassembly"><a class="header" href="#understanding-webassembly">Understanding WebAssembly</a></h3>
 <p>WebAssembly is a binary instruction format that runs in web browsers, providing near-native performance for code written in languages like Rust, C++, and others. Key benefits include:</p>
 <ol>
@@ -2293,7 +2300,7 @@ async fn get_user(Path(id): Path&lt;String&gt;) -&gt; Result&lt;Json&lt;UserResp
 </ol>
 <p>For Rust developers, WebAssembly opens up the possibility to build complete web applications with Rust on both the frontend and backend.</p>
 <h3 id="setting-up-a-rust-webassembly-project"><a class="header" href="#setting-up-a-rust-webassembly-project">Setting Up a Rust WebAssembly Project</a></h3>
-<p>Let’s start by setting up a basic Rust WebAssembly project:</p>
+<p>Let's start by setting up a basic Rust WebAssembly project:</p>
 <pre><code class="language-bash"># Install wasm-pack, a tool for building Rust-generated WebAssembly
 cargo install wasm-pack
 
@@ -2305,26 +2312,26 @@ cd wasm-app
 </code></pre>
 <p>Update your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "wasm-app"
-version = "0.1.0"
-edition = "2021"
+name = &quot;wasm-app&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [lib]
-crate-type = ["cdylib", "rlib"]
+crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 
 [dependencies]
-wasm-bindgen = "0.2"
-js-sys = "0.3"
-web-sys = { version = "0.3", features = [
-  "console",
-  "Document",
-  "Element",
-  "HtmlElement",
-  "Window",
+wasm-bindgen = &quot;0.2&quot;
+js-sys = &quot;0.3&quot;
+web-sys = { version = &quot;0.3&quot;, features = [
+  &quot;console&quot;,
+  &quot;Document&quot;,
+  &quot;Element&quot;,
+  &quot;HtmlElement&quot;,
+  &quot;Window&quot;,
 ] }
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3"
+wasm-bindgen-test = &quot;0.3&quot;
 </code></pre>
 <p>Create a simple WebAssembly module in <code>src/lib.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2334,43 +2341,43 @@ wasm-bindgen-test = "0.3"
 // Export a function to JavaScript
 #[wasm_bindgen]
 pub fn greet(name: &amp;str) -&gt; String {
-    format!("Hello, {}!", name)
+    format!(&quot;Hello, {}!&quot;, name)
 }
 
 // Call JavaScript from Rust
 #[wasm_bindgen]
 pub fn display_alert(message: &amp;str) {
     // Get the window object
-    let window = web_sys::window().expect("no global window exists");
+    let window = web_sys::window().expect(&quot;no global window exists&quot;);
 
     // Call the alert function
     window
         .alert_with_message(message)
-        .expect("alert failed");
+        .expect(&quot;alert failed&quot;);
 }
 
 // DOM manipulation
 #[wasm_bindgen(start)]
 pub fn run() {
     // Log a message to the console
-    web_sys::console::log_1(&amp;"WebAssembly module loaded!".into());
+    web_sys::console::log_1(&amp;&quot;WebAssembly module loaded!&quot;.into());
 
     // Get the document
     let document = web_sys::window()
-        .expect("no global window exists")
+        .expect(&quot;no global window exists&quot;)
         .document()
-        .expect("no document exists");
+        .expect(&quot;no document exists&quot;);
 
     // Create a new element
     let p = document
-        .create_element("p")
-        .expect("failed to create element");
+        .create_element(&quot;p&quot;)
+        .expect(&quot;failed to create element&quot;);
 
-    p.set_inner_html("This paragraph was created from Rust!");
+    p.set_inner_html(&quot;This paragraph was created from Rust!&quot;);
 
     // Add the element to the document body
-    let body = document.body().expect("document should have a body");
-    body.append_child(&amp;p).expect("failed to append child");
+    let body = document.body().expect(&quot;document should have a body&quot;);
+    body.append_child(&amp;p).expect(&quot;failed to append child&quot;);
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Build the WebAssembly module:</p>
@@ -2380,15 +2387,15 @@ pub fn run() {
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
-    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
     &lt;title&gt;Rust WebAssembly Demo&lt;/title&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;h1&gt;Rust WebAssembly Demo&lt;/h1&gt;
-    &lt;button id="greet-button"&gt;Greet&lt;/button&gt;
+    &lt;button id=&quot;greet-button&quot;&gt;Greet&lt;/button&gt;
 
-    &lt;script type="module"&gt;
-      import init, { greet, display_alert } from "./pkg/wasm_app.js";
+    &lt;script type=&quot;module&quot;&gt;
+      import init, { greet, display_alert } from &quot;./pkg/wasm_app.js&quot;;
 
       async function run() {
         // Initialize the WebAssembly module
@@ -2396,9 +2403,9 @@ pub fn run() {
 
         // Set up event listeners
         document
-          .getElementById("greet-button")
-          .addEventListener("click", () =&gt; {
-            const result = greet("WebAssembly");
+          .getElementById(&quot;greet-button&quot;)
+          .addEventListener(&quot;click&quot;, () =&gt; {
+            const result = greet(&quot;WebAssembly&quot;);
             display_alert(result);
           });
       }
@@ -2418,22 +2425,22 @@ pub fn run() {
 <li>Event handling</li>
 <li>Routing capabilities</li>
 </ul>
-<p>Let’s create a simple Yew application:</p>
+<p>Let's create a simple Yew application:</p>
 <pre><code class="language-bash"># Create a new Yew project
 cargo new --bin yew-app
 cd yew-app
 </code></pre>
 <p>Update your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "yew-app"
-version = "0.1.0"
-edition = "2021"
+name = &quot;yew-app&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [dependencies]
-yew = { version = "0.20", features = ["csr"] }
-wasm-bindgen = "0.2"
-web-sys = "0.3"
-gloo = "0.8"
+yew = { version = &quot;0.20&quot;, features = [&quot;csr&quot;] }
+wasm-bindgen = &quot;0.2&quot;
+web-sys = &quot;0.3&quot;
+gloo = &quot;0.8&quot;
 </code></pre>
 <p>Create a simple Yew component in <code>src/main.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust">use yew::prelude::*;
@@ -2452,9 +2459,9 @@ fn app() -&gt; Html {
 
     html! {
         &lt;div&gt;
-            &lt;h1&gt;{ "Yew Counter App" }&lt;/h1&gt;
-            &lt;p&gt;{ "Current count: " }{ *counter }&lt;/p&gt;
-            &lt;button {onclick}&gt;{ "Increment" }&lt;/button&gt;
+            &lt;h1&gt;{ &quot;Yew Counter App&quot; }&lt;/h1&gt;
+            &lt;p&gt;{ &quot;Current count: &quot; }{ *counter }&lt;/p&gt;
+            &lt;button {onclick}&gt;{ &quot;Increment&quot; }&lt;/button&gt;
         &lt;/div&gt;
     }
 }
@@ -2476,7 +2483,7 @@ use gloo::console::log;
 fn complex_app() -&gt; Html {
     // State hooks
     let counter = use_state(|| 0);
-    let text = use_state(|| String::from(""));
+    let text = use_state(|| String::from(&quot;&quot;));
 
     // Ref hook
     let input_ref = use_node_ref();
@@ -2484,9 +2491,9 @@ fn complex_app() -&gt; Html {
     // Effect hook - runs on mount and when dependencies change
     use_effect_with_deps(
         move |counter| {
-            log!("Counter changed to", *counter);
+            log!(&quot;Counter changed to&quot;, *counter);
             // Cleanup function (similar to React useEffect return)
-            || log!("Cleaning up effect")
+            || log!(&quot;Cleaning up effect&quot;)
         },
         counter.clone(),
     );
@@ -2509,40 +2516,40 @@ fn complex_app() -&gt; Html {
 
     let onsubmit = Callback::from(move |e: SubmitEvent| {
         e.prevent_default();
-        log!("Form submitted");
+        log!(&quot;Form submitted&quot;);
     });
 
     html! {
         &lt;div&gt;
-            &lt;h1&gt;{ "Complex Yew App" }&lt;/h1&gt;
+            &lt;h1&gt;{ &quot;Complex Yew App&quot; }&lt;/h1&gt;
 
             &lt;div&gt;
-                &lt;p&gt;{ "Counter: " }{ *counter }&lt;/p&gt;
-                &lt;button {onclick}&gt;{ "Increment" }&lt;/button&gt;
+                &lt;p&gt;{ &quot;Counter: &quot; }{ *counter }&lt;/p&gt;
+                &lt;button {onclick}&gt;{ &quot;Increment&quot; }&lt;/button&gt;
             &lt;/div&gt;
 
             &lt;form onsubmit={onsubmit}&gt;
                 &lt;input
-                    type="text"
+                    type=&quot;text&quot;
                     value={(*text).clone()}
                     oninput={oninput}
                     ref={input_ref.clone()}
-                    placeholder="Type something..."
+                    placeholder=&quot;Type something...&quot;
                 /&gt;
-                &lt;p&gt;{ "You typed: " }{ (*text).clone() }&lt;/p&gt;
-                &lt;button type="submit"&gt;{ "Submit" }&lt;/button&gt;
+                &lt;p&gt;{ &quot;You typed: &quot; }{ (*text).clone() }&lt;/p&gt;
+                &lt;button type=&quot;submit&quot;&gt;{ &quot;Submit&quot; }&lt;/button&gt;
             &lt;/form&gt;
         &lt;/div&gt;
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="building-a-todo-list-app-with-yew"><a class="header" href="#building-a-todo-list-app-with-yew">Building a Todo List App with Yew</a></h3>
-<p>Let’s create a more practical example - a Todo List application:</p>
+<p>Let's create a more practical example - a Todo List application:</p>
 <pre><pre class="playground"><code class="language-rust">use yew::prelude::*;
 use gloo::storage::{LocalStorage, Storage};
 use serde::{Deserialize, Serialize};
 
-const STORAGE_KEY: &amp;str = "yew.todo.list";
+const STORAGE_KEY: &amp;str = &quot;yew.todo.list&quot;;
 
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
 struct Todo {
@@ -2567,7 +2574,7 @@ fn todo_app() -&gt; Html {
     // Save todos to local storage whenever they change
     use_effect_with_deps(
         move |todos| {
-            LocalStorage::set(STORAGE_KEY, todos.deref()).expect("failed to save todos");
+            LocalStorage::set(STORAGE_KEY, todos.deref()).expect(&quot;failed to save todos&quot;);
             || ()
         },
         todos.clone(),
@@ -2631,20 +2638,20 @@ fn todo_app() -&gt; Html {
     };
 
     html! {
-        &lt;div class="todo-app"&gt;
-            &lt;h1&gt;{ "Todo List" }&lt;/h1&gt;
+        &lt;div class=&quot;todo-app&quot;&gt;
+            &lt;h1&gt;{ &quot;Todo List&quot; }&lt;/h1&gt;
 
             &lt;form onsubmit={onsubmit}&gt;
                 &lt;input
-                    type="text"
+                    type=&quot;text&quot;
                     value={(*new_todo_text).clone()}
                     oninput={oninput}
-                    placeholder="What needs to be done?"
+                    placeholder=&quot;What needs to be done?&quot;
                 /&gt;
-                &lt;button type="submit"&gt;{ "Add" }&lt;/button&gt;
+                &lt;button type=&quot;submit&quot;&gt;{ &quot;Add&quot; }&lt;/button&gt;
             &lt;/form&gt;
 
-            &lt;ul class="todo-list"&gt;
+            &lt;ul class=&quot;todo-list&quot;&gt;
                 {
                     (*todos).iter().map(|todo| {
                         let id = todo.id;
@@ -2659,22 +2666,22 @@ fn todo_app() -&gt; Html {
                         };
 
                         html! {
-                            &lt;li key={id} class={if todo.completed { "completed" } else { "" }}&gt;
+                            &lt;li key={id} class={if todo.completed { &quot;completed&quot; } else { &quot;&quot; }}&gt;
                                 &lt;input
-                                    type="checkbox"
+                                    type=&quot;checkbox&quot;
                                     checked={todo.completed}
                                     onclick={onclick_toggle}
                                 /&gt;
                                 &lt;span&gt;{ &amp;todo.text }&lt;/span&gt;
-                                &lt;button onclick={onclick_delete}&gt;{ "Delete" }&lt;/button&gt;
+                                &lt;button onclick={onclick_delete}&gt;{ &quot;Delete&quot; }&lt;/button&gt;
                             &lt;/li&gt;
                         }
                     }).collect::&lt;Html&gt;()
                 }
             &lt;/ul&gt;
 
-            &lt;div class="todo-count"&gt;
-                &lt;span&gt;{ format!("{} item(s) left", todos.iter().filter(|t| !t.completed).count()) }&lt;/span&gt;
+            &lt;div class=&quot;todo-count&quot;&gt;
+                &lt;span&gt;{ format!(&quot;{} item(s) left&quot;, todos.iter().filter(|t| !t.completed).count()) }&lt;/span&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     }
@@ -2684,7 +2691,7 @@ fn main() {
     yew::Renderer::&lt;TodoApp&gt;::new().render();
 }</code></pre></pre>
 <h3 id="making-api-calls-with-yew"><a class="header" href="#making-api-calls-with-yew">Making API Calls with Yew</a></h3>
-<p>Yew applications often need to communicate with backend APIs. Let’s see how to make HTTP requests:</p>
+<p>Yew applications often need to communicate with backend APIs. Let's see how to make HTTP requests:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use yew::prelude::*;
@@ -2716,7 +2723,7 @@ fn user_list() -&gt; Html {
                 is_loading.set(true);
 
                 spawn_local(async move {
-                    match Request::get("https://api.example.com/users")
+                    match Request::get(&quot;https://api.example.com/users&quot;)
                         .send()
                         .await
                     {
@@ -2727,13 +2734,13 @@ fn user_list() -&gt; Html {
                                         users.set(data);
                                         error.set(None);
                                     }
-                                    Err(e) =&gt; error.set(Some(format!("Error parsing JSON: {}", e))),
+                                    Err(e) =&gt; error.set(Some(format!(&quot;Error parsing JSON: {}&quot;, e))),
                                 }
                             } else {
-                                error.set(Some(format!("Error: {}", response.status())));
+                                error.set(Some(format!(&quot;Error: {}&quot;, response.status())));
                             }
                         }
-                        Err(e) =&gt; error.set(Some(format!("Request error: {}", e))),
+                        Err(e) =&gt; error.set(Some(format!(&quot;Request error: {}&quot;, e))),
                     }
 
                     is_loading.set(false);
@@ -2747,14 +2754,14 @@ fn user_list() -&gt; Html {
 
     html! {
         &lt;div&gt;
-            &lt;h1&gt;{ "User List" }&lt;/h1&gt;
+            &lt;h1&gt;{ &quot;User List&quot; }&lt;/h1&gt;
 
             if *is_loading {
-                &lt;p&gt;{ "Loading..." }&lt;/p&gt;
+                &lt;p&gt;{ &quot;Loading...&quot; }&lt;/p&gt;
             } else if let Some(err) = &amp;*error {
-                &lt;p class="error"&gt;{ err }&lt;/p&gt;
+                &lt;p class=&quot;error&quot;&gt;{ err }&lt;/p&gt;
             } else if users.is_empty() {
-                &lt;p&gt;{ "No users found." }&lt;/p&gt;
+                &lt;p&gt;{ &quot;No users found.&quot; }&lt;/p&gt;
             } else {
                 &lt;ul&gt;
                     {
@@ -2762,7 +2769,7 @@ fn user_list() -&gt; Html {
                             html! {
                                 &lt;li key={user.id}&gt;
                                     &lt;strong&gt;{ &amp;user.name }&lt;/strong&gt;
-                                    &lt;span&gt;{ format!(" ({})", user.email) }&lt;/span&gt;
+                                    &lt;span&gt;{ format!(&quot; ({})&quot;, user.email) }&lt;/span&gt;
                                 &lt;/li&gt;
                             }
                         }).collect::&lt;Html&gt;()
@@ -2783,20 +2790,20 @@ fn user_list() -&gt; Html {
 <li>Small bundle size</li>
 <li>Built-in error boundaries and suspense</li>
 </ul>
-<p>Let’s create a simple Leptos application:</p>
+<p>Let's create a simple Leptos application:</p>
 <pre><code class="language-bash"># Create a new Leptos project
 cargo new --bin leptos-app
 cd leptos-app
 </code></pre>
 <p>Update your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "leptos-app"
-version = "0.1.0"
-edition = "2021"
+name = &quot;leptos-app&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [dependencies]
-leptos = { version = "0.4", features = ["csr"] }
-wasm-bindgen = "0.2"
+leptos = { version = &quot;0.4&quot;, features = [&quot;csr&quot;] }
+wasm-bindgen = &quot;0.2&quot;
 </code></pre>
 <p>Create a simple Leptos component in <code>src/main.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust">use leptos::*;
@@ -2809,9 +2816,9 @@ fn App() -&gt; impl IntoView {
 
     view! {
         &lt;div&gt;
-            &lt;h1&gt;"Leptos Counter App"&lt;/h1&gt;
-            &lt;p&gt;"Current count: " {count}&lt;/p&gt;
-            &lt;button on:click=increment&gt;"Increment"&lt;/button&gt;
+            &lt;h1&gt;&quot;Leptos Counter App&quot;&lt;/h1&gt;
+            &lt;p&gt;&quot;Current count: &quot; {count}&lt;/p&gt;
+            &lt;button on:click=increment&gt;&quot;Increment&quot;&lt;/button&gt;
         &lt;/div&gt;
     }
 }
@@ -2828,15 +2835,15 @@ fn main() {
 #[component]
 fn ReactiveExample() -&gt; impl IntoView {
     // Create signals for reactive state
-    let (name, set_name) = create_signal(String::from(""));
+    let (name, set_name) = create_signal(String::from(&quot;&quot;));
     let (count, set_count) = create_signal(0);
 
     // Derived computations
     let greeting = move || {
         if name().is_empty() {
-            "Please enter your name".to_string()
+            &quot;Please enter your name&quot;.to_string()
         } else {
-            format!("Hello, {}!", name())
+            format!(&quot;Hello, {}!&quot;, name())
         }
     };
 
@@ -2848,13 +2855,13 @@ fn ReactiveExample() -&gt; impl IntoView {
 
     view! {
         &lt;div&gt;
-            &lt;h1&gt;"Reactivity Example"&lt;/h1&gt;
+            &lt;h1&gt;&quot;Reactivity Example&quot;&lt;/h1&gt;
 
             &lt;div&gt;
-                &lt;label for="name-input"&gt;"Name: "&lt;/label&gt;
+                &lt;label for=&quot;name-input&quot;&gt;&quot;Name: &quot;&lt;/label&gt;
                 &lt;input
-                    id="name-input"
-                    type="text"
+                    id=&quot;name-input&quot;
+                    type=&quot;text&quot;
                     on:input=move |ev| {
                         set_name(event_target_value(&amp;ev));
                     }
@@ -2864,16 +2871,16 @@ fn ReactiveExample() -&gt; impl IntoView {
             &lt;/div&gt;
 
             &lt;div&gt;
-                &lt;p&gt;"Count: " {count}&lt;/p&gt;
-                &lt;p&gt;"Count squared: " {count_squared}&lt;/p&gt;
-                &lt;button on:click=increment&gt;"Increment"&lt;/button&gt;
+                &lt;p&gt;&quot;Count: &quot; {count}&lt;/p&gt;
+                &lt;p&gt;&quot;Count squared: &quot; {count_squared}&lt;/p&gt;
+                &lt;button on:click=increment&gt;&quot;Increment&quot;&lt;/button&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="building-a-todo-list-with-leptos"><a class="header" href="#building-a-todo-list-with-leptos">Building a Todo List with Leptos</a></h3>
-<p>Let’s recreate our Todo List application using Leptos:</p>
+<p>Let's recreate our Todo List application using Leptos:</p>
 <pre><pre class="playground"><code class="language-rust">use leptos::*;
 use serde::{Deserialize, Serialize};
 
@@ -2887,7 +2894,7 @@ struct Todo {
 #[component]
 fn TodoApp() -&gt; impl IntoView {
     // Load todos from local storage or start with empty list
-    let storage_key = "leptos.todo.list";
+    let storage_key = &quot;leptos.todo.list&quot;;
 
     let initial_todos: Vec&lt;Todo&gt; = web_sys::window()
         .and_then(|window| window.local_storage().ok())
@@ -2954,20 +2961,20 @@ fn TodoApp() -&gt; impl IntoView {
     let remaining_count = move || todos().iter().filter(|t| !t.completed).count();
 
     view! {
-        &lt;div class="todo-app"&gt;
-            &lt;h1&gt;"Todo List"&lt;/h1&gt;
+        &lt;div class=&quot;todo-app&quot;&gt;
+            &lt;h1&gt;&quot;Todo List&quot;&lt;/h1&gt;
 
             &lt;form on:submit=add_todo&gt;
                 &lt;input
-                    type="text"
+                    type=&quot;text&quot;
                     prop:value=new_todo_text
                     on:input=move |ev| set_new_todo_text(event_target_value(&amp;ev))
-                    placeholder="What needs to be done?"
+                    placeholder=&quot;What needs to be done?&quot;
                 /&gt;
-                &lt;button type="submit"&gt;"Add"&lt;/button&gt;
+                &lt;button type=&quot;submit&quot;&gt;&quot;Add&quot;&lt;/button&gt;
             &lt;/form&gt;
 
-            &lt;ul class="todo-list"&gt;
+            &lt;ul class=&quot;todo-list&quot;&gt;
                 &lt;For
                     each=todos
                     key=|todo| todo.id
@@ -2976,20 +2983,20 @@ fn TodoApp() -&gt; impl IntoView {
                         view! {
                             &lt;li class:completed=move || todo.completed&gt;
                                 &lt;input
-                                    type="checkbox"
+                                    type=&quot;checkbox&quot;
                                     prop:checked=move || todo.completed
                                     on:click=move |_| toggle_todo(id)
                                 /&gt;
                                 &lt;span&gt;{todo.text}&lt;/span&gt;
-                                &lt;button on:click=move |_| delete_todo(id)&gt;"Delete"&lt;/button&gt;
+                                &lt;button on:click=move |_| delete_todo(id)&gt;&quot;Delete&quot;&lt;/button&gt;
                             &lt;/li&gt;
                         }
                     }
                 /&gt;
             &lt;/ul&gt;
 
-            &lt;div class="todo-count"&gt;
-                &lt;span&gt;{move || format!("{} item(s) left", remaining_count())}&lt;/span&gt;
+            &lt;div class=&quot;todo-count&quot;&gt;
+                &lt;span&gt;{move || format!(&quot;{} item(s) left&quot;, remaining_count())}&lt;/span&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     }
@@ -2999,7 +3006,7 @@ fn main() {
     mount_to_body(TodoApp);
 }</code></pre></pre>
 <h3 id="server-side-rendering-with-leptos"><a class="header" href="#server-side-rendering-with-leptos">Server-Side Rendering with Leptos</a></h3>
-<p>One of Leptos’ standout features is its seamless server-side rendering (SSR) capabilities:</p>
+<p>One of Leptos' standout features is its seamless server-side rendering (SSR) capabilities:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use leptos::*;
@@ -3010,17 +3017,17 @@ fn App() -&gt; impl IntoView {
     view! {
         &lt;Router&gt;
             &lt;nav&gt;
-                &lt;A href="/"&gt;"Home"&lt;/A&gt;
-                &lt;A href="/about"&gt;"About"&lt;/A&gt;
-                &lt;A href="/users"&gt;"Users"&lt;/A&gt;
+                &lt;A href=&quot;/&quot;&gt;&quot;Home&quot;&lt;/A&gt;
+                &lt;A href=&quot;/about&quot;&gt;&quot;About&quot;&lt;/A&gt;
+                &lt;A href=&quot;/users&quot;&gt;&quot;Users&quot;&lt;/A&gt;
             &lt;/nav&gt;
 
             &lt;main&gt;
                 &lt;Routes&gt;
-                    &lt;Route path="/" view=HomePage /&gt;
-                    &lt;Route path="/about" view=AboutPage /&gt;
-                    &lt;Route path="/users" view=UsersPage /&gt;
-                    &lt;Route path="/users/:id" view=UserDetail /&gt;
+                    &lt;Route path=&quot;/&quot; view=HomePage /&gt;
+                    &lt;Route path=&quot;/about&quot; view=AboutPage /&gt;
+                    &lt;Route path=&quot;/users&quot; view=UsersPage /&gt;
+                    &lt;Route path=&quot;/users/:id&quot; view=UserDetail /&gt;
                 &lt;/Routes&gt;
             &lt;/main&gt;
         &lt;/Router&gt;
@@ -3029,12 +3036,12 @@ fn App() -&gt; impl IntoView {
 
 #[component]
 fn HomePage() -&gt; impl IntoView {
-    view! { &lt;h1&gt;"Welcome to the Home Page"&lt;/h1&gt; }
+    view! { &lt;h1&gt;&quot;Welcome to the Home Page&quot;&lt;/h1&gt; }
 }
 
 #[component]
 fn AboutPage() -&gt; impl IntoView {
-    view! { &lt;h1&gt;"About Us"&lt;/h1&gt; }
+    view! { &lt;h1&gt;&quot;About Us&quot;&lt;/h1&gt; }
 }
 
 #[component]
@@ -3047,8 +3054,8 @@ fn UsersPage() -&gt; impl IntoView {
 
     view! {
         &lt;div&gt;
-            &lt;h1&gt;"Users"&lt;/h1&gt;
-            &lt;Suspense fallback=move || view! { &lt;p&gt;"Loading..."&lt;/p&gt; }&gt;
+            &lt;h1&gt;&quot;Users&quot;&lt;/h1&gt;
+            &lt;Suspense fallback=move || view! { &lt;p&gt;&quot;Loading...&quot;&lt;/p&gt; }&gt;
                 {move || {
                     users.get().map(|users| {
                         match users {
@@ -3061,7 +3068,7 @@ fn UsersPage() -&gt; impl IntoView {
                                             children=move |user| {
                                                 view! {
                                                     &lt;li&gt;
-                                                        &lt;A href=format!("/users/{}", user.id)&gt;
+                                                        &lt;A href=format!(&quot;/users/{}&quot;, user.id)&gt;
                                                             {user.name}
                                                         &lt;/A&gt;
                                                     &lt;/li&gt;
@@ -3071,7 +3078,7 @@ fn UsersPage() -&gt; impl IntoView {
                                     &lt;/ul&gt;
                                 }
                             }
-                            Err(e) =&gt; view! { &lt;p&gt;"Error loading users: " {e.to_string()}&lt;/p&gt; }
+                            Err(e) =&gt; view! { &lt;p&gt;&quot;Error loading users: &quot; {e.to_string()}&lt;/p&gt; }
                         }
                     })
                 }}
@@ -3083,7 +3090,7 @@ fn UsersPage() -&gt; impl IntoView {
 #[component]
 fn UserDetail() -&gt; impl IntoView {
     let params = use_params_map();
-    let id = move || params.with(|p| p.get("id").cloned().unwrap_or_default());
+    let id = move || params.with(|p| p.get(&quot;id&quot;).cloned().unwrap_or_default());
 
     // This could be a server function in SSR mode
     let user = create_resource(
@@ -3093,8 +3100,8 @@ fn UserDetail() -&gt; impl IntoView {
 
     view! {
         &lt;div&gt;
-            &lt;h1&gt;"User Details"&lt;/h1&gt;
-            &lt;Suspense fallback=move || view! { &lt;p&gt;"Loading user..."&lt;/p&gt; }&gt;
+            &lt;h1&gt;&quot;User Details&quot;&lt;/h1&gt;
+            &lt;Suspense fallback=move || view! { &lt;p&gt;&quot;Loading user...&quot;&lt;/p&gt; }&gt;
                 {move || {
                     user.get().map(|result| {
                         match result {
@@ -3102,17 +3109,17 @@ fn UserDetail() -&gt; impl IntoView {
                                 view! {
                                     &lt;div&gt;
                                         &lt;h2&gt;{user.name}&lt;/h2&gt;
-                                        &lt;p&gt;"Email: " {user.email}&lt;/p&gt;
-                                        &lt;p&gt;"ID: " {user.id}&lt;/p&gt;
+                                        &lt;p&gt;&quot;Email: &quot; {user.email}&lt;/p&gt;
+                                        &lt;p&gt;&quot;ID: &quot; {user.id}&lt;/p&gt;
                                     &lt;/div&gt;
                                 }
                             }
-                            Err(e) =&gt; view! { &lt;p&gt;"Error loading user: " {e.to_string()}&lt;/p&gt; }
+                            Err(e) =&gt; view! { &lt;p&gt;&quot;Error loading user: &quot; {e.to_string()}&lt;/p&gt; }
                         }
                     })
                 }}
             &lt;/Suspense&gt;
-            &lt;A href="/users"&gt;"Back to Users"&lt;/A&gt;
+            &lt;A href=&quot;/users&quot;&gt;&quot;Back to Users&quot;&lt;/A&gt;
         &lt;/div&gt;
     }
 }
@@ -3132,14 +3139,14 @@ fn UserDetail() -&gt; impl IntoView {
 </div>
 <p>The choice between Yew and Leptos often depends on your specific requirements and preferences:</p>
 <ul>
-<li>Choose <strong>Yew</strong> if you’re familiar with React and want a more established ecosystem.</li>
+<li>Choose <strong>Yew</strong> if you're familiar with React and want a more established ecosystem.</li>
 <li>Choose <strong>Leptos</strong> if you value performance, server-side rendering, and are willing to learn a new reactivity model.</li>
 </ul>
 <h3 id="best-practices-for-rust-webassembly-development"><a class="header" href="#best-practices-for-rust-webassembly-development">Best Practices for Rust WebAssembly Development</a></h3>
 <ol>
 <li><strong>Bundle Size Optimization</strong>: WebAssembly modules can be large, so use tools like <code>wasm-opt</code> to optimize size.</li>
 <li><strong>Interoperability</strong>: Design your Rust-WebAssembly boundary carefully to minimize serialization overhead.</li>
-<li><strong>Memory Management</strong>: Be aware of WebAssembly’s linear memory model and how it affects your application.</li>
+<li><strong>Memory Management</strong>: Be aware of WebAssembly's linear memory model and how it affects your application.</li>
 <li><strong>Performance Profiling</strong>: Use browser developer tools to profile your WebAssembly code.</li>
 <li><strong>Progressive Enhancement</strong>: Consider using Rust for performance-critical parts while keeping basic functionality in JavaScript.</li>
 <li><strong>Error Handling</strong>: Implement proper error handling across the Rust-JavaScript boundary.</li>
@@ -3148,21 +3155,21 @@ fn UserDetail() -&gt; impl IntoView {
 <li><strong>Accessibility</strong>: Ensure your UI components are accessible.</li>
 <li><strong>Browser Compatibility</strong>: Test across different browsers as WebAssembly support may vary.</li>
 </ol>
-<p>In the next section, we’ll explore GraphQL in Rust with async-graphql.</p>
+<p>In the next section, we'll explore GraphQL in Rust with async-graphql.</p>
 <h2 id="graphql-implementation-with-async-graphql"><a class="header" href="#graphql-implementation-with-async-graphql">GraphQL Implementation with async-graphql</a></h2>
-<p>GraphQL has become a popular alternative to REST for building flexible APIs. In this section, we’ll explore how to implement GraphQL servers in Rust using the async-graphql library.</p>
+<p>GraphQL has become a popular alternative to REST for building flexible APIs. In this section, we'll explore how to implement GraphQL servers in Rust using the async-graphql library.</p>
 <h3 id="introduction-to-graphql-in-rust"><a class="header" href="#introduction-to-graphql-in-rust">Introduction to GraphQL in Rust</a></h3>
 <p>GraphQL is a query language for your API that allows clients to request exactly the data they need. Unlike REST, which exposes a fixed set of endpoints with predetermined data structures, GraphQL provides a more flexible approach where clients can specify the structure of the response.</p>
 <p>The <code>async-graphql</code> crate is a high-performance GraphQL implementation for Rust that integrates well with async runtimes and web frameworks. It provides:</p>
 <ul>
-<li>Type-safe schema definitions using Rust’s type system</li>
+<li>Type-safe schema definitions using Rust's type system</li>
 <li>Support for queries, mutations, and subscriptions</li>
 <li>Integration with common web frameworks like Actix Web, Warp, and Axum</li>
 <li>Built-in validation, error handling, and introspection</li>
 <li>Powerful features like dataloaders for efficient data fetching</li>
 </ul>
 <h3 id="defining-a-graphql-schema"><a class="header" href="#defining-a-graphql-schema">Defining a GraphQL Schema</a></h3>
-<p>In async-graphql, you define your schema by creating Rust types and implementing resolvers for them. Here’s a basic example:</p>
+<p>In async-graphql, you define your schema by creating Rust types and implementing resolvers for them. Here's a basic example:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use async_graphql::{Context, Object, Schema, EmptyMutation, EmptySubscription, Result};
@@ -3183,8 +3190,8 @@ impl Query {
         // In a real application, you would fetch this from a database
         Ok(User {
             id,
-            name: "John Doe".to_string(),
-            email: "john@example.com".to_string(),
+            name: &quot;John Doe&quot;.to_string(),
+            email: &quot;john@example.com&quot;.to_string(),
         })
     }
 
@@ -3192,14 +3199,14 @@ impl Query {
         // Return a list of users
         Ok(vec![
             User {
-                id: "1".to_string(),
-                name: "John Doe".to_string(),
-                email: "john@example.com".to_string(),
+                id: &quot;1&quot;.to_string(),
+                name: &quot;John Doe&quot;.to_string(),
+                email: &quot;john@example.com&quot;.to_string(),
             },
             User {
-                id: "2".to_string(),
-                name: "Jane Doe".to_string(),
-                email: "jane@example.com".to_string(),
+                id: &quot;2&quot;.to_string(),
+                name: &quot;Jane Doe&quot;.to_string(),
+                email: &quot;jane@example.com&quot;.to_string(),
             },
         ])
     }
@@ -3234,9 +3241,9 @@ impl Subscription {
                 interval.tick().await;
 
                 let updated_user = User {
-                    id: "1".to_string(),
-                    name: format!("John Doe {}", chrono::Utc::now()),
-                    email: "john@example.com".to_string(),
+                    id: &quot;1&quot;.to_string(),
+                    name: format!(&quot;John Doe {}&quot;, chrono::Utc::now()),
+                    email: &quot;john@example.com&quot;.to_string(),
                 };
 
                 yield Ok(updated_user);
@@ -3249,7 +3256,7 @@ impl Subscription {
 let schema = Schema::new(Query, Mutation, Subscription);
 <span class="boring">}</span></code></pre></pre>
 <h3 id="adding-mutations"><a class="header" href="#adding-mutations">Adding Mutations</a></h3>
-<p>Mutations allow clients to modify data. Here’s how to implement them:</p>
+<p>Mutations allow clients to modify data. Here's how to implement them:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(Default)]
@@ -3269,8 +3276,8 @@ impl Mutation {
 
         Ok(User {
             id,
-            name: name.unwrap_or_else(|| "John Doe".to_string()),
-            email: email.unwrap_or_else(|| "john@example.com".to_string()),
+            name: name.unwrap_or_else(|| &quot;John Doe&quot;.to_string()),
+            email: email.unwrap_or_else(|| &quot;john@example.com&quot;.to_string()),
         })
     }
 
@@ -3286,7 +3293,7 @@ let schema = Schema::build(Query::default(), Mutation::default(), Subscription::
     .finish();
 <span class="boring">}</span></code></pre></pre>
 <h3 id="implementing-subscriptions"><a class="header" href="#implementing-subscriptions">Implementing Subscriptions</a></h3>
-<p>Subscriptions allow clients to receive real-time updates. They’re implemented using Rust’s async streams:</p>
+<p>Subscriptions allow clients to receive real-time updates. They're implemented using Rust's async streams:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use async_graphql::{Context, Subscription, Schema, EmptyMutation, Result};
@@ -3321,9 +3328,9 @@ impl Subscription {
                 interval.tick().await;
 
                 let updated_user = User {
-                    id: "1".to_string(),
-                    name: format!("John Doe {}", chrono::Utc::now()),
-                    email: "john@example.com".to_string(),
+                    id: &quot;1&quot;.to_string(),
+                    name: format!(&quot;John Doe {}&quot;, chrono::Utc::now()),
+                    email: &quot;john@example.com&quot;.to_string(),
                 };
 
                 yield Ok(updated_user);
@@ -3337,7 +3344,7 @@ let schema = Schema::build(Query::default(), Mutation::default(), Subscription::
     .finish();
 <span class="boring">}</span></code></pre></pre>
 <h3 id="integrating-with-web-frameworks"><a class="header" href="#integrating-with-web-frameworks">Integrating with Web Frameworks</a></h3>
-<p>async-graphql integrates with popular Rust web frameworks. Here’s an example with Actix Web:</p>
+<p>async-graphql integrates with popular Rust web frameworks. Here's an example with Actix Web:</p>
 <pre><pre class="playground"><code class="language-rust">use actix_web::{web, App, HttpResponse, HttpServer, Result};
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse, GraphQLSubscription};
@@ -3363,10 +3370,10 @@ async fn graphql_subscription(
 // Handler for GraphQL Playground (web UI for testing GraphQL)
 async fn graphql_playground() -&gt; HttpResponse {
     HttpResponse::Ok()
-        .content_type("text/html; charset=utf-8")
+        .content_type(&quot;text/html; charset=utf-8&quot;)
         .body(playground_source(
-            GraphQLPlaygroundConfig::new("/graphql")
-                .subscription_endpoint("/graphql_ws"),
+            GraphQLPlaygroundConfig::new(&quot;/graphql&quot;)
+                .subscription_endpoint(&quot;/graphql_ws&quot;),
         ))
 }
 
@@ -3381,13 +3388,13 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
         App::new()
             .app_data(web::Data::new(schema.clone()))
             .service(
-                web::resource("/graphql")
+                web::resource(&quot;/graphql&quot;)
                     .route(web::post().to(graphql_handler))
                     .route(web::get().to(graphql_playground)),
             )
-            .service(web::resource("/graphql_ws").route(web::get().to(graphql_subscription)))
+            .service(web::resource(&quot;/graphql_ws&quot;).route(web::get().to(graphql_subscription)))
     })
-    .bind("127.0.0.1:8000")?
+    .bind(&quot;127.0.0.1:8000&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -3415,8 +3422,8 @@ impl Loader&lt;String&gt; for UserLoader {
         for key in keys {
             users.insert(key.clone(), User {
                 id: key.clone(),
-                name: format!("User {}", key),
-                email: format!("user{}@example.com", key),
+                name: format!(&quot;User {}&quot;, key),
+                email: format!(&quot;user{}@example.com&quot;, key),
             });
         }
 
@@ -3430,7 +3437,7 @@ impl Query {
     async fn user(&amp;self, ctx: &amp;Context&lt;'_&gt;, id: String) -&gt; Result&lt;User&gt; {
         let loader = ctx.data_unchecked::&lt;DataLoader&lt;UserLoader&gt;&gt;();
         loader.load_one(id).await?
-            .ok_or_else(|| "User not found".into())
+            .ok_or_else(|| &quot;User not found&quot;.into())
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -3495,7 +3502,7 @@ let schema = Schema::build(Query, Mutation, Subscription)
     .finish();
 <span class="boring">}</span></code></pre></pre>
 <h3 id="security-considerations"><a class="header" href="#security-considerations">Security Considerations</a></h3>
-<p>When implementing GraphQL APIs, it’s important to consider security aspects:</p>
+<p>When implementing GraphQL APIs, it's important to consider security aspects:</p>
 <ol>
 <li>
 <p><strong>Query Complexity</strong>: GraphQL allows for deeply nested queries that could lead to performance issues or DoS attacks. async-graphql provides complexity analysis to limit query depth and complexity.</p>
@@ -3519,19 +3526,19 @@ async fn protected_resolver(&amp;self, ctx: &amp;Context&lt;'_&gt;) -&gt; Result
     let auth_info = ctx.data::&lt;AuthInfo&gt;()?;
 
     if !auth_info.is_authenticated() {
-        return Err("Not authenticated".into());
+        return Err(&quot;Not authenticated&quot;.into());
     }
 
-    if !auth_info.has_permission("admin") {
-        return Err("Not authorized".into());
+    if !auth_info.has_permission(&quot;admin&quot;) {
+        return Err(&quot;Not authorized&quot;.into());
     }
 
-    Ok("Sensitive data".to_string())
+    Ok(&quot;Sensitive data&quot;.to_string())
 }
 <span class="boring">}</span></code></pre></pre>
-<p>GraphQL with async-graphql provides a powerful and type-safe way to build flexible APIs in Rust. By leveraging Rust’s type system and async capabilities, you can create high-performance GraphQL servers that are both robust and maintainable.</p>
+<p>GraphQL with async-graphql provides a powerful and type-safe way to build flexible APIs in Rust. By leveraging Rust's type system and async capabilities, you can create high-performance GraphQL servers that are both robust and maintainable.</p>
 <h2 id="websockets-and-real-time-communication"><a class="header" href="#websockets-and-real-time-communication">WebSockets and Real-Time Communication</a></h2>
-<p>Real-time communication is a crucial component of modern web applications. WebSockets provide a persistent connection between client and server, allowing bidirectional data transfer. In this section, we’ll explore how to implement WebSocket functionality in Rust web applications.</p>
+<p>Real-time communication is a crucial component of modern web applications. WebSockets provide a persistent connection between client and server, allowing bidirectional data transfer. In this section, we'll explore how to implement WebSocket functionality in Rust web applications.</p>
 <h3 id="understanding-websockets"><a class="header" href="#understanding-websockets">Understanding WebSockets</a></h3>
 <p>WebSockets are a protocol that provides full-duplex communication channels over a single TCP connection. Unlike HTTP, which follows a request-response pattern, WebSockets allow both client and server to send messages independently once a connection is established.</p>
 <p>Key benefits of WebSockets include:</p>
@@ -3560,14 +3567,14 @@ impl StreamHandler&lt;Result&lt;ws::Message, ws::ProtocolError&gt;&gt; for MyWeb
         match msg {
             Ok(ws::Message::Ping(msg)) =&gt; ctx.pong(&amp;msg),
             Ok(ws::Message::Text(text)) =&gt; {
-                println!("Received text message: {:?}", text);
+                println!(&quot;Received text message: {:?}&quot;, text);
 
                 // Echo the message back
                 ctx.text(text);
             },
             Ok(ws::Message::Binary(bin)) =&gt; ctx.binary(bin),
             Ok(ws::Message::Close(reason)) =&gt; {
-                println!("Connection closed");
+                println!(&quot;Connection closed&quot;);
                 ctx.close(reason);
             }
             _ =&gt; (),
@@ -3584,14 +3591,14 @@ async fn websocket_route(req: HttpRequest, stream: web::Payload) -&gt; Result&lt
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/ws", web::get().to(websocket_route))
+            .route(&quot;/ws&quot;, web::get().to(websocket_route))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
 <h3 id="building-a-chat-application"><a class="header" href="#building-a-chat-application">Building a Chat Application</a></h3>
-<p>Let’s build a simple chat application using WebSockets in Actix Web:</p>
+<p>Let's build a simple chat application using WebSockets in Actix Web:</p>
 <pre><pre class="playground"><code class="language-rust">use std::time::{Duration, Instant};
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
@@ -3657,7 +3664,7 @@ impl ChatSession {
         ctx.run_interval(HEARTBEAT_INTERVAL, |act, ctx| {
             // Check client heartbeat
             if Instant::now().duration_since(act.hb) &gt; CLIENT_TIMEOUT {
-                println!("Client timed out, disconnecting: {}", act.id);
+                println!(&quot;Client timed out, disconnecting: {}&quot;, act.id);
 
                 // Disconnect session
                 let mut server = act.server.lock().unwrap();
@@ -3669,7 +3676,7 @@ impl ChatSession {
             }
 
             // Send ping
-            ctx.ping(b"");
+            ctx.ping(b&quot;&quot;);
         });
     }
 }
@@ -3696,7 +3703,7 @@ impl Actor for ChatSession {
 
 // Message sent to chat session
 #[derive(Message)]
-#[rtype(result = "()")]
+#[rtype(result = &quot;()&quot;)]
 struct ChatMessage(String);
 
 impl Handler&lt;ChatMessage&gt; for ChatSession {
@@ -3721,7 +3728,7 @@ impl StreamHandler&lt;Result&lt;ws::Message, ws::ProtocolError&gt;&gt; for ChatS
             }
             Ok(ws::Message::Text(text)) =&gt; {
                 let msg = text.trim();
-                println!("Received message: {} from {}", msg, self.id);
+                println!(&quot;Received message: {} from {}&quot;, msg, self.id);
 
                 // Broadcast message to all other sessions
                 let server = self.server.lock().unwrap();
@@ -3744,7 +3751,7 @@ async fn chat_route(
 ) -&gt; Result&lt;HttpResponse, Error&gt; {
     // Generate unique session ID
     let id = uuid::Uuid::new_v4().to_string();
-    println!("New chat connection: {}", id);
+    println!(&quot;New chat connection: {}&quot;, id);
 
     // Create chat session actor
     let session = ChatSession::new(id, server.get_ref().clone());
@@ -3762,10 +3769,10 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(chat_server.clone()))
-            .route("/ws/chat", web::get().to(chat_route))
-            .service(actix_files::Files::new("/", "./static").index_file("index.html"))
+            .route(&quot;/ws/chat&quot;, web::get().to(chat_route))
+            .service(actix_files::Files::new(&quot;/&quot;, &quot;./static&quot;).index_file(&quot;index.html&quot;))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -3809,24 +3816,24 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     &lt;/style&gt;
   &lt;/head&gt;
   &lt;body&gt;
-    &lt;div class="chat-container"&gt;
-      &lt;div id="messages" class="chat-messages"&gt;&lt;/div&gt;
-      &lt;div class="message-input"&gt;
-        &lt;input type="text" id="message" placeholder="Type a message..." /&gt;
-        &lt;button id="send"&gt;Send&lt;/button&gt;
+    &lt;div class=&quot;chat-container&quot;&gt;
+      &lt;div id=&quot;messages&quot; class=&quot;chat-messages&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;message-input&quot;&gt;
+        &lt;input type=&quot;text&quot; id=&quot;message&quot; placeholder=&quot;Type a message...&quot; /&gt;
+        &lt;button id=&quot;send&quot;&gt;Send&lt;/button&gt;
       &lt;/div&gt;
     &lt;/div&gt;
 
     &lt;script&gt;
-      const messagesDiv = document.getElementById("messages");
-      const messageInput = document.getElementById("message");
-      const sendButton = document.getElementById("send");
+      const messagesDiv = document.getElementById(&quot;messages&quot;);
+      const messageInput = document.getElementById(&quot;message&quot;);
+      const sendButton = document.getElementById(&quot;send&quot;);
 
       // Connect to WebSocket server
-      const socket = new WebSocket("ws://" + window.location.host + "/ws/chat");
+      const socket = new WebSocket(&quot;ws://&quot; + window.location.host + &quot;/ws/chat&quot;);
 
       socket.onopen = function (e) {
-        addMessage("Connected to chat server");
+        addMessage(&quot;Connected to chat server&quot;);
       };
 
       socket.onmessage = function (e) {
@@ -3834,15 +3841,15 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
       };
 
       socket.onclose = function (e) {
-        addMessage("Disconnected from chat server");
+        addMessage(&quot;Disconnected from chat server&quot;);
       };
 
       socket.onerror = function (e) {
-        addMessage("Error: " + e.message);
+        addMessage(&quot;Error: &quot; + e.message);
       };
 
       function addMessage(message) {
-        const messageElement = document.createElement("div");
+        const messageElement = document.createElement(&quot;div&quot;);
         messageElement.textContent = message;
         messagesDiv.appendChild(messageElement);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -3852,14 +3859,14 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
         const message = messageInput.value.trim();
         if (message) {
           socket.send(message);
-          addMessage("You: " + message);
-          messageInput.value = "";
+          addMessage(&quot;You: &quot; + message);
+          messageInput.value = &quot;&quot;;
         }
       }
 
-      sendButton.addEventListener("click", sendMessage);
-      messageInput.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
+      sendButton.addEventListener(&quot;click&quot;, sendMessage);
+      messageInput.addEventListener(&quot;keypress&quot;, function (e) {
+        if (e.key === &quot;Enter&quot;) {
           sendMessage();
         }
       });
@@ -3886,12 +3893,12 @@ async fn main() {
 
     // Build our application with a route
     let app = Router::new()
-        .route("/ws", get(ws_handler))
+        .route(&quot;/ws&quot;, get(ws_handler))
         .with_state(tx);
 
     // Run it
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
-    println!("Listening on {}", addr);
+    println!(&quot;Listening on {}&quot;, addr);
     axum::Server::bind(&amp;addr)
         .serve(app.into_make_service())
         .await
@@ -3956,16 +3963,16 @@ async fn sse_handler() -&gt; HttpResponse {
     let stream = IntervalStream::new(interval).map(|_| {
         let timestamp = chrono::Utc::now().to_rfc3339();
         Ok::&lt;_, Error&gt;(format!(
-            "data: {{\"time\": \"{}\", \"message\": \"Server update\"}}\n\n",
+            &quot;data: {{\&quot;time\&quot;: \&quot;{}\&quot;, \&quot;message\&quot;: \&quot;Server update\&quot;}}\n\n&quot;,
             timestamp
         ))
     });
 
     // Return a streaming response
     HttpResponse::Ok()
-        .content_type("text/event-stream")
-        .insert_header(("Cache-Control", "no-cache"))
-        .insert_header(("Connection", "keep-alive"))
+        .content_type(&quot;text/event-stream&quot;)
+        .insert_header((&quot;Cache-Control&quot;, &quot;no-cache&quot;))
+        .insert_header((&quot;Connection&quot;, &quot;keep-alive&quot;))
         .streaming(stream)
 }
 
@@ -3973,27 +3980,27 @@ async fn sse_handler() -&gt; HttpResponse {
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/events", web::get().to(sse_handler))
+            .route(&quot;/events&quot;, web::get().to(sse_handler))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
 <p>Client-side JavaScript for SSE is much simpler than WebSockets:</p>
-<pre><code class="language-javascript">const eventSource = new EventSource("/events");
+<pre><code class="language-javascript">const eventSource = new EventSource(&quot;/events&quot;);
 
 eventSource.onmessage = function (event) {
   const data = JSON.parse(event.data);
-  console.log("Received update:", data);
+  console.log(&quot;Received update:&quot;, data);
 
   // Update UI with the data
   document.getElementById(
-    "updates"
+    &quot;updates&quot;
   ).innerHTML += `&lt;div&gt;Time: ${data.time} - ${data.message}&lt;/div&gt;`;
 };
 
 eventSource.onerror = function (event) {
-  console.error("EventSource error:", event);
+  console.error(&quot;EventSource error:&quot;, event);
   eventSource.close();
 };
 </code></pre>
@@ -4011,7 +4018,7 @@ eventSource.onerror = function (event) {
 <li><strong>Monitoring</strong>: Implement monitoring for connection counts, message rates, and error rates.</li>
 </ol>
 <h2 id="deployment-and-performance-optimization"><a class="header" href="#deployment-and-performance-optimization">Deployment and Performance Optimization</a></h2>
-<p>Modern web applications need to be not only functional but also performant and reliable. In this section, we’ll explore how to deploy Rust web applications and optimize their performance.</p>
+<p>Modern web applications need to be not only functional but also performant and reliable. In this section, we'll explore how to deploy Rust web applications and optimize their performance.</p>
 <h3 id="containerization-with-docker"><a class="header" href="#containerization-with-docker">Containerization with Docker</a></h3>
 <p>Docker provides a convenient way to package and deploy Rust applications:</p>
 <pre><code class="language-Dockerfile"># Build stage
@@ -4025,7 +4032,7 @@ FROM debian:bullseye-slim
 RUN apt-get update &amp;&amp; apt-get install -y ca-certificates &amp;&amp; rm -rf /var/lib/apt/lists/*
 COPY --from=builder /usr/src/app/target/release/my-rust-app /usr/local/bin/my-rust-app
 EXPOSE 8080
-CMD ["my-rust-app"]
+CMD [&quot;my-rust-app&quot;]
 </code></pre>
 <p>This multi-stage build creates a smaller final image by only including the compiled binary.</p>
 <h3 id="deployment-options"><a class="header" href="#deployment-options">Deployment Options</a></h3>
@@ -4048,7 +4055,7 @@ CMD ["my-rust-app"]
     .min_connections(1)
     .max_lifetime(Duration::from_secs(30 * 60)) // 30 minutes
     .idle_timeout(Duration::from_secs(10 * 60)) // 10 minutes
-    .connect("postgres://user:password@localhost/db")
+    .connect(&quot;postgres://user:password@localhost/db&quot;)
     .await?;
 <span class="boring">}</span></code></pre></pre>
 <h4 id="2-async-worker-pools"><a class="header" href="#2-async-worker-pools">2. Async Worker Pools</a></h4>
@@ -4091,7 +4098,7 @@ let cache: Cache&lt;String, Vec&lt;User&gt;&gt; = Cache::builder()
     .build();
 
 async fn get_users(cache: web::Data&lt;Cache&lt;String, Vec&lt;User&gt;&gt;&gt;) -&gt; HttpResponse {
-    let cache_key = "all_users".to_string();
+    let cache_key = &quot;all_users&quot;.to_string();
 
     // Try to get from cache
     if let Some(users) = cache.get(&amp;cache_key).await {
@@ -4114,7 +4121,7 @@ async fn get_users(cache: web::Data&lt;Cache&lt;String, Vec&lt;User&gt;&gt;&gt;)
 </span>use actix_files as fs;
 
 App::new()
-    .service(fs::Files::new("/static", "./static")
+    .service(fs::Files::new(&quot;/static&quot;, &quot;./static&quot;)
         .prefer_utf8(true)
         .use_last_modified(true)
         .use_etag(true))
@@ -4138,20 +4145,20 @@ fn init_tracing() {
         .with_max_level(Level::INFO)
         .finish();
     tracing::subscriber::set_global_default(subscriber)
-        .expect("setting default subscriber failed");
+        .expect(&quot;setting default subscriber failed&quot;);
 }
 
 // Use in your application
 async fn handle_request() -&gt; impl Responder {
-    info!("Handling request");
+    info!(&quot;Handling request&quot;);
 
     match do_something().await {
         Ok(result) =&gt; {
-            info!("Request succeeded");
+            info!(&quot;Request succeeded&quot;);
             HttpResponse::Ok().json(result)
         },
         Err(e) =&gt; {
-            error!("Request failed: {}", e);
+            error!(&quot;Request failed: {}&quot;, e);
             HttpResponse::InternalServerError().finish()
         }
     }
@@ -4163,8 +4170,8 @@ async fn handle_request() -&gt; impl Responder {
 </span>use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 
 // Create prometheus metrics middleware
-let prometheus = PrometheusMetricsBuilder::new("api")
-    .endpoint("/metrics")
+let prometheus = PrometheusMetricsBuilder::new(&quot;api&quot;)
+    .endpoint(&quot;/metrics&quot;)
     .build()
     .unwrap();
 
@@ -4183,7 +4190,7 @@ App::new()
 <li><strong>Portability</strong>: Works across all modern browsers and platforms</li>
 <li><strong>Compatibility</strong>: Interoperates seamlessly with JavaScript and DOM APIs</li>
 </ul>
-<p>For Rust developers, WebAssembly offers a way to leverage Rust’s strengths in frontend development without sacrificing performance or browser compatibility.</p>
+<p>For Rust developers, WebAssembly offers a way to leverage Rust's strengths in frontend development without sacrificing performance or browser compatibility.</p>
 <h3 id="rust-to-webassembly-toolchain"><a class="header" href="#rust-to-webassembly-toolchain">Rust to WebAssembly Toolchain</a></h3>
 <p>The Rust ecosystem provides excellent tools for WebAssembly development:</p>
 <h4 id="wasm-pack"><a class="header" href="#wasm-pack">wasm-pack</a></h4>
@@ -4205,14 +4212,14 @@ cd my-wasm-project
 wasm-pack build --target web
 </code></pre>
 <h4 id="wasm-bindgen"><a class="header" href="#wasm-bindgen">wasm-bindgen</a></h4>
-<p>At the core of Rust’s WebAssembly support is the <code>wasm-bindgen</code> crate, which facilitates communication between Rust and JavaScript. It allows:</p>
+<p>At the core of Rust's WebAssembly support is the <code>wasm-bindgen</code> crate, which facilitates communication between Rust and JavaScript. It allows:</p>
 <ul>
 <li>Exporting Rust functions and types to JavaScript</li>
 <li>Importing JavaScript functions and objects into Rust</li>
 <li>Converting between Rust and JavaScript data types</li>
 <li>Working with DOM elements and browser APIs</li>
 </ul>
-<p>Here’s a simple example of using <code>wasm-bindgen</code>:</p>
+<p>Here's a simple example of using <code>wasm-bindgen</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
@@ -4225,14 +4232,14 @@ pub fn add(a: i32, b: i32) -&gt; i32 {
 
 // Import a JavaScript function
 #[wasm_bindgen]
-extern "C" {
+extern &quot;C&quot; {
     fn alert(s: &amp;str);
 }
 
 // Call JavaScript from Rust
 #[wasm_bindgen]
 pub fn greet(name: &amp;str) {
-    alert(&amp;format!("Hello, {}!", name));
+    alert(&amp;format!(&quot;Hello, {}!&quot;, name));
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="web-sys-and-js-sys"><a class="header" href="#web-sys-and-js-sys">web-sys and js-sys</a></h4>
@@ -4250,17 +4257,17 @@ use web_sys::{Document, Element, HtmlElement, Window};
 #[wasm_bindgen]
 pub fn create_element() -&gt; Result&lt;(), JsValue&gt; {
     // Get the window object
-    let window = web_sys::window().expect("no global window exists");
+    let window = web_sys::window().expect(&quot;no global window exists&quot;);
 
     // Get the document object
-    let document = window.document().expect("should have a document on window");
+    let document = window.document().expect(&quot;should have a document on window&quot;);
 
     // Create a div element
-    let div = document.create_element("div")?;
-    div.set_inner_html("Hello from Rust!");
+    let div = document.create_element(&quot;div&quot;)?;
+    div.set_inner_html(&quot;Hello from Rust!&quot;);
 
     // Append to the body
-    let body = document.body().expect("document should have a body");
+    let body = document.body().expect(&quot;document should have a body&quot;);
     body.append_child(&amp;div)?;
 
     Ok(())
@@ -4272,7 +4279,7 @@ pub fn create_element() -&gt; Result&lt;(), JsValue&gt; {
 <pre><code class="language-toml"># In Cargo.toml
 [profile.release]
 # Tell `rustc` to optimize for small code size.
-opt-level = "s"
+opt-level = &quot;s&quot;
 lto = true
 codegen-units = 1
 </code></pre>
@@ -4285,8 +4292,8 @@ codegen-units = 1
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Use raw WebAssembly without JavaScript glue when possible
-#[wasm_bindgen(raw_module = "./path/to/module")]
-extern "C" {
+#[wasm_bindgen(raw_module = &quot;./path/to/module&quot;)]
+extern &quot;C&quot; {
     // Imports
 }
 <span class="boring">}</span></code></pre></pre>
@@ -4295,7 +4302,7 @@ extern "C" {
 <ol>
 <li><strong>Browser DevTools</strong>: Chrome and Firefox now have native WebAssembly debugging support</li>
 <li><strong>console_error_panic_hook</strong>: A crate that redirects Rust panics to the browser console</li>
-<li><strong>wasm-logger</strong>: Redirects Rust’s <code>log</code> output to the browser console</li>
+<li><strong>wasm-logger</strong>: Redirects Rust's <code>log</code> output to the browser console</li>
 </ol>
 <p>Example of configuring panic and logging hooks:</p>
 <pre><pre class="playground"><code class="language-rust">use wasm_bindgen::prelude::*;
@@ -4309,13 +4316,13 @@ pub fn main() {
     wasm_logger::init(wasm_logger::Config::default());
 
     // Now we can use log macros
-    log::info!("WebAssembly module initialized");
+    log::info!(&quot;WebAssembly module initialized&quot;);
 }</code></pre></pre>
 <h3 id="integrating-with-javascript-frameworks"><a class="header" href="#integrating-with-javascript-frameworks">Integrating with JavaScript Frameworks</a></h3>
 <p>WebAssembly modules can be integrated with any JavaScript framework:</p>
 <h4 id="with-react"><a class="header" href="#with-react">With React</a></h4>
-<pre><code class="language-javascript">import React, { useEffect, useState } from "react";
-import init, { add } from "./pkg/my_wasm_module";
+<pre><code class="language-javascript">import React, { useEffect, useState } from &quot;react&quot;;
+import init, { add } from &quot;./pkg/my_wasm_module&quot;;
 
 function App() {
   const [result, setResult] = useState(null);
@@ -4328,12 +4335,12 @@ function App() {
     loadWasm();
   }, []);
 
-  return &lt;div&gt;Result from Wasm: {result !== null ? result : "Loading..."}&lt;/div&gt;;
+  return &lt;div&gt;Result from Wasm: {result !== null ? result : &quot;Loading...&quot;}&lt;/div&gt;;
 }
 </code></pre>
 <h4 id="with-vue"><a class="header" href="#with-vue">With Vue</a></h4>
-<pre><code class="language-javascript">import { createApp } from "vue";
-import init, { add } from "./pkg/my_wasm_module";
+<pre><code class="language-javascript">import { createApp } from &quot;vue&quot;;
+import init, { add } from &quot;./pkg/my_wasm_module&quot;;
 
 const app = createApp({
   data() {
@@ -4348,7 +4355,7 @@ const app = createApp({
   template: `&lt;div&gt;Result from Wasm: {{ result !== null ? result : 'Loading...' }}&lt;/div&gt;`,
 });
 
-app.mount("#app");
+app.mount(&quot;#app&quot;);
 </code></pre>
 <h2 id="modern-rust-ui-frameworks"><a class="header" href="#modern-rust-ui-frameworks">Modern Rust UI Frameworks</a></h2>
 <p>While WebAssembly enables Rust to run in the browser, building complex UIs directly with WebAssembly APIs would be cumbersome. Fortunately, several Rust frameworks provide higher-level abstractions for frontend development.</p>
@@ -4378,8 +4385,8 @@ fn App() -&gt; Html {
 
     html! {
         &lt;div&gt;
-            &lt;h1&gt;{ "Yew Counter Example" }&lt;/h1&gt;
-            &lt;button {onclick}&gt;{ "+1" }&lt;/button&gt;
+            &lt;h1&gt;{ &quot;Yew Counter Example&quot; }&lt;/h1&gt;
+            &lt;button {onclick}&gt;{ &quot;+1&quot; }&lt;/button&gt;
             &lt;p&gt;{ *counter }&lt;/p&gt;
         &lt;/div&gt;
     }
@@ -4427,8 +4434,8 @@ impl Component for CounterComponent {
         let link = ctx.link();
         html! {
             &lt;div&gt;
-                &lt;button onclick={link.callback(|_| Msg::Increment)}&gt;{ "+1" }&lt;/button&gt;
-                &lt;button onclick={link.callback(|_| Msg::Decrement)}&gt;{ "-1" }&lt;/button&gt;
+                &lt;button onclick={link.callback(|_| Msg::Increment)}&gt;{ &quot;+1&quot; }&lt;/button&gt;
+                &lt;button onclick={link.callback(|_| Msg::Decrement)}&gt;{ &quot;-1&quot; }&lt;/button&gt;
                 &lt;p&gt;{ self.counter }&lt;/p&gt;
             &lt;/div&gt;
         }
@@ -4436,7 +4443,7 @@ impl Component for CounterComponent {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="leptos-fine-grained-reactive-framework"><a class="header" href="#leptos-fine-grained-reactive-framework">Leptos: Fine-grained Reactive Framework</a></h3>
-<p>Leptos is a newer framework that focuses on fine-grained reactivity, inspired by SolidJS. Unlike Yew’s virtual DOM approach, Leptos updates only what needs to change, potentially offering better performance.</p>
+<p>Leptos is a newer framework that focuses on fine-grained reactivity, inspired by SolidJS. Unlike Yew's virtual DOM approach, Leptos updates only what needs to change, potentially offering better performance.</p>
 <h4 id="key-features-4"><a class="header" href="#key-features-4">Key Features</a></h4>
 <ul>
 <li>Fine-grained reactivity</li>
@@ -4455,11 +4462,11 @@ fn Counter() -&gt; impl IntoView {
 
     view! {
         &lt;div&gt;
-            &lt;h2&gt;"Counter Example"&lt;/h2&gt;
+            &lt;h2&gt;&quot;Counter Example&quot;&lt;/h2&gt;
             &lt;button on:click=move |_| set_count.update(|n| *n += 1)&gt;
-                "Increment"
+                &quot;Increment&quot;
             &lt;/button&gt;
-            &lt;p&gt;"Count: " {count}&lt;/p&gt;
+            &lt;p&gt;&quot;Count: &quot; {count}&lt;/p&gt;
         &lt;/div&gt;
     }
 }
@@ -4483,7 +4490,7 @@ fn TemperatureConverter() -&gt; impl IntoView {
     view! {
         &lt;div&gt;
             &lt;input
-                type="number"
+                type=&quot;number&quot;
                 prop:value=celsius
                 on:input=move |ev| {
                     if let Ok(val) = event_target_value(&amp;ev).parse::&lt;f64&gt;() {
@@ -4491,8 +4498,8 @@ fn TemperatureConverter() -&gt; impl IntoView {
                     }
                 }
             /&gt;
-            &lt;p&gt;"Celsius: " {celsius}&lt;/p&gt;
-            &lt;p&gt;"Fahrenheit: " {fahrenheit}&lt;/p&gt;
+            &lt;p&gt;&quot;Celsius: &quot; {celsius}&lt;/p&gt;
+            &lt;p&gt;&quot;Fahrenheit: &quot; {fahrenheit}&lt;/p&gt;
         &lt;/div&gt;
     }
 }
@@ -4520,12 +4527,12 @@ fn App() -&gt; Element {
 
     rsx! {
         div {
-            h1 { "Counter Example" }
+            h1 { &quot;Counter Example&quot; }
             button {
                 onclick: move |_| count += 1,
-                "+1"
+                &quot;+1&quot;
             }
-            p { "Count: {count}" }
+            p { &quot;Count: {count}&quot; }
         }
     }
 }</code></pre></pre>
@@ -4553,9 +4560,9 @@ fn main() {
 <pre><code class="language-toml"># Cargo.toml
 [workspace]
 members = [
-    "common",   # Shared code
-    "frontend", # WebAssembly frontend
-    "backend"   # Server backend
+    &quot;common&quot;,   # Shared code
+    &quot;frontend&quot;, # WebAssembly frontend
+    &quot;backend&quot;   # Server backend
 ]
 </code></pre>
 <h4 id="2-shared-models-and-validation"><a class="header" href="#2-shared-models-and-validation">2. Shared Models and Validation</a></h4>
@@ -4599,7 +4606,7 @@ pub struct LoginResponse {
     pub user: User,
 }
 
-pub const LOGIN_ENDPOINT: &amp;str = "/api/login";
+pub const LOGIN_ENDPOINT: &amp;str = &quot;/api/login&quot;;
 <span class="boring">}</span></code></pre></pre>
 <h4 id="4-error-handling"><a class="header" href="#4-error-handling">4. Error Handling</a></h4>
 <p>Consistent error types across frontend and backend:</p>
@@ -4611,24 +4618,24 @@ use thiserror::Error;
 
 #[derive(Debug, Error, Serialize, Deserialize)]
 pub enum AppError {
-    #[error("Authentication failed")]
+    #[error(&quot;Authentication failed&quot;)]
     AuthenticationError,
 
-    #[error("Not authorized to access this resource")]
+    #[error(&quot;Not authorized to access this resource&quot;)]
     AuthorizationError,
 
-    #[error("Resource not found")]
+    #[error(&quot;Resource not found&quot;)]
     NotFoundError,
 
-    #[error("Validation error: {0}")]
+    #[error(&quot;Validation error: {0}&quot;)]
     ValidationError(String),
 
-    #[error("Server error")]
+    #[error(&quot;Server error&quot;)]
     ServerError,
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="practical-example-full-stack-form-handling"><a class="header" href="#practical-example-full-stack-form-handling">Practical Example: Full-stack Form Handling</a></h3>
-<p>Here’s how shared code can be used for form validation in a full-stack application:</p>
+<p>Here's how shared code can be used for form validation in a full-stack application:</p>
 <h4 id="shared-validation-common-crate"><a class="header" href="#shared-validation-common-crate">Shared Validation (common crate)</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4638,13 +4645,13 @@ use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct RegistrationForm {
-    #[validate(length(min = 3, message = "Username must be at least 3 characters"))]
+    #[validate(length(min = 3, message = &quot;Username must be at least 3 characters&quot;))]
     pub username: String,
 
-    #[validate(email(message = "Invalid email format"))]
+    #[validate(email(message = &quot;Invalid email format&quot;))]
     pub email: String,
 
-    #[validate(length(min = 8, message = "Password must be at least 8 characters"))]
+    #[validate(length(min = 8, message = &quot;Password must be at least 8 characters&quot;))]
     pub password: String,
 }
 
@@ -4728,16 +4735,16 @@ pub async fn register(
         Ok(_) =&gt; {
             // Process valid registration
             // Save to database, etc.
-            (StatusCode::CREATED, "User registered successfully".to_string())
+            (StatusCode::CREATED, &quot;User registered successfully&quot;.to_string())
         }
         Err(errors) =&gt; {
-            (StatusCode::BAD_REQUEST, format!("Validation errors: {:?}", errors))
+            (StatusCode::BAD_REQUEST, format!(&quot;Validation errors: {:?}&quot;, errors))
         }
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="server-side-rendering-with-rust"><a class="header" href="#server-side-rendering-with-rust">Server-side Rendering with Rust</a></h2>
-<p>Server-side rendering (SSR) improves initial page load performance and SEO by rendering the HTML on the server before sending it to the client. Rust’s web frameworks are increasingly supporting SSR capabilities.</p>
+<p>Server-side rendering (SSR) improves initial page load performance and SEO by rendering the HTML on the server before sending it to the client. Rust's web frameworks are increasingly supporting SSR capabilities.</p>
 <h3 id="benefits-of-ssr"><a class="header" href="#benefits-of-ssr">Benefits of SSR</a></h3>
 <ul>
 <li><strong>Faster Initial Load</strong>: Users see content sooner</li>
@@ -4755,23 +4762,23 @@ fn App() -&gt; impl IntoView {
 
     view! {
         &lt;div&gt;
-            &lt;h1&gt;"Server Rendered Counter"&lt;/h1&gt;
+            &lt;h1&gt;&quot;Server Rendered Counter&quot;&lt;/h1&gt;
             &lt;button on:click=move |_| set_count.update(|n| *n += 1)&gt;
-                "Increment"
+                &quot;Increment&quot;
             &lt;/button&gt;
-            &lt;p&gt;"Count: " {count}&lt;/p&gt;
+            &lt;p&gt;&quot;Count: &quot; {count}&lt;/p&gt;
         &lt;/div&gt;
     }
 }
 
 // For client-side rendering
-#[cfg(feature = "hydrate")]
+#[cfg(feature = &quot;hydrate&quot;)]
 fn main() {
     leptos::mount_to_body(App);
 }
 
 // For server-side rendering
-#[cfg(feature = "ssr")]
+#[cfg(feature = &quot;ssr&quot;)]
 #[tokio::main]
 async fn main() {
     use axum::{
@@ -4785,7 +4792,7 @@ async fn main() {
     let routes = generate_route_list(|cx| view! { cx, &lt;App/&gt; });
 
     let app = Router::new()
-        .route("/", get(leptos_axum::render_app_to_stream))
+        .route(&quot;/&quot;, get(leptos_axum::render_app_to_stream))
         .leptos_routes(leptos_options.clone(), routes, |cx| view! { cx, &lt;App/&gt; })
         .with_state(leptos_options);
 
@@ -4796,7 +4803,7 @@ async fn main() {
         .unwrap();
 }</code></pre></pre>
 <h3 id="islands-architecture"><a class="header" href="#islands-architecture">Islands Architecture</a></h3>
-<p>The “islands architecture” is a hybrid approach where most of the page is static HTML, with interactive “islands” hydrated on the client:</p>
+<p>The &quot;islands architecture&quot; is a hybrid approach where most of the page is static HTML, with interactive &quot;islands&quot; hydrated on the client:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use leptos::*;
@@ -4809,9 +4816,9 @@ fn Counter() -&gt; impl IntoView {
     view! {
         &lt;div&gt;
             &lt;button on:click=move |_| set_count.update(|n| *n += 1)&gt;
-                "Increment"
+                &quot;Increment&quot;
             &lt;/button&gt;
-            &lt;p&gt;"Count: " {count}&lt;/p&gt;
+            &lt;p&gt;&quot;Count: &quot; {count}&lt;/p&gt;
         &lt;/div&gt;
     }
 }
@@ -4821,8 +4828,8 @@ fn Counter() -&gt; impl IntoView {
 fn StaticContent() -&gt; impl IntoView {
     view! {
         &lt;div&gt;
-            &lt;h1&gt;"Welcome to Our Site"&lt;/h1&gt;
-            &lt;p&gt;"This content doesn't need interactivity."&lt;/p&gt;
+            &lt;h1&gt;&quot;Welcome to Our Site&quot;&lt;/h1&gt;
+            &lt;p&gt;&quot;This content doesn't need interactivity.&quot;&lt;/p&gt;
         &lt;/div&gt;
     }
 }
@@ -4860,24 +4867,24 @@ fn SearchForm() -&gt; impl IntoView {
     // Form works without JS via action, but uses JS when available
     view! {
         &lt;form
-            action="/search"
-            method="GET"
+            action=&quot;/search&quot;
+            method=&quot;GET&quot;
             on:submit=move |ev| {
                 ev.prevent_default();
                 // Client-side search when JS is available
             }
         &gt;
             &lt;input
-                type="text"
-                name="q"
+                type=&quot;text&quot;
+                name=&quot;q&quot;
                 prop:value=query
                 on:input=move |ev| set_query(event_target_value(&amp;ev))
             /&gt;
-            &lt;button type="submit"&gt;"Search"&lt;/button&gt;
+            &lt;button type=&quot;submit&quot;&gt;&quot;Search&quot;&lt;/button&gt;
         &lt;/form&gt;
 
         // Show results client-side when available
-        &lt;Suspense fallback=move || view! { &lt;p&gt;"Loading..."&lt;/p&gt; }&gt;
+        &lt;Suspense fallback=move || view! { &lt;p&gt;&quot;Loading...&quot;&lt;/p&gt; }&gt;
             {move || results.get().map(|r| view! {
                 &lt;ul&gt;
                     {r.into_iter().map(|item| view! {
@@ -4901,22 +4908,22 @@ fn BlogPost(post: BlogPostData) -&gt; impl IntoView {
     view! {
         &lt;&gt;
             &lt;Title text=post.title.clone()/&gt;
-            &lt;Meta name="description" content=post.summary.clone()/&gt;
-            &lt;Meta property="og:title" content=post.title.clone()/&gt;
-            &lt;Meta property="og:description" content=post.summary.clone()/&gt;
+            &lt;Meta name=&quot;description&quot; content=post.summary.clone()/&gt;
+            &lt;Meta property=&quot;og:title&quot; content=post.title.clone()/&gt;
+            &lt;Meta property=&quot;og:description&quot; content=post.summary.clone()/&gt;
 
             &lt;article&gt;
                 &lt;h1&gt;{post.title}&lt;/h1&gt;
-                &lt;div class="content"&gt;{post.content}&lt;/div&gt;
+                &lt;div class=&quot;content&quot;&gt;{post.content}&lt;/div&gt;
             &lt;/article&gt;
         &lt;/&gt;
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored the rapidly evolving world of web development in Rust. We’ve seen how Rust’s core strengths—performance, memory safety, and concurrency—make it an excellent choice for building robust web applications.</p>
-<p>We’ve covered backend frameworks like Actix Web, Rocket, and Axum, showing how each provides different approaches to building web services. We’ve learned how to design RESTful APIs, integrate with databases using SQLx, implement authentication and security, and create middleware for cross-cutting concerns.</p>
-<p>For frontend development, we’ve explored how Rust can be compiled to WebAssembly, enabling the creation of high-performance web interfaces with frameworks like Yew and Leptos. We’ve also looked at GraphQL implementation with async-graphql, WebSockets for real-time communication, and deployment strategies for Rust web applications.</p>
+<p>In this chapter, we've explored the rapidly evolving world of web development in Rust. We've seen how Rust's core strengths—performance, memory safety, and concurrency—make it an excellent choice for building robust web applications.</p>
+<p>We've covered backend frameworks like Actix Web, Rocket, and Axum, showing how each provides different approaches to building web services. We've learned how to design RESTful APIs, integrate with databases using SQLx, implement authentication and security, and create middleware for cross-cutting concerns.</p>
+<p>For frontend development, we've explored how Rust can be compiled to WebAssembly, enabling the creation of high-performance web interfaces with frameworks like Yew and Leptos. We've also looked at GraphQL implementation with async-graphql, WebSockets for real-time communication, and deployment strategies for Rust web applications.</p>
 <p>The Rust web ecosystem is still evolving, but it already offers powerful tools for building fast, reliable, and secure web applications. As the ecosystem continues to mature, Rust is becoming an increasingly attractive option for web development, especially for applications where performance, safety, and reliability are critical.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>

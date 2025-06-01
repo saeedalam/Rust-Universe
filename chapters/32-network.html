@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html" class="active"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,12 +184,12 @@
                     <main>
                         <h1 id="chapter-32-network-programming"><a class="header" href="#chapter-32-network-programming">Chapter 32: Network Programming</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Network programming is a critical skill for modern software development. As applications increasingly operate across distributed systems, communicate with web services, and process data from remote sources, understanding how to effectively utilize networking capabilities becomes essential. Rust’s emphasis on safety, performance, and control makes it an excellent language for network programming, whether you’re building high-performance web servers, reliable microservices, or low-level protocol implementations.</p>
-<p>In this chapter, we’ll explore network programming in Rust from the ground up. We’ll start with fundamental networking concepts and TCP/IP basics, then progress through various levels of abstraction: from low-level socket programming to high-level HTTP clients and servers. Along the way, we’ll examine how Rust’s unique features—such as its ownership model, type system, and async capabilities—can be leveraged to build robust and efficient networked applications.</p>
-<p>Rust’s ecosystem offers a rich variety of networking libraries, from the standard library’s basic TCP and UDP implementations to sophisticated frameworks like Tokio, Hyper, and Actix. We’ll explore these tools and learn how to choose the right approach for different networking tasks.</p>
-<p>By the end of this chapter, you’ll have a comprehensive understanding of network programming in Rust and the practical skills to implement secure, performant, and reliable networked applications.</p>
+<p>Network programming is a critical skill for modern software development. As applications increasingly operate across distributed systems, communicate with web services, and process data from remote sources, understanding how to effectively utilize networking capabilities becomes essential. Rust's emphasis on safety, performance, and control makes it an excellent language for network programming, whether you're building high-performance web servers, reliable microservices, or low-level protocol implementations.</p>
+<p>In this chapter, we'll explore network programming in Rust from the ground up. We'll start with fundamental networking concepts and TCP/IP basics, then progress through various levels of abstraction: from low-level socket programming to high-level HTTP clients and servers. Along the way, we'll examine how Rust's unique features—such as its ownership model, type system, and async capabilities—can be leveraged to build robust and efficient networked applications.</p>
+<p>Rust's ecosystem offers a rich variety of networking libraries, from the standard library's basic TCP and UDP implementations to sophisticated frameworks like Tokio, Hyper, and Actix. We'll explore these tools and learn how to choose the right approach for different networking tasks.</p>
+<p>By the end of this chapter, you'll have a comprehensive understanding of network programming in Rust and the practical skills to implement secure, performant, and reliable networked applications.</p>
 <h2 id="network-programming-concepts"><a class="header" href="#network-programming-concepts">Network Programming Concepts</a></h2>
-<p>Before diving into Rust-specific implementations, let’s establish a foundation of core networking concepts that will inform our approach.</p>
+<p>Before diving into Rust-specific implementations, let's establish a foundation of core networking concepts that will inform our approach.</p>
 <h3 id="the-osi-model-and-network-layers"><a class="header" href="#the-osi-model-and-network-layers">The OSI Model and Network Layers</a></h3>
 <p>The Open Systems Interconnection (OSI) model provides a conceptual framework for understanding network communications. It divides networking into seven layers, each with distinct responsibilities:</p>
 <ol>
@@ -202,7 +209,7 @@
 <li><strong>Clients</strong> request and consume these resources</li>
 <li>Communication occurs through well-defined protocols</li>
 </ul>
-<p>Rust can be used to implement both clients and servers, and we’ll explore both approaches in this chapter.</p>
+<p>Rust can be used to implement both clients and servers, and we'll explore both approaches in this chapter.</p>
 <h3 id="blocking-vs-non-blocking-io"><a class="header" href="#blocking-vs-non-blocking-io">Blocking vs. Non-Blocking I/O</a></h3>
 <p>Network operations can be implemented using different I/O models:</p>
 <ul>
@@ -252,7 +259,7 @@
 <li><strong>Scalability</strong>: Systems must handle varying loads efficiently</li>
 <li><strong>Heterogeneity</strong>: Different systems with different capabilities must interoperate</li>
 </ul>
-<p>Rust’s strong type system and explicit error handling help address many of these challenges by forcing developers to consider failure cases and handle them appropriately.</p>
+<p>Rust's strong type system and explicit error handling help address many of these challenges by forcing developers to consider failure cases and handle them appropriately.</p>
 <h2 id="tcpip-fundamentals"><a class="header" href="#tcpip-fundamentals">TCP/IP Fundamentals</a></h2>
 <p>TCP/IP (Transmission Control Protocol/Internet Protocol) is the foundational protocol suite that powers the internet and most modern networked applications. Understanding its core principles is essential for effective network programming in Rust.</p>
 <h3 id="the-internet-protocol-ip"><a class="header" href="#the-internet-protocol-ip">The Internet Protocol (IP)</a></h3>
@@ -271,7 +278,7 @@ let localhost_v4 = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
 let localhost_v6 = IpAddr::V6(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1));
 
 // Parsing from strings
-let addr: IpAddr = "192.168.1.1".parse().expect("Invalid IP address");
+let addr: IpAddr = &quot;192.168.1.1&quot;.parse().expect(&quot;Invalid IP address&quot;);
 <span class="boring">}</span></code></pre></pre>
 <h3 id="transmission-control-protocol-tcp"><a class="header" href="#transmission-control-protocol-tcp">Transmission Control Protocol (TCP)</a></h3>
 <p>TCP is a connection-oriented protocol that provides reliable, ordered, and error-checked delivery of data. Key features include:</p>
@@ -292,9 +299,9 @@ let addr: IpAddr = "192.168.1.1".parse().expect("Invalid IP address");
 <li><strong>Broadcast and Multicast</strong>: Can send to multiple recipients</li>
 </ol>
 <h3 id="socket-programming-in-rust"><a class="header" href="#socket-programming-in-rust">Socket Programming in Rust</a></h3>
-<p>Sockets are the fundamental building blocks of network programming. Rust’s standard library provides implementations for TCP and UDP sockets.</p>
+<p>Sockets are the fundamental building blocks of network programming. Rust's standard library provides implementations for TCP and UDP sockets.</p>
 <h4 id="tcp-sockets"><a class="header" href="#tcp-sockets">TCP Sockets</a></h4>
-<p>Let’s start with a simple TCP client and server example:</p>
+<p>Let's start with a simple TCP client and server example:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// TCP Client
@@ -303,16 +310,16 @@ use std::net::TcpStream;
 
 fn run_client() -&gt; std::io::Result&lt;()&gt; {
     // Connect to a server
-    let mut stream = TcpStream::connect("127.0.0.1:8080")?;
+    let mut stream = TcpStream::connect(&quot;127.0.0.1:8080&quot;)?;
 
     // Send a message
-    stream.write_all(b"Hello, server!")?;
+    stream.write_all(b&quot;Hello, server!&quot;)?;
 
     // Read the response
     let mut response = [0; 128];
     let n = stream.read(&amp;mut response)?;
 
-    println!("Received: {}", String::from_utf8_lossy(&amp;response[0..n]));
+    println!(&quot;Received: {}&quot;, String::from_utf8_lossy(&amp;response[0..n]));
 
     Ok(())
 }
@@ -332,7 +339,7 @@ fn handle_client(mut stream: TcpStream) -&gt; std::io::Result&lt;()&gt; {
 
     // Process the request (echo it back in this case)
     let message = &amp;buffer[0..n];
-    println!("Received: {}", String::from_utf8_lossy(message));
+    println!(&quot;Received: {}&quot;, String::from_utf8_lossy(message));
 
     // Send a response
     stream.write_all(message)?;
@@ -342,8 +349,8 @@ fn handle_client(mut stream: TcpStream) -&gt; std::io::Result&lt;()&gt; {
 
 fn run_server() -&gt; std::io::Result&lt;()&gt; {
     // Bind to an address and port
-    let listener = TcpListener::bind("127.0.0.1:8080")?;
-    println!("Server listening on port 8080");
+    let listener = TcpListener::bind(&quot;127.0.0.1:8080&quot;)?;
+    println!(&quot;Server listening on port 8080&quot;);
 
     // Accept connections in a loop
     for stream in listener.incoming() {
@@ -352,11 +359,11 @@ fn run_server() -&gt; std::io::Result&lt;()&gt; {
                 // Handle each client in a new thread
                 thread::spawn(move || {
                     handle_client(stream)
-                        .unwrap_or_else(|error| eprintln!("Error: {}", error));
+                        .unwrap_or_else(|error| eprintln!(&quot;Error: {}&quot;, error));
                 });
             }
             Err(e) =&gt; {
-                eprintln!("Connection failed: {}", e);
+                eprintln!(&quot;Connection failed: {}&quot;, e);
             }
         }
     }
@@ -369,10 +376,10 @@ fn run_server() -&gt; std::io::Result&lt;()&gt; {
 <li><strong>Connection Establishment</strong>: Client connects to a specific address and port</li>
 <li><strong>Data Transfer</strong>: Reading and writing bytes over the connection</li>
 <li><strong>Concurrency</strong>: Server handles multiple clients using threads</li>
-<li><strong>Error Handling</strong>: Rust’s <code>Result</code> type for managing potential failures</li>
+<li><strong>Error Handling</strong>: Rust's <code>Result</code> type for managing potential failures</li>
 </ol>
 <h4 id="udp-sockets"><a class="header" href="#udp-sockets">UDP Sockets</a></h4>
-<p>Now let’s look at UDP client and server implementations:</p>
+<p>Now let's look at UDP client and server implementations:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// UDP Client
@@ -380,17 +387,17 @@ use std::net::UdpSocket;
 
 fn run_udp_client() -&gt; std::io::Result&lt;()&gt; {
     // Create a UDP socket
-    let socket = UdpSocket::bind("0.0.0.0:0")?;
+    let socket = UdpSocket::bind(&quot;0.0.0.0:0&quot;)?;
 
     // Send a message to the server
-    let message = b"Hello, UDP server!";
-    socket.send_to(message, "127.0.0.1:8081")?;
+    let message = b&quot;Hello, UDP server!&quot;;
+    socket.send_to(message, &quot;127.0.0.1:8081&quot;)?;
 
     // Receive a response
     let mut buffer = [0; 128];
     let (size, _) = socket.recv_from(&amp;mut buffer)?;
 
-    println!("Received: {}", String::from_utf8_lossy(&amp;buffer[0..size]));
+    println!(&quot;Received: {}&quot;, String::from_utf8_lossy(&amp;buffer[0..size]));
 
     Ok(())
 }
@@ -402,8 +409,8 @@ use std::net::UdpSocket;
 
 fn run_udp_server() -&gt; std::io::Result&lt;()&gt; {
     // Bind to an address and port
-    let socket = UdpSocket::bind("127.0.0.1:8081")?;
-    println!("UDP server listening on port 8081");
+    let socket = UdpSocket::bind(&quot;127.0.0.1:8081&quot;)?;
+    println!(&quot;UDP server listening on port 8081&quot;);
 
     let mut buffer = [0; 128];
 
@@ -411,8 +418,8 @@ fn run_udp_server() -&gt; std::io::Result&lt;()&gt; {
         // Receive data and the sender's address
         let (size, client_addr) = socket.recv_from(&amp;mut buffer)?;
 
-        println!("Received {} bytes from {}", size, client_addr);
-        println!("Message: {}", String::from_utf8_lossy(&amp;buffer[0..size]));
+        println!(&quot;Received {} bytes from {}&quot;, size, client_addr);
+        println!(&quot;Message: {}&quot;, String::from_utf8_lossy(&amp;buffer[0..size]));
 
         // Echo the data back to the client
         socket.send_to(&amp;buffer[0..size], client_addr)?;
@@ -421,9 +428,9 @@ fn run_udp_server() -&gt; std::io::Result&lt;()&gt; {
 <span class="boring">}</span></code></pre></pre>
 <p>Key differences from TCP:</p>
 <ol>
-<li><strong>No Connection</strong>: UDP doesn’t establish or maintain connections</li>
+<li><strong>No Connection</strong>: UDP doesn't establish or maintain connections</li>
 <li><strong>Message-Based</strong>: Data is sent in discrete datagrams</li>
-<li><strong>Source Address</strong>: Each receive operation returns the sender’s address</li>
+<li><strong>Source Address</strong>: Each receive operation returns the sender's address</li>
 <li><strong>No Ordering</strong>: Messages may arrive out of order or not at all</li>
 </ol>
 <h3 id="socket-options-and-configuration"><a class="header" href="#socket-options-and-configuration">Socket Options and Configuration</a></h3>
@@ -435,7 +442,7 @@ use std::time::Duration;
 
 fn configure_tcp_socket() -&gt; std::io::Result&lt;()&gt; {
     // Create and configure a TCP client socket
-    let stream = TcpStream::connect("example.com:80")?;
+    let stream = TcpStream::connect(&quot;example.com:80&quot;)?;
 
     // Set read timeout
     stream.set_read_timeout(Some(Duration::from_secs(10)))?;
@@ -447,7 +454,7 @@ fn configure_tcp_socket() -&gt; std::io::Result&lt;()&gt; {
     stream.set_nodelay(true)?;
 
     // Create and configure a TCP server socket
-    let listener = TcpListener::bind("127.0.0.1:8080")?;
+    let listener = TcpListener::bind(&quot;127.0.0.1:8080&quot;)?;
 
     // Set TTL (Time-To-Live)
     listener.set_ttl(64)?;
@@ -456,7 +463,7 @@ fn configure_tcp_socket() -&gt; std::io::Result&lt;()&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="working-with-ip-and-socket-addresses"><a class="header" href="#working-with-ip-and-socket-addresses">Working with IP and Socket Addresses</a></h3>
-<p>Rust’s standard library provides types for working with network addresses:</p>
+<p>Rust's standard library provides types for working with network addresses:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV4, SocketAddrV6};
@@ -475,24 +482,24 @@ fn work_with_addresses() {
     let socket_addr2: SocketAddr = SocketAddr::V6(socket_v6);
 
     // Parsing from strings
-    let addr: SocketAddr = "192.168.1.1:8080".parse().expect("Invalid socket address");
-    let addr_v6: SocketAddr = "[2001:db8::1]:8080".parse().expect("Invalid IPv6 socket address");
+    let addr: SocketAddr = &quot;192.168.1.1:8080&quot;.parse().expect(&quot;Invalid socket address&quot;);
+    let addr_v6: SocketAddr = &quot;[2001:db8::1]:8080&quot;.parse().expect(&quot;Invalid IPv6 socket address&quot;);
 
     // Extracting components
-    println!("IP: {}, Port: {}", addr.ip(), addr.port());
+    println!(&quot;IP: {}, Port: {}&quot;, addr.ip(), addr.port());
 
     // Checking address properties
     if addr.ip().is_loopback() {
-        println!("This is a loopback address");
+        println!(&quot;This is a loopback address&quot;);
     }
 
     if addr.ip().is_ipv4() {
-        println!("This is an IPv4 address");
+        println!(&quot;This is an IPv4 address&quot;);
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="handling-network-errors"><a class="header" href="#handling-network-errors">Handling Network Errors</a></h3>
-<p>Network operations are inherently prone to failures. Rust’s error handling system helps manage these issues gracefully:</p>
+<p>Network operations are inherently prone to failures. Rust's error handling system helps manage these issues gracefully:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::io::{self, ErrorKind};
@@ -516,7 +523,7 @@ fn connect_with_retry(addr: &amp;str, max_retries: usize) -&gt; io::Result&lt;Tc
                     ErrorKind::ConnectionAborted |
                     ErrorKind::TimedOut =&gt; {
                         retries += 1;
-                        println!("Connection failed (attempt {}): {:?}", retries, last_error);
+                        println!(&quot;Connection failed (attempt {}): {:?}&quot;, retries, last_error);
                         std::thread::sleep(Duration::from_secs(1));
                     },
                     _ =&gt; break, // Don't retry for other errors
@@ -525,13 +532,13 @@ fn connect_with_retry(addr: &amp;str, max_retries: usize) -&gt; io::Result&lt;Tc
         }
     }
 
-    Err(last_error.unwrap_or_else(|| io::Error::new(ErrorKind::Other, "Unknown error")))
+    Err(last_error.unwrap_or_else(|| io::Error::new(ErrorKind::Other, &quot;Unknown error&quot;)))
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This resilient connection function demonstrates how to handle common network errors and implement retry logic.</p>
-<p>In the next sections, we’ll build on these fundamentals to explore higher-level networking abstractions in Rust, starting with asynchronous networking using Tokio.</p>
+<p>In the next sections, we'll build on these fundamentals to explore higher-level networking abstractions in Rust, starting with asynchronous networking using Tokio.</p>
 <h2 id="asynchronous-networking-with-tokio"><a class="header" href="#asynchronous-networking-with-tokio">Asynchronous Networking with Tokio</a></h2>
-<p>Asynchronous programming allows network applications to handle many concurrent connections efficiently without spawning a thread for each one. Tokio is Rust’s most popular async runtime and provides powerful tools for network programming.</p>
+<p>Asynchronous programming allows network applications to handle many concurrent connections efficiently without spawning a thread for each one. Tokio is Rust's most popular async runtime and provides powerful tools for network programming.</p>
 <h3 id="why-async-for-networking"><a class="header" href="#why-async-for-networking">Why Async for Networking?</a></h3>
 <p>Traditional network programming with threads has limitations:</p>
 <ol>
@@ -549,30 +556,30 @@ fn connect_with_retry(addr: &amp;str, max_retries: usize) -&gt; io::Result&lt;Tc
 <h3 id="getting-started-with-tokio"><a class="header" href="#getting-started-with-tokio">Getting Started with Tokio</a></h3>
 <p>To use Tokio, add it to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-tokio = { version = "1", features = ["full"] }
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
 </code></pre>
 <p>For a minimal setup, you can select specific features:</p>
 <pre><code class="language-toml">[dependencies]
-tokio = { version = "1", features = ["rt", "rt-multi-thread", "net", "io-util", "macros"] }
+tokio = { version = &quot;1&quot;, features = [&quot;rt&quot;, &quot;rt-multi-thread&quot;, &quot;net&quot;, &quot;io-util&quot;, &quot;macros&quot;] }
 </code></pre>
 <h3 id="async-tcp-client-with-tokio"><a class="header" href="#async-tcp-client-with-tokio">Async TCP Client with Tokio</a></h3>
-<p>Here’s a basic async TCP client:</p>
+<p>Here's a basic async TCP client:</p>
 <pre><pre class="playground"><code class="language-rust">use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Connect to a server
-    let mut stream = TcpStream::connect("127.0.0.1:8080").await?;
-    println!("Connected to server");
+    let mut stream = TcpStream::connect(&quot;127.0.0.1:8080&quot;).await?;
+    println!(&quot;Connected to server&quot;);
 
     // Send a message
-    stream.write_all(b"Hello from async client!").await?;
+    stream.write_all(b&quot;Hello from async client!&quot;).await?;
 
     // Read the response
     let mut buffer = [0; 128];
     let n = stream.read(&amp;mut buffer).await?;
-    println!("Received: {}", String::from_utf8_lossy(&amp;buffer[0..n]));
+    println!(&quot;Received: {}&quot;, String::from_utf8_lossy(&amp;buffer[0..n]));
 
     Ok(())
 }</code></pre></pre>
@@ -584,7 +591,7 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <li><code>AsyncReadExt</code> and <code>AsyncWriteExt</code> provide async I/O methods</li>
 </ul>
 <h3 id="async-tcp-server-with-tokio"><a class="header" href="#async-tcp-server-with-tokio">Async TCP Server with Tokio</a></h3>
-<p>Now let’s implement an async TCP server:</p>
+<p>Now let's implement an async TCP server:</p>
 <pre><pre class="playground"><code class="language-rust">use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 
@@ -599,15 +606,15 @@ async fn handle_connection(mut socket: TcpStream) {
                 return;
             }
 
-            println!("Received: {}", String::from_utf8_lossy(&amp;buffer[0..n]));
+            println!(&quot;Received: {}&quot;, String::from_utf8_lossy(&amp;buffer[0..n]));
 
             // Echo the data back
             if let Err(e) = socket.write_all(&amp;buffer[0..n]).await {
-                eprintln!("Failed to write to socket: {}", e);
+                eprintln!(&quot;Failed to write to socket: {}&quot;, e);
             }
         }
         Err(e) =&gt; {
-            eprintln!("Failed to read from socket: {}", e);
+            eprintln!(&quot;Failed to read from socket: {}&quot;, e);
         }
     }
 }
@@ -615,13 +622,13 @@ async fn handle_connection(mut socket: TcpStream) {
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Bind to an address
-    let listener = TcpListener::bind("127.0.0.1:8080").await?;
-    println!("Server listening on port 8080");
+    let listener = TcpListener::bind(&quot;127.0.0.1:8080&quot;).await?;
+    println!(&quot;Server listening on port 8080&quot;);
 
     // Accept connections
     loop {
         let (socket, addr) = listener.accept().await?;
-        println!("New connection from: {}", addr);
+        println!(&quot;New connection from: {}&quot;, addr);
 
         // Spawn a new task for each connection
         tokio::spawn(async move {
@@ -631,7 +638,7 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 }</code></pre></pre>
 <p>This server can handle thousands of concurrent connections because it:</p>
 <ol>
-<li>Doesn’t block the main task while waiting for client connections</li>
+<li>Doesn't block the main task while waiting for client connections</li>
 <li>Spawns lightweight async tasks instead of threads</li>
 <li>Uses non-blocking I/O operations</li>
 </ol>
@@ -643,15 +650,15 @@ use std::io;
 #[tokio::main]
 async fn main() -&gt; io::Result&lt;()&gt; {
     // UDP server
-    let socket = UdpSocket::bind("127.0.0.1:8081").await?;
+    let socket = UdpSocket::bind(&quot;127.0.0.1:8081&quot;).await?;
     let mut buf = [0; 1024];
 
-    println!("UDP server listening on 127.0.0.1:8081");
+    println!(&quot;UDP server listening on 127.0.0.1:8081&quot;);
 
     loop {
         // Receive data
         let (len, addr) = socket.recv_from(&amp;mut buf).await?;
-        println!("Received {} bytes from {}", len, addr);
+        println!(&quot;Received {} bytes from {}&quot;, len, addr);
 
         // Echo back the data
         socket.send_to(&amp;buf[0..len], addr).await?;
@@ -683,28 +690,28 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Spawn a task to accept new connections
     let server_tx = tx.clone();
     let acceptor = tokio::spawn(async move {
-        let listener = TcpListener::bind("127.0.0.1:8080").await.unwrap();
-        println!("Server listening on port 8080");
+        let listener = TcpListener::bind(&quot;127.0.0.1:8080&quot;).await.unwrap();
+        println!(&quot;Server listening on port 8080&quot;);
 
         let mut next_id = 1;
 
         loop {
             match listener.accept().await {
                 Ok((socket, addr)) =&gt; {
-                    println!("New connection from: {}", addr);
+                    println!(&quot;New connection from: {}&quot;, addr);
 
                     // Notify about the new client
                     if let Err(e) = server_tx.send(Message::NewClient {
                         id: next_id,
                         socket
                     }).await {
-                        eprintln!("Failed to send new client message: {}", e);
+                        eprintln!(&quot;Failed to send new client message: {}&quot;, e);
                     }
 
                     next_id += 1;
                 }
                 Err(e) =&gt; {
-                    eprintln!("Error accepting connection: {}", e);
+                    eprintln!(&quot;Error accepting connection: {}&quot;, e);
                 }
             }
         }
@@ -719,7 +726,7 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             // Acquire lock and broadcast
             let clients_guard = clients.lock().unwrap();
             for (&amp;id, _) in clients_guard.iter() {
-                println!("Would broadcast to client {}", id);
+                println!(&quot;Would broadcast to client {}&quot;, id);
                 // In a real app, you'd send data to the client here
             }
         }
@@ -731,13 +738,13 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             Message::NewClient { id, socket } =&gt; {
                 // Add client to our map
                 clients.lock().unwrap().insert(id, socket);
-                println!("Client {} registered, total clients: {}",
+                println!(&quot;Client {} registered, total clients: {}&quot;,
                          id, clients.lock().unwrap().len());
             }
             Message::ClientDisconnected { id } =&gt; {
                 // Remove client from our map
                 clients.lock().unwrap().remove(&amp;id);
-                println!("Client {} disconnected, remaining clients: {}",
+                println!(&quot;Client {} disconnected, remaining clients: {}&quot;,
                          id, clients.lock().unwrap().len());
             }
         }
@@ -769,7 +776,7 @@ async fn connect_with_timeout(addr: &amp;str, timeout_secs: u64) -&gt; Result&lt
             Ok(stream)
         }
         Err(_) =&gt; {
-            Err("Connection timed out".into())
+            Err(&quot;Connection timed out&quot;.into())
         }
     }
 }
@@ -777,26 +784,26 @@ async fn connect_with_timeout(addr: &amp;str, timeout_secs: u64) -&gt; Result&lt
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Try to connect with a 5-second timeout
-    match connect_with_timeout("slow.example.com:80", 5).await {
+    match connect_with_timeout(&quot;slow.example.com:80&quot;, 5).await {
         Ok(mut stream) =&gt; {
-            println!("Connected successfully");
+            println!(&quot;Connected successfully&quot;);
 
             // Read with timeout
             let mut buffer = [0; 1024];
             match timeout(Duration::from_secs(3), stream.read(&amp;mut buffer)).await {
                 Ok(Ok(n)) =&gt; {
-                    println!("Read {} bytes", n);
+                    println!(&quot;Read {} bytes&quot;, n);
                 }
                 Ok(Err(e)) =&gt; {
-                    println!("Read error: {}", e);
+                    println!(&quot;Read error: {}&quot;, e);
                 }
                 Err(_) =&gt; {
-                    println!("Read timed out");
+                    println!(&quot;Read timed out&quot;);
                 }
             }
         }
         Err(e) =&gt; {
-            println!("Connection failed: {}", e);
+            println!(&quot;Connection failed: {}&quot;, e);
         }
     }
 
@@ -850,7 +857,7 @@ impl ConnectionPool {
         }
 
         // Should never reach here if semaphore is working correctly
-        panic!("Failed to acquire connection despite having a permit");
+        panic!(&quot;Failed to acquire connection despite having a permit&quot;);
     }
 }
 
@@ -871,7 +878,7 @@ impl&lt;'a&gt; Drop for PooledConnection&lt;'a&gt; {
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Create a pool of 5 connections
-    let pool = ConnectionPool::new("example.com:80", 5).await?;
+    let pool = ConnectionPool::new(&quot;example.com:80&quot;, 5).await?;
 
     // Spawn 10 tasks that use connections from the pool
     for i in 0..10 {
@@ -881,12 +888,12 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             // Get a connection from the pool (will wait if none available)
             let conn = pool.get_connection().await.unwrap();
 
-            println!("Task {} got connection {}", i, conn.index);
+            println!(&quot;Task {} got connection {}&quot;, i, conn.index);
 
             // Simulate doing work with the connection
             sleep(Duration::from_secs(1)).await;
 
-            println!("Task {} releasing connection {}", i, conn.index);
+            println!(&quot;Task {} releasing connection {}&quot;, i, conn.index);
             // Connection automatically returned to pool when dropped
         });
     }
@@ -900,11 +907,11 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <ol>
 <li><strong>Resource Management</strong>: Limiting the number of concurrent connections</li>
 <li><strong>Synchronization Primitives</strong>: Using <code>Semaphore</code> for access control</li>
-<li><strong>RAII Pattern</strong>: Automatic resource cleanup with Rust’s drop mechanism</li>
+<li><strong>RAII Pattern</strong>: Automatic resource cleanup with Rust's drop mechanism</li>
 </ol>
 <h3 id="best-practices-for-tokio-networking"><a class="header" href="#best-practices-for-tokio-networking">Best Practices for Tokio Networking</a></h3>
 <ol>
-<li><strong>Spawn Tasks Carefully</strong>: Don’t create too many tasks or too few</li>
+<li><strong>Spawn Tasks Carefully</strong>: Don't create too many tasks or too few</li>
 <li><strong>Avoid Blocking Operations</strong>: Use <code>tokio::task::spawn_blocking</code> for CPU-intensive work</li>
 <li><strong>Use Timeouts</strong>: Always set timeouts for network operations</li>
 <li><strong>Handle Backpressure</strong>: Use bounded channels and throttling</li>
@@ -912,9 +919,9 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <li><strong>Error Handling</strong>: Properly propagate and log errors</li>
 <li><strong>Graceful Shutdown</strong>: Implement clean shutdown procedures</li>
 </ol>
-<p>Asynchronous networking with Tokio provides a powerful foundation for building high-performance network applications in Rust. In the next section, we’ll explore HTTP clients and servers, which build on these async networking capabilities.</p>
+<p>Asynchronous networking with Tokio provides a powerful foundation for building high-performance network applications in Rust. In the next section, we'll explore HTTP clients and servers, which build on these async networking capabilities.</p>
 <h2 id="http-clients"><a class="header" href="#http-clients">HTTP Clients</a></h2>
-<p>HTTP is the foundation of web communication, and Rust offers several excellent libraries for making HTTP requests. In this section, we’ll explore two popular HTTP client libraries: reqwest for asynchronous HTTP requests and ureq for synchronous requests.</p>
+<p>HTTP is the foundation of web communication, and Rust offers several excellent libraries for making HTTP requests. In this section, we'll explore two popular HTTP client libraries: reqwest for asynchronous HTTP requests and ureq for synchronous requests.</p>
 <h3 id="overview-of-rust-http-client-libraries"><a class="header" href="#overview-of-rust-http-client-libraries">Overview of Rust HTTP Client Libraries</a></h3>
 <p>Rust has several options for HTTP clients, each with different strengths:</p>
 <ol>
@@ -924,34 +931,34 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <li><strong>surf</strong>: HTTP client with a consistent interface across multiple backends</li>
 <li><strong>isahc</strong>: HTTP client based on the curl library</li>
 </ol>
-<p>We’ll focus on reqwest and ureq as they represent the most common use cases.</p>
+<p>We'll focus on reqwest and ureq as they represent the most common use cases.</p>
 <h3 id="asynchronous-http-with-reqwest"><a class="header" href="#asynchronous-http-with-reqwest">Asynchronous HTTP with reqwest</a></h3>
 <p>reqwest is a high-level HTTP client that supports async/await and offers a clean, ergonomic API.</p>
 <h4 id="setting-up-reqwest"><a class="header" href="#setting-up-reqwest">Setting Up reqwest</a></h4>
 <p>Add reqwest to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-reqwest = { version = "0.11", features = ["json"] }
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+reqwest = { version = &quot;0.11&quot;, features = [&quot;json&quot;] }
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1&quot;
 </code></pre>
 <p>The <code>json</code> feature enables JSON serialization/deserialization, which is commonly needed for API requests.</p>
 <h4 id="basic-get-request"><a class="header" href="#basic-get-request">Basic GET Request</a></h4>
-<p>Let’s start with a simple GET request:</p>
+<p>Let's start with a simple GET request:</p>
 <pre><pre class="playground"><code class="language-rust">use reqwest::Error;
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Error&gt; {
     // Make a GET request
-    let response = reqwest::get("https://api.github.com/repos/rust-lang/rust").await?;
+    let response = reqwest::get(&quot;https://api.github.com/repos/rust-lang/rust&quot;).await?;
 
     // Check if the request was successful
     if response.status().is_success() {
         // Get the response body as text
         let body = response.text().await?;
-        println!("Response body: {}", body);
+        println!(&quot;Response body: {}&quot;, body);
     } else {
-        println!("Request failed with status: {}", response.status());
+        println!(&quot;Request failed with status: {}&quot;, response.status());
     }
 
     Ok(())
@@ -965,22 +972,22 @@ use reqwest::Client;
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Create a custom client with headers
     let mut headers = HeaderMap::new();
-    headers.insert(USER_AGENT, HeaderValue::from_static("Rust-Learning-Client/1.0"));
+    headers.insert(USER_AGENT, HeaderValue::from_static(&quot;Rust-Learning-Client/1.0&quot;));
 
     let client = Client::builder()
         .default_headers(headers)
         .build()?;
 
     // Make a request with the client
-    let response = client.get("https://api.github.com/repos/rust-lang/rust")
-        .header("Accept", "application/vnd.github.v3+json")
+    let response = client.get(&quot;https://api.github.com/repos/rust-lang/rust&quot;)
+        .header(&quot;Accept&quot;, &quot;application/vnd.github.v3+json&quot;)
         .send()
         .await?;
 
-    println!("Status: {}", response.status());
+    println!(&quot;Status: {}&quot;, response.status());
 
     for (name, value) in response.headers() {
-        println!("{}: {}", name, value.to_str().unwrap_or("&lt;non-displayable&gt;"));
+        println!(&quot;{}: {}&quot;, name, value.to_str().unwrap_or(&quot;&lt;non-displayable&gt;&quot;));
     }
 
     Ok(())
@@ -1011,28 +1018,28 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
     // Create a new post via POST request with JSON body
     let new_post = CreatePost {
-        title: String::from("Rust HTTP Clients"),
-        body: String::from("reqwest is a powerful HTTP client for Rust"),
+        title: String::from(&quot;Rust HTTP Clients&quot;),
+        body: String::from(&quot;reqwest is a powerful HTTP client for Rust&quot;),
         user_id: 1,
     };
 
     // POST request with JSON
-    let response = client.post("https://jsonplaceholder.typicode.com/posts")
+    let response = client.post(&quot;https://jsonplaceholder.typicode.com/posts&quot;)
         .json(&amp;new_post)
         .send()
         .await?;
 
     // Parse the JSON response
     let created_post: Post = response.json().await?;
-    println!("Created post: {:?}", created_post);
+    println!(&quot;Created post: {:?}&quot;, created_post);
 
     // GET request with JSON response
-    let response = client.get(format!("https://jsonplaceholder.typicode.com/posts/{}", created_post.id))
+    let response = client.get(format!(&quot;https://jsonplaceholder.typicode.com/posts/{}&quot;, created_post.id))
         .send()
         .await?;
 
     let post: Post = response.json().await?;
-    println!("Retrieved post: {:?}", post);
+    println!(&quot;Retrieved post: {:?}&quot;, post);
 
     Ok(())
 }</code></pre></pre>
@@ -1045,34 +1052,34 @@ async fn main() -&gt; Result&lt;(), Error&gt; {
     let client = Client::new();
 
     // Basic authentication
-    let response = client.get("https://api.example.com/protected")
-        .basic_auth("username", Some("password"))
+    let response = client.get(&quot;https://api.example.com/protected&quot;)
+        .basic_auth(&quot;username&quot;, Some(&quot;password&quot;))
         .send()
         .await?;
 
-    println!("Basic Auth Status: {}", response.status());
+    println!(&quot;Basic Auth Status: {}&quot;, response.status());
 
     // Bearer token authentication
-    let token = "your_token_here";
-    let response = client.get("https://api.example.com/protected")
+    let token = &quot;your_token_here&quot;;
+    let response = client.get(&quot;https://api.example.com/protected&quot;)
         .bearer_auth(token)
         .send()
         .await?;
 
-    println!("Bearer Auth Status: {}", response.status());
+    println!(&quot;Bearer Auth Status: {}&quot;, response.status());
 
     // Custom authentication header
-    let response = client.get("https://api.example.com/protected")
-        .header("X-API-Key", "your_api_key_here")
+    let response = client.get(&quot;https://api.example.com/protected&quot;)
+        .header(&quot;X-API-Key&quot;, &quot;your_api_key_here&quot;)
         .send()
         .await?;
 
-    println!("Custom Auth Status: {}", response.status());
+    println!(&quot;Custom Auth Status: {}&quot;, response.status());
 
     Ok(())
 }</code></pre></pre>
 <h4 id="handling-timeouts-and-retries"><a class="header" href="#handling-timeouts-and-retries">Handling Timeouts and Retries</a></h4>
-<p>Network requests can fail or time out, so it’s important to handle these cases:</p>
+<p>Network requests can fail or time out, so it's important to handle these cases:</p>
 <pre><pre class="playground"><code class="language-rust">use reqwest::{Client, Error};
 use tokio::time::{sleep, Duration};
 use std::time::Instant;
@@ -1093,7 +1100,7 @@ async fn fetch_with_retry(url: &amp;str, max_retries: usize) -&gt; Result&lt;Str
                     return Ok(response.text().await?);
                 } else if response.status().is_server_error() &amp;&amp; retries &lt; max_retries {
                     retries += 1;
-                    println!("Server error ({}), retrying ({}/{})",
+                    println!(&quot;Server error ({}), retrying ({}/{})&quot;,
                              response.status(), retries, max_retries);
                 } else {
                     // Client error or too many retries
@@ -1103,10 +1110,10 @@ async fn fetch_with_retry(url: &amp;str, max_retries: usize) -&gt; Result&lt;Str
             Err(e) =&gt; {
                 if e.is_timeout() &amp;&amp; retries &lt; max_retries {
                     retries += 1;
-                    println!("Request timed out, retrying ({}/{})", retries, max_retries);
+                    println!(&quot;Request timed out, retrying ({}/{})&quot;, retries, max_retries);
                 } else if e.is_connect() &amp;&amp; retries &lt; max_retries {
                     retries += 1;
-                    println!("Connection error, retrying ({}/{})", retries, max_retries);
+                    println!(&quot;Connection error, retrying ({}/{})&quot;, retries, max_retries);
                 } else {
                     return Err(e);
                 }
@@ -1115,16 +1122,16 @@ async fn fetch_with_retry(url: &amp;str, max_retries: usize) -&gt; Result&lt;Str
 
         // Exponential backoff: 1s, 2s, 4s, 8s, etc.
         let backoff = Duration::from_secs(2u64.pow(retries as u32 - 1));
-        println!("Waiting for {:?} before retry", backoff);
+        println!(&quot;Waiting for {:?} before retry&quot;, backoff);
         sleep(backoff).await;
     }
 }
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    match fetch_with_retry("https://httpbin.org/status/503", 3).await {
-        Ok(body) =&gt; println!("Success: {}", body),
-        Err(e) =&gt; println!("Final error: {}", e),
+    match fetch_with_retry(&quot;https://httpbin.org/status/503&quot;, 3).await {
+        Ok(body) =&gt; println!(&quot;Success: {}&quot;, body),
+        Err(e) =&gt; println!(&quot;Final error: {}&quot;, e),
     }
 
     Ok(())
@@ -1140,10 +1147,10 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
     // Create a list of URLs to fetch
     let urls = vec![
-        "https://httpbin.org/get",
-        "https://httpbin.org/ip",
-        "https://httpbin.org/user-agent",
-        "https://httpbin.org/headers",
+        &quot;https://httpbin.org/get&quot;,
+        &quot;https://httpbin.org/ip&quot;,
+        &quot;https://httpbin.org/user-agent&quot;,
+        &quot;https://httpbin.org/headers&quot;,
     ];
 
     // Create a future for each request
@@ -1163,11 +1170,11 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     for result in results {
         match result {
             Ok((url, body)) =&gt; {
-                println!("URL: {}", url);
-                println!("First 100 chars: {}", body.chars().take(100).collect::&lt;String&gt;());
-                println!("---");
+                println!(&quot;URL: {}&quot;, url);
+                println!(&quot;First 100 chars: {}&quot;, body.chars().take(100).collect::&lt;String&gt;());
+                println!(&quot;---&quot;);
             }
-            Err(e) =&gt; println!("Error: {}", e),
+            Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
         }
     }
 
@@ -1178,25 +1185,25 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <h4 id="setting-up-ureq"><a class="header" href="#setting-up-ureq">Setting Up ureq</a></h4>
 <p>Add ureq to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-ureq = { version = "2.6", features = ["json"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+ureq = { version = &quot;2.6&quot;, features = [&quot;json&quot;] }
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1&quot;
 </code></pre>
 <h4 id="basic-requests-with-ureq"><a class="header" href="#basic-requests-with-ureq">Basic Requests with ureq</a></h4>
-<p>Here’s a simple GET request with ureq:</p>
+<p>Here's a simple GET request with ureq:</p>
 <pre><pre class="playground"><code class="language-rust">use ureq;
 
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Make a GET request
-    let response = ureq::get("https://httpbin.org/get")
-        .set("User-Agent", "ureq-example")
+    let response = ureq::get(&quot;https://httpbin.org/get&quot;)
+        .set(&quot;User-Agent&quot;, &quot;ureq-example&quot;)
         .call()?;
 
-    println!("Status: {}", response.status());
+    println!(&quot;Status: {}&quot;, response.status());
 
     // Read the response body
     let body = response.into_string()?;
-    println!("Response: {}", body);
+    println!(&quot;Response: {}&quot;, body);
 
     Ok(())
 }</code></pre></pre>
@@ -1223,19 +1230,19 @@ struct Post {
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Create a new post
     let new_post = CreatePost {
-        title: String::from("Rust HTTP Clients"),
-        body: String::from("ureq is a simple synchronous HTTP client"),
+        title: String::from(&quot;Rust HTTP Clients&quot;),
+        body: String::from(&quot;ureq is a simple synchronous HTTP client&quot;),
         user_id: 1,
     };
 
     // POST with JSON
-    let response = ureq::post("https://jsonplaceholder.typicode.com/posts")
-        .set("Content-Type", "application/json")
+    let response = ureq::post(&quot;https://jsonplaceholder.typicode.com/posts&quot;)
+        .set(&quot;Content-Type&quot;, &quot;application/json&quot;)
         .send_json(ureq::json!(new_post))?;
 
     // Parse JSON response
     let created_post: Post = response.into_json()?;
-    println!("Created post: {:?}", created_post);
+    println!(&quot;Created post: {:?}&quot;, created_post);
 
     Ok(())
 }</code></pre></pre>
@@ -1252,20 +1259,20 @@ fn main() {
         .build();
 
     // Make a request with the agent
-    match agent.get("https://httpbin.org/delay/15").call() {
+    match agent.get(&quot;https://httpbin.org/delay/15&quot;).call() {
         Ok(response) =&gt; {
-            println!("Success: {}", response.status());
+            println!(&quot;Success: {}&quot;, response.status());
         }
         Err(Error::Status(code, response)) =&gt; {
             // Server returned an error status code
-            println!("Server error {}: {}", code, response.into_string().unwrap());
+            println!(&quot;Server error {}: {}&quot;, code, response.into_string().unwrap());
         }
         Err(Error::Transport(transport)) =&gt; {
             // Connection/timeout error
             match transport.kind() {
-                ureq::ErrorKind::Io =&gt; println!("I/O error"),
-                ureq::ErrorKind::TimedOut =&gt; println!("Timeout error"),
-                _ =&gt; println!("Other transport error: {}", transport),
+                ureq::ErrorKind::Io =&gt; println!(&quot;I/O error&quot;),
+                ureq::ErrorKind::TimedOut =&gt; println!(&quot;Timeout error&quot;),
+                _ =&gt; println!(&quot;Other transport error: {}&quot;, transport),
             }
         }
     }
@@ -1283,14 +1290,14 @@ fn main() {
 <p>Choose reqwest when:</p>
 <ul>
 <li>You need to make many concurrent requests</li>
-<li>You’re already using Tokio or async Rust</li>
+<li>You're already using Tokio or async Rust</li>
 <li>You need advanced features like connection pooling</li>
 </ul>
 <p>Choose ureq when:</p>
 <ul>
 <li>You need a simple, synchronous API</li>
 <li>You want minimal dependencies</li>
-<li>You’re building a CLI tool or simple application</li>
+<li>You're building a CLI tool or simple application</li>
 <li>You want to avoid async complexity</li>
 </ul>
 <h3 id="http-client-best-practices"><a class="header" href="#http-client-best-practices">HTTP Client Best Practices</a></h3>
@@ -1305,9 +1312,9 @@ fn main() {
 <li><strong>Compression</strong>: Enable compression to reduce bandwidth usage</li>
 <li><strong>Streaming</strong>: Use streaming for large responses instead of loading everything into memory</li>
 </ol>
-<p>In the next section, we’ll explore HTTP servers, which allow your Rust applications to respond to HTTP requests rather than making them.</p>
+<p>In the next section, we'll explore HTTP servers, which allow your Rust applications to respond to HTTP requests rather than making them.</p>
 <h2 id="http-servers"><a class="header" href="#http-servers">HTTP Servers</a></h2>
-<p>Building HTTP servers is a common requirement for modern applications, from RESTful APIs to full-stack web applications. Rust offers several excellent frameworks for building HTTP servers with different approaches and trade-offs. In this section, we’ll explore how to build HTTP servers using Actix Web, a high-performance, feature-rich web framework.</p>
+<p>Building HTTP servers is a common requirement for modern applications, from RESTful APIs to full-stack web applications. Rust offers several excellent frameworks for building HTTP servers with different approaches and trade-offs. In this section, we'll explore how to build HTTP servers using Actix Web, a high-performance, feature-rich web framework.</p>
 <h3 id="web-framework-landscape-in-rust"><a class="header" href="#web-framework-landscape-in-rust">Web Framework Landscape in Rust</a></h3>
 <p>Rust has several web frameworks to choose from:</p>
 <ol>
@@ -1317,40 +1324,40 @@ fn main() {
 <li><strong>warp</strong>: Lightweight, composable web server library</li>
 <li><strong>tide</strong>: Minimal, friendly web application framework</li>
 </ol>
-<p>We’ll focus on Actix Web as it’s one of the most mature and widely-used options, but the concepts apply broadly to other frameworks as well.</p>
+<p>We'll focus on Actix Web as it's one of the most mature and widely-used options, but the concepts apply broadly to other frameworks as well.</p>
 <h3 id="getting-started-with-actix-web"><a class="header" href="#getting-started-with-actix-web">Getting Started with Actix Web</a></h3>
-<p>Let’s start by setting up Actix Web:</p>
+<p>Let's start by setting up Actix Web:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-actix-web = "4"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+actix-web = &quot;4&quot;
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1&quot;
 </code></pre>
-<p>Here’s a simple Hello World server:</p>
+<p>Here's a simple Hello World server:</p>
 <pre><pre class="playground"><code class="language-rust">use actix_web::{web, App, HttpServer, HttpResponse, Responder};
 
-// Handler function for GET requests to "/"
+// Handler function for GET requests to &quot;/&quot;
 async fn hello() -&gt; impl Responder {
-    HttpResponse::Ok().body("Hello, world!")
+    HttpResponse::Ok().body(&quot;Hello, world!&quot;)
 }
 
-// Handler function for GET requests to "/echo/{name}"
+// Handler function for GET requests to &quot;/echo/{name}&quot;
 async fn echo(path: web::Path&lt;String&gt;) -&gt; impl Responder {
     let name = path.into_inner();
-    HttpResponse::Ok().body(format!("Echo: {}", name))
+    HttpResponse::Ok().body(format!(&quot;Echo: {}&quot;, name))
 }
 
 #[actix_web::main]
 async fn main() -&gt; std::io::Result&lt;()&gt; {
-    println!("Starting server at http://127.0.0.1:8080");
+    println!(&quot;Starting server at http://127.0.0.1:8080&quot;);
 
     // Create and start the HTTP server
     HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(hello))
-            .route("/echo/{name}", web::get().to(echo))
+            .route(&quot;/&quot;, web::get().to(hello))
+            .route(&quot;/echo/{name}&quot;, web::get().to(echo))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1362,7 +1369,7 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
 <li><strong>Responses</strong>: Returning HTTP responses with status codes and bodies</li>
 </ol>
 <h3 id="request-handling-and-extractors"><a class="header" href="#request-handling-and-extractors">Request Handling and Extractors</a></h3>
-<p>Actix Web provides “extractors” to obtain data from requests:</p>
+<p>Actix Web provides &quot;extractors&quot; to obtain data from requests:</p>
 <pre><pre class="playground"><code class="language-rust">use actix_web::{web, App, HttpServer, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 
@@ -1392,10 +1399,10 @@ struct User {
 
 // Query parameter extractor
 async fn info(query: web::Query&lt;InfoQuery&gt;) -&gt; impl Responder {
-    let name = query.name.as_deref().unwrap_or("Anonymous");
+    let name = query.name.as_deref().unwrap_or(&quot;Anonymous&quot;);
     let age = query.age.unwrap_or(0);
 
-    HttpResponse::Ok().body(format!("Hello, {}! You are {} years old.", name, age))
+    HttpResponse::Ok().body(format!(&quot;Hello, {}! You are {} years old.&quot;, name, age))
 }
 
 // JSON body extractor
@@ -1419,14 +1426,14 @@ async fn complex_handler(
     body: web::Bytes,
 ) -&gt; impl Responder {
     let user_id = path.0;
-    let auth_header = headers.headers().get("Authorization")
-        .map(|h| h.to_str().unwrap_or(""))
-        .unwrap_or("");
+    let auth_header = headers.headers().get(&quot;Authorization&quot;)
+        .map(|h| h.to_str().unwrap_or(&quot;&quot;))
+        .unwrap_or(&quot;&quot;);
 
     let body_text = String::from_utf8_lossy(&amp;body);
 
     HttpResponse::Ok().body(format!(
-        "User ID: {}, Auth: {}, Body: {}",
+        &quot;User ID: {}, Auth: {}, Body: {}&quot;,
         user_id, auth_header, body_text
     ))
 }
@@ -1435,11 +1442,11 @@ async fn complex_handler(
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/info", web::get().to(info))
-            .route("/users", web::post().to(create_user))
-            .route("/users/{id}", web::put().to(complex_handler))
+            .route(&quot;/info&quot;, web::get().to(info))
+            .route(&quot;/users&quot;, web::post().to(create_user))
+            .route(&quot;/users/{id}&quot;, web::put().to(complex_handler))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1458,15 +1465,15 @@ use serde::Serialize;
 
 // Simple string response
 async fn string_response() -&gt; impl Responder {
-    "Hello, world!"
+    &quot;Hello, world!&quot;
 }
 
 // HttpResponse for full control
 async fn http_response() -&gt; impl Responder {
     HttpResponse::Ok()
-        .content_type("text/html")
-        .append_header(("X-Custom-Header", "value"))
-        .body("&lt;h1&gt;Hello, world!&lt;/h1&gt;")
+        .content_type(&quot;text/html&quot;)
+        .append_header((&quot;X-Custom-Header&quot;, &quot;value&quot;))
+        .body(&quot;&lt;h1&gt;Hello, world!&lt;/h1&gt;&quot;)
 }
 
 // JSON response
@@ -1479,8 +1486,8 @@ struct ApiResponse {
 
 async fn json_response() -&gt; impl Responder {
     let response = ApiResponse {
-        status: "success".to_string(),
-        message: "Data retrieved successfully".to_string(),
+        status: &quot;success&quot;.to_string(),
+        message: &quot;Data retrieved successfully&quot;.to_string(),
         code: 200,
     };
 
@@ -1493,7 +1500,7 @@ async fn json_response() -&gt; impl Responder {
 
 // Custom response with status code
 async fn not_found() -&gt; impl Responder {
-    HttpResponse::NotFound().body("Resource not found")
+    HttpResponse::NotFound().body(&quot;Resource not found&quot;)
 }
 
 // Stream response for large data
@@ -1505,11 +1512,11 @@ async fn stream_response() -&gt; impl Responder {
 
     let stream = once(async {
         tokio::time::sleep(Duration::from_secs(1)).await;
-        Bytes::from_static(b"Hello from stream!")
+        Bytes::from_static(b&quot;Hello from stream!&quot;)
     });
 
     HttpResponse::Ok()
-        .content_type("text/plain")
+        .content_type(&quot;text/plain&quot;)
         .streaming(stream)
 }
 
@@ -1517,13 +1524,13 @@ async fn stream_response() -&gt; impl Responder {
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/string", web::get().to(string_response))
-            .route("/http", web::get().to(http_response))
-            .route("/json", web::get().to(json_response))
-            .route("/notfound", web::get().to(not_found))
-            .route("/stream", web::get().to(stream_response))
+            .route(&quot;/string&quot;, web::get().to(string_response))
+            .route(&quot;/http&quot;, web::get().to(http_response))
+            .route(&quot;/json&quot;, web::get().to(json_response))
+            .route(&quot;/notfound&quot;, web::get().to(not_found))
+            .route(&quot;/stream&quot;, web::get().to(stream_response))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1578,7 +1585,7 @@ where
     }
 
     fn call(&amp;self, req: ServiceRequest) -&gt; Self::Future {
-        println!("Request: {} {}", req.method(), req.path());
+        println!(&quot;Request: {} {}&quot;, req.method(), req.path());
         let start = Instant::now();
 
         let fut = self.service.call(req);
@@ -1586,7 +1593,7 @@ where
         Box::pin(async move {
             let res = fut.await?;
             let duration = start.elapsed();
-            println!("Response: {} - took {:?}", res.status(), duration);
+            println!(&quot;Response: {} - took {:?}&quot;, res.status(), duration);
             Ok(res)
         })
     }
@@ -1594,7 +1601,7 @@ where
 
 // Handler
 async fn index() -&gt; HttpResponse {
-    HttpResponse::Ok().body("Hello, middleware world!")
+    HttpResponse::Ok().body(&quot;Hello, middleware world!&quot;)
 }
 
 #[actix_web::main]
@@ -1602,9 +1609,9 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
             .wrap(Logger) // Apply middleware globally
-            .route("/", web::get().to(index))
+            .route(&quot;/&quot;, web::get().to(index))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .workers(4) // Number of worker threads
     .run()
     .await
@@ -1616,28 +1623,28 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
 };
 
 async fn index() -&gt; HttpResponse {
-    HttpResponse::Ok().body("Hello, world!")
+    HttpResponse::Ok().body(&quot;Hello, world!&quot;)
 }
 
 #[actix_web::main]
 async fn main() -&gt; std::io::Result&lt;()&gt; {
-    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+    env_logger::init_from_env(env_logger::Env::new().default_filter_or(&quot;info&quot;));
 
     HttpServer::new(|| {
         App::new()
             // Logger middleware with custom format
-            .wrap(Logger::new("%a %r %s %b %D"))
+            .wrap(Logger::new(&quot;%a %r %s %b %D&quot;))
             // Response compression
             .wrap(Compress::default())
             // Add default headers to all responses
             .wrap(
                 DefaultHeaders::new()
-                    .add(("X-Version", "1.0.0"))
-                    .add(("X-Server", "Rust-Actix"))
+                    .add((&quot;X-Version&quot;, &quot;1.0.0&quot;))
+                    .add((&quot;X-Server&quot;, &quot;Rust-Actix&quot;))
             )
-            .route("/", web::get().to(index))
+            .route(&quot;/&quot;, web::get().to(index))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1653,13 +1660,13 @@ use serde::{Deserialize, Serialize};
 // Custom error type
 #[derive(Debug, Display, Error)]
 enum MyError {
-    #[display(fmt = "Internal Server Error")]
+    #[display(fmt = &quot;Internal Server Error&quot;)]
     InternalError,
 
-    #[display(fmt = "Bad Request: {}", _0)]
+    #[display(fmt = &quot;Bad Request: {}&quot;, _0)]
     BadRequest(String),
 
-    #[display(fmt = "Not Found")]
+    #[display(fmt = &quot;Not Found&quot;)]
     NotFound,
 }
 
@@ -1671,14 +1678,14 @@ impl error::ResponseError for MyError {
 
         // Create a simple HTML error page
         let body = format!(
-            r#"&lt;!DOCTYPE html&gt;
+            r#&quot;&lt;!DOCTYPE html&gt;
             &lt;html&gt;
                 &lt;head&gt;&lt;title&gt;Error&lt;/title&gt;&lt;/head&gt;
                 &lt;body&gt;
                     &lt;h1&gt;Error: {}&lt;/h1&gt;
                     &lt;p&gt;Status: {}&lt;/p&gt;
                 &lt;/body&gt;
-            &lt;/html&gt;"#,
+            &lt;/html&gt;&quot;#,
             self, self.status_code()
         );
 
@@ -1702,31 +1709,31 @@ struct SuccessResponse {
 }
 
 // Handlers
-#[get("/success")]
+#[get(&quot;/success&quot;)]
 async fn success() -&gt; Result&lt;HttpResponse&gt; {
     let response = SuccessResponse {
         id: 1,
-        name: "Alice".to_string(),
+        name: &quot;Alice&quot;.to_string(),
     };
     Ok(HttpResponse::Ok().json(response))
 }
 
-#[get("/error/internal")]
+#[get(&quot;/error/internal&quot;)]
 async fn internal_error() -&gt; Result&lt;HttpResponse, MyError&gt; {
     Err(MyError::InternalError)
 }
 
-#[get("/error/badrequest")]
+#[get(&quot;/error/badrequest&quot;)]
 async fn bad_request() -&gt; Result&lt;HttpResponse, MyError&gt; {
-    Err(MyError::BadRequest("Invalid parameters".into()))
+    Err(MyError::BadRequest(&quot;Invalid parameters&quot;.into()))
 }
 
-#[get("/error/notfound")]
+#[get(&quot;/error/notfound&quot;)]
 async fn not_found() -&gt; Result&lt;HttpResponse, MyError&gt; {
     Err(MyError::NotFound)
 }
 
-#[get("/users/{id}")]
+#[get(&quot;/users/{id}&quot;)]
 async fn get_user(path: web::Path&lt;(u64,)&gt;, data: web::Data&lt;AppState&gt;) -&gt; Result&lt;HttpResponse, MyError&gt; {
     let user_id = path.0;
 
@@ -1734,7 +1741,7 @@ async fn get_user(path: web::Path&lt;(u64,)&gt;, data: web::Data&lt;AppState&gt;
     if user_id == 42 {
         let response = SuccessResponse {
             id: user_id,
-            name: "Douglas Adams".to_string(),
+            name: &quot;Douglas Adams&quot;.to_string(),
         };
         Ok(HttpResponse::Ok().json(response))
     } else {
@@ -1753,7 +1760,7 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
             .service(not_found)
             .service(get_user)
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1780,7 +1787,7 @@ struct User {
 // Handlers
 async fn get_count(data: web::Data&lt;AppState&gt;) -&gt; impl Responder {
     let counter = data.user_counter.lock().unwrap();
-    HttpResponse::Ok().body(format!("User count: {}", *counter))
+    HttpResponse::Ok().body(format!(&quot;User count: {}&quot;, *counter))
 }
 
 async fn add_user(
@@ -1815,7 +1822,7 @@ async fn get_user(
 
     match users.get(&amp;user_id) {
         Some(user) =&gt; HttpResponse::Ok().json(user),
-        None =&gt; HttpResponse::NotFound().body(format!("User {} not found", user_id)),
+        None =&gt; HttpResponse::NotFound().body(format!(&quot;User {} not found&quot;, user_id)),
     }
 }
 
@@ -1837,18 +1844,18 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(move || {
         App::new()
             .app_data(app_state.clone())
-            .route("/count", web::get().to(get_count))
-            .route("/users", web::post().to(add_user))
-            .route("/users", web::get().to(get_all_users))
-            .route("/users/{id}", web::get().to(get_user))
+            .route(&quot;/count&quot;, web::get().to(get_count))
+            .route(&quot;/users&quot;, web::post().to(add_user))
+            .route(&quot;/users&quot;, web::get().to(get_all_users))
+            .route(&quot;/users/{id}&quot;, web::get().to(get_user))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
 <p>For more complex applications, you would typically use an external database instead of in-memory state.</p>
 <h3 id="async-database-integration"><a class="header" href="#async-database-integration">Async Database Integration</a></h3>
-<p>Let’s see how to integrate a database (SQLite in this case) with an async web server:</p>
+<p>Let's see how to integrate a database (SQLite in this case) with an async web server:</p>
 <pre><pre class="playground"><code class="language-rust">use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
 use serde::{Deserialize, Serialize};
@@ -1870,15 +1877,15 @@ struct Task {
 async fn get_tasks(data: web::Data&lt;AppState&gt;) -&gt; impl Responder {
     match sqlx::query_as!(
         Task,
-        "SELECT id, title, completed FROM tasks ORDER BY id"
+        &quot;SELECT id, title, completed FROM tasks ORDER BY id&quot;
     )
     .fetch_all(&amp;data.db)
     .await
     {
         Ok(tasks) =&gt; HttpResponse::Ok().json(tasks),
         Err(e) =&gt; {
-            eprintln!("Database error: {}", e);
-            HttpResponse::InternalServerError().body("Database error")
+            eprintln!(&quot;Database error: {}&quot;, e);
+            HttpResponse::InternalServerError().body(&quot;Database error&quot;)
         }
     }
 }
@@ -1888,7 +1895,7 @@ async fn create_task(
     task: web::Json&lt;Task&gt;,
 ) -&gt; impl Responder {
     match sqlx::query!(
-        "INSERT INTO tasks (title, completed) VALUES (?, ?)",
+        &quot;INSERT INTO tasks (title, completed) VALUES (?, ?)&quot;,
         task.title,
         task.completed
     )
@@ -1905,8 +1912,8 @@ async fn create_task(
             HttpResponse::Created().json(new_task)
         }
         Err(e) =&gt; {
-            eprintln!("Database error: {}", e);
-            HttpResponse::InternalServerError().body("Database error")
+            eprintln!(&quot;Database error: {}&quot;, e);
+            HttpResponse::InternalServerError().body(&quot;Database error&quot;)
         }
     }
 }
@@ -1919,17 +1926,17 @@ async fn get_task(
 
     match sqlx::query_as!(
         Task,
-        "SELECT id, title, completed FROM tasks WHERE id = ?",
+        &quot;SELECT id, title, completed FROM tasks WHERE id = ?&quot;,
         task_id
     )
     .fetch_optional(&amp;data.db)
     .await
     {
         Ok(Some(task)) =&gt; HttpResponse::Ok().json(task),
-        Ok(None) =&gt; HttpResponse::NotFound().body(format!("Task {} not found", task_id)),
+        Ok(None) =&gt; HttpResponse::NotFound().body(format!(&quot;Task {} not found&quot;, task_id)),
         Err(e) =&gt; {
-            eprintln!("Database error: {}", e);
-            HttpResponse::InternalServerError().body("Database error")
+            eprintln!(&quot;Database error: {}&quot;, e);
+            HttpResponse::InternalServerError().body(&quot;Database error&quot;)
         }
     }
 }
@@ -1939,21 +1946,21 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     // Set up database connection pool
     let pool = SqlitePoolOptions::new()
         .max_connections(5)
-        .connect("sqlite:tasks.db")
+        .connect(&quot;sqlite:tasks.db&quot;)
         .await
-        .expect("Failed to connect to SQLite");
+        .expect(&quot;Failed to connect to SQLite&quot;);
 
     // Create table if it doesn't exist
     sqlx::query(
-        "CREATE TABLE IF NOT EXISTS tasks (
+        &quot;CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
             completed BOOLEAN NOT NULL DEFAULT 0
-        )"
+        )&quot;
     )
     .execute(&amp;pool)
     .await
-    .expect("Failed to create table");
+    .expect(&quot;Failed to create table&quot;);
 
     // Create app state
     let app_state = web::Data::new(AppState { db: pool });
@@ -1962,11 +1969,11 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(move || {
         App::new()
             .app_data(app_state.clone())
-            .route("/tasks", web::get().to(get_tasks))
-            .route("/tasks", web::post().to(create_task))
-            .route("/tasks/{id}", web::get().to(get_task))
+            .route(&quot;/tasks&quot;, web::get().to(get_tasks))
+            .route(&quot;/tasks&quot;, web::post().to(create_task))
+            .route(&quot;/tasks/{id}&quot;, web::get().to(get_task))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1993,29 +2000,29 @@ async fn index(
     let mut context = Context::new();
 
     let template_data = TemplateData {
-        title: "Rust Web Server".to_string(),
+        title: &quot;Rust Web Server&quot;.to_string(),
         items: vec![
-            "Item 1".to_string(),
-            "Item 2".to_string(),
-            "Item 3".to_string(),
+            &quot;Item 1&quot;.to_string(),
+            &quot;Item 2&quot;.to_string(),
+            &quot;Item 3&quot;.to_string(),
         ],
     };
 
-    context.insert("data", &amp;template_data);
+    context.insert(&quot;data&quot;, &amp;template_data);
 
-    let rendered = data.templates.render("index.html", &amp;context)
+    let rendered = data.templates.render(&quot;index.html&quot;, &amp;context)
         .map_err(|e| {
-            eprintln!("Template error: {}", e);
-            actix_web::error::ErrorInternalServerError("Template error")
+            eprintln!(&quot;Template error: {}&quot;, e);
+            actix_web::error::ErrorInternalServerError(&quot;Template error&quot;)
         })?;
 
-    Ok(actix_web::HttpResponse::Ok().content_type("text/html").body(rendered))
+    Ok(actix_web::HttpResponse::Ok().content_type(&quot;text/html&quot;).body(rendered))
 }
 
 #[actix_web::main]
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     // Set up templates
-    let templates = Tera::new("templates/**/*").expect("Failed to initialize templates");
+    let templates = Tera::new(&quot;templates/**/*&quot;).expect(&quot;Failed to initialize templates&quot;);
 
     // Create app state
     let app_state = web::Data::new(AppState {
@@ -2027,13 +2034,13 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
         App::new()
             .app_data(app_state.clone())
             .service(
-                Files::new("/static", "static")
+                Files::new(&quot;/static&quot;, &quot;static&quot;)
                     .show_files_listing()
                     .use_last_modified(true)
             )
-            .route("/", web::get().to(index))
+            .route(&quot;/&quot;, web::get().to(index))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -2070,17 +2077,17 @@ impl StreamHandler&lt;Result&lt;ws::Message, ws::ProtocolError&gt;&gt; for MyWeb
                 self.hb = Instant::now();
             }
             Ok(ws::Message::Text(text)) =&gt; {
-                println!("Received text: {:?}", text);
+                println!(&quot;Received text: {:?}&quot;, text);
                 // Echo the message back
-                ctx.text(format!("Echo: {}", text));
+                ctx.text(format!(&quot;Echo: {}&quot;, text));
             }
             Ok(ws::Message::Binary(bin)) =&gt; {
-                println!("Received binary: {:?} bytes", bin.len());
+                println!(&quot;Received binary: {:?} bytes&quot;, bin.len());
                 // Echo the binary data back
                 ctx.binary(bin);
             }
             Ok(ws::Message::Close(reason)) =&gt; {
-                println!("WebSocket closed: {:?}", reason);
+                println!(&quot;WebSocket closed: {:?}&quot;, reason);
                 ctx.close(reason);
             }
             _ =&gt; (),
@@ -2098,12 +2105,12 @@ impl MyWebSocket {
         ctx.run_interval(Duration::from_secs(5), |act, ctx| {
             // Check client heartbeat
             if Instant::now().duration_since(act.hb) &gt; Duration::from_secs(10) {
-                println!("WebSocket Client heartbeat failed, disconnecting!");
+                println!(&quot;WebSocket Client heartbeat failed, disconnecting!&quot;);
                 ctx.stop();
                 return;
             }
 
-            ctx.ping(b"");
+            ctx.ping(b&quot;&quot;);
         });
     }
 }
@@ -2117,9 +2124,9 @@ async fn websocket(req: HttpRequest, stream: web::Payload) -&gt; Result&lt;HttpR
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/ws", web::get().to(websocket))
+            .route(&quot;/ws&quot;, web::get().to(websocket))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -2149,7 +2156,7 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
 <li><strong>Graceful Shutdown</strong>: Handle shutdown signals properly</li>
 <li><strong>Documentation</strong>: Document your API using OpenAPI/Swagger</li>
 </ol>
-<p>In the next section, we’ll explore protocol implementations with gRPC and Protocol Buffers, which provide an alternative to REST APIs for service-to-service communication.</p>
+<p>In the next section, we'll explore protocol implementations with gRPC and Protocol Buffers, which provide an alternative to REST APIs for service-to-service communication.</p>
 <h2 id="grpc-and-protocol-buffers"><a class="header" href="#grpc-and-protocol-buffers">gRPC and Protocol Buffers</a></h2>
 <p>While REST APIs over HTTP are widely used for service-to-service communication, they have limitations in terms of performance, type safety, and contract definition. gRPC is a high-performance RPC (Remote Procedure Call) framework that addresses these limitations by using Protocol Buffers for service definitions and binary serialization.</p>
 <h3 id="what-is-grpc"><a class="header" href="#what-is-grpc">What is gRPC?</a></h3>
@@ -2171,20 +2178,20 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
 <li><strong>Backward Compatibility</strong>: Schema evolution with versioning support</li>
 </ol>
 <h3 id="setting-up-grpc-in-rust"><a class="header" href="#setting-up-grpc-in-rust">Setting Up gRPC in Rust</a></h3>
-<p>Let’s set up a simple gRPC service in Rust:</p>
+<p>Let's set up a simple gRPC service in Rust:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-tonic = "0.8"
-prost = "0.11"
-tokio = { version = "1", features = ["full"] }
-futures = "0.3"
+tonic = &quot;0.8&quot;
+prost = &quot;0.11&quot;
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+futures = &quot;0.3&quot;
 
 [build-dependencies]
-tonic-build = "0.8"
+tonic-build = &quot;0.8&quot;
 </code></pre>
 <p>Create a Proto file to define our service:</p>
 <pre><code class="language-protobuf">// src/proto/hello.proto
-syntax = "proto3";
+syntax = &quot;proto3&quot;;
 package hello;
 
 // The greeting service definition
@@ -2210,11 +2217,11 @@ message HelloResponse {
 <p>Create a build script to compile the proto file:</p>
 <pre><pre class="playground"><code class="language-rust">// build.rs
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    tonic_build::compile_protos(&amp;["src/proto/hello.proto"], &amp;["src/proto"])?;
+    tonic_build::compile_protos(&amp;[&quot;src/proto/hello.proto&quot;], &amp;[&quot;src/proto&quot;])?;
     Ok(())
 }</code></pre></pre>
 <h3 id="implementing-a-grpc-server"><a class="header" href="#implementing-a-grpc-server">Implementing a gRPC Server</a></h3>
-<p>Now, let’s implement the gRPC server:</p>
+<p>Now, let's implement the gRPC server:</p>
 <pre><pre class="playground"><code class="language-rust">use tonic::{transport::Server, Request, Response, Status};
 use futures::Stream;
 use std::pin::Pin;
@@ -2224,7 +2231,7 @@ use tokio_stream::{wrappers::ReceiverStream, StreamExt};
 
 // Import the generated code
 pub mod hello {
-    tonic::include_proto!("hello");
+    tonic::include_proto!(&quot;hello&quot;);
 }
 
 use hello::{
@@ -2248,10 +2255,10 @@ impl Greeter for MyGreeter {
         let name = request.into_inner().name;
         let count = self.greet_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed) + 1;
 
-        println!("Got a request from: {}", name);
+        println!(&quot;Got a request from: {}&quot;, name);
 
         let reply = HelloResponse {
-            message: format!("Hello, {}!", name),
+            message: format!(&quot;Hello, {}!&quot;, name),
             greet_count: count,
         };
 
@@ -2277,7 +2284,7 @@ impl Greeter for MyGreeter {
                 tokio::time::sleep(Duration::from_secs(1)).await;
 
                 let response = HelloResponse {
-                    message: format!("Hello {}, response #{}", name, i),
+                    message: format!(&quot;Hello {}, response #{}&quot;, name, i),
                     greet_count: i,
                 };
 
@@ -2296,10 +2303,10 @@ impl Greeter for MyGreeter {
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let addr = "[::1]:50051".parse()?;
+    let addr = &quot;[::1]:50051&quot;.parse()?;
     let greeter = MyGreeter::default();
 
-    println!("gRPC server listening on {}", addr);
+    println!(&quot;gRPC server listening on {}&quot;, addr);
 
     Server::builder()
         .add_service(GreeterServer::new(greeter))
@@ -2309,35 +2316,35 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     Ok(())
 }</code></pre></pre>
 <h3 id="implementing-a-grpc-client"><a class="header" href="#implementing-a-grpc-client">Implementing a gRPC Client</a></h3>
-<p>Now, let’s implement a client to connect to our gRPC service:</p>
+<p>Now, let's implement a client to connect to our gRPC service:</p>
 <pre><pre class="playground"><code class="language-rust">use hello::{greeter_client::GreeterClient, HelloRequest};
 
 pub mod hello {
-    tonic::include_proto!("hello");
+    tonic::include_proto!(&quot;hello&quot;);
 }
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Connect to the server
-    let mut client = GreeterClient::connect("http://[::1]:50051").await?;
+    let mut client = GreeterClient::connect(&quot;http://[::1]:50051&quot;).await?;
 
     // Unary call
     let request = HelloRequest {
-        name: "Tonic".to_string(),
+        name: &quot;Tonic&quot;.to_string(),
     };
 
     let response = client.say_hello(request).await?;
-    println!("Response: {:?}", response);
+    println!(&quot;Response: {:?}&quot;, response);
 
     // Server streaming call
     let request = HelloRequest {
-        name: "Streaming Client".to_string(),
+        name: &quot;Streaming Client&quot;.to_string(),
     };
 
     let mut stream = client.say_hello_stream(request).await?.into_inner();
 
     while let Some(response) = stream.message().await? {
-        println!("Stream response: {:?}", response);
+        println!(&quot;Stream response: {:?}&quot;, response);
     }
 
     Ok(())
@@ -2388,7 +2395,7 @@ async fn route_chat(
             // Process incoming note
             let response = RouteNote {
                 location: note.location,
-                message: format!("Received: {}", note.message),
+                message: format!(&quot;Received: {}&quot;, note.message),
             };
 
             tx.send(Ok(response)).await.unwrap();
@@ -2405,11 +2412,11 @@ use tonic::transport::{Identity, ServerTlsConfig};
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let cert = tokio::fs::read("server.pem").await?;
-    let key = tokio::fs::read("server.key").await?;
+    let cert = tokio::fs::read(&quot;server.pem&quot;).await?;
+    let key = tokio::fs::read(&quot;server.key&quot;).await?;
     let identity = Identity::from_pem(cert, key);
 
-    let addr = "[::1]:50051".parse()?;
+    let addr = &quot;[::1]:50051&quot;.parse()?;
     let greeter = MyGreeter::default();
 
     Server::builder()
@@ -2426,14 +2433,14 @@ use tonic::transport::{Certificate, ClientTlsConfig, Channel};
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let ca_cert = tokio::fs::read("ca.pem").await?;
+    let ca_cert = tokio::fs::read(&quot;ca.pem&quot;).await?;
     let ca = Certificate::from_pem(ca_cert);
 
     let tls = ClientTlsConfig::new()
         .ca_certificate(ca)
-        .domain_name("example.com");
+        .domain_name(&quot;example.com&quot;);
 
-    let channel = Channel::from_static("https://[::1]:50051")
+    let channel = Channel::from_static(&quot;https://[::1]:50051&quot;)
         .tls_config(tls)?
         .connect()
         .await?;
@@ -2450,22 +2457,22 @@ use tonic::metadata::{MetadataMap, MetadataValue};
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let mut client = GreeterClient::connect("http://[::1]:50051").await?;
+    let mut client = GreeterClient::connect(&quot;http://[::1]:50051&quot;).await?;
 
     let mut request = Request::new(HelloRequest {
-        name: "Metadata Example".to_string(),
+        name: &quot;Metadata Example&quot;.to_string(),
     });
 
     // Add metadata to request
     let metadata = request.metadata_mut();
-    metadata.insert("x-api-key", "secret-token".parse()?);
+    metadata.insert(&quot;x-api-key&quot;, &quot;secret-token&quot;.parse()?);
 
     let response = client.say_hello(request).await?;
 
     // Get metadata from response
     let headers = response.metadata();
-    if let Some(server_version) = headers.get("x-server-version") {
-        println!("Server version: {:?}", server_version);
+    if let Some(server_version) = headers.get(&quot;x-server-version&quot;) {
+        println!(&quot;Server version: {:?}&quot;, server_version);
     }
 
     Ok(())
@@ -2478,23 +2485,23 @@ async fn say_hello(
 ) -&gt; Result&lt;Response&lt;HelloResponse&gt;, Status&gt; {
     // Extract metadata from request
     let metadata = request.metadata();
-    if let Some(api_key) = metadata.get("x-api-key") {
-        if api_key != "secret-token" {
-            return Err(Status::unauthenticated("Invalid API key"));
+    if let Some(api_key) = metadata.get(&quot;x-api-key&quot;) {
+        if api_key != &quot;secret-token&quot; {
+            return Err(Status::unauthenticated(&quot;Invalid API key&quot;));
         }
     } else {
-        return Err(Status::unauthenticated("Missing API key"));
+        return Err(Status::unauthenticated(&quot;Missing API key&quot;));
     }
 
     // Create response
     let mut response = Response::new(HelloResponse {
-        message: format!("Hello, {}!", request.into_inner().name),
+        message: format!(&quot;Hello, {}!&quot;, request.into_inner().name),
         greet_count: 1,
     });
 
     // Add metadata to response
     let headers = response.metadata_mut();
-    headers.insert("x-server-version", "1.0.0".parse()?);
+    headers.insert(&quot;x-server-version&quot;, &quot;1.0.0&quot;.parse()?);
 
     Ok(response)
 }</code></pre></pre>
@@ -2502,14 +2509,14 @@ async fn say_hello(
 <p>Protocol Buffers can also be used independently of gRPC for efficient data serialization:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-prost = "0.11"
-bytes = "1.0"
+prost = &quot;0.11&quot;
+bytes = &quot;1.0&quot;
 
 [build-dependencies]
-prost-build = "0.11"
+prost-build = &quot;0.11&quot;
 </code></pre>
 <pre><code class="language-protobuf">// src/proto/user.proto
-syntax = "proto3";
+syntax = &quot;proto3&quot;;
 package user;
 
 message User {
@@ -2537,7 +2544,7 @@ message User {
 </code></pre>
 <pre><pre class="playground"><code class="language-rust">// build.rs
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    prost_build::compile_protos(&amp;["src/proto/user.proto"], &amp;["src/proto"])?;
+    prost_build::compile_protos(&amp;[&quot;src/proto/user.proto&quot;], &amp;[&quot;src/proto&quot;])?;
     Ok(())
 }</code></pre></pre>
 <pre><pre class="playground"><code class="language-rust">use bytes::{Buf, BufMut, Bytes, BytesMut};
@@ -2545,7 +2552,7 @@ use prost::Message;
 
 // Include the generated code
 pub mod user {
-    include!(concat!(env!("OUT_DIR"), "/user.rs"));
+    include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/user.rs&quot;));
 }
 
 use user::{User, user::Role};
@@ -2554,14 +2561,14 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Create a user
     let mut user = User {
         id: 42,
-        name: "Alice".to_string(),
-        email: "alice@example.com".to_string(),
+        name: &quot;Alice&quot;.to_string(),
+        email: &quot;alice@example.com&quot;.to_string(),
         role: Role::Admin as i32,
-        tags: vec!["rust".to_string(), "programming".to_string()],
+        tags: vec![&quot;rust&quot;.to_string(), &quot;programming&quot;.to_string()],
         address: Some(user::User_Address {
-            street: "123 Main St".to_string(),
-            city: "Techville".to_string(),
-            country: "Rustland".to_string(),
+            street: &quot;123 Main St&quot;.to_string(),
+            city: &quot;Techville&quot;.to_string(),
+            country: &quot;Rustland&quot;.to_string(),
         }),
     };
 
@@ -2570,16 +2577,16 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     user.encode(&amp;mut buf)?;
     let encoded = buf.freeze();
 
-    println!("Encoded size: {} bytes", encoded.len());
+    println!(&quot;Encoded size: {} bytes&quot;, encoded.len());
 
     // Deserialize from bytes
     let decoded = User::decode(encoded)?;
 
-    println!("Decoded user: {}", decoded.name);
-    println!("Email: {}", decoded.email);
+    println!(&quot;Decoded user: {}&quot;, decoded.name);
+    println!(&quot;Email: {}&quot;, decoded.email);
 
     if let Some(address) = decoded.address {
-        println!("Address: {}, {}, {}", address.street, address.city, address.country);
+        println!(&quot;Address: {}, {}, {}&quot;, address.street, address.city, address.country);
     }
 
     Ok(())
@@ -2602,13 +2609,13 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <li>Performance is critical</li>
 <li>Service contracts need to be strictly defined</li>
 <li>You need streaming capabilities</li>
-<li>You’re building internal microservices</li>
+<li>You're building internal microservices</li>
 </ul>
 <p>Choose REST when:</p>
 <ul>
 <li>Browser compatibility is required</li>
 <li>You need maximum developer familiarity</li>
-<li>You’re building public-facing APIs</li>
+<li>You're building public-facing APIs</li>
 <li>Simpler tooling is preferred</li>
 </ul>
 <h3 id="best-practices-for-grpc-in-rust"><a class="header" href="#best-practices-for-grpc-in-rust">Best Practices for gRPC in Rust</a></h3>
@@ -2624,9 +2631,9 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <li><strong>Versioning</strong>: Plan for API evolution with backward compatibility</li>
 <li><strong>Security</strong>: Implement proper authentication and authorization</li>
 </ol>
-<p>In the next section, we’ll explore serialization with serde, a versatile framework for serializing and deserializing data in Rust.</p>
+<p>In the next section, we'll explore serialization with serde, a versatile framework for serializing and deserializing data in Rust.</p>
 <h2 id="serialization-with-serde"><a class="header" href="#serialization-with-serde">Serialization with Serde</a></h2>
-<p>Serialization and deserialization are crucial operations in network programming. They allow you to convert in-memory data structures to formats that can be transmitted over the network and vice versa. Rust’s Serde framework provides a flexible and efficient approach to serialization, supporting multiple formats with a unified API.</p>
+<p>Serialization and deserialization are crucial operations in network programming. They allow you to convert in-memory data structures to formats that can be transmitted over the network and vice versa. Rust's Serde framework provides a flexible and efficient approach to serialization, supporting multiple formats with a unified API.</p>
 <h3 id="introduction-to-serde"><a class="header" href="#introduction-to-serde">Introduction to Serde</a></h3>
 <p>Serde (SERialization/DEserialization) is a framework for serializing and deserializing Rust data structures efficiently and generically. Key features include:</p>
 <ol>
@@ -2639,18 +2646,18 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <h3 id="setting-up-serde"><a class="header" href="#setting-up-serde">Setting Up Serde</a></h3>
 <p>To use Serde, add it to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0&quot;
 </code></pre>
 <p>For different formats, you can add the corresponding libraries:</p>
 <pre><code class="language-toml">[dependencies]
-serde_yaml = "0.9"
-toml = "0.7"
-rmp-serde = "1.1"  # MessagePack
-bincode = "1.3"    # Binary format
+serde_yaml = &quot;0.9&quot;
+toml = &quot;0.7&quot;
+rmp-serde = &quot;1.1&quot;  # MessagePack
+bincode = &quot;1.3&quot;    # Binary format
 </code></pre>
 <h3 id="basic-serialization-and-deserialization"><a class="header" href="#basic-serialization-and-deserialization">Basic Serialization and Deserialization</a></h3>
-<p>Let’s start with a simple example:</p>
+<p>Let's start with a simple example:</p>
 <pre><pre class="playground"><code class="language-rust">use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
 
@@ -2668,25 +2675,25 @@ struct User {
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Create a data structure
     let mut metadata = HashMap::new();
-    metadata.insert("last_login".to_string(), "2023-05-01T10:30:00Z".to_string());
-    metadata.insert("theme".to_string(), "dark".to_string());
+    metadata.insert(&quot;last_login&quot;.to_string(), &quot;2023-05-01T10:30:00Z&quot;.to_string());
+    metadata.insert(&quot;theme&quot;.to_string(), &quot;dark&quot;.to_string());
 
     let user = User {
         id: 42,
-        name: "Alice".to_string(),
-        email: Some("alice@example.com".to_string()),
+        name: &quot;Alice&quot;.to_string(),
+        email: Some(&quot;alice@example.com&quot;.to_string()),
         active: true,
-        roles: vec!["admin".to_string(), "user".to_string()],
+        roles: vec![&quot;admin&quot;.to_string(), &quot;user&quot;.to_string()],
         metadata,
     };
 
     // Serialize to JSON
     let json = serde_json::to_string_pretty(&amp;user)?;
-    println!("JSON:\n{}", json);
+    println!(&quot;JSON:\n{}&quot;, json);
 
     // Deserialize from JSON
     let deserialized_user: User = serde_json::from_str(&amp;json)?;
-    println!("Deserialized: {:?}", deserialized_user);
+    println!(&quot;Deserialized: {:?}&quot;, deserialized_user);
 
     Ok(())
 }</code></pre></pre>
@@ -2725,40 +2732,40 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Create a configuration
     let config = Config {
         server: ServerConfig {
-            host: "127.0.0.1".to_string(),
+            host: &quot;127.0.0.1&quot;.to_string(),
             port: 8080,
             threads: 4,
         },
         database: DatabaseConfig {
-            url: "postgres://user:pass@localhost/db".to_string(),
+            url: &quot;postgres://user:pass@localhost/db&quot;.to_string(),
             max_connections: 10,
             timeout_seconds: 30,
         },
         logging: LoggingConfig {
-            level: "info".to_string(),
-            file: Some("app.log".to_string()),
+            level: &quot;info&quot;.to_string(),
+            file: Some(&quot;app.log&quot;.to_string()),
         },
     };
 
     // JSON format
     let json = serde_json::to_string_pretty(&amp;config)?;
-    println!("JSON:\n{}", json);
+    println!(&quot;JSON:\n{}&quot;, json);
 
     // YAML format
     let yaml = serde_yaml::to_string(&amp;config)?;
-    println!("\nYAML:\n{}", yaml);
+    println!(&quot;\nYAML:\n{}&quot;, yaml);
 
     // TOML format
     let toml = toml::to_string(&amp;config)?;
-    println!("\nTOML:\n{}", toml);
+    println!(&quot;\nTOML:\n{}&quot;, toml);
 
     // Binary format (MessagePack)
     let mp = rmp_serde::to_vec(&amp;config)?;
-    println!("\nMessagePack: {} bytes", mp.len());
+    println!(&quot;\nMessagePack: {} bytes&quot;, mp.len());
 
     // Binary format (Bincode)
     let bin = bincode::serialize(&amp;config)?;
-    println!("Bincode: {} bytes", bin.len());
+    println!(&quot;Bincode: {} bytes&quot;, bin.len());
 
     // Deserialize from different formats
     let from_json: Config = serde_json::from_str(&amp;json)?;
@@ -2769,7 +2776,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
     assert_eq!(from_json.server.port, 8080);
     assert_eq!(from_yaml.database.max_connections, 10);
-    assert_eq!(from_toml.logging.level, "info");
+    assert_eq!(from_toml.logging.level, &quot;info&quot;);
 
     Ok(())
 }</code></pre></pre>
@@ -2781,16 +2788,16 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 struct User {
     id: u64,
 
-    #[serde(rename = "userName")]
+    #[serde(rename = &quot;userName&quot;)]
     name: String,
 
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = &quot;Option::is_none&quot;)]
     email: Option&lt;String&gt;,
 
     #[serde(default)]
     active: bool,
 
-    #[serde(rename_all = "UPPERCASE")]
+    #[serde(rename_all = &quot;UPPERCASE&quot;)]
     roles: Vec&lt;Role&gt;,
 
     #[serde(skip)]
@@ -2807,29 +2814,29 @@ enum Role {
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let user = User {
         id: 42,
-        name: "Alice".to_string(),
+        name: &quot;Alice&quot;.to_string(),
         email: None,  // Will be skipped in serialization
         active: true,
         roles: vec![Role::Admin, Role::User],
-        temporary_token: "secret".to_string(),  // Will be skipped
+        temporary_token: &quot;secret&quot;.to_string(),  // Will be skipped
     };
 
     let json = serde_json::to_string_pretty(&amp;user)?;
-    println!("JSON:\n{}", json);
+    println!(&quot;JSON:\n{}&quot;, json);
 
     // Note that the email field is omitted and roles are uppercase
 
     // Deserialize with default values
-    let json_without_active = r#"{
-        "id": 42,
-        "userName": "Bob",
-        "roles": ["ADMIN"]
-    }"#;
+    let json_without_active = r#&quot;{
+        &quot;id&quot;: 42,
+        &quot;userName&quot;: &quot;Bob&quot;,
+        &quot;roles&quot;: [&quot;ADMIN&quot;]
+    }&quot;#;
 
     let user2: User = serde_json::from_str(json_without_active)?;
 
     // The 'active' field defaults to false
-    println!("User with defaults: {:?}", user2);
+    println!(&quot;User with defaults: {:?}&quot;, user2);
 
     Ok(())
 }</code></pre></pre>
@@ -2838,7 +2845,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <pre><pre class="playground"><code class="language-rust">use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(tag = "type", content = "data")]
+#[serde(tag = &quot;type&quot;, content = &quot;data&quot;)]
 enum Message {
     Text(TextMessage),
     Image(ImageMessage),
@@ -2867,25 +2874,25 @@ struct FileMessage {
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let messages = vec![
         Message::Text(TextMessage {
-            content: "Hello, world!".to_string(),
+            content: &quot;Hello, world!&quot;.to_string(),
         }),
         Message::Image(ImageMessage {
-            url: "https://example.com/image.jpg".to_string(),
+            url: &quot;https://example.com/image.jpg&quot;.to_string(),
             width: 800,
             height: 600,
         }),
         Message::File(FileMessage {
-            url: "https://example.com/document.pdf".to_string(),
+            url: &quot;https://example.com/document.pdf&quot;.to_string(),
             size: 1024 * 1024,
-            name: "Document.pdf".to_string(),
+            name: &quot;Document.pdf&quot;.to_string(),
         }),
     ];
 
     let json = serde_json::to_string_pretty(&amp;messages)?;
-    println!("JSON:\n{}", json);
+    println!(&quot;JSON:\n{}&quot;, json);
 
     let deserialized: Vec&lt;Message&gt; = serde_json::from_str(&amp;json)?;
-    println!("Deserialized: {:?}", deserialized);
+    println!(&quot;Deserialized: {:?}&quot;, deserialized);
 
     Ok(())
 }</code></pre></pre>
@@ -2924,7 +2931,7 @@ impl&lt;'de&gt; Deserialize&lt;'de&gt; for IpAddr {
             type Value = IpAddr;
 
             fn expecting(&amp;self, formatter: &amp;mut fmt::Formatter) -&gt; fmt::Result {
-                formatter.write_str("a valid IP address string")
+                formatter.write_str(&quot;a valid IP address string&quot;)
             }
 
             fn visit_str&lt;E&gt;(self, value: &amp;str) -&gt; Result&lt;IpAddr, E&gt;
@@ -2933,7 +2940,7 @@ impl&lt;'de&gt; Deserialize&lt;'de&gt; for IpAddr {
             {
                 std::net::IpAddr::from_str(value)
                     .map(IpAddr)
-                    .map_err(|_| E::custom(format!("invalid IP address: {}", value)))
+                    .map_err(|_| E::custom(format!(&quot;invalid IP address: {}&quot;, value)))
             }
         }
 
@@ -2951,29 +2958,29 @@ struct Server {
 
 fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let server = Server {
-        name: "web-server".to_string(),
-        ip: IpAddr(std::net::IpAddr::from_str("192.168.1.10")?),
+        name: &quot;web-server&quot;.to_string(),
+        ip: IpAddr(std::net::IpAddr::from_str(&quot;192.168.1.10&quot;)?),
         ports: vec![80, 443],
     };
 
     let json = serde_json::to_string_pretty(&amp;server)?;
-    println!("JSON:\n{}", json);
+    println!(&quot;JSON:\n{}&quot;, json);
 
     let deserialized: Server = serde_json::from_str(&amp;json)?;
-    println!("Deserialized: {:?}", deserialized);
+    println!(&quot;Deserialized: {:?}&quot;, deserialized);
 
     assert_eq!(server.ip, deserialized.ip);
 
     Ok(())
 }</code></pre></pre>
 <h3 id="working-with-network-data"><a class="header" href="#working-with-network-data">Working with Network Data</a></h3>
-<p>In network programming, you often need to serialize and deserialize data for transmission. Here’s an example of a simple protocol using Serde:</p>
+<p>In network programming, you often need to serialize and deserialize data for transmission. Here's an example of a simple protocol using Serde:</p>
 <pre><pre class="playground"><code class="language-rust">use serde::{Serialize, Deserialize};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(tag = "type")]
+#[serde(tag = &quot;type&quot;)]
 enum Message {
     Connect {
         client_id: String,
@@ -3005,20 +3012,20 @@ async fn handle_client(mut stream: TcpStream) -&gt; Result&lt;(), Box&lt;dyn std
 
     // Deserialize the message
     let message: Message = serde_json::from_slice(&amp;buffer)?;
-    println!("Received: {:?}", message);
+    println!(&quot;Received: {:?}&quot;, message);
 
     // Create a response
     let response = match message {
         Message::Connect { client_id, .. } =&gt; Message::Connect {
             client_id,
-            version: "1.0".to_string(),
+            version: &quot;1.0&quot;.to_string(),
         },
         Message::Ping { sequence } =&gt; Message::Pong { sequence },
         Message::Data { .. } =&gt; Message::Data {
             payload: vec![1, 2, 3, 4],
         },
         _ =&gt; Message::Disconnect {
-            reason: "Unknown message type".to_string(),
+            reason: &quot;Unknown message type&quot;.to_string(),
         },
     };
 
@@ -3035,13 +3042,13 @@ async fn handle_client(mut stream: TcpStream) -&gt; Result&lt;(), Box&lt;dyn std
 
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let listener = TcpListener::bind("127.0.0.1:8080").await?;
-    println!("Server listening on 127.0.0.1:8080");
+    let listener = TcpListener::bind(&quot;127.0.0.1:8080&quot;).await?;
+    println!(&quot;Server listening on 127.0.0.1:8080&quot;);
 
     while let Ok((stream, _)) = listener.accept().await {
         tokio::spawn(async move {
             if let Err(e) = handle_client(stream).await {
-                eprintln!("Error handling client: {}", e);
+                eprintln!(&quot;Error handling client: {}&quot;, e);
             }
         });
     }
@@ -3054,7 +3061,7 @@ use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(tag = "type")]
+#[serde(tag = &quot;type&quot;)]
 enum Message {
     Connect {
         client_id: String,
@@ -3104,35 +3111,35 @@ async fn send_receive(
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Connect to server
-    let mut stream = TcpStream::connect("127.0.0.1:8080").await?;
+    let mut stream = TcpStream::connect(&quot;127.0.0.1:8080&quot;).await?;
 
     // Send Connect message
     let connect_msg = Message::Connect {
-        client_id: "client-123".to_string(),
-        version: "1.0".to_string(),
+        client_id: &quot;client-123&quot;.to_string(),
+        version: &quot;1.0&quot;.to_string(),
     };
 
     let response = send_receive(&amp;mut stream, &amp;connect_msg).await?;
-    println!("Connect response: {:?}", response);
+    println!(&quot;Connect response: {:?}&quot;, response);
 
     // Send Ping message
     let ping_msg = Message::Ping { sequence: 1 };
     let response = send_receive(&amp;mut stream, &amp;ping_msg).await?;
-    println!("Ping response: {:?}", response);
+    println!(&quot;Ping response: {:?}&quot;, response);
 
     // Send Data message
     let data_msg = Message::Data {
         payload: vec![5, 6, 7, 8],
     };
     let response = send_receive(&amp;mut stream, &amp;data_msg).await?;
-    println!("Data response: {:?}", response);
+    println!(&quot;Data response: {:?}&quot;, response);
 
     // Send Disconnect message
     let disconnect_msg = Message::Disconnect {
-        reason: "Client shutting down".to_string(),
+        reason: &quot;Client shutting down&quot;.to_string(),
     };
     let response = send_receive(&amp;mut stream, &amp;disconnect_msg).await?;
-    println!("Disconnect response: {:?}", response);
+    println!(&quot;Disconnect response: {:?}&quot;, response);
 
     Ok(())
 }</code></pre></pre>
@@ -3161,10 +3168,10 @@ pub fn process_data(json_input: &amp;str) -&gt; String {
     let input: InputData = serde_json::from_str(json_input).unwrap();
 
     let result = match input.operation.as_str() {
-        "sum" =&gt; input.values.iter().sum(),
-        "avg" =&gt; input.values.iter().sum::&lt;f64&gt;() / input.values.len() as f64,
-        "max" =&gt; input.values.iter().fold(f64::NEG_INFINITY, |a, &amp;b| a.max(b)),
-        "min" =&gt; input.values.iter().fold(f64::INFINITY, |a, &amp;b| a.min(b)),
+        &quot;sum&quot; =&gt; input.values.iter().sum(),
+        &quot;avg&quot; =&gt; input.values.iter().sum::&lt;f64&gt;() / input.values.len() as f64,
+        &quot;max&quot; =&gt; input.values.iter().fold(f64::NEG_INFINITY, |a, &amp;b| a.max(b)),
+        &quot;min&quot; =&gt; input.values.iter().fold(f64::INFINITY, |a, &amp;b| a.min(b)),
         _ =&gt; 0.0,
     };
 
@@ -3180,7 +3187,7 @@ pub fn process_data(json_input: &amp;str) -&gt; String {
 <h3 id="serde-best-practices"><a class="header" href="#serde-best-practices">Serde Best Practices</a></h3>
 <ol>
 <li><strong>Choose the Right Format</strong>: JSON for human readability, Bincode/MessagePack for efficiency</li>
-<li><strong>Use Strong Types</strong>: Leverage Rust’s type system for safer serialization</li>
+<li><strong>Use Strong Types</strong>: Leverage Rust's type system for safer serialization</li>
 <li><strong>Error Handling</strong>: Provide meaningful error messages for parsing failures</li>
 <li><strong>Versioning</strong>: Design for backward compatibility as data structures evolve</li>
 <li><strong>Validation</strong>: Validate deserialized data before using it</li>
@@ -3190,11 +3197,11 @@ pub fn process_data(json_input: &amp;str) -&gt; String {
 <li><strong>Testing</strong>: Test serialization and deserialization with various inputs</li>
 <li><strong>Documentation</strong>: Document serialization behavior, especially customizations</li>
 </ol>
-<p>Serde is a powerful tool for network programming in Rust, enabling efficient and type-safe serialization across a wide range of formats. In the next section, we’ll explore network security principles and practices to ensure your networked applications are secure.</p>
+<p>Serde is a powerful tool for network programming in Rust, enabling efficient and type-safe serialization across a wide range of formats. In the next section, we'll explore network security principles and practices to ensure your networked applications are secure.</p>
 <h2 id="network-security"><a class="header" href="#network-security">Network Security</a></h2>
-<p>Security is a critical aspect of network programming. Networked applications are exposed to a wide range of threats, from passive eavesdropping to active attacks. In this section, we’ll explore essential security concepts and techniques for building secure networked applications in Rust.</p>
+<p>Security is a critical aspect of network programming. Networked applications are exposed to a wide range of threats, from passive eavesdropping to active attacks. In this section, we'll explore essential security concepts and techniques for building secure networked applications in Rust.</p>
 <h3 id="threat-model"><a class="header" href="#threat-model">Threat Model</a></h3>
-<p>Before implementing security measures, it’s important to understand the threats your application faces. Common threats include:</p>
+<p>Before implementing security measures, it's important to understand the threats your application faces. Common threats include:</p>
 <ol>
 <li><strong>Eavesdropping</strong>: Attackers intercepting network traffic</li>
 <li><strong>Tampering</strong>: Modifying data in transit</li>
@@ -3214,19 +3221,19 @@ pub fn process_data(json_input: &amp;str) -&gt; String {
 <p>TLS is the foundation of secure communication over the internet. It provides:</p>
 <ol>
 <li><strong>Confidentiality</strong>: Encrypting data to prevent eavesdropping</li>
-<li><strong>Integrity</strong>: Ensuring data isn’t modified in transit</li>
+<li><strong>Integrity</strong>: Ensuring data isn't modified in transit</li>
 <li><strong>Authentication</strong>: Verifying the identity of servers and optionally clients</li>
 </ol>
 <p>In Rust, several libraries support TLS:</p>
 <h4 id="rustls"><a class="header" href="#rustls">Rustls</a></h4>
 <p>Rustls is a modern TLS library implemented in Rust:</p>
 <pre><code class="language-toml">[dependencies]
-rustls = "0.21"
-rustls-pemfile = "1.0"
-tokio-rustls = "0.24"  # For async TLS with Tokio
-webpki-roots = "0.25"  # For trust anchors
+rustls = &quot;0.21&quot;
+rustls-pemfile = &quot;1.0&quot;
+tokio-rustls = &quot;0.24&quot;  # For async TLS with Tokio
+webpki-roots = &quot;0.25&quot;  # For trust anchors
 </code></pre>
-<p>Here’s an example of a TLS client using Rustls and Tokio:</p>
+<p>Here's an example of a TLS client using Rustls and Tokio:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::sync::Arc;
@@ -3252,8 +3259,8 @@ async fn connect_tls() -&gt; Result&lt;TlsStream&lt;TcpStream&gt;, Box&lt;dyn st
     let connector = TlsConnector::from(Arc::new(config));
 
     // Connect to server
-    let server_name = "example.com".try_into()?;
-    let stream = TcpStream::connect("example.com:443").await?;
+    let server_name = &quot;example.com&quot;.try_into()?;
+    let stream = TcpStream::connect(&quot;example.com:443&quot;).await?;
     let stream = connector.connect(server_name, stream).await?;
 
     Ok(stream)
@@ -3263,14 +3270,14 @@ async fn make_https_request() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&g
     let mut stream = connect_tls().await?;
 
     // Send HTTP request
-    let request = "GET / HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n";
+    let request = &quot;GET / HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n&quot;;
     stream.write_all(request.as_bytes()).await?;
 
     // Read response
     let mut buffer = Vec::new();
     stream.read_to_end(&amp;mut buffer).await?;
 
-    println!("Response: {}", String::from_utf8_lossy(&amp;buffer));
+    println!(&quot;Response: {}&quot;, String::from_utf8_lossy(&amp;buffer));
 
     Ok(())
 }
@@ -3288,8 +3295,8 @@ use std::io::BufReader;
 
 async fn run_tls_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Load certificates and private key
-    let cert_file = File::open("server.crt")?;
-    let key_file = File::open("server.key")?;
+    let cert_file = File::open(&quot;server.crt&quot;)?;
+    let key_file = File::open(&quot;server.key&quot;)?;
 
     let certs = certs(&amp;mut BufReader::new(cert_file))?
         .into_iter()
@@ -3301,7 +3308,7 @@ async fn run_tls_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
         .map(PrivateKey)
         .collect::&lt;Vec&lt;_&gt;&gt;();
 
-    let key = keys.first().ok_or("No private key found")?;
+    let key = keys.first().ok_or(&quot;No private key found&quot;)?;
 
     // Create TLS configuration
     let config = ServerConfig::builder()
@@ -3312,14 +3319,14 @@ async fn run_tls_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
     let acceptor = TlsAcceptor::from(Arc::new(config));
 
     // Start listening
-    let listener = TcpListener::bind("0.0.0.0:8443").await?;
-    println!("TLS server listening on 0.0.0.0:8443");
+    let listener = TcpListener::bind(&quot;0.0.0.0:8443&quot;).await?;
+    println!(&quot;TLS server listening on 0.0.0.0:8443&quot;);
 
     while let Ok((stream, addr)) = listener.accept().await {
         let acceptor = acceptor.clone();
 
         tokio::spawn(async move {
-            println!("New connection from {}", addr);
+            println!(&quot;New connection from {}&quot;, addr);
 
             match acceptor.accept(stream).await {
                 Ok(mut stream) =&gt; {
@@ -3327,18 +3334,18 @@ async fn run_tls_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
                     let mut buf = [0; 1024];
                     match stream.read(&amp;mut buf).await {
                         Ok(n) =&gt; {
-                            println!("Read {} bytes", n);
+                            println!(&quot;Read {} bytes&quot;, n);
                             if n &gt; 0 {
                                 stream.write_all(&amp;buf[0..n]).await.unwrap();
                             }
                         }
                         Err(e) =&gt; {
-                            eprintln!("Error reading from connection: {}", e);
+                            eprintln!(&quot;Error reading from connection: {}&quot;, e);
                         }
                     }
                 }
                 Err(e) =&gt; {
-                    eprintln!("TLS error: {}", e);
+                    eprintln!(&quot;TLS error: {}&quot;, e);
                 }
             }
         });
@@ -3350,8 +3357,8 @@ async fn run_tls_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
 <h4 id="native-tls"><a class="header" href="#native-tls">Native-TLS</a></h4>
 <p>For integration with platform-specific TLS implementations:</p>
 <pre><code class="language-toml">[dependencies]
-native-tls = "0.2"
-tokio-native-tls = "0.3"  # For async TLS with Tokio
+native-tls = &quot;0.2&quot;
+tokio-native-tls = &quot;0.3&quot;  # For async TLS with Tokio
 </code></pre>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -3364,23 +3371,23 @@ async fn connect_native_tls() -&gt; Result&lt;TlsStream&lt;TcpStream&gt;, Box&lt
     let connector = TlsConnector::builder().build()?;
     let connector = TokioTlsConnector::from(connector);
 
-    let stream = TcpStream::connect("example.com:443").await?;
-    let stream = connector.connect("example.com", stream).await?;
+    let stream = TcpStream::connect(&quot;example.com:443&quot;).await?;
+    let stream = connector.connect(&quot;example.com&quot;, stream).await?;
 
     Ok(stream)
 }
 
 // Load PKCS#12 certificate and key for server
 fn create_tls_acceptor() -&gt; Result&lt;TlsAcceptor, Box&lt;dyn std::error::Error&gt;&gt; {
-    let der = std::fs::read("identity.pfx")?;
-    let identity = Identity::from_pkcs12(&amp;der, "password")?;
+    let der = std::fs::read(&quot;identity.pfx&quot;)?;
+    let identity = Identity::from_pkcs12(&amp;der, &quot;password&quot;)?;
 
     let acceptor = TlsAcceptor::new(identity)?;
     Ok(acceptor)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="authentication-and-authorization"><a class="header" href="#authentication-and-authorization">Authentication and Authorization</a></h3>
-<p>Authentication verifies who a user is, while authorization determines what they’re allowed to do.</p>
+<p>Authentication verifies who a user is, while authorization determines what they're allowed to do.</p>
 <h4 id="api-key-authentication"><a class="header" href="#api-key-authentication">API Key Authentication</a></h4>
 <p>Simple API key authentication:</p>
 <pre><pre class="playground"><code class="language-rust">use actix_web::{web, App, HttpServer, HttpResponse, Error};
@@ -3391,15 +3398,15 @@ use actix_web_httpauth::middleware::HttpAuthentication;
 async fn validator(req: ServiceRequest, credentials: BearerAuth) -&gt; Result&lt;ServiceRequest, Error&gt; {
     // In a real application, you would validate against a database
     // and use secure comparison methods
-    if credentials.token() == "secret-api-key" {
+    if credentials.token() == &quot;secret-api-key&quot; {
         Ok(req)
     } else {
-        Err(actix_web::error::ErrorUnauthorized("Invalid API key"))
+        Err(actix_web::error::ErrorUnauthorized(&quot;Invalid API key&quot;))
     }
 }
 
 async fn protected_resource() -&gt; HttpResponse {
-    HttpResponse::Ok().body("Secret data")
+    HttpResponse::Ok().body(&quot;Secret data&quot;)
 }
 
 #[actix_web::main]
@@ -3409,12 +3416,12 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(move || {
         App::new()
             .service(
-                web::scope("/api")
+                web::scope(&quot;/api&quot;)
                     .wrap(auth.clone())
-                    .route("/protected", web::get().to(protected_resource))
+                    .route(&quot;/protected&quot;, web::get().to(protected_resource))
             )
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -3448,15 +3455,15 @@ async fn login(user_id: web::Path&lt;String&gt;) -&gt; Result&lt;HttpResponse, E
         sub: user_id.to_string(),
         exp: expiration,
         iat: issued_at,
-        role: "user".to_string(),
+        role: &quot;user&quot;.to_string(),
     };
 
     let token = encode(
         &amp;Header::default(),
         &amp;claims,
-        &amp;EncodingKey::from_secret("secret_key".as_bytes()),
+        &amp;EncodingKey::from_secret(&quot;secret_key&quot;.as_bytes()),
     )
-    .map_err(|_| actix_web::error::ErrorInternalServerError("Token creation failed"))?;
+    .map_err(|_| actix_web::error::ErrorInternalServerError(&quot;Token creation failed&quot;))?;
 
     Ok(HttpResponse::Ok().json(web::Json(token)))
 }
@@ -3466,10 +3473,10 @@ async fn validate_token(token: &amp;str) -&gt; Result&lt;Claims, Error&gt; {
 
     let token_data = decode::&lt;Claims&gt;(
         token,
-        &amp;DecodingKey::from_secret("secret_key".as_bytes()),
+        &amp;DecodingKey::from_secret(&quot;secret_key&quot;.as_bytes()),
         &amp;validation,
     )
-    .map_err(|_| actix_web::error::ErrorUnauthorized("Invalid token"))?;
+    .map_err(|_| actix_web::error::ErrorUnauthorized(&quot;Invalid token&quot;))?;
 
     Ok(token_data.claims)
 }
@@ -3478,9 +3485,9 @@ async fn validate_token(token: &amp;str) -&gt; Result&lt;Claims, Error&gt; {
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/login/{user_id}", web::get().to(login))
+            .route(&quot;/login/{user_id}&quot;, web::get().to(login))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -3492,27 +3499,27 @@ use actix_web::{web, App, HttpServer, HttpResponse, Result};
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 struct User {
-    #[validate(length(min = 3, max = 50, message = "Name must be between 3 and 50 characters"))]
+    #[validate(length(min = 3, max = 50, message = &quot;Name must be between 3 and 50 characters&quot;))]
     name: String,
 
-    #[validate(email(message = "Invalid email format"))]
+    #[validate(email(message = &quot;Invalid email format&quot;))]
     email: String,
 
-    #[validate(length(min = 8, message = "Password must be at least 8 characters"))]
-    #[validate(custom = "validate_password")]
+    #[validate(length(min = 8, message = &quot;Password must be at least 8 characters&quot;))]
+    #[validate(custom = &quot;validate_password&quot;)]
     password: String,
 
-    #[validate(range(min = 18, max = 120, message = "Age must be between 18 and 120"))]
+    #[validate(range(min = 18, max = 120, message = &quot;Age must be between 18 and 120&quot;))]
     age: u8,
 }
 
 fn validate_password(password: &amp;str) -&gt; Result&lt;(), ValidationError&gt; {
     if !password.chars().any(|c| c.is_digit(10)) {
-        return Err(ValidationError::new("Password must contain at least one digit"));
+        return Err(ValidationError::new(&quot;Password must contain at least one digit&quot;));
     }
 
     if !password.chars().any(|c| c.is_ascii_punctuation()) {
-        return Err(ValidationError::new("Password must contain at least one special character"));
+        return Err(ValidationError::new(&quot;Password must contain at least one special character&quot;));
     }
 
     Ok(())
@@ -3521,7 +3528,7 @@ fn validate_password(password: &amp;str) -&gt; Result&lt;(), ValidationError&gt;
 async fn create_user(user: web::Json&lt;User&gt;) -&gt; Result&lt;HttpResponse&gt; {
     // Validate the user data
     user.validate().map_err(|e| {
-        actix_web::error::ErrorBadRequest(format!("Validation error: {:?}", e))
+        actix_web::error::ErrorBadRequest(format!(&quot;Validation error: {:?}&quot;, e))
     })?;
 
     // Process validated user data
@@ -3532,9 +3539,9 @@ async fn create_user(user: web::Json&lt;User&gt;) -&gt; Result&lt;HttpResponse&g
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/users", web::post().to(create_user))
+            .route(&quot;/users&quot;, web::post().to(create_user))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -3548,15 +3555,15 @@ use time::Duration;
 
 async fn index(csrf_token: CsrfToken) -&gt; HttpResponse {
     HttpResponse::Ok()
-        .content_type("text/html")
+        .content_type(&quot;text/html&quot;)
         .body(format!(
-            r#"
-            &lt;form action="/submit" method="post"&gt;
-                &lt;input type="hidden" name="csrf_token" value="{}" /&gt;
-                &lt;input type="text" name="data" /&gt;
-                &lt;button type="submit"&gt;Submit&lt;/button&gt;
+            r#&quot;
+            &lt;form action=&quot;/submit&quot; method=&quot;post&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;{}&quot; /&gt;
+                &lt;input type=&quot;text&quot; name=&quot;data&quot; /&gt;
+                &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
             &lt;/form&gt;
-            "#,
+            &quot;#,
             csrf_token.token()
         ))
 }
@@ -3567,14 +3574,14 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
         App::new()
             .wrap(IdentityService::new(
                 CookieIdentityPolicy::new(&amp;[0; 32]) // Use a proper secret key
-                    .name("auth")
+                    .name(&quot;auth&quot;)
                     .max_age(Duration::days(1))
                     .secure(false), // Set to true in production with HTTPS
             ))
-            .wrap(CsrfMiddleware::new().set_cookie_name("csrf"))
-            .route("/", web::get().to(index))
+            .wrap(CsrfMiddleware::new().set_cookie_name(&quot;csrf&quot;))
+            .route(&quot;/&quot;, web::get().to(index))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -3627,13 +3634,13 @@ async fn rate_limited_endpoint(
     let ip = req
         .connection_info()
         .peer_addr()
-        .unwrap_or("unknown")
+        .unwrap_or(&quot;unknown&quot;)
         .to_string();
 
     if limiter.is_allowed(&amp;ip) {
-        Ok(HttpResponse::Ok().body("Request allowed"))
+        Ok(HttpResponse::Ok().body(&quot;Request allowed&quot;))
     } else {
-        Ok(HttpResponse::TooManyRequests().body("Rate limit exceeded"))
+        Ok(HttpResponse::TooManyRequests().body(&quot;Rate limit exceeded&quot;))
     }
 }
 
@@ -3645,9 +3652,9 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(move || {
         App::new()
             .app_data(limiter.clone())
-            .route("/api", web::get().to(rate_limited_endpoint))
+            .route(&quot;/api&quot;, web::get().to(rate_limited_endpoint))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -3661,11 +3668,11 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
 </span>use std::env;
 
 fn get_database_url() -&gt; String {
-    env::var("DATABASE_URL").expect("DATABASE_URL must be set")
+    env::var(&quot;DATABASE_URL&quot;).expect(&quot;DATABASE_URL must be set&quot;)
 }
 
 fn get_api_key() -&gt; String {
-    env::var("API_KEY").expect("API_KEY must be set")
+    env::var(&quot;API_KEY&quot;).expect(&quot;API_KEY must be set&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <ol start="2">
@@ -3703,8 +3710,8 @@ struct ApiKeys {
 
 fn load_config() -&gt; Result&lt;Settings, ConfigError&gt; {
     let config = Config::builder()
-        .add_source(File::with_name("config/default"))
-        .add_source(File::with_name("config/local").required(false))
+        .add_source(File::with_name(&quot;config/default&quot;))
+        .add_source(File::with_name(&quot;config/local&quot;).required(false))
         .build()?;
 
     config.try_deserialize()
@@ -3725,16 +3732,16 @@ fn process_payment(
     credit_card: &amp;str,
 ) -&gt; Result&lt;(), String&gt; {
     // Log without sensitive data
-    info!("Processing payment for user {} of amount {}", user_id, amount);
+    info!(&quot;Processing payment for user {} of amount {}&quot;, user_id, amount);
 
     // Mask sensitive data
     let masked_card = format!(
-        "XXXX-XXXX-XXXX-{}",
+        &quot;XXXX-XXXX-XXXX-{}&quot;,
         credit_card.chars().skip(15).collect::&lt;String&gt;()
     );
 
     // Use masked data in logs
-    info!("Using payment method {}", masked_card);
+    info!(&quot;Using payment method {}&quot;, masked_card);
 
     // Process payment...
 
@@ -3750,13 +3757,13 @@ fn process_payment(
 <li><strong>Rate Limiting</strong>: Protect against brute force and DoS attacks.</li>
 <li><strong>Secure Headers</strong>: Set security headers for web applications.</li>
 <li><strong>Keep Dependencies Updated</strong>: Regularly update dependencies to patch security vulnerabilities.</li>
-<li><strong>Principle of Least Privilege</strong>: Limit access to only what’s necessary.</li>
+<li><strong>Principle of Least Privilege</strong>: Limit access to only what's necessary.</li>
 <li><strong>Defense in Depth</strong>: Implement multiple layers of security.</li>
 <li><strong>Security Testing</strong>: Regularly test your application for vulnerabilities.</li>
 </ol>
-<p>In the next section, we’ll bring together the concepts we’ve learned to build a complete network protocol implementation.</p>
+<p>In the next section, we'll bring together the concepts we've learned to build a complete network protocol implementation.</p>
 <h2 id="project-building-a-custom-network-protocol"><a class="header" href="#project-building-a-custom-network-protocol">Project: Building a Custom Network Protocol</a></h2>
-<p>In this project, we’ll bring together the concepts covered in this chapter to build a simple yet complete custom network protocol. We’ll implement a chat server and client that support basic messaging, presence detection, and file transfers.</p>
+<p>In this project, we'll bring together the concepts covered in this chapter to build a simple yet complete custom network protocol. We'll implement a chat server and client that support basic messaging, presence detection, and file transfers.</p>
 <h3 id="protocol-design"><a class="header" href="#protocol-design">Protocol Design</a></h3>
 <p>Our protocol will use a simple message format with JSON serialization:</p>
 <ol>
@@ -3771,7 +3778,7 @@ fn process_payment(
 use std::path::PathBuf;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-#[serde(tag = "type")]
+#[serde(tag = &quot;type&quot;)]
 enum Message {
     // Authentication
     Login {
@@ -3948,7 +3955,7 @@ async fn handle_client(stream: TcpStream, server: Arc&lt;ChatServer&gt;) {
         let left_msg = Message::UserLeft { username: user.clone() };
         server.broadcast(left_msg, None).await;
 
-        println!("User disconnected: {}", user);
+        println!(&quot;User disconnected: {}&quot;, user);
     }
 }
 
@@ -3996,7 +4003,7 @@ async fn handle_message(
     match message {
         Message::Login { username: name, password } =&gt; {
             // Simplified authentication (in a real app, validate against a database)
-            let success = password == "password"; // Never do this in production!
+            let success = password == &quot;password&quot;; // Never do this in production!
 
             if success {
                 // Check if username is already taken
@@ -4008,8 +4015,8 @@ async fn handle_message(
                     // Send login response
                     let resp = Message::LoginResponse {
                         success: true,
-                        message: "Login successful".to_string(),
-                        token: Some("dummy-token".to_string()),
+                        message: &quot;Login successful&quot;.to_string(),
+                        token: Some(&quot;dummy-token&quot;.to_string()),
                     };
                     write_message(writer, &amp;resp).await.unwrap();
 
@@ -4022,13 +4029,13 @@ async fn handle_message(
                     let user_list_msg = Message::UserList { users };
                     write_message(writer, &amp;user_list_msg).await.unwrap();
 
-                    println!("User logged in: {}", name);
+                    println!(&quot;User logged in: {}&quot;, name);
                     true
                 } else {
                     // Username already taken
                     let resp = Message::LoginResponse {
                         success: false,
-                        message: "Username already taken".to_string(),
+                        message: &quot;Username already taken&quot;.to_string(),
                         token: None,
                     };
                     write_message(writer, &amp;resp).await.unwrap();
@@ -4038,7 +4045,7 @@ async fn handle_message(
                 // Authentication failed
                 let resp = Message::LoginResponse {
                     success: false,
-                    message: "Invalid credentials".to_string(),
+                    message: &quot;Invalid credentials&quot;.to_string(),
                     token: None,
                 };
                 write_message(writer, &amp;resp).await.unwrap();
@@ -4068,7 +4075,7 @@ async fn handle_message(
                 // Not logged in
                 let error = Message::Error {
                     code: 401,
-                    message: "Not authenticated".to_string(),
+                    message: &quot;Not authenticated&quot;.to_string(),
                 };
                 write_message(writer, &amp;error).await.unwrap();
                 false
@@ -4085,7 +4092,7 @@ async fn handle_message(
 
         _ =&gt; {
             // Unhandled message type
-            println!("Unhandled message: {:?}", message);
+            println!(&quot;Unhandled message: {:?}&quot;, message);
             true
         }
     }
@@ -4097,18 +4104,18 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
     let server = Arc::new(ChatServer::new());
 
     // Bind to address
-    let listener = TcpListener::bind("127.0.0.1:8080").await?;
-    println!("Chat server listening on 127.0.0.1:8080");
+    let listener = TcpListener::bind(&quot;127.0.0.1:8080&quot;).await?;
+    println!(&quot;Chat server listening on 127.0.0.1:8080&quot;);
 
     // Accept connections
     while let Ok((stream, addr)) = listener.accept().await {
-        println!("New connection from: {}", addr);
+        println!(&quot;New connection from: {}&quot;, addr);
 
         // Spawn a new task for each client
         let server_clone = Arc::clone(&amp;server);
         tokio::spawn(async move {
             if let Err(e) = handle_client(stream, server_clone).await {
-                eprintln!("Error handling client: {}", e);
+                eprintln!(&quot;Error handling client: {}&quot;, e);
             }
         });
     }
@@ -4134,8 +4141,8 @@ struct ChatClient {
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
     // Connect to server
-    let stream = TcpStream::connect("127.0.0.1:8080").await?;
-    println!("Connected to server");
+    let stream = TcpStream::connect(&quot;127.0.0.1:8080&quot;).await?;
+    println!(&quot;Connected to server&quot;);
 
     let (mut reader, mut writer) = stream.into_split();
 
@@ -4162,14 +4169,14 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
         while let Ok(message) = read_message(&amp;mut reader).await {
             handle_server_message(message, &amp;client_clone, &amp;tx).await;
         }
-        println!("Server disconnected");
+        println!(&quot;Server disconnected&quot;);
         std::process::exit(0);
     });
 
     // Main task sends messages to the server
     while let Some(message) = rx.recv().await {
         if let Err(e) = write_message(&amp;mut writer, &amp;message).await {
-            eprintln!("Error sending message: {}", e);
+            eprintln!(&quot;Error sending message: {}&quot;, e);
             break;
         }
     }
@@ -4186,13 +4193,13 @@ async fn handle_user_input(
     let mut input = String::new();
 
     // First, log in
-    print!("Enter username: ");
+    print!(&quot;Enter username: &quot;);
     io::stdout().flush().unwrap();
     io::stdin().read_line(&amp;mut input).unwrap();
     let username = input.trim().to_string();
 
     input.clear();
-    print!("Enter password: ");
+    print!(&quot;Enter password: &quot;);
     io::stdout().flush().unwrap();
     io::stdin().read_line(&amp;mut input).unwrap();
     let password = input.trim().to_string();
@@ -4218,22 +4225,22 @@ async fn handle_user_input(
         }
 
         // Parse commands
-        if input.starts_with("/") {
+        if input.starts_with(&quot;/&quot;) {
             let parts: Vec&lt;&amp;str&gt; = input.splitn(2, ' ').collect();
             let cmd = parts[0];
 
             match cmd {
-                "/quit" =&gt; {
-                    println!("Goodbye!");
+                &quot;/quit&quot; =&gt; {
+                    println!(&quot;Goodbye!&quot;);
                     std::process::exit(0);
                 }
-                "/users" =&gt; {
+                &quot;/users&quot; =&gt; {
                     let users = client.lock().await.users.clone();
-                    println!("Online users: {}", users.join(", "));
+                    println!(&quot;Online users: {}&quot;, users.join(&quot;, &quot;));
                 }
                 // Add more commands here
                 _ =&gt; {
-                    println!("Unknown command: {}", cmd);
+                    println!(&quot;Unknown command: {}&quot;, cmd);
                 }
             }
         } else {
@@ -4257,10 +4264,10 @@ async fn handle_server_message(
     match message {
         Message::LoginResponse { success, message, .. } =&gt; {
             if success {
-                println!("Login successful");
+                println!(&quot;Login successful&quot;);
                 client.lock().await.logged_in = true;
             } else {
-                println!("Login failed: {}", message);
+                println!(&quot;Login failed: {}&quot;, message);
                 std::process::exit(1);
             }
         }
@@ -4269,18 +4276,18 @@ async fn handle_server_message(
             // Format timestamp
             let dt = chrono::DateTime::&lt;chrono::Utc&gt;::from_timestamp(timestamp as i64, 0)
                 .unwrap()
-                .format("%H:%M:%S");
+                .format(&quot;%H:%M:%S&quot;);
 
-            println!("[{}] {}: {}", dt, from, content);
+            println!(&quot;[{}] {}: {}&quot;, dt, from, content);
         }
 
         Message::UserJoined { username } =&gt; {
-            println!("User joined: {}", username);
+            println!(&quot;User joined: {}&quot;, username);
             client.lock().await.users.push(username);
         }
 
         Message::UserLeft { username } =&gt; {
-            println!("User left: {}", username);
+            println!(&quot;User left: {}&quot;, username);
             let mut client = client.lock().await;
             if let Some(pos) = client.users.iter().position(|u| u == &amp;username) {
                 client.users.remove(pos);
@@ -4289,7 +4296,7 @@ async fn handle_server_message(
 
         Message::UserList { users } =&gt; {
             client.lock().await.users = users.clone();
-            println!("Online users: {}", users.join(", "));
+            println!(&quot;Online users: {}&quot;, users.join(&quot;, &quot;));
         }
 
         Message::Ping =&gt; {
@@ -4298,13 +4305,13 @@ async fn handle_server_message(
         }
 
         Message::Error { code, message } =&gt; {
-            println!("Error {}: {}", code, message);
+            println!(&quot;Error {}: {}&quot;, code, message);
         }
 
         // Handle other message types
 
         _ =&gt; {
-            println!("Received unhandled message: {:?}", message);
+            println!(&quot;Received unhandled message: {:?}&quot;, message);
         }
     }
 }
@@ -4329,8 +4336,8 @@ async fn handle_server_message(
 <li><strong>Presence Updates</strong>: Add support for user status (online, away, busy)</li>
 </ol>
 <h3 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h3>
-<p>In this project, we’ve built a functional custom network protocol using the concepts covered throughout this chapter. This demonstrates how Rust’s safety features, performance, and async capabilities make it an excellent choice for network programming.</p>
-<p>By working through this project, you’ve gained hands-on experience with:</p>
+<p>In this project, we've built a functional custom network protocol using the concepts covered throughout this chapter. This demonstrates how Rust's safety features, performance, and async capabilities make it an excellent choice for network programming.</p>
+<p>By working through this project, you've gained hands-on experience with:</p>
 <ul>
 <li>Socket programming</li>
 <li>Asynchronous I/O with Tokio</li>
@@ -4341,7 +4348,7 @@ async fn handle_server_message(
 </ul>
 <p>These skills form a strong foundation for building more complex networked applications in Rust, from web services to distributed systems.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored network programming in Rust from fundamental concepts to practical implementation. We’ve covered:</p>
+<p>In this chapter, we've explored network programming in Rust from fundamental concepts to practical implementation. We've covered:</p>
 <ol>
 <li><strong>Core Networking Concepts</strong>: TCP/IP fundamentals, client-server architecture, and socket programming</li>
 <li><strong>Asynchronous Networking</strong>: Using Tokio for efficient concurrent connections</li>
@@ -4351,7 +4358,7 @@ async fn handle_server_message(
 <li><strong>Network Security</strong>: Protecting applications from common threats</li>
 <li><strong>Custom Protocol Design</strong>: Building a complete networked application</li>
 </ol>
-<p>Rust’s emphasis on safety, performance, and control makes it an excellent language for network programming, where reliability and efficiency are crucial. The ecosystem continues to evolve, with libraries like Tokio, hyper, and Actix Web providing powerful tools for building modern networked applications.</p>
+<p>Rust's emphasis on safety, performance, and control makes it an excellent language for network programming, where reliability and efficiency are crucial. The ecosystem continues to evolve, with libraries like Tokio, hyper, and Actix Web providing powerful tools for building modern networked applications.</p>
 <p>As you continue your Rust journey, the concepts and patterns from this chapter will serve as a foundation for building everything from simple network utilities to complex distributed systems.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>

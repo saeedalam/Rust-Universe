@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html" class="active"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,9 +184,9 @@
                     <main>
                         <h1 id="chapter-27-unsafe-rust"><a class="header" href="#chapter-27-unsafe-rust">Chapter 27: Unsafe Rust</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In previous chapters, we’ve explored Rust’s rich type system, ownership model, and safety guarantees. We’ve seen how Rust’s compiler enforces memory safety, prevents data races, and eliminates many classes of bugs at compile time. However, there are situations where Rust’s strict rules become limiting—when you need to interface with C libraries, implement low-level system components, or optimize critical performance bottlenecks.</p>
-<p>This is where <strong>unsafe Rust</strong> comes in. Unsafe code gives you additional capabilities that the safe subset of Rust prohibits, letting you bypass some of the compiler’s safety checks when necessary. With this power comes responsibility: when you use <code>unsafe</code>, you’re telling the compiler, “Trust me, I know what I’m doing.”</p>
-<p>In this chapter, we’ll explore:</p>
+<p>In previous chapters, we've explored Rust's rich type system, ownership model, and safety guarantees. We've seen how Rust's compiler enforces memory safety, prevents data races, and eliminates many classes of bugs at compile time. However, there are situations where Rust's strict rules become limiting—when you need to interface with C libraries, implement low-level system components, or optimize critical performance bottlenecks.</p>
+<p>This is where <strong>unsafe Rust</strong> comes in. Unsafe code gives you additional capabilities that the safe subset of Rust prohibits, letting you bypass some of the compiler's safety checks when necessary. With this power comes responsibility: when you use <code>unsafe</code>, you're telling the compiler, &quot;Trust me, I know what I'm doing.&quot;</p>
+<p>In this chapter, we'll explore:</p>
 <ul>
 <li>Why unsafe code exists and when to use it</li>
 <li>The unsafe superpowers and their implications</li>
@@ -187,12 +194,12 @@
 <li>Techniques for building safe abstractions around unsafe code</li>
 <li>Common patterns and best practices</li>
 </ul>
-<p>Remember, unsafe code doesn’t mean incorrect or dangerous code—it means code where safety is verified by the programmer rather than the compiler. Learning to use unsafe Rust correctly is an important skill for systems programmers and anyone building performance-critical applications.</p>
-<p>Let’s dive in and explore the uncharted territories of unsafe Rust.</p>
+<p>Remember, unsafe code doesn't mean incorrect or dangerous code—it means code where safety is verified by the programmer rather than the compiler. Learning to use unsafe Rust correctly is an important skill for systems programmers and anyone building performance-critical applications.</p>
+<p>Let's dive in and explore the uncharted territories of unsafe Rust.</p>
 <h2 id="when-and-why-to-use-unsafe"><a class="header" href="#when-and-why-to-use-unsafe">When and Why to Use Unsafe</a></h2>
-<p>Unsafe Rust exists for practical reasons. While Rust’s safety guarantees are powerful, they come with limitations. Sometimes, you need capabilities that safe Rust cannot provide, or the compiler’s strict rules prevent you from implementing certain patterns efficiently.</p>
+<p>Unsafe Rust exists for practical reasons. While Rust's safety guarantees are powerful, they come with limitations. Sometimes, you need capabilities that safe Rust cannot provide, or the compiler's strict rules prevent you from implementing certain patterns efficiently.</p>
 <h3 id="the-unsafe-superpowers"><a class="header" href="#the-unsafe-superpowers">The Unsafe Superpowers</a></h3>
-<p>When you use the <code>unsafe</code> keyword, you gain access to four “superpowers” that are otherwise unavailable:</p>
+<p>When you use the <code>unsafe</code> keyword, you gain access to four &quot;superpowers&quot; that are otherwise unavailable:</p>
 <ol>
 <li><strong>Dereferencing raw pointers</strong>: You can directly access memory through raw pointers (<code>*const T</code> and <code>*mut T</code>).</li>
 <li><strong>Calling unsafe functions</strong>: You can call functions marked with the <code>unsafe</code> keyword.</li>
@@ -200,14 +207,14 @@
 <li><strong>Accessing or modifying mutable static variables</strong>: You can work with global mutable state.</li>
 <li><strong>Accessing fields of unions</strong>: You can read from or write to fields of unions.</li>
 </ol>
-<p>These capabilities are powerful but bypass Rust’s safety checks, which is why they require the <code>unsafe</code> keyword.</p>
+<p>These capabilities are powerful but bypass Rust's safety checks, which is why they require the <code>unsafe</code> keyword.</p>
 <h3 id="legitimate-use-cases-for-unsafe-code"><a class="header" href="#legitimate-use-cases-for-unsafe-code">Legitimate Use Cases for Unsafe Code</a></h3>
 <p>Here are some scenarios where unsafe code is necessary or appropriate:</p>
 <h4 id="1-foreign-function-interface-ffi"><a class="header" href="#1-foreign-function-interface-ffi">1. Foreign Function Interface (FFI)</a></h4>
-<p>When interfacing with code written in other languages like C or C++, you’ll need unsafe code:</p>
+<p>When interfacing with code written in other languages like C or C++, you'll need unsafe code:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>extern "C" {
+</span>extern &quot;C&quot; {
     // Declaration of a C function
     fn c_function(arg: i32) -&gt; i32;
 }
@@ -221,7 +228,7 @@ fn call_c_code() -&gt; i32 {
 <span class="boring">}</span></code></pre></pre>
 <p>FFI is one of the most common reasons for using unsafe code, as it allows Rust programs to utilize existing libraries and operating system APIs.</p>
 <h4 id="2-low-level-system-programming"><a class="header" href="#2-low-level-system-programming">2. Low-Level System Programming</a></h4>
-<p>Some low-level operations simply can’t be expressed in safe Rust:</p>
+<p>Some low-level operations simply can't be expressed in safe Rust:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Getting a raw pointer to a memory-mapped device register
@@ -249,9 +256,9 @@ unsafe {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Here, we’re using <code>copy_nonoverlapping</code> for a potentially faster memory copy than what would be achieved with a simple loop.</p>
+<p>Here, we're using <code>copy_nonoverlapping</code> for a potentially faster memory copy than what would be achieved with a simple loop.</p>
 <h4 id="4-implementing-data-structures-with-complex-invariants"><a class="header" href="#4-implementing-data-structures-with-complex-invariants">4. Implementing Data Structures with Complex Invariants</a></h4>
-<p>Some advanced data structures have invariants that cannot be expressed through Rust’s type system alone:</p>
+<p>Some advanced data structures have invariants that cannot be expressed through Rust's type system alone:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct CustomVec&lt;T&gt; {
@@ -269,13 +276,13 @@ impl&lt;T&gt; CustomVec&lt;T&gt; {
 <p>Some platform-specific optimizations or intrinsics are only available through unsafe code:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[cfg(target_arch = "x86_64")]
+</span>#[cfg(target_arch = &quot;x86_64&quot;)]
 use std::arch::x86_64::*;
 
 // Using SIMD instructions for vectorized computation
 fn sum_f32_simd(data: &amp;[f32]) -&gt; f32 {
     // Safety: we're checking that SIMD is supported
-    if is_x86_feature_detected!("avx2") {
+    if is_x86_feature_detected!(&quot;avx2&quot;) {
         return unsafe { sum_f32_simd_avx2(data) };
     }
 
@@ -283,7 +290,7 @@ fn sum_f32_simd(data: &amp;[f32]) -&gt; f32 {
     data.iter().sum()
 }
 
-#[target_feature(enable = "avx2")]
+#[target_feature(enable = &quot;avx2&quot;)]
 unsafe fn sum_f32_simd_avx2(data: &amp;[f32]) -&gt; f32 {
     // SIMD implementation using AVX2 instructions
     // ...
@@ -292,15 +299,15 @@ unsafe fn sum_f32_simd_avx2(data: &amp;[f32]) -&gt; f32 {
 <h3 id="when-not-to-use-unsafe"><a class="header" href="#when-not-to-use-unsafe">When Not to Use Unsafe</a></h3>
 <p>Unsafe code should be a last resort, not a first choice. Avoid unsafe code when:</p>
 <ol>
-<li><strong>You’re just trying to bypass the borrow checker</strong>: Restructuring your code is usually a better solution than using unsafe.</li>
-<li><strong>You’re new to Rust</strong>: Build proficiency with safe Rust first before venturing into unsafe territory.</li>
-<li><strong>The performance gains are minimal</strong>: Don’t sacrifice safety for small optimizations.</li>
-<li><strong>There’s a safe alternative</strong>: Many standard library functions provide safe abstractions over unsafe code.</li>
+<li><strong>You're just trying to bypass the borrow checker</strong>: Restructuring your code is usually a better solution than using unsafe.</li>
+<li><strong>You're new to Rust</strong>: Build proficiency with safe Rust first before venturing into unsafe territory.</li>
+<li><strong>The performance gains are minimal</strong>: Don't sacrifice safety for small optimizations.</li>
+<li><strong>There's a safe alternative</strong>: Many standard library functions provide safe abstractions over unsafe code.</li>
 </ol>
 <h3 id="the-safety-contract"><a class="header" href="#the-safety-contract">The Safety Contract</a></h3>
-<p>When you write unsafe code, you’re entering into a contract with the compiler. You’re promising that your code:</p>
+<p>When you write unsafe code, you're entering into a contract with the compiler. You're promising that your code:</p>
 <ol>
-<li><strong>Won’t cause undefined behavior</strong>: This includes memory safety violations, data races, and other forms of undefined behavior.</li>
+<li><strong>Won't cause undefined behavior</strong>: This includes memory safety violations, data races, and other forms of undefined behavior.</li>
 <li><strong>Maintains all invariants</strong>: Any invariants assumed by safe code must be upheld.</li>
 <li><strong>Respects the safety contracts of any unsafe functions you call</strong>: You must read and follow the documentation for any unsafe functions you use.</li>
 </ol>
@@ -324,16 +331,16 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>By following this pattern, most of your codebase can remain safe while still benefiting from the capabilities of unsafe code where necessary.</p>
-<p>In the next sections, we’ll dive deeper into each of the unsafe superpowers, exploring how to use them correctly and build safe abstractions around them.</p>
+<p>In the next sections, we'll dive deeper into each of the unsafe superpowers, exploring how to use them correctly and build safe abstractions around them.</p>
 <h2 id="raw-pointers"><a class="header" href="#raw-pointers">Raw Pointers</a></h2>
-<p>Raw pointers in Rust provide direct, unrestricted access to memory. Unlike references (<code>&amp;T</code> and <code>&amp;mut T</code>), raw pointers bypass Rust’s borrowing rules and safety checks. They’re similar to pointers in C and C++, with all the power and danger that entails.</p>
+<p>Raw pointers in Rust provide direct, unrestricted access to memory. Unlike references (<code>&amp;T</code> and <code>&amp;mut T</code>), raw pointers bypass Rust's borrowing rules and safety checks. They're similar to pointers in C and C++, with all the power and danger that entails.</p>
 <h3 id="types-of-raw-pointers"><a class="header" href="#types-of-raw-pointers">Types of Raw Pointers</a></h3>
 <p>Rust has two types of raw pointers:</p>
 <ol>
 <li><strong>Immutable raw pointers</strong>: <code>*const T</code> - Conceptually similar to <code>const T*</code> in C++</li>
 <li><strong>Mutable raw pointers</strong>: <code>*mut T</code> - Conceptually similar to <code>T*</code> in C++</li>
 </ol>
-<p>Here’s how to create raw pointers:</p>
+<p>Here's how to create raw pointers:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn raw_pointer_basics() {
@@ -352,21 +359,21 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
     let ptr3 = ptr2 as *const i32;  // *mut T to *const T
 
     // Printing pointers
-    println!("Pointer value: {:p}", ptr1);
+    println!(&quot;Pointer value: {:p}&quot;, ptr1);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="properties-of-raw-pointers"><a class="header" href="#properties-of-raw-pointers">Properties of Raw Pointers</a></h3>
 <p>Raw pointers have several characteristics that distinguish them from references:</p>
 <ol>
-<li><strong>No automatic dereferencing</strong>: Unlike references, raw pointers don’t automatically dereference with the dot operator.</li>
-<li><strong>No lifetime constraints</strong>: Raw pointers don’t have lifetimes, so they can outlive the data they point to.</li>
+<li><strong>No automatic dereferencing</strong>: Unlike references, raw pointers don't automatically dereference with the dot operator.</li>
+<li><strong>No lifetime constraints</strong>: Raw pointers don't have lifetimes, so they can outlive the data they point to.</li>
 <li><strong>No borrowing rules</strong>: You can have multiple mutable raw pointers to the same data.</li>
 <li><strong>No null safety</strong>: Raw pointers can be null or point to invalid memory.</li>
-<li><strong>No bounds checking</strong>: Array access through raw pointers doesn’t check bounds.</li>
+<li><strong>No bounds checking</strong>: Array access through raw pointers doesn't check bounds.</li>
 </ol>
 <p>These properties make raw pointers powerful but dangerous.</p>
 <h3 id="creating-raw-pointers"><a class="header" href="#creating-raw-pointers">Creating Raw Pointers</a></h3>
-<p>Creating raw pointers is safe; it’s only dereferencing them that requires <code>unsafe</code>:</p>
+<p>Creating raw pointers is safe; it's only dereferencing them that requires <code>unsafe</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn creating_raw_pointers() {
@@ -390,7 +397,7 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
     let box_ptr = Box::into_raw(boxed);  // *mut i32, ownership transferred to the pointer
 
     // From a string
-    let s = "hello".to_string();
+    let s = &quot;hello&quot;.to_string();
     let str_ptr = s.as_ptr();  // *const u8 to the first byte
 
     // Creating a raw pointer to a specific address (extremely unsafe!)
@@ -407,20 +414,20 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
 
     unsafe {
         // Access elements using pointer arithmetic
-        println!("Element 0: {}", *ptr);
-        println!("Element 1: {}", *ptr.add(1));
-        println!("Element 2: {}", *ptr.add(2));
+        println!(&quot;Element 0: {}&quot;, *ptr);
+        println!(&quot;Element 1: {}&quot;, *ptr.add(1));
+        println!(&quot;Element 2: {}&quot;, *ptr.add(2));
 
         // Alternative syntax using offset
-        println!("Element 3: {}", *ptr.offset(3));
+        println!(&quot;Element 3: {}&quot;, *ptr.offset(3));
 
         // You can also subtract
         let end_ptr = ptr.add(4);
-        println!("Element 3 from end: {}", *end_ptr.sub(1));
+        println!(&quot;Element 3 from end: {}&quot;, *end_ptr.sub(1));
 
         // Calculate distance between pointers
         let distance = end_ptr.offset_from(ptr);  // Returns 4
-        println!("Distance: {}", distance);
+        println!(&quot;Distance: {}&quot;, distance);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -433,7 +440,7 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
 <li><strong>Lifetime issues</strong>: The pointed-to data might no longer exist when you dereference the pointer.</li>
 <li><strong>Alignment</strong>: Misaligned pointers can cause hardware exceptions on some platforms.</li>
 </ol>
-<p>Let’s examine how to safely handle raw pointers:</p>
+<p>Let's examine how to safely handle raw pointers:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn safe_pointer_handling() {
@@ -443,7 +450,7 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
     // Check for null before dereferencing
     if !ptr.is_null() {
         unsafe {
-            println!("Value: {}", *ptr);
+            println!(&quot;Value: {}&quot;, *ptr);
         }
     }
 
@@ -451,13 +458,13 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
     let len = data.len();
     unsafe {
         for i in 0..len {  // Stay within bounds
-            println!("data[{}] = {}", i, *ptr.add(i));
+            println!(&quot;data[{}] = {}&quot;, i, *ptr.add(i));
         }
     }
 
     // Converting back to references with explicit lifetime
     let slice = unsafe { std::slice::from_raw_parts(ptr, len) };
-    println!("Slice: {:?}", slice);
+    println!(&quot;Slice: {:?}&quot;, slice);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="when-to-use-raw-pointers"><a class="header" href="#when-to-use-raw-pointers">When to Use Raw Pointers</a></h3>
@@ -469,11 +476,11 @@ unsafe fn perform_unsafe_operation(data: &amp;mut [u8]) {
 <li><strong>Performance-critical code</strong>: Avoiding bounds checks in thoroughly tested inner loops.</li>
 <li><strong>Unsafe abstractions</strong>: Building safe abstractions around unsafe operations.</li>
 </ol>
-<p>Here’s a simple example of using raw pointers to implement a memory-efficient option type:</p>
+<p>Here's a simple example of using raw pointers to implement a memory-efficient option type:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct CompactOption&lt;T&gt; {
-    // The LSB is used as the "is_some" flag
+    // The LSB is used as the &quot;is_some&quot; flag
     // The actual pointer is shifted left by 1
     value: usize,
     _phantom: std::marker::PhantomData&lt;T&gt;,
@@ -490,10 +497,10 @@ impl&lt;T&gt; CompactOption&lt;T&gt; {
     fn some(value: T) -&gt; Self {
         let boxed = Box::new(value);
         let ptr = Box::into_raw(boxed) as usize;
-        assert!(ptr % 2 == 0, "Pointer must be aligned");
+        assert!(ptr % 2 == 0, &quot;Pointer must be aligned&quot;);
 
         CompactOption {
-            value: ptr | 1, // Set the LSB to 1 to indicate "some"
+            value: ptr | 1, // Set the LSB to 1 to indicate &quot;some&quot;
             _phantom: std::marker::PhantomData,
         }
     }
@@ -507,7 +514,7 @@ impl&lt;T&gt; CompactOption&lt;T&gt; {
     }
 
     fn unwrap(&amp;self) -&gt; &amp;T {
-        assert!(self.is_some(), "Called unwrap on a None value");
+        assert!(self.is_some(), &quot;Called unwrap on a None value&quot;);
 
         unsafe {
             let ptr = (self.value &amp; !1) as *const T;
@@ -539,18 +546,18 @@ impl&lt;T&gt; Drop for CompactOption&lt;T&gt; {
 
     // Compare pointers
     if ptr1 &lt; ptr2 {
-        println!("ptr1 comes before ptr2");
+        println!(&quot;ptr1 comes before ptr2&quot;);
     }
 
     // Check equality
     if ptr1 == arr.as_ptr() {
-        println!("These pointers are equal");
+        println!(&quot;These pointers are equal&quot;);
     }
 
     // Memory addresses as integers
-    println!("Address: {:p}", ptr1);
+    println!(&quot;Address: {:p}&quot;, ptr1);
     let addr = ptr1 as usize;
-    println!("As integer: 0x{:x}", addr);
+    println!(&quot;As integer: 0x{:x}&quot;, addr);
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="dereferencing-raw-pointers"><a class="header" href="#dereferencing-raw-pointers">Dereferencing Raw Pointers</a></h2>
@@ -565,7 +572,7 @@ impl&lt;T&gt; Drop for CompactOption&lt;T&gt; {
 
     // Reading through a raw pointer
     unsafe {
-        println!("Value: {}", *ptr);  // Prints: Value: 42
+        println!(&quot;Value: {}&quot;, *ptr);  // Prints: Value: 42
     }
 
     // Writing through a mutable raw pointer
@@ -576,18 +583,18 @@ impl&lt;T&gt; Drop for CompactOption&lt;T&gt; {
         *mut_ptr = 200;  // Modify the value
     }
 
-    println!("Modified value: {}", mutable);  // Prints: Modified value: 200
+    println!(&quot;Modified value: {}&quot;, mutable);  // Prints: Modified value: 200
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="why-dereferencing-requires-unsafe"><a class="header" href="#why-dereferencing-requires-unsafe">Why Dereferencing Requires Unsafe</a></h3>
-<p>Dereferencing raw pointers requires <code>unsafe</code> because it bypasses several of Rust’s safety guarantees:</p>
+<p>Dereferencing raw pointers requires <code>unsafe</code> because it bypasses several of Rust's safety guarantees:</p>
 <ol>
 <li><strong>Memory safety</strong>: The pointer might be null, dangling, or point to unallocated memory.</li>
 <li><strong>Data races</strong>: Multiple threads might access the same memory location concurrently.</li>
 <li><strong>Aliasing rules</strong>: There might be both mutable and immutable pointers to the same memory.</li>
 <li><strong>Alignment</strong>: The pointer might not be properly aligned for the target type.</li>
 </ol>
-<p>When you use <code>unsafe</code>, you’re telling the compiler that you’ve verified these conditions manually.</p>
+<p>When you use <code>unsafe</code>, you're telling the compiler that you've verified these conditions manually.</p>
 <h3 id="dereferencing-null-or-invalid-pointers"><a class="header" href="#dereferencing-null-or-invalid-pointers">Dereferencing Null or Invalid Pointers</a></h3>
 <p>Dereferencing a null or invalid pointer causes undefined behavior:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -667,8 +674,8 @@ fn ptr_to_slice&lt;'a&gt;(ptr: *const i32, len: usize) -&gt; Option&lt;&amp;'a [
 
     // Safe conversion to Option&lt;&amp;T&gt;
     match ptr.as_ref() {
-        Some(reference) =&gt; println!("Value: {}", reference),
-        None =&gt; println!("Null pointer"),
+        Some(reference) =&gt; println!(&quot;Value: {}&quot;, reference),
+        None =&gt; println!(&quot;Null pointer&quot;),
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -687,14 +694,14 @@ fn compound_types() {
 
     unsafe {
         // Access the whole struct
-        println!("Point: ({}, {})", (*ptr).x, (*ptr).y);
+        println!(&quot;Point: ({}, {})&quot;, (*ptr).x, (*ptr).y);
 
         // Field access can be simplified
-        println!("X: {}", (*ptr).x);
-        println!("Y: {}", (*ptr).y);
+        println!(&quot;X: {}&quot;, (*ptr).x);
+        println!(&quot;Y: {}&quot;, (*ptr).y);
 
         // Or even more concisely
-        println!("X: {}", ptr.as_ref().unwrap().x);
+        println!(&quot;X: {}&quot;, ptr.as_ref().unwrap().x);
     }
 
     // Arrays and slices
@@ -704,7 +711,7 @@ fn compound_types() {
     unsafe {
         // Create a slice from a pointer and length
         let slice = std::slice::from_raw_parts(arr_ptr, array.len());
-        println!("Slice: {:?}", slice);
+        println!(&quot;Slice: {:?}&quot;, slice);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -719,7 +726,7 @@ fn compound_types() {
     unsafe {
         // Read the value
         let read_value = ptr.read();
-        println!("Read value: {}", read_value);
+        println!(&quot;Read value: {}&quot;, read_value);
     }
 
     let mut mutable = 100;
@@ -728,14 +735,14 @@ fn compound_types() {
     unsafe {
         // Write a value
         mut_ptr.write(200);
-        println!("After write: {}", mutable);  // Prints: After write: 200
+        println!(&quot;After write: {}&quot;, mutable);  // Prints: After write: 200
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <p>These methods are particularly useful when:</p>
 <ol>
 <li>You want to avoid direct dereferencing, which might create temporaries.</li>
-<li>You’re working with potentially unaligned data.</li>
+<li>You're working with potentially unaligned data.</li>
 <li>You need to copy a value without running the destructor at the source.</li>
 </ol>
 <h3 id="volatile-reads-and-writes"><a class="header" href="#volatile-reads-and-writes">Volatile Reads and Writes</a></h3>
@@ -749,11 +756,11 @@ fn compound_types() {
     unsafe {
         // Volatile read
         let read_value = std::ptr::read_volatile(ptr);
-        println!("Volatile read: {}", read_value);
+        println!(&quot;Volatile read: {}&quot;, read_value);
 
         // Volatile write
         std::ptr::write_volatile(ptr, 100);
-        println!("After volatile write: {}", value);
+        println!(&quot;After volatile write: {}&quot;, value);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -776,7 +783,7 @@ fn compound_types() {
 
         // Instead, use read_unaligned
         let value = unaligned_ptr.read_unaligned();
-        println!("Unaligned read: {}", value);
+        println!(&quot;Unaligned read: {}&quot;, value);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -828,13 +835,13 @@ fn compound_types() {
 
     // BAD: ptr might be invalid now
     unsafe {
-        // println!("Value: {}", *ptr);  // Potentially undefined behavior
+        // println!(&quot;Value: {}&quot;, *ptr);  // Potentially undefined behavior
     }
 
     // GOOD: Get a fresh pointer after modification
     let new_ptr = vec.as_ptr();
     unsafe {
-        println!("Value: {}", *new_ptr);  // Safe
+        println!(&quot;Value: {}&quot;, *new_ptr);  // Safe
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -872,15 +879,15 @@ fn compound_types() {
     let len = array.len();
     for i in 0..len {
         unsafe {
-            println!("Value at index {}: {}", i, *ptr.add(i));
+            println!(&quot;Value at index {}: {}&quot;, i, *ptr.add(i));
         }
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>In the next section, we’ll explore how raw pointers enable mutable aliasing, a capability that breaks Rust’s strict borrowing rules but is sometimes necessary for advanced data structures and algorithms.</p>
+<p>In the next section, we'll explore how raw pointers enable mutable aliasing, a capability that breaks Rust's strict borrowing rules but is sometimes necessary for advanced data structures and algorithms.</p>
 <h2 id="mutable-aliasing-with-raw-pointers"><a class="header" href="#mutable-aliasing-with-raw-pointers">Mutable Aliasing with Raw Pointers</a></h2>
 <p>One of the most significant restrictions in safe Rust is the prohibition against having multiple mutable references to the same memory location—a rule that prevents data races at compile time. However, sometimes advanced data structures and algorithms require this capability, which is where raw pointers come in.</p>
-<h3 id="understanding-rusts-aliasing-rules"><a class="header" href="#understanding-rusts-aliasing-rules">Understanding Rust’s Aliasing Rules</a></h3>
+<h3 id="understanding-rusts-aliasing-rules"><a class="header" href="#understanding-rusts-aliasing-rules">Understanding Rust's Aliasing Rules</a></h3>
 <p>In safe Rust, you can have either:</p>
 <ol>
 <li>One mutable reference (<code>&amp;mut T</code>), or</li>
@@ -898,22 +905,22 @@ fn compound_types() {
 
     // This would fail to compile:
     // let another_ref = &amp;value;
-    // println!("Value: {}", *another_ref);
+    // println!(&quot;Value: {}&quot;, *another_ref);
 
     // After the mutable borrow ends, we can have immutable references
-    println!("Value: {}", value);
+    println!(&quot;Value: {}&quot;, value);
 
     // Now we can have multiple immutable references
     let ref1 = &amp;value;
     let ref2 = &amp;value;
-    println!("References: {} {}", *ref1, *ref2);
+    println!(&quot;References: {} {}&quot;, *ref1, *ref2);
 
     // But we can no longer have a mutable reference
     // let another_mut_ref = &amp;mut value;  // Error!
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="breaking-the-aliasing-rules-with-raw-pointers"><a class="header" href="#breaking-the-aliasing-rules-with-raw-pointers">Breaking the Aliasing Rules with Raw Pointers</a></h3>
-<p>Raw pointers aren’t subject to the borrow checker’s rules, allowing you to create multiple mutable pointers to the same memory:</p>
+<p>Raw pointers aren't subject to the borrow checker's rules, allowing you to create multiple mutable pointers to the same memory:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn mutable_aliasing_with_raw_pointers() {
@@ -926,11 +933,11 @@ fn compound_types() {
     unsafe {
         // Modify through the first pointer
         *ptr1 = 100;
-        println!("After ptr1 modification: {}", value);  // 100
+        println!(&quot;After ptr1 modification: {}&quot;, value);  // 100
 
         // Modify through the second pointer
         *ptr2 = 200;
-        println!("After ptr2 modification: {}", value);  // 200
+        println!(&quot;After ptr2 modification: {}&quot;, value);  // 200
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -948,7 +955,7 @@ fn compound_types() {
     let raw_ptr = ref_mut as *mut i32;
 
     // This would violate Rust's borrowing rules:
-    // println!("Original value: {}", value);
+    // println!(&quot;Original value: {}&quot;, value);
 
     // Using the raw pointer
     unsafe {
@@ -956,7 +963,7 @@ fn compound_types() {
     }
 
     // Now we can use the value again
-    println!("Modified value: {}", value);  // 100
+    println!(&quot;Modified value: {}&quot;, value);  // 100
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="legitimate-use-cases-for-mutable-aliasing"><a class="header" href="#legitimate-use-cases-for-mutable-aliasing">Legitimate Use Cases for Mutable Aliasing</a></h3>
@@ -1004,10 +1011,10 @@ fn create_doubly_linked_list() {
     unsafe {
         let mut current = head_ptr;
         while let Some(next_ptr) = (*current).next {
-            println!("Value: {}", (*current).value);
+            println!(&quot;Value: {}&quot;, (*current).value);
             current = next_ptr;
         }
-        println!("Value: {}", (*current).value);
+        println!(&quot;Value: {}&quot;, (*current).value);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1175,7 +1182,7 @@ impl SelfReferential {
 <h3 id="safe-abstractions-for-mutable-aliasing"><a class="header" href="#safe-abstractions-for-mutable-aliasing">Safe Abstractions for Mutable Aliasing</a></h3>
 <p>Instead of using raw pointers directly, consider these safer alternatives:</p>
 <h4 id="1-interior-mutability-types"><a class="header" href="#1-interior-mutability-types">1. Interior Mutability Types</a></h4>
-<p>Rust’s standard library provides types that enable safe interior mutability:</p>
+<p>Rust's standard library provides types that enable safe interior mutability:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::cell::{Cell, RefCell};
@@ -1187,7 +1194,7 @@ fn safe_interior_mutability() {
     let value1 = cell.get();
     cell.set(100);
     let value2 = cell.get();
-    println!("Values: {} {}", value1, value2);  // 42 100
+    println!(&quot;Values: {} {}&quot;, value1, value2);  // 42 100
 
     // RefCell for non-Copy types
     let ref_cell = RefCell::new(vec![1, 2, 3]);
@@ -1197,17 +1204,17 @@ fn safe_interior_mutability() {
     }
 
     let borrowed = ref_cell.borrow();
-    println!("Vector: {:?}", borrowed);  // [1, 2, 3, 4]
+    println!(&quot;Vector: {:?}&quot;, borrowed);  // [1, 2, 3, 4]
 
     // Rc&lt;RefCell&lt;T&gt;&gt; for shared mutable data
-    let shared = Rc::new(RefCell::new(String::from("Hello")));
+    let shared = Rc::new(RefCell::new(String::from(&quot;Hello&quot;)));
     let clone1 = shared.clone();
     let clone2 = shared.clone();
 
-    clone1.borrow_mut().push_str(", ");
-    clone2.borrow_mut().push_str("World!");
+    clone1.borrow_mut().push_str(&quot;, &quot;);
+    clone2.borrow_mut().push_str(&quot;World!&quot;);
 
-    println!("Shared string: {}", shared.borrow());  // Hello, World!
+    println!(&quot;Shared string: {}&quot;, shared.borrow());  // Hello, World!
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="2-indexes-instead-of-pointers"><a class="header" href="#2-indexes-instead-of-pointers">2. Indexes Instead of Pointers</a></h4>
@@ -1256,7 +1263,7 @@ impl Graph {
     left[0] = 10;
     right[0] = 20;
 
-    println!("Data: {:?}", data);  // [10, 2, 20, 4, 5]
+    println!(&quot;Data: {:?}&quot;, data);  // [10, 2, 20, 4, 5]
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="4-controlled-sharing-with-unsafecell"><a class="header" href="#4-controlled-sharing-with-unsafecell">4. Controlled Sharing with <code>UnsafeCell</code></a></h4>
@@ -1298,10 +1305,10 @@ impl SharedCounter {
 <li><strong>Document assumptions</strong>: Clearly document the conditions that make your code safe.</li>
 <li><strong>Add runtime checks</strong>: Add assertions to catch potential issues in debug builds.</li>
 <li><strong>Prefer safer alternatives</strong>: Use standard library types like <code>Cell</code> and <code>RefCell</code> when possible.</li>
-<li><strong>Avoid concurrent access</strong>: Ensure mutable aliasing doesn’t cross thread boundaries without proper synchronization.</li>
+<li><strong>Avoid concurrent access</strong>: Ensure mutable aliasing doesn't cross thread boundaries without proper synchronization.</li>
 <li><strong>Test thoroughly</strong>: Write extensive tests for code that uses mutable aliasing.</li>
 </ol>
-<p>In the next section, we’ll explore another unsafe capability: calling unsafe functions.</p>
+<p>In the next section, we'll explore another unsafe capability: calling unsafe functions.</p>
 <h2 id="calling-unsafe-functions"><a class="header" href="#calling-unsafe-functions">Calling Unsafe Functions</a></h2>
 <p>Unsafe functions in Rust are those that make certain safety guarantees conditional on the caller, rather than being enforced by the compiler. Calling an unsafe function requires an <code>unsafe</code> block, signaling that the programmer has verified these preconditions.</p>
 <h3 id="understanding-unsafe-functions"><a class="header" href="#understanding-unsafe-functions">Understanding Unsafe Functions</a></h3>
@@ -1318,7 +1325,7 @@ fn main() {
     // Calling an unsafe function requires an unsafe block
     unsafe {
         let result = get_value(ptr);
-        println!("Result: {}", result);  // 42
+        println!(&quot;Result: {}&quot;, result);  // 42
     }
 }</code></pre></pre>
 <h3 id="why-functions-are-marked-unsafe"><a class="header" href="#why-functions-are-marked-unsafe">Why Functions Are Marked Unsafe</a></h3>
@@ -1329,7 +1336,7 @@ fn main() {
 <li><strong>Make assumptions about data representation</strong>: Like interpreting bytes as a specific type.</li>
 <li><strong>Call other unsafe functions</strong>: And inherit their safety requirements.</li>
 </ol>
-<p>Here’s an example of a function with preconditions:</p>
+<p>Here's an example of a function with preconditions:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// This function requires that:
@@ -1357,12 +1364,12 @@ unsafe fn as_ref_unchecked&lt;T&gt;(ptr: *const T) -&gt; &amp;T {
         // Create a slice from a pointer and length without validating the range
         let ptr = data.as_ptr();
         let slice = std::slice::from_raw_parts(ptr, 3);
-        println!("Slice: {:?}", slice);  // [1, 2, 100]
+        println!(&quot;Slice: {:?}&quot;, slice);  // [1, 2, 100]
 
         // Convert a string slice without validating UTF-8
-        let bytes = &amp;[72, 101, 108, 108, 111];  // "Hello" in ASCII
+        let bytes = &amp;[72, 101, 108, 108, 111];  // &quot;Hello&quot; in ASCII
         let hello = std::str::from_utf8_unchecked(bytes);
-        println!("String: {}", hello);  // Hello
+        println!(&quot;String: {}&quot;, hello);  // Hello
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1388,16 +1395,16 @@ fn transmute_example() {
     unsafe {
         // Reinterpret u32 as [u8; 4]
         let bytes: [u8; 4] = transmute_bytes(&amp;value);
-        println!("Bytes: {:?}", bytes);  // [4, 3, 2, 1] on little-endian systems
+        println!(&quot;Bytes: {:?}&quot;, bytes);  // [4, 3, 2, 1] on little-endian systems
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="3-ffi-functions"><a class="header" href="#3-ffi-functions">3. FFI Functions</a></h4>
-<p>Functions from foreign languages are inherently unsafe because Rust can’t verify their safety:</p>
+<p>Functions from foreign languages are inherently unsafe because Rust can't verify their safety:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Declaration of a C function
-extern "C" {
+extern &quot;C&quot; {
     fn abs(input: i32) -&gt; i32;
 }
 
@@ -1406,17 +1413,17 @@ fn call_c_function() {
 
     // Calling a foreign function requires unsafe
     let result = unsafe { abs(input) };
-    println!("Absolute value: {}", result);  // 42
+    println!(&quot;Absolute value: {}&quot;, result);  // 42
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="the-safety-contract-1"><a class="header" href="#the-safety-contract-1">The Safety Contract</a></h3>
-<p>When you mark a function as <code>unsafe</code>, you’re establishing a contract with its callers:</p>
+<p>When you mark a function as <code>unsafe</code>, you're establishing a contract with its callers:</p>
 <ol>
 <li><strong>Document preconditions</strong>: Clearly state what conditions must be satisfied for the function to be safe.</li>
 <li><strong>Specify invariants</strong>: Document what the function expects and guarantees about the state of the program.</li>
-<li><strong>Detail the consequences</strong>: Explain what could go wrong if the preconditions aren’t met.</li>
+<li><strong>Detail the consequences</strong>: Explain what could go wrong if the preconditions aren't met.</li>
 </ol>
-<p>Here’s an example of well-documented unsafe function:</p>
+<p>Here's an example of well-documented unsafe function:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Creates a slice from a raw pointer and a length.
@@ -1529,7 +1536,7 @@ unsafe fn unmap_file(ptr: *mut u8, size: usize) -&gt; Result&lt;(), std::io::Err
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="common-standard-library-unsafe-functions"><a class="header" href="#common-standard-library-unsafe-functions">Common Standard Library Unsafe Functions</a></h3>
-<p>Let’s explore some commonly used unsafe functions from the standard library:</p>
+<p>Let's explore some commonly used unsafe functions from the standard library:</p>
 <h4 id="memory-operations"><a class="header" href="#memory-operations">Memory Operations</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1560,7 +1567,7 @@ unsafe fn unmap_file(ptr: *mut u8, size: usize) -&gt; Result&lt;(), std::io::Err
         );
     }
 
-    println!("Data: {:?}", data);  // [255, 255, 3, 4, 3, 4, 0, 0]
+    println!(&quot;Data: {:?}&quot;, data);  // [255, 255, 3, 4, 3, 4, 0, 0]
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="initialization-control"><a class="header" href="#initialization-control">Initialization Control</a></h4>
@@ -1577,7 +1584,7 @@ unsafe fn unmap_file(ptr: *mut u8, size: usize) -&gt; Result&lt;(), std::io::Err
 
     // Only use the initialized portion
     let initialized_slice = &amp;data[0..10];
-    println!("Initialized: {:?}", initialized_slice);
+    println!(&quot;Initialized: {:?}&quot;, initialized_slice);
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="type-punning"><a class="header" href="#type-punning">Type Punning</a></h4>
@@ -1588,18 +1595,18 @@ unsafe fn unmap_file(ptr: *mut u8, size: usize) -&gt; Result&lt;(), std::io::Err
 
     // Reinterpret as u32
     let bits = unsafe { std::mem::transmute::&lt;f32, u32&gt;(value) };
-    println!("Float bits: 0x{:x}", bits);
+    println!(&quot;Float bits: 0x{:x}&quot;, bits);
 
     // A safer alternative using to_bits
     let bits_safe = value.to_bits();
-    println!("Float bits (safe): 0x{:x}", bits_safe);
+    println!(&quot;Float bits (safe): 0x{:x}&quot;, bits_safe);
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="extending-lifetimes"><a class="header" href="#extending-lifetimes">Extending Lifetimes</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn extend_lifetime() {
-    let mut data = String::from("hello");
+    let mut data = String::from(&quot;hello&quot;);
 
     // Create a reference with 'static lifetime (DANGEROUS!)
     let static_ref: &amp;'static str = unsafe {
@@ -1609,13 +1616,13 @@ unsafe fn unmap_file(ptr: *mut u8, size: usize) -&gt; Result&lt;(), std::io::Err
 
     // This could lead to use-after-free if data is dropped
     // while static_ref is still in use
-    println!("Extended reference: {}", static_ref);
+    println!(&quot;Extended reference: {}&quot;, static_ref);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="creating-custom-unsafe-functions"><a class="header" href="#creating-custom-unsafe-functions">Creating Custom Unsafe Functions</a></h3>
 <p>When creating your own unsafe functions, follow these best practices:</p>
 <h4 id="1-only-mark-functions-as-unsafe-when-necessary"><a class="header" href="#1-only-mark-functions-as-unsafe-when-necessary">1. Only Mark Functions as Unsafe When Necessary</a></h4>
-<p>Don’t use <code>unsafe</code> just to bypass the borrow checker; only mark functions as unsafe if they have genuine safety preconditions:</p>
+<p>Don't use <code>unsafe</code> just to bypass the borrow checker; only mark functions as unsafe if they have genuine safety preconditions:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Good: This function has clear safety requirements
@@ -1649,7 +1656,7 @@ unsafe fn read_from_addr&lt;T: Copy&gt;(addr: usize) -&gt; T {
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="3-consider-safe-alternatives"><a class="header" href="#3-consider-safe-alternatives">3. Consider Safe Alternatives</a></h4>
-<p>Before creating an unsafe function, consider if there’s a safe way to achieve the same goal:</p>
+<p>Before creating an unsafe function, consider if there's a safe way to achieve the same goal:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Instead of this unsafe function:
@@ -1665,7 +1672,7 @@ fn get_first&lt;T&gt;(slice: &amp;[T]) -&gt; Option&lt;&amp;T&gt; {
 <h3 id="common-pitfalls-with-unsafe-functions"><a class="header" href="#common-pitfalls-with-unsafe-functions">Common Pitfalls with Unsafe Functions</a></h3>
 <p>Here are some common mistakes to avoid:</p>
 <h4 id="1-assuming-functions-are-safe"><a class="header" href="#1-assuming-functions-are-safe">1. Assuming Functions Are Safe</a></h4>
-<p>Don’t assume a function is safe just because it doesn’t have an explicit <code>unsafe</code> marker:</p>
+<p>Don't assume a function is safe just because it doesn't have an explicit <code>unsafe</code> marker:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn assuming_safety() {
@@ -1700,7 +1707,7 @@ fn get_first&lt;T&gt;(slice: &amp;[T]) -&gt; Option&lt;&amp;T&gt; {
 
         // GOOD: Check for allocation failure
         if ptr.is_null() {
-            panic!("Allocation failed");
+            panic!(&quot;Allocation failed&quot;);
         }
 
         // Use the memory...
@@ -1725,7 +1732,7 @@ unsafe fn initialize_buffer(buf: &amp;mut [u8], values: &amp;[u8]) {
 // GOOD: Handle potential panic conditions
 unsafe fn initialize_buffer_safe(buf: &amp;mut [u8], values: &amp;[u8]) -&gt; Result&lt;(), &amp;'static str&gt; {
     if values.len() &gt; buf.len() {
-        return Err("Values too large for buffer");
+        return Err(&quot;Values too large for buffer&quot;);
     }
 
     for i in 0..values.len() {
@@ -1752,10 +1759,10 @@ unsafe fn valid_reference&lt;'a&gt;(data: &amp;'a [u8]) -&gt; &amp;'a i32 {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="soundness-in-unsafe-code"><a class="header" href="#soundness-in-unsafe-code">Soundness in Unsafe Code</a></h3>
-<p>A function is considered “sound” if it maintains Rust’s safety guarantees when used according to its public API. This is crucial for unsafe functions:</p>
+<p>A function is considered &quot;sound&quot; if it maintains Rust's safety guarantees when used according to its public API. This is crucial for unsafe functions:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// UNSOUND: This can cause undefined behavior even when used "correctly"
+</span>// UNSOUND: This can cause undefined behavior even when used &quot;correctly&quot;
 unsafe fn unsound_function(slice: &amp;[u8]) -&gt; &amp;[u16] {
     // This is unsound because it doesn't check alignment and might create
     // an unaligned reference to u16, which can cause UB on some platforms
@@ -1783,37 +1790,37 @@ unsafe fn sound_function(slice: &amp;[u8]) -&gt; Option&lt;&amp;[u16]&gt; {
     ))
 }
 <span class="boring">}</span></code></pre></pre>
-<p>In the next section, we’ll explore FFI (Foreign Function Interface), which allows Rust to interact with code written in other languages like C.</p>
+<p>In the next section, we'll explore FFI (Foreign Function Interface), which allows Rust to interact with code written in other languages like C.</p>
 <h2 id="ffi-and-external-code"><a class="header" href="#ffi-and-external-code">FFI and External Code</a></h2>
-<p>One of the most common uses of unsafe code is interacting with code written in other languages, particularly C and C++. Rust’s Foreign Function Interface (FFI) allows you to call foreign code and expose Rust functions to be called from other languages.</p>
+<p>One of the most common uses of unsafe code is interacting with code written in other languages, particularly C and C++. Rust's Foreign Function Interface (FFI) allows you to call foreign code and expose Rust functions to be called from other languages.</p>
 <h3 id="calling-c-functions-from-rust"><a class="header" href="#calling-c-functions-from-rust">Calling C Functions from Rust</a></h3>
 <p>To call C functions from Rust, you declare them using the <code>extern</code> block:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Declare C functions from the standard library
-#[link(name = "c")]
-extern "C" {
+#[link(name = &quot;c&quot;)]
+extern &quot;C&quot; {
     fn strlen(s: *const libc::c_char) -&gt; libc::size_t;
     fn printf(format: *const libc::c_char, ...) -&gt; libc::c_int;
 }
 
 fn call_c_functions() {
-    let c_string = std::ffi::CString::new("Hello from C!").unwrap();
+    let c_string = std::ffi::CString::new(&quot;Hello from C!&quot;).unwrap();
 
     unsafe {
         // Call strlen to get the length of the string
         let length = strlen(c_string.as_ptr());
-        println!("String length: {}", length);  // 13
+        println!(&quot;String length: {}&quot;, length);  // 13
 
         // Call printf to print a message
-        printf(b"C says: %s\n\0".as_ptr() as *const libc::c_char, c_string.as_ptr());
+        printf(b&quot;C says: %s\n\0&quot;.as_ptr() as *const libc::c_char, c_string.as_ptr());
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="working-with-c-types"><a class="header" href="#working-with-c-types">Working with C Types</a></h3>
 <p>Rust provides several types to work with C data:</p>
 <h4 id="c-strings"><a class="header" href="#c-strings">C Strings</a></h4>
-<p>C strings are null-terminated, unlike Rust’s UTF-8 strings:</p>
+<p>C strings are null-terminated, unlike Rust's UTF-8 strings:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::ffi::{CString, CStr};
@@ -1821,7 +1828,7 @@ use std::os::raw::c_char;
 
 fn c_string_examples() {
     // Create a C string from a Rust string
-    let rust_str = "Hello, world!";
+    let rust_str = &quot;Hello, world!&quot;;
     let c_string = CString::new(rust_str).unwrap();
 
     // Get a pointer to pass to C functions
@@ -1834,7 +1841,7 @@ fn c_string_examples() {
 
         // Convert to a Rust String
         let rust_string = c_str.to_string_lossy().into_owned();
-        println!("Converted back: {}", rust_string);
+        println!(&quot;Converted back: {}&quot;, rust_string);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1856,7 +1863,7 @@ union IntOrFloat {
     f: f32,
 }
 
-extern "C" {
+extern &quot;C&quot; {
     fn process_point(p: Point) -&gt; f64;
     fn process_union(u: IntOrFloat) -&gt; i32;
 }
@@ -1866,11 +1873,11 @@ fn use_c_compatible_types() {
 
     unsafe {
         let distance = process_point(point);
-        println!("Distance: {}", distance);
+        println!(&quot;Distance: {}&quot;, distance);
 
         let u = IntOrFloat { i: 42 };
         let result = process_union(u);
-        println!("Result: {}", result);
+        println!(&quot;Result: {}&quot;, result);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1881,7 +1888,7 @@ fn use_c_compatible_types() {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Allocate memory in Rust and transfer to C
-extern "C" {
+extern &quot;C&quot; {
     fn c_function_that_frees(ptr: *mut libc::c_void);
 }
 
@@ -1901,7 +1908,7 @@ fn transfer_to_c() {
 }
 
 // Receive memory allocated by C
-extern "C" {
+extern &quot;C&quot; {
     fn c_function_that_allocates() -&gt; *mut libc::c_void;
 }
 
@@ -1911,7 +1918,7 @@ fn receive_from_c() {
         let ptr = c_function_that_allocates();
 
         if ptr.is_null() {
-            println!("Allocation failed");
+            println!(&quot;Allocation failed&quot;);
             return;
         }
 
@@ -1919,27 +1926,27 @@ fn receive_from_c() {
         let boxed = Box::from_raw(ptr as *mut i32);
 
         // Now Rust owns the memory and will free it when boxed is dropped
-        println!("Value: {}", *boxed);
+        println!(&quot;Value: {}&quot;, *boxed);
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="callbacks-from-c-to-rust"><a class="header" href="#callbacks-from-c-to-rust">Callbacks from C to Rust</a></h3>
-<p>C functions often take function pointers as callbacks. Here’s how to provide Rust functions as callbacks:</p>
+<p>C functions often take function pointers as callbacks. Here's how to provide Rust functions as callbacks:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::os::raw::{c_int, c_void};
 
 // Define the callback type
-type Callback = extern "C" fn(value: c_int) -&gt; c_int;
+type Callback = extern &quot;C&quot; fn(value: c_int) -&gt; c_int;
 
 // A Rust function with C calling convention
-extern "C" fn rust_callback(value: c_int) -&gt; c_int {
-    println!("Callback called with value: {}", value);
+extern &quot;C&quot; fn rust_callback(value: c_int) -&gt; c_int {
+    println!(&quot;Callback called with value: {}&quot;, value);
     value * 2
 }
 
 // C function that takes a callback
-extern "C" {
+extern &quot;C&quot; {
     fn register_callback(cb: Callback);
     fn call_registered_callback(value: c_int) -&gt; c_int;
 }
@@ -1951,7 +1958,7 @@ fn use_callbacks() {
 
         // Trigger the callback from C
         let result = call_registered_callback(42);
-        println!("Result: {}", result);  // 84
+        println!(&quot;Result: {}&quot;, result);  // 84
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1961,7 +1968,7 @@ fn use_callbacks() {
 </span><span class="boring">fn main() {
 </span>// Export a Rust function with C calling convention
 #[no_mangle]
-pub extern "C" fn rust_function(value: libc::c_int) -&gt; libc::c_int {
+pub extern &quot;C&quot; fn rust_function(value: libc::c_int) -&gt; libc::c_int {
     // Rust implementation
     value * 2
 }
@@ -1969,11 +1976,11 @@ pub extern "C" fn rust_function(value: libc::c_int) -&gt; libc::c_int {
 <p>Key points for exporting Rust functions:</p>
 <ol>
 <li><strong>Use <code>#[no_mangle]</code></strong>: Prevents name mangling, ensuring the function name in the compiled library matches the one you declared.</li>
-<li><strong>Use <code>extern "C"</code></strong>: Specifies the C calling convention.</li>
+<li><strong>Use <code>extern &quot;C&quot;</code></strong>: Specifies the C calling convention.</li>
 <li><strong>Use C-compatible types</strong>: Use types from <code>std::os::raw</code> or <code>libc</code> for parameters and return values.</li>
 </ol>
 <h3 id="building-a-c-api-in-rust"><a class="header" href="#building-a-c-api-in-rust">Building a C API in Rust</a></h3>
-<p>Here’s a simplified example of building a C-compatible API in Rust:</p>
+<p>Here's a simplified example of building a C-compatible API in Rust:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Define C-compatible types
@@ -1985,7 +1992,7 @@ pub struct RustObject {
 
 // Constructor
 #[no_mangle]
-pub extern "C" fn rust_object_new(value: i32, name: *const libc::c_char) -&gt; *mut RustObject {
+pub extern &quot;C&quot; fn rust_object_new(value: i32, name: *const libc::c_char) -&gt; *mut RustObject {
     let name_cstr = unsafe {
         if name.is_null() {
             return std::ptr::null_mut();
@@ -2013,7 +2020,7 @@ pub extern "C" fn rust_object_new(value: i32, name: *const libc::c_char) -&gt; *
 
 // Destructor
 #[no_mangle]
-pub extern "C" fn rust_object_free(obj: *mut RustObject) {
+pub extern &quot;C&quot; fn rust_object_free(obj: *mut RustObject) {
     if !obj.is_null() {
         unsafe {
             // Reconstruct the CString to free the name memory
@@ -2027,15 +2034,15 @@ pub extern "C" fn rust_object_free(obj: *mut RustObject) {
 <h3 id="using-c-libraries-with-rust"><a class="header" href="#using-c-libraries-with-rust">Using C Libraries with Rust</a></h3>
 <p>To use a C library in Rust, you typically need:</p>
 <ol>
-<li><strong>Bindings</strong>: Rust definitions of the C library’s types and functions</li>
+<li><strong>Bindings</strong>: Rust definitions of the C library's types and functions</li>
 <li><strong>Build configuration</strong>: Instructions for linking against the C library</li>
 </ol>
-<p>Here’s a simplified example using the <code>libgit2</code> C library:</p>
+<p>Here's a simplified example using the <code>libgit2</code> C library:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// In Cargo.toml:
 // [dependencies]
-// libgit2-sys = "0.12"
+// libgit2-sys = &quot;0.12&quot;
 
 use libgit2_sys::*;
 use std::ffi::CString;
@@ -2046,17 +2053,17 @@ fn use_libgit2() -&gt; Result&lt;(), String&gt; {
         // Initialize the library
         let result = git_libgit2_init();
         if result &lt; 0 {
-            return Err("Failed to initialize libgit2".to_string());
+            return Err(&quot;Failed to initialize libgit2&quot;.to_string());
         }
 
         // Open a repository
-        let repo_path = CString::new("/path/to/repo").unwrap();
+        let repo_path = CString::new(&quot;/path/to/repo&quot;).unwrap();
         let mut repo: *mut git_repository = ptr::null_mut();
 
         let result = git_repository_open(&amp;mut repo, repo_path.as_ptr());
         if result &lt; 0 {
             git_libgit2_shutdown();
-            return Err("Failed to open repository".to_string());
+            return Err(&quot;Failed to open repository&quot;.to_string());
         }
 
         // Use the repository...
@@ -2079,21 +2086,21 @@ use std::path::PathBuf;
 
 fn main() {
     // Tell cargo to link against the library
-    println!("cargo:rustc-link-lib=mylib");
+    println!(&quot;cargo:rustc-link-lib=mylib&quot;);
 
     // Generate bindings
     let bindings = bindgen::Builder::default()
-        .header("include/mylib.h")
+        .header(&quot;include/mylib.h&quot;)
         .generate()
-        .expect("Unable to generate bindings");
+        .expect(&quot;Unable to generate bindings&quot;);
 
     // Write the bindings to an output file
-    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+    let out_path = PathBuf::from(env::var(&quot;OUT_DIR&quot;).unwrap());
     bindings
-        .write_to_file(out_path.join("bindings.rs"))
-        .expect("Couldn't write bindings!");
+        .write_to_file(out_path.join(&quot;bindings.rs&quot;))
+        .expect(&quot;Couldn't write bindings!&quot;);
 }</code></pre></pre>
-<p>In the next section, we’ll explore how to implement safe abstractions over unsafe code, a key practice for building robust Rust libraries.</p>
+<p>In the next section, we'll explore how to implement safe abstractions over unsafe code, a key practice for building robust Rust libraries.</p>
 <h2 id="implementing-safe-abstractions-over-unsafe-code"><a class="header" href="#implementing-safe-abstractions-over-unsafe-code">Implementing Safe Abstractions Over Unsafe Code</a></h2>
 <p>One of the most important principles in Rust is that unsafe code should be encapsulated within safe abstractions. This approach allows us to build libraries that are both safe to use and efficient at their core.</p>
 <h3 id="the-principle-of-safe-abstraction"><a class="header" href="#the-principle-of-safe-abstraction">The Principle of Safe Abstraction</a></h3>
@@ -2172,9 +2179,9 @@ impl&lt;T&gt; Drop for Vec&lt;T&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="building-your-own-safe-abstractions"><a class="header" href="#building-your-own-safe-abstractions">Building Your Own Safe Abstractions</a></h3>
-<p>Let’s explore how to build safe abstractions with a few examples:</p>
+<p>Let's explore how to build safe abstractions with a few examples:</p>
 <h4 id="example-1-a-safe-api-for-memory-mapping"><a class="header" href="#example-1-a-safe-api-for-memory-mapping">Example 1: A Safe API for Memory Mapping</a></h4>
-<p>Here’s a safe wrapper for memory-mapped files:</p>
+<p>Here's a safe wrapper for memory-mapped files:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct MemoryMappedFile {
@@ -2193,7 +2200,7 @@ impl MemoryMappedFile {
         if size == 0 {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
-                "Cannot memory map an empty file"
+                &quot;Cannot memory map an empty file&quot;
             ));
         }
 
@@ -2239,7 +2246,7 @@ impl Drop for MemoryMappedFile {
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="example-2-a-type-safe-array-view"><a class="header" href="#example-2-a-type-safe-array-view">Example 2: A Type-Safe Array View</a></h4>
-<p>Here’s a safe abstraction for viewing arrays of different types:</p>
+<p>Here's a safe abstraction for viewing arrays of different types:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct ArrayView&lt;'a, T&gt; {
@@ -2325,7 +2332,7 @@ impl&lt;T&gt; SafeVec&lt;T&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="2-use-types-to-enforce-invariants"><a class="header" href="#2-use-types-to-enforce-invariants">2. Use Types to Enforce Invariants</a></h4>
-<p>Leverage Rust’s type system to enforce invariants:</p>
+<p>Leverage Rust's type system to enforce invariants:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// A non-null pointer type
@@ -2486,14 +2493,14 @@ impl&lt;'a, T&gt; std::ops::DerefMut for MutexGuard&lt;'a, T&gt; {
 <li><strong>Update after compiler changes</strong>: New compiler optimizations might affect assumptions.</li>
 </ol>
 <h3 id="remember-the-safety-contract"><a class="header" href="#remember-the-safety-contract">Remember the Safety Contract</a></h3>
-<p>When building safe abstractions, you’re entering into a contract with users of your API:</p>
+<p>When building safe abstractions, you're entering into a contract with users of your API:</p>
 <ol>
-<li><strong>Your code won’t cause undefined behavior when used correctly</strong></li>
+<li><strong>Your code won't cause undefined behavior when used correctly</strong></li>
 <li><strong>Your API makes it hard or impossible to use incorrectly</strong></li>
 <li><strong>Your documentation clearly explains any requirements or limitations</strong></li>
 </ol>
 <p>By following these principles, you can create APIs that are both safe and efficient, leveraging unsafe code for performance while protecting users from its dangers.</p>
-<p>In the next section, we’ll explore undefined behavior and how to avoid it in your unsafe code.</p>
+<p>In the next section, we'll explore undefined behavior and how to avoid it in your unsafe code.</p>
 <h2 id="undefined-behavior-and-how-to-avoid-it"><a class="header" href="#undefined-behavior-and-how-to-avoid-it">Undefined Behavior and How to Avoid It</a></h2>
 <p>Undefined behavior (UB) is one of the most dangerous aspects of unsafe Rust. Unlike safe Rust, which prevents undefined behavior at compile time, unsafe Rust shifts this responsibility to the programmer.</p>
 <h3 id="what-is-undefined-behavior"><a class="header" href="#what-is-undefined-behavior">What Is Undefined Behavior?</a></h3>
@@ -2502,7 +2509,7 @@ impl&lt;'a, T&gt; std::ops::DerefMut for MutexGuard&lt;'a, T&gt; {
 <li>The program may crash</li>
 <li>The program may produce incorrect results</li>
 <li>The program may appear to work correctly</li>
-<li>The program’s behavior may change with different compiler versions or optimization levels</li>
+<li>The program's behavior may change with different compiler versions or optimization levels</li>
 <li>The program may do something completely unexpected</li>
 </ol>
 <p>What makes undefined behavior particularly dangerous is that it can appear to work correctly in testing but fail catastrophically in production.</p>
@@ -2530,7 +2537,7 @@ fn use_after_free() {
 
     // UNDEFINED BEHAVIOR: Use after free
     unsafe {
-        println!("Value: {}", *ptr);
+        println!(&quot;Value: {}&quot;, *ptr);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2572,7 +2579,7 @@ fn data_race() {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<h4 id="4-violating-rusts-aliasing-rules"><a class="header" href="#4-violating-rusts-aliasing-rules">4. Violating Rust’s Aliasing Rules</a></h4>
+<h4 id="4-violating-rusts-aliasing-rules"><a class="header" href="#4-violating-rusts-aliasing-rules">4. Violating Rust's Aliasing Rules</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn aliasing_violation() {
@@ -2601,7 +2608,7 @@ fn data_race() {
 
     // UNDEFINED BEHAVIOR: Reading uninitialized memory
     unsafe {
-        println!("Uninitialized: {}", value);
+        println!(&quot;Uninitialized: {}&quot;, value);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2627,7 +2634,7 @@ fn data_race() {
     unsafe {
         // UNDEFINED BEHAVIOR: Creating &amp;str from invalid UTF-8
         let s = std::str::from_utf8_unchecked(&amp;bytes);
-        println!("String: {}", s);
+        println!(&quot;String: {}&quot;, s);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2636,20 +2643,20 @@ fn data_race() {
 <h4 id="1-address-sanitizer-asan"><a class="header" href="#1-address-sanitizer-asan">1. Address Sanitizer (ASan)</a></h4>
 <p>ASan is a memory error detector that can find issues like use-after-free and buffer overflows:</p>
 <pre><code class="language-bash"># Compile with Address Sanitizer
-RUSTFLAGS="-Z sanitizer=address" cargo run --target x86_64-unknown-linux-gnu
+RUSTFLAGS=&quot;-Z sanitizer=address&quot; cargo run --target x86_64-unknown-linux-gnu
 </code></pre>
 <h4 id="2-memory-sanitizer-msan"><a class="header" href="#2-memory-sanitizer-msan">2. Memory Sanitizer (MSan)</a></h4>
 <p>MSan detects uninitialized memory reads:</p>
 <pre><code class="language-bash"># Compile with Memory Sanitizer
-RUSTFLAGS="-Z sanitizer=memory" cargo run --target x86_64-unknown-linux-gnu
+RUSTFLAGS=&quot;-Z sanitizer=memory&quot; cargo run --target x86_64-unknown-linux-gnu
 </code></pre>
 <h4 id="3-thread-sanitizer-tsan"><a class="header" href="#3-thread-sanitizer-tsan">3. Thread Sanitizer (TSan)</a></h4>
 <p>TSan helps detect data races:</p>
 <pre><code class="language-bash"># Compile with Thread Sanitizer
-RUSTFLAGS="-Z sanitizer=thread" cargo run --target x86_64-unknown-linux-gnu
+RUSTFLAGS=&quot;-Z sanitizer=thread&quot; cargo run --target x86_64-unknown-linux-gnu
 </code></pre>
 <h4 id="4-miri-interpreter"><a class="header" href="#4-miri-interpreter">4. Miri Interpreter</a></h4>
-<p>Miri is an interpreter for Rust’s mid-level intermediate representation (MIR) that can detect various forms of undefined behavior:</p>
+<p>Miri is an interpreter for Rust's mid-level intermediate representation (MIR) that can detect various forms of undefined behavior:</p>
 <pre><code class="language-bash"># Install Miri
 rustup component add miri
 # Run tests with Miri
@@ -2660,8 +2667,8 @@ cargo miri test
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>unsafe fn risky_operation(ptr: *const i32, len: usize) -&gt; i32 {
-    debug_assert!(!ptr.is_null(), "Null pointer in risky_operation");
-    debug_assert!(len &gt; 0, "Zero length in risky_operation");
+    debug_assert!(!ptr.is_null(), &quot;Null pointer in risky_operation&quot;);
+    debug_assert!(len &gt; 0, &quot;Zero length in risky_operation&quot;);
 
     // Rest of the function...
     *ptr
@@ -2702,7 +2709,7 @@ fn get_first&lt;T&gt;(slice: &amp;[T]) -&gt; Option&lt;&amp;T&gt; {
 
 // Unsafe version with checks
 unsafe fn unchecked_array_access&lt;T&gt;(array: &amp;[T], index: usize) -&gt; &amp;T {
-    debug_assert!(index &lt; array.len(), "Index out of bounds");
+    debug_assert!(index &lt; array.len(), &quot;Index out of bounds&quot;);
     &amp;*array.as_ptr().add(index)
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2746,19 +2753,19 @@ impl&lt;T&gt; Drop for AlignedBuffer&lt;T&gt; {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<h4 id="4-use-the-standard-librarys-safe-functions"><a class="header" href="#4-use-the-standard-librarys-safe-functions">4. Use the Standard Library’s Safe Functions</a></h4>
+<h4 id="4-use-the-standard-librarys-safe-functions"><a class="header" href="#4-use-the-standard-librarys-safe-functions">4. Use the Standard Library's Safe Functions</a></h4>
 <p>Prefer safe functions from the standard library when available:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Instead of unsafe string conversion:
-let bytes = "Hello".as_bytes();
+let bytes = &quot;Hello&quot;.as_bytes();
 let unsafe_str = unsafe { std::str::from_utf8_unchecked(bytes) };
 
 // Use the safe version:
 let safe_str = std::str::from_utf8(bytes).unwrap();
 <span class="boring">}</span></code></pre></pre>
-<h4 id="5-understand-and-follow-rusts-memory-model"><a class="header" href="#5-understand-and-follow-rusts-memory-model">5. Understand and Follow Rust’s Memory Model</a></h4>
-<p>Familiarize yourself with Rust’s memory and aliasing rules:</p>
+<h4 id="5-understand-and-follow-rusts-memory-model"><a class="header" href="#5-understand-and-follow-rusts-memory-model">5. Understand and Follow Rust's Memory Model</a></h4>
+<p>Familiarize yourself with Rust's memory and aliasing rules:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn correct_aliasing() {
@@ -2773,7 +2780,7 @@ let safe_str = std::str::from_utf8(bytes).unwrap();
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="case-study-fixing-undefined-behavior"><a class="header" href="#case-study-fixing-undefined-behavior">Case Study: Fixing Undefined Behavior</a></h3>
-<p>Let’s examine a case of undefined behavior and how to fix it:</p>
+<p>Let's examine a case of undefined behavior and how to fix it:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Original function with UB
@@ -2818,7 +2825,7 @@ fn copy_memory_fixed(src: &amp;[u8], dst: &amp;mut [u8]) {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<h3 id="understanding-the-compilers-assumptions"><a class="header" href="#understanding-the-compilers-assumptions">Understanding the Compiler’s Assumptions</a></h3>
+<h3 id="understanding-the-compilers-assumptions"><a class="header" href="#understanding-the-compilers-assumptions">Understanding the Compiler's Assumptions</a></h3>
 <p>Modern compilers make optimizations based on assumptions about the absence of undefined behavior. For example:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2830,7 +2837,7 @@ fn copy_memory_fixed(src: &amp;[u8], dst: &amp;mut [u8]) {
     if unsafe { *ptr } != 0 {
         // Because x is 0, and the pointer points to x,
         // dereferencing it must yield 0 in the absence of UB
-        println!("This won't be reached in practice");
+        println!(&quot;This won't be reached in practice&quot;);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2846,7 +2853,7 @@ fn copy_memory_fixed(src: &amp;[u8], dst: &amp;mut [u8]) {
 </ol>
 <p>By understanding the sources of undefined behavior and actively working to prevent it, you can write unsafe Rust code that is reliable and maintainable.</p>
 <h2 id="unsafe-patterns-and-best-practices"><a class="header" href="#unsafe-patterns-and-best-practices">Unsafe Patterns and Best Practices</a></h2>
-<p>Now that we’ve explored the basics of unsafe Rust and how to avoid undefined behavior, let’s look at common patterns and best practices for working with unsafe code.</p>
+<p>Now that we've explored the basics of unsafe Rust and how to avoid undefined behavior, let's look at common patterns and best practices for working with unsafe code.</p>
 <h3 id="common-unsafe-patterns"><a class="header" href="#common-unsafe-patterns">Common Unsafe Patterns</a></h3>
 <h4 id="1-the-checked-unsafe-pattern"><a class="header" href="#1-the-checked-unsafe-pattern">1. The Checked Unsafe Pattern</a></h4>
 <p>This pattern involves checking preconditions before performing unsafe operations:</p>
@@ -2952,7 +2959,7 @@ impl&lt;T&gt; MyCell&lt;T&gt; {
         std::mem::transmute(array)
     };
 
-    println!("Value: {}", value);
+    println!(&quot;Value: {}&quot;, value);
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="5-the-ffi-boundary-pattern"><a class="header" href="#5-the-ffi-boundary-pattern">5. The FFI Boundary Pattern</a></h4>
@@ -2960,8 +2967,8 @@ impl&lt;T&gt; MyCell&lt;T&gt; {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// FFI declarations
-#[link(name = "my_c_lib")]
-extern "C" {
+#[link(name = &quot;my_c_lib&quot;)]
+extern &quot;C&quot; {
     fn c_function(input: *const libc::c_char) -&gt; libc::c_int;
 }
 
@@ -2970,7 +2977,7 @@ fn safe_wrapper(input: &amp;str) -&gt; Result&lt;i32, String&gt; {
     // Convert Rust string to C string
     let c_string = match std::ffi::CString::new(input) {
         Ok(s) =&gt; s,
-        Err(_) =&gt; return Err("String contains null bytes".to_string()),
+        Err(_) =&gt; return Err(&quot;String contains null bytes&quot;.to_string()),
     };
 
     // Call unsafe C function
@@ -2978,14 +2985,14 @@ fn safe_wrapper(input: &amp;str) -&gt; Result&lt;i32, String&gt; {
 
     // Check for errors
     if result &lt; 0 {
-        Err("C function returned an error".to_string())
+        Err(&quot;C function returned an error&quot;.to_string())
     } else {
         Ok(result)
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="best-practices-for-unsafe-code"><a class="header" href="#best-practices-for-unsafe-code">Best Practices for Unsafe Code</a></h3>
-<p>Let’s explore best practices to make your unsafe code more maintainable and reliable:</p>
+<p>Let's explore best practices to make your unsafe code more maintainable and reliable:</p>
 <h4 id="1-minimize-the-scope-of-unsafe-blocks"><a class="header" href="#1-minimize-the-scope-of-unsafe-blocks">1. Minimize the Scope of Unsafe Blocks</a></h4>
 <p>Keep unsafe blocks as small as possible:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -3041,9 +3048,9 @@ unsafe fn raw_slice&lt;'a, T&gt;(ptr: *const T, len: usize) -&gt; &amp;'a [T] {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>unsafe fn risky_function(ptr: *mut i32, len: usize) {
-    debug_assert!(!ptr.is_null(), "Null pointer passed to risky_function");
-    debug_assert!(len &gt; 0, "Zero length passed to risky_function");
-    debug_assert!(len &lt;= 1000, "Excessive length passed to risky_function");
+    debug_assert!(!ptr.is_null(), &quot;Null pointer passed to risky_function&quot;);
+    debug_assert!(len &gt; 0, &quot;Zero length passed to risky_function&quot;);
+    debug_assert!(len &lt;= 1000, &quot;Excessive length passed to risky_function&quot;);
 
     // Actual implementation
     for i in 0..len {
@@ -3114,7 +3121,7 @@ fn get_unchecked_value_safe&lt;T&gt;(slice: &amp;[T], index: usize) -&gt; Option
 
 // Or if performance is critical:
 fn get_unchecked_value_checked&lt;T&gt;(slice: &amp;[T], index: usize) -&gt; &amp;T {
-    assert!(index &lt; slice.len(), "Index out of bounds");
+    assert!(index &lt; slice.len(), &quot;Index out of bounds&quot;);
     unsafe { slice.get_unchecked(index) }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -3130,9 +3137,9 @@ unsafe fn critical_function() {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="advanced-unsafe-patterns"><a class="header" href="#advanced-unsafe-patterns">Advanced Unsafe Patterns</a></h3>
-<p>Let’s explore some more advanced patterns used in real-world Rust code:</p>
-<h4 id="1-the-almost-safe-pattern"><a class="header" href="#1-the-almost-safe-pattern">1. The “Almost Safe” Pattern</a></h4>
-<p>Create a type that’s almost safe but requires one unsafe operation to use:</p>
+<p>Let's explore some more advanced patterns used in real-world Rust code:</p>
+<h4 id="1-the-almost-safe-pattern"><a class="header" href="#1-the-almost-safe-pattern">1. The &quot;Almost Safe&quot; Pattern</a></h4>
+<p>Create a type that's almost safe but requires one unsafe operation to use:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct AlmostSafe&lt;T&gt; {
@@ -3301,16 +3308,16 @@ impl Drop for OpaqueType {
 <li><strong>Make errors impossible</strong>: Design your API so that misuse is a compile-time error.</li>
 <li><strong>Prefer safe alternatives</strong>: Use <code>get_unchecked</code> instead of raw pointer arithmetic when possible.</li>
 <li><strong>Comment profusely</strong>: Explain why the unsafe code is safe, not just what it does.</li>
-<li><strong>Use the <code>unsafe_op_in_unsafe_fn</code> lint</strong>: Consider enabling the <code>unsafe_op_in_unsafe_fn</code> lint to catch unsafe operations in unsafe functions that aren’t explicitly wrapped in an <code>unsafe</code> block.</li>
+<li><strong>Use the <code>unsafe_op_in_unsafe_fn</code> lint</strong>: Consider enabling the <code>unsafe_op_in_unsafe_fn</code> lint to catch unsafe operations in unsafe functions that aren't explicitly wrapped in an <code>unsafe</code> block.</li>
 <li><strong>Enforce invariants with types</strong>: Use the type system to enforce as many invariants as possible.</li>
-<li><strong>Follow the “defensive programming” approach</strong>: Assume that anything that can go wrong will go wrong.</li>
+<li><strong>Follow the &quot;defensive programming&quot; approach</strong>: Assume that anything that can go wrong will go wrong.</li>
 <li><strong>Conduct thorough code reviews</strong>: Have experienced Rust developers review your unsafe code.</li>
 </ol>
 <p>By following these patterns and best practices, you can write unsafe Rust code that is both efficient and maintainable.</p>
 <h2 id="auditing-unsafe-code"><a class="header" href="#auditing-unsafe-code">Auditing Unsafe Code</a></h2>
-<p>Auditing unsafe code is a critical step in ensuring the safety and correctness of Rust programs. In this section, we’ll explore techniques and best practices for auditing unsafe code.</p>
+<p>Auditing unsafe code is a critical step in ensuring the safety and correctness of Rust programs. In this section, we'll explore techniques and best practices for auditing unsafe code.</p>
 <h3 id="why-audit-unsafe-code"><a class="header" href="#why-audit-unsafe-code">Why Audit Unsafe Code?</a></h3>
-<p>Unsafe code bypasses Rust’s safety guarantees, making it susceptible to:</p>
+<p>Unsafe code bypasses Rust's safety guarantees, making it susceptible to:</p>
 <ol>
 <li>Memory safety issues</li>
 <li>Data races</li>
@@ -3360,7 +3367,7 @@ impl Drop for OpaqueType {
 </code></pre>
 </li>
 <li>
-<p><strong>Rust Analyzer</strong>: Use Rust Analyzer’s diagnostics in your IDE.</p>
+<p><strong>Rust Analyzer</strong>: Use Rust Analyzer's diagnostics in your IDE.</p>
 </li>
 <li>
 <p><strong>MIRI (Mid-level Intermediate Representation Interpreter)</strong>: Run tests with MIRI to detect undefined behavior:</p>
@@ -3369,7 +3376,7 @@ impl Drop for OpaqueType {
 </li>
 <li>
 <p><strong>Sanitizers</strong>: Use Address Sanitizer, Memory Sanitizer, and Thread Sanitizer:</p>
-<pre><code class="language-bash">RUSTFLAGS="-Z sanitizer=address" cargo test --target x86_64-unknown-linux-gnu
+<pre><code class="language-bash">RUSTFLAGS=&quot;-Z sanitizer=address&quot; cargo test --target x86_64-unknown-linux-gnu
 </code></pre>
 </li>
 </ol>
@@ -3448,7 +3455,7 @@ mod tests {
 /// }
 /// ```
 pub unsafe fn create_slice&lt;'a, T&gt;(ptr: *const T, len: usize) -&gt; &amp;'a [T] {
-    assert!(len &lt;= isize::MAX as usize, "Length exceeds isize::MAX");
+    assert!(len &lt;= isize::MAX as usize, &quot;Length exceeds isize::MAX&quot;);
     std::slice::from_raw_parts(ptr, len)
 }
 <span class="boring">}</span></code></pre></pre>
@@ -3472,7 +3479,7 @@ pub unsafe fn create_slice&lt;'a, T&gt;(ptr: *const T, len: usize) -&gt; &amp;'a
 <ul>
 <li><strong>Invalid pointers</strong>: Using null, dangling, or misaligned pointers</li>
 <li><strong>Type punning</strong>: Incorrect reinterpretation of memory</li>
-<li><strong>Violating aliasing rules</strong>: Breaking Rust’s aliasing guarantees</li>
+<li><strong>Violating aliasing rules</strong>: Breaking Rust's aliasing guarantees</li>
 </ul>
 <h4 id="4-api-safety-issues"><a class="header" href="#4-api-safety-issues">4. API Safety Issues</a></h4>
 <ul>
@@ -3481,7 +3488,7 @@ pub unsafe fn create_slice&lt;'a, T&gt;(ptr: *const T, len: usize) -&gt; &amp;'a
 <li><strong>Leaking implementation details</strong>: Exposing internal unsafe details</li>
 </ul>
 <h3 id="case-study-auditing-a-custom-allocator"><a class="header" href="#case-study-auditing-a-custom-allocator">Case Study: Auditing a Custom Allocator</a></h3>
-<p>Let’s examine how to audit a custom allocator:</p>
+<p>Let's examine how to audit a custom allocator:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct CustomAllocator {
@@ -3583,7 +3590,7 @@ Auditor: Jane Smith
 </code></pre>
 <p>By regularly auditing your unsafe code and maintaining a detailed audit trail, you can significantly reduce the risks associated with unsafe Rust.</p>
 <h2 id="security-implications"><a class="header" href="#security-implications">Security Implications</a></h2>
-<p>Unsafe Rust has significant security implications that developers should understand. While Rust’s safety guarantees make it an excellent choice for security-critical software, unsafe code can introduce vulnerabilities if not handled properly.</p>
+<p>Unsafe Rust has significant security implications that developers should understand. While Rust's safety guarantees make it an excellent choice for security-critical software, unsafe code can introduce vulnerabilities if not handled properly.</p>
 <h3 id="common-security-vulnerabilities-in-unsafe-code"><a class="header" href="#common-security-vulnerabilities-in-unsafe-code">Common Security Vulnerabilities in Unsafe Code</a></h3>
 <h4 id="1-memory-safety-vulnerabilities"><a class="header" href="#1-memory-safety-vulnerabilities">1. Memory Safety Vulnerabilities</a></h4>
 <p>Memory safety vulnerabilities are among the most serious security issues that can arise from unsafe Rust:</p>
@@ -3611,11 +3618,11 @@ Auditor: Jane Smith
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="2-time-of-check-to-time-of-use-toctou-vulnerabilities"><a class="header" href="#2-time-of-check-to-time-of-use-toctou-vulnerabilities">2. Time-of-Check to Time-of-Use (TOCTOU) Vulnerabilities</a></h4>
-<p>TOCTOU vulnerabilities occur when there’s a gap between checking a condition and using a resource:</p>
+<p>TOCTOU vulnerabilities occur when there's a gap between checking a condition and using a resource:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn toctou_vulnerability() {
-    let file_path = "/tmp/sensitive_file";
+    let file_path = &quot;/tmp/sensitive_file&quot;;
 
     // Check permissions
     if check_user_permissions(file_path) {
@@ -3729,7 +3736,7 @@ fn safe_function() {
 </span>fn secure_copy(src: &amp;[u8], dst: &amp;mut [u8]) -&gt; Result&lt;(), &amp;'static str&gt; {
     // Check for buffer overflow
     if src.len() &gt; dst.len() {
-        return Err("Source buffer too large for destination");
+        return Err(&quot;Source buffer too large for destination&quot;);
     }
 
     // Safe copy
@@ -3753,7 +3760,7 @@ impl&lt;const N: usize&gt; SafeBuffer&lt;N&gt; {
 
     pub fn copy_from(&amp;mut self, src: &amp;[u8]) -&gt; Result&lt;(), &amp;'static str&gt; {
         if src.len() &gt; N {
-            return Err("Source buffer too large");
+            return Err(&quot;Source buffer too large&quot;);
         }
 
         self.data[0..src.len()].copy_from_slice(src);
@@ -3772,12 +3779,12 @@ impl&lt;const N: usize&gt; SafeBuffer&lt;N&gt; {
 </span>fn process_user_input(input: &amp;str) -&gt; Result&lt;(), String&gt; {
     // Validate input
     if input.len() &gt; 1024 {
-        return Err("Input too large".to_string());
+        return Err(&quot;Input too large&quot;.to_string());
     }
 
     // Check for malicious patterns
-    if input.contains("../") {
-        return Err("Invalid input pattern".to_string());
+    if input.contains(&quot;../&quot;) {
+        return Err(&quot;Invalid input pattern&quot;.to_string());
     }
 
     // Convert to bytes
@@ -3794,20 +3801,20 @@ impl&lt;const N: usize&gt; SafeBuffer&lt;N&gt; {
 <h4 id="5-use-memory-safety-tools"><a class="header" href="#5-use-memory-safety-tools">5. Use Memory Safety Tools</a></h4>
 <p>Use tools to detect memory safety issues:</p>
 <pre><code class="language-bash"># Run with Address Sanitizer
-RUSTFLAGS="-Z sanitizer=address" cargo run --target x86_64-unknown-linux-gnu
+RUSTFLAGS=&quot;-Z sanitizer=address&quot; cargo run --target x86_64-unknown-linux-gnu
 
 # Run with Memory Sanitizer
-RUSTFLAGS="-Z sanitizer=memory" cargo run --target x86_64-unknown-linux-gnu
+RUSTFLAGS=&quot;-Z sanitizer=memory&quot; cargo run --target x86_64-unknown-linux-gnu
 
 # Run with Thread Sanitizer
-RUSTFLAGS="-Z sanitizer=thread" cargo run --target x86_64-unknown-linux-gnu
+RUSTFLAGS=&quot;-Z sanitizer=thread&quot; cargo run --target x86_64-unknown-linux-gnu
 </code></pre>
 <h3 id="security-in-ffi-code"><a class="header" href="#security-in-ffi-code">Security in FFI Code</a></h3>
 <p>Foreign Function Interface (FFI) code is particularly vulnerable to security issues:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// FFI declaration
-extern "C" {
+extern &quot;C&quot; {
     fn vulnerable_c_function(input: *const libc::c_char);
 }
 
@@ -3823,18 +3830,18 @@ fn insecure_ffi(input: &amp;str) {
 fn secure_ffi(input: &amp;str) -&gt; Result&lt;(), &amp;'static str&gt; {
     // Validate input
     if input.len() &gt; 1024 {
-        return Err("Input too large");
+        return Err(&quot;Input too large&quot;);
     }
 
     // Check for null bytes
     if input.contains('\0') {
-        return Err("Input contains null bytes");
+        return Err(&quot;Input contains null bytes&quot;);
     }
 
     // Convert to C string
     let c_string = match std::ffi::CString::new(input) {
         Ok(s) =&gt; s,
-        Err(_) =&gt; return Err("Failed to create C string"),
+        Err(_) =&gt; return Err(&quot;Failed to create C string&quot;),
     };
 
     // Call C function
@@ -3860,13 +3867,13 @@ fn secure_ffi(input: &amp;str) -&gt; Result&lt;(), &amp;'static str&gt; {
 <h3 id="real-world-security-vulnerabilities"><a class="header" href="#real-world-security-vulnerabilities">Real-World Security Vulnerabilities</a></h3>
 <p>Several real-world security vulnerabilities have been found in unsafe Rust code:</p>
 <ol>
-<li><strong>Memory safety bugs in Firefox’s Rust code</strong>: Mozilla has found and fixed several memory safety issues in Firefox’s Rust components.</li>
+<li><strong>Memory safety bugs in Firefox's Rust code</strong>: Mozilla has found and fixed several memory safety issues in Firefox's Rust components.</li>
 <li><strong>Vulnerabilities in popular crates</strong>: Security vulnerabilities have been discovered in widely-used Rust crates, often in their unsafe code.</li>
 <li><strong>FFI-related vulnerabilities</strong>: Many vulnerabilities occur at the boundary between Rust and C/C++ code.</li>
 </ol>
 <p>By understanding these security implications and following best practices, you can write unsafe Rust code that is both efficient and secure.</p>
 <h2 id="practical-project-safe-wrapper-for-c-library"><a class="header" href="#practical-project-safe-wrapper-for-c-library">Practical Project: Safe Wrapper for C Library</a></h2>
-<p>Let’s put our knowledge of unsafe Rust into practice by building a safe wrapper around a C image processing library. This project will demonstrate how to:</p>
+<p>Let's put our knowledge of unsafe Rust into practice by building a safe wrapper around a C image processing library. This project will demonstrate how to:</p>
 <ol>
 <li>Interface with C code using FFI</li>
 <li>Create safe abstractions over unsafe code</li>
@@ -3906,7 +3913,7 @@ Image* image_resize(const Image* image, size_t new_width, size_t new_height);
 void image_free(Image* image);
 </code></pre>
 <h3 id="step-1-creating-the-ffi-bindings"><a class="header" href="#step-1-creating-the-ffi-bindings">Step 1: Creating the FFI Bindings</a></h3>
-<p>First, we’ll create the raw FFI bindings to the C library:</p>
+<p>First, we'll create the raw FFI bindings to the C library:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// lib.rs
@@ -3921,7 +3928,7 @@ pub struct RawImage {
     channels: usize,
 }
 
-extern "C" {
+extern &quot;C&quot; {
     fn image_create(width: usize, height: usize, channels: usize) -&gt; *mut RawImage;
     fn image_load(filename: *const c_char) -&gt; *mut RawImage;
     fn image_save(image: *const RawImage, filename: *const c_char) -&gt; c_int;
@@ -3932,7 +3939,7 @@ extern "C" {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-2-creating-a-safe-wrapper"><a class="header" href="#step-2-creating-a-safe-wrapper">Step 2: Creating a Safe Wrapper</a></h3>
-<p>Now, we’ll create a safe wrapper around the unsafe FFI bindings:</p>
+<p>Now, we'll create a safe wrapper around the unsafe FFI bindings:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// lib.rs (continued)
@@ -4093,7 +4100,7 @@ unsafe impl Send for Image {}
 unsafe impl Sync for Image {}
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-3-adding-higher-level-functionality"><a class="header" href="#step-3-adding-higher-level-functionality">Step 3: Adding Higher-Level Functionality</a></h3>
-<p>Let’s add some higher-level functionality to our wrapper:</p>
+<p>Let's add some higher-level functionality to our wrapper:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// lib.rs (continued)
@@ -4177,15 +4184,15 @@ impl Image {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-4-implementing-example-usage"><a class="header" href="#step-4-implementing-example-usage">Step 4: Implementing Example Usage</a></h3>
-<p>Finally, let’s demonstrate how to use our safe wrapper:</p>
+<p>Finally, let's demonstrate how to use our safe wrapper:</p>
 <pre><pre class="playground"><code class="language-rust">// main.rs
 
 use image_processing::{Image, ImageError};
 
 fn main() -&gt; Result&lt;(), ImageError&gt; {
     // Load an image
-    let mut image = Image::load("input.jpg")?;
-    println!("Loaded image: {}x{} with {} channels", image.width(), image.height(), image.channels());
+    let mut image = Image::load(&quot;input.jpg&quot;)?;
+    println!(&quot;Loaded image: {}x{} with {} channels&quot;, image.width(), image.height(), image.channels());
 
     // Apply blur
     image.blur(1.5);
@@ -4207,8 +4214,8 @@ fn main() -&gt; Result&lt;(), ImageError&gt; {
     });
 
     // Save the result
-    resized.save("output.jpg")?;
-    println!("Saved processed image to output.jpg");
+    resized.save(&quot;output.jpg&quot;)?;
+    println!(&quot;Saved processed image to output.jpg&quot;);
 
     Ok(())
 }</code></pre></pre>
@@ -4222,19 +4229,19 @@ fn main() -&gt; Result&lt;(), ImageError&gt; {
 <li><strong>Safe abstractions</strong>: Provides a safe interface that hides unsafe details.</li>
 <li><strong>Thread safety</strong>: Implements <code>Send</code> and <code>Sync</code> where appropriate.</li>
 </ol>
-<p>By following these principles, we’ve created a safe Rust interface to an unsafe C library, allowing users to benefit from the performance of the C code without sacrificing safety.</p>
+<p>By following these principles, we've created a safe Rust interface to an unsafe C library, allowing users to benefit from the performance of the C code without sacrificing safety.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored the world of unsafe Rust—a powerful but potentially dangerous subset of the language that gives you access to low-level operations while bypassing some of Rust’s safety guarantees.</p>
-<p>We’ve learned:</p>
+<p>In this chapter, we've explored the world of unsafe Rust—a powerful but potentially dangerous subset of the language that gives you access to low-level operations while bypassing some of Rust's safety guarantees.</p>
+<p>We've learned:</p>
 <ul>
 <li>
 <p><strong>When and why to use unsafe code</strong>: Unsafe code is necessary for operations that cannot be verified by the compiler, like interacting with hardware, implementing data structures with complex aliasing patterns, or interfacing with code written in other languages.</p>
 </li>
 <li>
-<p><strong>Raw pointers</strong>: Unsafe Rust allows you to work with raw pointers (<code>*const T</code> and <code>*mut T</code>), which don’t have the same guarantees as Rust’s references. We explored how to create, dereference, and work with raw pointers safely.</p>
+<p><strong>Raw pointers</strong>: Unsafe Rust allows you to work with raw pointers (<code>*const T</code> and <code>*mut T</code>), which don't have the same guarantees as Rust's references. We explored how to create, dereference, and work with raw pointers safely.</p>
 </li>
 <li>
-<p><strong>Mutable aliasing</strong>: We examined how unsafe code can break Rust’s aliasing rules, allowing multiple mutable references to the same memory—a powerful capability that comes with significant risks.</p>
+<p><strong>Mutable aliasing</strong>: We examined how unsafe code can break Rust's aliasing rules, allowing multiple mutable references to the same memory—a powerful capability that comes with significant risks.</p>
 </li>
 <li>
 <p><strong>Calling unsafe functions</strong>: We learned how to call functions marked as <code>unsafe</code> and the responsibilities that come with doing so. We explored the contract between the caller and the function, and how to document safety requirements.</p>
@@ -4252,7 +4259,7 @@ fn main() -&gt; Result&lt;(), ImageError&gt; {
 <p><strong>Unsafe patterns and best practices</strong>: We examined common patterns used in unsafe Rust code and best practices for writing maintainable and reliable unsafe code.</p>
 </li>
 <li>
-<p><strong>Auditing unsafe code</strong>: We learned techniques for reviewing and auditing unsafe code to ensure it maintains Rust’s safety guarantees.</p>
+<p><strong>Auditing unsafe code</strong>: We learned techniques for reviewing and auditing unsafe code to ensure it maintains Rust's safety guarantees.</p>
 </li>
 <li>
 <p><strong>Security implications</strong>: We studied the security vulnerabilities that can arise from unsafe code and how to mitigate them.</p>
@@ -4261,8 +4268,8 @@ fn main() -&gt; Result&lt;(), ImageError&gt; {
 <p><strong>Practical applications</strong>: We applied our knowledge to build a safe wrapper around a C library, demonstrating how to use unsafe Rust in a real-world scenario.</p>
 </li>
 </ul>
-<p>Throughout the chapter, we’ve emphasized the importance of being cautious with unsafe code. While unsafe Rust is a powerful tool in your programming arsenal, it should be used sparingly and with care. Always strive to provide safe abstractions over unsafe code, document your safety requirements clearly, and thoroughly test and audit your unsafe code.</p>
-<p>Remember the guiding principle: use unsafe code when necessary, but encapsulate it in safe abstractions to maintain Rust’s guarantees for the rest of your codebase.</p>
+<p>Throughout the chapter, we've emphasized the importance of being cautious with unsafe code. While unsafe Rust is a powerful tool in your programming arsenal, it should be used sparingly and with care. Always strive to provide safe abstractions over unsafe code, document your safety requirements clearly, and thoroughly test and audit your unsafe code.</p>
+<p>Remember the guiding principle: use unsafe code when necessary, but encapsulate it in safe abstractions to maintain Rust's guarantees for the rest of your codebase.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <h3 id="exercise-1-implement-a-basic-smart-pointer"><a class="header" href="#exercise-1-implement-a-basic-smart-pointer">Exercise 1: Implement a Basic Smart Pointer</a></h3>
 <p>Implement a simple <code>Box</code>-like smart pointer that allocates memory on the heap. Your implementation should:</p>
@@ -4457,7 +4464,7 @@ fn undefined_behavior_example4() {
     unsafe {
         // Problem 4: Uninitialized memory
         let mut value: i32;
-        println!("{}", value);
+        println!(&quot;{}&quot;, value);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -4477,7 +4484,7 @@ impl MemoryPool {
         let buffer_size = chunk_size * total_chunks;
         let buffer = unsafe {
             let layout = std::alloc::Layout::from_size_align(buffer_size, 8)
-                .expect("Invalid layout");
+                .expect(&quot;Invalid layout&quot;);
             std::alloc::alloc(layout)
         };
 
@@ -4525,7 +4532,7 @@ impl Drop for MemoryPool {
         unsafe {
             let layout = std::alloc::Layout::from_size_align(
                 self.chunk_size * self.total_chunks, 8
-            ).expect("Invalid layout");
+            ).expect(&quot;Invalid layout&quot;);
             std::alloc::dealloc(self.buffer, layout);
         }
     }
@@ -4540,7 +4547,7 @@ impl Drop for MemoryPool {
 <li>API safety</li>
 </ol>
 <p>Provide a fixed version of the code that addresses the issues you identified.</p>
-<p>By completing these exercises, you’ll gain practical experience with unsafe Rust and develop the skills needed to use it effectively and safely in your own projects.</p>
+<p>By completing these exercises, you'll gain practical experience with unsafe Rust and develop the skills needed to use it effectively and safely in your own projects.</p>
 
                     </main>
 

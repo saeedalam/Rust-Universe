@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html" class="active"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,13 +185,13 @@
                         <h1 id="chapter-13-modules-and-organizing-code"><a class="header" href="#chapter-13-modules-and-organizing-code">Chapter 13: Modules and Organizing Code</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>As your Rust projects grow, organizing your code becomes increasingly important. Well-structured code enhances maintainability, readability, and collaboration. Rust provides a robust module system that allows you to organize code in a logical hierarchy, control access to implementation details, and create clear interfaces for others to use.</p>
-<p>In this chapter, we’ll explore:</p>
+<p>In this chapter, we'll explore:</p>
 <ul>
 <li>Why code organization matters</li>
 <li>Creating modules to group related code</li>
 <li>Building module hierarchies</li>
 <li>Controlling visibility with public and private interfaces</li>
-<li>The details of Rust’s module system</li>
+<li>The details of Rust's module system</li>
 <li>Working with paths and imports</li>
 <li>Reexporting items with <code>pub use</code></li>
 <li>Managing external dependencies</li>
@@ -192,7 +199,7 @@
 <li>Using workspaces for multi-package projects</li>
 <li>Publishing and versioning crates</li>
 </ul>
-<p>By the end of this chapter, you’ll understand how to structure Rust code effectively and create a library with a clean, user-friendly API.</p>
+<p>By the end of this chapter, you'll understand how to structure Rust code effectively and create a library with a clean, user-friendly API.</p>
 <h2 id="why-code-organization-matters"><a class="header" href="#why-code-organization-matters">Why Code Organization Matters</a></h2>
 <p>Good code organization offers several key benefits:</p>
 <h3 id="maintainability"><a class="header" href="#maintainability">Maintainability</a></h3>
@@ -245,7 +252,7 @@ mod networking {
 
 // Using an item from the module
 fn main() {
-    networking::connect("example.com:8080");
+    networking::connect(&quot;example.com:8080&quot;);
 }</code></pre></pre>
 <h3 id="module-privacy-rules"><a class="header" href="#module-privacy-rules">Module Privacy Rules</a></h3>
 <p>By default, everything in Rust is private. To make an item accessible outside its module, you must use the <code>pub</code> keyword:</p>
@@ -339,8 +346,8 @@ pub fn init() { /* ... */ }
 
 fn main() {
     // Using nested modules
-    networking::http::get("https://example.com");
-    networking::tcp::connect("example.com:8080");
+    networking::http::get(&quot;https://example.com&quot;);
+    networking::tcp::connect(&quot;example.com:8080&quot;);
 }</code></pre></pre>
 <h3 id="module-trees"><a class="header" href="#module-trees">Module Trees</a></h3>
 <p>The module structure creates a tree, similar to a filesystem. The crate root (usually <code>src/main.rs</code> or <code>src/lib.rs</code>) forms the base of this tree:</p>
@@ -394,7 +401,7 @@ mod products {
 <span class="boring">}</span></code></pre></pre>
 <p>This approach makes it easy to understand where to find specific functionality and helps maintain clear boundaries between different parts of your application.</p>
 <h2 id="public-vs-private-interfaces"><a class="header" href="#public-vs-private-interfaces">Public vs Private Interfaces</a></h2>
-<p>One of Rust’s key strengths is its ability to strictly control what is exposed to users of your code. This allows you to maintain a stable public API while keeping the freedom to change implementation details.</p>
+<p>One of Rust's key strengths is its ability to strictly control what is exposed to users of your code. This allows you to maintain a stable public API while keeping the freedom to change implementation details.</p>
 <h3 id="privacy-rules"><a class="header" href="#privacy-rules">Privacy Rules</a></h3>
 <p>Rust follows these privacy rules:</p>
 <ol>
@@ -430,20 +437,20 @@ impl User {
 
 fn main() {
     let user = User::new(
-        "alice".to_string(),
-        "alice@example.com".to_string(),
-        "secret123".to_string()
+        &quot;alice&quot;.to_string(),
+        &quot;alice@example.com&quot;.to_string(),
+        &quot;secret123&quot;.to_string()
     );
 
     // Public fields are accessible
-    println!("Username: {}", user.username);
+    println!(&quot;Username: {}&quot;, user.username);
 
     // This would fail because password_hash is private
-    // println!("Password hash: {}", user.password_hash);
+    // println!(&quot;Password hash: {}&quot;, user.password_hash);
 
     // But we can use the public method that internally accesses it
-    if user.verify_password("secret123") {
-        println!("Password verified!");
+    if user.verify_password(&quot;secret123&quot;) {
+        println!(&quot;Password verified!&quot;);
     }
 }</code></pre></pre>
 <p>For enums, making the enum public makes all its variants public:</p>
@@ -543,7 +550,7 @@ pub mod database {
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="the-module-system-in-detail"><a class="header" href="#the-module-system-in-detail">The Module System in Detail</a></h2>
-<p>Rust’s module system consists of several interconnected concepts that work together to organize code.</p>
+<p>Rust's module system consists of several interconnected concepts that work together to organize code.</p>
 <h3 id="packages-and-crates"><a class="header" href="#packages-and-crates">Packages and Crates</a></h3>
 <p>A <strong>package</strong> is a bundle of one or more crates that provides a set of functionality. A package contains a <code>Cargo.toml</code> file that describes how to build those crates.</p>
 <p>A <strong>crate</strong> is a compilation unit in Rust. It can be a binary crate or a library crate:</p>
@@ -553,13 +560,13 @@ pub mod database {
 </ul>
 <pre><code class="language-toml"># Cargo.toml defining a package
 [package]
-name = "my_package"
-version = "0.1.0"
-edition = "2021"
+name = &quot;my_package&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 # Optional dependencies
 [dependencies]
-serde = "1.0"
+serde = &quot;1.0&quot;
 </code></pre>
 <p>A package can contain:</p>
 <ul>
@@ -567,7 +574,7 @@ serde = "1.0"
 <li>Any number of binary crates (<code>src/main.rs</code> or files in <code>src/bin/</code>)</li>
 </ul>
 <h3 id="module-resolution"><a class="header" href="#module-resolution">Module Resolution</a></h3>
-<p>When you declare a module, Rust needs to know where to find the module’s code. It follows these rules:</p>
+<p>When you declare a module, Rust needs to know where to find the module's code. It follows these rules:</p>
 <ol>
 <li>First, it looks for the code inline after the <code>mod</code> declaration</li>
 <li>If not found inline, it looks for a file named after the module</li>
@@ -686,16 +693,16 @@ fn function2() -&gt; FmtResult {
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="external-packages-and-dependencies"><a class="header" href="#external-packages-and-dependencies">External Packages and Dependencies</a></h2>
-<p>Rust’s ecosystem is rich with external packages (called “crates”) that you can use in your projects. To use an external crate, you need to:</p>
+<p>Rust's ecosystem is rich with external packages (called &quot;crates&quot;) that you can use in your projects. To use an external crate, you need to:</p>
 <ol>
 <li>Add it to your <code>Cargo.toml</code> file</li>
 <li>Import it using the <code>use</code> keyword</li>
 </ol>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-serde = "1.0.130"
-serde_json = "1.0"
-tokio = { version = "1.12", features = ["full"] }
+serde = &quot;1.0.130&quot;
+serde_json = &quot;1.0&quot;
+tokio = { version = &quot;1.12&quot;, features = [&quot;full&quot;] }
 </code></pre>
 <pre><pre class="playground"><code class="language-rust">// In your code
 use serde::{Serialize, Deserialize};
@@ -711,49 +718,49 @@ struct User {
 #[tokio::main]
 async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let user = User {
-        name: "Alice".to_string(),
-        email: "alice@example.com".to_string(),
+        name: &quot;Alice&quot;.to_string(),
+        email: &quot;alice@example.com&quot;.to_string(),
         active: true,
     };
 
     // Serialize the user to JSON
     let json = serde_json::to_string(&amp;user)?;
-    println!("Serialized: {}", json);
+    println!(&quot;Serialized: {}&quot;, json);
 
     // Deserialize the JSON back to a User
     let deserialized: User = serde_json::from_str(&amp;json)?;
-    println!("Deserialized: {:?}", deserialized);
+    println!(&quot;Deserialized: {:?}&quot;, deserialized);
 
     Ok(())
 }</code></pre></pre>
 <h3 id="managing-dependencies"><a class="header" href="#managing-dependencies">Managing Dependencies</a></h3>
-<p>Cargo, Rust’s package manager, handles dependencies for you. It downloads, compiles, and links them automatically.</p>
+<p>Cargo, Rust's package manager, handles dependencies for you. It downloads, compiles, and links them automatically.</p>
 <h4 id="dependency-versions"><a class="header" href="#dependency-versions">Dependency Versions</a></h4>
 <p>You can specify dependency versions in several ways:</p>
 <pre><code class="language-toml">[dependencies]
 # Exact version
-regex = "1.5.4"
+regex = &quot;1.5.4&quot;
 
 # Caret requirement (compatible with)
-serde = "^1.0.0"  # same as "1.0.0"
+serde = &quot;^1.0.0&quot;  # same as &quot;1.0.0&quot;
 
 # Compatible with at least version
-tokio = "&gt;= 1.0, &lt; 2.0"
+tokio = &quot;&gt;= 1.0, &lt; 2.0&quot;
 
 # Wildcard
-log = "0.4.*"
+log = &quot;0.4.*&quot;
 
 # Git repository
-custom_lib = { git = "https://github.com/user/repo" }
+custom_lib = { git = &quot;https://github.com/user/repo&quot; }
 
 # Local path
-local_lib = { path = "../local_lib" }
+local_lib = { path = &quot;../local_lib&quot; }
 </code></pre>
 <h4 id="features"><a class="header" href="#features">Features</a></h4>
-<p>Many Rust crates use “features” to enable optional functionality:</p>
+<p>Many Rust crates use &quot;features&quot; to enable optional functionality:</p>
 <pre><code class="language-toml">[dependencies]
-tokio = { version = "1.12", features = ["full"] }
-serde = { version = "1.0", features = ["derive"] }
+tokio = { version = &quot;1.12&quot;, features = [&quot;full&quot;] }
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
 </code></pre>
 <h2 id="reexporting-with-pub-use"><a class="header" href="#reexporting-with-pub-use">Reexporting with pub use</a></h2>
 <p>The <code>pub use</code> syntax allows you to re-export items from one module through another. This is powerful for creating clean, user-friendly interfaces that hide the internal structure of your crate.</p>
@@ -899,8 +906,8 @@ pub mod common {
 /// # Examples
 ///
 /// ```
-/// let user = User::new("alice", "password123");
-/// assert!(user.authenticate("password123"));
+/// let user = User::new(&quot;alice&quot;, &quot;password123&quot;);
+/// assert!(user.authenticate(&quot;password123&quot;));
 /// ```
 pub struct User {
     username: String,
@@ -913,9 +920,9 @@ mod tests {
 
     #[test]
     fn test_user_authentication() {
-        let user = User::new("alice", "password123");
-        assert!(user.authenticate("password123"));
-        assert!(!user.authenticate("wrong_password"));
+        let user = User::new(&quot;alice&quot;, &quot;password123&quot;);
+        assert!(user.authenticate(&quot;password123&quot;));
+        assert!(!user.authenticate(&quot;wrong_password&quot;));
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -926,11 +933,11 @@ mod tests {
 <pre><code class="language-toml"># Cargo.toml in the workspace root
 [workspace]
 members = [
-    "app",
-    "core",
-    "api",
-    "cli",
-    "utils",
+    &quot;app&quot;,
+    &quot;core&quot;,
+    &quot;api&quot;,
+    &quot;cli&quot;,
+    &quot;utils&quot;,
 ]
 </code></pre>
 <h3 id="workspace-structure"><a class="header" href="#workspace-structure">Workspace Structure</a></h3>
@@ -963,14 +970,14 @@ members = [
 <p>In a workspace, packages can depend on each other:</p>
 <pre><code class="language-toml"># app/Cargo.toml
 [package]
-name = "app"
-version = "0.1.0"
-edition = "2021"
+name = &quot;app&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [dependencies]
-core = { path = "../core" }
-api = { path = "../api" }
-utils = { path = "../utils" }
+core = { path = &quot;../core&quot; }
+api = { path = &quot;../api&quot; }
+utils = { path = &quot;../utils&quot; }
 </code></pre>
 <h3 id="building-and-testing-workspaces"><a class="header" href="#building-and-testing-workspaces">Building and Testing Workspaces</a></h3>
 <p>Cargo can build or test all packages in a workspace:</p>
@@ -984,7 +991,7 @@ cargo test --workspace
 cargo build -p app
 </code></pre>
 <h2 id="publishing-crates"><a class="header" href="#publishing-crates">Publishing Crates</a></h2>
-<p>Once you’ve built a useful library, you might want to share it with the Rust community by publishing it to <a href="https://crates.io">crates.io</a>.</p>
+<p>Once you've built a useful library, you might want to share it with the Rust community by publishing it to <a href="https://crates.io">crates.io</a>.</p>
 <h3 id="preparing-your-crate"><a class="header" href="#preparing-your-crate">Preparing Your Crate</a></h3>
 <p>Before publishing, ensure your crate:</p>
 <ol>
@@ -995,17 +1002,17 @@ cargo build -p app
 </ol>
 <p>Update your <code>Cargo.toml</code> with metadata:</p>
 <pre><code class="language-toml">[package]
-name = "my_awesome_lib"
-version = "0.1.0"
-edition = "2021"
-authors = ["Your Name &lt;your.email@example.com&gt;"]
-description = "A library that does awesome things"
-documentation = "https://docs.rs/my_awesome_lib"
-repository = "https://github.com/yourusername/my_awesome_lib"
-license = "MIT OR Apache-2.0"
-keywords = ["awesome", "library", "rust"]
-categories = ["development-tools"]
-readme = "README.md"
+name = &quot;my_awesome_lib&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
+authors = [&quot;Your Name &lt;your.email@example.com&gt;&quot;]
+description = &quot;A library that does awesome things&quot;
+documentation = &quot;https://docs.rs/my_awesome_lib&quot;
+repository = &quot;https://github.com/yourusername/my_awesome_lib&quot;
+license = &quot;MIT OR Apache-2.0&quot;
+keywords = [&quot;awesome&quot;, &quot;library&quot;, &quot;rust&quot;]
+categories = [&quot;development-tools&quot;]
+readme = &quot;README.md&quot;
 </code></pre>
 <h3 id="publishing-process"><a class="header" href="#publishing-process">Publishing Process</a></h3>
 <p>To publish your crate:</p>
@@ -1024,11 +1031,11 @@ readme = "README.md"
 </ul>
 <pre><code class="language-toml"># Incrementing the version for a new release
 [package]
-name = "my_awesome_lib"
-version = "0.2.0"  # Bumped from 0.1.0 for new features
+name = &quot;my_awesome_lib&quot;
+version = &quot;0.2.0&quot;  # Bumped from 0.1.0 for new features
 </code></pre>
 <h2 id="project-mini-library-crate"><a class="header" href="#project-mini-library-crate">Project: Mini Library Crate</a></h2>
-<p>Let’s put our knowledge into practice by creating a small but useful library crate with a clear API. We’ll build a simple text analysis library that provides various statistics and operations on text.</p>
+<p>Let's put our knowledge into practice by creating a small but useful library crate with a clear API. We'll build a simple text analysis library that provides various statistics and operations on text.</p>
 <h3 id="step-1-create-a-new-library-crate"><a class="header" href="#step-1-create-a-new-library-crate">Step 1: Create a New Library Crate</a></h3>
 <pre><code class="language-bash">cargo new text_analysis --lib
 cd text_analysis
@@ -1050,18 +1057,18 @@ cd text_analysis
 </code></pre>
 <h3 id="step-3-set-up-cargotoml"><a class="header" href="#step-3-set-up-cargotoml">Step 3: Set Up Cargo.toml</a></h3>
 <pre><code class="language-toml">[package]
-name = "text_analysis"
-version = "0.1.0"
-edition = "2021"
-authors = ["Your Name &lt;your.email@example.com&gt;"]
-description = "A library for analyzing text"
-license = "MIT"
+name = &quot;text_analysis&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
+authors = [&quot;Your Name &lt;your.email@example.com&gt;&quot;]
+description = &quot;A library for analyzing text&quot;
+license = &quot;MIT&quot;
 
 [dependencies]
-unicode-segmentation = "1.8.0"  # For proper unicode handling
+unicode-segmentation = &quot;1.8.0&quot;  # For proper unicode handling
 </code></pre>
 <h3 id="step-4-implement-the-library"><a class="header" href="#step-4-implement-the-library">Step 4: Implement the Library</a></h3>
-<p>First, let’s set up the main library file:</p>
+<p>First, let's set up the main library file:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/lib.rs
@@ -1115,7 +1122,7 @@ impl&lt;'a&gt; TextAnalyzer&lt;'a&gt; {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Now, let’s implement each module:</p>
+<p>Now, let's implement each module:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/stats.rs
@@ -1224,8 +1231,8 @@ pub fn analyze_sentiment(text: &amp;str) -&gt; f64 {
 
     // Very simplified sentiment analysis
     // In a real library, we would use a proper sentiment lexicon
-    let positive_words = ["good", "great", "excellent", "happy", "positive"];
-    let negative_words = ["bad", "terrible", "awful", "sad", "negative"];
+    let positive_words = [&quot;good&quot;, &quot;great&quot;, &quot;excellent&quot;, &quot;happy&quot;, &quot;positive&quot;];
+    let negative_words = [&quot;bad&quot;, &quot;terrible&quot;, &quot;awful&quot;, &quot;sad&quot;, &quot;negative&quot;];
 
     let mut score = 0.0;
     let mut count = 0;
@@ -1282,7 +1289,7 @@ use text_analysis::TextAnalyzer;
 
 #[test]
 fn test_word_counting() {
-    let text = "Hello world! This is a test.";
+    let text = &quot;Hello world! This is a test.&quot;;
     assert_eq!(count_words(text), 6);
 
     let analyzer = TextAnalyzer::new(text);
@@ -1291,7 +1298,7 @@ fn test_word_counting() {
 
 #[test]
 fn test_sentence_counting() {
-    let text = "Hello world! This is a test. How are you?";
+    let text = &quot;Hello world! This is a test. How are you?&quot;;
     assert_eq!(count_sentences(text), 3);
 
     let analyzer = TextAnalyzer::new(text);
@@ -1300,9 +1307,9 @@ fn test_sentence_counting() {
 
 #[test]
 fn test_sentiment_analysis() {
-    let positive = "This is good and excellent!";
-    let negative = "This is bad and terrible!";
-    let neutral = "This is a test.";
+    let positive = &quot;This is good and excellent!&quot;;
+    let negative = &quot;This is bad and terrible!&quot;;
+    let neutral = &quot;This is a test.&quot;;
 
     assert!(analyze_sentiment(positive) &gt; 0.0);
     assert!(analyze_sentiment(negative) &lt; 0.0);
@@ -1314,33 +1321,33 @@ use text_analysis::prelude::*;
 use text_analysis::TextAnalyzer;
 
 fn main() {
-    let text = "Hello world! This is a text analysis example. \
+    let text = &quot;Hello world! This is a text analysis example. \
                 It demonstrates the capabilities of our library. \
                 The text is analyzed to extract various statistics. \
-                This is a good and excellent example!";
+                This is a good and excellent example!&quot;;
 
     // Using the facade API
     let analyzer = TextAnalyzer::new(text);
     let stats = analyzer.stats();
 
-    println!("Text Analysis Results:");
-    println!("---------------------");
-    println!("Character count: {}", stats.char_count);
-    println!("Word count: {}", stats.word_count);
-    println!("Sentence count: {}", stats.sentence_count);
-    println!("Average word length: {:.2}", stats.avg_word_length);
-    println!("Average sentence length: {:.2}", stats.avg_sentence_length);
-    println!("Sentiment score: {:.2}", analyzer.sentiment());
+    println!(&quot;Text Analysis Results:&quot;);
+    println!(&quot;---------------------&quot;);
+    println!(&quot;Character count: {}&quot;, stats.char_count);
+    println!(&quot;Word count: {}&quot;, stats.word_count);
+    println!(&quot;Sentence count: {}&quot;, stats.sentence_count);
+    println!(&quot;Average word length: {:.2}&quot;, stats.avg_word_length);
+    println!(&quot;Average sentence length: {:.2}&quot;, stats.avg_sentence_length);
+    println!(&quot;Sentiment score: {:.2}&quot;, analyzer.sentiment());
 
     // Using individual functions
-    println!("\nFirst 5 words:");
+    println!(&quot;\nFirst 5 words:&quot;);
     for (i, word) in tokenize_words(text).iter().take(5).enumerate() {
-        println!("  {}. {}", i + 1, word);
+        println!(&quot;  {}. {}&quot;, i + 1, word);
     }
 
-    println!("\nSentences:");
+    println!(&quot;\nSentences:&quot;);
     for (i, sentence) in tokenize_sentences(text).iter().enumerate() {
-        println!("  {}. {}", i + 1, sentence);
+        println!(&quot;  {}. {}&quot;, i + 1, sentence);
     }
 }</code></pre></pre>
 <h3 id="step-6-document-your-library"><a class="header" href="#step-6-document-your-library">Step 6: Document Your Library</a></h3>
@@ -1363,11 +1370,11 @@ fn main() {
 //! ```
 //! use text_analysis::TextAnalyzer;
 //!
-//! let text = "Hello world! This is an example.";
+//! let text = &quot;Hello world! This is an example.&quot;;
 //! let analyzer = TextAnalyzer::new(text);
 //!
-//! println!("Word count: {}", analyzer.stats().word_count);
-//! println!("Sentiment: {:.2}", analyzer.sentiment());
+//! println!(&quot;Word count: {}&quot;, analyzer.stats().word_count);
+//! println!(&quot;Sentiment: {:.2}&quot;, analyzer.sentiment());
 //! ```
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-7-create-a-readmemd"><a class="header" href="#step-7-create-a-readmemd">Step 7: Create a README.md</a></h3>
@@ -1387,23 +1394,23 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-text_analysis = "0.1.0"
+text_analysis = &quot;0.1.0&quot;
 ```
 </code></pre>
 <h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
 <pre><pre class="playground"><code class="language-rust">use text_analysis::TextAnalyzer;
 
 fn main() {
-    let text = "Hello world! This is an example.";
+    let text = &quot;Hello world! This is an example.&quot;;
     let analyzer = TextAnalyzer::new(text);
 
     // Get text statistics
     let stats = analyzer.stats();
-    println!("Word count: {}", stats.word_count);
-    println!("Sentence count: {}", stats.sentence_count);
+    println!(&quot;Word count: {}&quot;, stats.word_count);
+    println!(&quot;Sentence count: {}&quot;, stats.sentence_count);
 
     // Get sentiment analysis
-    println!("Sentiment: {:.2}", analyzer.sentiment());
+    println!(&quot;Sentiment: {:.2}&quot;, analyzer.sentiment());
 
     // Get tokenized words and sentences
     let words = analyzer.words();

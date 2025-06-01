@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html" class="active"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,10 +184,10 @@
                     <main>
                         <h1 id="chapter-34-package-management-with-cargo"><a class="header" href="#chapter-34-package-management-with-cargo">Chapter 34: Package Management with Cargo</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Cargo is Rust’s integrated package manager and build system, serving as the foundation of the Rust ecosystem. While we’ve used Cargo throughout this book for basic project management, this chapter will explore its more advanced capabilities and how it enables robust package management for Rust projects.</p>
-<p>Unlike many programming languages where the build system and package manager are separate tools, Cargo unifies these functions into a single, coherent system. This integration creates a streamlined workflow that handles everything from dependency resolution and compilation to testing, documentation generation, and publishing packages. Whether you’re building a small utility or a complex application with dozens of dependencies, Cargo provides the tools you need to manage your project effectively.</p>
-<p>In this chapter, we’ll dive deep into Cargo’s capabilities, exploring how to effectively manage dependencies, structure multi-package projects, leverage Cargo features for conditional compilation, and publish your own packages to crates.io. We’ll also examine how Cargo’s extension system allows the community to build powerful tools that enhance the core functionality.</p>
-<p>By the end of this chapter, you’ll have a comprehensive understanding of Cargo’s advanced features and how to leverage them to create maintainable, production-ready Rust projects.</p>
+<p>Cargo is Rust's integrated package manager and build system, serving as the foundation of the Rust ecosystem. While we've used Cargo throughout this book for basic project management, this chapter will explore its more advanced capabilities and how it enables robust package management for Rust projects.</p>
+<p>Unlike many programming languages where the build system and package manager are separate tools, Cargo unifies these functions into a single, coherent system. This integration creates a streamlined workflow that handles everything from dependency resolution and compilation to testing, documentation generation, and publishing packages. Whether you're building a small utility or a complex application with dozens of dependencies, Cargo provides the tools you need to manage your project effectively.</p>
+<p>In this chapter, we'll dive deep into Cargo's capabilities, exploring how to effectively manage dependencies, structure multi-package projects, leverage Cargo features for conditional compilation, and publish your own packages to crates.io. We'll also examine how Cargo's extension system allows the community to build powerful tools that enhance the core functionality.</p>
+<p>By the end of this chapter, you'll have a comprehensive understanding of Cargo's advanced features and how to leverage them to create maintainable, production-ready Rust projects.</p>
 <h2 id="cargo-in-depth"><a class="header" href="#cargo-in-depth">Cargo in Depth</a></h2>
 <p>(Cargo in depth section content goes here)</p>
 <h2 id="dependency-management"><a class="header" href="#dependency-management">Dependency Management</a></h2>
@@ -204,46 +211,46 @@
 <h2 id="cargo-workspaces-for-monorepos"><a class="header" href="#cargo-workspaces-for-monorepos">Cargo Workspaces for Monorepos</a></h2>
 <p>(Cargo workspaces for monorepos section content goes here)</p>
 <h2 id="project-custom-cargo-plugin"><a class="header" href="#project-custom-cargo-plugin">Project: Custom Cargo Plugin</a></h2>
-<p>In this project, we’ll develop a custom Cargo plugin that extends Cargo with a new subcommand. Cargo plugins are standalone executables that integrate with Cargo’s command-line interface, allowing you to add new functionality to your workflow.</p>
-<p>We’ll create a plugin called <code>cargo-docstat</code> that analyzes your crate’s documentation coverage and provides statistics on how well your code is documented. This tool will help you improve your crate’s documentation, making it more accessible to users.</p>
+<p>In this project, we'll develop a custom Cargo plugin that extends Cargo with a new subcommand. Cargo plugins are standalone executables that integrate with Cargo's command-line interface, allowing you to add new functionality to your workflow.</p>
+<p>We'll create a plugin called <code>cargo-docstat</code> that analyzes your crate's documentation coverage and provides statistics on how well your code is documented. This tool will help you improve your crate's documentation, making it more accessible to users.</p>
 <h3 id="understanding-cargo-plugins"><a class="header" href="#understanding-cargo-plugins">Understanding Cargo Plugins</a></h3>
-<p>Cargo plugins are simply executable programs with names that start with <code>cargo-</code>. When a user runs <code>cargo &lt;command&gt;</code>, Cargo first checks if it has a built-in subcommand with that name. If not, it looks for an executable named <code>cargo-&lt;command&gt;</code> in the user’s PATH.</p>
+<p>Cargo plugins are simply executable programs with names that start with <code>cargo-</code>. When a user runs <code>cargo &lt;command&gt;</code>, Cargo first checks if it has a built-in subcommand with that name. If not, it looks for an executable named <code>cargo-&lt;command&gt;</code> in the user's PATH.</p>
 <p>For example, when a user runs <code>cargo docstat</code>, Cargo will execute the <code>cargo-docstat</code> binary.</p>
 <h3 id="project-setup"><a class="header" href="#project-setup">Project Setup</a></h3>
-<p>Let’s start by creating a new binary crate for our plugin:</p>
+<p>Let's start by creating a new binary crate for our plugin:</p>
 <pre><code class="language-bash">cargo new --bin cargo-docstat
 cd cargo-docstat
 </code></pre>
-<p>We’ll need several dependencies for our plugin. Update the <code>Cargo.toml</code> file:</p>
+<p>We'll need several dependencies for our plugin. Update the <code>Cargo.toml</code> file:</p>
 <pre><code class="language-toml">[package]
-name = "cargo-docstat"
-version = "0.1.0"
-edition = "2021"
-description = "A Cargo plugin to analyze documentation coverage"
-license = "MIT OR Apache-2.0"
+name = &quot;cargo-docstat&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
+description = &quot;A Cargo plugin to analyze documentation coverage&quot;
+license = &quot;MIT OR Apache-2.0&quot;
 
 [dependencies]
-clap = { version = "4.3", features = ["derive"] }
-anyhow = "1.0"
-cargo_metadata = "0.15"
-syn = { version = "2.0", features = ["full", "extra-traits", "visit"] }
-proc-macro2 = "1.0"
-colored = "2.0"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+clap = { version = &quot;4.3&quot;, features = [&quot;derive&quot;] }
+anyhow = &quot;1.0&quot;
+cargo_metadata = &quot;0.15&quot;
+syn = { version = &quot;2.0&quot;, features = [&quot;full&quot;, &quot;extra-traits&quot;, &quot;visit&quot;] }
+proc-macro2 = &quot;1.0&quot;
+colored = &quot;2.0&quot;
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0&quot;
 </code></pre>
 <h3 id="creating-the-command-line-interface"><a class="header" href="#creating-the-command-line-interface">Creating the Command-Line Interface</a></h3>
-<p>First, let’s create a command-line interface for our plugin using <code>clap</code>:</p>
+<p>First, let's create a command-line interface for our plugin using <code>clap</code>:</p>
 <pre><pre class="playground"><code class="language-rust">// src/main.rs
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use colored::Colorize;
 
 #[derive(Parser)]
-#[command(name = "cargo")]
-#[command(bin_name = "cargo")]
+#[command(name = &quot;cargo&quot;)]
+#[command(bin_name = &quot;cargo&quot;)]
 enum Cargo {
-    #[command(name = "docstat")]
+    #[command(name = &quot;docstat&quot;)]
     DocStat(DocStatArgs),
 }
 
@@ -269,7 +276,7 @@ struct DocStatArgs {
 fn main() -&gt; Result&lt;()&gt; {
     let Cargo::DocStat(args) = Cargo::parse();
 
-    println!("{} Analyzing documentation coverage...", "Cargo DocStat:".green().bold());
+    println!(&quot;{} Analyzing documentation coverage...&quot;, &quot;Cargo DocStat:&quot;.green().bold());
 
     let stats = analyze_docs(&amp;args)?;
     print_stats(&amp;stats, args.json)?;
@@ -277,7 +284,7 @@ fn main() -&gt; Result&lt;()&gt; {
     if let Some(min) = args.min_coverage {
         if stats.coverage &lt; min {
             anyhow::bail!(
-                "Documentation coverage is {:.1}%, which is below the minimum threshold of {:.1}%",
+                &quot;Documentation coverage is {:.1}%, which is below the minimum threshold of {:.1}%&quot;,
                 stats.coverage,
                 min
             );
@@ -310,25 +317,25 @@ fn analyze_docs(args: &amp;DocStatArgs) -&gt; Result&lt;DocStats&gt; {
 
 fn print_stats(stats: &amp;DocStats, json: bool) -&gt; Result&lt;()&gt; {
     if json {
-        println!("{}", serde_json::to_string_pretty(stats)?);
+        println!(&quot;{}&quot;, serde_json::to_string_pretty(stats)?);
         return Ok(());
     }
 
-    println!("Documentation Coverage: {:.1}%", stats.coverage);
-    println!("Documented Items: {}/{}", stats.documented_items, stats.total_items);
+    println!(&quot;Documentation Coverage: {:.1}%&quot;, stats.coverage);
+    println!(&quot;Documented Items: {}/{}&quot;, stats.documented_items, stats.total_items);
 
-    println!("\nPer-file Coverage:");
+    println!(&quot;\nPer-file Coverage:&quot;);
     for file in &amp;stats.per_file {
         let coverage_color = if file.coverage &gt;= 90.0 {
-            "green"
+            &quot;green&quot;
         } else if file.coverage &gt;= 70.0 {
-            "yellow"
+            &quot;yellow&quot;
         } else {
-            "red"
+            &quot;red&quot;
         };
 
         println!(
-            "  {} - {:.1}% ({}/{})",
+            &quot;  {} - {:.1}% ({}/{})&quot;,
             file.path,
             file.coverage.to_string().color(coverage_color),
             file.documented_items,
@@ -339,7 +346,7 @@ fn print_stats(stats: &amp;DocStats, json: bool) -&gt; Result&lt;()&gt; {
     Ok(())
 }</code></pre></pre>
 <h3 id="implementing-documentation-analysis"><a class="header" href="#implementing-documentation-analysis">Implementing Documentation Analysis</a></h3>
-<p>Now let’s implement the core functionality to analyze the documentation coverage:</p>
+<p>Now let's implement the core functionality to analyze the documentation coverage:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Add these imports at the top of src/main.rs
@@ -353,9 +360,9 @@ fn analyze_docs(args: &amp;DocStatArgs) -&gt; Result&lt;DocStats&gt; {
     let metadata = get_metadata(args)?;
     let package = metadata.packages.iter()
         .find(|p| p.id == metadata.resolve.as_ref().unwrap().root.as_ref().unwrap())
-        .context("Could not find root package")?;
+        .context(&quot;Could not find root package&quot;)?;
 
-    let src_dir = Path::new(&amp;package.manifest_path).parent().unwrap().join("src");
+    let src_dir = Path::new(&amp;package.manifest_path).parent().unwrap().join(&quot;src&quot;);
 
     let mut stats = DocStats {
         total_items: 0,
@@ -382,7 +389,7 @@ fn get_metadata(args: &amp;DocStatArgs) -&gt; Result&lt;Metadata&gt; {
         cmd.manifest_path(path);
     }
 
-    cmd.exec().context("Failed to execute cargo metadata")
+    cmd.exec().context(&quot;Failed to execute cargo metadata&quot;)
 }
 
 fn visit_rust_files(dir: &amp;Path, args: &amp;DocStatArgs, stats: &amp;mut DocStats) -&gt; Result&lt;()&gt; {
@@ -396,7 +403,7 @@ fn visit_rust_files(dir: &amp;Path, args: &amp;DocStatArgs, stats: &amp;mut DocS
 
         if path.is_dir() {
             visit_rust_files(&amp;path, args, stats)?;
-        } else if path.extension().map_or(false, |ext| ext == "rs") {
+        } else if path.extension().map_or(false, |ext| ext == &quot;rs&quot;) {
             analyze_file(&amp;path, args, stats)?;
         }
     }
@@ -426,7 +433,7 @@ fn analyze_file(path: &amp;Path, args: &amp;DocStatArgs, stats: &amp;mut DocStat
         100.0
     };
 
-    let rel_path = path.strip_prefix(Path::new("").canonicalize()?)?;
+    let rel_path = path.strip_prefix(Path::new(&quot;&quot;).canonicalize()?)?;
 
     stats.per_file.push(FileStats {
         path: rel_path.to_string_lossy().to_string(),
@@ -476,7 +483,7 @@ impl DocVisitor {
         self.total_items += 1;
 
         // Check if the item has documentation
-        if attrs.iter().any(|attr| attr.path().is_ident("doc")) {
+        if attrs.iter().any(|attr| attr.path().is_ident(&quot;doc&quot;)) {
             self.documented_items += 1;
         }
     }
@@ -503,7 +510,7 @@ impl VisExt for syn::Visibility {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="testing-the-plugin"><a class="header" href="#testing-the-plugin">Testing the Plugin</a></h3>
-<p>Let’s test our plugin on itself:</p>
+<p>Let's test our plugin on itself:</p>
 <pre><code class="language-bash">cargo build
 cargo run -- docstat
 </code></pre>
@@ -533,15 +540,15 @@ cargo run -- docstat
 <li>Generate documentation coverage badges</li>
 </ul>
 <h3 id="publishing-the-plugin"><a class="header" href="#publishing-the-plugin">Publishing the Plugin</a></h3>
-<p>Once you’re satisfied with your plugin, you can publish it to crates.io:</p>
+<p>Once you're satisfied with your plugin, you can publish it to crates.io:</p>
 <pre><code class="language-bash">cargo publish
 </code></pre>
 <p>Users can then install it with:</p>
 <pre><code class="language-bash">cargo install cargo-docstat
 </code></pre>
 <h3 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h3>
-<p>By building this cargo plugin, we’ve learned how to extend Cargo’s functionality with custom commands. The plugin system is one of Cargo’s most powerful features, allowing the community to build specialized tools that integrate seamlessly with the standard workflow.</p>
-<p>This project demonstrates many of the concepts we’ve covered in this chapter, including:</p>
+<p>By building this cargo plugin, we've learned how to extend Cargo's functionality with custom commands. The plugin system is one of Cargo's most powerful features, allowing the community to build specialized tools that integrate seamlessly with the standard workflow.</p>
+<p>This project demonstrates many of the concepts we've covered in this chapter, including:</p>
 <ul>
 <li>Creating a package with appropriate dependencies</li>
 <li>Setting up the proper metadata for publishing</li>
@@ -551,26 +558,26 @@ cargo run -- docstat
 </ul>
 <p>As you develop more complex Rust projects, consider creating custom cargo plugins to streamline your workflow and automate repetitive tasks.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored the advanced capabilities of Cargo, Rust’s package manager and build system. We’ve covered:</p>
+<p>In this chapter, we've explored the advanced capabilities of Cargo, Rust's package manager and build system. We've covered:</p>
 <ul>
 <li><strong>Cargo in depth</strong>: Understanding the fundamental concepts behind Cargo and how it manages Rust projects</li>
 <li><strong>Dependency management</strong>: Strategies for effectively managing project dependencies, including version constraints, git dependencies, and path dependencies</li>
 <li><strong>Semantic versioning</strong>: How Cargo uses SemVer to manage compatibility between packages and handle updates</li>
 <li><strong>Workspace management</strong>: Organizing multi-package projects into workspaces for better maintainability and shared dependencies</li>
 <li><strong>Cargo features</strong>: Using conditional compilation to create flexible packages that can be customized by consumers</li>
-<li><strong>Private dependencies</strong>: Working with internal or proprietary code that isn’t published to public registries</li>
+<li><strong>Private dependencies</strong>: Working with internal or proprietary code that isn't published to public registries</li>
 <li><strong>Publishing to crates.io</strong>: The process of preparing and publishing packages to the central Rust package registry</li>
 <li><strong>Documentation generation</strong>: Creating comprehensive documentation for your projects with rustdoc and Cargo</li>
-<li><strong>Cargo plugins and extensions</strong>: Enhancing Cargo’s functionality with community-built tools</li>
+<li><strong>Cargo plugins and extensions</strong>: Enhancing Cargo's functionality with community-built tools</li>
 <li><strong>Advanced Cargo.toml configuration</strong>: Fine-tuning project settings for optimal builds and workflow</li>
 <li><strong>Cargo workspaces for monorepos</strong>: Managing large codebases with multiple related packages</li>
 </ul>
-<p>Cargo’s thoughtful design and powerful capabilities make it one of Rust’s greatest strengths as a programming language. By mastering these advanced features, you can create more maintainable, adaptable, and user-friendly Rust projects. The integration of package management, build processes, and documentation into a single coherent system eliminates many of the friction points that exist in other programming ecosystems.</p>
+<p>Cargo's thoughtful design and powerful capabilities make it one of Rust's greatest strengths as a programming language. By mastering these advanced features, you can create more maintainable, adaptable, and user-friendly Rust projects. The integration of package management, build processes, and documentation into a single coherent system eliminates many of the friction points that exist in other programming ecosystems.</p>
 <p>As you continue your journey with Rust, remember that Cargo is not just a tool but a philosophy: dependencies should be explicit, versions should be managed carefully, and the build system should provide a consistent, reproducible workflow from development to production.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
-<p><strong>Dependency Analysis</strong>: Create a visualization of your project’s dependency tree using <code>cargo tree</code>. Identify any potential issues like duplicate dependencies or version conflicts.</p>
+<p><strong>Dependency Analysis</strong>: Create a visualization of your project's dependency tree using <code>cargo tree</code>. Identify any potential issues like duplicate dependencies or version conflicts.</p>
 </li>
 <li>
 <p><strong>Feature Flags</strong>: Design a crate with at least three feature flags that enable different functionality. Implement conditional compilation and write tests for each feature combination.</p>
@@ -610,7 +617,7 @@ cargo run -- docstat
 <li><a href="https://rust-lang.github.io/api-guidelines/">The Rust API Guidelines</a> - Best practices for library design</li>
 <li><a href="https://github.com/rust-lang/rfcs/blob/master/text/2141-alternative-registries.md">Rust Package Registry Specification</a> - Details on alternative registries</li>
 </ul>
-<p>In the next chapter, we’ll explore Embedded Programming in Rust, where we’ll apply many of these package management concepts to the constrained environment of embedded devices.</p>
+<p>In the next chapter, we'll explore Embedded Programming in Rust, where we'll apply many of these package management concepts to the constrained environment of embedded devices.</p>
 
                     </main>
 

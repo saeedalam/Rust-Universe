@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html" class="active"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,7 +184,7 @@
                     <main>
                         <h1 id="chapter-10-advanced-ownership-patterns"><a class="header" href="#chapter-10-advanced-ownership-patterns">Chapter 10: Advanced Ownership Patterns</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In previous chapters, we explored Rust’s fundamental ownership model, borrowing, and references. These core concepts provide memory safety without a garbage collector, but they can sometimes feel restrictive when building complex applications. In this chapter, we’ll explore advanced ownership patterns that provide greater flexibility while maintaining Rust’s safety guarantees.</p>
+<p>In previous chapters, we explored Rust's fundamental ownership model, borrowing, and references. These core concepts provide memory safety without a garbage collector, but they can sometimes feel restrictive when building complex applications. In this chapter, we'll explore advanced ownership patterns that provide greater flexibility while maintaining Rust's safety guarantees.</p>
 <p>Rust provides several mechanisms to handle situations where the basic ownership rules are too limiting, such as:</p>
 <ul>
 <li>Modifying data when multiple references exist</li>
@@ -186,11 +193,11 @@
 <li>Managing object lifetimes in sophisticated ways</li>
 <li>Implementing reference-counted or atomic resources</li>
 </ul>
-<p>By the end of this chapter, you’ll understand when and how to use these advanced patterns to build robust, safe, and flexible Rust applications.</p>
+<p>By the end of this chapter, you'll understand when and how to use these advanced patterns to build robust, safe, and flexible Rust applications.</p>
 <h2 id="interior-mutability-pattern"><a class="header" href="#interior-mutability-pattern">Interior Mutability Pattern</a></h2>
-<p>The interior mutability pattern allows you to mutate data even when there are immutable references to that data, which normally would violate Rust’s borrowing rules.</p>
+<p>The interior mutability pattern allows you to mutate data even when there are immutable references to that data, which normally would violate Rust's borrowing rules.</p>
 <h3 id="the-problem-interior-mutability-solves"><a class="header" href="#the-problem-interior-mutability-solves">The Problem Interior Mutability Solves</a></h3>
-<p>In standard Rust code, you can’t have both mutable and immutable references to the same data simultaneously:</p>
+<p>In standard Rust code, you can't have both mutable and immutable references to the same data simultaneously:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 5;
 
@@ -198,7 +205,7 @@
     let y = &amp;x;
     let z = &amp;mut x; // Error: cannot borrow `x` as mutable because it is also borrowed as immutable
 
-    println!("{}", y);
+    println!(&quot;{}&quot;, y);
 }</code></pre></pre>
 <p>This restriction helps prevent data races, but sometimes you need more flexibility. For example:</p>
 <ul>
@@ -224,7 +231,7 @@ fn main() {
     counter_ref1.set(counter_ref1.get() + 1);
     counter_ref2.set(counter_ref2.get() + 10);
 
-    println!("Counter: {}", counter.get()); // Prints: Counter: 11
+    println!(&quot;Counter: {}&quot;, counter.get()); // Prints: Counter: 11
 }</code></pre></pre>
 <p><code>Cell&lt;T&gt;</code> works by copying values in and out, making it efficient for small types like integers, booleans, and other <code>Copy</code> types. It provides methods like:</p>
 <ul>
@@ -244,21 +251,21 @@ fn main() {
     data.borrow_mut().push(4);
 
     // Borrow immutably to read the vector
-    println!("Data: {:?}", data.borrow()); // Prints: Data: [1, 2, 3, 4]
+    println!(&quot;Data: {:?}&quot;, data.borrow()); // Prints: Data: [1, 2, 3, 4]
 
     // Multiple immutable borrows are allowed
     let borrow1 = data.borrow();
     let borrow2 = data.borrow();
-    println!("Length: {}, First element: {}", borrow1.len(), borrow2[0]);
+    println!(&quot;Length: {}, First element: {}&quot;, borrow1.len(), borrow2[0]);
 
     // This would panic at runtime:
     // let mut_borrow = data.borrow_mut(); // Error: already borrowed
 }</code></pre></pre>
-<p><code>RefCell&lt;T&gt;</code> enforces Rust’s borrowing rules at runtime:</p>
+<p><code>RefCell&lt;T&gt;</code> enforces Rust's borrowing rules at runtime:</p>
 <ul>
 <li>Multiple immutable borrows are allowed</li>
 <li>Only one mutable borrow is allowed</li>
-<li>No immutable borrows can exist when there’s a mutable borrow</li>
+<li>No immutable borrows can exist when there's a mutable borrow</li>
 </ul>
 <p>If these rules are violated, <code>RefCell</code> will panic.</p>
 <p>The key methods provided by <code>RefCell&lt;T&gt;</code> are:</p>
@@ -268,7 +275,7 @@ fn main() {
 <li><code>try_borrow()</code> and <code>try_borrow_mut()</code>: Non-panicking versions that return a <code>Result</code></li>
 </ul>
 <h3 id="unsafecell-the-foundation-of-interior-mutability"><a class="header" href="#unsafecell-the-foundation-of-interior-mutability">UnsafeCell<T>: The Foundation of Interior Mutability</a></h3>
-<p><code>UnsafeCell&lt;T&gt;</code> is the primitive type that powers all interior mutability in Rust. It’s the only way in safe Rust to disable the compiler’s compile-time borrowing checks:</p>
+<p><code>UnsafeCell&lt;T&gt;</code> is the primitive type that powers all interior mutability in Rust. It's the only way in safe Rust to disable the compiler's compile-time borrowing checks:</p>
 <pre><pre class="playground"><code class="language-rust">use std::cell::UnsafeCell;
 
 fn main() {
@@ -276,7 +283,7 @@ fn main() {
 
     // Safe API to interact with UnsafeCell
     let value = unsafe { *data.get() };
-    println!("Value: {}", value);
+    println!(&quot;Value: {}&quot;, value);
 
     // Modifying the value
     unsafe {
@@ -284,13 +291,13 @@ fn main() {
     }
 
     let new_value = unsafe { *data.get() };
-    println!("New value: {}", new_value); // Prints: New value: 6
+    println!(&quot;New value: {}&quot;, new_value); // Prints: New value: 6
 }</code></pre></pre>
 <p><code>UnsafeCell</code> is rarely used directly and is primarily a building block for safer abstractions like <code>Cell</code> and <code>RefCell</code>. Using it requires <code>unsafe</code> code, as it provides no runtime checks for borrowing rules.</p>
 <h3 id="when-to-use-interior-mutability"><a class="header" href="#when-to-use-interior-mutability">When to Use Interior Mutability</a></h3>
 <p>Interior mutability should be used judiciously, as it moves checks from compile time to runtime. Good use cases include:</p>
 <ol>
-<li><strong>Implementing methods that logically don’t modify an object but need to update internal state:</strong></li>
+<li><strong>Implementing methods that logically don't modify an object but need to update internal state:</strong></li>
 </ol>
 <pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
 
@@ -322,11 +329,11 @@ fn main() {
     let logger_ref1 = &amp;logger;
     let logger_ref2 = &amp;logger;
 
-    logger_ref1.log("System started");
-    logger_ref2.log("Processing data");
+    logger_ref1.log(&quot;System started&quot;);
+    logger_ref2.log(&quot;Processing data&quot;);
 
     for (i, entry) in logger.view_logs().iter().enumerate() {
-        println!("{}: {}", i, entry);
+        println!(&quot;{}: {}&quot;, i, entry);
     }
 }</code></pre></pre>
 <ol start="2">
@@ -368,8 +375,8 @@ impl Fibonacci {
 
 fn main() {
     let fib = Fibonacci::new();
-    println!("Fibonacci(10) = {}", fib.calculate(10));
-    println!("Fibonacci(20) = {}", fib.calculate(20));
+    println!(&quot;Fibonacci(10) = {}&quot;, fib.calculate(10));
+    println!(&quot;Fibonacci(20) = {}&quot;, fib.calculate(20));
 }</code></pre></pre>
 <ol start="3">
 <li><strong>Observer patterns where callbacks need to modify state:</strong></li>
@@ -404,7 +411,7 @@ fn main() {
 
     let observer = Observer::new(|value| {
         sum += value;
-        println!("Received value: {}, Sum: {}", value, sum);
+        println!(&quot;Received value: {}, Sum: {}&quot;, value, sum);
     });
 
     observer.notify(1);
@@ -424,7 +431,7 @@ fn main() {
 <li>At least one of the accesses is a write</li>
 <li>The threads are not using any synchronization mechanism</li>
 </ol>
-<p>Rust’s ownership system prevents these problems at compile time for most code, but interior mutability requires runtime checks. For thread-safe interior mutability, we need synchronization primitives.</p>
+<p>Rust's ownership system prevents these problems at compile time for most code, but interior mutability requires runtime checks. For thread-safe interior mutability, we need synchronization primitives.</p>
 <h3 id="mutex-mutual-exclusion"><a class="header" href="#mutex-mutual-exclusion">Mutex<T>: Mutual Exclusion</a></h3>
 <p><code>Mutex&lt;T&gt;</code> (mutual exclusion) ensures that only one thread can access the contained data at a time:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::Mutex;
@@ -454,13 +461,13 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final count: {}", *counter.lock().unwrap()); // Should print: Final count: 1000
+    println!(&quot;Final count: {}&quot;, *counter.lock().unwrap()); // Should print: Final count: 1000
 }</code></pre></pre>
 <p>Key aspects of <code>Mutex&lt;T&gt;</code>:</p>
 <ol>
 <li><strong>Locking Mechanism</strong>: To access the data, you must call <code>lock()</code>, which returns a <code>MutexGuard</code></li>
 <li><strong>RAII Guard</strong>: The <code>MutexGuard</code> implements the <code>Drop</code> trait, automatically releasing the lock when it goes out of scope</li>
-<li><strong>Poisoning</strong>: If a thread panics while holding the lock, the mutex becomes “poisoned” and future <code>lock()</code> calls return an error</li>
+<li><strong>Poisoning</strong>: If a thread panics while holding the lock, the mutex becomes &quot;poisoned&quot; and future <code>lock()</code> calls return an error</li>
 <li><strong>Blocking</strong>: If a thread tries to lock an already locked mutex, it will block (wait) until the lock is available</li>
 </ol>
 <h3 id="rwlock-reader-writer-lock"><a class="header" href="#rwlock-reader-writer-lock">RwLock<T>: Reader-Writer Lock</a></h3>
@@ -479,7 +486,7 @@ fn main() {
         let handle = thread::spawn(move || {
             // Multiple read locks can exist simultaneously
             let data_guard = data_ref.read().unwrap();
-            println!("Reader {} sees: {:?}", i, *data_guard);
+            println!(&quot;Reader {} sees: {:?}&quot;, i, *data_guard);
             // Lock is released when data_guard goes out of scope
         });
         handles.push(handle);
@@ -491,7 +498,7 @@ fn main() {
         // Only one write lock can exist, and no read locks can exist during a write
         let mut data_guard = data_ref.write().unwrap();
         data_guard.push(4);
-        println!("Writer thread updated data: {:?}", *data_guard);
+        println!(&quot;Writer thread updated data: {:?}&quot;, *data_guard);
         // Lock is released when data_guard goes out of scope
     });
     handles.push(handle);
@@ -501,7 +508,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final data: {:?}", *data.read().unwrap());
+    println!(&quot;Final data: {:?}&quot;, *data.read().unwrap());
 }</code></pre></pre>
 <p>Key aspects of <code>RwLock&lt;T&gt;</code>:</p>
 <ol>
@@ -534,11 +541,11 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final count: {}", counter.load(Ordering::SeqCst));
+    println!(&quot;Final count: {}&quot;, counter.load(Ordering::SeqCst));
 }</code></pre></pre>
 <p>Atomic types are more efficient than mutex-based solutions for simple operations but have limited functionality compared to mutex-protected values.</p>
 <h3 id="deadlocks-and-how-to-prevent-them"><a class="header" href="#deadlocks-and-how-to-prevent-them">Deadlocks and How to Prevent Them</a></h3>
-<p>When using locks, there’s a risk of deadlock—a situation where two or more threads are blocked forever, each waiting for resources held by the others.</p>
+<p>When using locks, there's a risk of deadlock—a situation where two or more threads are blocked forever, each waiting for resources held by the others.</p>
 <p>Common deadlock scenario:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Mutex, MutexGuard};
 use std::thread;
@@ -551,25 +558,25 @@ fn main() {
     // Thread 1: Tries to lock A, then B
     let thread1 = thread::spawn(move || {
         let _a = resource_a.lock().unwrap();
-        println!("Thread 1: Locked resource A");
+        println!(&quot;Thread 1: Locked resource A&quot;);
 
         // Sleep to increase chances of a deadlock
         thread::sleep(Duration::from_millis(100));
 
         let _b = resource_b.lock().unwrap();
-        println!("Thread 1: Locked resource B");
+        println!(&quot;Thread 1: Locked resource B&quot;);
     });
 
     // Thread 2: Tries to lock B, then A (opposite order)
     let thread2 = thread::spawn(move || {
         let _b = resource_b.lock().unwrap();
-        println!("Thread 2: Locked resource B");
+        println!(&quot;Thread 2: Locked resource B&quot;);
 
         // Sleep to increase chances of a deadlock
         thread::sleep(Duration::from_millis(100));
 
         let _a = resource_a.lock().unwrap();
-        println!("Thread 2: Locked resource A");
+        println!(&quot;Thread 2: Locked resource A&quot;);
     });
 
     thread1.join().unwrap();
@@ -599,18 +606,18 @@ fn main() {
     // Both threads lock resources in the same order: A then B
     let thread1 = thread::spawn(move || {
         let _a = resource_a.lock().unwrap();
-        println!("Thread 1: Locked resource A");
+        println!(&quot;Thread 1: Locked resource A&quot;);
 
         let _b = resource_b.lock().unwrap();
-        println!("Thread 1: Locked resource B");
+        println!(&quot;Thread 1: Locked resource B&quot;);
     });
 
     let thread2 = thread::spawn(move || {
         let _a = resource_a.lock().unwrap();
-        println!("Thread 2: Locked resource A");
+        println!(&quot;Thread 2: Locked resource A&quot;);
 
         let _b = resource_b.lock().unwrap();
-        println!("Thread 2: Locked resource B");
+        println!(&quot;Thread 2: Locked resource B&quot;);
     });
 
     thread1.join().unwrap();
@@ -636,7 +643,7 @@ fn main() {
             started = cvar.wait(started).unwrap();
         }
 
-        println!("Worker thread started!");
+        println!(&quot;Worker thread started!&quot;);
         // Do work...
     });
 
@@ -655,17 +662,17 @@ fn main() {
 <p>Condition variables are useful for thread coordination scenarios like producer-consumer patterns, thread pools, and synchronization barriers.</p>
 <h2 id="smart-pointers"><a class="header" href="#smart-pointers">Smart Pointers</a></h2>
 <p>Smart pointers are data structures that act like pointers but include additional metadata and capabilities. They implement the <code>Deref</code> and <code>Drop</code> traits to provide pointer-like behavior and automatic cleanup when they go out of scope.</p>
-<p>Unlike raw pointers in languages like C and C++, Rust’s smart pointers enforce memory safety rules while providing efficient memory management.</p>
+<p>Unlike raw pointers in languages like C and C++, Rust's smart pointers enforce memory safety rules while providing efficient memory management.</p>
 <h3 id="box-heap-allocation"><a class="header" href="#box-heap-allocation">Box<T>: Heap Allocation</a></h3>
 <p><code>Box&lt;T&gt;</code> is the simplest smart pointer, providing heap allocation for data:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // Stack-allocated integer
     let x = 5;
-    println!("x is stored on the stack: {}", x);
+    println!(&quot;x is stored on the stack: {}&quot;, x);
 
     // Heap-allocated integer
     let y = Box::new(5);
-    println!("y is stored on the heap: {}", *y);
+    println!(&quot;y is stored on the heap: {}&quot;, *y);
 }</code></pre></pre>
 <p><code>Box&lt;T&gt;</code> is useful for:</p>
 <ol>
@@ -702,7 +709,7 @@ fn main() {
         }
     }
 
-    println!("Sum: {}", sum_list(&amp;list)); // Prints: Sum: 6
+    println!(&quot;Sum: {}&quot;, sum_list(&amp;list)); // Prints: Sum: 6
 }</code></pre></pre>
 <h4 id="implementing-the-deref-trait"><a class="header" href="#implementing-the-deref-trait">Implementing the Deref Trait</a></h4>
 <p>The <code>Deref</code> trait allows a type to be treated like a reference, enabling the dereference operator (<code>*</code>):</p>
@@ -734,11 +741,11 @@ fn main() {
 <h4 id="deref-coercion"><a class="header" href="#deref-coercion">Deref Coercion</a></h4>
 <p>Rust automatically applies the <code>deref</code> method when passing a reference to a smart pointer to a function that expects a reference to the inner type:</p>
 <pre><pre class="playground"><code class="language-rust">fn hello(name: &amp;str) {
-    println!("Hello, {}!", name);
+    println!(&quot;Hello, {}!&quot;, name);
 }
 
 fn main() {
-    let name = Box::new(String::from("Rust"));
+    let name = Box::new(String::from(&quot;Rust&quot;));
 
     // Deref coercion: &amp;Box&lt;String&gt; -&gt; &amp;String -&gt; &amp;str
     hello(&amp;name);
@@ -752,20 +759,20 @@ fn main() {
 
 fn main() {
     // Create a reference-counted string
-    let text = Rc::new(String::from("Hello, world!"));
-    println!("Initial reference count: {}", Rc::strong_count(&amp;text)); // 1
+    let text = Rc::new(String::from(&quot;Hello, world!&quot;));
+    println!(&quot;Initial reference count: {}&quot;, Rc::strong_count(&amp;text)); // 1
 
     {
         // Create a clone (increases the reference count)
         let text2 = Rc::clone(&amp;text);
-        println!("Reference count after clone: {}", Rc::strong_count(&amp;text)); // 2
+        println!(&quot;Reference count after clone: {}&quot;, Rc::strong_count(&amp;text)); // 2
 
         // Both can read the data
-        println!("text: {}", text);
-        println!("text2: {}", text2);
+        println!(&quot;text: {}&quot;, text);
+        println!(&quot;text2: {}&quot;, text2);
     } // text2 goes out of scope, reference count decreases
 
-    println!("Reference count after scope: {}", Rc::strong_count(&amp;text)); // 1
+    println!(&quot;Reference count after scope: {}&quot;, Rc::strong_count(&amp;text)); // 1
 }</code></pre></pre>
 <p>Key features of <code>Rc&lt;T&gt;</code>:</p>
 <ol>
@@ -807,14 +814,14 @@ fn main() {
         children: vec![Rc::clone(&amp;leaf1), Rc::clone(&amp;leaf2)],
     });
 
-    println!("Root value: {}", root.value);
-    println!("Children values: {} and {}",
+    println!(&quot;Root value: {}&quot;, root.value);
+    println!(&quot;Children values: {} and {}&quot;,
              root.children[0].value,
              root.children[1].value);
 
-    println!("Leaf1 reference count: {}", Rc::strong_count(&amp;leaf1)); // 2
-    println!("Leaf2 reference count: {}", Rc::strong_count(&amp;leaf2)); // 2
-    println!("Root reference count: {}", Rc::strong_count(&amp;root));   // 1
+    println!(&quot;Leaf1 reference count: {}&quot;, Rc::strong_count(&amp;leaf1)); // 2
+    println!(&quot;Leaf2 reference count: {}&quot;, Rc::strong_count(&amp;leaf2)); // 2
+    println!(&quot;Root reference count: {}&quot;, Rc::strong_count(&amp;root));   // 1
 }</code></pre></pre>
 <h4 id="combining-rc-with-refcell-for-interior-mutability"><a class="header" href="#combining-rc-with-refcell-for-interior-mutability">Combining Rc with RefCell for Interior Mutability</a></h4>
 <p>Since <code>Rc&lt;T&gt;</code> only provides immutable access to its data, we often combine it with <code>RefCell&lt;T&gt;</code> for mutable access:</p>
@@ -835,8 +842,8 @@ fn main() {
     data_clone.borrow_mut().push(5);
 
     // Both see the changes
-    println!("Data: {:?}", data.borrow());         // [1, 2, 3, 4, 5]
-    println!("Data clone: {:?}", data_clone.borrow()); // [1, 2, 3, 4, 5]
+    println!(&quot;Data: {:?}&quot;, data.borrow());         // [1, 2, 3, 4, 5]
+    println!(&quot;Data clone: {:?}&quot;, data_clone.borrow()); // [1, 2, 3, 4, 5]
 }</code></pre></pre>
 <h3 id="arc-atomic-reference-counted-pointer"><a class="header" href="#arc-atomic-reference-counted-pointer">Arc<T>: Atomic Reference Counted Pointer</a></h3>
 <p><code>Arc&lt;T&gt;</code> (Atomic Reference Counted) is the thread-safe version of <code>Rc&lt;T&gt;</code>:</p>
@@ -853,7 +860,7 @@ fn main() {
         let numbers_clone = Arc::clone(&amp;numbers);
 
         let handle = thread::spawn(move || {
-            println!("Thread {} sees: {:?}", i, *numbers_clone);
+            println!(&quot;Thread {} sees: {:?}&quot;, i, *numbers_clone);
         });
 
         handles.push(handle);
@@ -863,7 +870,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Reference count at the end: {}", Arc::strong_count(&amp;numbers));
+    println!(&quot;Reference count at the end: {}&quot;, Arc::strong_count(&amp;numbers));
 }</code></pre></pre>
 <p>Key differences between <code>Arc&lt;T&gt;</code> and <code>Rc&lt;T&gt;</code>:</p>
 <ol>
@@ -888,7 +895,7 @@ fn main() {
             // Lock the mutex to modify the data
             let mut data_guard = data_clone.lock().unwrap();
             data_guard.push(i + 10);
-            println!("Thread {} added {}", i, i + 10);
+            println!(&quot;Thread {} added {}&quot;, i, i + 10);
         });
 
         handles.push(handle);
@@ -899,7 +906,7 @@ fn main() {
     }
 
     // Print the final data
-    println!("Final data: {:?}", *data.lock().unwrap());
+    println!(&quot;Final data: {:?}&quot;, *data.lock().unwrap());
 }</code></pre></pre>
 <h3 id="weak-references-and-cyclic-references"><a class="header" href="#weak-references-and-cyclic-references">Weak References and Cyclic References</a></h3>
 <p>Reference counting can lead to memory leaks if you create cycles. Weak references solve this problem:</p>
@@ -935,11 +942,11 @@ fn main() {
     // Set parent of child (weak reference)
     *child.parent.borrow_mut() = Rc::downgrade(&amp;parent);
 
-    println!("Parent value: {}", parent.value);
-    println!("Child value: {}", child.value);
+    println!(&quot;Parent value: {}&quot;, parent.value);
+    println!(&quot;Child value: {}&quot;, child.value);
 
     // Access parent from child using weak reference
-    println!("Child's parent: {}", child.parent.borrow().upgrade().unwrap().value);
+    println!(&quot;Child's parent: {}&quot;, child.parent.borrow().upgrade().unwrap().value);
 
     // No memory leak: when parent is dropped, child will be dropped too,
     // because the weak reference in child doesn't prevent parent from being deallocated
@@ -957,8 +964,8 @@ fn main() {
 <li>
 <p><strong>Weak References</strong> (<code>Weak&lt;T&gt;</code>):</p>
 <ul>
-<li>Don’t increase the strong reference count</li>
-<li>Don’t prevent the data from being dropped</li>
+<li>Don't increase the strong reference count</li>
+<li>Don't prevent the data from being dropped</li>
 <li>Must be upgraded to an <code>Rc</code> or <code>Arc</code> to access the data</li>
 <li>Return <code>None</code> when upgraded if the data has been dropped</li>
 </ul>
@@ -977,7 +984,7 @@ struct LoggingBox&lt;T: Debug&gt; {
 
 impl&lt;T: Debug&gt; LoggingBox&lt;T&gt; {
     fn new(data: T, name: &amp;str) -&gt; Self {
-        println!("Creating LoggingBox '{}'", name);
+        println!(&quot;Creating LoggingBox '{}'&quot;, name);
         LoggingBox {
             data: Box::new(data),
             name: name.to_string(),
@@ -1004,17 +1011,17 @@ impl&lt;T: Debug&gt; DerefMut for LoggingBox&lt;T&gt; {
 // Implement Drop for cleanup
 impl&lt;T: Debug&gt; Drop for LoggingBox&lt;T&gt; {
     fn drop(&amp;mut self) {
-        println!("Dropping LoggingBox '{}' containing: {:?}", self.name, self.data);
+        println!(&quot;Dropping LoggingBox '{}' containing: {:?}&quot;, self.name, self.data);
     }
 }
 
 fn main() {
-    let mut x = LoggingBox::new(42, "answer");
-    println!("Value: {}", *x);
+    let mut x = LoggingBox::new(42, &quot;answer&quot;);
+    println!(&quot;Value: {}&quot;, *x);
 
     // Modify through DerefMut
     *x += 1;
-    println!("New value: {}", *x);
+    println!(&quot;New value: {}&quot;, *x);
 
     // When main exits, the Drop implementation will be called
 }</code></pre></pre>
@@ -1036,7 +1043,7 @@ fn main() {
 <p><strong>Use <code>Box&lt;T&gt;</code> when:</strong></p>
 <ul>
 <li>You need to store data on the heap</li>
-<li>You’re implementing a recursive type</li>
+<li>You're implementing a recursive type</li>
 <li>You need to transfer ownership of large data without copying</li>
 </ul>
 </li>
@@ -1044,7 +1051,7 @@ fn main() {
 <p><strong>Use <code>Rc&lt;T&gt;</code> when:</strong></p>
 <ul>
 <li>You need multiple owners of the same data</li>
-<li>You’re working in a single-threaded context</li>
+<li>You're working in a single-threaded context</li>
 <li>You need to share immutable data</li>
 </ul>
 </li>
@@ -1059,7 +1066,7 @@ fn main() {
 <p><strong>Use <code>Cell&lt;T&gt;</code>/<code>RefCell&lt;T&gt;</code> when:</strong></p>
 <ul>
 <li>You need interior mutability</li>
-<li>You’re working in a single-threaded context</li>
+<li>You're working in a single-threaded context</li>
 </ul>
 </li>
 <li>
@@ -1077,7 +1084,7 @@ fn main() {
 </li>
 </ol>
 <h2 id="memory-leaks-and-how-to-prevent-them"><a class="header" href="#memory-leaks-and-how-to-prevent-them">Memory Leaks and How to Prevent Them</a></h2>
-<p>Even with Rust’s memory safety guarantees, memory leaks are still possible, especially when using reference counting and interior mutability patterns.</p>
+<p>Even with Rust's memory safety guarantees, memory leaks are still possible, especially when using reference counting and interior mutability patterns.</p>
 <h3 id="what-causes-memory-leaks-in-rust"><a class="header" href="#what-causes-memory-leaks-in-rust">What Causes Memory Leaks in Rust?</a></h3>
 <p>Memory leaks can occur in safe Rust code for several reasons:</p>
 <ol>
@@ -1116,8 +1123,8 @@ fn main() {
     node1.borrow_mut().next = Some(Rc::clone(&amp;node2));
     node2.borrow_mut().prev = Some(Rc::clone(&amp;node1));
 
-    println!("node1 ref count: {}", Rc::strong_count(&amp;node1)); // 2
-    println!("node2 ref count: {}", Rc::strong_count(&amp;node2)); // 2
+    println!(&quot;node1 ref count: {}&quot;, Rc::strong_count(&amp;node1)); // 2
+    println!(&quot;node2 ref count: {}&quot;, Rc::strong_count(&amp;node2)); // 2
 
     // Even when these variables go out of scope, the nodes won't be dropped
     // because they still reference each other in a cycle
@@ -1152,12 +1159,12 @@ fn main() {
     node1.borrow_mut().next = Some(Rc::clone(&amp;node2));
     node2.borrow_mut().prev = Some(Rc::downgrade(&amp;node1)); // Weak reference
 
-    println!("node1 ref count: {}", Rc::strong_count(&amp;node1)); // 1
-    println!("node2 ref count: {}", Rc::strong_count(&amp;node2)); // 2
+    println!(&quot;node1 ref count: {}&quot;, Rc::strong_count(&amp;node1)); // 1
+    println!(&quot;node2 ref count: {}&quot;, Rc::strong_count(&amp;node2)); // 2
 
     // When these variables go out of scope, both nodes will be properly deallocated
 }</code></pre></pre>
-<p>By using a weak reference for the “prev” pointer, we break the strong reference cycle, allowing the nodes to be properly dropped when they’re no longer needed.</p>
+<p>By using a weak reference for the &quot;prev&quot; pointer, we break the strong reference cycle, allowing the nodes to be properly dropped when they're no longer needed.</p>
 <h3 id="deliberate-memory-leaks"><a class="header" href="#deliberate-memory-leaks">Deliberate Memory Leaks</a></h3>
 <p>Sometimes, you might intentionally leak memory using <code>std::mem::forget</code> or <code>Box::leak</code>:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -1169,7 +1176,7 @@ fn main() {
 
     // Or use Box::leak to get a 'static reference
     let static_ref: &amp;'static i32 = Box::leak(Box::new(100));
-    println!("Static reference: {}", static_ref);
+    println!(&quot;Static reference: {}&quot;, static_ref);
 }</code></pre></pre>
 <p>Intentional leaks can be useful for:</p>
 <ul>
@@ -1282,14 +1289,14 @@ impl BoundedCache {
 </ol>
 <h4 id="using-lsan-with-rust"><a class="header" href="#using-lsan-with-rust">Using LSAN with Rust</a></h4>
 <pre><pre class="playground"><code class="language-rust">// Enable leak detection with LSAN
-// Compile with: RUSTFLAGS="-Z sanitizer=leak" cargo run --target x86_64-unknown-linux-gnu
+// Compile with: RUSTFLAGS=&quot;-Z sanitizer=leak&quot; cargo run --target x86_64-unknown-linux-gnu
 
 fn main() {
     // This will be detected as a leak
     let leaked = Box::into_raw(Box::new(42));
 
     // Use the value to prevent optimizations
-    println!("Leaked value: {}", unsafe { *leaked });
+    println!(&quot;Leaked value: {}&quot;, unsafe { *leaked });
 
     // No deallocation, this will be reported by LSAN
 }</code></pre></pre>
@@ -1309,14 +1316,14 @@ struct TrackedResource {
 impl TrackedResource {
     fn new(data: Vec&lt;u8&gt;) -&gt; Self {
         let id = COUNTER.fetch_add(1, Ordering::SeqCst);
-        println!("Creating resource #{}", id);
+        println!(&quot;Creating resource #{}&quot;, id);
         TrackedResource { id, data }
     }
 }
 
 impl Drop for TrackedResource {
     fn drop(&amp;mut self) {
-        println!("Dropping resource #{}", self.id);
+        println!(&quot;Dropping resource #{}&quot;, self.id);
         COUNTER.fetch_sub(1, Ordering::SeqCst);
     }
 }
@@ -1327,14 +1334,14 @@ fn main() {
 
     {
         let _r2 = TrackedResource::new(vec![4, 5, 6]);
-        println!("Active resources: {}", COUNTER.load(Ordering::SeqCst));
+        println!(&quot;Active resources: {}&quot;, COUNTER.load(Ordering::SeqCst));
     }
 
     // Leak a resource
     let leaked = Box::new(TrackedResource::new(vec![7, 8, 9]));
     let leaked_ptr = Box::into_raw(leaked);
 
-    println!("Active resources at end: {}", COUNTER.load(Ordering::SeqCst));
+    println!(&quot;Active resources at end: {}&quot;, COUNTER.load(Ordering::SeqCst));
 
     // If this doesn't match expectations, we have a leak
     assert_eq!(COUNTER.load(Ordering::SeqCst), 2);
@@ -1348,17 +1355,17 @@ use std::cell::RefCell;
 
 fn main() {
     let data = Rc::new(RefCell::new(vec![1, 2, 3]));
-    println!("After creation: count = {}", Rc::strong_count(&amp;data));
+    println!(&quot;After creation: count = {}&quot;, Rc::strong_count(&amp;data));
 
     {
         let data2 = Rc::clone(&amp;data);
-        println!("After clone: count = {}", Rc::strong_count(&amp;data));
+        println!(&quot;After clone: count = {}&quot;, Rc::strong_count(&amp;data));
 
         data2.borrow_mut().push(4);
-        println!("Current data: {:?}", data.borrow());
+        println!(&quot;Current data: {:?}&quot;, data.borrow());
     }
 
-    println!("After inner scope: count = {}", Rc::strong_count(&amp;data));
+    println!(&quot;After inner scope: count = {}&quot;, Rc::strong_count(&amp;data));
 }</code></pre></pre>
 <p>For more complex scenarios, consider creating a tracking wrapper:</p>
 <pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
@@ -1372,7 +1379,7 @@ struct Tracked&lt;T: Debug&gt; {
 
 impl&lt;T: Debug&gt; Tracked&lt;T&gt; {
     fn new(name: &amp;str, value: T) -&gt; Self {
-        println!("Creating '{}' with value: {:?}", name, value);
+        println!(&quot;Creating '{}' with value: {:?}&quot;, name, value);
         Tracked {
             name: name.to_string(),
             value,
@@ -1382,22 +1389,22 @@ impl&lt;T: Debug&gt; Tracked&lt;T&gt; {
 
 impl&lt;T: Debug&gt; Drop for Tracked&lt;T&gt; {
     fn drop(&amp;mut self) {
-        println!("Dropping '{}' with final value: {:?}", self.name, self.value);
+        println!(&quot;Dropping '{}' with final value: {:?}&quot;, self.name, self.value);
     }
 }
 
 fn main() {
-    let a = Rc::new(RefCell::new(Tracked::new("resource_a", vec![1, 2, 3])));
+    let a = Rc::new(RefCell::new(Tracked::new(&quot;resource_a&quot;, vec![1, 2, 3])));
 
     {
         let b = Rc::clone(&amp;a);
-        println!("Reference count: {}", Rc::strong_count(&amp;a));
+        println!(&quot;Reference count: {}&quot;, Rc::strong_count(&amp;a));
 
         // Modify through b
         b.borrow_mut().value.push(4);
     }
 
-    println!("After scope: count = {}", Rc::strong_count(&amp;a));
+    println!(&quot;After scope: count = {}&quot;, Rc::strong_count(&amp;a));
 }</code></pre></pre>
 <h3 id="visualizing-ownership-graphs"><a class="header" href="#visualizing-ownership-graphs">Visualizing Ownership Graphs</a></h3>
 <p>For complex ownership relationships, it can help to draw the ownership graph:</p>
@@ -1430,19 +1437,19 @@ impl Node {
     }
 
     fn print_ownership_info(&amp;self) {
-        println!("Node {}:", self.id);
-        println!("  Parent: {}",
+        println!(&quot;Node {}:&quot;, self.id);
+        println!(&quot;  Parent: {}&quot;,
             self.parent.borrow().upgrade()
-                .map_or("None".to_string(), |p| p.id.to_string()));
+                .map_or(&quot;None&quot;.to_string(), |p| p.id.to_string()));
 
-        println!("  Children: [{}]",
+        println!(&quot;  Children: [{}]&quot;,
             self.children.borrow().iter()
                 .map(|c| c.id.to_string())
                 .collect::&lt;Vec&lt;_&gt;&gt;()
-                .join(", "));
+                .join(&quot;, &quot;));
 
         for child in self.children.borrow().iter() {
-            println!("  Child {} ref count: {}", child.id, Rc::strong_count(child));
+            println!(&quot;  Child {} ref count: {}&quot;, child.id, Rc::strong_count(child));
         }
     }
 }
@@ -1471,7 +1478,7 @@ fn main() {
 <p>When debugging ownership issues, look for these common patterns:</p>
 <ol>
 <li><strong>Multiple mutable borrows</strong>: Are you trying to borrow mutably more than once?</li>
-<li><strong>Borrowing after move</strong>: Has the value been moved before you’re trying to use it?</li>
+<li><strong>Borrowing after move</strong>: Has the value been moved before you're trying to use it?</li>
 <li><strong>Lifetime mismatches</strong>: Are you returning a reference to a value that goes out of scope?</li>
 <li><strong>Self-referential structs</strong>: Are you trying to store a reference to a struct inside itself?</li>
 </ol>
@@ -1487,7 +1494,7 @@ fn main() {
 <li>Risky usage of <code>std::mem::forget</code></li>
 </ul>
 <h3 id="when-to-use-unsafe-code"><a class="header" href="#when-to-use-unsafe-code">When to Use Unsafe Code</a></h3>
-<p>If you’ve exhausted all safe options and understand the consequences, unsafe code might be necessary:</p>
+<p>If you've exhausted all safe options and understand the consequences, unsafe code might be necessary:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // Create two mutable references to the same data (unsafe!)
     let mut data = 10;
@@ -1505,11 +1512,11 @@ fn main() {
     *r2 += 1;
 
     // This is a data race! Don't do this in real code!
-    println!("data: {}", data);
+    println!(&quot;data: {}&quot;, data);
 }</code></pre></pre>
 <p>Always document why unsafe code is necessary and ensure its correctness with thorough testing.</p>
 <h2 id="-project-thread-safe-counter"><a class="header" href="#-project-thread-safe-counter">🔨 Project: Thread-Safe Counter</a></h2>
-<p>Let’s apply what we’ve learned to build a thread-safe counter that can be accessed and modified from multiple threads. This project will demonstrate the use of smart pointers, interior mutability, and thread synchronization.</p>
+<p>Let's apply what we've learned to build a thread-safe counter that can be accessed and modified from multiple threads. This project will demonstrate the use of smart pointers, interior mutability, and thread synchronization.</p>
 <h3 id="requirements"><a class="header" href="#requirements">Requirements</a></h3>
 <ol>
 <li>Create a counter that can be safely accessed from multiple threads</li>
@@ -1519,7 +1526,7 @@ fn main() {
 <li>Ensure thread safety without excessive locking</li>
 </ol>
 <h3 id="step-1-defining-the-counter-interface"><a class="header" href="#step-1-defining-the-counter-interface">Step 1: Defining the Counter Interface</a></h3>
-<p>Let’s start by defining the basic structure and interface of our thread-safe counter:</p>
+<p>Let's start by defining the basic structure and interface of our thread-safe counter:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::sync::{Arc, Mutex, RwLock};
@@ -1546,9 +1553,9 @@ impl ThreadSafeCounter {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>We’re using <code>Arc</code> to allow the counter to be shared across threads, <code>Mutex</code> to protect the count value, and <code>RwLock</code> for the callbacks map since we’ll have more reads than writes.</p>
+<p>We're using <code>Arc</code> to allow the counter to be shared across threads, <code>Mutex</code> to protect the count value, and <code>RwLock</code> for the callbacks map since we'll have more reads than writes.</p>
 <h3 id="step-2-implementing-core-counter-operations"><a class="header" href="#step-2-implementing-core-counter-operations">Step 2: Implementing Core Counter Operations</a></h3>
-<p>Next, let’s implement the basic counter operations:</p>
+<p>Next, let's implement the basic counter operations:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl ThreadSafeCounter {
@@ -1596,7 +1603,7 @@ impl ThreadSafeCounter {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-3-implementing-threshold-callbacks"><a class="header" href="#step-3-implementing-threshold-callbacks">Step 3: Implementing Threshold Callbacks</a></h3>
-<p>Now, let’s add support for threshold callbacks:</p>
+<p>Now, let's add support for threshold callbacks:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl ThreadSafeCounter {
@@ -1622,7 +1629,7 @@ impl ThreadSafeCounter {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-4-adding-tests"><a class="header" href="#step-4-adding-tests">Step 4: Adding Tests</a></h3>
-<p>Let’s add tests to verify that our counter works correctly:</p>
+<p>Let's add tests to verify that our counter works correctly:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[cfg(test)]
@@ -1692,7 +1699,7 @@ mod tests {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-5-creating-a-demo-application"><a class="header" href="#step-5-creating-a-demo-application">Step 5: Creating a Demo Application</a></h3>
-<p>Finally, let’s create a demo application that uses our thread-safe counter:</p>
+<p>Finally, let's create a demo application that uses our thread-safe counter:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     use std::thread;
     use std::time::Duration;
@@ -1702,15 +1709,15 @@ mod tests {
 
     // Set up threshold callbacks
     counter.on_threshold(10, |count| {
-        println!("🎉 Threshold reached: {}", count);
+        println!(&quot;🎉 Threshold reached: {}&quot;, count);
     });
 
     counter.on_threshold(50, |count| {
-        println!("🚀 Halfway there! Count: {}", count);
+        println!(&quot;🚀 Halfway there! Count: {}&quot;, count);
     });
 
     counter.on_threshold(100, |count| {
-        println!("🏁 Finished! Final count: {}", count);
+        println!(&quot;🏁 Finished! Final count: {}&quot;, count);
     });
 
     // Create worker threads that increment the counter
@@ -1719,11 +1726,11 @@ mod tests {
     for i in 0..5 {
         let worker_counter = Arc::clone(&amp;counter);
         let handle = thread::spawn(move || {
-            println!("Worker {} started", i);
+            println!(&quot;Worker {} started&quot;, i);
 
             for j in 0..25 {
                 let current = worker_counter.increment();
-                println!("Worker {} incremented counter to {}", i, current);
+                println!(&quot;Worker {} incremented counter to {}&quot;, i, current);
 
                 // Simulate some work
                 thread::sleep(Duration::from_millis(10 + (i as u64 * 5)));
@@ -1731,11 +1738,11 @@ mod tests {
                 if j % 10 == 0 {
                     // Occasionally decrement
                     let current = worker_counter.decrement();
-                    println!("Worker {} decremented counter to {}", i, current);
+                    println!(&quot;Worker {} decremented counter to {}&quot;, i, current);
                 }
             }
 
-            println!("Worker {} finished", i);
+            println!(&quot;Worker {} finished&quot;, i);
         });
 
         handles.push(handle);
@@ -1747,7 +1754,7 @@ mod tests {
     }
 
     // Final count
-    println!("All workers finished. Final count: {}", counter.get());
+    println!(&quot;All workers finished. Final count: {}&quot;, counter.get());
 }</code></pre></pre>
 <h3 id="running-the-project"><a class="header" href="#running-the-project">Running the Project</a></h3>
 <p>To create and run this project:</p>
@@ -1775,7 +1782,7 @@ cargo run
 <li><strong>Performance Metrics</strong>: Track and report on counter usage statistics</li>
 </ol>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored advanced ownership patterns in Rust that extend the basic ownership model. These patterns provide more flexibility while maintaining Rust’s memory safety guarantees.</p>
+<p>In this chapter, we've explored advanced ownership patterns in Rust that extend the basic ownership model. These patterns provide more flexibility while maintaining Rust's memory safety guarantees.</p>
 <p>We covered:</p>
 <ul>
 <li><strong>Interior Mutability Pattern</strong>: Using <code>Cell</code>, <code>RefCell</code>, and <code>UnsafeCell</code> to mutate data through shared references</li>
@@ -1788,7 +1795,7 @@ cargo run
 </ul>
 <p>We also applied these concepts to build a thread-safe counter that can be accessed from multiple threads, demonstrating how these patterns work together in a real-world application.</p>
 <p>These advanced ownership patterns are essential tools for building complex, robust Rust applications, especially those involving shared state or concurrency. By understanding when and how to use each pattern, you can write code that is both flexible and safe.</p>
-<p>In the next chapter, we’ll explore structs and custom types, which form the foundation of data modeling in Rust programs. We’ll learn how to define and use structs, implement methods, and create reusable abstractions.</p>
+<p>In the next chapter, we'll explore structs and custom types, which form the foundation of data modeling in Rust programs. We'll learn how to define and use structs, implement methods, and create reusable abstractions.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>Implement a thread-safe cache with expiration using <code>Arc&lt;RwLock&lt;_&gt;&gt;</code>.</li>

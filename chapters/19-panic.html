@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html" class="active"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,11 +184,11 @@
                     <main>
                         <h1 id="chapter-19-panic-and-unrecoverable-errors"><a class="header" href="#chapter-19-panic-and-unrecoverable-errors">Chapter 19: Panic and Unrecoverable Errors</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In real-world applications, error handling is an essential aspect of creating robust, maintainable software. Rust’s approach to error handling is unique among programming languages, emphasizing compile-time detection of potential failures and providing distinct mechanisms for different error scenarios.</p>
-<p>This chapter focuses on panic—Rust’s mechanism for handling unrecoverable errors. While Rust encourages using the <code>Result</code> type for most error situations (which we’ll explore in the next chapter), there are cases where a program cannot reasonably continue execution. In these scenarios, Rust provides the panic system to immediately halt execution, unwind the stack, and provide diagnostic information about what went wrong.</p>
-<p>By the end of this chapter, you’ll understand when and how to use panics, how Rust’s panic mechanism works under the hood, and techniques for making your code resilient even in the face of unrecoverable errors.</p>
+<p>In real-world applications, error handling is an essential aspect of creating robust, maintainable software. Rust's approach to error handling is unique among programming languages, emphasizing compile-time detection of potential failures and providing distinct mechanisms for different error scenarios.</p>
+<p>This chapter focuses on panic—Rust's mechanism for handling unrecoverable errors. While Rust encourages using the <code>Result</code> type for most error situations (which we'll explore in the next chapter), there are cases where a program cannot reasonably continue execution. In these scenarios, Rust provides the panic system to immediately halt execution, unwind the stack, and provide diagnostic information about what went wrong.</p>
+<p>By the end of this chapter, you'll understand when and how to use panics, how Rust's panic mechanism works under the hood, and techniques for making your code resilient even in the face of unrecoverable errors.</p>
 <h2 id="error-handling-philosophies"><a class="header" href="#error-handling-philosophies">Error Handling Philosophies</a></h2>
-<p>Before diving into panic specifically, let’s examine different approaches to error handling across programming languages and the philosophy that guides Rust’s design.</p>
+<p>Before diving into panic specifically, let's examine different approaches to error handling across programming languages and the philosophy that guides Rust's design.</p>
 <h3 id="approaches-across-languages"><a class="header" href="#approaches-across-languages">Approaches Across Languages</a></h3>
 <p>Different programming languages handle errors in various ways:</p>
 <ul>
@@ -198,7 +205,7 @@
 <p><strong>Multiple Return Values</strong> (Go): Functions can return both a result and an error value, encouraging immediate error checking.</p>
 </li>
 </ul>
-<h3 id="rusts-two-pronged-approach"><a class="header" href="#rusts-two-pronged-approach">Rust’s Two-Pronged Approach</a></h3>
+<h3 id="rusts-two-pronged-approach"><a class="header" href="#rusts-two-pronged-approach">Rust's Two-Pronged Approach</a></h3>
 <p>Rust takes a unique approach that distinguishes between two kinds of errors:</p>
 <ol>
 <li>
@@ -210,15 +217,15 @@
 </ol>
 <p>This separation allows Rust to provide appropriate tools for each situation: a clean, functional approach for expected errors and a fail-fast approach for programming mistakes or unrecoverable states.</p>
 <h3 id="fail-fast-vs-resilience"><a class="header" href="#fail-fast-vs-resilience">Fail Fast vs. Resilience</a></h3>
-<p>Rust’s error handling philosophy can be summarized as:</p>
+<p>Rust's error handling philosophy can be summarized as:</p>
 <ul>
 <li><strong>For expected failure conditions</strong>: Be explicit with <code>Result</code> and make errors part of your function signatures.</li>
 <li><strong>For unexpected failures or invariant violations</strong>: Panic to prevent further damage.</li>
 </ul>
-<p>This approach is similar to the “fail fast” philosophy in system design: the sooner you detect a problem, the less damage it can cause and the easier it is to diagnose.</p>
+<p>This approach is similar to the &quot;fail fast&quot; philosophy in system design: the sooner you detect a problem, the less damage it can cause and the easier it is to diagnose.</p>
 <p>As Tony Hoare, the inventor of null references, famously said:</p>
 <blockquote>
-<p>“There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies.”</p>
+<p>&quot;There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies.&quot;</p>
 </blockquote>
 <p>Rust chooses the former approach by making errors explicit and providing compile-time guarantees about when they need to be handled.</p>
 <h2 id="when-to-panic"><a class="header" href="#when-to-panic">When to Panic</a></h2>
@@ -230,13 +237,13 @@
 <p><strong>Example Code</strong>: In demonstrations, tutorials, or prototypes where error handling would distract from the main concept.</p>
 </li>
 <li>
-<p><strong>Tests</strong>: When a test condition isn’t met, using <code>assert!</code> (which causes a panic) is clearer than returning a <code>Result</code>.</p>
+<p><strong>Tests</strong>: When a test condition isn't met, using <code>assert!</code> (which causes a panic) is clearer than returning a <code>Result</code>.</p>
 </li>
 <li>
 <p><strong>Bad States That Should Never Happen</strong>: When your code encounters a state that should be impossible if your invariants are maintained.</p>
 </li>
 <li>
-<p><strong>When You Have No Way to Recover</strong>: If there’s genuinely no reasonable way for your application to continue.</p>
+<p><strong>When You Have No Way to Recover</strong>: If there's genuinely no reasonable way for your application to continue.</p>
 </li>
 <li>
 <p><strong>Corrupted State</strong>: When memory might be corrupted or safety guarantees violated.</p>
@@ -246,10 +253,10 @@
 </span><span class="boring">fn main() {
 </span>fn process_config_file(path: &amp;str) -&gt; Config {
     let config_str = std::fs::read_to_string(path)
-        .expect("Configuration file must exist and be readable");
+        .expect(&quot;Configuration file must exist and be readable&quot;);
 
     // If parsing fails, we can't proceed with an invalid configuration
-    parse_config(&amp;config_str).expect("Configuration file has invalid format")
+    parse_config(&amp;config_str).expect(&quot;Configuration file has invalid format&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="user-input-vs-programming-errors"><a class="header" href="#user-input-vs-programming-errors">User Input vs. Programming Errors</a></h3>
@@ -259,7 +266,7 @@
 <p><strong>User Input Errors</strong>: These should be expected and handled with <code>Result</code> or <code>Option</code>. Users make mistakes, and your program should gracefully guide them to correct input.</p>
 </li>
 <li>
-<p><strong>Programming Errors</strong>: These are bugs in your code (or code that calls your API incorrectly) and often warrant a panic. If an API requires certain preconditions, it’s reasonable to panic when they’re violated.</p>
+<p><strong>Programming Errors</strong>: These are bugs in your code (or code that calls your API incorrectly) and often warrant a panic. If an API requires certain preconditions, it's reasonable to panic when they're violated.</p>
 </li>
 </ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -268,15 +275,15 @@
 fn get_positive_number(input: &amp;str) -&gt; Result&lt;u32, String&gt; {
     match input.parse::&lt;u32&gt;() {
         Ok(n) if n &gt; 0 =&gt; Ok(n),
-        Ok(_) =&gt; Err("Number must be positive".to_string()),
-        Err(_) =&gt; Err("Please enter a valid number".to_string()),
+        Ok(_) =&gt; Err(&quot;Number must be positive&quot;.to_string()),
+        Err(_) =&gt; Err(&quot;Please enter a valid number&quot;.to_string()),
     }
 }
 
 // For programming errors, panic is appropriate
 fn calculate_average(numbers: &amp;[f64]) -&gt; f64 {
     if numbers.is_empty() {
-        panic!("Cannot calculate average of empty slice");
+        panic!(&quot;Cannot calculate average of empty slice&quot;);
     }
 
     numbers.iter().sum::&lt;f64&gt;() / numbers.len() as f64
@@ -302,7 +309,7 @@ fn get_element(array: &amp;[i32], index: usize) -&gt; i32 {
 <h3 id="using-the-panic-macro"><a class="header" href="#using-the-panic-macro">Using the panic! Macro</a></h3>
 <p>The <code>panic!</code> macro is the most direct way to cause a program to halt with an error message:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    panic!("This is a deliberate panic");
+    panic!(&quot;This is a deliberate panic&quot;);
 }</code></pre></pre>
 <p>When executed, this program terminates with output similar to:</p>
 <pre><code>thread 'main' panicked at 'This is a deliberate panic', src/main.rs:2:5
@@ -318,45 +325,45 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <h3 id="using-expect-for-better-context"><a class="header" href="#using-expect-for-better-context">Using expect for Better Context</a></h3>
 <p>The <code>expect</code> method available on <code>Result</code> and <code>Option</code> types causes a panic when the value is <code>Err</code> or <code>None</code>, but allows you to provide a more specific error message:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let file = std::fs::File::open("config.txt").expect("Failed to open config.txt");
+    let file = std::fs::File::open(&quot;config.txt&quot;).expect(&quot;Failed to open config.txt&quot;);
     // If the file doesn't exist, this will panic with:
     // thread 'main' panicked at 'Failed to open config.txt: No such file or directory...'
 }</code></pre></pre>
-<p>Using <code>expect</code> instead of <code>unwrap</code> (which we’ll discuss next) makes your code more maintainable because it explains why the operation should succeed and what went wrong if it didn’t.</p>
+<p>Using <code>expect</code> instead of <code>unwrap</code> (which we'll discuss next) makes your code more maintainable because it explains why the operation should succeed and what went wrong if it didn't.</p>
 <h3 id="formatting-panic-messages"><a class="header" href="#formatting-panic-messages">Formatting Panic Messages</a></h3>
 <p>Both <code>panic!</code> and <code>expect</code> support format strings similar to <code>println!</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn get_value(map: &amp;std::collections::HashMap&lt;String, i32&gt;, key: &amp;str) -&gt; i32 {
     *map.get(key).unwrap_or_else(|| {
-        panic!("Key '{}' not found in configuration map", key)
+        panic!(&quot;Key '{}' not found in configuration map&quot;, key)
     })
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Providing detailed error messages helps with debugging and makes code more maintainable.</p>
 <h2 id="unwrapping-and-expecting"><a class="header" href="#unwrapping-and-expecting">Unwrapping and Expecting</a></h2>
-<p>Rust provides several shorthand methods for extracting values from <code>Result</code> and <code>Option</code> types, potentially causing panics if the values aren’t present.</p>
+<p>Rust provides several shorthand methods for extracting values from <code>Result</code> and <code>Option</code> types, potentially causing panics if the values aren't present.</p>
 <h3 id="unwrap-and-its-implications"><a class="header" href="#unwrap-and-its-implications">unwrap and its Implications</a></h3>
-<p>The <code>unwrap</code> method extracts the value from a <code>Result</code> or <code>Option</code>, causing a panic if it’s <code>Err</code> or <code>None</code>:</p>
+<p>The <code>unwrap</code> method extracts the value from a <code>Result</code> or <code>Option</code>, causing a panic if it's <code>Err</code> or <code>None</code>:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x: Result&lt;i32, &amp;str&gt; = Ok(5);
-    let y: Result&lt;i32, &amp;str&gt; = Err("Error occurred");
+    let y: Result&lt;i32, &amp;str&gt; = Err(&quot;Error occurred&quot;);
 
-    println!("{}", x.unwrap()); // Prints: 5
-    println!("{}", y.unwrap()); // Panics: thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: "Error occurred"'
+    println!(&quot;{}&quot;, x.unwrap()); // Prints: 5
+    println!(&quot;{}&quot;, y.unwrap()); // Panics: thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: &quot;Error occurred&quot;'
 }</code></pre></pre>
 <p><code>unwrap</code> is concise but provides minimal context when it panics, making it less ideal for production code.</p>
 <h3 id="when-unwrapping-is-reasonable"><a class="header" href="#when-unwrapping-is-reasonable">When Unwrapping is Reasonable</a></h3>
 <p>Despite its potential for causing panics, <code>unwrap</code> can be appropriate in certain contexts:</p>
 <ol>
 <li>
-<p><strong>Prototyping</strong>: When you’re rapidly developing a proof of concept.</p>
+<p><strong>Prototyping</strong>: When you're rapidly developing a proof of concept.</p>
 </li>
 <li>
 <p><strong>Tests</strong>: Where simplicity and readability outweigh robust error handling.</p>
 </li>
 <li>
-<p><strong>Cases Where You’ve Already Checked</strong>: If you’ve verified that a <code>Result</code> is <code>Ok</code> or an <code>Option</code> is <code>Some</code>.</p>
+<p><strong>Cases Where You've Already Checked</strong>: If you've verified that a <code>Result</code> is <code>Ok</code> or an <code>Option</code> is <code>Some</code>.</p>
 </li>
 <li>
 <p><strong>When a Failure Truly Is Impossible</strong>: If you can prove that an error case cannot occur (though this is rare).</p>
@@ -370,7 +377,7 @@ fn process_positive_number(text: &amp;str) {
         if num &gt; 0 {
             // We've already verified that parsing succeeded and num is positive
             let result = calculate_with_positive(num.abs().try_into().unwrap());
-            println!("Result: {}", result);
+            println!(&quot;Result: {}&quot;, result);
         }
     }
 }
@@ -380,13 +387,13 @@ fn process_positive_number(text: &amp;str) {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn read_config() -&gt; String {
-    std::fs::read_to_string("config.txt")
-        .expect("Critical configuration file missing")
+    std::fs::read_to_string(&quot;config.txt&quot;)
+        .expect(&quot;Critical configuration file missing&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
-<p>When reviewing code, <code>expect</code> makes it clearer why the developer believed the operation would succeed and what went wrong if it didn’t.</p>
+<p>When reviewing code, <code>expect</code> makes it clearer why the developer believed the operation would succeed and what went wrong if it didn't.</p>
 <h3 id="unwrap_or-and-other-alternatives"><a class="header" href="#unwrap_or-and-other-alternatives">unwrap_or and Other Alternatives</a></h3>
-<p>Rust provides safer alternatives to <code>unwrap</code> that don’t panic:</p>
+<p>Rust provides safer alternatives to <code>unwrap</code> that don't panic:</p>
 <ul>
 <li><code>unwrap_or(default)</code>: Returns the contained value or a default.</li>
 <li><code>unwrap_or_else(|| compute_default())</code>: Returns the contained value or computes a default.</li>
@@ -402,7 +409,7 @@ fn process_positive_number(text: &amp;str) {
 <span class="boring">}</span></code></pre></pre>
 <p>These methods allow you to handle the absence of a value gracefully instead of panicking.</p>
 <h2 id="the-panic-handler"><a class="header" href="#the-panic-handler">The Panic Handler</a></h2>
-<p>When a panic occurs, Rust executes what’s known as the panic handler. Understanding how this handler works gives you insight into Rust’s error handling mechanisms and allows you to customize panic behavior when needed.</p>
+<p>When a panic occurs, Rust executes what's known as the panic handler. Understanding how this handler works gives you insight into Rust's error handling mechanisms and allows you to customize panic behavior when needed.</p>
 <h3 id="default-panic-behavior"><a class="header" href="#default-panic-behavior">Default Panic Behavior</a></h3>
 <p>By default, when a panic occurs, Rust:</p>
 <ol>
@@ -414,7 +421,7 @@ fn process_positive_number(text: &amp;str) {
 <h3 id="stack-unwinding"><a class="header" href="#stack-unwinding">Stack Unwinding</a></h3>
 <p>Stack unwinding is the process of walking back up the call stack when a panic occurs:</p>
 <pre><pre class="playground"><code class="language-rust">fn inner() {
-    panic!("Inner function panicked");
+    panic!(&quot;Inner function panicked&quot;);
 }
 
 fn middle() {
@@ -448,23 +455,23 @@ fn main() {
     // Set a custom panic hook
     panic::set_hook(Box::new(|panic_info| {
         if let Some(location) = panic_info.location() {
-            println!("Panic occurred in file '{}' at line {}",
+            println!(&quot;Panic occurred in file '{}' at line {}&quot;,
                      location.file(), location.line());
         } else {
-            println!("Panic occurred but location information is unavailable");
+            println!(&quot;Panic occurred but location information is unavailable&quot;);
         }
 
         if let Some(message) = panic_info.payload().downcast_ref::&lt;&amp;str&gt;() {
-            println!("Panic message: {}", message);
+            println!(&quot;Panic message: {}&quot;, message);
         } else {
-            println!("Panic payload not available or not a string");
+            println!(&quot;Panic payload not available or not a string&quot;);
         }
 
         // You could log to a file, send a notification, etc.
     }));
 
     // This will trigger our custom handler
-    panic!("This is a test panic");
+    panic!(&quot;This is a test panic&quot;);
 }</code></pre></pre>
 <p>Custom panic hooks are useful for:</p>
 <ul>
@@ -482,9 +489,9 @@ fn main() {
 </ul>
 <p>You can extract this information to provide more detailed error reports.</p>
 <h2 id="backtrace-analysis"><a class="header" href="#backtrace-analysis">Backtrace Analysis</a></h2>
-<p>A backtrace is a list of all the function calls that were active when a panic occurred. It’s an invaluable tool for diagnosing the cause of a panic.</p>
+<p>A backtrace is a list of all the function calls that were active when a panic occurred. It's an invaluable tool for diagnosing the cause of a panic.</p>
 <h3 id="enabling-backtraces"><a class="header" href="#enabling-backtraces">Enabling Backtraces</a></h3>
-<p>By default, Rust doesn’t display a full backtrace when a panic occurs. To enable backtraces, set the <code>RUST_BACKTRACE</code> environment variable:</p>
+<p>By default, Rust doesn't display a full backtrace when a panic occurs. To enable backtraces, set the <code>RUST_BACKTRACE</code> environment variable:</p>
 <pre><code class="language-bash"># On Unix-like systems
 RUST_BACKTRACE=1 cargo run
 
@@ -493,7 +500,7 @@ $env:RUST_BACKTRACE=1; cargo run
 </code></pre>
 <p>You can also set it programmatically in your Rust code:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    std::env::set_var("RUST_BACKTRACE", "1");
+    std::env::set_var(&quot;RUST_BACKTRACE&quot;, &quot;1&quot;);
     // Now any panics will include a backtrace
 
     // Example function that will panic
@@ -540,7 +547,7 @@ stack backtrace:
 </span><span class="boring">fn main() {
 </span>fn process_data(data: &amp;[i32]) -&gt; i32 {
     // Add debugging to help understand future panics
-    println!("process_data called with data length: {}", data.len());
+    println!(&quot;process_data called with data length: {}&quot;, data.len());
 
     // This will panic if data is empty
     let first = data[0];
@@ -550,7 +557,7 @@ stack backtrace:
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="panic-vs-abort"><a class="header" href="#panic-vs-abort">panic vs abort</a></h2>
-<p>Rust offers two different ways to handle panics: the default unwinding behavior and a more drastic “abort” strategy. Each has its use cases and performance implications.</p>
+<p>Rust offers two different ways to handle panics: the default unwinding behavior and a more drastic &quot;abort&quot; strategy. Each has its use cases and performance implications.</p>
 <h3 id="stack-unwinding-default"><a class="header" href="#stack-unwinding-default">Stack Unwinding (Default)</a></h3>
 <p>By default, when a panic occurs, Rust unwinds the stack, which means:</p>
 <ol>
@@ -562,7 +569,7 @@ stack backtrace:
 <h3 id="abort-on-panic"><a class="header" href="#abort-on-panic">Abort on Panic</a></h3>
 <p>Alternatively, you can configure Rust to immediately abort the process when a panic occurs, without unwinding. This is done by adding the following to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[profile.release]
-panic = "abort"
+panic = &quot;abort&quot;
 </code></pre>
 <p>Or by using the <code>-C panic=abort</code> compiler flag:</p>
 <pre><code class="language-bash">rustc -C panic=abort main.rs
@@ -572,7 +579,7 @@ panic = "abort"
 <li>The process terminates immediately upon panic</li>
 <li>No destructors are run</li>
 <li>Resource cleanup is left to the operating system</li>
-<li>The resulting binary is smaller because it doesn’t include unwinding code</li>
+<li>The resulting binary is smaller because it doesn't include unwinding code</li>
 </ol>
 <h3 id="performance-considerations"><a class="header" href="#performance-considerations">Performance Considerations</a></h3>
 <p>The choice between unwinding and aborting affects both runtime performance and binary size:</p>
@@ -610,28 +617,28 @@ panic = "abort"
 }</code></pre></pre>
 <p>This approach gives you the benefits of collecting diagnostic information while still having deterministic termination behavior.</p>
 <h2 id="catching-panics-with-catch_unwind"><a class="header" href="#catching-panics-with-catch_unwind">Catching Panics with catch_unwind</a></h2>
-<p>While Rust’s panic mechanism is designed for unrecoverable errors, there are limited situations where you might want to catch a panic and prevent it from unwinding beyond a certain point. The <code>std::panic::catch_unwind</code> function provides this capability.</p>
+<p>While Rust's panic mechanism is designed for unrecoverable errors, there are limited situations where you might want to catch a panic and prevent it from unwinding beyond a certain point. The <code>std::panic::catch_unwind</code> function provides this capability.</p>
 <h3 id="basic-usage-of-catch_unwind"><a class="header" href="#basic-usage-of-catch_unwind">Basic Usage of catch_unwind</a></h3>
 <p>The <code>catch_unwind</code> function executes a closure and returns a <code>Result</code>:</p>
 <ul>
-<li><code>Ok</code> containing the closure’s return value if no panic occurred</li>
+<li><code>Ok</code> containing the closure's return value if no panic occurred</li>
 <li><code>Err</code> containing the panic payload if a panic occurred</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust">use std::panic;
 
 fn main() {
     let result = panic::catch_unwind(|| {
-        println!("Inside the closure");
+        println!(&quot;Inside the closure&quot;);
         // This will panic
-        panic!("Oh no!");
+        panic!(&quot;Oh no!&quot;);
     });
 
     match result {
-        Ok(_) =&gt; println!("The closure executed without panicking"),
-        Err(_) =&gt; println!("The closure panicked, but we caught it"),
+        Ok(_) =&gt; println!(&quot;The closure executed without panicking&quot;),
+        Err(_) =&gt; println!(&quot;The closure panicked, but we caught it&quot;),
     }
 
-    println!("This code still runs because we caught the panic");
+    println!(&quot;This code still runs because we caught the panic&quot;);
 }</code></pre></pre>
 <h3 id="appropriate-use-cases"><a class="header" href="#appropriate-use-cases">Appropriate Use Cases</a></h3>
 <p><code>catch_unwind</code> should be used sparingly and only in specific scenarios:</p>
@@ -661,9 +668,9 @@ fn execute_plugin(plugin: &amp;dyn Plugin, input: &amp;str) -&gt; Result&lt;Stri
         Ok(output) =&gt; Ok(output),
         Err(e) =&gt; {
             if let Some(msg) = e.downcast_ref::&lt;&amp;str&gt;() {
-                Err(format!("Plugin panicked: {}", msg))
+                Err(format!(&quot;Plugin panicked: {}&quot;, msg))
             } else {
-                Err("Plugin panicked with unknown error".to_string())
+                Err(&quot;Plugin panicked with unknown error&quot;.to_string())
             }
         }
     }
@@ -676,13 +683,13 @@ fn execute_plugin(plugin: &amp;dyn Plugin, input: &amp;str) -&gt; Result&lt;Stri
 <p><strong>Only works with UnwindSafe types</strong>: The closure and all variables it captures must implement the <code>UnwindSafe</code> trait.</p>
 </li>
 <li>
-<p><strong>Not guaranteed to catch all panics</strong>: If compiled with <code>-C panic=abort</code>, <code>catch_unwind</code> won’t work at all.</p>
+<p><strong>Not guaranteed to catch all panics</strong>: If compiled with <code>-C panic=abort</code>, <code>catch_unwind</code> won't work at all.</p>
 </li>
 <li>
 <p><strong>Not for normal error handling</strong>: Using <code>catch_unwind</code> for regular error handling is discouraged—use <code>Result</code> instead.</p>
 </li>
 <li>
-<p><strong>Performance cost</strong>: There’s a runtime cost associated with setting up panic catching.</p>
+<p><strong>Performance cost</strong>: There's a runtime cost associated with setting up panic catching.</p>
 </li>
 </ol>
 <pre><pre class="playground"><code class="language-rust">use std::panic::{self, AssertUnwindSafe};
@@ -693,7 +700,7 @@ struct Database { /* ... */ }
 impl Database {
     fn query(&amp;self) -&gt; String {
         // Potentially panicking operation
-        "result".to_string()
+        &quot;result&quot;.to_string()
     }
 }
 
@@ -707,8 +714,8 @@ fn main() {
     let result = panic::catch_unwind(AssertUnwindSafe(|| db.query()));
 
     match result {
-        Ok(data) =&gt; println!("Query result: {}", data),
-        Err(_) =&gt; println!("Database query panicked"),
+        Ok(data) =&gt; println!(&quot;Query result: {}&quot;, data),
+        Err(_) =&gt; println!(&quot;Database query panicked&quot;),
     }
 }</code></pre></pre>
 <h3 id="resume_unwind"><a class="header" href="#resume_unwind">resume_unwind</a></h3>
@@ -717,12 +724,12 @@ fn main() {
 
 fn main() {
     let result = panic::catch_unwind(|| {
-        println!("About to panic");
-        panic!("Original panic");
+        println!(&quot;About to panic&quot;);
+        panic!(&quot;Original panic&quot;);
     });
 
     // Do some cleanup work...
-    println!("Doing cleanup before re-panicking");
+    println!(&quot;Doing cleanup before re-panicking&quot;);
 
     // Re-panic with the original panic payload
     if let Err(panic) = result {
@@ -731,7 +738,7 @@ fn main() {
 }</code></pre></pre>
 <p>This is useful when you need to perform cleanup operations before allowing the panic to continue.</p>
 <h2 id="testing-with-should_panic"><a class="header" href="#testing-with-should_panic">Testing with should_panic</a></h2>
-<p>Rust’s testing framework provides special support for testing code that’s expected to panic, allowing you to verify that your code correctly detects and handles invalid states.</p>
+<p>Rust's testing framework provides special support for testing code that's expected to panic, allowing you to verify that your code correctly detects and handles invalid states.</p>
 <h3 id="basic-should_panic-attribute"><a class="header" href="#basic-should_panic-attribute">Basic should_panic Attribute</a></h3>
 <p>The <code>#[should_panic]</code> attribute tells the test runner that a test is expected to panic:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -740,26 +747,26 @@ fn main() {
 #[should_panic]
 fn test_divide_by_zero() {
     let result = divide(10, 0);
-    println!("Result: {}", result);
+    println!(&quot;Result: {}&quot;, result);
 }
 
 fn divide(a: i32, b: i32) -&gt; i32 {
     if b == 0 {
-        panic!("Cannot divide by zero");
+        panic!(&quot;Cannot divide by zero&quot;);
     }
     a / b
 }
 <span class="boring">}</span></code></pre></pre>
-<p>If <code>divide</code> didn’t panic when given a zero divisor, the test would fail.</p>
+<p>If <code>divide</code> didn't panic when given a zero divisor, the test would fail.</p>
 <h3 id="checking-panic-messages"><a class="header" href="#checking-panic-messages">Checking Panic Messages</a></h3>
 <p>For more precise testing, you can check that the panic message contains specific text:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
-#[should_panic(expected = "Cannot divide by zero")]
+#[should_panic(expected = &quot;Cannot divide by zero&quot;)]
 fn test_divide_by_zero_message() {
     let result = divide(10, 0);
-    println!("Result: {}", result);
+    println!(&quot;Result: {}&quot;, result);
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This test will only pass if the function panics AND the panic message contains the expected text. This helps ensure that the right panic is occurring for the right reason.</p>
@@ -777,7 +784,7 @@ fn test_result_with_panic() -&gt; Result&lt;(), String&gt; {
 
 fn validate_positive_number(n: i32) -&gt; Result&lt;(), String&gt; {
     if n &lt;= 0 {
-        panic!("Number must be positive");
+        panic!(&quot;Number must be positive&quot;);
     }
     Ok(())
 }
@@ -787,7 +794,7 @@ fn validate_positive_number(n: i32) -&gt; Result&lt;(), String&gt; {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
-#[should_panic(expected = "index out of bounds")]
+#[should_panic(expected = &quot;index out of bounds&quot;)]
 fn test_out_of_bounds_access() {
     let v = vec![1, 2, 3];
     let _value = v[10]; // This should panic
@@ -797,9 +804,9 @@ fn test_out_of_bounds_access() {
 <h2 id="writing-panic-safe-code"><a class="header" href="#writing-panic-safe-code">Writing Panic-Safe Code</a></h2>
 <p>Writing code that handles panics gracefully is important for building reliable systems. This section covers techniques for making your code resilient even in the face of panics.</p>
 <h3 id="understanding-panic-safety"><a class="header" href="#understanding-panic-safety">Understanding Panic Safety</a></h3>
-<p>A function or type is “panic safe” if it maintains its invariants and doesn’t leak resources even if a panic occurs during its execution. This is especially important for code that manages resources or maintains complex data structures.</p>
+<p>A function or type is &quot;panic safe&quot; if it maintains its invariants and doesn't leak resources even if a panic occurs during its execution. This is especially important for code that manages resources or maintains complex data structures.</p>
 <h3 id="the-raii-pattern"><a class="header" href="#the-raii-pattern">The RAII Pattern</a></h3>
-<p>Rust’s Resource Acquisition Is Initialization (RAII) pattern helps make code panic-safe automatically:</p>
+<p>Rust's Resource Acquisition Is Initialization (RAII) pattern helps make code panic-safe automatically:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct ResourceGuard {
@@ -903,7 +910,7 @@ impl Counter {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="the-panic-boundary-pattern"><a class="header" href="#the-panic-boundary-pattern">The Panic Boundary Pattern</a></h3>
-<p>In complex systems, establish clear “panic boundaries” where panics are caught and handled:</p>
+<p>In complex systems, establish clear &quot;panic boundaries&quot; where panics are caught and handled:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn process_request(request: Request) -&gt; Response {
@@ -914,7 +921,7 @@ impl Counter {
         Ok(response) =&gt; response,
         Err(_) =&gt; {
             // Log the error and return a fallback response
-            log_error("Request processing panicked");
+            log_error(&quot;Request processing panicked&quot;);
             Response::internal_server_error()
         }
     }
@@ -922,7 +929,7 @@ impl Counter {
 <span class="boring">}</span></code></pre></pre>
 <p>This pattern helps contain failures and prevent them from cascading through the entire system.</p>
 <h2 id="setting-panic-hooks"><a class="header" href="#setting-panic-hooks">Setting Panic Hooks</a></h2>
-<p>We’ve briefly covered panic hooks earlier, but they deserve a more detailed exploration as they’re an essential tool for customizing panic behavior.</p>
+<p>We've briefly covered panic hooks earlier, but they deserve a more detailed exploration as they're an essential tool for customizing panic behavior.</p>
 <h3 id="global-panic-hooks"><a class="header" href="#global-panic-hooks">Global Panic Hooks</a></h3>
 <p>The global panic hook affects all panics in your program:</p>
 <pre><pre class="playground"><code class="language-rust">use std::panic;
@@ -935,19 +942,19 @@ fn main() {
         let mut file = OpenOptions::new()
             .create(true)
             .append(true)
-            .open("panic.log")
+            .open(&quot;panic.log&quot;)
             .unwrap();
 
         let timestamp = chrono::Local::now().to_rfc3339();
         let backtrace = std::backtrace::Backtrace::capture();
 
-        let _ = writeln!(file, "===== Panic at {} =====", timestamp);
-        let _ = writeln!(file, "Info: {:?}", panic_info);
-        let _ = writeln!(file, "Backtrace: {:?}", backtrace);
-        let _ = writeln!(file, "============================\n");
+        let _ = writeln!(file, &quot;===== Panic at {} =====&quot;, timestamp);
+        let _ = writeln!(file, &quot;Info: {:?}&quot;, panic_info);
+        let _ = writeln!(file, &quot;Backtrace: {:?}&quot;, backtrace);
+        let _ = writeln!(file, &quot;============================\n&quot;);
 
         // Also print to stderr
-        eprintln!("Application panicked! See panic.log for details.");
+        eprintln!(&quot;Application panicked! See panic.log for details.&quot;);
     }));
 
     // Your application code...
@@ -967,7 +974,7 @@ where
 
     // Set a new hook for this scope
     panic::set_hook(Box::new(|panic_info| {
-        println!("Special panic handler: {:?}", panic_info);
+        println!(&quot;Special panic handler: {:?}&quot;, panic_info);
     }));
 
     // Run the function with the special hook
@@ -994,9 +1001,9 @@ fn setup_panic_logging() {
     panic::set_hook(Box::new(|panic_info| {
         let location = panic_info.location()
             .map(|loc| json!({
-                "file": loc.file(),
-                "line": loc.line(),
-                "column": loc.column(),
+                &quot;file&quot;: loc.file(),
+                &quot;line&quot;: loc.line(),
+                &quot;column&quot;: loc.column(),
             }))
             .unwrap_or_else(|| json!(null));
 
@@ -1004,20 +1011,20 @@ fn setup_panic_logging() {
             Some(s) =&gt; *s,
             None =&gt; match panic_info.payload().downcast_ref::&lt;String&gt;() {
                 Some(s) =&gt; &amp;s[..],
-                None =&gt; "Unknown panic payload",
+                None =&gt; &quot;Unknown panic payload&quot;,
             },
         };
 
         let log_entry = json!({
-            "level": "FATAL",
-            "timestamp": chrono::Local::now().to_rfc3339(),
-            "message": message,
-            "location": location,
-            "type": "panic",
+            &quot;level&quot;: &quot;FATAL&quot;,
+            &quot;timestamp&quot;: chrono::Local::now().to_rfc3339(),
+            &quot;message&quot;: message,
+            &quot;location&quot;: location,
+            &quot;type&quot;: &quot;panic&quot;,
         });
 
         // Log the structured data
-        println!("{}", log_entry);
+        println!(&quot;{}&quot;, log_entry);
     }));
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1038,10 +1045,10 @@ fn setup_panic_logging() {
     {
         // Extensive checking in debug mode
         if value &lt; 0 {
-            panic!("Value must be non-negative, got {}", value);
+            panic!(&quot;Value must be non-negative, got {}&quot;, value);
         }
         if value &gt; 1000 {
-            panic!("Value must be at most 1000, got {}", value);
+            panic!(&quot;Value must be at most 1000, got {}&quot;, value);
         }
     }
 
@@ -1049,7 +1056,7 @@ fn setup_panic_logging() {
     {
         // Minimal checking in release mode
         if value &lt; 0 || value &gt; 1000 {
-            panic!("Value out of allowed range");
+            panic!(&quot;Value out of allowed range&quot;);
         }
     }
 }
@@ -1059,7 +1066,7 @@ fn setup_panic_logging() {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn calculate_average(values: &amp;[f64]) -&gt; f64 {
-    debug_assert!(!values.is_empty(), "Cannot calculate average of empty slice");
+    debug_assert!(!values.is_empty(), &quot;Cannot calculate average of empty slice&quot;);
 
     // In release mode, this might cause division by zero if values is empty
     values.iter().sum::&lt;f64&gt;() / values.len() as f64
@@ -1078,7 +1085,7 @@ fn setup_panic_logging() {
     // In release mode, disable console backtrace but log to file
     #[cfg(not(debug_assertions))]
     {
-        std::env::set_var("RUST_BACKTRACE", "0");
+        std::env::set_var(&quot;RUST_BACKTRACE&quot;, &quot;0&quot;);
         set_panic_hook_with_file_logging();
     }
 
@@ -1103,11 +1110,11 @@ fn handle_critical_error() {
 #[cfg(debug_assertions)]
 fn handle_critical_error() {
     // In debug mode, just panic with detailed information
-    panic!("Critical error occurred - see log for details");
+    panic!(&quot;Critical error occurred - see log for details&quot;);
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="-project-robust-cli-tool"><a class="header" href="#-project-robust-cli-tool">🔨 Project: Robust CLI Tool</a></h2>
-<p>Let’s build a command-line tool that demonstrates proper panic handling and error recovery. This tool will process text files, performing various transformations while ensuring it handles errors gracefully.</p>
+<p>Let's build a command-line tool that demonstrates proper panic handling and error recovery. This tool will process text files, performing various transformations while ensuring it handles errors gracefully.</p>
 <h3 id="project-goals"><a class="header" href="#project-goals">Project Goals</a></h3>
 <ol>
 <li>Build a text processing CLI tool</li>
@@ -1122,14 +1129,14 @@ cd text_processor
 </code></pre>
 <p>Add the following dependencies to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-clap = "3.0"
-anyhow = "1.0"
-chrono = "0.4"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+clap = &quot;3.0&quot;
+anyhow = &quot;1.0&quot;
+chrono = &quot;0.4&quot;
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0&quot;
 </code></pre>
 <h3 id="step-2-implement-basic-cli"><a class="header" href="#step-2-implement-basic-cli">Step 2: Implement Basic CLI</a></h3>
-<p>First, let’s set up a basic CLI structure:</p>
+<p>First, let's set up a basic CLI structure:</p>
 <pre><pre class="playground"><code class="language-rust">// src/main.rs
 use clap::{App, Arg, SubCommand};
 use std::fs::File;
@@ -1143,123 +1150,123 @@ fn main() {
     // Set up custom panic handling
     setup_panic_handler();
 
-    let matches = App::new("Text Processor")
-        .version("1.0")
-        .author("Your Name")
-        .about("Processes text files with robust error handling")
+    let matches = App::new(&quot;Text Processor&quot;)
+        .version(&quot;1.0&quot;)
+        .author(&quot;Your Name&quot;)
+        .about(&quot;Processes text files with robust error handling&quot;)
         .arg(
-            Arg::new("verbose")
+            Arg::new(&quot;verbose&quot;)
                 .short('v')
-                .long("verbose")
-                .help("Enable verbose output"),
+                .long(&quot;verbose&quot;)
+                .help(&quot;Enable verbose output&quot;),
         )
         .subcommand(
-            SubCommand::with_name("count")
-                .about("Count lines, words, and characters in a file")
+            SubCommand::with_name(&quot;count&quot;)
+                .about(&quot;Count lines, words, and characters in a file&quot;)
                 .arg(
-                    Arg::new("file")
-                        .help("Input file")
+                    Arg::new(&quot;file&quot;)
+                        .help(&quot;Input file&quot;)
                         .required(true)
                         .index(1),
                 ),
         )
         .subcommand(
-            SubCommand::with_name("transform")
-                .about("Transform text in various ways")
+            SubCommand::with_name(&quot;transform&quot;)
+                .about(&quot;Transform text in various ways&quot;)
                 .arg(
-                    Arg::new("file")
-                        .help("Input file")
+                    Arg::new(&quot;file&quot;)
+                        .help(&quot;Input file&quot;)
                         .required(true)
                         .index(1),
                 )
                 .arg(
-                    Arg::new("output")
+                    Arg::new(&quot;output&quot;)
                         .short('o')
-                        .long("output")
-                        .help("Output file (default: stdout)")
+                        .long(&quot;output&quot;)
+                        .help(&quot;Output file (default: stdout)&quot;)
                         .takes_value(true),
                 )
                 .arg(
-                    Arg::new("uppercase")
-                        .long("uppercase")
-                        .help("Convert text to uppercase"),
+                    Arg::new(&quot;uppercase&quot;)
+                        .long(&quot;uppercase&quot;)
+                        .help(&quot;Convert text to uppercase&quot;),
                 )
                 .arg(
-                    Arg::new("lowercase")
-                        .long("lowercase")
-                        .help("Convert text to lowercase"),
+                    Arg::new(&quot;lowercase&quot;)
+                        .long(&quot;lowercase&quot;)
+                        .help(&quot;Convert text to lowercase&quot;),
                 )
                 .arg(
-                    Arg::new("reverse")
-                        .long("reverse")
-                        .help("Reverse each line"),
+                    Arg::new(&quot;reverse&quot;)
+                        .long(&quot;reverse&quot;)
+                        .help(&quot;Reverse each line&quot;),
                 ),
         )
         .get_matches();
 
-    let verbose = matches.is_present("verbose");
+    let verbose = matches.is_present(&quot;verbose&quot;);
 
     match matches.subcommand() {
-        Some(("count", sub_m)) =&gt; {
-            let file_path = sub_m.value_of("file").unwrap();
+        Some((&quot;count&quot;, sub_m)) =&gt; {
+            let file_path = sub_m.value_of(&quot;file&quot;).unwrap();
             if let Err(e) = count_file(file_path, verbose) {
-                eprintln!("Error: {}", e);
+                eprintln!(&quot;Error: {}&quot;, e);
                 process::exit(1);
             }
         }
-        Some(("transform", sub_m)) =&gt; {
-            let file_path = sub_m.value_of("file").unwrap();
-            let output_path = sub_m.value_of("output");
-            let uppercase = sub_m.is_present("uppercase");
-            let lowercase = sub_m.is_present("lowercase");
-            let reverse = sub_m.is_present("reverse");
+        Some((&quot;transform&quot;, sub_m)) =&gt; {
+            let file_path = sub_m.value_of(&quot;file&quot;).unwrap();
+            let output_path = sub_m.value_of(&quot;output&quot;);
+            let uppercase = sub_m.is_present(&quot;uppercase&quot;);
+            let lowercase = sub_m.is_present(&quot;lowercase&quot;);
+            let reverse = sub_m.is_present(&quot;reverse&quot;);
 
             if let Err(e) = transform_file(file_path, output_path, uppercase, lowercase, reverse, verbose) {
-                eprintln!("Error: {}", e);
+                eprintln!(&quot;Error: {}&quot;, e);
                 process::exit(1);
             }
         }
         _ =&gt; {
-            eprintln!("No subcommand provided. Use --help for usage information.");
+            eprintln!(&quot;No subcommand provided. Use --help for usage information.&quot;);
             process::exit(1);
         }
     }
 }</code></pre></pre>
 <h3 id="step-3-implement-custom-panic-handler"><a class="header" href="#step-3-implement-custom-panic-handler">Step 3: Implement Custom Panic Handler</a></h3>
-<p>Next, let’s add a robust panic handler that logs detailed information:</p>
+<p>Next, let's add a robust panic handler that logs detailed information:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/main.rs (continued)
 
 fn setup_panic_handler() {
     panic::set_hook(Box::new(|panic_info| {
-        let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+        let timestamp = Local::now().format(&quot;%Y-%m-%d %H:%M:%S&quot;).to_string();
 
         let mut error_log = File::options()
             .create(true)
             .append(true)
-            .open("error.log")
+            .open(&quot;error.log&quot;)
             .unwrap_or_else(|_| {
-                eprintln!("Warning: Could not open error log file");
+                eprintln!(&quot;Warning: Could not open error log file&quot;);
                 process::exit(1);
             });
 
         let backtrace = std::backtrace::Backtrace::capture();
         let location = panic_info.location()
-            .map(|loc| format!("{}:{}", loc.file(), loc.line()))
-            .unwrap_or_else(|| "unknown".to_string());
+            .map(|loc| format!(&quot;{}:{}&quot;, loc.file(), loc.line()))
+            .unwrap_or_else(|| &quot;unknown&quot;.to_string());
 
         let payload = match panic_info.payload().downcast_ref::&lt;&amp;str&gt;() {
             Some(s) =&gt; *s,
             None =&gt; match panic_info.payload().downcast_ref::&lt;String&gt;() {
                 Some(s) =&gt; s.as_str(),
-                None =&gt; "Unknown panic payload",
+                None =&gt; &quot;Unknown panic payload&quot;,
             },
         };
 
         // Format the panic information
         let log_message = format!(
-            "[{}] PANIC: {}\nLocation: {}\nBacktrace:\n{:?}\n\n",
+            &quot;[{}] PANIC: {}\nLocation: {}\nBacktrace:\n{:?}\n\n&quot;,
             timestamp, payload, location, backtrace
         );
 
@@ -1267,26 +1274,26 @@ fn setup_panic_handler() {
         let _ = error_log.write_all(log_message.as_bytes());
 
         // Print a user-friendly message to stderr
-        eprintln!("The application encountered an unexpected error and must terminate.");
-        eprintln!("The error has been logged to error.log");
-        eprintln!("Error details: {} at {}", payload, location);
+        eprintln!(&quot;The application encountered an unexpected error and must terminate.&quot;);
+        eprintln!(&quot;The error has been logged to error.log&quot;);
+        eprintln!(&quot;Error details: {} at {}&quot;, payload, location);
     }));
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-4-implement-file-processing-functions"><a class="header" href="#step-4-implement-file-processing-functions">Step 4: Implement File Processing Functions</a></h3>
-<p>Now, let’s implement the file processing functions with proper error handling:</p>
+<p>Now, let's implement the file processing functions with proper error handling:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/main.rs (continued)
 
 fn count_file(file_path: &amp;str, verbose: bool) -&gt; Result&lt;(), String&gt; {
     if verbose {
-        println!("Counting elements in file: {}", file_path);
+        println!(&quot;Counting elements in file: {}&quot;, file_path);
     }
 
     // Safely catch panics in this function
     let result = panic::catch_unwind(|| -&gt; Result&lt;(), String&gt; {
-        let file = File::open(file_path).map_err(|e| format!("Failed to open file: {}", e))?;
+        let file = File::open(file_path).map_err(|e| format!(&quot;Failed to open file: {}&quot;, e))?;
         let reader = BufReader::new(file);
 
         let mut line_count = 0;
@@ -1294,16 +1301,16 @@ fn count_file(file_path: &amp;str, verbose: bool) -&gt; Result&lt;(), String&gt;
         let mut char_count = 0;
 
         for line_result in reader.lines() {
-            let line = line_result.map_err(|e| format!("Error reading line: {}", e))?;
+            let line = line_result.map_err(|e| format!(&quot;Error reading line: {}&quot;, e))?;
             line_count += 1;
             word_count += line.split_whitespace().count();
             char_count += line.chars().count();
         }
 
-        println!("File: {}", file_path);
-        println!("  Lines: {}", line_count);
-        println!("  Words: {}", word_count);
-        println!("  Characters: {}", char_count);
+        println!(&quot;File: {}&quot;, file_path);
+        println!(&quot;  Lines: {}&quot;, line_count);
+        println!(&quot;  Words: {}&quot;, word_count);
+        println!(&quot;  Characters: {}&quot;, char_count);
 
         Ok(())
     });
@@ -1311,7 +1318,7 @@ fn count_file(file_path: &amp;str, verbose: bool) -&gt; Result&lt;(), String&gt;
     // Handle any panics that occurred
     match result {
         Ok(result) =&gt; result,
-        Err(_) =&gt; Err("A critical error occurred while processing the file".to_string()),
+        Err(_) =&gt; Err(&quot;A critical error occurred while processing the file&quot;.to_string()),
     }
 }
 
@@ -1324,37 +1331,37 @@ fn transform_file(
     verbose: bool,
 ) -&gt; Result&lt;(), String&gt; {
     if verbose {
-        println!("Transforming file: {}", file_path);
+        println!(&quot;Transforming file: {}&quot;, file_path);
         if let Some(output) = output_path {
-            println!("Output file: {}", output);
+            println!(&quot;Output file: {}&quot;, output);
         }
-        println!("Transformations: {}",
+        println!(&quot;Transformations: {}&quot;,
             [
-                if uppercase { "uppercase" } else { "" },
-                if lowercase { "lowercase" } else { "" },
-                if reverse { "reverse" } else { "" },
+                if uppercase { &quot;uppercase&quot; } else { &quot;&quot; },
+                if lowercase { &quot;lowercase&quot; } else { &quot;&quot; },
+                if reverse { &quot;reverse&quot; } else { &quot;&quot; },
             ].iter()
             .filter(|&amp;s| !s.is_empty())
             .collect::&lt;Vec&lt;_&gt;&gt;()
-            .join(", ")
+            .join(&quot;, &quot;)
         );
     }
 
     // Conflict check
     if uppercase &amp;&amp; lowercase {
-        return Err("Cannot specify both uppercase and lowercase transformations".to_string());
+        return Err(&quot;Cannot specify both uppercase and lowercase transformations&quot;.to_string());
     }
 
     // Safely catch panics
     let result = panic::catch_unwind(|| -&gt; Result&lt;(), String&gt; {
-        let file = File::open(file_path).map_err(|e| format!("Failed to open input file: {}", e))?;
+        let file = File::open(file_path).map_err(|e| format!(&quot;Failed to open input file: {}&quot;, e))?;
         let reader = BufReader::new(file);
 
         // Set up the output writer
         let output: Box&lt;dyn Write&gt; = match output_path {
             Some(path) =&gt; {
                 let output_file = File::create(path)
-                    .map_err(|e| format!("Failed to create output file: {}", e))?;
+                    .map_err(|e| format!(&quot;Failed to create output file: {}&quot;, e))?;
                 Box::new(output_file)
             },
             None =&gt; Box::new(io::stdout()),
@@ -1367,7 +1374,7 @@ fn transform_file(
     // Handle any panics
     match result {
         Ok(result) =&gt; result,
-        Err(_) =&gt; Err("A critical error occurred during file transformation".to_string()),
+        Err(_) =&gt; Err(&quot;A critical error occurred during file transformation&quot;.to_string()),
     }
 }
 
@@ -1392,7 +1399,7 @@ fn process_lines(
     let _guard = WriteGuard { writer: &amp;mut writer };
 
     for line_result in reader.lines() {
-        let mut line = line_result.map_err(|e| format!("Error reading line: {}", e))?;
+        let mut line = line_result.map_err(|e| format!(&quot;Error reading line: {}&quot;, e))?;
 
         // Apply transformations
         if uppercase {
@@ -1406,14 +1413,14 @@ fn process_lines(
         }
 
         // Write the transformed line
-        writeln!(writer, "{}", line).map_err(|e| format!("Error writing output: {}", e))?;
+        writeln!(writer, &quot;{}&quot;, line).map_err(|e| format!(&quot;Error writing output: {}&quot;, e))?;
     }
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-5-add-input-validation-with-assertions"><a class="header" href="#step-5-add-input-validation-with-assertions">Step 5: Add Input Validation with Assertions</a></h3>
-<p>Let’s add some validation that uses assertions to ensure program invariants:</p>
+<p>Let's add some validation that uses assertions to ensure program invariants:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/main.rs (continued)
@@ -1423,18 +1430,18 @@ fn validate_file_path(path: &amp;str) -&gt; Result&lt;(), String&gt; {
 
     // Check if the file exists
     if !path.exists() {
-        return Err(format!("File does not exist: {}", path.display()));
+        return Err(format!(&quot;File does not exist: {}&quot;, path.display()));
     }
 
     // Check if it's actually a file
     if !path.is_file() {
-        return Err(format!("Not a file: {}", path.display()));
+        return Err(format!(&quot;Not a file: {}&quot;, path.display()));
     }
 
     // Check if we can read it
     match File::open(path) {
         Ok(_) =&gt; {},
-        Err(e) =&gt; return Err(format!("Cannot read file {}: {}", path.display(), e)),
+        Err(e) =&gt; return Err(format!(&quot;Cannot read file {}: {}&quot;, path.display(), e)),
     }
 
     Ok(())
@@ -1443,7 +1450,7 @@ fn validate_file_path(path: &amp;str) -&gt; Result&lt;(), String&gt; {
 // Update the count_file function to use this validation
 fn count_file(file_path: &amp;str, verbose: bool) -&gt; Result&lt;(), String&gt; {
     if verbose {
-        println!("Counting elements in file: {}", file_path);
+        println!(&quot;Counting elements in file: {}&quot;, file_path);
     }
 
     // Validate the file first
@@ -1466,10 +1473,10 @@ fn count_file(file_path: &amp;str, verbose: bool) -&gt; Result&lt;(), String&gt;
 
 # Test panic handling by adding a deliberate panic
 # (You'd add this temporarily to one of your functions)
-panic!("Test panic");
+panic!(&quot;Test panic&quot;);
 </code></pre>
 <h3 id="step-7-improving-error-reporting"><a class="header" href="#step-7-improving-error-reporting">Step 7: Improving Error Reporting</a></h3>
-<p>Finally, let’s improve our error reporting with structured JSON logs:</p>
+<p>Finally, let's improve our error reporting with structured JSON logs:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/main.rs (continued)
@@ -1487,11 +1494,11 @@ struct ErrorLog {
 }
 
 fn log_error(message: &amp;str, context: serde_json::Value) {
-    let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+    let timestamp = Local::now().format(&quot;%Y-%m-%d %H:%M:%S&quot;).to_string();
 
     let log_entry = ErrorLog {
         timestamp,
-        level: "ERROR".to_string(),
+        level: &quot;ERROR&quot;.to_string(),
         message: message.to_string(),
         location: None,
         backtrace: None,
@@ -1499,20 +1506,20 @@ fn log_error(message: &amp;str, context: serde_json::Value) {
     };
 
     let json = serde_json::to_string_pretty(&amp;log_entry).unwrap_or_else(|_| {
-        format!("{{ \"message\": \"Failed to serialize error log\", \"original_error\": \"{}\" }}",
+        format!(&quot;{{ \&quot;message\&quot;: \&quot;Failed to serialize error log\&quot;, \&quot;original_error\&quot;: \&quot;{}\&quot; }}&quot;,
                 message)
     });
 
     let mut log_file = File::options()
         .create(true)
         .append(true)
-        .open("error.log")
+        .open(&quot;error.log&quot;)
         .unwrap_or_else(|_| {
-            eprintln!("Warning: Could not open error log file");
+            eprintln!(&quot;Warning: Could not open error log file&quot;);
             process::exit(1);
         });
 
-    let _ = writeln!(log_file, "{}", json);
+    let _ = writeln!(log_file, &quot;{}&quot;, json);
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This project demonstrates:</p>
@@ -1525,9 +1532,9 @@ fn log_error(message: &amp;str, context: serde_json::Value) {
 </ol>
 <p>By following these patterns, you can build robust Rust applications that gracefully handle errors and maintain system integrity even when unexpected conditions occur.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored Rust’s panic mechanism for handling unrecoverable errors. We’ve learned:</p>
+<p>In this chapter, we've explored Rust's panic mechanism for handling unrecoverable errors. We've learned:</p>
 <ul>
-<li>Rust’s two-pronged approach to error handling with <code>Result</code> for recoverable errors and <code>panic!</code> for unrecoverable ones</li>
+<li>Rust's two-pronged approach to error handling with <code>Result</code> for recoverable errors and <code>panic!</code> for unrecoverable ones</li>
 <li>When panicking is appropriate versus returning a <code>Result</code></li>
 <li>How to use <code>panic!</code>, <code>expect</code>, and various unwrapping methods</li>
 <li>The details of the panic handler and stack unwinding process</li>
@@ -1562,9 +1569,9 @@ fn log_error(message: &amp;str, context: serde_json::Value) {
 <ul>
 <li><a href="https://doc.rust-lang.org/book/ch09-00-error-handling.html">The Rust Error Handling Chapter</a> - Official Rust documentation on error handling</li>
 <li><a href="https://doc.rust-lang.org/nomicon/unwinding.html">The Rustonomicon</a> - Details on unwinding and panic mechanics</li>
-<li><a href="https://blog.rust-lang.org/2022/09/22/const-eval-2022.html">Unwinding Unwound</a> - Advanced details on Rust’s unwinding implementation</li>
+<li><a href="https://blog.rust-lang.org/2022/09/22/const-eval-2022.html">Unwinding Unwound</a> - Advanced details on Rust's unwinding implementation</li>
 <li><a href="https://blog.burntsushi.net/rust-error-handling/">Error Handling in Rust</a> - A comprehensive guide by Andrew Gallant</li>
-<li><a href="https://ferd.ca/the-zen-of-erlang.html">Fault-tolerant Systems in Rust</a> - Inspired by Erlang’s “Let It Crash” philosophy</li>
+<li><a href="https://ferd.ca/the-zen-of-erlang.html">Fault-tolerant Systems in Rust</a> - Inspired by Erlang's &quot;Let It Crash&quot; philosophy</li>
 <li><a href="https://www.snoyman.com/blog/2018/10/rust-crash-course-7-handling-errors/">Panic Safety in Rust</a> - Techniques for ensuring code behaves well even during panics</li>
 </ul>
 

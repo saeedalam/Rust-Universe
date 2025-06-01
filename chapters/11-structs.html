@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html" class="active"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,9 +184,9 @@
                     <main>
                         <h1 id="chapter-11-structs-and-custom-types"><a class="header" href="#chapter-11-structs-and-custom-types">Chapter 11: Structs and Custom Types</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In the previous chapters, we’ve worked with Rust’s built-in types like integers, booleans, and strings. Now, it’s time to explore how Rust allows you to create your own custom types to model the specific concepts in your programs.</p>
+<p>In the previous chapters, we've worked with Rust's built-in types like integers, booleans, and strings. Now, it's time to explore how Rust allows you to create your own custom types to model the specific concepts in your programs.</p>
 <p>Structs are the primary way to create custom data types in Rust. They let you package multiple related values into a meaningful unit, giving your code more organization and clarity. When you need to represent real-world entities like users, products, or geometric shapes in your code, structs provide the ideal mechanism to do so.</p>
-<p>In this chapter, we’ll explore:</p>
+<p>In this chapter, we'll explore:</p>
 <ul>
 <li>Defining and instantiating structs</li>
 <li>Field initialization shorthand</li>
@@ -192,7 +199,7 @@
 <li>Struct composition and code reuse</li>
 <li>Debug and display formatting for structs</li>
 </ul>
-<p>By the end of this chapter, you’ll be able to design and implement custom types that accurately model your problem domain and provide a solid foundation for your Rust applications.</p>
+<p>By the end of this chapter, you'll be able to design and implement custom types that accurately model your problem domain and provide a solid foundation for your Rust applications.</p>
 <h2 id="defining-and-instantiating-structs"><a class="header" href="#defining-and-instantiating-structs">Defining and Instantiating Structs</a></h2>
 <p>A struct is a custom data type that lets you name and package multiple related values. Each piece of data in a struct is called a <em>field</em>.</p>
 <h3 id="basic-struct-definition"><a class="header" href="#basic-struct-definition">Basic Struct Definition</a></h3>
@@ -210,31 +217,31 @@
 <p>To use a struct, we create an <em>instance</em> of it by specifying concrete values for each field:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let user1 = User {
-        email: String::from("someone@example.com"),
-        username: String::from("someusername123"),
+        email: String::from(&quot;someone@example.com&quot;),
+        username: String::from(&quot;someusername123&quot;),
         active: true,
         sign_in_count: 1,
     };
 
     // Access a field using dot notation
-    println!("Username: {}", user1.username);
+    println!(&quot;Username: {}&quot;, user1.username);
 
     // Create a mutable struct instance to modify fields
     let mut user2 = User {
-        email: String::from("another@example.com"),
-        username: String::from("anotherusername567"),
+        email: String::from(&quot;another@example.com&quot;),
+        username: String::from(&quot;anotherusername567&quot;),
         active: true,
         sign_in_count: 3,
     };
 
     // Change a field's value
-    user2.email = String::from("newemail@example.com");
-    println!("New email: {}", user2.email);
+    user2.email = String::from(&quot;newemail@example.com&quot;);
+    println!(&quot;New email: {}&quot;, user2.email);
 }</code></pre></pre>
 <p>When creating an instance, you must provide values for all fields. The fields can be specified in any order, regardless of how they were defined in the struct.</p>
 <h3 id="field-access-and-mutability"><a class="header" href="#field-access-and-mutability">Field Access and Mutability</a></h3>
-<p>You can access a struct’s fields using dot notation: <code>instance.field_name</code>. Just like with other variables in Rust, struct instances are immutable by default. To modify fields, you need to create a mutable instance using the <code>mut</code> keyword.</p>
-<p>It’s important to note that Rust doesn’t allow marking only certain fields as mutable – mutability applies to the entire instance.</p>
+<p>You can access a struct's fields using dot notation: <code>instance.field_name</code>. Just like with other variables in Rust, struct instances are immutable by default. To modify fields, you need to create a mutable instance using the <code>mut</code> keyword.</p>
+<p>It's important to note that Rust doesn't allow marking only certain fields as mutable – mutability applies to the entire instance.</p>
 <h2 id="field-init-shorthand"><a class="header" href="#field-init-shorthand">Field Init Shorthand</a></h2>
 <p>When variable names and struct field names are exactly the same, you can use the <em>field init shorthand</em> syntax to make your code more concise:</p>
 <pre><pre class="playground"><code class="language-rust">fn build_user(email: String, username: String) -&gt; User {
@@ -248,59 +255,59 @@
 
 fn main() {
     let user = build_user(
-        String::from("user@example.com"),
-        String::from("user123"),
+        String::from(&quot;user@example.com&quot;),
+        String::from(&quot;user123&quot;),
     );
 
-    println!("New user: {} ({})", user.username, user.email);
+    println!(&quot;New user: {} ({})&quot;, user.username, user.email);
 }</code></pre></pre>
 <p>This shorthand is particularly useful in functions that take parameters and use them to create struct instances, making your code cleaner and more readable.</p>
 <h2 id="struct-update-syntax"><a class="header" href="#struct-update-syntax">Struct Update Syntax</a></h2>
-<p>The struct update syntax allows you to create a new struct instance that uses most of an old instance’s values but changes some:</p>
+<p>The struct update syntax allows you to create a new struct instance that uses most of an old instance's values but changes some:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let user1 = User {
-        email: String::from("someone@example.com"),
-        username: String::from("someusername123"),
+        email: String::from(&quot;someone@example.com&quot;),
+        username: String::from(&quot;someusername123&quot;),
         active: true,
         sign_in_count: 1,
     };
 
     // Create user2 from user1, but with a different email
     let user2 = User {
-        email: String::from("another@example.com"),
+        email: String::from(&quot;another@example.com&quot;),
         ..user1  // Copy the remaining fields from user1
     };
 
-    println!("user2 active: {}", user2.active);
-    println!("user2 sign-in count: {}", user2.sign_in_count);
+    println!(&quot;user2 active: {}&quot;, user2.active);
+    println!(&quot;user2 sign-in count: {}&quot;, user2.sign_in_count);
 }</code></pre></pre>
 <p>The <code>..user1</code> syntax is called <em>struct update syntax</em> and specifies that the remaining fields should have the same values as the corresponding fields in <code>user1</code>. This syntax must come last in the struct initialization to specify that any remaining fields should get their values from the corresponding fields in the given instance.</p>
 <h3 id="ownership-considerations"><a class="header" href="#ownership-considerations">Ownership Considerations</a></h3>
-<p>The struct update syntax follows Rust’s ownership rules. For fields that implement the <code>Copy</code> trait (like integers), the values are copied. For fields that don’t implement <code>Copy</code> (like <code>String</code>), ownership is moved:</p>
+<p>The struct update syntax follows Rust's ownership rules. For fields that implement the <code>Copy</code> trait (like integers), the values are copied. For fields that don't implement <code>Copy</code> (like <code>String</code>), ownership is moved:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let user1 = User {
-        email: String::from("someone@example.com"),
-        username: String::from("someusername123"),
+        email: String::from(&quot;someone@example.com&quot;),
+        username: String::from(&quot;someusername123&quot;),
         active: true,
         sign_in_count: 1,
     };
 
     let user2 = User {
-        email: String::from("another@example.com"),
+        email: String::from(&quot;another@example.com&quot;),
         ..user1  // Copy the remaining fields from user1
     };
 
     // Error: user1.username has been moved to user2
-    // println!("user1's username: {}", user1.username);
+    // println!(&quot;user1's username: {}&quot;, user1.username);
 
     // This is fine - active is a bool which implements Copy
-    println!("user1's active status: {}", user1.active);
+    println!(&quot;user1's active status: {}&quot;, user1.active);
 }</code></pre></pre>
 <p>In this example, <code>user1.username</code> is moved to <code>user2</code>, so <code>user1</code> can no longer access its <code>username</code> field after creating <code>user2</code>. However, <code>user1</code> can still access its <code>active</code> and <code>sign_in_count</code> fields because they implement the <code>Copy</code> trait.</p>
 <h2 id="tuple-structs-and-unit-structs"><a class="header" href="#tuple-structs-and-unit-structs">Tuple Structs and Unit Structs</a></h2>
 <p>Rust offers a few variations of structs for different situations:</p>
 <h3 id="tuple-structs"><a class="header" href="#tuple-structs">Tuple Structs</a></h3>
-<p>Tuple structs are named tuples that have a name for the type but don’t name their fields. They’re useful when you want to give a tuple a distinct type name and make it different from other tuples with the same field types:</p>
+<p>Tuple structs are named tuples that have a name for the type but don't name their fields. They're useful when you want to give a tuple a distinct type name and make it different from other tuples with the same field types:</p>
 <pre><pre class="playground"><code class="language-rust">struct Color(i32, i32, i32);
 struct Point(i32, i32, i32);
 
@@ -309,8 +316,8 @@ fn main() {
     let origin = Point(0, 0, 0);
 
     // Access fields using tuple indexing
-    println!("Black's blue component: {}", black.2);
-    println!("Origin's y-coordinate: {}", origin.1);
+    println!(&quot;Black's blue component: {}&quot;, black.2);
+    println!(&quot;Origin's y-coordinate: {}&quot;, origin.1);
 
     // black and origin are different types, even though they have the same structure
     // The following would cause a type error:
@@ -321,10 +328,10 @@ fn main() {
 <ul>
 <li>When naming each field would be verbose or redundant</li>
 <li>When you need the tuple to have its own type</li>
-<li>When you’re implementing a trait on the tuple</li>
+<li>When you're implementing a trait on the tuple</li>
 </ul>
 <h3 id="unit-structs"><a class="header" href="#unit-structs">Unit Structs</a></h3>
-<p>Unit structs are structs without any fields. They’re useful for implementing traits on some type without storing any data:</p>
+<p>Unit structs are structs without any fields. They're useful for implementing traits on some type without storing any data:</p>
 <pre><pre class="playground"><code class="language-rust">struct AlwaysEqual;
 
 fn main() {
@@ -335,9 +342,9 @@ fn main() {
 }</code></pre></pre>
 <p>Unit structs are rare but can be useful in these situations:</p>
 <ul>
-<li>When you need a type to implement a trait but don’t need to store any data</li>
+<li>When you need a type to implement a trait but don't need to store any data</li>
 <li>When you want to create a type for type-checking purposes</li>
-<li>When you’re using the type as a marker</li>
+<li>When you're using the type as a marker</li>
 </ul>
 <h2 id="memory-layout-of-structs"><a class="header" href="#memory-layout-of-structs">Memory Layout of Structs</a></h2>
 <p>Understanding how structs are laid out in memory can help you write more efficient code and is especially important when interfacing with other languages or hardware.</p>
@@ -354,8 +361,8 @@ fn main() {
         height: 50,
     };
 
-    println!("Rectangle size: {} bytes", std::mem::size_of::&lt;Rectangle&gt;());
-    println!("u32 size: {} bytes", std::mem::size_of::&lt;u32&gt;());
+    println!(&quot;Rectangle size: {} bytes&quot;, std::mem::size_of::&lt;Rectangle&gt;());
+    println!(&quot;u32 size: {} bytes&quot;, std::mem::size_of::&lt;u32&gt;());
 }</code></pre></pre>
 <p>This will print:</p>
 <pre><code>Rectangle size: 8 bytes
@@ -377,8 +384,8 @@ struct Optimized {
 }
 
 fn main() {
-    println!("Aligned size: {} bytes", std::mem::size_of::&lt;Aligned&gt;());
-    println!("Optimized size: {} bytes", std::mem::size_of::&lt;Optimized&gt;());
+    println!(&quot;Aligned size: {} bytes&quot;, std::mem::size_of::&lt;Aligned&gt;());
+    println!(&quot;Optimized size: {} bytes&quot;, std::mem::size_of::&lt;Optimized&gt;());
 }</code></pre></pre>
 <p>The <code>Aligned</code> struct will likely be larger than the sum of its fields due to padding, while the <code>Optimized</code> struct minimizes padding by ordering fields from largest to smallest.</p>
 <h3 id="controlling-memory-layout"><a class="header" href="#controlling-memory-layout">Controlling Memory Layout</a></h3>
@@ -398,8 +405,8 @@ struct Packed {
 }
 
 fn main() {
-    println!("CCompatible size: {} bytes", std::mem::size_of::&lt;CCompatible&gt;());
-    println!("Packed size: {} bytes", std::mem::size_of::&lt;Packed&gt;());
+    println!(&quot;CCompatible size: {} bytes&quot;, std::mem::size_of::&lt;CCompatible&gt;());
+    println!(&quot;Packed size: {} bytes&quot;, std::mem::size_of::&lt;Packed&gt;());
 }</code></pre></pre>
 <p>The <code>#[repr(C)]</code> attribute ensures the struct has the same layout as a C struct would have, which is important for FFI (Foreign Function Interface). The <code>#[repr(packed)]</code> attribute eliminates padding, which can save memory but may reduce access speed on some architectures.</p>
 <h3 id="memory-layout-considerations"><a class="header" href="#memory-layout-considerations">Memory Layout Considerations</a></h3>
@@ -411,7 +418,7 @@ fn main() {
 <li><strong>Memory usage</strong>: For large collections of structs, minimizing size can be important</li>
 </ol>
 <h2 id="methods-and-associated-functions"><a class="header" href="#methods-and-associated-functions">Methods and Associated Functions</a></h2>
-<p>Now that we can create custom data types with structs, let’s add behavior to them using methods and associated functions.</p>
+<p>Now that we can create custom data types with structs, let's add behavior to them using methods and associated functions.</p>
 <h3 id="defining-methods"><a class="header" href="#defining-methods">Defining Methods</a></h3>
 <p>Methods are similar to functions but are defined within the context of a struct (or enum, or trait). Their first parameter is always <code>self</code>, which represents the instance of the struct the method is being called on:</p>
 <pre><pre class="playground"><code class="language-rust">struct Rectangle {
@@ -437,14 +444,14 @@ fn main() {
         height: 50,
     };
 
-    println!("Area: {}", rect1.area());
+    println!(&quot;Area: {}&quot;, rect1.area());
 
     let rect2 = Rectangle {
         width: 10,
         height: 40,
     };
 
-    println!("Can rect1 hold rect2? {}", rect1.can_hold(&amp;rect2));
+    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
 }</code></pre></pre>
 <p>The <code>impl</code> (implementation) block contains all the methods for the specified type. Methods are called using dot notation: <code>instance.method()</code>.</p>
 <h3 id="method-benefits"><a class="header" href="#method-benefits">Method Benefits</a></h3>
@@ -454,7 +461,7 @@ fn main() {
 <li><strong>Namespace management</strong>: Methods are scoped to their type, reducing global namespace pollution</li>
 <li><strong>Ergonomics</strong>: When calling methods, Rust handles borrowing and dereferencing automatically</li>
 <li><strong>Encapsulation</strong>: Methods can access private fields of their struct</li>
-<li><strong>Polymorphism</strong>: Different types can implement methods with the same name (which we’ll explore with traits in later chapters)</li>
+<li><strong>Polymorphism</strong>: Different types can implement methods with the same name (which we'll explore with traits in later chapters)</li>
 </ol>
 <h3 id="multiple-impl-blocks"><a class="header" href="#multiple-impl-blocks">Multiple <code>impl</code> Blocks</a></h3>
 <p>You can have multiple <code>impl</code> blocks for a single struct, which can help organize related methods:</p>
@@ -491,13 +498,13 @@ fn main() {
         height: 30,
     };
 
-    println!("Area: {}", rect.area());
-    println!("Perimeter: {}", rect.perimeter());
-    println!("Is square? {}", rect.is_square());
+    println!(&quot;Area: {}&quot;, rect.area());
+    println!(&quot;Perimeter: {}&quot;, rect.perimeter());
+    println!(&quot;Is square? {}&quot;, rect.is_square());
 }</code></pre></pre>
 <p>This separation can be useful for organizing your code, particularly when implementing traits or working on large codebases with many methods.</p>
 <h2 id="associated-functions"><a class="header" href="#associated-functions">Associated Functions</a></h2>
-<p>Associated functions are functions defined within an <code>impl</code> block that don’t take <code>self</code> as a parameter. They’re associated with the type rather than with instances of the type.</p>
+<p>Associated functions are functions defined within an <code>impl</code> block that don't take <code>self</code> as a parameter. They're associated with the type rather than with instances of the type.</p>
 <pre><pre class="playground"><code class="language-rust">struct Rectangle {
     width: u32,
     height: u32,
@@ -523,11 +530,11 @@ fn main() {
     let square = Rectangle::square(25);
 
     // Call a method using .
-    println!("Square area: {}", square.area());
+    println!(&quot;Square area: {}&quot;, square.area());
 }</code></pre></pre>
 <p>Associated functions are called with the struct name and the <code>::</code> syntax, rather than with an instance and the <code>.</code> syntax.</p>
 <h3 id="constructor-pattern"><a class="header" href="#constructor-pattern">Constructor Pattern</a></h3>
-<p>Associated functions are commonly used to create “constructor” functions that return new instances of the type:</p>
+<p>Associated functions are commonly used to create &quot;constructor&quot; functions that return new instances of the type:</p>
 <pre><pre class="playground"><code class="language-rust">struct Point {
     x: f64,
     y: f64,
@@ -561,10 +568,10 @@ fn main() {
     let point2 = Point::on_x_axis(15.0);
     let point3 = Point::on_y_axis(7.5);
 
-    println!("Origin: ({}, {})", origin.x, origin.y);
-    println!("Point 1: ({}, {})", point1.x, point1.y);
-    println!("Point 2: ({}, {})", point2.x, point2.y);
-    println!("Point 3: ({}, {})", point3.x, point3.y);
+    println!(&quot;Origin: ({}, {})&quot;, origin.x, origin.y);
+    println!(&quot;Point 1: ({}, {})&quot;, point1.x, point1.y);
+    println!(&quot;Point 2: ({}, {})&quot;, point2.x, point2.y);
+    println!(&quot;Point 3: ({}, {})&quot;, point3.x, point3.y);
 }</code></pre></pre>
 <p>This pattern provides a clear and consistent way to create instances of your types, especially when there are multiple ways to initialize a struct.</p>
 <h2 id="the-self-parameter"><a class="header" href="#the-self-parameter">The Self Parameter</a></h2>
@@ -602,7 +609,7 @@ impl Counter {
 
     // Takes ownership and consumes the Counter
     fn destroy(self) {
-        println!("Counter with value {} destroyed", self.value);
+        println!(&quot;Counter with value {} destroyed&quot;, self.value);
     }
 }
 
@@ -611,17 +618,17 @@ fn main() {
 
     counter.increment();
     counter.increment();
-    println!("Value: {}", counter.get());
+    println!(&quot;Value: {}&quot;, counter.get());
 
     // Reset returns a new Counter
     counter = counter.reset();
-    println!("Value after reset: {}", counter.get());
+    println!(&quot;Value after reset: {}&quot;, counter.get());
 
     // Destroy consumes the Counter
     counter.destroy();
 
     // Error: counter has been moved
-    // println!("Value: {}", counter.get());
+    // println!(&quot;Value: {}&quot;, counter.get());
 }</code></pre></pre>
 <h3 id="choosing-the-right-self-parameter"><a class="header" href="#choosing-the-right-self-parameter">Choosing the Right Self Parameter</a></h3>
 <p>Selecting the appropriate <code>self</code> parameter depends on what your method needs to do:</p>
@@ -671,14 +678,14 @@ impl StringBuilder {
 
 fn main() {
     let text = StringBuilder::new()
-        .append("Hello, ")
-        .append("world")
-        .append_line("!")
-        .append("Welcome to ")
-        .append("Rust")
+        .append(&quot;Hello, &quot;)
+        .append(&quot;world&quot;)
+        .append_line(&quot;!&quot;)
+        .append(&quot;Welcome to &quot;)
+        .append(&quot;Rust&quot;)
         .build();
 
-    println!("{}", text);
+    println!(&quot;{}&quot;, text);
 }</code></pre></pre>
 <p>This pattern creates a fluent interface that makes code more readable and expressive. The key is that each method returns <code>self</code> to allow the next method call in the chain.</p>
 <h2 id="builder-patterns-for-complex-initialization"><a class="header" href="#builder-patterns-for-complex-initialization">Builder Patterns for Complex Initialization</a></h2>
@@ -699,7 +706,7 @@ fn main() {
 fn main() {
     // Direct initialization is verbose and error-prone
     let server = Server {
-        host: String::from("example.com"),
+        host: String::from(&quot;example.com&quot;),
         port: 8080,
         workers: 4,
         timeout: 30,
@@ -711,10 +718,10 @@ fn main() {
 }</code></pre></pre>
 <p>This approach has several drawbacks:</p>
 <ul>
-<li>It’s error-prone (easy to mix up parameter order)</li>
+<li>It's error-prone (easy to mix up parameter order)</li>
 <li>Hard to tell which parameters are required vs. optional</li>
 <li>Difficult to provide default values</li>
-<li>Doesn’t allow for input validation during construction</li>
+<li>Doesn't allow for input validation during construction</li>
 </ul>
 <h3 id="implementing-the-builder-pattern"><a class="header" href="#implementing-the-builder-pattern">Implementing the Builder Pattern</a></h3>
 <p>The Builder pattern addresses these issues by providing a step-by-step construction process:</p>
@@ -791,7 +798,7 @@ impl ServerBuilder {
 
     fn build(self) -&gt; Result&lt;Server, String&gt; {
         // Required fields
-        let host = self.host.ok_or("Host is required")?;
+        let host = self.host.ok_or(&quot;Host is required&quot;)?;
 
         // Fields with default values
         let port = self.port.unwrap_or(80);
@@ -806,7 +813,7 @@ impl ServerBuilder {
 
         // Validation logic
         if workers == 0 {
-            return Err("Workers must be greater than 0".into());
+            return Err(&quot;Workers must be greater than 0&quot;.into());
         }
 
         Ok(Server {
@@ -825,23 +832,23 @@ impl ServerBuilder {
 fn main() {
     // Using the builder pattern for flexible construction
     let server = Server::builder()
-        .host("example.com")
+        .host(&quot;example.com&quot;)
         .port(8080)
         .workers(8)
         .tls_enabled(true)
         .max_connections(1000)
         .build()
-        .expect("Failed to build server");
+        .expect(&quot;Failed to build server&quot;);
 
-    println!("Server: {:?}", server);
+    println!(&quot;Server: {:?}&quot;, server);
 
     // Default values are used for timeout and connection_retries
     let simple_server = Server::builder()
-        .host("simple.example.com")
+        .host(&quot;simple.example.com&quot;)
         .build()
-        .expect("Failed to build server");
+        .expect(&quot;Failed to build server&quot;);
 
-    println!("Simple server: {:?}", simple_server);
+    println!(&quot;Simple server: {:?}&quot;, simple_server);
 }</code></pre></pre>
 <h3 id="benefits-of-the-builder-pattern"><a class="header" href="#benefits-of-the-builder-pattern">Benefits of the Builder Pattern</a></h3>
 <p>The Builder pattern provides several advantages:</p>
@@ -863,7 +870,7 @@ fn main() {
 <li>You need a clear, readable API for object construction</li>
 </ul>
 <h2 id="struct-composition-and-code-reuse"><a class="header" href="#struct-composition-and-code-reuse">Struct Composition and Code Reuse</a></h2>
-<p>Rust doesn’t have inheritance like object-oriented languages, but it provides powerful composition mechanisms for code reuse and modeling complex domains.</p>
+<p>Rust doesn't have inheritance like object-oriented languages, but it provides powerful composition mechanisms for code reuse and modeling complex domains.</p>
 <h3 id="basic-composition"><a class="header" href="#basic-composition">Basic Composition</a></h3>
 <p>The simplest form of composition is including one struct as a field in another:</p>
 <pre><pre class="playground"><code class="language-rust">struct Point {
@@ -892,10 +899,10 @@ fn main() {
         bottom_right: Point { x: 3.0, y: -2.0 },
     };
 
-    println!("Circle center: ({}, {}), radius: {}",
+    println!(&quot;Circle center: ({}, {}), radius: {}&quot;,
              circle.center.x, circle.center.y, circle.radius);
 
-    println!("Rectangle corners: ({}, {}), ({}, {})",
+    println!(&quot;Rectangle corners: ({}, {}), ({}, {})&quot;,
              rectangle.top_left.x, rectangle.top_left.y,
              rectangle.bottom_right.x, rectangle.bottom_right.y);
 }</code></pre></pre>
@@ -950,12 +957,12 @@ fn main() {
     let point1 = Point::new(3.0, 4.0);
     let point2 = Point::new(10.0, 10.0);
 
-    println!("Circle area: {:.2}", circle.area());
-    println!("Point1 distance to circle center: {:.2}",
+    println!(&quot;Circle area: {:.2}&quot;, circle.area());
+    println!(&quot;Point1 distance to circle center: {:.2}&quot;,
              circle.distance_to_point(&amp;point1));
 
-    println!("Circle contains point1: {}", circle.contains_point(&amp;point1));
-    println!("Circle contains point2: {}", circle.contains_point(&amp;point2));
+    println!(&quot;Circle contains point1: {}&quot;, circle.contains_point(&amp;point1));
+    println!(&quot;Circle contains point2: {}&quot;, circle.contains_point(&amp;point2));
 }</code></pre></pre>
 <h3 id="component-based-design"><a class="header" href="#component-based-design">Component-Based Design</a></h3>
 <p>For more complex systems, you can use a component-based approach where a main struct contains optional components:</p>
@@ -1050,7 +1057,7 @@ fn main() {
     obstacle.update();
     pickup.update();
 
-    println!("Player position: ({}, {})", player.position.x, player.position.y);
+    println!(&quot;Player position: ({}, {})&quot;, player.position.x, player.position.y);
 }</code></pre></pre>
 <p>This approach is flexible and allows you to:</p>
 <ul>
@@ -1068,7 +1075,7 @@ fn main() {
 <li><strong>Performance</strong>: Only include what you need, no overhead</li>
 </ol>
 <h2 id="debug-and-display-formatting-for-structs"><a class="header" href="#debug-and-display-formatting-for-structs">Debug and Display Formatting for Structs</a></h2>
-<p>When working with custom types, you’ll often want to display them in a readable format for debugging or user output.</p>
+<p>When working with custom types, you'll often want to display them in a readable format for debugging or user output.</p>
 <h3 id="debug-formatting-with-derivedebug"><a class="header" href="#debug-formatting-with-derivedebug">Debug Formatting with #[derive(Debug)]</a></h3>
 <p>The simplest way to make a struct printable for debugging is to derive the <code>Debug</code> trait:</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
@@ -1079,21 +1086,21 @@ struct Person {
 
 fn main() {
     let person = Person {
-        name: String::from("Alice"),
+        name: String::from(&quot;Alice&quot;),
         age: 30,
     };
 
     // Print using Debug formatting
-    println!("Person: {:?}", person);
+    println!(&quot;Person: {:?}&quot;, person);
 
     // Pretty-print with {:#?}
-    println!("Person (pretty):\n{:#?}", person);
+    println!(&quot;Person (pretty):\n{:#?}&quot;, person);
 }</code></pre></pre>
 <p>This produces output like:</p>
-<pre><code>Person: Person { name: "Alice", age: 30 }
+<pre><code>Person: Person { name: &quot;Alice&quot;, age: 30 }
 Person (pretty):
 Person {
-    name: "Alice",
+    name: &quot;Alice&quot;,
     age: 30,
 }
 </code></pre>
@@ -1116,13 +1123,13 @@ impl fmt::Debug for ComplexNumber {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
         if f.alternate() {
             // Pretty format with #
-            write!(f, "ComplexNumber {{\n    real: {},\n    imaginary: {}\n}}",
+            write!(f, &quot;ComplexNumber {{\n    real: {},\n    imaginary: {}\n}}&quot;,
                    self.real, self.imaginary)
         } else {
             // Compact format
-            write!(f, "{}{}{}i",
+            write!(f, &quot;{}{}{}i&quot;,
                    self.real,
-                   if self.imaginary &gt;= 0.0 { "+" } else { "" },
+                   if self.imaginary &gt;= 0.0 { &quot;+&quot; } else { &quot;&quot; },
                    self.imaginary)
         }
     }
@@ -1131,8 +1138,8 @@ impl fmt::Debug for ComplexNumber {
 fn main() {
     let complex = ComplexNumber { real: 3.0, imaginary: -4.5 };
 
-    println!("Complex number: {:?}", complex);  // Prints: 3+-4.5i
-    println!("Complex number: {:#?}", complex); // Prints prettier multi-line format
+    println!(&quot;Complex number: {:?}&quot;, complex);  // Prints: 3+-4.5i
+    println!(&quot;Complex number: {:#?}&quot;, complex); // Prints prettier multi-line format
 }</code></pre></pre>
 <h3 id="display-formatting"><a class="header" href="#display-formatting">Display Formatting</a></h3>
 <p>While <code>Debug</code> is meant for developers, the <code>Display</code> trait is designed for end-user output:</p>
@@ -1145,7 +1152,7 @@ struct Point {
 
 impl fmt::Display for Point {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "({}, {})", self.x, self.y)
+        write!(f, &quot;({}, {})&quot;, self.x, self.y)
     }
 }
 
@@ -1153,7 +1160,7 @@ fn main() {
     let point = Point { x: 10, y: 20 };
 
     // Using Display format
-    println!("Point: {}", point);  // Prints: Point: (10, 20)
+    println!(&quot;Point: {}&quot;, point);  // Prints: Point: (10, 20)
 }</code></pre></pre>
 <h3 id="combining-debug-and-display"><a class="header" href="#combining-debug-and-display">Combining Debug and Display</a></h3>
 <p>Most types should implement both traits for different use cases:</p>
@@ -1167,7 +1174,7 @@ struct Rectangle {
 
 impl fmt::Display for Rectangle {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "{}×{} rectangle", self.width, self.height)
+        write!(f, &quot;{}×{} rectangle&quot;, self.width, self.height)
     }
 }
 
@@ -1175,10 +1182,10 @@ fn main() {
     let rect = Rectangle { width: 30, height: 50 };
 
     // Debug formatting (for developers)
-    println!("Debug: {:?}", rect);
+    println!(&quot;Debug: {:?}&quot;, rect);
 
     // Display formatting (for users)
-    println!("Display: {}", rect);
+    println!(&quot;Display: {}&quot;, rect);
 }</code></pre></pre>
 <p>This prints:</p>
 <pre><code>Debug: Rectangle { width: 30, height: 50 }
@@ -1195,31 +1202,31 @@ struct Cart {
 
 impl fmt::Display for Cart {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        writeln!(f, "Shopping Cart:")?;
+        writeln!(f, &quot;Shopping Cart:&quot;)?;
 
         if self.items.is_empty() {
-            writeln!(f, "  (empty)")?;
+            writeln!(f, &quot;  (empty)&quot;)?;
         } else {
             for item in &amp;self.items {
-                writeln!(f, "  - {}", item)?;
+                writeln!(f, &quot;  - {}&quot;, item)?;
             }
         }
 
-        writeln!(f, "Total: ${:.2}", self.total)
+        writeln!(f, &quot;Total: ${:.2}&quot;, self.total)
     }
 }
 
 fn main() {
     let cart = Cart {
         items: vec![
-            "Apple".to_string(),
-            "Banana".to_string(),
-            "Orange".to_string(),
+            &quot;Apple&quot;.to_string(),
+            &quot;Banana&quot;.to_string(),
+            &quot;Orange&quot;.to_string(),
         ],
         total: 12.75,
     };
 
-    println!("{}", cart);
+    println!(&quot;{}&quot;, cart);
 }</code></pre></pre>
 <h3 id="using-tostring-and-to_string"><a class="header" href="#using-tostring-and-to_string">Using toString() and to_string()</a></h3>
 <p>Types that implement <code>Display</code> automatically get a <code>to_string()</code> method:</p>
@@ -1231,7 +1238,7 @@ struct Temperature {
 
 impl fmt::Display for Temperature {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "{:.1}°{}", self.degrees, self.scale)
+        write!(f, &quot;{:.1}°{}&quot;, self.degrees, self.scale)
     }
 }
 
@@ -1240,14 +1247,14 @@ fn main() {
 
     // Using to_string() for string conversion
     let temp_string = temp.to_string();
-    println!("Temperature string: {}", temp_string);
+    println!(&quot;Temperature string: {}&quot;, temp_string);
 
     // Using with functions that expect strings
-    let message = format!("Current temperature is {}", temp);
-    println!("{}", message);
+    let message = format!(&quot;Current temperature is {}&quot;, temp);
+    println!(&quot;{}&quot;, message);
 }</code></pre></pre>
 <h2 id="-project-library-management-system"><a class="header" href="#-project-library-management-system">🔨 Project: Library Management System</a></h2>
-<p>Let’s apply what we’ve learned to build a simple library management system. This project demonstrates how to use structs, methods, and composition to model books and users.</p>
+<p>Let's apply what we've learned to build a simple library management system. This project demonstrates how to use structs, methods, and composition to model books and users.</p>
 <pre><pre class="playground"><code class="language-rust">use std::fmt;
 use std::collections::HashMap;
 
@@ -1290,9 +1297,9 @@ impl Book {
 // Implement Display for Book
 impl fmt::Display for Book {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "\"{}\" by {}", self.title, self.author)?;
+        write!(f, &quot;\&quot;{}\&quot; by {}&quot;, self.title, self.author)?;
         if !self.available {
-            write!(f, " (Checked Out)")?;
+            write!(f, &quot; (Checked Out)&quot;)?;
         }
         Ok(())
     }
@@ -1317,7 +1324,7 @@ impl User {
             self.borrowed_books.remove(index);
             Ok(())
         } else {
-            Err(format!("User {} has not borrowed book with ISBN {}", self.name, isbn))
+            Err(format!(&quot;User {} has not borrowed book with ISBN {}&quot;, self.name, isbn))
         }
     }
 }
@@ -1347,15 +1354,15 @@ impl Library {
     fn checkout_book(&amp;mut self, user_id: u32, isbn: &amp;str) -&gt; Result&lt;(), String&gt; {
         // Check if the book exists and is available
         let book = self.books.get_mut(isbn)
-            .ok_or(format!("Book with ISBN {} not found", isbn))?;
+            .ok_or(format!(&quot;Book with ISBN {} not found&quot;, isbn))?;
 
         if !book.available {
-            return Err(format!("Book \"{}\" is already checked out", book.title));
+            return Err(format!(&quot;Book \&quot;{}\&quot; is already checked out&quot;, book.title));
         }
 
         // Check if the user exists
         let user = self.users.get_mut(&amp;user_id)
-            .ok_or(format!("User with ID {} not found", user_id))?;
+            .ok_or(format!(&quot;User with ID {} not found&quot;, user_id))?;
 
         // Update the book and user
         book.available = false;
@@ -1367,14 +1374,14 @@ impl Library {
     fn return_book(&amp;mut self, user_id: u32, isbn: &amp;str) -&gt; Result&lt;(), String&gt; {
         // Check if the user exists
         let user = self.users.get_mut(&amp;user_id)
-            .ok_or(format!("User with ID {} not found", user_id))?;
+            .ok_or(format!(&quot;User with ID {} not found&quot;, user_id))?;
 
         // Try to return the book
         user.return_book(isbn)?;
 
         // Update the book's availability
         let book = self.books.get_mut(isbn)
-            .ok_or(format!("Book with ISBN {} not found", isbn))?;
+            .ok_or(format!(&quot;Book with ISBN {} not found&quot;, isbn))?;
 
         book.available = true;
 
@@ -1389,7 +1396,7 @@ impl Library {
 
     fn list_user_books(&amp;self, user_id: u32) -&gt; Result&lt;Vec&lt;&amp;Book&gt;, String&gt; {
         let user = self.users.get(&amp;user_id)
-            .ok_or(format!("User with ID {} not found", user_id))?;
+            .ok_or(format!(&quot;User with ID {} not found&quot;, user_id))?;
 
         let borrowed_books = user.borrowed_books.iter()
             .filter_map(|isbn| self.books.get(isbn))
@@ -1405,87 +1412,87 @@ fn main() {
 
     // Add some books
     library.add_book(Book::new(
-        "The Rust Programming Language".to_string(),
-        "Steve Klabnik and Carol Nichols".to_string(),
-        "978-1593278281".to_string()
+        &quot;The Rust Programming Language&quot;.to_string(),
+        &quot;Steve Klabnik and Carol Nichols&quot;.to_string(),
+        &quot;978-1593278281&quot;.to_string()
     ));
 
     library.add_book(Book::new(
-        "Programming Rust".to_string(),
-        "Jim Blandy and Jason Orendorff".to_string(),
-        "978-1491927281".to_string()
+        &quot;Programming Rust&quot;.to_string(),
+        &quot;Jim Blandy and Jason Orendorff&quot;.to_string(),
+        &quot;978-1491927281&quot;.to_string()
     ));
 
     library.add_book(Book::new(
-        "Rust in Action".to_string(),
-        "Tim McNamara".to_string(),
-        "978-1617294556".to_string()
+        &quot;Rust in Action&quot;.to_string(),
+        &quot;Tim McNamara&quot;.to_string(),
+        &quot;978-1617294556&quot;.to_string()
     ));
 
     // Register some users
-    let alice_id = library.register_user("Alice".to_string());
-    let bob_id = library.register_user("Bob".to_string());
+    let alice_id = library.register_user(&quot;Alice&quot;.to_string());
+    let bob_id = library.register_user(&quot;Bob&quot;.to_string());
 
     // List available books
-    println!("Available books:");
+    println!(&quot;Available books:&quot;);
     for book in library.list_available_books() {
-        println!("  {}", book);
+        println!(&quot;  {}&quot;, book);
     }
 
     // Alice checks out a book
-    println!("\nAlice checks out 'The Rust Programming Language'");
-    match library.checkout_book(alice_id, "978-1593278281") {
-        Ok(_) =&gt; println!("Checkout successful"),
-        Err(e) =&gt; println!("Error: {}", e),
+    println!(&quot;\nAlice checks out 'The Rust Programming Language'&quot;);
+    match library.checkout_book(alice_id, &quot;978-1593278281&quot;) {
+        Ok(_) =&gt; println!(&quot;Checkout successful&quot;),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 
     // Bob tries to check out the same book
-    println!("\nBob tries to check out 'The Rust Programming Language'");
-    match library.checkout_book(bob_id, "978-1593278281") {
-        Ok(_) =&gt; println!("Checkout successful"),
-        Err(e) =&gt; println!("Error: {}", e),
+    println!(&quot;\nBob tries to check out 'The Rust Programming Language'&quot;);
+    match library.checkout_book(bob_id, &quot;978-1593278281&quot;) {
+        Ok(_) =&gt; println!(&quot;Checkout successful&quot;),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 
     // Bob checks out another book
-    println!("\nBob checks out 'Programming Rust'");
-    match library.checkout_book(bob_id, "978-1491927281") {
-        Ok(_) =&gt; println!("Checkout successful"),
-        Err(e) =&gt; println!("Error: {}", e),
+    println!(&quot;\nBob checks out 'Programming Rust'&quot;);
+    match library.checkout_book(bob_id, &quot;978-1491927281&quot;) {
+        Ok(_) =&gt; println!(&quot;Checkout successful&quot;),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 
     // List Alice's books
-    println!("\nAlice's borrowed books:");
+    println!(&quot;\nAlice's borrowed books:&quot;);
     match library.list_user_books(alice_id) {
         Ok(books) =&gt; {
             for book in books {
-                println!("  {}", book);
+                println!(&quot;  {}&quot;, book);
             }
         },
-        Err(e) =&gt; println!("Error: {}", e),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 
     // List Bob's books
-    println!("\nBob's borrowed books:");
+    println!(&quot;\nBob's borrowed books:&quot;);
     match library.list_user_books(bob_id) {
         Ok(books) =&gt; {
             for book in books {
-                println!("  {}", book);
+                println!(&quot;  {}&quot;, book);
             }
         },
-        Err(e) =&gt; println!("Error: {}", e),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 
     // Alice returns her book
-    println!("\nAlice returns 'The Rust Programming Language'");
-    match library.return_book(alice_id, "978-1593278281") {
-        Ok(_) =&gt; println!("Return successful"),
-        Err(e) =&gt; println!("Error: {}", e),
+    println!(&quot;\nAlice returns 'The Rust Programming Language'&quot;);
+    match library.return_book(alice_id, &quot;978-1593278281&quot;) {
+        Ok(_) =&gt; println!(&quot;Return successful&quot;),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 
     // List available books again
-    println!("\nAvailable books after returns:");
+    println!(&quot;\nAvailable books after returns:&quot;);
     for book in library.list_available_books() {
-        println!("  {}", book);
+        println!(&quot;  {}&quot;, book);
     }
 }</code></pre></pre>
 <p>This project demonstrates several key concepts from this chapter:</p>
@@ -1505,7 +1512,7 @@ fn main() {
 <li>Creating different membership levels with varying borrowing limits</li>
 </ul>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored Rust’s structs and custom types, essential tools for modeling domain-specific concepts in your programs. We’ve covered:</p>
+<p>In this chapter, we've explored Rust's structs and custom types, essential tools for modeling domain-specific concepts in your programs. We've covered:</p>
 <ul>
 <li>Defining and instantiating structs to create custom data types</li>
 <li>Field initialization shorthand for cleaner, more concise code</li>
@@ -1518,8 +1525,8 @@ fn main() {
 <li>Struct composition for code reuse and complex modeling</li>
 <li>Debug and Display formatting for user-friendly output</li>
 </ul>
-<p>Structs are one of Rust’s most powerful features, allowing you to create custom types that precisely model your problem domain. When combined with methods, they enable you to write clean, maintainable, and expressive code that clearly communicates your intent.</p>
-<p>In the next chapter, we’ll explore enums and pattern matching, which complement structs by allowing you to define types that can be one of several variants, along with powerful ways to extract and work with those variants.</p>
+<p>Structs are one of Rust's most powerful features, allowing you to create custom types that precisely model your problem domain. When combined with methods, they enable you to write clean, maintainable, and expressive code that clearly communicates your intent.</p>
+<p>In the next chapter, we'll explore enums and pattern matching, which complement structs by allowing you to define types that can be one of several variants, along with powerful ways to extract and work with those variants.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>

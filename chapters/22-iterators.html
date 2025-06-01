@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html" class="active"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,11 +184,11 @@
                     <main>
                         <h1 id="chapter-22-iterators-and-functional-programming"><a class="header" href="#chapter-22-iterators-and-functional-programming">Chapter 22: Iterators and Functional Programming</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Rust’s iterators are one of the language’s most powerful features, enabling expressive, efficient, and composable data processing. Combined with Rust’s functional programming capabilities, iterators allow you to write code that is both concise and performant.</p>
-<p>In previous chapters, we’ve used iterators for tasks like processing collections and transforming data. In this chapter, we’ll take a comprehensive look at Rust’s iterator system, exploring how it enables functional programming patterns while maintaining Rust’s zero-cost abstraction philosophy.</p>
-<p>By the end of this chapter, you’ll understand how to use and create iterators, how to compose functional pipelines, and how to leverage these abstractions for both clarity and performance. You’ll learn why iterator-based code in Rust often outperforms traditional imperative loops and how to harness this power in your own applications.</p>
+<p>Rust's iterators are one of the language's most powerful features, enabling expressive, efficient, and composable data processing. Combined with Rust's functional programming capabilities, iterators allow you to write code that is both concise and performant.</p>
+<p>In previous chapters, we've used iterators for tasks like processing collections and transforming data. In this chapter, we'll take a comprehensive look at Rust's iterator system, exploring how it enables functional programming patterns while maintaining Rust's zero-cost abstraction philosophy.</p>
+<p>By the end of this chapter, you'll understand how to use and create iterators, how to compose functional pipelines, and how to leverage these abstractions for both clarity and performance. You'll learn why iterator-based code in Rust often outperforms traditional imperative loops and how to harness this power in your own applications.</p>
 <h2 id="the-iterator-trait"><a class="header" href="#the-iterator-trait">The Iterator Trait</a></h2>
-<p>At the heart of Rust’s iterator system is the <code>Iterator</code> trait, defined in the standard library. This trait represents a sequence of values that can be processed one at a time.</p>
+<p>At the heart of Rust's iterator system is the <code>Iterator</code> trait, defined in the standard library. This trait represents a sequence of values that can be processed one at a time.</p>
 <h3 id="understanding-the-iterator-trait"><a class="header" href="#understanding-the-iterator-trait">Understanding the Iterator Trait</a></h3>
 <p>The core of the <code>Iterator</code> trait is remarkably simple:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -194,14 +201,14 @@
     // Many default methods provided...
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Let’s break this down:</p>
+<p>Let's break this down:</p>
 <ol>
 <li><code>type Item</code> is an associated type that specifies what kind of values the iterator produces.</li>
 <li><code>next()</code> is the only method you must implement, which returns <code>Some(item)</code> for the next value or <code>None</code> when there are no more values.</li>
 </ol>
 <p>The beauty of this design is that once you implement <code>next()</code>, you get access to a wealth of default methods that build on this core functionality.</p>
 <h3 id="basic-iterator-usage"><a class="header" href="#basic-iterator-usage">Basic Iterator Usage</a></h3>
-<p>Let’s start with a simple example: iterating over a vector.</p>
+<p>Let's start with a simple example: iterating over a vector.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let numbers = vec![1, 2, 3, 4, 5];
 
@@ -245,14 +252,14 @@ assert_eq!(numbers[0], 11); // The vector was modified
 </span>let numbers = vec![1, 2, 3, 4, 5];
 
 for number in numbers {
-    println!("{}", number);
+    println!(&quot;{}&quot;, number);
 }
 // numbers is consumed here
 
 // Alternatively, to keep the original collection:
 let numbers = vec![1, 2, 3, 4, 5];
 for number in &amp;numbers {
-    println!("{}", number);
+    println!(&quot;{}&quot;, number);
 }
 // numbers is still usable here
 <span class="boring">}</span></code></pre></pre>
@@ -263,12 +270,12 @@ for number in &amp;numbers {
 let mut iter = numbers.into_iter();
 
 while let Some(number) = iter.next() {
-    println!("{}", number);
+    println!(&quot;{}&quot;, number);
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This relationship between <code>for</code> loops and iterators is why Rust can provide a unified interface for iterating over many different types of collections and sequences.</p>
 <h2 id="common-iterator-methods"><a class="header" href="#common-iterator-methods">Common Iterator Methods</a></h2>
-<p>The <code>Iterator</code> trait comes with a rich set of default methods that build on <code>next()</code>. Let’s explore some of the most useful ones.</p>
+<p>The <code>Iterator</code> trait comes with a rich set of default methods that build on <code>next()</code>. Let's explore some of the most useful ones.</p>
 <h3 id="map-filter-and-fold"><a class="header" href="#map-filter-and-fold">Map, Filter, and Fold</a></h3>
 <p>These three methods form the foundation of functional programming with iterators:</p>
 <h4 id="map-transforming-values"><a class="header" href="#map-transforming-values">Map: Transforming Values</a></h4>
@@ -305,7 +312,7 @@ let sum = numbers.iter().fold(0, |acc, &amp;n| acc + n);
 
 assert_eq!(sum, 15);
 <span class="boring">}</span></code></pre></pre>
-<p>The <code>fold</code> method takes an initial value and a closure. The closure receives the accumulator and the current element, and returns the new accumulator value. This pattern is also known as “reduce” in other languages.</p>
+<p>The <code>fold</code> method takes an initial value and a closure. The closure receives the accumulator and the current element, and returns the new accumulator value. This pattern is also known as &quot;reduce&quot; in other languages.</p>
 <h3 id="chaining-operations"><a class="header" href="#chaining-operations">Chaining Operations</a></h3>
 <p>One of the most powerful aspects of iterators is the ability to chain operations, creating a pipeline of transformations:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -321,7 +328,7 @@ assert_eq!(sum_of_even_squares, 220); // 2² + 4² + 6² + 8² + 10² = 4 + 16 +
 <span class="boring">}</span></code></pre></pre>
 <p>This code is both concise and expressive. It clearly communicates the intent: filter for even numbers, square them, and sum the results.</p>
 <h3 id="other-useful-iterator-methods"><a class="header" href="#other-useful-iterator-methods">Other Useful Iterator Methods</a></h3>
-<p>The <code>Iterator</code> trait provides many more useful methods. Here are some you’ll use frequently:</p>
+<p>The <code>Iterator</code> trait provides many more useful methods. Here are some you'll use frequently:</p>
 <h4 id="collecting-results"><a class="header" href="#collecting-results">Collecting Results</a></h4>
 <p>The <code>collect</code> method gathers the results of an iterator into a collection:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -394,27 +401,27 @@ assert_eq!(max, Some(&amp;9));
 </span>let letters = vec!['a', 'b', 'c'];
 let with_indices: Vec&lt;_&gt; = letters.iter()
     .enumerate()
-    .map(|(i, &amp;c)| format!("{}: {}", i, c))
+    .map(|(i, &amp;c)| format!(&quot;{}: {}&quot;, i, c))
     .collect();
 
-assert_eq!(with_indices, vec!["0: a", "1: b", "2: c"]);
+assert_eq!(with_indices, vec![&quot;0: a&quot;, &quot;1: b&quot;, &quot;2: c&quot;]);
 <span class="boring">}</span></code></pre></pre>
 <h4 id="zip"><a class="header" href="#zip">Zip</a></h4>
 <p>The <code>zip</code> method combines two iterators into one iterator of pairs:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let names = vec!["Alice", "Bob", "Charlie"];
+</span>let names = vec![&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;];
 let ages = vec![30, 25, 35];
 
 let people: Vec&lt;_&gt; = names.iter()
     .zip(ages.iter())
-    .map(|(&amp;name, &amp;age)| format!("{} is {} years old", name, age))
+    .map(|(&amp;name, &amp;age)| format!(&quot;{} is {} years old&quot;, name, age))
     .collect();
 
 assert_eq!(people, vec![
-    "Alice is 30 years old",
-    "Bob is 25 years old",
-    "Charlie is 35 years old"
+    &quot;Alice is 30 years old&quot;,
+    &quot;Bob is 25 years old&quot;,
+    &quot;Charlie is 35 years old&quot;
 ]);
 <span class="boring">}</span></code></pre></pre>
 <h2 id="consuming-vs-non-consuming-adapters"><a class="header" href="#consuming-vs-non-consuming-adapters">Consuming vs. Non-Consuming Adapters</a></h2>
@@ -452,7 +459,7 @@ let iter = numbers.iter()
 // The iterator isn't consumed yet; we can still use it
 <span class="boring">}</span></code></pre></pre>
 <h3 id="lazy-evaluation"><a class="header" href="#lazy-evaluation">Lazy Evaluation</a></h3>
-<p>An important characteristic of non-consuming adapters is that they’re lazy—they don’t do any work until a consuming adapter is called. This allows for efficient processing of potentially large sequences:</p>
+<p>An important characteristic of non-consuming adapters is that they're lazy—they don't do any work until a consuming adapter is called. This allows for efficient processing of potentially large sequences:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let numbers = vec![1, 2, 3, 4, 5];
@@ -460,11 +467,11 @@ let iter = numbers.iter()
 // These transformations don't actually do anything yet
 let iter = numbers.iter()
     .map(|&amp;n| {
-        println!("Mapping {}", n);
+        println!(&quot;Mapping {}&quot;, n);
         n * 2
     })
     .filter(|&amp;n| {
-        println!("Filtering {}", n);
+        println!(&quot;Filtering {}&quot;, n);
         n &gt; 5
     });
 
@@ -486,9 +493,9 @@ let result: Vec&lt;_&gt; = iter.collect();
 <span class="boring">}</span></code></pre></pre>
 <p>Notice that the <code>map</code> and <code>filter</code> operations are interleaved, not run as separate passes over the data. This is more efficient because it avoids creating intermediate collections.</p>
 <h2 id="building-custom-iterators"><a class="header" href="#building-custom-iterators">Building Custom Iterators</a></h2>
-<p>So far, we’ve used iterators provided by standard library collections. Now, let’s explore how to create our own iterators.</p>
+<p>So far, we've used iterators provided by standard library collections. Now, let's explore how to create our own iterators.</p>
 <h3 id="implementing-the-iterator-trait"><a class="header" href="#implementing-the-iterator-trait">Implementing the Iterator Trait</a></h3>
-<p>To create a custom iterator, you need to implement the <code>Iterator</code> trait. Let’s create a simple iterator that yields the Fibonacci sequence:</p>
+<p>To create a custom iterator, you need to implement the <code>Iterator</code> trait. Let's create a simple iterator that yields the Fibonacci sequence:</p>
 <pre><pre class="playground"><code class="language-rust">struct Fibonacci {
     current: u64,
     next: u64,
@@ -524,7 +531,7 @@ fn main() {
 }</code></pre></pre>
 <p>This iterator generates an infinite sequence (it always returns <code>Some</code>), but we can limit it using <code>take()</code>.</p>
 <h3 id="creating-iterators-from-existing-data"><a class="header" href="#creating-iterators-from-existing-data">Creating Iterators from Existing Data</a></h3>
-<p>Often, you’ll want to create an iterator that processes an existing data structure. Let’s implement an iterator for a simple binary tree:</p>
+<p>Often, you'll want to create an iterator that processes an existing data structure. Let's implement an iterator for a simple binary tree:</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
 enum BinaryTree&lt;T&gt; {
     Empty,
@@ -620,7 +627,7 @@ fn main() {
 }</code></pre></pre>
 <p>This example implements an in-order traversal iterator for a binary tree, which visits the left subtree, then the current node, then the right subtree.</p>
 <h3 id="iterator-adaptors"><a class="header" href="#iterator-adaptors">Iterator Adaptors</a></h3>
-<p>You can also create new iterators by adapting existing ones. Let’s implement a <code>Chunks</code> iterator that groups elements:</p>
+<p>You can also create new iterators by adapting existing ones. Let's implement a <code>Chunks</code> iterator that groups elements:</p>
 <pre><pre class="playground"><code class="language-rust">struct Chunks&lt;I: Iterator&gt; {
     iterator: I,
     chunk_size: usize,
@@ -628,7 +635,7 @@ fn main() {
 
 impl&lt;I: Iterator&gt; Chunks&lt;I&gt; {
     fn new(iterator: I, chunk_size: usize) -&gt; Self {
-        assert!(chunk_size &gt; 0, "Chunk size must be positive");
+        assert!(chunk_size &gt; 0, &quot;Chunk size must be positive&quot;);
         Chunks { iterator, chunk_size }
     }
 }
@@ -669,7 +676,7 @@ fn main() {
 }</code></pre></pre>
 <p>This <code>Chunks</code> iterator takes another iterator and groups its elements into chunks of a specified size.</p>
 <h2 id="the-intoiterator-trait"><a class="header" href="#the-intoiterator-trait">The IntoIterator Trait</a></h2>
-<p>Now that we’ve explored the <code>Iterator</code> trait, let’s look at how Rust’s <code>for</code> loops work with the <code>IntoIterator</code> trait.</p>
+<p>Now that we've explored the <code>Iterator</code> trait, let's look at how Rust's <code>for</code> loops work with the <code>IntoIterator</code> trait.</p>
 <h3 id="understanding-intoiterator"><a class="header" href="#understanding-intoiterator">Understanding IntoIterator</a></h3>
 <p>The <code>IntoIterator</code> trait defines how a type can be converted into an iterator:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -683,7 +690,7 @@ fn main() {
 <span class="boring">}</span></code></pre></pre>
 <p>When you use a <code>for</code> loop, Rust calls <code>into_iter()</code> on the collection, which is why you can iterate over any type that implements <code>IntoIterator</code>.</p>
 <h3 id="implementing-intoiterator"><a class="header" href="#implementing-intoiterator">Implementing IntoIterator</a></h3>
-<p>Let’s implement <code>IntoIterator</code> for our Fibonacci sequence:</p>
+<p>Let's implement <code>IntoIterator</code> for our Fibonacci sequence:</p>
 <pre><pre class="playground"><code class="language-rust">struct FibonacciSequence {
     max: u64,
 }
@@ -729,7 +736,7 @@ fn main() {
     let fib_seq = FibonacciSequence { max: 100 };
 
     for num in fib_seq {
-        println!("{}", num);
+        println!(&quot;{}&quot;, num);
     }
 }</code></pre></pre>
 <p>Now we can use our <code>FibonacciSequence</code> directly in a <code>for</code> loop.</p>
@@ -785,7 +792,7 @@ let chars = vec!['h', 'e', 'l', 'l', 'o'];
 let string: String = chars.into_iter().collect();
 
 // Collect into a Result
-let results = vec![Ok(1), Err("error"), Ok(2)];
+let results = vec![Ok(1), Err(&quot;error&quot;), Ok(2)];
 let combined_result: Result&lt;Vec&lt;_&gt;, _&gt; = results.into_iter().collect();
 assert!(combined_result.is_err());
 <span class="boring">}</span></code></pre></pre>
@@ -799,7 +806,7 @@ let even_numbers = numbers.iter()
     .collect::&lt;Vec&lt;i32&gt;&gt;();
 <span class="boring">}</span></code></pre></pre>
 <h3 id="implementing-fromiterator"><a class="header" href="#implementing-fromiterator">Implementing FromIterator</a></h3>
-<p>Let’s implement <code>FromIterator</code> for a custom collection type:</p>
+<p>Let's implement <code>FromIterator</code> for a custom collection type:</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug, PartialEq)]
 struct SortedVec&lt;T: Ord&gt; {
     data: Vec&lt;T&gt;,
@@ -840,26 +847,26 @@ fn main() {
 }</code></pre></pre>
 <p>With this implementation, we can use <code>collect()</code> to create a <code>SortedVec</code> from any iterator.</p>
 <h2 id="iterator-fusion-and-laziness"><a class="header" href="#iterator-fusion-and-laziness">Iterator Fusion and Laziness</a></h2>
-<p>One of the key performance advantages of Rust’s iterators is their laziness and ability to fuse operations.</p>
+<p>One of the key performance advantages of Rust's iterators is their laziness and ability to fuse operations.</p>
 <h3 id="understanding-iterator-fusion"><a class="header" href="#understanding-iterator-fusion">Understanding Iterator Fusion</a></h3>
-<p>Iterator fusion is the process of combining multiple iterator operations into a single pass over the data. This optimization is possible because Rust’s iterators are lazy—they don’t process elements until they’re needed.</p>
-<p>Let’s look at an example:</p>
+<p>Iterator fusion is the process of combining multiple iterator operations into a single pass over the data. This optimization is possible because Rust's iterators are lazy—they don't process elements until they're needed.</p>
+<p>Let's look at an example:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let numbers = vec![1, 2, 3, 4, 5];
 
 let result: Vec&lt;_&gt; = numbers.iter()
     .map(|&amp;n| {
-        println!("Mapping: {}", n);
+        println!(&quot;Mapping: {}&quot;, n);
         n * 2
     })
     .filter(|&amp;n| {
-        println!("Filtering: {}", n);
+        println!(&quot;Filtering: {}&quot;, n);
         n &gt; 5
     })
     .collect();
 
-println!("Result: {:?}", result);
+println!(&quot;Result: {:?}&quot;, result);
 <span class="boring">}</span></code></pre></pre>
 <p>Output:</p>
 <pre><code>Mapping: 1
@@ -876,7 +883,7 @@ Result: [6, 8, 10]
 </code></pre>
 <p>Notice how each element passes through the entire chain of operations before the next element is processed. This is iterator fusion in action—instead of creating intermediate collections for each step, Rust processes each element through all steps before moving to the next element.</p>
 <h3 id="zero-cost-abstractions"><a class="header" href="#zero-cost-abstractions">Zero-Cost Abstractions</a></h3>
-<p>Rust’s iterators are a prime example of the language’s zero-cost abstraction philosophy. Despite their high-level interface, they compile down to efficient machine code, often matching or outperforming hand-written loops.</p>
+<p>Rust's iterators are a prime example of the language's zero-cost abstraction philosophy. Despite their high-level interface, they compile down to efficient machine code, often matching or outperforming hand-written loops.</p>
 <p>For example, consider these two approaches:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -898,7 +905,7 @@ fn sum_evens_iter(numbers: &amp;[i32]) -&gt; i32 {
         .sum()
 }
 <span class="boring">}</span></code></pre></pre>
-<p>After compilation with optimizations, these two functions will likely produce very similar or identical machine code. The iterator version is more concise and expressive, yet it doesn’t come with a performance penalty.</p>
+<p>After compilation with optimizations, these two functions will likely produce very similar or identical machine code. The iterator version is more concise and expressive, yet it doesn't come with a performance penalty.</p>
 <h3 id="iterators-and-performance"><a class="header" href="#iterators-and-performance">Iterators and Performance</a></h3>
 <p>In many cases, iterators can actually outperform manual loops due to optimizations like:</p>
 <ol>
@@ -906,7 +913,7 @@ fn sum_evens_iter(numbers: &amp;[i32]) -&gt; i32 {
 <li><strong>Loop unrolling</strong>: The compiler can unroll iterator loops for better instruction-level parallelism.</li>
 <li><strong>Auto-vectorization</strong>: Some iterator operations can be automatically vectorized, using SIMD instructions.</li>
 </ol>
-<p>Let’s look at a performance comparison:</p>
+<p>Let's look at a performance comparison:</p>
 <pre><pre class="playground"><code class="language-rust">use std::time::Instant;
 
 fn main() {
@@ -923,12 +930,12 @@ fn main() {
     let sum_iter = sum_evens_iter(&amp;numbers);
     let iter_time = start.elapsed();
 
-    println!("Loop result: {} in {:?}", sum_loop, loop_time);
-    println!("Iterator result: {} in {:?}", sum_iter, iter_time);
+    println!(&quot;Loop result: {} in {:?}&quot;, sum_loop, loop_time);
+    println!(&quot;Iterator result: {} in {:?}&quot;, sum_iter, iter_time);
 }</code></pre></pre>
 <p>In many cases, the iterator version will be just as fast or faster, while being more concise and expressive.</p>
 <h2 id="composing-iterators"><a class="header" href="#composing-iterators">Composing Iterators</a></h2>
-<p>One of the most powerful aspects of iterators is their composability. Let’s explore how to build complex data processing pipelines using iterators.</p>
+<p>One of the most powerful aspects of iterators is their composability. Let's explore how to build complex data processing pipelines using iterators.</p>
 <h3 id="chaining-iterators"><a class="header" href="#chaining-iterators">Chaining Iterators</a></h3>
 <p>The <code>chain</code> method combines two iterators into a single sequence:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -960,7 +967,7 @@ assert_eq!(flattened, vec![1, 2, 3, 4, 5, 6]);
 <p>The <code>flat_map</code> method maps each element to an iterator and then flattens the results:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let words = vec!["hello", "world"];
+</span>let words = vec![&quot;hello&quot;, &quot;world&quot;];
 
 let chars: Vec&lt;_&gt; = words.iter()
     .flat_map(|word| word.chars())
@@ -972,7 +979,7 @@ assert_eq!(chars, vec!['h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd']);
 <p>You can create your own iterator adaptors for more complex compositions:</p>
 <pre><pre class="playground"><code class="language-rust">trait IteratorExt: Iterator + Sized {
     fn every_nth(self, n: usize) -&gt; EveryNth&lt;Self&gt; {
-        assert!(n &gt; 0, "n must be positive");
+        assert!(n &gt; 0, &quot;n must be positive&quot;);
         EveryNth { iter: self, n, index: 0 }
     }
 }
@@ -1010,7 +1017,7 @@ fn main() {
 }</code></pre></pre>
 <p>This example creates a custom iterator adaptor that selects every nth element from an iterator.</p>
 <h3 id="building-data-processing-pipelines"><a class="header" href="#building-data-processing-pipelines">Building Data Processing Pipelines</a></h3>
-<p>Let’s put it all together with a more complex example—processing a collection of log entries:</p>
+<p>Let's put it all together with a more complex example—processing a collection of log entries:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct LogEntry {
@@ -1037,22 +1044,22 @@ fn process_logs(logs: Vec&lt;LogEntry&gt;) -&gt; Vec&lt;String&gt; {
         // Format for display
         .map(|entry| {
             let level = match entry.level {
-                LogLevel::Warning =&gt; "WARNING",
-                LogLevel::Error =&gt; "ERROR",
+                LogLevel::Warning =&gt; &quot;WARNING&quot;,
+                LogLevel::Error =&gt; &quot;ERROR&quot;,
                 _ =&gt; unreachable!(),
             };
-            format!("[{}] {}: {}", entry.timestamp, level, entry.message)
+            format!(&quot;[{}] {}: {}&quot;, entry.timestamp, level, entry.message)
         })
         .collect()
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This pipeline filters, sorts, limits, and transforms log entries in a concise and expressive way.</p>
-<p>Note: The <code>sorted_by_key</code> method isn’t a standard iterator method but is available in the <code>itertools</code> crate, which we’ll explore next.</p>
+<p>Note: The <code>sorted_by_key</code> method isn't a standard iterator method but is available in the <code>itertools</code> crate, which we'll explore next.</p>
 <h2 id="parallel-iterators-with-rayon"><a class="header" href="#parallel-iterators-with-rayon">Parallel Iterators with Rayon</a></h2>
-<p>So far, we’ve explored sequential iterators, which process elements one at a time. For CPU-intensive operations on large datasets, parallel processing can significantly improve performance.</p>
+<p>So far, we've explored sequential iterators, which process elements one at a time. For CPU-intensive operations on large datasets, parallel processing can significantly improve performance.</p>
 <p>The <code>rayon</code> crate provides parallel implementations of many iterator methods, allowing you to easily parallelize your data processing pipelines.</p>
 <h3 id="basic-parallel-iterators"><a class="header" href="#basic-parallel-iterators">Basic Parallel Iterators</a></h3>
-<p>Let’s start with a simple example comparing sequential and parallel sum operations:</p>
+<p>Let's start with a simple example comparing sequential and parallel sum operations:</p>
 <pre><pre class="playground"><code class="language-rust">use rayon::prelude::*;
 
 fn main() {
@@ -1111,7 +1118,7 @@ fn main() {
 <p>Parallel iterators are most beneficial when:</p>
 <ol>
 <li>The dataset is large (small datasets may have more overhead than benefit)</li>
-<li>Operations are CPU-intensive (I/O-bound operations won’t benefit as much)</li>
+<li>Operations are CPU-intensive (I/O-bound operations won't benefit as much)</li>
 <li>Operations are independent (no shared mutable state between iterations)</li>
 </ol>
 <pre><pre class="playground"><code class="language-rust">use rayon::prelude::*;
@@ -1144,8 +1151,8 @@ fn main() {
     let par_time = start.elapsed();
 
     assert_eq!(seq_results, par_results);
-    println!("Sequential time: {:?}", seq_time);
-    println!("Parallel time: {:?}", par_time);
+    println!(&quot;Sequential time: {:?}&quot;, seq_time);
+    println!(&quot;Parallel time: {:?}&quot;, par_time);
 }</code></pre></pre>
 <p>On a multi-core system, the parallel version can be significantly faster for this compute-intensive task.</p>
 <h3 id="parallel-iterator-methods"><a class="header" href="#parallel-iterator-methods">Parallel Iterator Methods</a></h3>
@@ -1176,11 +1183,11 @@ fn main() {
     assert_eq!(even_count, 50);
 }</code></pre></pre>
 <h3 id="maintaining-order"><a class="header" href="#maintaining-order">Maintaining Order</a></h3>
-<p>By default, parallel iterators don’t guarantee processing order. When order matters, Rayon provides methods like <code>enumerate</code> that maintain element indices:</p>
+<p>By default, parallel iterators don't guarantee processing order. When order matters, Rayon provides methods like <code>enumerate</code> that maintain element indices:</p>
 <pre><pre class="playground"><code class="language-rust">use rayon::prelude::*;
 
 fn main() {
-    let words = vec!["apple", "banana", "cherry", "date"];
+    let words = vec![&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;date&quot;];
 
     // Process in parallel but maintain original order
     let results: Vec&lt;(usize, String)&gt; = words.par_iter()
@@ -1198,19 +1205,19 @@ fn main() {
         .map(|(_, word)| word)
         .collect();
 
-    assert_eq!(uppercase, vec!["APPLE", "BANANA", "CHERRY", "DATE"]);
+    assert_eq!(uppercase, vec![&quot;APPLE&quot;, &quot;BANANA&quot;, &quot;CHERRY&quot;, &quot;DATE&quot;]);
 }</code></pre></pre>
 <h2 id="functional-programming-patterns-in-rust"><a class="header" href="#functional-programming-patterns-in-rust">Functional Programming Patterns in Rust</a></h2>
 <p>Functional programming emphasizes expressions over statements, immutability over mutable state, and function composition over imperative sequences. Rust supports many functional programming patterns, especially through its iterator system.</p>
 <h3 id="immutability-and-pure-functions"><a class="header" href="#immutability-and-pure-functions">Immutability and Pure Functions</a></h3>
-<p>In functional programming, data is immutable, and functions are “pure”—they don’t modify state and always return the same output for the same input.</p>
+<p>In functional programming, data is immutable, and functions are &quot;pure&quot;—they don't modify state and always return the same output for the same input.</p>
 <p>Rust encourages this approach through:</p>
 <ul>
 <li>Default immutability (<code>let</code> bindings are immutable)</li>
 <li>Explicit mutability (<code>mut</code> keyword required for mutation)</li>
 <li>Move semantics that prevent aliasing of mutable data</li>
 </ul>
-<p>Let’s look at a simple example of a pure function:</p>
+<p>Let's look at a simple example of a pure function:</p>
 <pre><pre class="playground"><code class="language-rust">// Pure function: no side effects, same output for same input
 fn square(x: i32) -&gt; i32 {
     x * x
@@ -1231,9 +1238,9 @@ fn main() {
     add_to_sum(5, &amp;mut sum);
     assert_eq!(sum, 5);
 }</code></pre></pre>
-<p>When possible, prefer pure functions as they’re easier to reason about, test, and parallelize.</p>
+<p>When possible, prefer pure functions as they're easier to reason about, test, and parallelize.</p>
 <h3 id="higher-order-functions"><a class="header" href="#higher-order-functions">Higher-Order Functions</a></h3>
-<p>A higher-order function either takes a function as an argument or returns a function. We’ve already seen many examples with iterator methods:</p>
+<p>A higher-order function either takes a function as an argument or returns a function. We've already seen many examples with iterator methods:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let numbers = vec![1, 2, 3, 4, 5];
 
@@ -1328,7 +1335,7 @@ fn main() {
     assert_eq!(multiply_by_5(3), 15); // 5 * 3 = 15
 }</code></pre></pre>
 <h3 id="lazy-evaluation-with-iterators"><a class="header" href="#lazy-evaluation-with-iterators">Lazy Evaluation with Iterators</a></h3>
-<p>As we’ve seen, Rust’s iterators support lazy evaluation—computations are only performed when needed:</p>
+<p>As we've seen, Rust's iterators support lazy evaluation—computations are only performed when needed:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let numbers = 1..=1_000_000;
 
@@ -1336,7 +1343,7 @@ fn main() {
     let even_squares = numbers
         .filter(|&amp;n| n % 2 == 0)
         .map(|n| {
-            println!("Computing square of {}", n);
+            println!(&quot;Computing square of {}&quot;, n);
             n * n
         });
 
@@ -1348,7 +1355,7 @@ fn main() {
 }</code></pre></pre>
 <p>This lazy approach can be more efficient, especially when dealing with large datasets or infinite sequences.</p>
 <h3 id="monadic-operations"><a class="header" href="#monadic-operations">Monadic Operations</a></h3>
-<p>While Rust doesn’t have explicit monads like some functional languages, it has similar patterns through types like <code>Option</code> and <code>Result</code>:</p>
+<p>While Rust doesn't have explicit monads like some functional languages, it has similar patterns through types like <code>Option</code> and <code>Result</code>:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let numbers = vec![Some(1), None, Some(3), None, Some(5)];
 
@@ -1388,9 +1395,9 @@ fn process_file(path: &amp;Path) -&gt; Result&lt;String, io::Error&gt; {
 }
 
 fn main() {
-    match process_file(Path::new("data.txt")) {
-        Ok(content) =&gt; println!("File content: {}", content),
-        Err(error) =&gt; println!("Error: {}", error),
+    match process_file(Path::new(&quot;data.txt&quot;)) {
+        Ok(content) =&gt; println!(&quot;File content: {}&quot;, content),
+        Err(error) =&gt; println!(&quot;Error: {}&quot;, error),
     }
 }</code></pre></pre>
 <p>With the <code>?</code> operator, this becomes even more concise:</p>
@@ -1420,35 +1427,35 @@ fn process_file(path: &amp;Path) -&gt; Result&lt;String, io::Error&gt; {
 }</code></pre></pre>
 <p>This enables powerful patterns like creating specialized functions based on runtime parameters.</p>
 <h3 id="functional-error-handling"><a class="header" href="#functional-error-handling">Functional Error Handling</a></h3>
-<p>Functional programming often handles errors through return values rather than exceptions. Rust’s <code>Result</code> and <code>Option</code> types, combined with iterator methods, provide elegant error handling:</p>
+<p>Functional programming often handles errors through return values rather than exceptions. Rust's <code>Result</code> and <code>Option</code> types, combined with iterator methods, provide elegant error handling:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let numbers = vec!["1", "2", "three", "4", "5"];
+    let numbers = vec![&quot;1&quot;, &quot;2&quot;, &quot;three&quot;, &quot;4&quot;, &quot;5&quot;];
 
     // Parse strings to numbers, collecting successes and handling errors
     let parsed: Vec&lt;i32&gt; = numbers.iter()
         .filter_map(|&amp;s| s.parse::&lt;i32&gt;().ok())
         .collect();
 
-    assert_eq!(parsed, vec![1, 2, 4, 5]); // "three" is filtered out
+    assert_eq!(parsed, vec![1, 2, 4, 5]); // &quot;three&quot; is filtered out
 
     // Alternatively, fail on first error
     let all_parsed: Result&lt;Vec&lt;i32&gt;, _&gt; = numbers.iter()
         .map(|&amp;s| s.parse::&lt;i32&gt;())
         .collect();
 
-    assert!(all_parsed.is_err()); // Fails due to "three"
+    assert!(all_parsed.is_err()); // Fails due to &quot;three&quot;
 }</code></pre></pre>
 <p>These patterns allow for concise error handling without sacrificing clarity or type safety.</p>
 <h2 id="performance-considerations"><a class="header" href="#performance-considerations">Performance Considerations</a></h2>
-<p>While functional programming patterns and iterators are powerful and expressive, it’s important to consider their performance implications, especially in performance-critical applications.</p>
+<p>While functional programming patterns and iterators are powerful and expressive, it's important to consider their performance implications, especially in performance-critical applications.</p>
 <h3 id="iterator-overhead"><a class="header" href="#iterator-overhead">Iterator Overhead</a></h3>
-<p>In most cases, Rust’s zero-cost abstraction philosophy ensures that iterators compile to efficient machine code. However, there are situations where iterators might introduce overhead:</p>
+<p>In most cases, Rust's zero-cost abstraction philosophy ensures that iterators compile to efficient machine code. However, there are situations where iterators might introduce overhead:</p>
 <ol>
 <li><strong>Debug builds</strong>: Without optimizations, iterator abstractions might not be fully optimized away.</li>
 <li><strong>Complex iterator chains</strong>: Very long chains of iterator adapters might be harder for the compiler to optimize.</li>
 <li><strong>Dynamic dispatch</strong>: Using trait objects for iterators can prevent certain optimizations.</li>
 </ol>
-<p>Let’s look at some benchmarks comparing different approaches:</p>
+<p>Let's look at some benchmarks comparing different approaches:</p>
 <pre><pre class="playground"><code class="language-rust">use std::time::{Duration, Instant};
 
 // Simple benchmark function
@@ -1463,7 +1470,7 @@ where
     }
 
     let elapsed = start.elapsed();
-    println!("{}: {:?} per iteration", name, elapsed / iterations);
+    println!(&quot;{}: {:?} per iteration&quot;, name, elapsed / iterations);
 }
 
 fn main() {
@@ -1471,7 +1478,7 @@ fn main() {
     let numbers: Vec&lt;i32&gt; = (1..=N as i32).collect();
 
     // Benchmark 1: For loop
-    benchmark("For loop", 10, || {
+    benchmark(&quot;For loop&quot;, 10, || {
         let mut sum = 0;
         for &amp;n in &amp;numbers {
             if n % 2 == 0 {
@@ -1482,7 +1489,7 @@ fn main() {
     });
 
     // Benchmark 2: Iterator
-    benchmark("Iterator", 10, || {
+    benchmark(&quot;Iterator&quot;, 10, || {
         let sum: i32 = numbers.iter()
             .filter(|&amp;&amp;n| n % 2 == 0)
             .sum();
@@ -1490,7 +1497,7 @@ fn main() {
     });
 
     // Benchmark 3: Iterator with fold
-    benchmark("Iterator with fold", 10, || {
+    benchmark(&quot;Iterator with fold&quot;, 10, || {
         let sum = numbers.iter()
             .filter(|&amp;&amp;n| n % 2 == 0)
             .fold(0, |acc, &amp;n| acc + n);
@@ -1498,7 +1505,7 @@ fn main() {
     });
 
     // Benchmark 4: Parallel iterator
-    benchmark("Parallel iterator", 10, || {
+    benchmark(&quot;Parallel iterator&quot;, 10, || {
         use rayon::prelude::*;
         let sum: i32 = numbers.par_iter()
             .filter(|&amp;&amp;n| n % 2 == 0)
@@ -1506,7 +1513,7 @@ fn main() {
         assert!(sum &gt; 0);
     });
 }</code></pre></pre>
-<p>When running these benchmarks with optimizations enabled (<code>--release</code>), you’ll often find that the iterator version is comparable to or even faster than the manual loop, while the parallel iterator can be significantly faster on multi-core systems.</p>
+<p>When running these benchmarks with optimizations enabled (<code>--release</code>), you'll often find that the iterator version is comparable to or even faster than the manual loop, while the parallel iterator can be significantly faster on multi-core systems.</p>
 <h3 id="memory-usage"><a class="header" href="#memory-usage">Memory Usage</a></h3>
 <p>Iterators can be more memory-efficient than intermediate collections, but there are trade-offs:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1535,7 +1542,7 @@ fn process_data_with_iterators(data: &amp;[i32]) -&gt; Vec&lt;i32&gt; {
 <li><strong>Early termination with side effects</strong>: When you need to break a loop early and perform side effects.</li>
 <li><strong>Non-linear traversal</strong>: When you need to jump around in a collection rather than process it sequentially.</li>
 </ol>
-<p>Here’s an example where a traditional loop might be clearer:</p>
+<p>Here's an example where a traditional loop might be clearer:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn find_pair_with_sum(numbers: &amp;[i32], target: i32) -&gt; Option&lt;(i32, i32)&gt; {
@@ -1595,15 +1602,15 @@ fn sum_evens_iter(numbers: &amp;[i32]) -&gt; i32 {
 fn criterion_benchmark(c: &amp;mut Criterion) {
     let numbers: Vec&lt;i32&gt; = (1..1000).collect();
 
-    c.bench_function("sum_evens_loop", |b| b.iter(|| sum_evens_loop(black_box(&amp;numbers))));
-    c.bench_function("sum_evens_iter", |b| b.iter(|| sum_evens_iter(black_box(&amp;numbers))));
+    c.bench_function(&quot;sum_evens_loop&quot;, |b| b.iter(|| sum_evens_loop(black_box(&amp;numbers))));
+    c.bench_function(&quot;sum_evens_iter&quot;, |b| b.iter(|| sum_evens_iter(black_box(&amp;numbers))));
 }
 
 criterion_group!(benches, criterion_benchmark);
 criterion_main!(benches);
 <span class="boring">}</span></code></pre></pre>
 <h2 id="project-data-pipeline"><a class="header" href="#project-data-pipeline">Project: Data Pipeline</a></h2>
-<p>Now let’s apply what we’ve learned to build a data processing pipeline for analyzing a dataset. We’ll create a system that reads a CSV file containing product sales data, processes it using iterators and functional patterns, and generates summary reports.</p>
+<p>Now let's apply what we've learned to build a data processing pipeline for analyzing a dataset. We'll create a system that reads a CSV file containing product sales data, processes it using iterators and functional patterns, and generates summary reports.</p>
 <h3 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h3>
 <p>Our project will have the following components:</p>
 <ol>
@@ -1614,7 +1621,7 @@ criterion_main!(benches);
 <li>Parallel processing for performance</li>
 </ol>
 <h3 id="step-1-define-the-data-model"><a class="header" href="#step-1-define-the-data-model">Step 1: Define the Data Model</a></h3>
-<p>First, let’s define our data structures:</p>
+<p>First, let's define our data structures:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use chrono::NaiveDate;
@@ -1641,7 +1648,7 @@ impl SalesRecord {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-2-read-and-parse-the-csv-data"><a class="header" href="#step-2-read-and-parse-the-csv-data">Step 2: Read and Parse the CSV Data</a></h3>
-<p>Next, let’s implement the function to read the CSV file:</p>
+<p>Next, let's implement the function to read the CSV file:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn read_sales_data(path: &amp;Path) -&gt; Result&lt;Vec&lt;SalesRecord&gt;, Box&lt;dyn Error&gt;&gt; {
@@ -1653,7 +1660,7 @@ impl SalesRecord {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-3-implement-data-processing-functions"><a class="header" href="#step-3-implement-data-processing-functions">Step 3: Implement Data Processing Functions</a></h3>
-<p>Now let’s create functions to analyze the data using iterators:</p>
+<p>Now let's create functions to analyze the data using iterators:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Filter records by date range
@@ -1709,7 +1716,7 @@ fn monthly_sales(records: &amp;[SalesRecord]) -&gt; Vec&lt;(String, f64)&gt; {
 
     records.iter()
         .for_each(|record| {
-            let month = format!("{}-{:02}",
+            let month = format!(&quot;{}-{:02}&quot;,
                                record.date.year(),
                                record.date.month());
             let entry = monthly_data.entry(month)
@@ -1726,7 +1733,7 @@ fn monthly_sales(records: &amp;[SalesRecord]) -&gt; Vec&lt;(String, f64)&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-4-implement-parallel-processing"><a class="header" href="#step-4-implement-parallel-processing">Step 4: Implement Parallel Processing</a></h3>
-<p>Let’s optimize our analysis with parallel processing:</p>
+<p>Let's optimize our analysis with parallel processing:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rayon::prelude::*;
@@ -1759,7 +1766,7 @@ fn parallel_sales_by_category(records: &amp;[SalesRecord]) -&gt; Vec&lt;(String,
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-5-generate-reports"><a class="header" href="#step-5-generate-reports">Step 5: Generate Reports</a></h3>
-<p>Finally, let’s create a function to generate a report:</p>
+<p>Finally, let's create a function to generate a report:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn generate_sales_report(records: &amp;[SalesRecord]) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
@@ -1769,60 +1776,60 @@ fn parallel_sales_by_category(records: &amp;[SalesRecord]) -&gt; Vec&lt;(String,
 
     let recent_sales = filter_by_date_range(records, one_year_ago, today);
 
-    println!("=== Sales Report ===");
-    println!("Period: {} to {}", one_year_ago, today);
-    println!("Total Records: {}", records.len());
-    println!("Recent Records: {}", recent_sales.len());
+    println!(&quot;=== Sales Report ===&quot;);
+    println!(&quot;Period: {} to {}&quot;, one_year_ago, today);
+    println!(&quot;Total Records: {}&quot;, records.len());
+    println!(&quot;Recent Records: {}&quot;, recent_sales.len());
 
     // Calculate total sales
     let total_sales: f64 = records.iter()
         .map(|r| r.total_price())
         .sum();
 
-    println!("\nTotal Sales: ${:.2}", total_sales);
+    println!(&quot;\nTotal Sales: ${:.2}&quot;, total_sales);
 
     // Sales by category
     let category_sales = parallel_sales_by_category(records);
 
-    println!("\nSales by Category:");
+    println!(&quot;\nSales by Category:&quot;);
     for (category, sales) in category_sales {
-        println!("  {}: ${:.2}", category, sales);
+        println!(&quot;  {}: ${:.2}&quot;, category, sales);
     }
 
     // Top products
     let top = top_products(records, 5);
 
-    println!("\nTop 5 Products by Quantity:");
+    println!(&quot;\nTop 5 Products by Quantity:&quot;);
     for (i, (product, quantity)) in top.iter().enumerate() {
-        println!("  {}. {} - {} units", i + 1, product, quantity);
+        println!(&quot;  {}. {} - {} units&quot;, i + 1, product, quantity);
     }
 
     // Monthly trend
     let monthly = monthly_sales(&amp;recent_sales);
 
-    println!("\nMonthly Sales Trend:");
+    println!(&quot;\nMonthly Sales Trend:&quot;);
     for (month, sales) in monthly {
-        println!("  {}: ${:.2}", month, sales);
+        println!(&quot;  {}: ${:.2}&quot;, month, sales);
     }
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-6-putting-it-all-together"><a class="header" href="#step-6-putting-it-all-together">Step 6: Putting It All Together</a></h3>
-<p>Now let’s create the main function to run our data pipeline:</p>
+<p>Now let's create the main function to run our data pipeline:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
     let start = std::time::Instant::now();
 
     // Read sales data
-    let sales_data = read_sales_data(Path::new("sales_data.csv"))?;
-    println!("Loaded {} sales records in {:?}",
+    let sales_data = read_sales_data(Path::new(&quot;sales_data.csv&quot;))?;
+    println!(&quot;Loaded {} sales records in {:?}&quot;,
              sales_data.len(),
              start.elapsed());
 
     // Generate report
     generate_sales_report(&amp;sales_data)?;
 
-    println!("\nTotal execution time: {:?}", start.elapsed());
+    println!(&quot;\nTotal execution time: {:?}&quot;, start.elapsed());
 
     Ok(())
 }</code></pre></pre>
@@ -1835,13 +1842,13 @@ fn parallel_sales_by_category(records: &amp;[SalesRecord]) -&gt; Vec&lt;(String,
 </ol>
 <p>This project demonstrates how iterators and functional programming patterns can create concise, expressive, and efficient data processing pipelines in Rust.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored Rust’s iterator system and functional programming patterns in depth. We’ve learned:</p>
+<p>In this chapter, we've explored Rust's iterator system and functional programming patterns in depth. We've learned:</p>
 <ol>
-<li><strong>The Iterator Trait</strong>: How Rust’s iterators work and how to use them effectively.</li>
+<li><strong>The Iterator Trait</strong>: How Rust's iterators work and how to use them effectively.</li>
 <li><strong>Common Iterator Methods</strong>: Tools like <code>map</code>, <code>filter</code>, and <code>fold</code> for data transformation.</li>
 <li><strong>Building Custom Iterators</strong>: How to implement your own iterators for specialized data structures.</li>
 <li><strong>IntoIterator and FromIterator</strong>: The traits that connect iterators with collections.</li>
-<li><strong>Iterator Fusion and Laziness</strong>: How Rust’s iterators optimize operations through lazy evaluation.</li>
+<li><strong>Iterator Fusion and Laziness</strong>: How Rust's iterators optimize operations through lazy evaluation.</li>
 <li><strong>Composing Iterators</strong>: Techniques for building complex data processing pipelines.</li>
 <li><strong>Parallel Iterators</strong>: Using Rayon for parallel data processing.</li>
 <li><strong>Functional Programming Patterns</strong>: Higher-order functions, function composition, and other functional techniques.</li>

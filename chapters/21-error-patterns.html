@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html" class="active"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,13 +184,13 @@
                     <main>
                         <h1 id="chapter-21-error-handling-patterns-and-libraries"><a class="header" href="#chapter-21-error-handling-patterns-and-libraries">Chapter 21: Error Handling Patterns and Libraries</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In the previous chapter, we explored the foundations of Rust’s error handling system using <code>Result</code> and <code>Option</code> types. We learned how to propagate errors, transform them, and build robust error handling flows. While these fundamentals are powerful on their own, real-world applications often require more sophisticated error handling patterns and tooling.</p>
-<p>This chapter takes our error handling skills to the next level by exploring advanced patterns, ecosystem libraries, and best practices for managing errors in complex applications. We’ll learn how to create rich, domain-specific error types, add context to errors for better diagnostics, handle errors in asynchronous code, and design user-friendly error reporting systems.</p>
-<p>By the end of this chapter, you’ll have a comprehensive toolkit for handling errors in even the most demanding Rust applications. You’ll understand when to use different error handling approaches, how to leverage popular error handling libraries, and how to design error systems that scale with your application’s complexity.</p>
+<p>In the previous chapter, we explored the foundations of Rust's error handling system using <code>Result</code> and <code>Option</code> types. We learned how to propagate errors, transform them, and build robust error handling flows. While these fundamentals are powerful on their own, real-world applications often require more sophisticated error handling patterns and tooling.</p>
+<p>This chapter takes our error handling skills to the next level by exploring advanced patterns, ecosystem libraries, and best practices for managing errors in complex applications. We'll learn how to create rich, domain-specific error types, add context to errors for better diagnostics, handle errors in asynchronous code, and design user-friendly error reporting systems.</p>
+<p>By the end of this chapter, you'll have a comprehensive toolkit for handling errors in even the most demanding Rust applications. You'll understand when to use different error handling approaches, how to leverage popular error handling libraries, and how to design error systems that scale with your application's complexity.</p>
 <h2 id="creating-custom-error-types"><a class="header" href="#creating-custom-error-types">Creating Custom Error Types</a></h2>
-<p>In the previous chapter, we created basic custom error types. Now, let’s explore more advanced patterns for designing error types that scale with your application’s complexity.</p>
+<p>In the previous chapter, we created basic custom error types. Now, let's explore more advanced patterns for designing error types that scale with your application's complexity.</p>
 <h3 id="domain-specific-error-types"><a class="header" href="#domain-specific-error-types">Domain-Specific Error Types</a></h3>
-<p>As your application grows, it’s beneficial to create domain-specific error types that express the precise failure modes of each subsystem:</p>
+<p>As your application grows, it's beneficial to create domain-specific error types that express the precise failure modes of each subsystem:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Authentication domain errors
@@ -209,7 +216,7 @@ pub enum DbError {
 <span class="boring">}</span></code></pre></pre>
 <p>This approach allows consumers of your API to handle specific error conditions precisely while still having a clear categorization of errors.</p>
 <h3 id="composing-error-types"><a class="header" href="#composing-error-types">Composing Error Types</a></h3>
-<p>For larger applications, you’ll often want to combine multiple domain-specific error types into a unified application error. There are several patterns for this:</p>
+<p>For larger applications, you'll often want to combine multiple domain-specific error types into a unified application error. There are several patterns for this:</p>
 <h4 id="enum-variants-pattern"><a class="header" href="#enum-variants-pattern">Enum Variants Pattern</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -273,8 +280,8 @@ impl AppError {
 
 // Then you can wrap any error
 let app_error = AppError::new(DbError::ConnectionFailed {
-    url: "postgres://...".to_string(),
-    cause: Box::new(std::io::Error::new(std::io::ErrorKind::ConnectionRefused, "Connection refused"))
+    url: &quot;postgres://...&quot;.to_string(),
+    cause: Box::new(std::io::Error::new(std::io::ErrorKind::ConnectionRefused, &quot;Connection refused&quot;))
 });
 <span class="boring">}</span></code></pre></pre>
 <p>This pattern is more flexible but loses some type information.</p>
@@ -287,7 +294,7 @@ let app_error = AppError::new(DbError::ConnectionFailed {
 <li><strong>Ergonomics</strong>: Make error types easy to create, transform, and handle.</li>
 <li><strong>Stability</strong>: Consider the impact on your API when evolving error types.</li>
 </ol>
-<p>Here’s an example that balances these principles:</p>
+<p>Here's an example that balances these principles:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(Debug, Clone)]
@@ -305,7 +312,7 @@ pub enum PaymentError {
     // Redact sensitive data
     InvalidCardDetails {
         // Don't include the actual card details in the error!
-        field: String, // e.g., "expiration_date", "cvv"
+        field: String, // e.g., &quot;expiration_date&quot;, &quot;cvv&quot;
     },
     PaymentProviderError {
         provider: String,
@@ -322,20 +329,20 @@ impl std::fmt::Display for PaymentError {
     fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
         match self {
             Self::InsufficientFunds { available, required, .. } =&gt; {
-                write!(f, "Insufficient funds. Available: {}, Required: {}", available, required)
+                write!(f, &quot;Insufficient funds. Available: {}, Required: {}&quot;, available, required)
             }
             Self::CardDeclined { message, retry_possible, .. } =&gt; {
                 if *retry_possible {
-                    write!(f, "Card declined: {}. Please try again.", message)
+                    write!(f, &quot;Card declined: {}. Please try again.&quot;, message)
                 } else {
-                    write!(f, "Card declined: {}. Please use a different payment method.", message)
+                    write!(f, &quot;Card declined: {}. Please use a different payment method.&quot;, message)
                 }
             }
             Self::InvalidCardDetails { field } =&gt; {
-                write!(f, "Invalid card details: {}", field)
+                write!(f, &quot;Invalid card details: {}&quot;, field)
             }
             Self::PaymentProviderError { provider, status_code, .. } =&gt; {
-                write!(f, "Payment service error: {} returned status {}", provider, status_code)
+                write!(f, &quot;Payment service error: {} returned status {}&quot;, provider, status_code)
             }
         }
     }
@@ -343,12 +350,12 @@ impl std::fmt::Display for PaymentError {
 <span class="boring">}</span></code></pre></pre>
 <p>Notice how this design provides detailed information for debugging while presenting appropriate messages to end users.</p>
 <h2 id="using-thiserror-and-anyhow-crates"><a class="header" href="#using-thiserror-and-anyhow-crates">Using thiserror and anyhow Crates</a></h2>
-<p>While Rust’s standard library provides the basic building blocks for error handling, the ecosystem offers several libraries that make error handling more ergonomic. Two of the most popular are <code>thiserror</code> and <code>anyhow</code>.</p>
+<p>While Rust's standard library provides the basic building blocks for error handling, the ecosystem offers several libraries that make error handling more ergonomic. Two of the most popular are <code>thiserror</code> and <code>anyhow</code>.</p>
 <h3 id="the-thiserror-crate"><a class="header" href="#the-thiserror-crate">The thiserror Crate</a></h3>
-<p>The <code>thiserror</code> crate simplifies implementing the <code>Error</code> trait and related functionality through derive macros. It’s ideal for libraries or applications with well-defined error types.</p>
+<p>The <code>thiserror</code> crate simplifies implementing the <code>Error</code> trait and related functionality through derive macros. It's ideal for libraries or applications with well-defined error types.</p>
 <p>To use it, add to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-thiserror = "1.0"
+thiserror = &quot;1.0&quot;
 </code></pre>
 <h4 id="basic-usage"><a class="header" href="#basic-usage">Basic Usage</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -357,23 +364,23 @@ thiserror = "1.0"
 
 #[derive(Error, Debug)]
 pub enum DataStoreError {
-    #[error("data store disconnected")]
+    #[error(&quot;data store disconnected&quot;)]
     Disconnect(#[from] std::io::Error),
 
-    #[error("the data for key `{0}` is not available")]
+    #[error(&quot;the data for key `{0}` is not available&quot;)]
     Redaction(String),
 
-    #[error("invalid header (expected {expected:?}, found {found:?})")]
+    #[error(&quot;invalid header (expected {expected:?}, found {found:?})&quot;)]
     InvalidHeader {
         expected: String,
         found: String,
     },
 
-    #[error("unknown data store error")]
+    #[error(&quot;unknown data store error&quot;)]
     Unknown,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>The <code>#[error("...")]</code> attribute defines the <code>Display</code> implementation, and the <code>#[from]</code> attribute generates <code>From</code> implementations for automatic error conversion.</p>
+<p>The <code>#[error(&quot;...&quot;)]</code> attribute defines the <code>Display</code> implementation, and the <code>#[from]</code> attribute generates <code>From</code> implementations for automatic error conversion.</p>
 <h4 id="advanced-thiserror-features"><a class="header" href="#advanced-thiserror-features">Advanced thiserror Features</a></h4>
 <p><code>thiserror</code> supports several advanced features:</p>
 <ol>
@@ -383,7 +390,7 @@ pub enum DataStoreError {
 </span><span class="boring">fn main() {
 </span>#[derive(Error, Debug)]
 pub enum ApiError {
-    #[error("request failed")]
+    #[error(&quot;request failed&quot;)]
     RequestFailed {
         #[source]
         source: reqwest::Error,
@@ -398,18 +405,18 @@ pub enum ApiError {
 </span><span class="boring">fn main() {
 </span>#[derive(Error, Debug)]
 pub enum ValidationError {
-    #[error("invalid value for field {field}: {message}")]
+    #[error(&quot;invalid value for field {field}: {message}&quot;)]
     InvalidField {
         field: String,
         message: String,
     },
 
-    #[error("missing required fields: {0:?}")]
+    #[error(&quot;missing required fields: {0:?}&quot;)]
     MissingFields(Vec&lt;String&gt;),
 }
 <span class="boring">}</span></code></pre></pre>
 <ol start="3">
-<li><strong>Transparent errors</strong>: Pass through an inner error’s <code>Display</code> and <code>source</code> implementations:</li>
+<li><strong>Transparent errors</strong>: Pass through an inner error's <code>Display</code> and <code>source</code> implementations:</li>
 </ol>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -425,7 +432,7 @@ pub enum DatabaseError {
 <p>While <code>thiserror</code> is ideal for library code with well-defined error types, <code>anyhow</code> provides a simpler approach for application code where you care more about context and error messages than the specific error types.</p>
 <p>To use it, add to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-anyhow = "1.0"
+anyhow = &quot;1.0&quot;
 </code></pre>
 <h4 id="basic-usage-1"><a class="header" href="#basic-usage-1">Basic Usage</a></h4>
 <pre><pre class="playground"><code class="language-rust">use anyhow::{Result, Context, anyhow};
@@ -433,20 +440,20 @@ anyhow = "1.0"
 fn read_config(path: &amp;str) -&gt; Result&lt;Config&gt; {
     // anyhow::Result&lt;T&gt; is a type alias for Result&lt;T, anyhow::Error&gt;
     let content = std::fs::read_to_string(path)
-        .context(format!("Failed to read config file: {}", path))?;
+        .context(format!(&quot;Failed to read config file: {}&quot;, path))?;
 
     let config = serde_json::from_str(&amp;content)
-        .context("Failed to parse config file as JSON")?;
+        .context(&quot;Failed to parse config file as JSON&quot;)?;
 
     Ok(config)
 }
 
 fn main() -&gt; Result&lt;()&gt; {
-    let config = read_config("config.json")?;
+    let config = read_config(&quot;config.json&quot;)?;
 
     // Create errors directly with the anyhow! macro
     if !config.is_valid() {
-        return Err(anyhow!("Invalid configuration"));
+        return Err(anyhow!(&quot;Invalid configuration&quot;));
     }
 
     Ok(())
@@ -461,7 +468,7 @@ fn main() -&gt; Result&lt;()&gt; {
 // Enable backtraces with RUST_BACKTRACE=1 or RUST_LIB_BACKTRACE=1
 fn main() -&gt; Result&lt;()&gt; {
     // This will include a backtrace when printed
-    Err(anyhow::anyhow!("Something went wrong"))
+    Err(anyhow::anyhow!(&quot;Something went wrong&quot;))
 }</code></pre></pre>
 <ol start="2">
 <li><strong>Downcast errors</strong>: Recover the original error type when needed:</li>
@@ -470,7 +477,7 @@ fn main() -&gt; Result&lt;()&gt; {
 use std::io;
 
 fn may_fail() -&gt; Result&lt;()&gt; {
-    Err(io::Error::new(io::ErrorKind::NotFound, "File not found").into())
+    Err(io::Error::new(io::ErrorKind::NotFound, &quot;File not found&quot;).into())
 }
 
 fn main() -&gt; Result&lt;()&gt; {
@@ -479,7 +486,7 @@ fn main() -&gt; Result&lt;()&gt; {
     // Downcast to the original error type
     if let Some(io_err) = err.downcast_ref::&lt;io::Error&gt;() {
         if io_err.kind() == io::ErrorKind::NotFound {
-            println!("File not found, creating default");
+            println!(&quot;File not found, creating default&quot;);
             return Ok(());
         }
     }
@@ -494,27 +501,27 @@ fn main() -&gt; Result&lt;()&gt; {
 
 fn process_data() -&gt; Result&lt;()&gt; {
     // Processing logic...
-    Err(anyhow::anyhow!("Processing failed"))
-        .context("Failed to process user data")
+    Err(anyhow::anyhow!(&quot;Processing failed&quot;))
+        .context(&quot;Failed to process user data&quot;)
 }
 
 fn main() {
     match process_data() {
-        Ok(()) =&gt; println!("Success!"),
+        Ok(()) =&gt; println!(&quot;Success!&quot;),
         Err(e) =&gt; {
             // For end users
-            println!("Error: {}", e);
+            println!(&quot;Error: {}&quot;, e);
 
             // For developers (with full chain)
-            eprintln!("Error details: {:#}", e);
+            eprintln!(&quot;Error details: {:#}&quot;, e);
 
             // With backtrace if available
-            eprintln!("Full error: {:?}", e);
+            eprintln!(&quot;Full error: {:?}&quot;, e);
         }
     }
 }</code></pre></pre>
 <h3 id="combining-thiserror-and-anyhow"><a class="header" href="#combining-thiserror-and-anyhow">Combining thiserror and anyhow</a></h3>
-<p>A common pattern is to use <code>thiserror</code> for your library’s public error types and <code>anyhow</code> for internal error handling:</p>
+<p>A common pattern is to use <code>thiserror</code> for your library's public error types and <code>anyhow</code> for internal error handling:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// In your library code
@@ -522,10 +529,10 @@ use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum LibraryError {
-    #[error("I/O error: {0}")]
+    #[error(&quot;I/O error: {0}&quot;)]
     Io(#[from] std::io::Error),
 
-    #[error("Configuration error: {0}")]
+    #[error(&quot;Configuration error: {0}&quot;)]
     Config(String),
 
     // Other error variants...
@@ -537,14 +544,14 @@ use anyhow::Result;
 fn use_library() -&gt; Result&lt;()&gt; {
     // Use anyhow within your application
     my_library::do_something()
-        .context("Failed while using my_library")?;
+        .context(&quot;Failed while using my_library&quot;)?;
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This approach gives you the best of both worlds: well-defined error types for your public API and flexible error handling with rich context for your application code.</p>
 <h2 id="context-for-errors"><a class="header" href="#context-for-errors">Context for Errors</a></h2>
-<p>Adding context to errors is essential for creating meaningful, actionable error messages. Let’s explore strategies for enriching errors with context.</p>
+<p>Adding context to errors is essential for creating meaningful, actionable error messages. Let's explore strategies for enriching errors with context.</p>
 <h3 id="why-context-matters"><a class="header" href="#why-context-matters">Why Context Matters</a></h3>
 <p>Error context helps answer questions like:</p>
 <ol>
@@ -563,10 +570,10 @@ use std::path::Path;
 
 fn read_config(path: &amp;Path) -&gt; Result&lt;Config&gt; {
     let content = fs::read_to_string(path)
-        .with_context(|| format!("Failed to read config file at {}", path.display()))?;
+        .with_context(|| format!(&quot;Failed to read config file at {}&quot;, path.display()))?;
 
     let config = serde_json::from_str(&amp;content)
-        .with_context(|| format!("Failed to parse config file at {}", path.display()))?;
+        .with_context(|| format!(&quot;Failed to parse config file at {}&quot;, path.display()))?;
 
     Ok(config)
 }
@@ -581,14 +588,14 @@ use std::path::PathBuf;
 
 #[derive(Error, Debug)]
 pub enum ConfigError {
-    #[error("Failed to read config file at {path}")]
+    #[error(&quot;Failed to read config file at {path}&quot;)]
     ReadError {
         path: PathBuf,
         #[source]
         source: std::io::Error,
     },
 
-    #[error("Failed to parse config file at {path}")]
+    #[error(&quot;Failed to parse config file at {path}&quot;)]
     ParseError {
         path: PathBuf,
         #[source]
@@ -618,19 +625,19 @@ fn read_config(path: &amp;Path) -&gt; Result&lt;Config, ConfigError&gt; {
 
 fn main() -&gt; Result&lt;()&gt; {
     process_data()
-        .context("Failed to process user data")?;
+        .context(&quot;Failed to process user data&quot;)?;
     Ok(())
 }
 
 fn process_data() -&gt; Result&lt;()&gt; {
     read_user_file()
-        .context("Error while reading user data")?;
+        .context(&quot;Error while reading user data&quot;)?;
     Ok(())
 }
 
 fn read_user_file() -&gt; Result&lt;String&gt; {
-    std::fs::read_to_string("users.json")
-        .context("Could not read users.json file")
+    std::fs::read_to_string(&quot;users.json&quot;)
+        .context(&quot;Could not read users.json file&quot;)
 }</code></pre></pre>
 <p>When an error occurs, the resulting error message would include the full context chain:</p>
 <pre><code>Failed to process user data: Error while reading user data: Could not read users.json file: No such file or directory (os error 2)
@@ -699,14 +706,14 @@ impl ErrorContext {
 
 impl fmt::Display for ErrorContext {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "{}", self.message)?;
+        write!(f, &quot;{}&quot;, self.message)?;
 
         if let Some(op) = &amp;self.operation {
-            write!(f, " [operation: {}]", op)?;
+            write!(f, &quot; [operation: {}]&quot;, op)?;
         }
 
         if let Some(req_id) = &amp;self.request_id {
-            write!(f, " [request-id: {}]", req_id)?;
+            write!(f, &quot; [request-id: {}]&quot;, req_id)?;
         }
 
         Ok(())
@@ -715,25 +722,25 @@ impl fmt::Display for ErrorContext {
 
 impl fmt::Debug for ErrorContext {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        let mut debug = f.debug_struct("ErrorContext");
+        let mut debug = f.debug_struct(&quot;ErrorContext&quot;);
 
-        debug.field("message", &amp;self.message);
-        debug.field("severity", &amp;self.severity);
+        debug.field(&quot;message&quot;, &amp;self.message);
+        debug.field(&quot;severity&quot;, &amp;self.severity);
 
         if let Some(source) = &amp;self.source {
-            debug.field("source", source);
+            debug.field(&quot;source&quot;, source);
         }
 
         if let Some(user_id) = &amp;self.user_id {
-            debug.field("user_id", user_id);
+            debug.field(&quot;user_id&quot;, user_id);
         }
 
         if let Some(request_id) = &amp;self.request_id {
-            debug.field("request_id", request_id);
+            debug.field(&quot;request_id&quot;, request_id);
         }
 
         if let Some(operation) = &amp;self.operation {
-            debug.field("operation", operation);
+            debug.field(&quot;operation&quot;, operation);
         }
 
         debug.finish()
@@ -748,14 +755,14 @@ impl Error for ErrorContext {
 
 // Usage
 fn process_request(request_id: &amp;str, user_id: &amp;str) -&gt; Result&lt;(), ErrorContext&gt; {
-    let result = std::fs::read_to_string("config.json");
+    let result = std::fs::read_to_string(&quot;config.json&quot;);
 
     if let Err(e) = result {
-        return Err(ErrorContext::new("Failed to process request")
+        return Err(ErrorContext::new(&quot;Failed to process request&quot;)
             .with_source(e)
             .with_request_id(request_id)
             .with_user_id(user_id)
-            .with_operation("read_config")
+            .with_operation(&quot;read_config&quot;)
             .with_severity(Severity::Error));
     }
 
@@ -766,51 +773,51 @@ fn process_request(request_id: &amp;str, user_id: &amp;str) -&gt; Result&lt;(), 
 <h2 id="error-hierarchies"><a class="header" href="#error-hierarchies">Error Hierarchies</a></h2>
 <p>As applications grow in complexity, error types often naturally form hierarchies. Managing these hierarchies effectively can significantly improve your error handling.</p>
 <h3 id="nested-error-types"><a class="header" href="#nested-error-types">Nested Error Types</a></h3>
-<p>One approach is to organize errors into nested types that reflect your application’s structure:</p>
+<p>One approach is to organize errors into nested types that reflect your application's structure:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Top-level application error
 #[derive(Debug, Error)]
 pub enum AppError {
-    #[error("API error: {0}")]
+    #[error(&quot;API error: {0}&quot;)]
     Api(#[from] ApiError),
 
-    #[error("Database error: {0}")]
+    #[error(&quot;Database error: {0}&quot;)]
     Database(#[from] DbError),
 
-    #[error("Authentication error: {0}")]
+    #[error(&quot;Authentication error: {0}&quot;)]
     Auth(#[from] AuthError),
 
-    #[error("Unexpected error: {0}")]
+    #[error(&quot;Unexpected error: {0}&quot;)]
     Other(String),
 }
 
 // API subsystem errors
 #[derive(Debug, Error)]
 pub enum ApiError {
-    #[error("Rate limit exceeded, retry after {retry_after} seconds")]
+    #[error(&quot;Rate limit exceeded, retry after {retry_after} seconds&quot;)]
     RateLimited { retry_after: u64 },
 
-    #[error("Resource not found: {resource}")]
+    #[error(&quot;Resource not found: {resource}&quot;)]
     NotFound { resource: String },
 
-    #[error("Invalid request: {0}")]
+    #[error(&quot;Invalid request: {0}&quot;)]
     InvalidRequest(#[from] ValidationError),
 
-    #[error("Network error: {0}")]
+    #[error(&quot;Network error: {0}&quot;)]
     Network(#[from] NetworkError),
 }
 
 // Validation errors
 #[derive(Debug, Error)]
 pub enum ValidationError {
-    #[error("Missing required field: {0}")]
+    #[error(&quot;Missing required field: {0}&quot;)]
     MissingField(String),
 
-    #[error("Invalid value for {field}: {message}")]
+    #[error(&quot;Invalid value for {field}: {message}&quot;)]
     InvalidValue { field: String, message: String },
 
-    #[error("Conflicting values between {field1} and {field2}")]
+    #[error(&quot;Conflicting values between {field1} and {field2}&quot;)]
     ConflictingValues { field1: String, field2: String },
 }
 
@@ -879,7 +886,7 @@ impl AppError {
 
 impl Display for AppError {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "[{}] {}", self.code, self.message)
+        write!(f, &quot;[{}] {}&quot;, self.code, self.message)
     }
 }
 
@@ -904,15 +911,15 @@ impl AppError {
 fn validate_user(user: &amp;User) -&gt; Result&lt;(), AppError&gt; {
     if user.name.is_empty() {
         return Err(AppError::validation(
-            "User name cannot be empty",
-            "VAL001",
+            &quot;User name cannot be empty&quot;,
+            &quot;VAL001&quot;,
         ));
     }
 
     if user.email.is_empty() {
         return Err(AppError::validation(
-            "User email cannot be empty",
-            "VAL002",
+            &quot;User email cannot be empty&quot;,
+            &quot;VAL002&quot;,
         ));
     }
 
@@ -990,9 +997,9 @@ fn read_config(path: &amp;Path) -&gt; Result&lt;Config, ConfigError&gt; {
 impl AppErrorTrait for ValidationError {
     fn error_code(&amp;self) -&gt; &amp;str {
         match self {
-            Self::MissingField(_) =&gt; "VAL001",
-            Self::InvalidValue { .. } =&gt; "VAL002",
-            Self::ConflictingValues { .. } =&gt; "VAL003",
+            Self::MissingField(_) =&gt; &quot;VAL001&quot;,
+            Self::InvalidValue { .. } =&gt; &quot;VAL002&quot;,
+            Self::ConflictingValues { .. } =&gt; &quot;VAL003&quot;,
         }
     }
 
@@ -1010,19 +1017,19 @@ type BoxedAppError = Box&lt;dyn AppErrorTrait&gt;;
 
 fn process_request() -&gt; Result&lt;(), BoxedAppError&gt; {
     // Processing...
-    Err(Box::new(ValidationError::MissingField("name".to_string())))
+    Err(Box::new(ValidationError::MissingField(&quot;name&quot;.to_string())))
 }
 
 // Handle errors based on their traits
 fn handle_error(error: &amp;dyn AppErrorTrait) {
-    println!("Error code: {}", error.error_code());
-    println!("HTTP status: {}", error.http_status());
-    println!("Can retry: {}", error.is_retriable());
+    println!(&quot;Error code: {}&quot;, error.error_code());
+    println!(&quot;HTTP status: {}&quot;, error.http_status());
+    println!(&quot;Can retry: {}&quot;, error.is_retriable());
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This approach provides a uniform interface for errors while allowing for a diverse set of concrete error types.</p>
 <h2 id="fallible-iterators"><a class="header" href="#fallible-iterators">Fallible Iterators</a></h2>
-<p>When working with collections, it’s common to encounter operations that might fail for some elements. Rust provides several patterns for handling fallible operations on iterators.</p>
+<p>When working with collections, it's common to encounter operations that might fail for some elements. Rust provides several patterns for handling fallible operations on iterators.</p>
 <h3 id="collecting-results"><a class="header" href="#collecting-results">Collecting Results</a></h3>
 <p>The simplest approach is to collect results into a <code>Vec&lt;Result&lt;T, E&gt;&gt;</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1191,7 +1198,7 @@ where
 <span class="boring">}</span></code></pre></pre>
 <p>This custom implementation allows for a configurable error tolerance, collecting results until a maximum number of errors is reached.</p>
 <h2 id="collecting-multiple-errors"><a class="header" href="#collecting-multiple-errors">Collecting Multiple Errors</a></h2>
-<p>In many cases, especially with validation, you want to collect multiple errors rather than stopping at the first one. Let’s explore patterns for collecting and reporting multiple errors.</p>
+<p>In many cases, especially with validation, you want to collect multiple errors rather than stopping at the first one. Let's explore patterns for collecting and reporting multiple errors.</p>
 <h3 id="using-vec-for-multiple-errors"><a class="header" href="#using-vec-for-multiple-errors">Using Vec<Error> for Multiple Errors</a></h3>
 <p>The simplest approach is to return a vector of errors:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1200,22 +1207,22 @@ where
     let mut errors = Vec::new();
 
     if user.name.is_empty() {
-        errors.push(ValidationError::MissingField("name".to_string()));
+        errors.push(ValidationError::MissingField(&quot;name&quot;.to_string()));
     }
 
     if user.email.is_empty() {
-        errors.push(ValidationError::MissingField("email".to_string()));
+        errors.push(ValidationError::MissingField(&quot;email&quot;.to_string()));
     } else if !is_valid_email(&amp;user.email) {
         errors.push(ValidationError::InvalidValue {
-            field: "email".to_string(),
-            message: "Invalid email format".to_string(),
+            field: &quot;email&quot;.to_string(),
+            message: &quot;Invalid email format&quot;.to_string(),
         });
     }
 
     if user.age &lt; 18 {
         errors.push(ValidationError::InvalidValue {
-            field: "age".to_string(),
-            message: "Must be at least 18 years old".to_string(),
+            field: &quot;age&quot;.to_string(),
+            message: &quot;Must be at least 18 years old&quot;.to_string(),
         });
     }
 
@@ -1270,11 +1277,11 @@ impl Error for ValidationErrors {}
 
 impl fmt::Display for ValidationErrors {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        writeln!(f, "Validation errors:")?;
+        writeln!(f, &quot;Validation errors:&quot;)?;
 
         for (field, errors) in &amp;self.errors {
             for error in errors {
-                writeln!(f, "  {}: {}", field, error)?;
+                writeln!(f, &quot;  {}: {}&quot;, field, error)?;
             }
         }
 
@@ -1287,13 +1294,13 @@ fn validate_user(user: &amp;User) -&gt; Result&lt;(), ValidationErrors&gt; {
     let mut errors = ValidationErrors::new();
 
     if user.name.is_empty() {
-        errors.add("name", "Name cannot be empty");
+        errors.add(&quot;name&quot;, &quot;Name cannot be empty&quot;);
     }
 
     if user.email.is_empty() {
-        errors.add("email", "Email cannot be empty");
+        errors.add(&quot;email&quot;, &quot;Email cannot be empty&quot;);
     } else if !is_valid_email(&amp;user.email) {
-        errors.add("email", "Invalid email format");
+        errors.add(&quot;email&quot;, &quot;Invalid email format&quot;);
     }
 
     if errors.is_empty() {
@@ -1311,13 +1318,13 @@ fn validate_user(user: &amp;User) -&gt; Result&lt;(), ValidationErrors&gt; {
 
 #[derive(Validate)]
 struct User {
-    #[validate(length(min = 1, message = "Name cannot be empty"))]
+    #[validate(length(min = 1, message = &quot;Name cannot be empty&quot;))]
     name: String,
 
-    #[validate(email(message = "Invalid email format"))]
+    #[validate(email(message = &quot;Invalid email format&quot;))]
     email: String,
 
-    #[validate(range(min = 18, message = "Must be at least 18 years old"))]
+    #[validate(range(min = 18, message = &quot;Must be at least 18 years old&quot;))]
     age: u8,
 }
 
@@ -1366,10 +1373,10 @@ impl Error for AggregateError {}
 
 impl fmt::Display for AggregateError {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        writeln!(f, "{} error(s) occurred:", self.errors.len())?;
+        writeln!(f, &quot;{} error(s) occurred:&quot;, self.errors.len())?;
 
         for (i, error) in self.errors.iter().enumerate() {
-            writeln!(f, "Error {}: {}", i + 1, error)?;
+            writeln!(f, &quot;Error {}: {}&quot;, i + 1, error)?;
         }
 
         Ok(())
@@ -1397,7 +1404,7 @@ fn validate_complex_data(data: &amp;ComplexData) -&gt; Result&lt;(), AggregateEr
 
             for (field, messages) in errors.errors {
                 for message in messages {
-                    prefixed_errors.add(format!("items[{}].{}", i, field), message);
+                    prefixed_errors.add(format!(&quot;items[{}].{}&quot;, i, field), message);
                 }
             }
 
@@ -1414,7 +1421,7 @@ fn validate_complex_data(data: &amp;ComplexData) -&gt; Result&lt;(), AggregateEr
 <span class="boring">}</span></code></pre></pre>
 <p>This pattern allows you to collect errors from different validation steps and present them in a unified way.</p>
 <h2 id="error-logging-and-reporting"><a class="header" href="#error-logging-and-reporting">Error Logging and Reporting</a></h2>
-<p>Effective error handling isn’t just about managing errors in your code—it’s also about communicating those errors to users, operators, and developers. Let’s explore patterns for logging and reporting errors in different contexts.</p>
+<p>Effective error handling isn't just about managing errors in your code—it's also about communicating those errors to users, operators, and developers. Let's explore patterns for logging and reporting errors in different contexts.</p>
 <h3 id="structured-error-logging"><a class="header" href="#structured-error-logging">Structured Error Logging</a></h3>
 <p>For effective troubleshooting, errors should be logged with structured data:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1426,14 +1433,14 @@ use uuid::Uuid;
 fn log_error(err: &amp;dyn Error, request_id: &amp;str) {
     // Create structured log entry
     let log_data = json!({
-        "request_id": request_id,
-        "error_type": std::any::type_name_of_val(err),
-        "message": err.to_string(),
-        "timestamp": chrono::Utc::now().to_rfc3339(),
-        "source_chain": build_error_chain(err),
+        &quot;request_id&quot;: request_id,
+        &quot;error_type&quot;: std::any::type_name_of_val(err),
+        &quot;message&quot;: err.to_string(),
+        &quot;timestamp&quot;: chrono::Utc::now().to_rfc3339(),
+        &quot;source_chain&quot;: build_error_chain(err),
     });
 
-    error!("{}", serde_json::to_string(&amp;log_data).unwrap());
+    error!(&quot;{}&quot;, serde_json::to_string(&amp;log_data).unwrap());
 }
 
 fn build_error_chain(err: &amp;dyn Error) -&gt; Vec&lt;String&gt; {
@@ -1463,18 +1470,18 @@ fn format_error_for_audience(err: &amp;AppError, audience: ErrorAudience) -&gt; 
     match audience {
         // End users get simplified, actionable messages
         ErrorAudience::EndUser =&gt; match err {
-            AppError::Auth(_) =&gt; "Authentication failed. Please check your credentials and try again.".into(),
-            AppError::Database(_) =&gt; "A system error occurred. Please try again later.".into(),
-            AppError::Validation(v) =&gt; format!("Invalid input: {}", v),
-            _ =&gt; "An unexpected error occurred. Please try again later.".into(),
+            AppError::Auth(_) =&gt; &quot;Authentication failed. Please check your credentials and try again.&quot;.into(),
+            AppError::Database(_) =&gt; &quot;A system error occurred. Please try again later.&quot;.into(),
+            AppError::Validation(v) =&gt; format!(&quot;Invalid input: {}&quot;, v),
+            _ =&gt; &quot;An unexpected error occurred. Please try again later.&quot;.into(),
         },
 
         // Administrators get more operational details
         ErrorAudience::Administrator =&gt; {
-            let mut message = format!("[{}] {}", err.error_code(), err);
+            let mut message = format!(&quot;[{}] {}&quot;, err.error_code(), err);
 
             if let Some(retry_after) = err.retry_after() {
-                message.push_str(&amp;format!(" (retry after {} seconds)", retry_after.as_secs()));
+                message.push_str(&amp;format!(&quot; (retry after {} seconds)&quot;, retry_after.as_secs()));
             }
 
             message
@@ -1482,10 +1489,10 @@ fn format_error_for_audience(err: &amp;AppError, audience: ErrorAudience) -&gt; 
 
         // Developers get full technical details
         ErrorAudience::Developer =&gt; {
-            let mut message = format!("{:#?}", err);
+            let mut message = format!(&quot;{:#?}&quot;, err);
 
             if let Some(source) = err.source() {
-                message.push_str("\n\nCaused by:\n");
+                message.push_str(&quot;\n\nCaused by:\n&quot;);
                 message.push_str(&amp;format_error_chain(source));
             }
 
@@ -1495,12 +1502,12 @@ fn format_error_for_audience(err: &amp;AppError, audience: ErrorAudience) -&gt; 
 }
 
 fn format_error_chain(err: &amp;dyn Error) -&gt; String {
-    let mut message = format!("- {}", err);
+    let mut message = format!(&quot;- {}&quot;, err);
     let mut source = err.source();
     let mut indent = 2;
 
     while let Some(err) = source {
-        message.push_str(&amp;format!("\n{:indent$}- {}", "", err, indent = indent));
+        message.push_str(&amp;format!(&quot;\n{:indent$}- {}&quot;, &quot;&quot;, err, indent = indent));
         source = err.source();
         indent += 2;
     }
@@ -1537,17 +1544,17 @@ fn log_error_with_context(err: &amp;dyn Error, ctx: &amp;RequestContext) {
     let elapsed = ctx.start_time.elapsed();
 
     let log_entry = json!({
-        "error": err.to_string(),
-        "error_type": std::any::type_name_of_val(err),
-        "request_id": ctx.request_id,
-        "trace_id": ctx.trace_id,
-        "user_id": ctx.user_id,
-        "ip_address": ctx.ip_address,
-        "elapsed_ms": elapsed.as_millis(),
-        "timestamp": chrono::Utc::now().to_rfc3339(),
+        &quot;error&quot;: err.to_string(),
+        &quot;error_type&quot;: std::any::type_name_of_val(err),
+        &quot;request_id&quot;: ctx.request_id,
+        &quot;trace_id&quot;: ctx.trace_id,
+        &quot;user_id&quot;: ctx.user_id,
+        &quot;ip_address&quot;: ctx.ip_address,
+        &quot;elapsed_ms&quot;: elapsed.as_millis(),
+        &quot;timestamp&quot;: chrono::Utc::now().to_rfc3339(),
     });
 
-    error!("{}", serde_json::to_string(&amp;log_entry).unwrap());
+    error!(&quot;{}&quot;, serde_json::to_string(&amp;log_entry).unwrap());
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="distributed-tracing"><a class="header" href="#distributed-tracing">Distributed Tracing</a></h3>
@@ -1559,7 +1566,7 @@ use opentelemetry_jaeger::new_pipeline;
 
 fn init_tracer() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
     let exporter = new_pipeline()
-        .with_service_name("my-service")
+        .with_service_name(&quot;my-service&quot;)
         .install_simple()?;
 
     global::set_tracer_provider(exporter);
@@ -1567,15 +1574,15 @@ fn init_tracer() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 }
 
 fn process_with_tracing() -&gt; Result&lt;(), AppError&gt; {
-    let tracer = global::tracer("my-service");
-    let mut span = tracer.start("process_data");
+    let tracer = global::tracer(&quot;my-service&quot;);
+    let mut span = tracer.start(&quot;process_data&quot;);
 
     // Record information in the span
-    span.set_attribute(opentelemetry::Key::new("user.id").string("user-123"));
+    span.set_attribute(opentelemetry::Key::new(&quot;user.id&quot;).string(&quot;user-123&quot;));
 
     match process_data() {
         Ok(result) =&gt; {
-            span.set_attribute(opentelemetry::Key::new("result.size").i64(result.len() as i64));
+            span.set_attribute(opentelemetry::Key::new(&quot;result.size&quot;).i64(result.len() as i64));
             span.end();
             Ok(())
         }
@@ -1594,7 +1601,7 @@ fn process_with_tracing() -&gt; Result&lt;(), AppError&gt; {
 <pre><pre class="playground"><code class="language-rust">use sentry::{capture_error, configure_scope};
 
 fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
-    let _guard = sentry::init(("https://your-sentry-dsn", sentry::ClientOptions {
+    let _guard = sentry::init((&quot;https://your-sentry-dsn&quot;, sentry::ClientOptions {
         release: sentry::release_name!(),
         ..Default::default()
     }));
@@ -1606,7 +1613,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
         });
 
         // Also log locally
-        eprintln!("Error: {}", e);
+        eprintln!(&quot;Error: {}&quot;, e);
         return Err(e.into());
     }
 
@@ -1619,9 +1626,9 @@ where
 {
     configure_scope(|scope| {
         // Add contextual information
-        scope.set_tag("environment", std::env::var("ENVIRONMENT").unwrap_or_else(|_| "development".into()));
+        scope.set_tag(&quot;environment&quot;, std::env::var(&quot;ENVIRONMENT&quot;).unwrap_or_else(|_| &quot;development&quot;.into()));
         scope.set_user(Some(sentry::User {
-            id: Some(get_current_user_id().unwrap_or_else(|| "anonymous".into())),
+            id: Some(get_current_user_id().unwrap_or_else(|| &quot;anonymous&quot;.into())),
             ..Default::default()
         }));
     });
@@ -1637,9 +1644,9 @@ use lazy_static::lazy_static;
 
 lazy_static! {
     static ref ERROR_COUNTER: IntCounterVec = register_int_counter_vec!(
-        "app_errors_total",
-        "Total number of errors by type and code",
-        &amp;["error_type", "error_code"]
+        &quot;app_errors_total&quot;,
+        &quot;Total number of errors by type and code&quot;,
+        &amp;[&quot;error_type&quot;, &quot;error_code&quot;]
     )
     .unwrap();
 }
@@ -1719,10 +1726,10 @@ fn log_error_with_rate_limiting(err: &amp;dyn Error, limiter: &amp;mut ErrorRate
 
     if limiter.should_report_fully(error_type) {
         // Log full error details
-        error!("Error: {}\n{:?}", err, err);
+        error!(&quot;Error: {}\n{:?}&quot;, err, err);
     } else {
         // Log minimal information
-        warn!("Error rate limit exceeded for type: {}", error_type);
+        warn!(&quot;Error rate limit exceeded for type: {}&quot;, error_type);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1737,17 +1744,17 @@ fn log_error_with_rate_limiting(err: &amp;dyn Error, limiter: &amp;mut ErrorRate
 struct HtmlErrorFormatter;
 impl ErrorFormatter for HtmlErrorFormatter {
     fn format_error(&amp;self, error: &amp;dyn Error) -&gt; String {
-        let mut html = String::from("&lt;div class=\"error\"&gt;\n");
-        html.push_str(&amp;format!("  &lt;div class=\"error-message\"&gt;{}&lt;/div&gt;\n", html_escape(error.to_string())));
+        let mut html = String::from(&quot;&lt;div class=\&quot;error\&quot;&gt;\n&quot;);
+        html.push_str(&amp;format!(&quot;  &lt;div class=\&quot;error-message\&quot;&gt;{}&lt;/div&gt;\n&quot;, html_escape(error.to_string())));
 
         if let Some(source) = error.source() {
-            html.push_str("  &lt;div class=\"error-cause\"&gt;\n");
-            html.push_str("    &lt;div class=\"error-cause-label\"&gt;Caused by:&lt;/div&gt;\n");
-            html.push_str(&amp;format!("    &lt;div class=\"error-cause-message\"&gt;{}&lt;/div&gt;\n", html_escape(source.to_string())));
-            html.push_str("  &lt;/div&gt;\n");
+            html.push_str(&quot;  &lt;div class=\&quot;error-cause\&quot;&gt;\n&quot;);
+            html.push_str(&quot;    &lt;div class=\&quot;error-cause-label\&quot;&gt;Caused by:&lt;/div&gt;\n&quot;);
+            html.push_str(&amp;format!(&quot;    &lt;div class=\&quot;error-cause-message\&quot;&gt;{}&lt;/div&gt;\n&quot;, html_escape(source.to_string())));
+            html.push_str(&quot;  &lt;/div&gt;\n&quot;);
         }
 
-        html.push_str("&lt;/div&gt;");
+        html.push_str(&quot;&lt;/div&gt;&quot;);
         html
     }
 }
@@ -1764,9 +1771,9 @@ impl ErrorFormatter for JsonErrorFormatter {
         }
 
         let error_json = json!({
-            "message": error.to_string(),
-            "type": std::any::type_name_of_val(error),
-            "causes": causes,
+            &quot;message&quot;: error.to_string(),
+            &quot;type&quot;: std::any::type_name_of_val(error),
+            &quot;causes&quot;: causes,
         });
 
         serde_json::to_string_pretty(&amp;error_json).unwrap()
@@ -1775,21 +1782,21 @@ impl ErrorFormatter for JsonErrorFormatter {
 
 // Usage
 fn render_error_page(err: &amp;dyn Error, formatter: &amp;dyn ErrorFormatter) -&gt; String {
-    let mut page = String::from("&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n");
-    page.push_str("  &lt;title&gt;Error&lt;/title&gt;\n");
-    page.push_str("&lt;/head&gt;\n&lt;body&gt;\n");
-    page.push_str("  &lt;h1&gt;An error occurred&lt;/h1&gt;\n");
+    let mut page = String::from(&quot;&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n&quot;);
+    page.push_str(&quot;  &lt;title&gt;Error&lt;/title&gt;\n&quot;);
+    page.push_str(&quot;&lt;/head&gt;\n&lt;body&gt;\n&quot;);
+    page.push_str(&quot;  &lt;h1&gt;An error occurred&lt;/h1&gt;\n&quot;);
     page.push_str(&amp;formatter.format_error(err));
-    page.push_str("\n&lt;/body&gt;\n&lt;/html&gt;");
+    page.push_str(&quot;\n&lt;/body&gt;\n&lt;/html&gt;&quot;);
     page
 }
 
 fn html_escape(s: String) -&gt; String {
-    s.replace("&amp;", "&amp;amp;")
-     .replace("&lt;", "&amp;lt;")
-     .replace("&gt;", "&amp;gt;")
-     .replace("\"", "&amp;quot;")
-     .replace("'", "&amp;#39;")
+    s.replace(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)
+     .replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)
+     .replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)
+     .replace(&quot;\&quot;&quot;, &quot;&amp;quot;&quot;)
+     .replace(&quot;'&quot;, &quot;&amp;#39;&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="error-translation-for-internationalization"><a class="header" href="#error-translation-for-internationalization">Error Translation for Internationalization</a></h3>
@@ -1809,13 +1816,13 @@ impl I18nErrorFormatter {
         let mut bundles = HashMap::new();
 
         // English bundle
-        let en_us: LanguageIdentifier = "en-US".parse().unwrap();
-        let en_resource = FluentResource::try_new(String::from(r#"
+        let en_us: LanguageIdentifier = &quot;en-US&quot;.parse().unwrap();
+        let en_resource = FluentResource::try_new(String::from(r#&quot;
             error-not-found = {$entity} not found.
             error-permission-denied = You don't have permission to access {$resource}.
             error-validation = Invalid value for {$field}: {$message}.
             error-generic = An error occurred. Please try again later.
-        "#)).unwrap();
+        &quot;#)).unwrap();
 
         let mut en_bundle = FluentBundle::new(vec![en_us.clone()]);
         en_bundle.add_resource(en_resource).unwrap();
@@ -1828,22 +1835,22 @@ impl I18nErrorFormatter {
 
     fn format_error(&amp;self, error: &amp;AppError, lang_id: &amp;LanguageIdentifier) -&gt; String {
         let bundle = self.bundles.get(lang_id)
-            .unwrap_or_else(|| self.bundles.get(&amp;"en-US".parse().unwrap()).unwrap());
+            .unwrap_or_else(|| self.bundles.get(&amp;&quot;en-US&quot;.parse().unwrap()).unwrap());
 
         match error {
             AppError::NotFound { entity, id } =&gt; {
                 let mut args = HashMap::new();
-                args.insert("entity", entity.as_str());
-                args.insert("id", id.as_str());
+                args.insert(&quot;entity&quot;, entity.as_str());
+                args.insert(&quot;id&quot;, id.as_str());
 
-                let msg = bundle.get_message("error-not-found").unwrap();
+                let msg = bundle.get_message(&quot;error-not-found&quot;).unwrap();
                 let pattern = msg.value().unwrap();
 
                 bundle.format_pattern(pattern, Some(&amp;args), &amp;mut vec![]).unwrap().to_string()
             },
             // Handle other error types...
             _ =&gt; bundle.format_pattern(
-                bundle.get_message("error-generic").unwrap().value().unwrap(),
+                bundle.get_message(&quot;error-generic&quot;).unwrap().value().unwrap(),
                 None,
                 &amp;mut vec![]
             ).unwrap().to_string(),
@@ -1853,7 +1860,7 @@ impl I18nErrorFormatter {
 <span class="boring">}</span></code></pre></pre>
 <p>This approach separates error logic from the presentation, making it easier to provide localized error messages.</p>
 <h2 id="error-handling-in-async-code"><a class="header" href="#error-handling-in-async-code">Error Handling in Async Code</a></h2>
-<p>Asynchronous code introduces additional complexity to error handling. Let’s explore patterns for managing errors in async Rust.</p>
+<p>Asynchronous code introduces additional complexity to error handling. Let's explore patterns for managing errors in async Rust.</p>
 <h3 id="propagating-errors-in-async-functions"><a class="header" href="#propagating-errors-in-async-functions">Propagating Errors in Async Functions</a></h3>
 <p>Just like synchronous code, async functions can use the <code>?</code> operator to propagate errors:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1877,13 +1884,13 @@ use thiserror::Error;
 
 #[derive(Error, Debug)]
 enum ApiError {
-    #[error("request timed out after {0:?}")]
+    #[error(&quot;request timed out after {0:?}&quot;)]
     Timeout(Duration),
 
-    #[error("HTTP error: {0}")]
+    #[error(&quot;HTTP error: {0}&quot;)]
     Http(#[from] reqwest::Error),
 
-    #[error("invalid response: {0}")]
+    #[error(&quot;invalid response: {0}&quot;)]
     InvalidResponse(String),
 }
 
@@ -1896,7 +1903,7 @@ async fn fetch_with_timeout(url: &amp;str, timeout_duration: Duration) -&gt; Res
             let text = response.text().await.map_err(ApiError::Http)?;
 
             if text.is_empty() {
-                return Err(ApiError::InvalidResponse("Empty response".to_string()));
+                return Err(ApiError::InvalidResponse(&quot;Empty response&quot;.to_string()));
             }
 
             Ok(text)
@@ -1940,7 +1947,7 @@ async fn process_with_partial_results(items: Vec&lt;Item&gt;) -&gt; Vec&lt;Resul
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-#[error("all attempts failed: {0}")]
+#[error(&quot;all attempts failed: {0}&quot;)]
 struct AllFailedError(String);
 
 async fn try_multiple_endpoints(endpoints: Vec&lt;String&gt;) -&gt; Result&lt;String, AllFailedError&gt; {
@@ -1951,7 +1958,7 @@ async fn try_multiple_endpoints(endpoints: Vec&lt;String&gt;) -&gt; Result&lt;St
     // select_ok returns the first successful result
     select_ok(futures).await
         .map(|(result, _)| result)
-        .map_err(|e| AllFailedError(format!("all endpoints failed: {}", e)))
+        .map_err(|e| AllFailedError(format!(&quot;all endpoints failed: {}&quot;, e)))
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="backoff-and-retry-for-transient-errors"><a class="header" href="#backoff-and-retry-for-transient-errors">Backoff and Retry for Transient Errors</a></h3>
@@ -1987,7 +1994,7 @@ where
 
                 // Log retry attempt
                 log::warn!(
-                    "Operation failed (attempt {}/{}): {}. Retrying in {:?}...",
+                    &quot;Operation failed (attempt {}/{}): {}. Retrying in {:?}...&quot;,
                     attempt,
                     max_retries,
                     err,
@@ -2038,10 +2045,10 @@ impl&lt;T&gt; ErrorBoundary&lt;T&gt; {
         match operation(&amp;self.inner).await {
             Ok(result) =&gt; result,
             Err(error) =&gt; {
-                log::error!("Error in boundary {}: {}", self.name, error);
+                log::error!(&quot;Error in boundary {}: {}&quot;, self.name, error);
 
                 // Report to monitoring system
-                metrics::increment_counter!("error_boundary_failure", "boundary" =&gt; self.name);
+                metrics::increment_counter!(&quot;error_boundary_failure&quot;, &quot;boundary&quot; =&gt; self.name);
 
                 // Return default value for the result type
                 R::default()
@@ -2052,27 +2059,27 @@ impl&lt;T&gt; ErrorBoundary&lt;T&gt; {
 
 // Usage
 async fn run_subsystem() {
-    let db = Database::connect().await.expect("Failed to connect to database");
+    let db = Database::connect().await.expect(&quot;Failed to connect to database&quot;);
     let api_client = ApiClient::new();
 
-    let db_boundary = ErrorBoundary::new(db, "database");
-    let api_boundary = ErrorBoundary::new(api_client, "api");
+    let db_boundary = ErrorBoundary::new(db, &quot;database&quot;);
+    let api_boundary = ErrorBoundary::new(api_client, &quot;api&quot;);
 
     // Even if this fails, it won't crash the application
     let users = db_boundary.run(|db| async {
-        db.fetch_users().await.context("Failed to fetch users")
+        db.fetch_users().await.context(&quot;Failed to fetch users&quot;)
     }).await;
 
     // This runs regardless of whether the previous operation succeeded
     let products = api_boundary.run(|api| async {
-        api.fetch_products().await.context("Failed to fetch products")
+        api.fetch_products().await.context(&quot;Failed to fetch products&quot;)
     }).await;
 
     // Continue with application logic...
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="practical-error-handling-example"><a class="header" href="#practical-error-handling-example">Practical Error Handling Example</a></h2>
-<p>Let’s tie everything together with a comprehensive example of error handling in a real-world application. We’ll create a file processing utility that demonstrates proper error handling throughout the application.</p>
+<p>Let's tie everything together with a comprehensive example of error handling in a real-world application. We'll create a file processing utility that demonstrates proper error handling throughout the application.</p>
 <h3 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h3>
 <pre><code>file-processor/
 ├── Cargo.toml
@@ -2084,7 +2091,7 @@ async fn run_subsystem() {
 │   └── config.rs
 </code></pre>
 <h3 id="error-module"><a class="header" href="#error-module">Error Module</a></h3>
-<p>First, let’s define our error types in <code>error.rs</code>:</p>
+<p>First, let's define our error types in <code>error.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::path::PathBuf;
@@ -2092,20 +2099,20 @@ use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum AppError {
-    #[error("I/O error: {source}")]
+    #[error(&quot;I/O error: {source}&quot;)]
     Io {
         #[source]
         source: std::io::Error,
         path: Option&lt;PathBuf&gt;,
     },
 
-    #[error("Configuration error: {0}")]
+    #[error(&quot;Configuration error: {0}&quot;)]
     Config(#[from] ConfigError),
 
-    #[error("Processing error: {0}")]
+    #[error(&quot;Processing error: {0}&quot;)]
     Processing(#[from] ProcessingError),
 
-    #[error("Storage error: {0}")]
+    #[error(&quot;Storage error: {0}&quot;)]
     Storage(#[from] StorageError),
 }
 
@@ -2129,28 +2136,28 @@ pub fn with_path&lt;T&gt;(result: std::io::Result&lt;T&gt;, path: impl Into&lt;P
 
 #[derive(Error, Debug)]
 pub enum ConfigError {
-    #[error("Missing required config value: {0}")]
+    #[error(&quot;Missing required config value: {0}&quot;)]
     MissingValue(String),
 
-    #[error("Invalid config value for {key}: {message}")]
+    #[error(&quot;Invalid config value for {key}: {message}&quot;)]
     InvalidValue {
         key: String,
         message: String,
     },
 
-    #[error("Failed to parse config file: {0}")]
+    #[error(&quot;Failed to parse config file: {0}&quot;)]
     ParseError(#[source] serde_json::Error),
 }
 
 #[derive(Error, Debug)]
 pub enum ProcessingError {
-    #[error("Unsupported file format: {0}")]
+    #[error(&quot;Unsupported file format: {0}&quot;)]
     UnsupportedFormat(String),
 
-    #[error("Processing timeout after {0:?}")]
+    #[error(&quot;Processing timeout after {0:?}&quot;)]
     Timeout(std::time::Duration),
 
-    #[error("Failed to process line {line}: {message}")]
+    #[error(&quot;Failed to process line {line}: {message}&quot;)]
     LineError {
         line: usize,
         message: String,
@@ -2159,13 +2166,13 @@ pub enum ProcessingError {
 
 #[derive(Error, Debug)]
 pub enum StorageError {
-    #[error("Failed to connect to storage: {0}")]
+    #[error(&quot;Failed to connect to storage: {0}&quot;)]
     ConnectionFailed(String),
 
-    #[error("Item not found: {0}")]
+    #[error(&quot;Item not found: {0}&quot;)]
     NotFound(String),
 
-    #[error("Permission denied for operation on {resource}")]
+    #[error(&quot;Permission denied for operation on {resource}&quot;)]
     PermissionDenied {
         resource: String,
         #[source]
@@ -2177,7 +2184,7 @@ pub enum StorageError {
 pub type Result&lt;T&gt; = std::result::Result&lt;T, AppError&gt;;
 <span class="boring">}</span></code></pre></pre>
 <h3 id="config-module"><a class="header" href="#config-module">Config Module</a></h3>
-<p>Now, let’s implement the configuration handling in <code>config.rs</code>:</p>
+<p>Now, let's implement the configuration handling in <code>config.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::error::{ConfigError, Result, with_path};
@@ -2215,24 +2222,24 @@ impl Config {
 
     fn validate(&amp;self) -&gt; std::result::Result&lt;(), ConfigError&gt; {
         if self.input_dir.is_empty() {
-            return Err(ConfigError::MissingValue("input_dir".to_string()));
+            return Err(ConfigError::MissingValue(&quot;input_dir&quot;.to_string()));
         }
 
         if self.output_dir.is_empty() {
-            return Err(ConfigError::MissingValue("output_dir".to_string()));
+            return Err(ConfigError::MissingValue(&quot;output_dir&quot;.to_string()));
         }
 
         if self.processing.max_concurrent_files == 0 {
             return Err(ConfigError::InvalidValue {
-                key: "processing.max_concurrent_files".to_string(),
-                message: "Must be greater than 0".to_string(),
+                key: &quot;processing.max_concurrent_files&quot;.to_string(),
+                message: &quot;Must be greater than 0&quot;.to_string(),
             });
         }
 
         if self.processing.supported_formats.is_empty() {
             return Err(ConfigError::InvalidValue {
-                key: "processing.supported_formats".to_string(),
-                message: "At least one format must be specified".to_string(),
+                key: &quot;processing.supported_formats&quot;.to_string(),
+                message: &quot;At least one format must be specified&quot;.to_string(),
             });
         }
 
@@ -2241,7 +2248,7 @@ impl Config {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="processor-module"><a class="header" href="#processor-module">Processor Module</a></h3>
-<p>Now, let’s implement the file processing logic in <code>processor.rs</code>:</p>
+<p>Now, let's implement the file processing logic in <code>processor.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::config::Config;
@@ -2278,7 +2285,7 @@ impl Processor {
             }
         }
 
-        log::info!("Found {} files to process in {}", files.len(), dir.display());
+        log::info!(&quot;Found {} files to process in {}&quot;, files.len(), dir.display());
 
         if files.is_empty() {
             return Ok(ProcessingSummary::default());
@@ -2312,13 +2319,13 @@ impl Processor {
                 }
                 Err(e) =&gt; {
                     summary.failed_files += 1;
-                    errors.push(format!("File {}: {}", i, e));
+                    errors.push(format!(&quot;File {}: {}&quot;, i, e));
                 }
             }
         }
 
         if !errors.is_empty() {
-            log::warn!("Encountered errors while processing:\n{}", errors.join("\n"));
+            log::warn!(&quot;Encountered errors while processing:\n{}&quot;, errors.join(&quot;\n&quot;));
         }
 
         Ok(summary)
@@ -2330,7 +2337,7 @@ impl Processor {
         storage: &amp;Arc&lt;dyn Storage&gt;,
         timeout_duration: Duration,
     ) -&gt; Result&lt;FileResult&gt; {
-        log::info!("Processing file: {}", path.display());
+        log::info!(&quot;Processing file: {}&quot;, path.display());
 
         // Apply timeout to the whole operation
         match timeout(timeout_duration, self.do_process_file(path, storage)).await {
@@ -2381,10 +2388,10 @@ impl Processor {
         let processed = line.to_uppercase();
 
         // Simulate validation
-        if processed.contains("ERROR") {
+        if processed.contains(&quot;ERROR&quot;) {
             return Err(ProcessingError::LineError {
                 line: line_num,
-                message: "Line contains error marker".to_string(),
+                message: &quot;Line contains error marker&quot;.to_string(),
             }
             .into());
         }
@@ -2417,7 +2424,7 @@ struct FileResult {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="storage-module"><a class="header" href="#storage-module">Storage Module</a></h3>
-<p>Next, let’s implement the storage interface in <code>storage.rs</code>:</p>
+<p>Next, let's implement the storage interface in <code>storage.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use async_trait::async_trait;
@@ -2464,7 +2471,7 @@ impl Storage for FileStorage {
                 source: Some(e),
             })?;
 
-        writeln!(file, "{}", data).map_err(|e| StorageError::PermissionDenied {
+        writeln!(file, &quot;{}&quot;, data).map_err(|e| StorageError::PermissionDenied {
             resource: path.display().to_string(),
             source: Some(e),
         })?;
@@ -2499,7 +2506,7 @@ impl Storage for MockStorage {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="main-application"><a class="header" href="#main-application">Main Application</a></h3>
-<p>Finally, let’s implement the main application in <code>main.rs</code>:</p>
+<p>Finally, let's implement the main application in <code>main.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust">mod config;
 mod error;
 mod processor;
@@ -2520,9 +2527,9 @@ async fn main() -&gt; Result&lt;()&gt; {
     // Load configuration
     let config_path = std::env::args()
         .nth(1)
-        .unwrap_or_else(|| "config.json".to_string());
+        .unwrap_or_else(|| &quot;config.json&quot;.to_string());
 
-    log::info!("Loading configuration from {}", config_path);
+    log::info!(&quot;Loading configuration from {}&quot;, config_path);
     let config = Config::from_file(config_path)?;
 
     // Initialize storage
@@ -2532,11 +2539,11 @@ async fn main() -&gt; Result&lt;()&gt; {
     let processor = Processor::new(config.clone(), storage);
 
     // Process input directory
-    log::info!("Starting processing of directory: {}", config.input_dir);
+    log::info!(&quot;Starting processing of directory: {}&quot;, config.input_dir);
     let summary = processor.process_directory(&amp;config.input_dir).await?;
 
     log::info!(
-        "Processing complete. Processed {} files ({} failed) with {} lines.",
+        &quot;Processing complete. Processed {} files ({} failed) with {} lines.&quot;,
         summary.processed_files,
         summary.failed_files,
         summary.processed_lines
@@ -2559,7 +2566,7 @@ async fn main() -&gt; Result&lt;()&gt; {
 <li><strong>Error translation for internationalization</strong> - We implement error translation for different languages.</li>
 </ol>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored advanced error handling patterns and libraries in Rust. We’ve seen how to:</p>
+<p>In this chapter, we've explored advanced error handling patterns and libraries in Rust. We've seen how to:</p>
 <ol>
 <li>Create custom error types that express the specific failure modes of your application.</li>
 <li>Use libraries like <code>thiserror</code> and <code>anyhow</code> to simplify error handling code.</li>

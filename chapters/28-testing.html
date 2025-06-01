@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html" class="active"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,13 +185,13 @@
                         <h1 id="chapter-28-writing-tests-in-rust"><a class="header" href="#chapter-28-writing-tests-in-rust">Chapter 28: Writing Tests in Rust</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Testing is an essential practice in software development that helps ensure your code behaves as expected and continues to work correctly as it evolves. Rust takes testing seriously, with built-in support for various testing methodologies directly integrated into the language and its tooling.</p>
-<p>Unlike many languages where testing is an afterthought, Rust’s approach to testing is both comprehensive and ergonomic. The compiler, cargo, and standard library all work together to make writing and running tests straightforward and efficient. This first-class support reflects Rust’s broader commitment to producing reliable, maintainable software.</p>
-<p>In this chapter, we’ll explore Rust’s testing ecosystem in depth. We’ll begin with basic unit testing and gradually progress to more advanced testing techniques. You’ll learn how to structure tests, mock dependencies, perform property-based testing, and measure the performance of your code through benchmarking. By the end of this chapter, you’ll have the knowledge and tools to build robust test suites that give you confidence in your Rust code.</p>
-<p>Whether you’re developing a small library or a complex application, the testing practices covered in this chapter will help you catch bugs early, document your code’s behavior, and maintain a high standard of quality as your project grows.</p>
+<p>Unlike many languages where testing is an afterthought, Rust's approach to testing is both comprehensive and ergonomic. The compiler, cargo, and standard library all work together to make writing and running tests straightforward and efficient. This first-class support reflects Rust's broader commitment to producing reliable, maintainable software.</p>
+<p>In this chapter, we'll explore Rust's testing ecosystem in depth. We'll begin with basic unit testing and gradually progress to more advanced testing techniques. You'll learn how to structure tests, mock dependencies, perform property-based testing, and measure the performance of your code through benchmarking. By the end of this chapter, you'll have the knowledge and tools to build robust test suites that give you confidence in your Rust code.</p>
+<p>Whether you're developing a small library or a complex application, the testing practices covered in this chapter will help you catch bugs early, document your code's behavior, and maintain a high standard of quality as your project grows.</p>
 <h2 id="testing-philosophy-in-rust"><a class="header" href="#testing-philosophy-in-rust">Testing Philosophy in Rust</a></h2>
-<p>Before diving into the technical aspects of testing in Rust, it’s worth understanding the philosophy that shapes Rust’s approach to testing.</p>
+<p>Before diving into the technical aspects of testing in Rust, it's worth understanding the philosophy that shapes Rust's approach to testing.</p>
 <h3 id="safety-beyond-the-compiler"><a class="header" href="#safety-beyond-the-compiler">Safety Beyond the Compiler</a></h3>
-<p>Rust’s compiler provides strong guarantees about memory safety and thread safety, eliminating entire classes of bugs at compile time. However, logical errors, incorrect business rules, and unexpected edge cases can still exist in perfectly valid Rust code. Testing complements the compiler’s checks by verifying that your code’s behavior matches your intentions.</p>
+<p>Rust's compiler provides strong guarantees about memory safety and thread safety, eliminating entire classes of bugs at compile time. However, logical errors, incorrect business rules, and unexpected edge cases can still exist in perfectly valid Rust code. Testing complements the compiler's checks by verifying that your code's behavior matches your intentions.</p>
 <h3 id="testing-as-documentation"><a class="header" href="#testing-as-documentation">Testing as Documentation</a></h3>
 <p>Tests serve as executable documentation, demonstrating how code is meant to be used and what results to expect. This is particularly valuable in Rust, where strong type safety and ownership rules can make the correct usage patterns less immediately obvious to newcomers.</p>
 <h3 id="the-testing-spectrum"><a class="header" href="#the-testing-spectrum">The Testing Spectrum</a></h3>
@@ -214,11 +221,11 @@
 <li><strong>After Bug Fixes</strong>: Add tests that reproduce bugs to prevent regressions.</li>
 <li><strong>When Publishing</strong>: Verify that your crate works correctly before sharing it with others.</li>
 </ul>
-<p>With this philosophy in mind, let’s explore how Rust makes testing practical and effective.</p>
+<p>With this philosophy in mind, let's explore how Rust makes testing practical and effective.</p>
 <h2 id="unit-tests-and-the-test-module"><a class="header" href="#unit-tests-and-the-test-module">Unit Tests and the Test Module</a></h2>
 <p>Unit tests verify that individual components of your code work correctly in isolation. In Rust, unit tests are typically placed in the same file as the code they test, inside a special test module.</p>
 <h3 id="basic-unit-test-structure"><a class="header" href="#basic-unit-test-structure">Basic Unit Test Structure</a></h3>
-<p>Here’s a simple example of a unit test in Rust:</p>
+<p>Here's a simple example of a unit test in Rust:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// A function we want to test
@@ -241,7 +248,7 @@ mod tests {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Let’s break down the key elements:</p>
+<p>Let's break down the key elements:</p>
 <ol>
 <li>
 <p><strong><code>#[cfg(test)]</code></strong>: This attribute tells the compiler to only include this module when running tests, not when building your program for regular use.</p>
@@ -256,7 +263,7 @@ mod tests {
 <p><strong><code>#[test]</code></strong>: This attribute marks a function as a test. When you run <code>cargo test</code>, Rust will find and execute all functions marked with this attribute.</p>
 </li>
 <li>
-<p><strong><code>assert_eq!</code></strong>: A macro that checks if two values are equal. If they’re not, the test fails with a helpful error message.</p>
+<p><strong><code>assert_eq!</code></strong>: A macro that checks if two values are equal. If they're not, the test fails with a helpful error message.</p>
 </li>
 </ol>
 <h3 id="running-tests"><a class="header" href="#running-tests">Running Tests</a></h3>
@@ -324,7 +331,7 @@ fn test_with_message() {
     assert_eq!(
         result,
         expected,
-        "Adding {} and {} should equal {}, but got {}",
+        &quot;Adding {} and {} should equal {}, but got {}&quot;,
         a, b, expected, result
     );
 }
@@ -336,7 +343,7 @@ fn test_with_message() {
 </span><span class="boring">fn main() {
 </span>pub fn divide(a: i32, b: i32) -&gt; i32 {
     if b == 0 {
-        panic!("Cannot divide by zero");
+        panic!(&quot;Cannot divide by zero&quot;);
     }
     a / b
 }
@@ -356,7 +363,7 @@ mod tests {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
-#[should_panic(expected = "Cannot divide by zero")]
+#[should_panic(expected = &quot;Cannot divide by zero&quot;)]
 fn test_divide_by_zero_message() {
     divide(10, 0);
 }
@@ -369,7 +376,7 @@ fn test_divide_by_zero_message() {
 </span>fn parse_config(config: &amp;str) -&gt; Result&lt;u32, String&gt; {
     // Implementation
     if config.is_empty() {
-        return Err("Empty configuration".to_string());
+        return Err(&quot;Empty configuration&quot;.to_string());
     }
     Ok(42)
 }
@@ -380,7 +387,7 @@ mod tests {
 
     #[test]
     fn test_valid_config() -&gt; Result&lt;(), String&gt; {
-        let config = "valid_setting=true";
+        let config = &quot;valid_setting=true&quot;;
         let result = parse_config(config)?;
         assert_eq!(result, 42);
         Ok(())
@@ -388,7 +395,7 @@ mod tests {
 
     #[test]
     fn test_empty_config() -&gt; Result&lt;(), String&gt; {
-        let result = parse_config("");
+        let result = parse_config(&quot;&quot;);
         assert!(result.is_err());
         Ok(())
     }
@@ -413,10 +420,10 @@ fn expensive_test() {
 </code></pre>
 <h3 id="filtering-tests"><a class="header" href="#filtering-tests">Filtering Tests</a></h3>
 <p>You can run a subset of tests by providing a pattern to match against test names:</p>
-<pre><code class="language-bash">$ cargo test add  # Runs all tests with "add" in their name
+<pre><code class="language-bash">$ cargo test add  # Runs all tests with &quot;add&quot; in their name
 </code></pre>
 <p>For more complex filtering, you can use the <code>--exact</code> flag:</p>
-<pre><code class="language-bash">$ cargo test test_add -- --exact  # Runs only the test named "test_add"
+<pre><code class="language-bash">$ cargo test test_add -- --exact  # Runs only the test named &quot;test_add&quot;
 </code></pre>
 <h3 id="private-functions"><a class="header" href="#private-functions">Private Functions</a></h3>
 <p>In Rust, you can test private functions directly from the test module, which is a child of the module containing the private functions:</p>
@@ -443,9 +450,9 @@ mod tests {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>This ability to test private functions directly is a distinctive feature of Rust’s testing approach.</p>
+<p>This ability to test private functions directly is a distinctive feature of Rust's testing approach.</p>
 <h2 id="test-organization"><a class="header" href="#test-organization">Test Organization</a></h2>
-<p>As your codebase grows, organizing your tests becomes increasingly important. Well-structured tests are easier to maintain, faster to run, and provide clearer feedback when they fail. Let’s explore various strategies for organizing tests in Rust.</p>
+<p>As your codebase grows, organizing your tests becomes increasingly important. Well-structured tests are easier to maintain, faster to run, and provide clearer feedback when they fail. Let's explore various strategies for organizing tests in Rust.</p>
 <h3 id="test-modules-and-files"><a class="header" href="#test-modules-and-files">Test Modules and Files</a></h3>
 <p>For small to medium-sized projects, keeping tests in a <code>tests</code> module within each source file is usually sufficient. However, as the number of tests grows, you might want to split them into multiple modules or files.</p>
 <h4 id="multiple-test-modules"><a class="header" href="#multiple-test-modules">Multiple Test Modules</a></h4>
@@ -521,8 +528,8 @@ mod math_tests {
     └── utils/
         └── helpers.rs
 </code></pre>
-<p>Each file in the <code>tests</code> directory (except those in subdirectories) is compiled as a separate crate that depends on your main crate. This ensures that you’re testing your code as if it were being used by an external consumer.</p>
-<p>Here’s an example integration test:</p>
+<p>Each file in the <code>tests</code> directory (except those in subdirectories) is compiled as a separate crate that depends on your main crate. This ensures that you're testing your code as if it were being used by an external consumer.</p>
+<p>Here's an example integration test:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// tests/integration_test.rs
@@ -616,7 +623,7 @@ mod tests {
     const TEST_DATA: [i32; 5] = [1, 2, 3, 4, 5];
 
     fn setup_complex_data() -&gt; Vec&lt;String&gt; {
-        vec!["a".to_string(), "b".to_string(), "c".to_string()]
+        vec![&quot;a&quot;.to_string(), &quot;b&quot;.to_string(), &quot;c&quot;.to_string()]
     }
 
     #[test]
@@ -629,12 +636,12 @@ mod tests {
     fn test_process_strings() {
         let data = setup_complex_data();
         let result = process_strings(&amp;data);
-        assert_eq!(result, "abc");
+        assert_eq!(result, &quot;abc&quot;);
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="using-fixtures"><a class="header" href="#using-fixtures">Using Fixtures</a></h4>
-<p>For more complex test environments, you might need to create and tear down resources for each test. While Rust doesn’t have built-in fixtures like some testing frameworks, you can implement similar patterns:</p>
+<p>For more complex test environments, you might need to create and tear down resources for each test. While Rust doesn't have built-in fixtures like some testing frameworks, you can implement similar patterns:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct TestFixture {
@@ -645,8 +652,8 @@ mod tests {
 impl TestFixture {
     fn new() -&gt; Self {
         let data = vec![1, 2, 3, 4, 5];
-        let temp_file = std::env::temp_dir().join("test_file.txt");
-        std::fs::write(&amp;temp_file, "test data").unwrap();
+        let temp_file = std::env::temp_dir().join(&quot;test_file.txt&quot;);
+        std::fs::write(&amp;temp_file, &quot;test data&quot;).unwrap();
 
         TestFixture { data, temp_file }
     }
@@ -712,7 +719,7 @@ impl ComplexStruct {
 <li>Using thread-safe synchronization when necessary</li>
 </ol>
 <h2 id="documentation-tests"><a class="header" href="#documentation-tests">Documentation Tests</a></h2>
-<p>One of Rust’s most innovative testing features is the ability to run code examples directly from documentation as tests. This ensures that your documentation stays accurate and up-to-date with your code.</p>
+<p>One of Rust's most innovative testing features is the ability to run code examples directly from documentation as tests. This ensures that your documentation stays accurate and up-to-date with your code.</p>
 <h3 id="writing-documentation-tests"><a class="header" href="#writing-documentation-tests">Writing Documentation Tests</a></h3>
 <p>Documentation tests are code blocks in your documentation comments that are executed when you run <code>cargo test</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -736,14 +743,14 @@ pub fn add(a: i32, b: i32) -&gt; i32 {
 <li><strong>Verified Examples</strong>: Users can trust that the examples in your documentation actually work.</li>
 <li><strong>Automatic Testing</strong>: Documentation is tested alongside your code, not as an afterthought.</li>
 <li><strong>Consistency</strong>: Documentation and functionality stay in sync as your code evolves.</li>
-<li><strong>Reduced Duplication</strong>: You don’t need separate tests for functionality already covered in documentation examples.</li>
+<li><strong>Reduced Duplication</strong>: You don't need separate tests for functionality already covered in documentation examples.</li>
 </ol>
 <h3 id="running-documentation-tests"><a class="header" href="#running-documentation-tests">Running Documentation Tests</a></h3>
 <p>Documentation tests are run automatically with <code>cargo test</code>. You can run only the documentation tests with:</p>
 <pre><code class="language-bash">$ cargo test --doc
 </code></pre>
 <h3 id="hiding-code-in-documentation-tests"><a class="header" href="#hiding-code-in-documentation-tests">Hiding Code in Documentation Tests</a></h3>
-<p>Sometimes you need setup code in your examples that isn’t relevant to the documentation. You can hide lines from the rendered documentation by adding a <code>#</code> at the start of the line:</p>
+<p>Sometimes you need setup code in your examples that isn't relevant to the documentation. You can hide lines from the rendered documentation by adding a <code>#</code> at the start of the line:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Returns the square of a number.
@@ -787,7 +794,7 @@ assert_eq!(result, 16);
 /// Returns an error if the divisor is zero.
 pub fn divide(a: i32, b: i32) -&gt; Result&lt;i32, &amp;'static str&gt; {
     if b == 0 {
-        Err("Cannot divide by zero")
+        Err(&quot;Cannot divide by zero&quot;)
     } else {
         Ok(a / b)
     }
@@ -815,7 +822,7 @@ pub fn get_index(slice: &amp;[i32], index: usize) -&gt; i32 {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="ignoring-documentation-tests"><a class="header" href="#ignoring-documentation-tests">Ignoring Documentation Tests</a></h3>
-<p>If a code example isn’t meant to be run as a test, you can mark it to be ignored:</p>
+<p>If a code example isn't meant to be run as a test, you can mark it to be ignored:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// This function does something complex.
@@ -830,7 +837,7 @@ pub fn complex_function(input: ComplexType) -&gt; ComplexResult {
 <span class="boring">}</span></code></pre></pre>
 <p>Other options include:</p>
 <ul>
-<li><code>no_run</code>: Compile but don’t run the example</li>
+<li><code>no_run</code>: Compile but don't run the example</li>
 <li><code>compile_fail</code>: Ensure the example fails to compile</li>
 <li><code>edition2018</code>: Specify the Rust edition for the test</li>
 </ul>
@@ -845,25 +852,25 @@ pub fn complex_function(input: ComplexType) -&gt; ComplexResult {
 /// ```
 /// use std::rc::Rc;
 ///
-/// let s1 = Rc::new("Hello, ".to_string());
-/// let s2 = "world!".to_string();
+/// let s1 = Rc::new(&quot;Hello, &quot;.to_string());
+/// let s2 = &quot;world!&quot;.to_string();
 /// let result = my_crate::concat_string(s1, s2);
-/// assert_eq!(result, "Hello, world!");
+/// assert_eq!(result, &quot;Hello, world!&quot;);
 /// ```
 pub fn concat_string(s1: std::rc::Rc&lt;String&gt;, s2: String) -&gt; String {
-    format!("{}{}", s1, s2)
+    format!(&quot;{}{}&quot;, s1, s2)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="using-documentation-tests-effectively"><a class="header" href="#using-documentation-tests-effectively">Using Documentation Tests Effectively</a></h3>
 <p>To get the most out of documentation tests:</p>
 <ol>
 <li><strong>Provide a complete example</strong>: Show initialization, usage, and verification.</li>
-<li><strong>Keep examples simple</strong>: Focus on the specific functionality you’re documenting.</li>
+<li><strong>Keep examples simple</strong>: Focus on the specific functionality you're documenting.</li>
 <li><strong>Cover edge cases</strong>: Demonstrate how your function handles errors or special inputs.</li>
 <li><strong>Test complex interactions</strong>: Show how different parts of your API work together.</li>
 <li><strong>Structure examples as mini-tutorials</strong>: Guide users through common use cases.</li>
 </ol>
-<p>Here’s an example of a comprehensive documentation test:</p>
+<p>Here's an example of a comprehensive documentation test:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// A simple key-value store with string keys.
@@ -876,10 +883,10 @@ pub fn concat_string(s1: std::rc::Rc&lt;String&gt;, s2: String) -&gt; String {
 /// use my_crate::KeyValueStore;
 ///
 /// let mut store = KeyValueStore::new();
-/// store.insert("key1", 42);
-/// store.insert("key2", 100);
+/// store.insert(&quot;key1&quot;, 42);
+/// store.insert(&quot;key2&quot;, 100);
 ///
-/// assert_eq!(store.get("key1"), Some(42));
+/// assert_eq!(store.get(&quot;key1&quot;), Some(42));
 /// ```
 ///
 /// Handling missing keys:
@@ -887,7 +894,7 @@ pub fn concat_string(s1: std::rc::Rc&lt;String&gt;, s2: String) -&gt; String {
 /// ```
 /// # use my_crate::KeyValueStore;
 /// # let mut store = KeyValueStore::new();
-/// assert_eq!(store.get("nonexistent"), None);
+/// assert_eq!(store.get(&quot;nonexistent&quot;), None);
 /// ```
 ///
 /// Updating values:
@@ -895,9 +902,9 @@ pub fn concat_string(s1: std::rc::Rc&lt;String&gt;, s2: String) -&gt; String {
 /// ```
 /// # use my_crate::KeyValueStore;
 /// # let mut store = KeyValueStore::new();
-/// # store.insert("key1", 42);
-/// store.insert("key1", 100);  // Updates the existing value
-/// assert_eq!(store.get("key1"), Some(100));
+/// # store.insert(&quot;key1&quot;, 42);
+/// store.insert(&quot;key1&quot;, 100);  // Updates the existing value
+/// assert_eq!(store.get(&quot;key1&quot;), Some(100));
 /// ```
 pub struct KeyValueStore {
     // Implementation details
@@ -907,11 +914,11 @@ impl KeyValueStore {
     // Implementation methods
 }
 <span class="boring">}</span></code></pre></pre>
-<p>In the next section, we’ll explore how to test code that depends on external systems or has complex dependencies using mocking and test doubles.</p>
+<p>In the next section, we'll explore how to test code that depends on external systems or has complex dependencies using mocking and test doubles.</p>
 <h2 id="mocking-and-test-doubles"><a class="header" href="#mocking-and-test-doubles">Mocking and Test Doubles</a></h2>
-<p>When testing code with dependencies on external systems or complex components, you often need to substitute these dependencies with simplified versions to enable focused, reliable testing. In testing terminology, these substitutes are called “test doubles.” Mocking is a specific form of test double that allows you to set expectations about how the double will be used.</p>
+<p>When testing code with dependencies on external systems or complex components, you often need to substitute these dependencies with simplified versions to enable focused, reliable testing. In testing terminology, these substitutes are called &quot;test doubles.&quot; Mocking is a specific form of test double that allows you to set expectations about how the double will be used.</p>
 <h3 id="types-of-test-doubles"><a class="header" href="#types-of-test-doubles">Types of Test Doubles</a></h3>
-<p>In Rust testing, you’ll encounter several types of test doubles:</p>
+<p>In Rust testing, you'll encounter several types of test doubles:</p>
 <ol>
 <li><strong>Dummy Objects</strong>: Placeholder objects passed to satisfy function signatures but never actually used.</li>
 <li><strong>Fake Objects</strong>: Simplified working implementations (like an in-memory database instead of a real one).</li>
@@ -920,7 +927,7 @@ impl KeyValueStore {
 <li><strong>Mocks</strong>: Pre-programmed with expectations that form a specification of the calls they are expected to receive.</li>
 </ol>
 <h3 id="approaches-to-test-doubles-in-rust"><a class="header" href="#approaches-to-test-doubles-in-rust">Approaches to Test Doubles in Rust</a></h3>
-<p>Unlike some languages that use runtime reflection for mocking, Rust’s static type system requires different approaches. Here are the main strategies:</p>
+<p>Unlike some languages that use runtime reflection for mocking, Rust's static type system requires different approaches. Here are the main strategies:</p>
 <h4 id="1-trait-based-mocking"><a class="header" href="#1-trait-based-mocking">1. Trait-Based Mocking</a></h4>
 <p>The most common approach in Rust is to design your code around traits, then implement those traits with both real and test versions:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1006,13 +1013,13 @@ mod tests {
     fn test_get_user_name() {
         // Create a mock database with a test user
         let mock_db = MockDatabase::new()
-            .with_user(User { id: 1, name: "Alice".to_string() });
+            .with_user(User { id: 1, name: &quot;Alice&quot;.to_string() });
 
         // Create the service with the mock
         let service = UserService::new(mock_db);
 
         // Test the service
-        assert_eq!(service.get_user_name(1), Some("Alice".to_string()));
+        assert_eq!(service.get_user_name(1), Some(&quot;Alice&quot;.to_string()));
         assert_eq!(service.get_user_name(2), None);
     }
 }
@@ -1044,7 +1051,7 @@ mod tests {
         mock.expect_get_user()
             .with(eq(1))
             .times(1)
-            .returning(|_| Some(User { id: 1, name: "Alice".to_string() }));
+            .returning(|_| Some(User { id: 1, name: &quot;Alice&quot;.to_string() }));
 
         mock.expect_get_user()
             .with(eq(2))
@@ -1052,7 +1059,7 @@ mod tests {
             .returning(|_| None);
 
         // Use the mock
-        assert_eq!(mock.get_user(1), Some(User { id: 1, name: "Alice".to_string() }));
+        assert_eq!(mock.get_user(1), Some(User { id: 1, name: &quot;Alice&quot;.to_string() }));
         assert_eq!(mock.get_user(2), None);
     }
 }
@@ -1076,14 +1083,14 @@ mod tests {
         // Mock the function
         get_user_from_database.mock_safe(|id| {
             if id == 1 {
-                MockResult::Return(Some(User { id: 1, name: "Alice".to_string() }))
+                MockResult::Return(Some(User { id: 1, name: &quot;Alice&quot;.to_string() }))
             } else {
                 MockResult::Return(None)
             }
         });
 
         // Use the mocked function
-        assert_eq!(get_user_from_database(1), Some(User { id: 1, name: "Alice".to_string() }));
+        assert_eq!(get_user_from_database(1), Some(User { id: 1, name: &quot;Alice&quot;.to_string() }));
         assert_eq!(get_user_from_database(2), None);
     }
 }
@@ -1121,20 +1128,20 @@ mod tests {
         // Create a service with a closure that simulates the database
         let service = UserService::new(|id| {
             if id == 1 {
-                Some(User { id: 1, name: "Alice".to_string() })
+                Some(User { id: 1, name: &quot;Alice&quot;.to_string() })
             } else {
                 None
             }
         });
 
         // Test the service
-        assert_eq!(service.get_user_name(1), Some("Alice".to_string()));
+        assert_eq!(service.get_user_name(1), Some(&quot;Alice&quot;.to_string()));
         assert_eq!(service.get_user_name(2), None);
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="testing-asynchronous-code"><a class="header" href="#testing-asynchronous-code">Testing Asynchronous Code</a></h3>
-<p>Mocking becomes particularly important when testing asynchronous code. Here’s how you can approach it:</p>
+<p>Mocking becomes particularly important when testing asynchronous code. Here's how you can approach it:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[async_trait]
@@ -1167,7 +1174,7 @@ mod tests {
         let mock_db = MockAsyncDatabase {
             users: {
                 let mut map = std::collections::HashMap::new();
-                map.insert(1, User { id: 1, name: "Alice".to_string() });
+                map.insert(1, User { id: 1, name: &quot;Alice&quot;.to_string() });
                 map
             },
         };
@@ -1175,7 +1182,7 @@ mod tests {
         let service = AsyncUserService::new(mock_db);
         let result = service.get_user_name(1).await;
 
-        assert_eq!(result, Some("Alice".to_string()));
+        assert_eq!(result, Some(&quot;Alice&quot;.to_string()));
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1192,7 +1199,7 @@ mod tests {
 <p><strong>Keep Mocks Simple</strong>: Mocks should only implement the behavior needed for the specific test.</p>
 </li>
 <li>
-<p><strong>Don’t Over-Mock</strong>: If a component is simple and has no side effects, consider using the real implementation.</p>
+<p><strong>Don't Over-Mock</strong>: If a component is simple and has no side effects, consider using the real implementation.</p>
 </li>
 <li>
 <p><strong>Use Dependency Injection</strong>: Make it easy to substitute dependencies in tests by using constructors or builder patterns.</p>
@@ -1213,7 +1220,7 @@ mod tests {
 </span>use reqwest;
 
 async fn fetch_user(id: u64) -&gt; Result&lt;String, reqwest::Error&gt; {
-    let url = format!("http://api.example.com/users/{}", id);
+    let url = format!(&quot;http://api.example.com/users/{}&quot;, id);
     let response = reqwest::get(&amp;url).await?;
     let body = response.text().await?;
     Ok(body)
@@ -1230,18 +1237,18 @@ mod tests {
         let mut server = mockito::Server::new();
 
         // Create a mock endpoint
-        let mock = server.mock("GET", "/users/1")
+        let mock = server.mock(&quot;GET&quot;, &quot;/users/1&quot;)
             .with_status(200)
-            .with_header("content-type", "application/json")
-            .with_body(r#"{"id": 1, "name": "Alice"}"#)
+            .with_header(&quot;content-type&quot;, &quot;application/json&quot;)
+            .with_body(r#&quot;{&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice&quot;}&quot;#)
             .create();
 
         // Override the API URL to use our mock server
-        let url = format!("{}/users/1", server.url());
+        let url = format!(&quot;{}/users/1&quot;, server.url());
 
         // Test the function
         let body = fetch_user(1).await.unwrap();
-        assert_eq!(body, r#"{"id": 1, "name": "Alice"}"#);
+        assert_eq!(body, r#&quot;{&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice&quot;}&quot;#);
 
         // Verify that the endpoint was called
         mock.assert();
@@ -1270,11 +1277,11 @@ mod tests {
         tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
 
         // Make a request to the server
-        let response = reqwest::get("http://localhost:8080/users/1").await.unwrap();
+        let response = reqwest::get(&quot;http://localhost:8080/users/1&quot;).await.unwrap();
         assert_eq!(response.status(), 200);
 
         let body = response.text().await.unwrap();
-        assert_eq!(body, r#"{"id": 1, "name": "Alice"}"#);
+        assert_eq!(body, r#&quot;{&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice&quot;}&quot;#);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1326,8 +1333,8 @@ mod tests {
     #[test]
     fn test_complex_service() {
         let env = TestEnvironment::new()
-            .with_user(User { id: 1, name: "Alice".to_string() })
-            .with_api_response("/status", ApiResponse::Ok);
+            .with_user(User { id: 1, name: &quot;Alice&quot;.to_string() })
+            .with_api_response(&quot;/status&quot;, ApiResponse::Ok);
 
         let service = env.create_service();
 
@@ -1336,9 +1343,9 @@ mod tests {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>In the next section, we’ll explore property-based testing, a powerful approach that can find edge cases you might not have thought of.</p>
+<p>In the next section, we'll explore property-based testing, a powerful approach that can find edge cases you might not have thought of.</p>
 <h2 id="property-based-testing-with-proptest"><a class="header" href="#property-based-testing-with-proptest">Property-Based Testing with proptest</a></h2>
-<p>Traditional testing involves writing specific test cases with predefined inputs and expected outputs. While this approach is valuable, it can miss edge cases that you didn’t think to test. Property-based testing takes a different approach: instead of testing specific examples, you define properties that should hold true for all inputs, and the testing framework automatically generates diverse test cases to verify these properties.</p>
+<p>Traditional testing involves writing specific test cases with predefined inputs and expected outputs. While this approach is valuable, it can miss edge cases that you didn't think to test. Property-based testing takes a different approach: instead of testing specific examples, you define properties that should hold true for all inputs, and the testing framework automatically generates diverse test cases to verify these properties.</p>
 <h3 id="the-concept-of-property-based-testing"><a class="header" href="#the-concept-of-property-based-testing">The Concept of Property-Based Testing</a></h3>
 <p>The core idea of property-based testing is to:</p>
 <ol>
@@ -1349,12 +1356,12 @@ mod tests {
 </ol>
 <p>This approach can find bugs that traditional testing might miss, particularly in edge cases or unusual input combinations.</p>
 <h3 id="getting-started-with-proptest"><a class="header" href="#getting-started-with-proptest">Getting Started with proptest</a></h3>
-<p><a href="https://crates.io/crates/proptest">proptest</a> is the most popular property-based testing framework for Rust. Let’s see how to use it:</p>
+<p><a href="https://crates.io/crates/proptest">proptest</a> is the most popular property-based testing framework for Rust. Let's see how to use it:</p>
 <p>First, add it to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dev-dependencies]
-proptest = "1.0"
+proptest = &quot;1.0&quot;
 </code></pre>
-<p>Now, let’s write a simple property test:</p>
+<p>Now, let's write a simple property test:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use proptest::prelude::*;
@@ -1380,7 +1387,7 @@ mod tests {
 <span class="boring">}</span></code></pre></pre>
 <p>This test verifies that addition is commutative (a + b = b + a) for integers in the range -1000 to 1000. proptest will generate hundreds of random test cases to verify this property.</p>
 <h3 id="defining-strategies"><a class="header" href="#defining-strategies">Defining Strategies</a></h3>
-<p>In property-based testing, a “strategy” defines how to generate random values for your tests. proptest provides strategies for many common types:</p>
+<p>In property-based testing, a &quot;strategy&quot; defines how to generate random values for your tests. proptest provides strategies for many common types:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>proptest! {
@@ -1398,7 +1405,7 @@ mod tests {
 
     // Strings
     #[test]
-    fn test_with_strings(s in "\\PC{1,10}") {
+    fn test_with_strings(s in &quot;\\PC{1,10}&quot;) {
         // Test code using s (1-10 printable characters)
     }
 
@@ -1425,7 +1432,7 @@ proptest! {
         // Generate a user with controlled random values
         user in (
             1..1000u64,  // id
-            "\\PC{1,20}",  // name (1-20 printable chars)
+            &quot;\\PC{1,20}&quot;,  // name (1-20 printable chars)
             0..120u8,    // age
         ).prop_map(|(id, name, age)| User { id, name, age })
     ) {
@@ -1508,7 +1515,7 @@ proptest! {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="handling-test-failures"><a class="header" href="#handling-test-failures">Handling Test Failures</a></h3>
-<p>When proptest finds a failing case, it automatically tries to reduce it to a minimal counterexample. This process, called “shrinking,” makes it much easier to understand and fix the issue:</p>
+<p>When proptest finds a failing case, it automatically tries to reduce it to a minimal counterexample. This process, called &quot;shrinking,&quot; makes it much easier to understand and fix the issue:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Buggy function that fails for negative numbers
@@ -1548,13 +1555,13 @@ proptest! {
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="filtering-generated-values"><a class="header" href="#filtering-generated-values">Filtering Generated Values</a></h4>
-<p>You can filter the generated values to focus on cases you’re interested in:</p>
+<p>You can filter the generated values to focus on cases you're interested in:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>proptest! {
     #[test]
     fn test_even_numbers(x in any::&lt;i32&gt;().prop_filter(
-        "x must be even", |x| x % 2 == 0
+        &quot;x must be even&quot;, |x| x % 2 == 0
     )) {
         // x is guaranteed to be even
         prop_assert_eq!(x % 2, 0);
@@ -1576,7 +1583,7 @@ proptest! {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="complex-property-testing-examples"><a class="header" href="#complex-property-testing-examples">Complex Property Testing Examples</a></h3>
-<p>Let’s look at some more complex examples of property-based testing:</p>
+<p>Let's look at some more complex examples of property-based testing:</p>
 <h4 id="testing-a-sorting-algorithm"><a class="header" href="#testing-a-sorting-algorithm">Testing a Sorting Algorithm</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1644,13 +1651,13 @@ proptest! {
 fn parse_json(input: &amp;str) -&gt; Result&lt;JsonValue, String&gt; {
     // Implementation of JSON parser
     // ...
-    Err("Not implemented".to_string()) // Placeholder
+    Err(&quot;Not implemented&quot;.to_string()) // Placeholder
 }
 
 fn stringify_json(value: &amp;JsonValue) -&gt; String {
     // Implementation of JSON stringifier
     // ...
-    "".to_string() // Placeholder
+    &quot;&quot;.to_string() // Placeholder
 }
 
 proptest! {
@@ -1661,7 +1668,7 @@ proptest! {
             Just(JsonValue::Null),
             any::&lt;bool&gt;().prop_map(JsonValue::Bool),
             any::&lt;f64&gt;().prop_map(JsonValue::Number),
-            "\\PC{0,20}".prop_map(JsonValue::String),
+            &quot;\\PC{0,20}&quot;.prop_map(JsonValue::String),
             prop::collection::vec(Just(JsonValue::Null), 0..5)
                 .prop_map(JsonValue::Array)
         ]
@@ -1736,7 +1743,7 @@ mod tests {
 <p><strong>Combine with traditional tests</strong>: Use traditional tests for known edge cases and property tests for exploring the space of possible inputs.</p>
 </li>
 <li>
-<p><strong>Don’t filter too aggressively</strong>: If you’re filtering out most generated values, consider restructuring your strategy instead.</p>
+<p><strong>Don't filter too aggressively</strong>: If you're filtering out most generated values, consider restructuring your strategy instead.</p>
 </li>
 <li>
 <p><strong>Pay attention to performance</strong>: Property tests run many examples, so make sure your test code is efficient.</p>
@@ -1748,18 +1755,18 @@ mod tests {
 <p><strong>Consider model-based testing</strong>: Comparing against a simpler but correct implementation is a powerful approach to finding bugs.</p>
 </li>
 </ol>
-<p>In the next section, we’ll explore benchmarking in Rust, which helps you measure and optimize the performance of your code.</p>
+<p>In the next section, we'll explore benchmarking in Rust, which helps you measure and optimize the performance of your code.</p>
 <h2 id="benchmarking-with-criterion"><a class="header" href="#benchmarking-with-criterion">Benchmarking with criterion</a></h2>
-<p>Testing ensures your code works correctly, but it doesn’t tell you how fast it runs. Benchmarking fills this gap by measuring your code’s performance, helping you identify bottlenecks and validate optimizations.</p>
+<p>Testing ensures your code works correctly, but it doesn't tell you how fast it runs. Benchmarking fills this gap by measuring your code's performance, helping you identify bottlenecks and validate optimizations.</p>
 <h3 id="introduction-to-benchmarking-in-rust"><a class="header" href="#introduction-to-benchmarking-in-rust">Introduction to Benchmarking in Rust</a></h3>
-<p>While Rust’s standard library includes a benchmarking framework, it’s only available in nightly Rust. For stable Rust, <a href="https://crates.io/crates/criterion">criterion</a> is the most widely used benchmarking library. Criterion provides robust, statistically sound benchmarks with detailed analysis and pretty reports.</p>
+<p>While Rust's standard library includes a benchmarking framework, it's only available in nightly Rust. For stable Rust, <a href="https://crates.io/crates/criterion">criterion</a> is the most widely used benchmarking library. Criterion provides robust, statistically sound benchmarks with detailed analysis and pretty reports.</p>
 <h3 id="setting-up-criterion"><a class="header" href="#setting-up-criterion">Setting Up criterion</a></h3>
 <p>First, add criterion to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dev-dependencies]
-criterion = "0.4"
+criterion = &quot;0.4&quot;
 
 [[bench]]
-name = "my_benchmark"
+name = &quot;my_benchmark&quot;
 harness = false
 </code></pre>
 <p>Next, create a benchmark file at <code>benches/my_benchmark.rs</code>:</p>
@@ -1777,7 +1784,7 @@ fn fibonacci(n: u64) -&gt; u64 {
 }
 
 fn bench_fibonacci(c: &amp;mut Criterion) {
-    c.bench_function("fibonacci 20", |b| b.iter(|| fibonacci(black_box(20))));
+    c.bench_function(&quot;fibonacci 20&quot;, |b| b.iter(|| fibonacci(black_box(20))));
 }
 
 criterion_group!(benches, bench_fibonacci);
@@ -1804,9 +1811,9 @@ criterion_main!(benches);
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn bench_fibonacci(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("fibonacci");
+    let mut group = c.benchmark_group(&quot;fibonacci&quot;);
     for i in [5, 10, 15, 20].iter() {
-        group.bench_with_input(format!("fibonacci {}", i), i, |b, &amp;i| {
+        group.bench_with_input(format!(&quot;fibonacci {}&quot;, i), i, |b, &amp;i| {
             b.iter(|| fibonacci(black_box(i)))
         });
     }
@@ -1839,14 +1846,14 @@ fn fibonacci_iterative(n: u64) -&gt; u64 {
 }
 
 fn compare_fibonacci_implementations(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("fibonacci");
+    let mut group = c.benchmark_group(&quot;fibonacci&quot;);
 
     for i in [20, 25, 30].iter() {
-        group.bench_with_input(format!("recursive {}", i), i, |b, &amp;i| {
+        group.bench_with_input(format!(&quot;recursive {}&quot;, i), i, |b, &amp;i| {
             b.iter(|| fibonacci_recursive(black_box(i)))
         });
 
-        group.bench_with_input(format!("iterative {}", i), i, |b, &amp;i| {
+        group.bench_with_input(format!(&quot;iterative {}&quot;, i), i, |b, &amp;i| {
             b.iter(|| fibonacci_iterative(black_box(i)))
         });
     }
@@ -1860,9 +1867,9 @@ fn compare_fibonacci_implementations(c: &amp;mut Criterion) {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn bench_sort(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("sort");
+    let mut group = c.benchmark_group(&quot;sort&quot;);
 
-    group.bench_function("sort 1000 elements", |b| {
+    group.bench_function(&quot;sort 1000 elements&quot;, |b| {
         b.iter_batched(
             // Setup (executed before each iteration)
             || {
@@ -1883,7 +1890,7 @@ fn compare_fibonacci_implementations(c: &amp;mut Criterion) {
     group.finish();
 }
 <span class="boring">}</span></code></pre></pre>
-<p>This approach ensures that setup and cleanup time doesn’t affect your measurements.</p>
+<p>This approach ensures that setup and cleanup time doesn't affect your measurements.</p>
 <h3 id="advanced-benchmarking-techniques"><a class="header" href="#advanced-benchmarking-techniques">Advanced Benchmarking Techniques</a></h3>
 <h4 id="parameterized-benchmarks"><a class="header" href="#parameterized-benchmarks">Parameterized Benchmarks</a></h4>
 <p>You can use parameterized benchmarks to explore how performance varies with different inputs:</p>
@@ -1891,12 +1898,12 @@ fn compare_fibonacci_implementations(c: &amp;mut Criterion) {
 </span><span class="boring">fn main() {
 </span>fn bench_sorting(c: &amp;mut Criterion) {
     let sizes = [10, 100, 1000, 10000];
-    let mut group = c.benchmark_group("sorting");
+    let mut group = c.benchmark_group(&quot;sorting&quot;);
 
     for size in sizes.iter() {
         group.throughput(criterion::Throughput::Elements(*size as u64));
 
-        group.bench_with_input(format!("sort {}", size), size, |b, &amp;size| {
+        group.bench_with_input(format!(&quot;sort {}&quot;, size), size, |b, &amp;size| {
             b.iter_batched(
                 || {
                     let mut data: Vec&lt;i32&gt; = (0..size).collect();
@@ -1917,7 +1924,7 @@ fn compare_fibonacci_implementations(c: &amp;mut Criterion) {
 <span class="boring">}</span></code></pre></pre>
 <p>This measures not just time but throughput (elements sorted per second), which helps you understand scaling behavior.</p>
 <h4 id="measuring-memory-usage"><a class="header" href="#measuring-memory-usage">Measuring Memory Usage</a></h4>
-<p>Criterion focuses on time measurements, but you might also want to measure memory usage. For this, you’d need additional tools like <code>heaptrack</code> or custom instrumentation:</p>
+<p>Criterion focuses on time measurements, but you might also want to measure memory usage. For this, you'd need additional tools like <code>heaptrack</code> or custom instrumentation:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn memory_usage&lt;F, T&gt;(f: F) -&gt; (T, usize)
@@ -1946,7 +1953,7 @@ fn test_vector_memory() {
         vec
     });
 
-    println!("Created vector of size {} using {} bytes", vec.len(), bytes);
+    println!(&quot;Created vector of size {} using {} bytes&quot;, vec.len(), bytes);
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This is a simplified example—real memory profiling typically requires OS-specific tools or libraries.</p>
@@ -1991,7 +1998,7 @@ fn test_vector_memory() {
 <p><strong>Automatic Regression Detection</strong>: Configure CI to fail if performance degrades beyond a threshold.</p>
 </li>
 </ol>
-<p>Here’s a simplified example using GitHub Actions:</p>
+<p>Here's a simplified example using GitHub Actions:</p>
 <pre><code class="language-yaml"># .github/workflows/benchmark.yml
 name: Benchmark
 
@@ -2035,7 +2042,7 @@ async fn async_function(n: u64) -&gt; u64 {
 fn bench_async(c: &amp;mut Criterion) {
     let rt = Runtime::new().unwrap();
 
-    c.bench_function("async function", |b| {
+    c.bench_function(&quot;async function&quot;, |b| {
         b.to_async(&amp;rt).iter(|| async_function(black_box(42)))
     });
 }
@@ -2043,7 +2050,7 @@ fn bench_async(c: &amp;mut Criterion) {
 criterion_group!(benches, bench_async);
 criterion_main!(benches);
 <span class="boring">}</span></code></pre></pre>
-<p>This creates a Tokio runtime and uses criterion’s async benchmarking support to measure async functions.</p>
+<p>This creates a Tokio runtime and uses criterion's async benchmarking support to measure async functions.</p>
 <h3 id="combining-testing-and-benchmarking"><a class="header" href="#combining-testing-and-benchmarking">Combining Testing and Benchmarking</a></h3>
 <p>A comprehensive approach combines testing and benchmarking:</p>
 <ol>
@@ -2081,9 +2088,9 @@ mod tests {
 
 // Then, benchmark performance
 fn bench_sorting(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("sorting");
+    let mut group = c.benchmark_group(&quot;sorting&quot;);
 
-    group.bench_function("my_sort", |b| {
+    group.bench_function(&quot;my_sort&quot;, |b| {
         b.iter_batched(
             || {
                 let mut data: Vec&lt;i32&gt; = (0..1000).collect();
@@ -2098,7 +2105,7 @@ fn bench_sorting(c: &amp;mut Criterion) {
         )
     });
 
-    group.bench_function("std_sort", |b| {
+    group.bench_function(&quot;std_sort&quot;, |b| {
         b.iter_batched(
             || {
                 let mut data: Vec&lt;i32&gt; = (0..1000).collect();
@@ -2118,9 +2125,9 @@ fn bench_sorting(c: &amp;mut Criterion) {
 <span class="boring">}</span></code></pre></pre>
 <p>This approach ensures your implementation is both correct and efficient.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored Rust’s comprehensive testing ecosystem, from basic unit tests to advanced property-based testing and benchmarking. We’ve learned:</p>
+<p>In this chapter, we've explored Rust's comprehensive testing ecosystem, from basic unit tests to advanced property-based testing and benchmarking. We've learned:</p>
 <ul>
-<li>How to write unit tests using Rust’s built-in testing framework</li>
+<li>How to write unit tests using Rust's built-in testing framework</li>
 <li>Strategies for organizing tests in growing codebases</li>
 <li>How to write integration tests to verify that components work together</li>
 <li>The power of documentation tests to keep examples accurate and up-to-date</li>
@@ -2128,7 +2135,7 @@ fn bench_sorting(c: &amp;mut Criterion) {
 <li>How property-based testing can find edge cases you might not have thought of</li>
 <li>Methods for benchmarking and measuring performance with criterion</li>
 </ul>
-<p>Testing is a fundamental aspect of Rust development, and the language’s first-class support for testing reflects its emphasis on reliability and correctness. By incorporating these testing practices into your workflow, you’ll write more robust, maintainable Rust code with fewer bugs and better performance.</p>
+<p>Testing is a fundamental aspect of Rust development, and the language's first-class support for testing reflects its emphasis on reliability and correctness. By incorporating these testing practices into your workflow, you'll write more robust, maintainable Rust code with fewer bugs and better performance.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <h3 id="exercise-1-unit-test-practice"><a class="header" href="#exercise-1-unit-test-practice">Exercise 1: Unit Test Practice</a></h3>
 <p>Create a library crate with functions for basic operations on a <code>User</code> struct. Write comprehensive unit tests for each function, covering:</p>

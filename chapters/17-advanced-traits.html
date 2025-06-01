@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html" class="active"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,9 +184,9 @@
                     <main>
                         <h1 id="chapter-17-advanced-trait-patterns"><a class="header" href="#chapter-17-advanced-trait-patterns">Chapter 17: Advanced Trait Patterns</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In the previous chapter, we explored the fundamentals of traits and how they enable polymorphism in Rust. Now, we’ll delve deeper into more advanced trait patterns that allow us to build sophisticated abstractions while maintaining Rust’s guarantees of safety and performance.</p>
-<p>Advanced trait patterns are essential for creating flexible, reusable, and efficient code in Rust. These patterns leverage Rust’s type system to solve complex design problems that arise in larger codebases and libraries.</p>
-<p>In this chapter, we’ll explore:</p>
+<p>In the previous chapter, we explored the fundamentals of traits and how they enable polymorphism in Rust. Now, we'll delve deeper into more advanced trait patterns that allow us to build sophisticated abstractions while maintaining Rust's guarantees of safety and performance.</p>
+<p>Advanced trait patterns are essential for creating flexible, reusable, and efficient code in Rust. These patterns leverage Rust's type system to solve complex design problems that arise in larger codebases and libraries.</p>
+<p>In this chapter, we'll explore:</p>
 <ul>
 <li>Associated types and their role in trait design</li>
 <li>Generic associated types (GATs) and their use cases</li>
@@ -192,9 +199,9 @@
 <li>Building composable abstractions with traits</li>
 <li>Advanced trait design patterns</li>
 </ul>
-<p>By the end of this chapter, you’ll have a deeper understanding of Rust’s trait system and be able to leverage these advanced patterns to write more expressive, flexible, and maintainable code.</p>
+<p>By the end of this chapter, you'll have a deeper understanding of Rust's trait system and be able to leverage these advanced patterns to write more expressive, flexible, and maintainable code.</p>
 <h2 id="associated-types-vs-generic-parameters"><a class="header" href="#associated-types-vs-generic-parameters">Associated Types vs. Generic Parameters</a></h2>
-<p>We introduced associated types in the previous chapter. Now, let’s explore them in more depth and compare them with generic parameters.</p>
+<p>We introduced associated types in the previous chapter. Now, let's explore them in more depth and compare them with generic parameters.</p>
 <h3 id="when-to-use-associated-types"><a class="header" href="#when-to-use-associated-types">When to Use Associated Types</a></h3>
 <p>Associated types provide a way to define abstract type members within traits:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -216,7 +223,7 @@
 <p>Use associated types when:</p>
 <ul>
 <li>Each implementing type has a single natural implementation of the trait</li>
-<li>You want to enforce that there’s only one implementation for a given type</li>
+<li>You want to enforce that there's only one implementation for a given type</li>
 <li>You want to simplify type annotations</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -245,7 +252,7 @@ impl Iterator for Counter {
 <ul>
 <li>A type might implement the trait in multiple ways</li>
 <li>Each implementation depends on different types</li>
-<li>The type parameter appears multiple times in the trait’s methods</li>
+<li>The type parameter appears multiple times in the trait's methods</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -301,9 +308,9 @@ impl&lt;T&gt; Container for Vec&lt;T&gt; {
 <ol>
 <li>You need associated types that can refer to lifetimes</li>
 <li>You want to create generic iterators or streams</li>
-<li>You’re working with higher-ranked trait bounds</li>
+<li>You're working with higher-ranked trait bounds</li>
 </ol>
-<p>Here’s an example of using GATs to create a trait for streaming data:</p>
+<p>Here's an example of using GATs to create a trait for streaming data:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>#![feature(generic_associated_types)]
 
@@ -374,7 +381,7 @@ fn main() {
     let a = Complex { real: 1.0, imag: 2.0 };
     let b = Complex { real: 3.0, imag: 4.0 };
     let c = a + b;
-    println!("{:?}", c); // Complex { real: 4.0, imag: 6.0 }
+    println!(&quot;{:?}&quot;, c); // Complex { real: 4.0, imag: 6.0 }
 }</code></pre></pre>
 <h3 id="adding-different-types"><a class="header" href="#adding-different-types">Adding Different Types</a></h3>
 <p>You can also implement operators for different types using generics:</p>
@@ -432,7 +439,7 @@ struct NotThreadSafe {
 impl !Send for NotThreadSafe {}
 <span class="boring">}</span></code></pre></pre>
 <h4 id="sized"><a class="header" href="#sized">Sized</a></h4>
-<p>The <code>Sized</code> trait indicates that a type’s size is known at compile time. Most types in Rust are <code>Sized</code> by default, but you can work with unsized types using the <code>?Sized</code> bound:</p>
+<p>The <code>Sized</code> trait indicates that a type's size is known at compile time. Most types in Rust are <code>Sized</code> by default, but you can work with unsized types using the <code>?Sized</code> bound:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// T must be Sized
@@ -495,7 +502,7 @@ struct Wrapper&lt;T&gt;(T);
 // Implement Display for Wrapper&lt;T&gt; only if T implements Display
 impl&lt;T: Display&gt; Display for Wrapper&lt;T&gt; {
     fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-        write!(f, "Wrapper({})", self.0)
+        write!(f, &quot;Wrapper({})&quot;, self.0)
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -525,14 +532,14 @@ impl&lt;T: Display&gt; Serialize for T {
 // Default implementation for all types
 impl&lt;T&gt; MyTrait for T {
     default fn process(&amp;self) -&gt; String {
-        "generic".to_string()
+        &quot;generic&quot;.to_string()
     }
 }
 
 // Specialized implementation for strings
 impl MyTrait for String {
     fn process(&amp;self) -&gt; String {
-        format!("string: {}", self)
+        format!(&quot;string: {}&quot;, self)
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -544,7 +551,7 @@ impl MyTrait for String {
 </span>// Not yet stable syntax
 impl&lt;T: !Display&gt; MyTrait for T {
     fn process(&amp;self) -&gt; String {
-        "non-displayable".to_string()
+        &quot;non-displayable&quot;.to_string()
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -568,13 +575,13 @@ where
 // Different implementation for string types
 impl Serialize for String {
     fn serialize(&amp;self) -&gt; String {
-        format!("\"{}\"", self)
+        format!(&quot;\&quot;{}\&quot;&quot;, self)
     }
 }
 
 impl Serialize for &amp;str {
     fn serialize(&amp;self) -&gt; String {
-        format!("\"{}\"", self)
+        format!(&quot;\&quot;{}\&quot;&quot;, self)
     }
 }
 
@@ -584,20 +591,20 @@ impl&lt;T: Serialize&gt; Serialize for Vec&lt;T&gt; {
         let elements: Vec&lt;String&gt; = self.iter()
             .map(|e| e.serialize())
             .collect();
-        format!("[{}]", elements.join(", "))
+        format!(&quot;[{}]&quot;, elements.join(&quot;, &quot;))
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="supertraits-and-trait-inheritance"><a class="header" href="#supertraits-and-trait-inheritance">Supertraits and Trait Inheritance</a></h2>
-<p>Supertraits allow you to specify that a trait depends on another trait. This is the closest concept to inheritance in Rust’s trait system.</p>
+<p>Supertraits allow you to specify that a trait depends on another trait. This is the closest concept to inheritance in Rust's trait system.</p>
 <h3 id="basic-supertrait-example"><a class="header" href="#basic-supertrait-example">Basic Supertrait Example</a></h3>
 <pre><pre class="playground"><code class="language-rust">// Display is a supertrait of PrettyPrint
 trait PrettyPrint: Display {
     fn pretty_print(&amp;self) {
         let output = self.to_string();
-        println!("┌{}┐", "─".repeat(output.len() + 2));
-        println!("│ {} │", output);
-        println!("└{}┘", "─".repeat(output.len() + 2));
+        println!(&quot;┌{}┐&quot;, &quot;─&quot;.repeat(output.len() + 2));
+        println!(&quot;│ {} │&quot;, output);
+        println!(&quot;└{}┘&quot;, &quot;─&quot;.repeat(output.len() + 2));
     }
 }
 
@@ -605,7 +612,7 @@ trait PrettyPrint: Display {
 impl PrettyPrint for String {}
 
 fn main() {
-    let s = String::from("Hello");
+    let s = String::from(&quot;Hello&quot;);
     s.pretty_print();
 }</code></pre></pre>
 <p>In this example, <code>PrettyPrint</code> requires that any implementing type also implements <code>Display</code>. This allows the <code>pretty_print</code> method to call <code>to_string()</code>, which comes from the <code>Display</code> trait.</p>
@@ -616,9 +623,9 @@ fn main() {
 </span>trait FullyComparable: PartialEq + Eq + PartialOrd + Ord {
     fn compare_and_display(&amp;self, other: &amp;Self) {
         match self.cmp(other) {
-            std::cmp::Ordering::Less =&gt; println!("Less than"),
-            std::cmp::Ordering::Equal =&gt; println!("Equal"),
-            std::cmp::Ordering::Greater =&gt; println!("Greater than"),
+            std::cmp::Ordering::Less =&gt; println!(&quot;Less than&quot;),
+            std::cmp::Ordering::Equal =&gt; println!(&quot;Equal&quot;),
+            std::cmp::Ordering::Greater =&gt; println!(&quot;Greater than&quot;),
         }
     }
 }
@@ -634,7 +641,7 @@ impl FullyComparable for i32 {}
     fn noise(&amp;self) -&gt; &amp;str;
 
     fn talk(&amp;self) {
-        println!("{} says {}", self.name(), self.noise());
+        println!(&quot;{} says {}&quot;, self.name(), self.noise());
     }
 }
 
@@ -642,7 +649,7 @@ trait Pet: Animal {
     fn owner(&amp;self) -&gt; &amp;str;
 
     fn talk(&amp;self) {
-        println!("{} belongs to {} and says {}",
+        println!(&quot;{} belongs to {} and says {}&quot;,
             self.name(), self.owner(), self.noise());
     }
 }
@@ -658,7 +665,7 @@ impl Animal for Cat {
     }
 
     fn noise(&amp;self) -&gt; &amp;str {
-        "meow"
+        &quot;meow&quot;
     }
 }
 
@@ -679,7 +686,7 @@ impl Pet for Cat {
 // First implement the supertrait
 impl std::fmt::Display for Circle {
     fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-        write!(f, "Circle with radius {}", self.radius)
+        write!(f, &quot;Circle with radius {}&quot;, self.radius)
     }
 }
 
@@ -714,20 +721,20 @@ fn handle_ui_element(element: &amp;(dyn Drawable + Clickable)) {
 
 impl Drawable for Button {
     fn draw(&amp;self) {
-        println!("Drawing button '{}' at {:?} with size {:?}",
+        println!(&quot;Drawing button '{}' at {:?} with size {:?}&quot;,
             self.label, self.position, self.dimensions);
     }
 }
 
 impl Clickable for Button {
     fn click(&amp;self) {
-        println!("Button '{}' clicked!", self.label);
+        println!(&quot;Button '{}' clicked!&quot;, self.label);
     }
 }
 
 fn main() {
     let button = Button {
-        label: String::from("OK"),
+        label: String::from(&quot;OK&quot;),
         position: (100, 100),
         dimensions: (50, 20),
     };
@@ -766,9 +773,9 @@ impl UiElement {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="object-safety-considerations"><a class="header" href="#object-safety-considerations">Object Safety Considerations</a></h3>
-<p>For a trait to be used in a trait object, it must be “object safe.” When combining multiple traits, all traits must be object safe. A trait is object safe if:</p>
+<p>For a trait to be used in a trait object, it must be &quot;object safe.&quot; When combining multiple traits, all traits must be object safe. A trait is object safe if:</p>
 <ol>
-<li>It doesn’t require <code>Self: Sized</code></li>
+<li>It doesn't require <code>Self: Sized</code></li>
 <li>All methods are object safe:
 <ul>
 <li>No generic methods</li>
@@ -790,7 +797,7 @@ trait Drawable {
 }
 
 // You can't create this trait object
-// let obj: Box&lt;dyn Clone&gt; = Box::new(String::from("hello"));
+// let obj: Box&lt;dyn Clone&gt; = Box::new(String::from(&quot;hello&quot;));
 
 // But you can create this one
 let obj: Box&lt;dyn Drawable&gt; = Box::new(Button { /* ... */ });
@@ -824,11 +831,11 @@ fn main() {
 
     // Use the iterator
     for i in counter {
-        println!("{}", i);
+        println!(&quot;{}&quot;, i);
     }
 }</code></pre></pre>
 <h3 id="iterator-adapters"><a class="header" href="#iterator-adapters">Iterator Adapters</a></h3>
-<p>Once you’ve implemented the <code>Iterator</code> trait, your type automatically gets access to all the iterator adapters provided by the standard library:</p>
+<p>Once you've implemented the <code>Iterator</code> trait, your type automatically gets access to all the iterator adapters provided by the standard library:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let counter = Counter { count: 0, max: 10 };
@@ -840,10 +847,10 @@ let sum: usize = counter
     .take(3)                  // Take only the first 3 results
     .sum();                   // Sum them up
 
-println!("Sum: {}", sum);  // Outputs: 20 (0² + 2² + 4²)
+println!(&quot;Sum: {}&quot;, sum);  // Outputs: 20 (0² + 2² + 4²)
 <span class="boring">}</span></code></pre></pre>
 <h3 id="advanced-iterator-implementations"><a class="header" href="#advanced-iterator-implementations">Advanced Iterator Implementations</a></h3>
-<p>Let’s implement a more complex iterator for binary tree traversal:</p>
+<p>Let's implement a more complex iterator for binary tree traversal:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum BinaryTree&lt;T&gt; {
@@ -965,7 +972,7 @@ fn main() {
 
     // Use our custom adapter
     for i in numbers.iter().step_by_custom(3) {
-        println!("{}", i);  // Prints 1, 4, 7, 10
+        println!(&quot;{}&quot;, i);  // Prints 1, 4, 7, 10
     }
 }</code></pre></pre>
 <h3 id="intoiterator-trait"><a class="header" href="#intoiterator-trait">IntoIterator Trait</a></h3>
@@ -983,11 +990,11 @@ fn main() {
 
 // Now you can use it directly in a for loop
 for i in Counter { count: 0, max: 5 } {
-    println!("{}", i);
+    println!(&quot;{}&quot;, i);
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="building-composable-abstractions-with-traits"><a class="header" href="#building-composable-abstractions-with-traits">Building Composable Abstractions with Traits</a></h2>
-<p>One of the most powerful aspects of Rust’s trait system is its ability to build composable abstractions. By designing traits that work together, you can create flexible and reusable components.</p>
+<p>One of the most powerful aspects of Rust's trait system is its ability to build composable abstractions. By designing traits that work together, you can create flexible and reusable components.</p>
 <h3 id="composition-vs-inheritance"><a class="header" href="#composition-vs-inheritance">Composition vs. Inheritance</a></h3>
 <p>Unlike object-oriented languages that rely on inheritance for code reuse, Rust encourages composition. Instead of creating deep inheritance hierarchies, you can compose behavior using multiple traits:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1014,7 +1021,7 @@ struct Rectangle {
 
 impl Drawable for Rectangle {
     fn draw(&amp;self) {
-        println!("Drawing rectangle at ({}, {}) with dimensions {}x{}",
+        println!(&quot;Drawing rectangle at ({}, {}) with dimensions {}x{}&quot;,
             self.x, self.y, self.width, self.height);
     }
 }
@@ -1085,7 +1092,7 @@ struct ConsoleLogger;
 
 impl Logger for ConsoleLogger {
     fn log(&amp;self, message: &amp;str) {
-        println!("{}", message);
+        println!(&quot;{}&quot;, message);
     }
 }
 
@@ -1100,7 +1107,7 @@ impl&lt;L: Logger&gt; Logger for TimestampDecorator&lt;L&gt; {
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_secs();
-        self.logger.log(&amp;format!("[{}] {}", timestamp, message));
+        self.logger.log(&amp;format!(&quot;[{}] {}&quot;, timestamp, message));
     }
 }
 
@@ -1111,7 +1118,7 @@ struct LevelDecorator&lt;L: Logger&gt; {
 
 impl&lt;L: Logger&gt; Logger for LevelDecorator&lt;L&gt; {
     fn log(&amp;self, message: &amp;str) {
-        self.logger.log(&amp;format!("[{}] {}", self.level, message));
+        self.logger.log(&amp;format!(&quot;[{}] {}&quot;, self.level, message));
     }
 }
 
@@ -1125,11 +1132,11 @@ fn main() {
     // Further decorate it with a level
     let logger = LevelDecorator {
         logger,
-        level: "INFO".to_string()
+        level: &quot;INFO&quot;.to_string()
     };
 
     // Use the decorated logger
-    logger.log("Application started");
+    logger.log(&quot;Application started&quot;);
     // Output: [1627984567] [INFO] Application started
 }</code></pre></pre>
 <h3 id="the-strategy-pattern"><a class="header" href="#the-strategy-pattern">The Strategy Pattern</a></h3>
@@ -1184,13 +1191,13 @@ fn main() {
     // Use quick sort
     let sorter = Sorter::new(QuickSort);
     sorter.sort(&amp;mut data);
-    println!("{:?}", data);
+    println!(&quot;{:?}&quot;, data);
 
     // Use bubble sort
     let mut data = vec![3, 1, 5, 2, 4];
     let sorter = Sorter::new(BubbleSort);
     sorter.sort(&amp;mut data);
-    println!("{:?}", data);
+    println!(&quot;{:?}&quot;, data);
 }</code></pre></pre>
 <h3 id="the-observer-pattern"><a class="header" href="#the-observer-pattern">The Observer Pattern</a></h3>
 <p>The observer pattern is a behavioral pattern where objects (observers) are notified of changes in another object (the subject):</p>
@@ -1233,7 +1240,7 @@ struct ConcreteObserver {
 
 impl Observer for ConcreteObserver {
     fn update(&amp;self, message: &amp;str) {
-        println!("Observer {} received message: {}", self.name, message);
+        println!(&quot;Observer {} received message: {}&quot;, self.name, message);
     }
 }
 
@@ -1241,16 +1248,16 @@ fn main() {
     let mut subject = Subject::new();
 
     subject.attach(Box::new(ConcreteObserver {
-        name: "Observer 1".to_string()
+        name: &quot;Observer 1&quot;.to_string()
     }));
     subject.attach(Box::new(ConcreteObserver {
-        name: "Observer 2".to_string()
+        name: &quot;Observer 2&quot;.to_string()
     }));
 
-    subject.set_state("New state!".to_string());
+    subject.set_state(&quot;New state!&quot;.to_string());
 }</code></pre></pre>
 <h2 id="advanced-trait-design-patterns"><a class="header" href="#advanced-trait-design-patterns">Advanced Trait Design Patterns</a></h2>
-<p>We’ve seen several design patterns that leverage Rust’s trait system. Here are a few more advanced patterns that are particularly well-suited to Rust:</p>
+<p>We've seen several design patterns that leverage Rust's trait system. Here are a few more advanced patterns that are particularly well-suited to Rust:</p>
 <h3 id="the-newtype-pattern"><a class="header" href="#the-newtype-pattern">The Newtype Pattern</a></h3>
 <p>The newtype pattern creates a new type that wraps an existing type. This is useful for:</p>
 <ol>
@@ -1277,7 +1284,7 @@ fn get_user(id: UserId) -&gt; Option&lt;User&gt; {
 // let user = get_user(product_id);  // Type error!
 <span class="boring">}</span></code></pre></pre>
 <h3 id="type-level-state-machines"><a class="header" href="#type-level-state-machines">Type-Level State Machines</a></h3>
-<p>Rust’s type system can encode state transitions at compile time:</p>
+<p>Rust's type system can encode state transitions at compile time:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// State traits
@@ -1355,12 +1362,12 @@ impl Document&lt;PendingReviewState&gt; {
 // Methods only available in Published state
 impl Document&lt;PublishedState&gt; {
     fn get_published_date(&amp;self) -&gt; String {
-        "2023-07-28".to_string() // Simplified for example
+        &quot;2023-07-28&quot;.to_string() // Simplified for example
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="project-custom-iterator-implementation"><a class="header" href="#project-custom-iterator-implementation">Project: Custom Iterator Implementation</a></h2>
-<p>Let’s put our knowledge of advanced trait patterns to work by implementing a complex iterator. We’ll create a flexible pagination iterator that can be used with any collection and supports configurable page sizes and pagination behavior.</p>
+<p>Let's put our knowledge of advanced trait patterns to work by implementing a complex iterator. We'll create a flexible pagination iterator that can be used with any collection and supports configurable page sizes and pagination behavior.</p>
 <pre><pre class="playground"><code class="language-rust">use std::marker::PhantomData;
 
 /// A trait for types that can be paginated
@@ -1506,11 +1513,11 @@ fn main() {
     // Use the default configuration (page size = 10)
     let paginator = items.paginate_default();
 
-    println!("Total pages: {}", paginator.total_pages());
+    println!(&quot;Total pages: {}&quot;, paginator.total_pages());
 
     // Iterate over each page
     for (i, page) in paginator.enumerate() {
-        println!("Page {}: {:?}", i + 1, page);
+        println!(&quot;Page {}: {:?}&quot;, i + 1, page);
     }
 
     // Custom configuration
@@ -1521,7 +1528,7 @@ fn main() {
 
     let paginator = items.paginate(config);
 
-    println!("Total pages with custom config: {}", paginator.total_pages());
+    println!(&quot;Total pages with custom config: {}&quot;, paginator.total_pages());
 
     // Process pages in parallel using rayon
     // paginator.collect::&lt;Vec&lt;_&gt;&gt;().par_iter().for_each(|page| {
@@ -1555,12 +1562,12 @@ impl Pageable&lt;String&gt; for Database {
 // Now we can paginate our custom database
 fn database_example() {
     let db = Database {
-        items: (1..=100).map(|i| format!("Item {}", i)).collect(),
+        items: (1..=100).map(|i| format!(&quot;Item {}&quot;, i)).collect(),
     };
 
     for page in db.paginate_default() {
         // Process each page
-        println!("Processing page with {} items", page.len());
+        println!(&quot;Processing page with {} items&quot;, page.len());
     }
 }</code></pre></pre>
 <p>This implementation showcases several advanced trait patterns:</p>
@@ -1574,20 +1581,20 @@ fn database_example() {
 </ol>
 <p>The paginator is flexible and can be used with any collection that implements the <code>Pageable</code> trait. It can be configured with different page sizes and behaviors, making it a powerful and reusable component.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored advanced trait patterns in Rust. We’ve learned:</p>
+<p>In this chapter, we've explored advanced trait patterns in Rust. We've learned:</p>
 <ul>
 <li>How to use associated types and when to prefer them over generic parameters</li>
 <li>The new generic associated types (GATs) feature and its applications</li>
 <li>How to overload operators using traits</li>
-<li>The role of marker traits and auto traits in Rust’s type system</li>
+<li>The role of marker traits and auto traits in Rust's type system</li>
 <li>How to implement traits conditionally using trait bounds</li>
 <li>How supertraits enable trait inheritance and extension</li>
 <li>Working with trait objects that combine multiple traits</li>
 <li>Implementing the Iterator trait and creating custom iterators</li>
 <li>Building composable abstractions with traits</li>
-<li>Advanced design patterns enabled by Rust’s trait system</li>
+<li>Advanced design patterns enabled by Rust's trait system</li>
 </ul>
-<p>By mastering these advanced trait patterns, you’ll be able to create more flexible, reusable, and type-safe abstractions in your Rust code. Traits are the cornerstone of Rust’s approach to polymorphism and code organization, and understanding how to use them effectively will make you a more productive Rust programmer.</p>
+<p>By mastering these advanced trait patterns, you'll be able to create more flexible, reusable, and type-safe abstractions in your Rust code. Traits are the cornerstone of Rust's approach to polymorphism and code organization, and understanding how to use them effectively will make you a more productive Rust programmer.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html" class="active"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,21 +184,21 @@
                     <main>
                         <h1 id="chapter-24-concurrency-fundamentals"><a class="header" href="#chapter-24-concurrency-fundamentals">Chapter 24: Concurrency Fundamentals</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Concurrency is a foundational concept in modern programming, enabling software to effectively utilize multi-core processors and handle multiple tasks simultaneously. Rust’s approach to concurrency is one of its most distinctive features—it provides powerful concurrency primitives while enforcing safety at compile time through its ownership system.</p>
-<p>Unlike many other languages where concurrency bugs can lurk until runtime, Rust’s compiler prevents data races and many other concurrency hazards before your program even runs. The mantra “fearless concurrency” aptly describes how Rust empowers developers to write concurrent code with confidence.</p>
-<p>In this chapter, we’ll explore Rust’s concurrency model from the ground up. We’ll start with the fundamental building blocks of threads, move through various synchronization mechanisms, and build toward more sophisticated concurrency patterns. By the end, you’ll understand not only how to write concurrent Rust code, but also why Rust’s approach to concurrency is revolutionizing how we think about parallel programming.</p>
-<p>Whether you’re building high-performance servers, data processing pipelines, or responsive user interfaces, the skills you learn in this chapter will help you write code that effectively harnesses the full power of modern hardware while maintaining Rust’s guarantees of safety and reliability.</p>
+<p>Concurrency is a foundational concept in modern programming, enabling software to effectively utilize multi-core processors and handle multiple tasks simultaneously. Rust's approach to concurrency is one of its most distinctive features—it provides powerful concurrency primitives while enforcing safety at compile time through its ownership system.</p>
+<p>Unlike many other languages where concurrency bugs can lurk until runtime, Rust's compiler prevents data races and many other concurrency hazards before your program even runs. The mantra &quot;fearless concurrency&quot; aptly describes how Rust empowers developers to write concurrent code with confidence.</p>
+<p>In this chapter, we'll explore Rust's concurrency model from the ground up. We'll start with the fundamental building blocks of threads, move through various synchronization mechanisms, and build toward more sophisticated concurrency patterns. By the end, you'll understand not only how to write concurrent Rust code, but also why Rust's approach to concurrency is revolutionizing how we think about parallel programming.</p>
+<p>Whether you're building high-performance servers, data processing pipelines, or responsive user interfaces, the skills you learn in this chapter will help you write code that effectively harnesses the full power of modern hardware while maintaining Rust's guarantees of safety and reliability.</p>
 <h2 id="understanding-concurrency-vs-parallelism"><a class="header" href="#understanding-concurrency-vs-parallelism">Understanding Concurrency vs Parallelism</a></h2>
-<p>Before diving into Rust’s concurrency features, it’s essential to understand the distinction between concurrency and parallelism—related concepts that are often confused.</p>
+<p>Before diving into Rust's concurrency features, it's essential to understand the distinction between concurrency and parallelism—related concepts that are often confused.</p>
 <h3 id="concurrency-dealing-with-multiple-tasks"><a class="header" href="#concurrency-dealing-with-multiple-tasks">Concurrency: Dealing with Multiple Tasks</a></h3>
-<p>Concurrency refers to the ability to handle multiple tasks in overlapping time periods. It’s about the structure of a program—how it’s composed of independently executing processes. A concurrent program has multiple logical threads of control, but those threads might not be executing simultaneously.</p>
-<p>Think of concurrency as juggling multiple balls. You’re not literally handling all the balls at the same time; you’re quickly switching between them, ensuring that each ball gets enough attention to stay in the air.</p>
+<p>Concurrency refers to the ability to handle multiple tasks in overlapping time periods. It's about the structure of a program—how it's composed of independently executing processes. A concurrent program has multiple logical threads of control, but those threads might not be executing simultaneously.</p>
+<p>Think of concurrency as juggling multiple balls. You're not literally handling all the balls at the same time; you're quickly switching between them, ensuring that each ball gets enough attention to stay in the air.</p>
 <h3 id="parallelism-doing-multiple-tasks-simultaneously"><a class="header" href="#parallelism-doing-multiple-tasks-simultaneously">Parallelism: Doing Multiple Tasks Simultaneously</a></h3>
 <p>Parallelism, on the other hand, is about execution. A parallel program actively executes multiple tasks at the exact same time, typically on different processor cores. Parallelism requires hardware with multiple processing units.</p>
 <p>To extend our analogy, parallelism is like having multiple jugglers, each handling their own balls independently.</p>
 <h3 id="the-relationship-between-concurrency-and-parallelism"><a class="header" href="#the-relationship-between-concurrency-and-parallelism">The Relationship Between Concurrency and Parallelism</a></h3>
-<p>Concurrency is about structure; parallelism is about execution. A program can be concurrent without being parallel (executing on a single core by interleaving tasks), but parallelism requires some form of concurrency in the program’s design.</p>
-<p>Here’s a simple example to illustrate the difference:</p>
+<p>Concurrency is about structure; parallelism is about execution. A program can be concurrent without being parallel (executing on a single core by interleaving tasks), but parallelism requires some form of concurrency in the program's design.</p>
+<p>Here's a simple example to illustrate the difference:</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 use std::time::Duration;
 
@@ -200,14 +207,14 @@ fn main() {
     // (depending on your system and the OS scheduler)
     let handle1 = thread::spawn(|| {
         for i in 1..=5 {
-            println!("Thread 1: {}", i);
+            println!(&quot;Thread 1: {}&quot;, i);
             thread::sleep(Duration::from_millis(500));
         }
     });
 
     let handle2 = thread::spawn(|| {
         for i in 1..=5 {
-            println!("Thread 2: {}", i);
+            println!(&quot;Thread 2: {}&quot;, i);
             thread::sleep(Duration::from_millis(500));
         }
     });
@@ -218,21 +225,21 @@ fn main() {
 }</code></pre></pre>
 <p>Running this program on a multi-core system will likely result in parallel execution, with both threads running simultaneously on different cores. On a single-core system, the threads would still be concurrent, but the CPU would rapidly switch between them to create the illusion of parallelism.</p>
 <h3 id="why-this-distinction-matters-in-rust"><a class="header" href="#why-this-distinction-matters-in-rust">Why This Distinction Matters in Rust</a></h3>
-<p>Rust’s concurrency model is designed to address both concurrency and parallelism effectively:</p>
+<p>Rust's concurrency model is designed to address both concurrency and parallelism effectively:</p>
 <ol>
 <li>
-<p><strong>Concurrency Safety</strong>: Rust’s ownership system prevents data races at compile time, making concurrent programming safer.</p>
+<p><strong>Concurrency Safety</strong>: Rust's ownership system prevents data races at compile time, making concurrent programming safer.</p>
 </li>
 <li>
-<p><strong>Parallelism Efficiency</strong>: Rust’s zero-cost abstractions ensure that concurrent code can be efficiently parallelized without runtime overhead.</p>
+<p><strong>Parallelism Efficiency</strong>: Rust's zero-cost abstractions ensure that concurrent code can be efficiently parallelized without runtime overhead.</p>
 </li>
 <li>
 <p><strong>Scalability</strong>: Rust programs can seamlessly scale from single-core to multi-core execution without changing the underlying safety guarantees.</p>
 </li>
 </ol>
-<p>In the following sections, we’ll explore how Rust implements these concepts through threads, synchronization primitives, and message passing.</p>
+<p>In the following sections, we'll explore how Rust implements these concepts through threads, synchronization primitives, and message passing.</p>
 <h2 id="threads-and-threadspawn"><a class="header" href="#threads-and-threadspawn">Threads and thread::spawn</a></h2>
-<p>At the foundation of Rust’s concurrency model are threads—independent sequences of execution that can run concurrently within a program. Rust provides a native threading API through the <code>std::thread</code> module.</p>
+<p>At the foundation of Rust's concurrency model are threads—independent sequences of execution that can run concurrently within a program. Rust provides a native threading API through the <code>std::thread</code> module.</p>
 <h3 id="creating-threads-with-spawn"><a class="header" href="#creating-threads-with-spawn">Creating Threads with spawn</a></h3>
 <p>The most basic way to create a thread in Rust is with <code>thread::spawn</code>, which takes a closure containing the code to be executed in the new thread:</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
@@ -241,11 +248,11 @@ fn main() {
     // Spawn a new thread
     let handle = thread::spawn(|| {
         // This code runs in a new thread
-        println!("Hello from a thread!");
+        println!(&quot;Hello from a thread!&quot;);
     });
 
     // This code runs in the main thread
-    println!("Hello from the main thread!");
+    println!(&quot;Hello from the main thread!&quot;);
 
     // Wait for the spawned thread to finish
     handle.join().unwrap();
@@ -260,17 +267,17 @@ fn main() {
     let handle = thread::spawn(|| {
         // Simulate a long-running operation
         thread::sleep(Duration::from_secs(2));
-        println!("Thread finished!");
+        println!(&quot;Thread finished!&quot;);
     });
 
-    println!("Waiting for thread to finish...");
+    println!(&quot;Waiting for thread to finish...&quot;);
 
     // Block until the thread completes
     handle.join().unwrap();
 
-    println!("Main thread continuing after join");
+    println!(&quot;Main thread continuing after join&quot;);
 }</code></pre></pre>
-<p>If you don’t call <code>join()</code>, the main thread might finish and exit the program before the spawned thread has a chance to complete its work.</p>
+<p>If you don't call <code>join()</code>, the main thread might finish and exit the program before the spawned thread has a chance to complete its work.</p>
 <h3 id="thread-return-values"><a class="header" href="#thread-return-values">Thread Return Values</a></h3>
 <p>Threads can return values, which become available when <code>join()</code> is called:</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
@@ -286,38 +293,38 @@ fn main() {
 
     // Retrieve the thread's return value
     let result = handle.join().unwrap();
-    println!("Thread returned: {}", result);
+    println!(&quot;Thread returned: {}&quot;, result);
 }</code></pre></pre>
-<p>The <code>join</code> method returns a <code>Result&lt;T&gt;</code> where <code>T</code> is the return type of the thread’s closure. If the thread panicked, <code>join</code> will return an <code>Err</code> containing the panic payload.</p>
+<p>The <code>join</code> method returns a <code>Result&lt;T&gt;</code> where <code>T</code> is the return type of the thread's closure. If the thread panicked, <code>join</code> will return an <code>Err</code> containing the panic payload.</p>
 <h3 id="capturing-environment-with-move"><a class="header" href="#capturing-environment-with-move">Capturing Environment with move</a></h3>
-<p>Closures passed to <code>thread::spawn</code> often need to access variables from their enclosing scope. However, due to Rust’s ownership rules, the closure must take ownership of any values it references from the surrounding environment. This is where the <code>move</code> keyword comes in:</p>
+<p>Closures passed to <code>thread::spawn</code> often need to access variables from their enclosing scope. However, due to Rust's ownership rules, the closure must take ownership of any values it references from the surrounding environment. This is where the <code>move</code> keyword comes in:</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 
 fn main() {
-    let message = String::from("Hello from a captured variable!");
+    let message = String::from(&quot;Hello from a captured variable!&quot;);
 
     // Use move to transfer ownership of message to the thread
     let handle = thread::spawn(move || {
-        println!("{}", message);
+        println!(&quot;{}&quot;, message);
     });
 
     // Can't use message here anymore because ownership was transferred
-    // println!("{}", message); // This would cause a compilation error
+    // println!(&quot;{}&quot;, message); // This would cause a compilation error
 
     handle.join().unwrap();
 }</code></pre></pre>
-<p>Without the <code>move</code> keyword, the closure would try to borrow <code>message</code>, but the compiler can’t guarantee that the main thread won’t invalidate this reference before or during the spawned thread’s execution.</p>
+<p>Without the <code>move</code> keyword, the closure would try to borrow <code>message</code>, but the compiler can't guarantee that the main thread won't invalidate this reference before or during the spawned thread's execution.</p>
 <h3 id="thread-builder"><a class="header" href="#thread-builder">Thread Builder</a></h3>
 <p>For more control over thread creation, Rust provides the <code>Builder</code> API:</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 
 fn main() {
     let builder = thread::Builder::new()
-        .name("custom-thread".into())
+        .name(&quot;custom-thread&quot;.into())
         .stack_size(32 * 1024); // 32KB stack
 
     let handle = builder.spawn(|| {
-        println!("Running in thread named: {:?}", thread::current().name());
+        println!(&quot;Running in thread named: {:?}&quot;, thread::current().name());
     }).unwrap();
 
     handle.join().unwrap();
@@ -336,14 +343,14 @@ fn main() {
     let handle1 = thread::spawn(|| {
         COUNTER.with(|counter| {
             *counter.borrow_mut() += 1;
-            println!("Thread 1: counter = {}", *counter.borrow());
+            println!(&quot;Thread 1: counter = {}&quot;, *counter.borrow());
         });
     });
 
     let handle2 = thread::spawn(|| {
         COUNTER.with(|counter| {
             *counter.borrow_mut() += 1;
-            println!("Thread 2: counter = {}", *counter.borrow());
+            println!(&quot;Thread 2: counter = {}&quot;, *counter.borrow());
         });
     });
 
@@ -351,7 +358,7 @@ fn main() {
     handle2.join().unwrap();
 
     COUNTER.with(|counter| {
-        println!("Main thread: counter = {}", *counter.borrow());
+        println!(&quot;Main thread: counter = {}&quot;, *counter.borrow());
     });
 }</code></pre></pre>
 <p>Each thread gets its own independent copy of the thread-local storage, which can be useful for tracking per-thread state without synchronization overhead.</p>
@@ -362,9 +369,9 @@ use std::time::Duration;
 
 fn main() {
     let handle = thread::spawn(|| {
-        println!("Thread going to park");
+        println!(&quot;Thread going to park&quot;);
         thread::park();
-        println!("Thread unparked and continuing");
+        println!(&quot;Thread unparked and continuing&quot;);
     });
 
     // Give the thread time to park
@@ -376,13 +383,13 @@ fn main() {
 }</code></pre></pre>
 <p>The <code>park</code> method suspends the current thread until it is unparked, which can be useful for implementing condition variables and other synchronization primitives.</p>
 <h2 id="thread-safety-guarantees"><a class="header" href="#thread-safety-guarantees">Thread Safety Guarantees</a></h2>
-<p>One of Rust’s most celebrated features is its ability to prevent data races at compile time. This is achieved through a combination of the ownership system, type system, and trait system, which together enforce thread safety.</p>
+<p>One of Rust's most celebrated features is its ability to prevent data races at compile time. This is achieved through a combination of the ownership system, type system, and trait system, which together enforce thread safety.</p>
 <h3 id="data-races-and-why-they-matter"><a class="header" href="#data-races-and-why-they-matter">Data Races and Why They Matter</a></h3>
 <p>A data race occurs when:</p>
 <ol>
 <li>Two or more threads access the same memory location concurrently</li>
 <li>At least one of the accesses is a write</li>
-<li>There’s no synchronization mechanism controlling the accesses</li>
+<li>There's no synchronization mechanism controlling the accesses</li>
 </ol>
 <p>Data races lead to undefined behavior, which can manifest as subtle and hard-to-reproduce bugs, crashes, or security vulnerabilities.</p>
 <h3 id="how-rust-prevents-data-races"><a class="header" href="#how-rust-prevents-data-races">How Rust Prevents Data Races</a></h3>
@@ -391,9 +398,9 @@ fn main() {
 <li><strong><code>Send</code></strong>: Types that can be safely transferred between threads</li>
 <li><strong><code>Sync</code></strong>: Types that can be safely shared between threads (via references)</li>
 </ul>
-<p>The compiler enforces these traits automatically, preventing you from sharing data between threads unless it’s safe to do so.</p>
+<p>The compiler enforces these traits automatically, preventing you from sharing data between threads unless it's safe to do so.</p>
 <h3 id="the-send-trait"><a class="header" href="#the-send-trait">The Send Trait</a></h3>
-<p>A type is <code>Send</code> if it’s safe to transfer ownership of values of that type between threads. Most Rust types are <code>Send</code>, with a few notable exceptions:</p>
+<p>A type is <code>Send</code> if it's safe to transfer ownership of values of that type between threads. Most Rust types are <code>Send</code>, with a few notable exceptions:</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 use std::rc::Rc;
 
@@ -402,21 +409,21 @@ fn main() {
 
     // This would fail to compile:
     // let handle = thread::spawn(move || {
-    //     println!("The answer is: {}", *data);
+    //     println!(&quot;The answer is: {}&quot;, *data);
     // });
 
     // Instead, we can use Arc, which is Send:
     let data = std::sync::Arc::new(42);
 
     let handle = thread::spawn(move || {
-        println!("The answer is: {}", *data);
+        println!(&quot;The answer is: {}&quot;, *data);
     });
 
     handle.join().unwrap();
 }</code></pre></pre>
 <p><code>Rc</code> (Reference Counted) is not thread-safe and thus not <code>Send</code>. Attempting to move it across thread boundaries will result in a compilation error. <code>Arc</code> (Atomic Reference Counted) is the thread-safe alternative.</p>
 <h3 id="the-sync-trait"><a class="header" href="#the-sync-trait">The Sync Trait</a></h3>
-<p>A type is <code>Sync</code> if it’s safe to share references to values of that type between threads. Mathematically, a type <code>T</code> is <code>Sync</code> if and only if <code>&amp;T</code> is <code>Send</code>.</p>
+<p>A type is <code>Sync</code> if it's safe to share references to values of that type between threads. Mathematically, a type <code>T</code> is <code>Sync</code> if and only if <code>&amp;T</code> is <code>Send</code>.</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 use std::cell::RefCell;
 use std::sync::{Arc, Mutex};
@@ -439,9 +446,9 @@ fn main() {
     });
 
     handle.join().unwrap();
-    println!("Final value: {}", *data.lock().unwrap());
+    println!(&quot;Final value: {}&quot;, *data.lock().unwrap());
 }</code></pre></pre>
-<p><code>RefCell</code> provides interior mutability, but it’s not thread-safe and thus not <code>Sync</code>. <code>Mutex</code> is the thread-safe alternative that provides similar functionality.</p>
+<p><code>RefCell</code> provides interior mutability, but it's not thread-safe and thus not <code>Sync</code>. <code>Mutex</code> is the thread-safe alternative that provides similar functionality.</p>
 <h3 id="implementing-send-and-sync"><a class="header" href="#implementing-send-and-sync">Implementing Send and Sync</a></h3>
 <p>Most types automatically implement <code>Send</code> and <code>Sync</code> based on their constituent parts. However, you can explicitly implement (or not implement) these traits:</p>
 <pre><pre class="playground"><code class="language-rust">use std::marker::{Send, Sync};
@@ -460,20 +467,20 @@ fn main() {
     let data = MyNonThreadSafeType { data: 42 };
 
     let handle = std::thread::spawn(move || {
-        println!("Data in thread: {}", data.data);
+        println!(&quot;Data in thread: {}&quot;, data.data);
     });
 
     handle.join().unwrap();
 }</code></pre></pre>
-<p>This is an unsafe operation because you’re bypassing Rust’s safety checks. Only do this if you’re absolutely certain your type is thread-safe and you understand the concurrency implications.</p>
+<p>This is an unsafe operation because you're bypassing Rust's safety checks. Only do this if you're absolutely certain your type is thread-safe and you understand the concurrency implications.</p>
 <h3 id="thread-safety-at-the-type-level"><a class="header" href="#thread-safety-at-the-type-level">Thread Safety at the Type Level</a></h3>
-<p>Rust’s approach to thread safety is unique because it’s enforced at the type level, during compilation. This means:</p>
+<p>Rust's approach to thread safety is unique because it's enforced at the type level, during compilation. This means:</p>
 <ol>
 <li>Thread safety bugs are caught before your program runs</li>
-<li>There’s no runtime overhead for these checks</li>
+<li>There's no runtime overhead for these checks</li>
 <li>The compiler can optimize code knowing certain race conditions are impossible</li>
 </ol>
-<p>This type-level approach is what enables “fearless concurrency” in Rust—you can write concurrent code with confidence, knowing that many common concurrency bugs are impossible by design.</p>
+<p>This type-level approach is what enables &quot;fearless concurrency&quot; in Rust—you can write concurrent code with confidence, knowing that many common concurrency bugs are impossible by design.</p>
 <h2 id="race-conditions-and-data-races"><a class="header" href="#race-conditions-and-data-races">Race Conditions and Data Races</a></h2>
 <p>When writing concurrent code, there are two related but distinct problems that can arise: race conditions and data races. Understanding the difference is crucial for writing correct concurrent programs.</p>
 <h3 id="what-is-a-data-race"><a class="header" href="#what-is-a-data-race">What is a Data Race?</a></h3>
@@ -481,13 +488,13 @@ fn main() {
 <ol>
 <li>Two or more threads access the same memory location concurrently</li>
 <li>At least one of the accesses is a write</li>
-<li>There’s no synchronization mechanism controlling the accesses</li>
+<li>There's no synchronization mechanism controlling the accesses</li>
 </ol>
 <p>Data races lead to undefined behavior in languages like C and C++. In Rust, the type system prevents data races at compile time, making them impossible in safe code.</p>
 <h3 id="what-is-a-race-condition"><a class="header" href="#what-is-a-race-condition">What is a Race Condition?</a></h3>
 <p>A race condition is a broader concept than a data race. It occurs when the correctness of a program depends on the relative timing or interleaving of multiple threads or processes. Even with proper synchronization that prevents data races, race conditions can still occur.</p>
 <h3 id="an-example-of-a-race-condition"><a class="header" href="#an-example-of-a-race-condition">An Example of a Race Condition</a></h3>
-<p>Let’s look at a simple example that demonstrates a race condition but not a data race:</p>
+<p>Let's look at a simple example that demonstrates a race condition but not a data race:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
 use std::thread;
 
@@ -514,16 +521,16 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final count: {}", *counter.lock().unwrap());
+    println!(&quot;Final count: {}&quot;, *counter.lock().unwrap());
 }</code></pre></pre>
-<p>This code has a race condition but not a data race. The <code>Mutex</code> prevents data races by ensuring that only one thread can access the counter at a time. However, there’s still a race condition because:</p>
+<p>This code has a race condition but not a data race. The <code>Mutex</code> prevents data races by ensuring that only one thread can access the counter at a time. However, there's still a race condition because:</p>
 <ol>
 <li>A thread reads the current value</li>
 <li>It then releases the lock</li>
 <li>Other threads may modify the value</li>
-<li>When the original thread re-acquires the lock and writes, it’s based on a stale value</li>
+<li>When the original thread re-acquires the lock and writes, it's based on a stale value</li>
 </ol>
-<p>This is a classic “check-then-act” race condition. The solution is to hold the lock across both the read and write operations:</p>
+<p>This is a classic &quot;check-then-act&quot; race condition. The solution is to hold the lock across both the read and write operations:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
 use std::thread;
 
@@ -550,7 +557,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final count: {}", *counter.lock().unwrap());
+    println!(&quot;Final count: {}&quot;, *counter.lock().unwrap());
 }</code></pre></pre>
 <h3 id="atomicity-and-ordering"><a class="header" href="#atomicity-and-ordering">Atomicity and Ordering</a></h3>
 <p>Race conditions often involve issues of atomicity (operations that must be performed as a single, indivisible unit) and ordering (the sequence in which operations occur).</p>
@@ -576,9 +583,9 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final count: {}", counter.load(Ordering::SeqCst));
+    println!(&quot;Final count: {}&quot;, counter.load(Ordering::SeqCst));
 }</code></pre></pre>
-<p>This won’t compile because <code>counter</code> is not shared between threads. Let’s fix that:</p>
+<p>This won't compile because <code>counter</code> is not shared between threads. Let's fix that:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::thread;
@@ -602,7 +609,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final count: {}", counter.load(Ordering::SeqCst));
+    println!(&quot;Final count: {}&quot;, counter.load(Ordering::SeqCst));
 }</code></pre></pre>
 <h3 id="detecting-race-conditions"><a class="header" href="#detecting-race-conditions">Detecting Race Conditions</a></h3>
 <p>Unlike data races, which Rust prevents at compile time, race conditions can still occur in Rust programs and can be difficult to detect. Here are some strategies to identify and fix race conditions:</p>
@@ -624,7 +631,7 @@ fn main() {
 <p>Safe concurrent programming often requires sharing state between threads. Rust provides several tools for this, with <code>Mutex</code> and <code>Arc</code> being among the most important.</p>
 <h3 id="mutex-mutual-exclusion"><a class="header" href="#mutex-mutual-exclusion">Mutex: Mutual Exclusion</a></h3>
 <p>A mutex (mutual exclusion) ensures that only one thread can access a piece of data at a time. In Rust, the <code>Mutex&lt;T&gt;</code> type wraps a value of type <code>T</code> and ensures exclusive access.</p>
-<p>Here’s a basic example:</p>
+<p>Here's a basic example:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::Mutex;
 use std::thread;
 
@@ -645,12 +652,12 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Result: {}", *counter.lock().unwrap());
+    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
 }</code></pre></pre>
-<p>This code won’t compile! The problem is that <code>counter</code> is moved into the first thread, leaving nothing for subsequent iterations. This is where <code>Arc</code> comes in.</p>
+<p>This code won't compile! The problem is that <code>counter</code> is moved into the first thread, leaving nothing for subsequent iterations. This is where <code>Arc</code> comes in.</p>
 <h3 id="arc-atomic-reference-counting"><a class="header" href="#arc-atomic-reference-counting">Arc: Atomic Reference Counting</a></h3>
-<p><code>Arc</code> (Atomic Reference Counting) provides shared ownership of a value across multiple threads. It’s similar to <code>Rc</code>, but it uses atomic operations for its reference counting, making it thread-safe.</p>
-<p>Let’s fix our example:</p>
+<p><code>Arc</code> (Atomic Reference Counting) provides shared ownership of a value across multiple threads. It's similar to <code>Rc</code>, but it uses atomic operations for its reference counting, making it thread-safe.</p>
+<p>Let's fix our example:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
 use std::thread;
 
@@ -671,12 +678,12 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Result: {}", *counter.lock().unwrap());
+    println!(&quot;Result: {}&quot;, *counter.lock().unwrap());
 }</code></pre></pre>
 <p>Now our code compiles and works correctly. <code>Arc</code> allows multiple threads to have shared ownership of the <code>Mutex</code>, and <code>Mutex</code> ensures that only one thread can access the value at a time.</p>
 <h3 id="understanding-lock-and-poisoning"><a class="header" href="#understanding-lock-and-poisoning">Understanding lock() and Poisoning</a></h3>
 <p>The <code>lock()</code> method on a <code>Mutex</code> returns a <code>LockResult&lt;MutexGuard&lt;T&gt;&gt;</code>. The <code>MutexGuard</code> is a smart pointer that automatically releases the lock when it goes out of scope.</p>
-<p>If a thread panics while holding a <code>Mutex</code> lock, the mutex becomes “poisoned.” This means that future attempts to lock the mutex will return an error. This is a safety feature to prevent other threads from seeing inconsistent state:</p>
+<p>If a thread panics while holding a <code>Mutex</code> lock, the mutex becomes &quot;poisoned.&quot; This means that future attempts to lock the mutex will return an error. This is a safety feature to prevent other threads from seeing inconsistent state:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
 use std::thread;
 
@@ -688,7 +695,7 @@ fn main() {
         let mut num = counter_clone.lock().unwrap();
         *num += 1;
         // This thread will panic
-        panic!("Oh no!");
+        panic!(&quot;Oh no!&quot;);
     });
 
     // Wait for the thread to finish or panic
@@ -697,14 +704,14 @@ fn main() {
     // Trying to lock a poisoned mutex
     match counter.lock() {
         Ok(mut num) =&gt; {
-            println!("Successfully acquired lock: {}", *num);
+            println!(&quot;Successfully acquired lock: {}&quot;, *num);
             *num += 1;
         }
         Err(poisoned) =&gt; {
-            println!("Mutex is poisoned. Recovering...");
+            println!(&quot;Mutex is poisoned. Recovering...&quot;);
             let mut num = poisoned.into_inner();
             *num += 1;
-            println!("Recovered value: {}", *num);
+            println!(&quot;Recovered value: {}&quot;, *num);
         }
     }
 }</code></pre></pre>
@@ -722,7 +729,7 @@ fn main() {
         let data = Arc::clone(&amp;data);
         let handle = thread::spawn(move || {
             let values = data.read().unwrap();
-            println!("Reader {}: {:?}", i, *values);
+            println!(&quot;Reader {}: {:?}&quot;, i, *values);
         });
         handles.push(handle);
     }
@@ -733,7 +740,7 @@ fn main() {
         let handle = thread::spawn(move || {
             let mut values = data.write().unwrap();
             values.push(4);
-            println!("Writer: {:?}", *values);
+            println!(&quot;Writer: {:?}&quot;, *values);
         });
         handles.push(handle);
     }
@@ -742,7 +749,7 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Final data: {:?}", *data.read().unwrap());
+    println!(&quot;Final data: {:?}&quot;, *data.read().unwrap());
 }</code></pre></pre>
 <p><code>RwLock</code> allows any number of threads to hold a read lock simultaneously, but only one thread can hold a write lock, and no read locks can be held while a write lock is active.</p>
 <h3 id="mutex-vs-rwlock-performance-considerations"><a class="header" href="#mutex-vs-rwlock-performance-considerations">Mutex vs RwLock Performance Considerations</a></h3>
@@ -765,7 +772,7 @@ fn main() {
 </ul>
 </li>
 </ul>
-<p>Here’s a simple benchmark:</p>
+<p>Here's a simple benchmark:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex, RwLock};
 use std::thread;
 use std::time::{Duration, Instant};
@@ -805,7 +812,7 @@ fn benchmark_mutex(iterations: usize, read_percentage: usize, num_threads: usize
         handle.join().unwrap();
     }
 
-    println!("Mutex: {:?}", start.elapsed());
+    println!(&quot;Mutex: {:?}&quot;, start.elapsed());
 }
 
 fn benchmark_rwlock(iterations: usize, read_percentage: usize, num_threads: usize) {
@@ -834,10 +841,10 @@ fn benchmark_rwlock(iterations: usize, read_percentage: usize, num_threads: usiz
         handle.join().unwrap();
     }
 
-    println!("RwLock: {:?}", start.elapsed());
+    println!(&quot;RwLock: {:?}&quot;, start.elapsed());
 }</code></pre></pre>
 <h3 id="deadlocks-and-how-to-avoid-them"><a class="header" href="#deadlocks-and-how-to-avoid-them">Deadlocks and How to Avoid Them</a></h3>
-<p>A deadlock occurs when two or more threads are blocked forever, each waiting for resources held by others. Here’s a simple example of a deadlock:</p>
+<p>A deadlock occurs when two or more threads are blocked forever, each waiting for resources held by others. Here's a simple example of a deadlock:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -850,30 +857,30 @@ fn main() {
     let mutex_b_clone = Arc::clone(&amp;mutex_b);
 
     let thread_a = thread::spawn(move || {
-        println!("Thread A: Trying to lock mutex A");
+        println!(&quot;Thread A: Trying to lock mutex A&quot;);
         let mut a = mutex_a_clone.lock().unwrap();
-        println!("Thread A: Locked mutex A");
+        println!(&quot;Thread A: Locked mutex A&quot;);
 
         thread::sleep(Duration::from_millis(100));
 
-        println!("Thread A: Trying to lock mutex B");
+        println!(&quot;Thread A: Trying to lock mutex B&quot;);
         let mut b = mutex_b_clone.lock().unwrap();
-        println!("Thread A: Locked mutex B");
+        println!(&quot;Thread A: Locked mutex B&quot;);
 
         *a += 1;
         *b += 1;
     });
 
     let thread_b = thread::spawn(move || {
-        println!("Thread B: Trying to lock mutex B");
+        println!(&quot;Thread B: Trying to lock mutex B&quot;);
         let mut b = mutex_b.lock().unwrap();
-        println!("Thread B: Locked mutex B");
+        println!(&quot;Thread B: Locked mutex B&quot;);
 
         thread::sleep(Duration::from_millis(100));
 
-        println!("Thread B: Trying to lock mutex A");
+        println!(&quot;Thread B: Trying to lock mutex A&quot;);
         let mut a = mutex_a.lock().unwrap();
-        println!("Thread B: Locked mutex A");
+        println!(&quot;Thread B: Locked mutex A&quot;);
 
         *a += 1;
         *b += 1;
@@ -895,7 +902,7 @@ fn main() {
 <li><strong>Avoid nested locks</strong>: Minimize the need to hold multiple locks at once</li>
 <li><strong>Fine-grained locking</strong>: Use smaller, more focused locks instead of large, coarse-grained ones</li>
 </ol>
-<p>Here’s the fixed version with consistent lock ordering:</p>
+<p>Here's the fixed version with consistent lock ordering:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -909,15 +916,15 @@ fn main() {
 
     let thread_a = thread::spawn(move || {
         // Always lock mutex_a first, then mutex_b
-        println!("Thread A: Trying to lock mutex A");
+        println!(&quot;Thread A: Trying to lock mutex A&quot;);
         let mut a = mutex_a_clone.lock().unwrap();
-        println!("Thread A: Locked mutex A");
+        println!(&quot;Thread A: Locked mutex A&quot;);
 
         thread::sleep(Duration::from_millis(100));
 
-        println!("Thread A: Trying to lock mutex B");
+        println!(&quot;Thread A: Trying to lock mutex B&quot;);
         let mut b = mutex_b_clone.lock().unwrap();
-        println!("Thread A: Locked mutex B");
+        println!(&quot;Thread A: Locked mutex B&quot;);
 
         *a += 1;
         *b += 1;
@@ -925,15 +932,15 @@ fn main() {
 
     let thread_b = thread::spawn(move || {
         // Also lock mutex_a first, then mutex_b
-        println!("Thread B: Trying to lock mutex A");
+        println!(&quot;Thread B: Trying to lock mutex A&quot;);
         let mut a = mutex_a.lock().unwrap();
-        println!("Thread B: Locked mutex A");
+        println!(&quot;Thread B: Locked mutex A&quot;);
 
         thread::sleep(Duration::from_millis(100));
 
-        println!("Thread B: Trying to lock mutex B");
+        println!(&quot;Thread B: Trying to lock mutex B&quot;);
         let mut b = mutex_b.lock().unwrap();
-        println!("Thread B: Locked mutex B");
+        println!(&quot;Thread B: Locked mutex B&quot;);
 
         *a += 1;
         *b += 1;
@@ -943,7 +950,7 @@ fn main() {
     thread_b.join().unwrap();
 }</code></pre></pre>
 <h3 id="beyond-standard-library-parking_lot"><a class="header" href="#beyond-standard-library-parking_lot">Beyond Standard Library: parking_lot</a></h3>
-<p>The standard library’s synchronization primitives are robust and safe, but sometimes you need more features or better performance. The <code>parking_lot</code> crate provides alternative implementations of <code>Mutex</code>, <code>RwLock</code>, and other synchronization primitives:</p>
+<p>The standard library's synchronization primitives are robust and safe, but sometimes you need more features or better performance. The <code>parking_lot</code> crate provides alternative implementations of <code>Mutex</code>, <code>RwLock</code>, and other synchronization primitives:</p>
 <pre><pre class="playground"><code class="language-rust">use parking_lot::{Mutex, RwLock};
 use std::sync::Arc;
 use std::thread;
@@ -966,17 +973,17 @@ fn main() {
         handle.join().unwrap();
     }
 
-    println!("Result: {}", *counter.lock());
+    println!(&quot;Result: {}&quot;, *counter.lock());
 }</code></pre></pre>
 <p>Advantages of <code>parking_lot</code> over standard library synchronization primitives:</p>
 <ol>
 <li><strong>Performance</strong>: Often faster, especially under contention</li>
-<li><strong>No poisoning</strong>: Locks don’t get poisoned when a thread panics</li>
+<li><strong>No poisoning</strong>: Locks don't get poisoned when a thread panics</li>
 <li><strong>More features</strong>: Timeouts, try-locking, and fair locks</li>
 <li><strong>Smaller size</strong>: Takes up less memory</li>
 </ol>
 <h3 id="thread-local-storage-vs-shared-state"><a class="header" href="#thread-local-storage-vs-shared-state">Thread-Local Storage vs Shared State</a></h3>
-<p>Sometimes, instead of sharing state between threads, it’s better to give each thread its own local copy of the data. Rust provides thread-local storage via the <code>thread_local!</code> macro:</p>
+<p>Sometimes, instead of sharing state between threads, it's better to give each thread its own local copy of the data. Rust provides thread-local storage via the <code>thread_local!</code> macro:</p>
 <pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
 use std::thread;
 
@@ -989,14 +996,14 @@ fn main() {
     let handle1 = thread::spawn(|| {
         COUNTER.with(|counter| {
             *counter.borrow_mut() += 1;
-            println!("Thread 1: {}", *counter.borrow());
+            println!(&quot;Thread 1: {}&quot;, *counter.borrow());
         });
     });
 
     let handle2 = thread::spawn(|| {
         COUNTER.with(|counter| {
             *counter.borrow_mut() += 1;
-            println!("Thread 2: {}", *counter.borrow());
+            println!(&quot;Thread 2: {}&quot;, *counter.borrow());
         });
     });
 
@@ -1004,10 +1011,10 @@ fn main() {
     handle2.join().unwrap();
 
     COUNTER.with(|counter| {
-        println!("Main thread: {}", *counter.borrow());
+        println!(&quot;Main thread: {}&quot;, *counter.borrow());
     });
 }</code></pre></pre>
-<p>In this example, each thread gets its own independent counter, so there’s no need for synchronization.</p>
+<p>In this example, each thread gets its own independent counter, so there's no need for synchronization.</p>
 <h3 id="choosing-between-sharing-strategies"><a class="header" href="#choosing-between-sharing-strategies">Choosing Between Sharing Strategies</a></h3>
 <p>When designing concurrent systems, you have several options for handling shared state:</p>
 <ol>
@@ -1015,7 +1022,7 @@ fn main() {
 <p><strong>Thread-local storage</strong>: Each thread has its own copy</p>
 <ul>
 <li>Pros: No synchronization needed, very fast</li>
-<li>Cons: Data isn’t shared, may need to combine results later</li>
+<li>Cons: Data isn't shared, may need to combine results later</li>
 </ul>
 </li>
 <li>
@@ -1035,10 +1042,10 @@ fn main() {
 </ol>
 <p>Choose the approach that best fits your specific use case, considering factors like data size, access patterns, and performance requirements.</p>
 <h2 id="channels-and-message-passing"><a class="header" href="#channels-and-message-passing">Channels and Message Passing</a></h2>
-<p>While sharing state with synchronization primitives like <code>Mutex</code> and <code>Arc</code> is powerful, an alternative approach to concurrency is message passing. Instead of sharing memory, threads communicate by sending messages to each other. This paradigm is summed up by the saying: “Do not communicate by sharing memory; instead, share memory by communicating.”</p>
+<p>While sharing state with synchronization primitives like <code>Mutex</code> and <code>Arc</code> is powerful, an alternative approach to concurrency is message passing. Instead of sharing memory, threads communicate by sending messages to each other. This paradigm is summed up by the saying: &quot;Do not communicate by sharing memory; instead, share memory by communicating.&quot;</p>
 <h3 id="basic-channel-operations"><a class="header" href="#basic-channel-operations">Basic Channel Operations</a></h3>
-<p>Rust provides channels through the <code>std::sync::mpsc</code> module, where “mpsc” stands for “multiple producer, single consumer”. This means that multiple threads can send messages, but only one thread can receive them.</p>
-<p>Here’s a basic example:</p>
+<p>Rust provides channels through the <code>std::sync::mpsc</code> module, where &quot;mpsc&quot; stands for &quot;multiple producer, single consumer&quot;. This means that multiple threads can send messages, but only one thread can receive them.</p>
+<p>Here's a basic example:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
 use std::thread;
 
@@ -1049,16 +1056,16 @@ fn main() {
     // Spawn a thread that will send a message
     thread::spawn(move || {
         // Send a message
-        tx.send("Hello from another thread!").unwrap();
+        tx.send(&quot;Hello from another thread!&quot;).unwrap();
     });
 
     // Receive the message in the main thread
     let message = rx.recv().unwrap();
-    println!("Received: {}", message);
+    println!(&quot;Received: {}&quot;, message);
 }</code></pre></pre>
 <p>In this example, we create a channel with <code>mpsc::channel()</code>, which returns a tuple containing a sender (<code>tx</code>) and a receiver (<code>rx</code>). We then spawn a thread that sends a message through the channel, and the main thread receives it.</p>
 <h3 id="multiple-producers"><a class="header" href="#multiple-producers">Multiple Producers</a></h3>
-<p>The “mp” in “mpsc” means that multiple threads can send messages through the same channel. Let’s see how this works:</p>
+<p>The &quot;mp&quot; in &quot;mpsc&quot; means that multiple threads can send messages through the same channel. Let's see how this works:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -1073,33 +1080,33 @@ fn main() {
 
     // Spawn thread 1
     thread::spawn(move || {
-        tx1.send("Hello from thread 1").unwrap();
+        tx1.send(&quot;Hello from thread 1&quot;).unwrap();
         thread::sleep(Duration::from_millis(100));
-        tx1.send("Thread 1 again").unwrap();
+        tx1.send(&quot;Thread 1 again&quot;).unwrap();
     });
 
     // Spawn thread 2
     thread::spawn(move || {
         thread::sleep(Duration::from_millis(50));
-        tx2.send("Hello from thread 2").unwrap();
+        tx2.send(&quot;Hello from thread 2&quot;).unwrap();
         thread::sleep(Duration::from_millis(100));
-        tx2.send("Thread 2 again").unwrap();
+        tx2.send(&quot;Thread 2 again&quot;).unwrap();
     });
 
     // Original sender in the main thread
-    tx.send("Hello from main thread").unwrap();
+    tx.send(&quot;Hello from main thread&quot;).unwrap();
 
     // Drop the original sender to ensure proper cleanup
     drop(tx);
 
     // Receive all messages
     for message in rx {
-        println!("Received: {}", message);
+        println!(&quot;Received: {}&quot;, message);
     }
 }</code></pre></pre>
 <p>By cloning the sender (<code>tx</code>), we can have multiple threads sending messages through the same channel.</p>
 <h3 id="synchronous-vs-asynchronous-channels"><a class="header" href="#synchronous-vs-asynchronous-channels">Synchronous vs. Asynchronous Channels</a></h3>
-<p>The standard <code>mpsc::channel()</code> is asynchronous, meaning the sender doesn’t wait for the receiver to process the message. Rust also provides a synchronous channel with <code>mpsc::sync_channel()</code>, which has a bounded buffer:</p>
+<p>The standard <code>mpsc::channel()</code> is asynchronous, meaning the sender doesn't wait for the receiver to process the message. Rust also provides a synchronous channel with <code>mpsc::sync_channel()</code>, which has a bounded buffer:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -1109,26 +1116,26 @@ fn main() {
     let (tx, rx) = mpsc::sync_channel(2);
 
     thread::spawn(move || {
-        println!("Sending message 1");
+        println!(&quot;Sending message 1&quot;);
         tx.send(1).unwrap();
 
-        println!("Sending message 2");
+        println!(&quot;Sending message 2&quot;);
         tx.send(2).unwrap();
 
-        println!("Sending message 3 (this will block until a message is received)");
+        println!(&quot;Sending message 3 (this will block until a message is received)&quot;);
         tx.send(3).unwrap();
 
-        println!("Message 3 was received, continuing...");
+        println!(&quot;Message 3 was received, continuing...&quot;);
         tx.send(4).unwrap();
 
-        println!("All messages sent");
+        println!(&quot;All messages sent&quot;);
     });
 
     // Simulate a slow receiver
     thread::sleep(Duration::from_secs(2));
 
     for message in rx {
-        println!("Received: {}", message);
+        println!(&quot;Received: {}&quot;, message);
         thread::sleep(Duration::from_millis(500));
     }
 }</code></pre></pre>
@@ -1143,18 +1150,18 @@ fn main() {
 
     thread::spawn(move || {
         // Create a string in this thread
-        let message = String::from("Hello from another thread");
+        let message = String::from(&quot;Hello from another thread&quot;);
 
         // Send ownership of the string to the receiver
         tx.send(message).unwrap();
 
         // We can no longer use message here because ownership was transferred
-        // println!("After sending: {}", message); // This would cause a compilation error
+        // println!(&quot;After sending: {}&quot;, message); // This would cause a compilation error
     });
 
     // Receive ownership of the string
     let received = rx.recv().unwrap();
-    println!("Received: {}", received);
+    println!(&quot;Received: {}&quot;, received);
 }</code></pre></pre>
 <p>This ownership transfer ensures that only one thread has access to the data at a time, preventing data races.</p>
 <h3 id="error-handling-with-channels"><a class="header" href="#error-handling-with-channels">Error Handling with Channels</a></h3>
@@ -1175,9 +1182,9 @@ fn main() {
         thread::sleep(Duration::from_secs(1));
 
         // At this point, the receiver might have been dropped
-        match tx.send("Hello") {
-            Ok(()) =&gt; println!("Message sent successfully"),
-            Err(e) =&gt; println!("Failed to send: {}", e),
+        match tx.send(&quot;Hello&quot;) {
+            Ok(()) =&gt; println!(&quot;Message sent successfully&quot;),
+            Err(e) =&gt; println!(&quot;Failed to send: {}&quot;, e),
         }
     });
 
@@ -1195,8 +1202,8 @@ fn main() {
 
     // Now try to receive
     match rx.recv() {
-        Ok(msg) =&gt; println!("Received: {}", msg),
-        Err(e) =&gt; println!("Failed to receive: {}", e),
+        Ok(msg) =&gt; println!(&quot;Received: {}&quot;, msg),
+        Err(e) =&gt; println!(&quot;Failed to receive: {}&quot;, e),
     }
 }</code></pre></pre>
 <h2 id="thread-pools"><a class="header" href="#thread-pools">Thread Pools</a></h2>
@@ -1210,7 +1217,7 @@ fn main() {
 <li><strong>Resource management</strong>: Prevent thread exhaustion</li>
 </ol>
 <h3 id="basic-thread-pool-implementation"><a class="header" href="#basic-thread-pool-implementation">Basic Thread Pool Implementation</a></h3>
-<p>Let’s implement a simple thread pool to understand the core concepts:</p>
+<p>Let's implement a simple thread pool to understand the core concepts:</p>
 <pre><pre class="playground"><code class="language-rust">use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 
@@ -1255,7 +1262,7 @@ impl Drop for ThreadPool {
         drop(self.sender.take());
 
         for worker in &amp;mut self.workers {
-            println!("Shutting down worker {}", worker.id);
+            println!(&quot;Shutting down worker {}&quot;, worker.id);
 
             if let Some(thread) = worker.thread.take() {
                 thread.join().unwrap();
@@ -1276,11 +1283,11 @@ impl Worker {
 
             match message {
                 Ok(job) =&gt; {
-                    println!("Worker {}: got a job; executing.", id);
+                    println!(&quot;Worker {}: got a job; executing.&quot;, id);
                     job();
                 }
                 Err(_) =&gt; {
-                    println!("Worker {}: disconnected; shutting down.", id);
+                    println!(&quot;Worker {}: disconnected; shutting down.&quot;, id);
                     break;
                 }
             }
@@ -1298,27 +1305,27 @@ fn main() {
 
     for i in 0..8 {
         pool.execute(move || {
-            println!("Processing task {}", i);
+            println!(&quot;Processing task {}&quot;, i);
             thread::sleep(std::time::Duration::from_secs(1));
-            println!("Task {} completed", i);
+            println!(&quot;Task {} completed&quot;, i);
         });
     }
 
     // The pool will be dropped at the end of main, which will
     // shut down all workers gracefully.
-    println!("All tasks submitted");
+    println!(&quot;All tasks submitted&quot;);
 }</code></pre></pre>
 <p>This thread pool creates a fixed number of worker threads and distributes jobs among them using a channel.</p>
 <h2 id="parallel-iterators"><a class="header" href="#parallel-iterators">Parallel Iterators</a></h2>
 <p>Parallel iterators are one of the most powerful tools for writing concurrent code in Rust. They allow you to perform operations on collections in parallel with minimal effort.</p>
 <h3 id="introduction-to-parallel-iterators"><a class="header" href="#introduction-to-parallel-iterators">Introduction to Parallel Iterators</a></h3>
-<p>The <code>rayon</code> crate provides parallel versions of Rust’s standard iterators. The main entry points are:</p>
+<p>The <code>rayon</code> crate provides parallel versions of Rust's standard iterators. The main entry points are:</p>
 <ul>
 <li><code>par_iter()</code>: Parallel immutable iterator</li>
 <li><code>par_iter_mut()</code>: Parallel mutable iterator</li>
 <li><code>into_par_iter()</code>: Parallel iterator that consumes the collection</li>
 </ul>
-<p>Let’s see a basic example:</p>
+<p>Let's see a basic example:</p>
 <pre><pre class="playground"><code class="language-rust">use rayon::prelude::*;
 
 fn main() {
@@ -1336,8 +1343,8 @@ fn main() {
         .filter(|&amp;x| x % 2 == 0)
         .sum();
 
-    println!("Sequential sum: {}", sum_sequential);
-    println!("Parallel sum: {}", sum_parallel);
+    println!(&quot;Sequential sum: {}&quot;, sum_sequential);
+    println!(&quot;Parallel sum: {}&quot;, sum_parallel);
     assert_eq!(sum_sequential, sum_parallel);
 }</code></pre></pre>
 <p>By changing <code>iter()</code> to <code>par_iter()</code>, we make the computation parallel with minimal code changes.</p>
@@ -1350,29 +1357,29 @@ fn main() {
 
     // Parallel map
     let squares: Vec&lt;i32&gt; = v.par_iter().map(|&amp;x| x * x).collect();
-    println!("Squares: {:?}", squares);
+    println!(&quot;Squares: {:?}&quot;, squares);
 
     // Parallel filter
     let evens: Vec&lt;i32&gt; = v.par_iter().filter(|&amp;&amp;x| x % 2 == 0).cloned().collect();
-    println!("Evens: {:?}", evens);
+    println!(&quot;Evens: {:?}&quot;, evens);
 
     // Parallel fold (similar to reduce)
     let sum = v.par_iter().fold(|| 0, |acc, &amp;x| acc + x);
-    println!("Sum: {}", sum);
+    println!(&quot;Sum: {}&quot;, sum);
 
     // Parallel reduce
     let product = v.par_iter()
         .cloned()
         .reduce(|| 1, |a, b| a * b);
-    println!("Product: {}", product);
+    println!(&quot;Product: {}&quot;, product);
 
     // Parallel for_each
     v.par_iter().for_each(|&amp;x| {
-        println!("Processing: {}", x);
+        println!(&quot;Processing: {}&quot;, x);
     });
 }</code></pre></pre>
 <h3 id="comparing-sequential-and-parallel-performance"><a class="header" href="#comparing-sequential-and-parallel-performance">Comparing Sequential and Parallel Performance</a></h3>
-<p>Let’s benchmark parallel iterators against sequential ones:</p>
+<p>Let's benchmark parallel iterators against sequential ones:</p>
 <pre><pre class="playground"><code class="language-rust">use rayon::prelude::*;
 use std::time::Instant;
 
@@ -1388,18 +1395,18 @@ fn main() {
     let start = Instant::now();
     let sum_sequential: i64 = v.iter().map(|&amp;x| x * x).sum();
     let sequential_time = start.elapsed();
-    println!("Sequential: {:?}", sequential_time);
+    println!(&quot;Sequential: {:?}&quot;, sequential_time);
 
     // Benchmark parallel
     let start = Instant::now();
     let sum_parallel: i64 = v.par_iter().map(|&amp;x| x * x).sum();
     let parallel_time = start.elapsed();
-    println!("Parallel: {:?}", parallel_time);
+    println!(&quot;Parallel: {:?}&quot;, parallel_time);
 
-    println!("Speedup: {:.2}x", sequential_time.as_secs_f64() / parallel_time.as_secs_f64());
+    println!(&quot;Speedup: {:.2}x&quot;, sequential_time.as_secs_f64() / parallel_time.as_secs_f64());
     assert_eq!(sum_sequential, sum_parallel);
 }</code></pre></pre>
-<p>The speedup you’ll see depends on:</p>
+<p>The speedup you'll see depends on:</p>
 <ol>
 <li>The number of cores in your system</li>
 <li>The complexity of the computation</li>
@@ -1407,7 +1414,7 @@ fn main() {
 <li>The overhead of parallelization</li>
 </ol>
 <h2 id="project-parallel-web-scraper"><a class="header" href="#project-parallel-web-scraper">Project: Parallel Web Scraper</a></h2>
-<p>Let’s apply what we’ve learned to build a practical project—a parallel web scraper that fetches and processes multiple web pages simultaneously.</p>
+<p>Let's apply what we've learned to build a practical project—a parallel web scraper that fetches and processes multiple web pages simultaneously.</p>
 <h3 id="project-outline"><a class="header" href="#project-outline">Project Outline</a></h3>
 <p>Our web scraper will:</p>
 <ol>
@@ -1417,16 +1424,16 @@ fn main() {
 <li>Save the results to a file</li>
 </ol>
 <h3 id="dependencies"><a class="header" href="#dependencies">Dependencies</a></h3>
-<p>First, let’s define the dependencies we’ll need in our <code>Cargo.toml</code>:</p>
+<p>First, let's define the dependencies we'll need in our <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-reqwest = { version = "0.11", features = ["blocking"] }
-rayon = "1.5"
-scraper = "0.13"
-url = "2.2"
-anyhow = "1.0"
+reqwest = { version = &quot;0.11&quot;, features = [&quot;blocking&quot;] }
+rayon = &quot;1.5&quot;
+scraper = &quot;0.13&quot;
+url = &quot;2.2&quot;
+anyhow = &quot;1.0&quot;
 </code></pre>
 <h3 id="basic-structure"><a class="header" href="#basic-structure">Basic Structure</a></h3>
-<p>Here’s the implementation of our parallel web scraper:</p>
+<p>Here's the implementation of our parallel web scraper:</p>
 <pre><pre class="playground"><code class="language-rust">use anyhow::{Context, Result};
 use rayon::prelude::*;
 use reqwest::blocking::Client;
@@ -1448,37 +1455,37 @@ struct PageData {
 
 // Fetch and parse a single URL
 fn scrape_url(client: &amp;Client, url: &amp;str) -&gt; Result&lt;PageData&gt; {
-    println!("Fetching: {}", url);
+    println!(&quot;Fetching: {}&quot;, url);
 
     // Fetch the page content
     let response = client.get(url).send()
-        .with_context(|| format!("Failed to fetch {}", url))?;
+        .with_context(|| format!(&quot;Failed to fetch {}&quot;, url))?;
 
     let status = response.status();
     if !status.is_success() {
-        anyhow::bail!("Failed to fetch {}: {}", url, status);
+        anyhow::bail!(&quot;Failed to fetch {}: {}&quot;, url, status);
     }
 
     let content = response.text()
-        .with_context(|| format!("Failed to read content from {}", url))?;
+        .with_context(|| format!(&quot;Failed to read content from {}&quot;, url))?;
 
     // Parse the HTML
     let document = Html::parse_document(&amp;content);
 
     // Extract the title
-    let title_selector = Selector::parse("title").unwrap();
+    let title_selector = Selector::parse(&quot;title&quot;).unwrap();
     let title = document.select(&amp;title_selector)
         .next()
-        .map(|element| element.text().collect::&lt;Vec&lt;_&gt;&gt;().join(""))
-        .unwrap_or_else(|| "No title".to_string());
+        .map(|element| element.text().collect::&lt;Vec&lt;_&gt;&gt;().join(&quot;&quot;))
+        .unwrap_or_else(|| &quot;No title&quot;.to_string());
 
     // Extract links
-    let link_selector = Selector::parse("a[href]").unwrap();
+    let link_selector = Selector::parse(&quot;a[href]&quot;).unwrap();
     let base_url = Url::parse(url)?;
 
     let mut links = Vec::new();
     for element in document.select(&amp;link_selector) {
-        if let Some(href) = element.value().attr("href") {
+        if let Some(href) = element.value().attr(&quot;href&quot;) {
             if let Ok(absolute_url) = base_url.join(href) {
                 links.push(absolute_url.to_string());
             }
@@ -1507,7 +1514,7 @@ fn parallel_scrape(urls: Vec&lt;String&gt;) -&gt; Result&lt;Vec&lt;PageData&gt;&
                 Ok(data) =&gt; Some(data),
                 Err(err) =&gt; {
                     let mut errors = errors.lock().unwrap();
-                    errors.push(format!("Error scraping {}: {}", url, err));
+                    errors.push(format!(&quot;Error scraping {}: {}&quot;, url, err));
                     None
                 }
             }
@@ -1517,7 +1524,7 @@ fn parallel_scrape(urls: Vec&lt;String&gt;) -&gt; Result&lt;Vec&lt;PageData&gt;&
     // Report any errors
     let errors = errors.lock().unwrap();
     for error in errors.iter() {
-        eprintln!("{}", error);
+        eprintln!(&quot;{}&quot;, error);
     }
 
     // Filter out None values (failed scrapes)
@@ -1531,15 +1538,15 @@ fn parallel_scrape(urls: Vec&lt;String&gt;) -&gt; Result&lt;Vec&lt;PageData&gt;&
 // Save the scraped data to a file
 fn save_results(results: &amp;[PageData], filename: &amp;str) -&gt; Result&lt;()&gt; {
     let mut file = File::create(filename)
-        .with_context(|| format!("Failed to create file: {}", filename))?;
+        .with_context(|| format!(&quot;Failed to create file: {}&quot;, filename))?;
 
     for page in results {
-        writeln!(file, "URL: {}", page.url)?;
-        writeln!(file, "Title: {}", page.title)?;
-        writeln!(file, "Links: {}", page.links.len())?;
+        writeln!(file, &quot;URL: {}&quot;, page.url)?;
+        writeln!(file, &quot;Title: {}&quot;, page.title)?;
+        writeln!(file, &quot;Links: {}&quot;, page.links.len())?;
 
         for link in &amp;page.links {
-            writeln!(file, "  - {}", link)?;
+            writeln!(file, &quot;  - {}&quot;, link)?;
         }
 
         writeln!(file)?;
@@ -1574,30 +1581,30 @@ fn find_unique_domains(results: &amp;[PageData]) -&gt; HashSet&lt;String&gt; {
 fn main() -&gt; Result&lt;()&gt; {
     // List of URLs to scrape
     let urls = vec![
-        "https://www.rust-lang.org".to_string(),
-        "https://blog.rust-lang.org".to_string(),
-        "https://crates.io".to_string(),
-        "https://doc.rust-lang.org".to_string(),
-        "https://www.github.com/rust-lang/rust".to_string(),
+        &quot;https://www.rust-lang.org&quot;.to_string(),
+        &quot;https://blog.rust-lang.org&quot;.to_string(),
+        &quot;https://crates.io&quot;.to_string(),
+        &quot;https://doc.rust-lang.org&quot;.to_string(),
+        &quot;https://www.github.com/rust-lang/rust&quot;.to_string(),
     ];
 
-    println!("Starting parallel web scraper...");
+    println!(&quot;Starting parallel web scraper...&quot;);
     let start = Instant::now();
 
     // Perform the parallel scrape
     let results = parallel_scrape(urls)?;
 
     let elapsed = start.elapsed();
-    println!("Scraped {} pages in {:.2?}", results.len(), elapsed);
+    println!(&quot;Scraped {} pages in {:.2?}&quot;, results.len(), elapsed);
 
     // Save results to a file
-    save_results(&amp;results, "scrape_results.txt")?;
+    save_results(&amp;results, &quot;scrape_results.txt&quot;)?;
 
     // Find and display unique domains
     let domains = find_unique_domains(&amp;results);
-    println!("Found {} unique domains:", domains.len());
+    println!(&quot;Found {} unique domains:&quot;, domains.len());
     for domain in domains {
-        println!("  - {}", domain);
+        println!(&quot;  - {}&quot;, domain);
     }
 
     Ok(())
@@ -1621,29 +1628,29 @@ fn main() -&gt; Result&lt;()&gt; {
 <li><strong>Add more extractors</strong>: Extract additional information like meta tags, images, etc.</li>
 <li><strong>Use async/await</strong>: Convert to asynchronous code for potentially better performance</li>
 </ol>
-<p>This project demonstrates how to use Rust’s concurrency features for a real-world task, combining threads, synchronization, and parallel iterators to efficiently process multiple web pages.</p>
+<p>This project demonstrates how to use Rust's concurrency features for a real-world task, combining threads, synchronization, and parallel iterators to efficiently process multiple web pages.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored Rust’s approach to concurrency, which combines powerful primitives with compile-time safety guarantees. We’ve covered:</p>
+<p>In this chapter, we've explored Rust's approach to concurrency, which combines powerful primitives with compile-time safety guarantees. We've covered:</p>
 <ol>
 <li><strong>Concurrency vs. Parallelism</strong>: Understanding the difference between structure (concurrency) and execution (parallelism)</li>
 <li><strong>Threads</strong>: Creating and managing threads with <code>std::thread</code></li>
-<li><strong>Thread Safety</strong>: How Rust’s type system prevents data races with <code>Send</code> and <code>Sync</code> traits</li>
+<li><strong>Thread Safety</strong>: How Rust's type system prevents data races with <code>Send</code> and <code>Sync</code> traits</li>
 <li><strong>Race Conditions</strong>: Understanding and preventing more subtle concurrency bugs</li>
 <li><strong>Sharing State</strong>: Using <code>Mutex</code>, <code>RwLock</code>, and <code>Arc</code> for safe shared access</li>
 <li><strong>Message Passing</strong>: Using channels for communication between threads</li>
 <li><strong>Thread Pools</strong>: Managing groups of worker threads for efficient task execution</li>
 <li><strong>Parallel Iterators</strong>: Processing collections in parallel with minimal code changes</li>
 </ol>
-<p>Rust’s approach to concurrency is unique among programming languages. Rather than relying on runtime checks or programmer discipline, it leverages the type system to prevent many common concurrency bugs at compile time. This “fearless concurrency” allows you to write concurrent code with confidence, knowing that the compiler has your back.</p>
+<p>Rust's approach to concurrency is unique among programming languages. Rather than relying on runtime checks or programmer discipline, it leverages the type system to prevent many common concurrency bugs at compile time. This &quot;fearless concurrency&quot; allows you to write concurrent code with confidence, knowing that the compiler has your back.</p>
 <p>As you build concurrent systems in Rust, remember these key principles:</p>
 <ol>
 <li><strong>Be explicit about sharing</strong>: Use the appropriate synchronization primitives when sharing data</li>
 <li><strong>Consider message passing</strong>: Often simpler and less error-prone than shared state</li>
 <li><strong>Use high-level abstractions</strong>: Libraries like <code>rayon</code> make parallelism accessible</li>
-<li><strong>Measure performance</strong>: Don’t assume parallelism always improves performance</li>
+<li><strong>Measure performance</strong>: Don't assume parallelism always improves performance</li>
 <li><strong>Mind the cost of synchronization</strong>: Locking and thread coordination have overhead</li>
 </ol>
-<p>With these tools and principles, you’re well-equipped to write safe, efficient concurrent code in Rust.</p>
+<p>With these tools and principles, you're well-equipped to write safe, efficient concurrent code in Rust.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
@@ -1683,8 +1690,8 @@ fn main() -&gt; Result&lt;()&gt; {
 <li><a href="https://doc.rust-lang.org/rust-by-example/std_misc/threads.html">Rust By Example - Concurrency</a></li>
 <li><a href="https://docs.rs/rayon/">The Rayon Crate Documentation</a></li>
 <li><a href="https://docs.rs/parking_lot/">The Parking Lot Crate Documentation</a></li>
-<li><a href="https://www.oreilly.com/library/view/programming-rust-2nd/9781492052586/">Programming Rust - O’Reilly book with excellent coverage of concurrency</a></li>
-<li><a href="https://marabos.nl/atomics/">Rust Atomics and Locks - Jon Gjengset’s book on low-level concurrency</a></li>
+<li><a href="https://www.oreilly.com/library/view/programming-rust-2nd/9781492052586/">Programming Rust - O'Reilly book with excellent coverage of concurrency</a></li>
+<li><a href="https://marabos.nl/atomics/">Rust Atomics and Locks - Jon Gjengset's book on low-level concurrency</a></li>
 <li><a href="https://docs.rs/crossbeam/">Crossbeam Documentation</a> - Advanced concurrency primitives</li>
 <li><a href="https://docs.rs/tokio/">Tokio Documentation</a> - Asynchronous runtime for Rust</li>
 </ul>

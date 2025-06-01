@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html" class="active"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,8 +185,8 @@
                         <h1 id="chapter-47-creating-a-blockchain-application"><a class="header" href="#chapter-47-creating-a-blockchain-application">Chapter 47: Creating a Blockchain Application</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Blockchain technology has revolutionized how we think about trust, data integrity, and decentralized applications. From cryptocurrencies to supply chain management, blockchain applications continue to disrupt traditional systems by offering transparency, immutability, and security without centralized control.</p>
-<p>In this chapter, we’ll embark on an exciting journey to build a complete blockchain application from scratch using Rust. By leveraging Rust’s performance, memory safety, and concurrency features, we’ll create a robust system that demonstrates core blockchain principles while maintaining real-world applicability.</p>
-<p>Our blockchain implementation, which we’ll call “RustChain,” will include all essential components:</p>
+<p>In this chapter, we'll embark on an exciting journey to build a complete blockchain application from scratch using Rust. By leveraging Rust's performance, memory safety, and concurrency features, we'll create a robust system that demonstrates core blockchain principles while maintaining real-world applicability.</p>
+<p>Our blockchain implementation, which we'll call &quot;RustChain,&quot; will include all essential components:</p>
 <ul>
 <li>A secure and efficient blockchain data structure</li>
 <li>A practical consensus mechanism</li>
@@ -188,8 +195,8 @@
 <li>Smart contract functionality</li>
 <li>A command-line interface and web API</li>
 </ul>
-<p>By the end of this chapter, you’ll understand both the theoretical foundations and practical implementation details of blockchain technology. More importantly, you’ll have the skills necessary to pursue professional opportunities in this rapidly growing field or to build your own blockchain applications.</p>
-<h3 id="what-youll-learn"><a class="header" href="#what-youll-learn">What You’ll Learn</a></h3>
+<p>By the end of this chapter, you'll understand both the theoretical foundations and practical implementation details of blockchain technology. More importantly, you'll have the skills necessary to pursue professional opportunities in this rapidly growing field or to build your own blockchain applications.</p>
+<h3 id="what-youll-learn"><a class="header" href="#what-youll-learn">What You'll Learn</a></h3>
 <ul>
 <li>Fundamental blockchain concepts and architecture</li>
 <li>How to implement core blockchain components in Rust</li>
@@ -213,7 +220,7 @@
 </ul>
 <p>While not strictly necessary, familiarity with distributed systems concepts will be helpful.</p>
 <h2 id="blockchain-fundamentals"><a class="header" href="#blockchain-fundamentals">Blockchain Fundamentals</a></h2>
-<p>Before diving into implementation, let’s establish a solid understanding of blockchain technology and its core components.</p>
+<p>Before diving into implementation, let's establish a solid understanding of blockchain technology and its core components.</p>
 <h3 id="what-is-a-blockchain"><a class="header" href="#what-is-a-blockchain">What Is a Blockchain?</a></h3>
 <p>A blockchain is a distributed, immutable ledger that records transactions across many computers. The key innovation is a data structure that makes it computationally impractical to modify historical records without consensus from the network. This property enables trust in a trustless environment.</p>
 <p>The blockchain consists of a chain of blocks, where each block contains:</p>
@@ -241,7 +248,7 @@
 <li><strong>Consensus Layer</strong>: Determines how nodes agree on the state of the blockchain</li>
 <li><strong>Application Layer</strong>: Provides interfaces and smart contract functionality</li>
 </ol>
-<p>In our implementation, we’ll build each of these layers methodically, ensuring they work together seamlessly while maintaining clean architectural boundaries.</p>
+<p>In our implementation, we'll build each of these layers methodically, ensuring they work together seamlessly while maintaining clean architectural boundaries.</p>
 <h3 id="types-of-blockchains"><a class="header" href="#types-of-blockchains">Types of Blockchains</a></h3>
 <p>While all blockchains share fundamental concepts, they differ in implementation details and use cases:</p>
 <h4 id="public-vs-private-blockchains"><a class="header" href="#public-vs-private-blockchains">Public vs. Private Blockchains</a></h4>
@@ -255,21 +262,21 @@
 <li><strong>Permissioned systems</strong> restrict these functions to authorized validators.</li>
 </ul>
 <h4 id="smart-contract-platforms"><a class="header" href="#smart-contract-platforms">Smart Contract Platforms</a></h4>
-<p>Blockchains like Ethereum extend beyond simple value transfer to support “smart contracts” - self-executing code that automatically enforces agreements when predefined conditions are met.</p>
-<p>For our implementation, we’ll focus on a permissionless public blockchain with basic smart contract capabilities, similar to Ethereum but simplified for educational purposes.</p>
-<p>Now that we’ve covered the fundamentals, let’s begin designing and implementing our RustChain blockchain system.</p>
+<p>Blockchains like Ethereum extend beyond simple value transfer to support &quot;smart contracts&quot; - self-executing code that automatically enforces agreements when predefined conditions are met.</p>
+<p>For our implementation, we'll focus on a permissionless public blockchain with basic smart contract capabilities, similar to Ethereum but simplified for educational purposes.</p>
+<p>Now that we've covered the fundamentals, let's begin designing and implementing our RustChain blockchain system.</p>
 <h2 id="cryptographic-primitives"><a class="header" href="#cryptographic-primitives">Cryptographic Primitives</a></h2>
-<p>Cryptography is the cornerstone of blockchain technology, providing the essential security properties that make blockchains trustworthy. Let’s explore the cryptographic primitives we’ll use in our RustChain implementation.</p>
+<p>Cryptography is the cornerstone of blockchain technology, providing the essential security properties that make blockchains trustworthy. Let's explore the cryptographic primitives we'll use in our RustChain implementation.</p>
 <h3 id="cryptographic-hash-functions"><a class="header" href="#cryptographic-hash-functions">Cryptographic Hash Functions</a></h3>
-<p>A cryptographic hash function transforms data of arbitrary size into a fixed-size output (a “hash” or “digest”) with these crucial properties:</p>
+<p>A cryptographic hash function transforms data of arbitrary size into a fixed-size output (a &quot;hash&quot; or &quot;digest&quot;) with these crucial properties:</p>
 <ol>
 <li><strong>Deterministic</strong>: The same input always produces the same output</li>
 <li><strong>Fast to compute</strong>: Calculating the hash is efficient</li>
-<li><strong>Pre-image resistance</strong>: Given a hash, it’s infeasible to find the original input</li>
+<li><strong>Pre-image resistance</strong>: Given a hash, it's infeasible to find the original input</li>
 <li><strong>Small changes cause avalanche</strong>: Slightly modifying input drastically changes the output</li>
-<li><strong>Collision resistance</strong>: It’s extremely difficult to find two different inputs with the same hash</li>
+<li><strong>Collision resistance</strong>: It's extremely difficult to find two different inputs with the same hash</li>
 </ol>
-<p>In our blockchain, we’ll use SHA-256, a widely trusted hash function from the SHA-2 family. Here’s how we’ll implement hash functionality using Rust’s crypto libraries:</p>
+<p>In our blockchain, we'll use SHA-256, a widely trusted hash function from the SHA-2 family. Here's how we'll implement hash functionality using Rust's crypto libraries:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use sha2::{Sha256, Digest};
@@ -288,11 +295,11 @@ pub fn hash_data(data: &amp;[u8]) -&gt; [u8; 32] {
 /// Converts a 32-byte hash to a hexadecimal string
 pub fn hash_to_hex(hash: &amp;[u8; 32]) -&gt; String {
     hash.iter()
-        .map(|byte| format!("{:02x}", byte))
+        .map(|byte| format!(&quot;{:02x}&quot;, byte))
         .collect::&lt;String&gt;()
 }
 <span class="boring">}</span></code></pre></pre>
-<p>We’ll use these hashing functions extensively for:</p>
+<p>We'll use these hashing functions extensively for:</p>
 <ul>
 <li>Creating unique identifiers for blocks and transactions</li>
 <li>Building Merkle trees for efficient verification</li>
@@ -302,11 +309,11 @@ pub fn hash_to_hex(hash: &amp;[u8; 32]) -&gt; String {
 <h3 id="digital-signatures"><a class="header" href="#digital-signatures">Digital Signatures</a></h3>
 <p>Digital signatures provide authentication, non-repudiation, and integrity to blockchain transactions. They allow us to verify:</p>
 <ul>
-<li>The sender’s identity (authentication)</li>
+<li>The sender's identity (authentication)</li>
 <li>That the sender cannot deny sending the transaction (non-repudiation)</li>
-<li>That the transaction wasn’t altered after signing (integrity)</li>
+<li>That the transaction wasn't altered after signing (integrity)</li>
 </ul>
-<p>We’ll implement digital signatures using the Ed25519 algorithm, which offers a good balance of security, performance, and key size:</p>
+<p>We'll implement digital signatures using the Ed25519 algorithm, which offers a good balance of security, performance, and key size:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use ed25519_dalek::{Keypair, PublicKey, SecretKey, Signature, Signer, Verifier};
@@ -328,11 +335,11 @@ impl CryptoWallet {
     /// Creates a wallet from an existing secret key
     pub fn from_secret(secret_key: &amp;[u8]) -&gt; Result&lt;Self, &amp;'static str&gt; {
         if secret_key.len() != 32 {
-            return Err("Invalid secret key length");
+            return Err(&quot;Invalid secret key length&quot;);
         }
 
         let secret = SecretKey::from_bytes(secret_key)
-            .map_err(|_| "Invalid secret key")?;
+            .map_err(|_| &quot;Invalid secret key&quot;)?;
         let public = PublicKey::from(&amp;secret);
 
         Ok(Self {
@@ -372,13 +379,13 @@ pub fn verify_signature(
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="merkle-trees"><a class="header" href="#merkle-trees">Merkle Trees</a></h3>
-<p>Merkle trees are binary trees of hashes that provide an efficient way to verify the integrity of large datasets. They’re crucial for our blockchain for:</p>
+<p>Merkle trees are binary trees of hashes that provide an efficient way to verify the integrity of large datasets. They're crucial for our blockchain for:</p>
 <ol>
 <li>Efficiently verifying that a transaction is included in a block</li>
 <li>Reducing the storage requirements for lightweight clients</li>
 <li>Supporting simplified payment verification (SPV)</li>
 </ol>
-<p>Here’s our implementation:</p>
+<p>Here's our implementation:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Represents a Merkle Tree for efficient verification of transaction inclusion
@@ -507,7 +514,7 @@ impl MerkleProof {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="address-generation"><a class="header" href="#address-generation">Address Generation</a></h3>
-<p>In blockchain systems, addresses serve as identifiers for participants and are derived from public keys. For RustChain, we’ll use a simplified scheme similar to Bitcoin’s:</p>
+<p>In blockchain systems, addresses serve as identifiers for participants and are derived from public keys. For RustChain, we'll use a simplified scheme similar to Bitcoin's:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Generates a blockchain address from a public key
@@ -537,7 +544,7 @@ pub fn generate_address(public_key: &amp;[u8; 32]) -&gt; String {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="secure-random-number-generation"><a class="header" href="#secure-random-number-generation">Secure Random Number Generation</a></h3>
-<p>Many blockchain operations require secure random numbers, especially for key generation. We’ll use Rust’s <code>rand</code> crate with the system’s cryptographically secure random number generator:</p>
+<p>Many blockchain operations require secure random numbers, especially for key generation. We'll use Rust's <code>rand</code> crate with the system's cryptographically secure random number generator:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rand::{rngs::OsRng, RngCore};
@@ -549,17 +556,17 @@ pub fn generate_random_bytes() -&gt; [u8; 32] {
     bytes
 }
 <span class="boring">}</span></code></pre></pre>
-<p>These cryptographic primitives form the foundation of our blockchain’s security model. In the next section, we’ll build on these to implement the core data structures for our blockchain.</p>
+<p>These cryptographic primitives form the foundation of our blockchain's security model. In the next section, we'll build on these to implement the core data structures for our blockchain.</p>
 <h2 id="core-blockchain-data-structures"><a class="header" href="#core-blockchain-data-structures">Core Blockchain Data Structures</a></h2>
 <p>With our cryptographic primitives in place, we can now implement the core data structures that form our blockchain: transactions, blocks, and the blockchain itself.</p>
 <h3 id="transactions"><a class="header" href="#transactions">Transactions</a></h3>
-<p>Transactions are the fundamental units of data in a blockchain. In our RustChain implementation, we’ll support several transaction types:</p>
+<p>Transactions are the fundamental units of data in a blockchain. In our RustChain implementation, we'll support several transaction types:</p>
 <ol>
 <li><strong>Coin transfers</strong>: Moving currency from one address to another</li>
 <li><strong>Smart contract creation</strong>: Deploying new smart contracts</li>
 <li><strong>Smart contract execution</strong>: Interacting with deployed contracts</li>
 </ol>
-<p>Let’s start with the basic transaction structure:</p>
+<p>Let's start with the basic transaction structure:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use chrono::{DateTime, Utc};
@@ -640,7 +647,7 @@ impl Transaction {
         // Verify the sender's address matches the wallet
         let wallet_address = generate_address(&amp;wallet.public_key());
         if self.from != wallet_address {
-            return Err("Transaction sender doesn't match wallet address");
+            return Err(&quot;Transaction sender doesn't match wallet address&quot;);
         }
 
         // Sign the transaction hash
@@ -687,7 +694,7 @@ fn extract_public_key_from_address(address: &amp;str) -&gt; Option&lt;[u8; 32]&g
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="transaction-validation"><a class="header" href="#transaction-validation">Transaction Validation</a></h3>
-<p>Before adding transactions to a block, we need to validate them. Here’s a transaction validation module:</p>
+<p>Before adding transactions to a block, we need to validate them. Here's a transaction validation module:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Validates a transaction before adding it to the mempool or a block
@@ -751,30 +758,30 @@ pub fn validate_transaction(
 /// Errors that can occur during transaction validation
 #[derive(Debug, thiserror::Error)]
 pub enum TransactionValidationError {
-    #[error("Transaction has an invalid signature")]
+    #[error(&quot;Transaction has an invalid signature&quot;)]
     InvalidSignature,
 
-    #[error("Sender has insufficient funds")]
+    #[error(&quot;Sender has insufficient funds&quot;)]
     InsufficientFunds,
 
-    #[error("Transaction nonce is invalid")]
+    #[error(&quot;Transaction nonce is invalid&quot;)]
     InvalidNonce,
 
-    #[error("Transfer transaction missing recipient")]
+    #[error(&quot;Transfer transaction missing recipient&quot;)]
     MissingRecipient,
 
-    #[error("Contract creation with empty code")]
+    #[error(&quot;Contract creation with empty code&quot;)]
     EmptyContractCode,
 
-    #[error("Contract not found at the specified address")]
+    #[error(&quot;Contract not found at the specified address&quot;)]
     ContractNotFound,
 
-    #[error("Contract execution missing contract address")]
+    #[error(&quot;Contract execution missing contract address&quot;)]
     MissingContractAddress,
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="blocks"><a class="header" href="#blocks">Blocks</a></h3>
-<p>Blocks are containers for transactions, and they’re linked together to form the blockchain. Each block references its predecessor, creating an immutable chain:</p>
+<p>Blocks are containers for transactions, and they're linked together to form the blockchain. Each block references its predecessor, creating an immutable chain:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// A block in the blockchain
@@ -889,7 +896,7 @@ impl Block {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="the-blockchain"><a class="header" href="#the-blockchain">The Blockchain</a></h3>
-<p>Finally, let’s implement the blockchain itself, which manages the entire chain of blocks and maintains the current state:</p>
+<p>Finally, let's implement the blockchain itself, which manages the entire chain of blocks and maintains the current state:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Represents the entire blockchain
@@ -974,12 +981,12 @@ impl BlockchainState {
     /// Applies a transfer transaction to the state
     fn apply_transfer(&amp;mut self, tx: &amp;Transaction) -&gt; Result&lt;(), &amp;'static str&gt; {
         let from_balance = self.get_balance(&amp;tx.from);
-        let to_address = tx.to.as_ref().ok_or("Missing recipient")?;
+        let to_address = tx.to.as_ref().ok_or(&quot;Missing recipient&quot;)?;
         let to_balance = self.get_balance(to_address);
 
         // Ensure sufficient balance
         if from_balance &lt; tx.amount + tx.fee {
-            return Err("Insufficient balance");
+            return Err(&quot;Insufficient balance&quot;);
         }
 
         // Update balances
@@ -998,7 +1005,7 @@ impl BlockchainState {
 
         // Ensure sufficient balance
         if from_balance &lt; tx.fee {
-            return Err("Insufficient balance");
+            return Err(&quot;Insufficient balance&quot;);
         }
 
         // Generate contract address (hash of sender + nonce)
@@ -1027,17 +1034,17 @@ impl BlockchainState {
     /// Applies a contract execution transaction
     fn apply_contract_execution(&amp;mut self, tx: &amp;Transaction) -&gt; Result&lt;(), &amp;'static str&gt; {
         let from_balance = self.get_balance(&amp;tx.from);
-        let contract_address = tx.to.as_ref().ok_or("Missing contract address")?;
+        let contract_address = tx.to.as_ref().ok_or(&quot;Missing contract address&quot;)?;
 
         // Ensure sufficient balance
         if from_balance &lt; tx.amount + tx.fee {
-            return Err("Insufficient balance");
+            return Err(&quot;Insufficient balance&quot;);
         }
 
         // Get the contract
         let contract = match self.get_contract(contract_address) {
             Some(c) =&gt; c,
-            None =&gt; return Err("Contract not found"),
+            None =&gt; return Err(&quot;Contract not found&quot;),
         };
 
         // Clone contract storage for execution
@@ -1113,8 +1120,8 @@ impl BlockchainState {
                 Ok(())
             },
             Err(e) =&gt; Err(match e {
-                ContractError::OutOfGas =&gt; "Out of gas",
-                _ =&gt; "Contract execution failed",
+                ContractError::OutOfGas =&gt; &quot;Out of gas&quot;,
+                _ =&gt; &quot;Contract execution failed&quot;,
             }),
         };
 
@@ -1222,7 +1229,7 @@ impl Blockchain {
         // Add mining reward transaction
         let reward_tx = Transaction::new(
             TransactionType::Transfer,
-            "system".to_string(),  // Special sender for rewards
+            &quot;system&quot;.to_string(),  // Special sender for rewards
             Some(miner_address.to_string()),
             50,  // Block reward (would decrease over time in real implementation)
             0,   // No fee for reward transaction
@@ -1257,12 +1264,12 @@ impl Blockchain {
     pub fn add_block(&amp;mut self, block: Block) -&gt; Result&lt;(), &amp;'static str&gt; {
         // Verify the block connects to our chain
         if block.header.previous_hash != self.latest_block().hash() {
-            return Err("Block does not connect to the latest block");
+            return Err(&quot;Block does not connect to the latest block&quot;);
         }
 
         // Verify proof-of-work
         if !block.verify_proof_of_work() {
-            return Err("Invalid proof-of-work");
+            return Err(&quot;Invalid proof-of-work&quot;);
         }
 
         // Apply all transactions to the state
@@ -1336,7 +1343,7 @@ pub fn load_blockchain(path: &amp;str) -&gt; Result&lt;Blockchain, Box&lt;dyn st
     let blocks: Vec&lt;Block&gt; = bincode::deserialize_from(reader)?;
 
     if blocks.is_empty() {
-        return Err("Empty blockchain file".into());
+        return Err(&quot;Empty blockchain file&quot;.into());
     }
 
     // Reconstruct the state by replaying all transactions
@@ -1351,7 +1358,7 @@ pub fn load_blockchain(path: &amp;str) -&gt; Result&lt;Blockchain, Box&lt;dyn st
     Ok(blockchain)
 }
 <span class="boring">}</span></code></pre></pre>
-<p>With these core data structures, we have the foundation of our blockchain. This includes transactions, blocks, the blockchain itself, and state management. In the next section, we’ll implement the consensus mechanism that allows nodes in the network to agree on the state of the blockchain.</p>
+<p>With these core data structures, we have the foundation of our blockchain. This includes transactions, blocks, the blockchain itself, and state management. In the next section, we'll implement the consensus mechanism that allows nodes in the network to agree on the state of the blockchain.</p>
 <h2 id="peer-to-peer-networking"><a class="header" href="#peer-to-peer-networking">Peer-to-Peer Networking</a></h2>
 <p>A fundamental aspect of blockchain technology is its distributed nature. Multiple nodes run the blockchain software independently, collectively maintaining the network. These nodes need to communicate to:</p>
 <ol>
@@ -1360,7 +1367,7 @@ pub fn load_blockchain(path: &amp;str) -&gt; Result&lt;Blockchain, Box&lt;dyn st
 <li>Broadcast newly mined blocks</li>
 <li>Synchronize their blockchain with other nodes</li>
 </ol>
-<p>In this section, we’ll implement a peer-to-peer (P2P) network for our RustChain application using Rust’s asynchronous programming capabilities with Tokio.</p>
+<p>In this section, we'll implement a peer-to-peer (P2P) network for our RustChain application using Rust's asynchronous programming capabilities with Tokio.</p>
 <h3 id="network-protocol-design"><a class="header" href="#network-protocol-design">Network Protocol Design</a></h3>
 <p>Our P2P protocol will be message-based, with a simple binary format for efficiency. Each message will consist of:</p>
 <ol>
@@ -1368,7 +1375,7 @@ pub fn load_blockchain(path: &amp;str) -&gt; Result&lt;Blockchain, Box&lt;dyn st
 <li>Message length</li>
 <li>The actual payload data</li>
 </ol>
-<p>Here are the key message types we’ll implement:</p>
+<p>Here are the key message types we'll implement:</p>
 <ul>
 <li><code>Handshake</code>: Initial connection establishment</li>
 <li><code>Ping</code>/<code>Pong</code>: Connection heartbeat</li>
@@ -1378,7 +1385,7 @@ pub fn load_blockchain(path: &amp;str) -&gt; Result&lt;Blockchain, Box&lt;dyn st
 <li><code>GetBlocks</code>/<code>Blocks</code>: Blockchain synchronization</li>
 </ul>
 <h3 id="message-definitions"><a class="header" href="#message-definitions">Message Definitions</a></h3>
-<p>Let’s start by defining our message structures:</p>
+<p>Let's start by defining our message structures:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use serde::{Serialize, Deserialize};
@@ -1512,7 +1519,7 @@ pub struct GetBlocksPayload {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="network-layer-implementation"><a class="header" href="#network-layer-implementation">Network Layer Implementation</a></h3>
-<p>Next, let’s implement the core network layer that manages connections and message handling:</p>
+<p>Next, let's implement the core network layer that manages connections and message handling:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use tokio::net::{TcpListener, TcpStream};
@@ -1583,11 +1590,11 @@ impl Network {
     /// Starts the network server
     pub async fn start_server(&amp;self, addr: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
         let listener = TcpListener::bind(addr).await?;
-        println!("P2P server listening on {}", addr);
+        println!(&quot;P2P server listening on {}&quot;, addr);
 
         loop {
             let (socket, peer_addr) = listener.accept().await?;
-            println!("New connection from {}", peer_addr);
+            println!(&quot;New connection from {}&quot;, peer_addr);
 
             // Clone necessary data for the connection handler
             let peers = self.peers.clone();
@@ -1607,7 +1614,7 @@ impl Network {
                     node_id,
                     version,
                 ).await {
-                    println!("Connection error: {}", e);
+                    println!(&quot;Connection error: {}&quot;, e);
                 }
             });
         }
@@ -1617,7 +1624,7 @@ impl Network {
     pub async fn connect_to_peer(&amp;self, addr: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
         let socket_addr: SocketAddr = addr.parse()?;
         let socket = TcpStream::connect(socket_addr).await?;
-        println!("Connected to peer {}", addr);
+        println!(&quot;Connected to peer {}&quot;, addr);
 
         // Clone necessary data for the connection handler
         let peers = self.peers.clone();
@@ -1637,7 +1644,7 @@ impl Network {
                 node_id,
                 version,
             ).await {
-                println!("Connection error: {}", e);
+                println!(&quot;Connection error: {}&quot;, e);
             }
         });
 
@@ -1654,7 +1661,7 @@ impl Network {
 
             tokio::spawn(async move {
                 if let Err(e) = sender.send(message).await {
-                    println!("Failed to send message: {}", e);
+                    println!(&quot;Failed to send message: {}&quot;, e);
                 }
             });
         }
@@ -1716,14 +1723,14 @@ impl Network {
 
             payload.node_id
         } else {
-            return Err("Expected handshake message".into());
+            return Err(&quot;Expected handshake message&quot;.into());
         };
 
         // Send writer task to handle outgoing messages
         let writer_task = tokio::spawn(async move {
             while let Some(message) = rx.recv().await {
                 if let Err(e) = Self::send_message(&amp;mut writer, &amp;message).await {
-                    println!("Error sending message: {}", e);
+                    println!(&quot;Error sending message: {}&quot;, e);
                     break;
                 }
             }
@@ -1769,7 +1776,7 @@ impl Network {
                         MessageType::Peers =&gt; {
                             let received_peers: Vec&lt;SocketAddr&gt; = bincode::deserialize(&amp;message.payload)?;
                             // In a real implementation, we would attempt to connect to these peers
-                            println!("Received {} peers", received_peers.len());
+                            println!(&quot;Received {} peers&quot;, received_peers.len());
                         },
                         MessageType::NewTransaction =&gt; {
                             let transaction: Transaction = bincode::deserialize(&amp;message.payload)?;
@@ -1810,7 +1817,7 @@ impl Network {
                     }
                 },
                 Err(e) =&gt; {
-                    println!("Error receiving message: {}", e);
+                    println!(&quot;Error receiving message: {}&quot;, e);
                     break;
                 }
             }
@@ -1863,7 +1870,7 @@ impl Network {
             6 =&gt; MessageType::GetBlocks,
             7 =&gt; MessageType::Blocks,
             8 =&gt; MessageType::NewBlock,
-            _ =&gt; return Err("Unknown message type".into()),
+            _ =&gt; return Err(&quot;Unknown message type&quot;.into()),
         };
 
         // Read message length (4 bytes)
@@ -1881,7 +1888,7 @@ impl Network {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="node-synchronization"><a class="header" href="#node-synchronization">Node Synchronization</a></h3>
-<p>When a new node joins the network or a node reconnects after being offline, it needs to synchronize its blockchain with the rest of the network. Let’s implement this functionality:</p>
+<p>When a new node joins the network or a node reconnects after being offline, it needs to synchronize its blockchain with the rest of the network. Let's implement this functionality:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Handles blockchain synchronization with peers
@@ -1914,9 +1921,9 @@ impl Synchronizer {
                     let mut blockchain = self.blockchain.lock().unwrap();
 
                     if let Err(e) = blockchain.add_transaction(transaction.clone()) {
-                        println!("Invalid transaction: {:?}", e);
+                        println!(&quot;Invalid transaction: {:?}&quot;, e);
                     } else {
-                        println!("Added new transaction: {}", hash_to_hex(&amp;transaction.id));
+                        println!(&quot;Added new transaction: {}&quot;, hash_to_hex(&amp;transaction.id));
                     }
                 },
                 NetworkEvent::NewBlock(block) =&gt; {
@@ -1924,20 +1931,20 @@ impl Synchronizer {
                     let mut blockchain = self.blockchain.lock().unwrap();
 
                     if let Err(e) = blockchain.add_block(block.clone()) {
-                        println!("Invalid block: {}", e);
+                        println!(&quot;Invalid block: {}&quot;, e);
                     } else {
-                        println!("Added new block at height {}", block.header.height);
+                        println!(&quot;Added new block at height {}&quot;, block.header.height);
                     }
                 },
                 NetworkEvent::BlocksReceived(blocks) =&gt; {
                     // Process received blocks during synchronization
-                    println!("Received {} blocks during sync", blocks.len());
+                    println!(&quot;Received {} blocks during sync&quot;, blocks.len());
 
                     let mut blockchain = self.blockchain.lock().unwrap();
 
                     for block in blocks {
                         if let Err(e) = blockchain.add_block(block.clone()) {
-                            println!("Error adding block during sync: {}", e);
+                            println!(&quot;Error adding block during sync: {}&quot;, e);
                             // In a real implementation, we might need to handle
                             // more complex synchronization issues
                             break;
@@ -1945,11 +1952,11 @@ impl Synchronizer {
                     }
                 },
                 NetworkEvent::PeerConnected(peer_id, _) =&gt; {
-                    println!("Peer connected: {}", peer_id);
+                    println!(&quot;Peer connected: {}&quot;, peer_id);
                     // We might initiate sync with this peer
                 },
                 NetworkEvent::PeerDisconnected(peer_id) =&gt; {
-                    println!("Peer disconnected: {}", peer_id);
+                    println!(&quot;Peer disconnected: {}&quot;, peer_id);
                 },
             }
         }
@@ -1978,7 +1985,7 @@ impl Synchronizer {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="discovery-service"><a class="header" href="#discovery-service">Discovery Service</a></h3>
-<p>To help nodes find each other, we’ll implement a simple discovery service:</p>
+<p>To help nodes find each other, we'll implement a simple discovery service:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Manages peer discovery
@@ -2003,7 +2010,7 @@ impl DiscoveryService {
         // First, connect to seed peers
         for peer in &amp;self.known_peers {
             if let Err(e) = self.network.connect_to_peer(peer).await {
-                println!("Failed to connect to seed peer {}: {}", peer, e);
+                println!(&quot;Failed to connect to seed peer {}: {}&quot;, peer, e);
             }
         }
 
@@ -2023,7 +2030,7 @@ impl DiscoveryService {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="running-a-complete-node"><a class="header" href="#running-a-complete-node">Running a Complete Node</a></h3>
-<p>Finally, let’s put it all together to run a complete blockchain node:</p>
+<p>Finally, let's put it all together to run a complete blockchain node:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Runs a full blockchain node
@@ -2033,12 +2040,12 @@ pub async fn run_node(
     data_dir: &amp;str,
 ) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Create or load the blockchain
-    let blockchain_path = format!("{}/blockchain.dat", data_dir);
+    let blockchain_path = format!(&quot;{}/blockchain.dat&quot;, data_dir);
     let blockchain = if std::path::Path::new(&amp;blockchain_path).exists() {
-        println!("Loading existing blockchain...");
+        println!(&quot;Loading existing blockchain...&quot;);
         load_blockchain(&amp;blockchain_path)?
     } else {
-        println!("Creating new blockchain...");
+        println!(&quot;Creating new blockchain...&quot;);
         Blockchain::new()
     };
 
@@ -2059,20 +2066,20 @@ pub async fn run_node(
         let listen_addr = listen_addr.to_string();
         tokio::spawn(async move {
             if let Err(e) = network.start_server(&amp;listen_addr).await {
-                eprintln!("Network error: {}", e);
+                eprintln!(&quot;Network error: {}&quot;, e);
             }
         })
     };
 
     let sync_handle = tokio::spawn(async move {
         if let Err(e) = synchronizer.start(event_receiver).await {
-            eprintln!("Synchronizer error: {}", e);
+            eprintln!(&quot;Synchronizer error: {}&quot;, e);
         }
     });
 
     let discovery_handle = tokio::spawn(async move {
         if let Err(e) = discovery.start().await {
-            eprintln!("Discovery error: {}", e);
+            eprintln!(&quot;Discovery error: {}&quot;, e);
         }
     });
 
@@ -2088,9 +2095,9 @@ pub async fn run_node(
 
                 let blockchain_guard = blockchain.lock().unwrap();
                 if let Err(e) = save_blockchain(&amp;blockchain_guard, &amp;path) {
-                    eprintln!("Error saving blockchain: {}", e);
+                    eprintln!(&quot;Error saving blockchain: {}&quot;, e);
                 } else {
-                    println!("Blockchain saved successfully");
+                    println!(&quot;Blockchain saved successfully&quot;);
                 }
             }
         })
@@ -2100,7 +2107,7 @@ pub async fn run_node(
     let miner_handle = {
         let blockchain = blockchain_arc;
         let network = network;
-        let miner_address = "YOUR_MINER_ADDRESS_HERE".to_string(); // Replace with actual address
+        let miner_address = &quot;YOUR_MINER_ADDRESS_HERE&quot;.to_string(); // Replace with actual address
 
         tokio::spawn(async move {
             let mut interval = time::interval(Duration::from_secs(60)); // Try to mine a block every minute
@@ -2114,7 +2121,7 @@ pub async fn run_node(
                     blockchain_guard.mine_block(&amp;miner_address)
                 };
 
-                println!("Mined new block at height {}", new_block.header.height);
+                println!(&quot;Mined new block at height {}&quot;, new_block.header.height);
 
                 // Broadcast the new block
                 network.broadcast_block(new_block);
@@ -2135,12 +2142,12 @@ pub async fn run_node(
 }
 <span class="boring">}</span></code></pre></pre>
 <p>The peer-to-peer networking implementation enables our blockchain to function as a distributed system. Nodes can discover each other, exchange transactions and blocks, and maintain consistent state across the network.</p>
-<p>In the next section, we’ll implement the smart contract functionality that will allow our blockchain to execute programmable logic.</p>
+<p>In the next section, we'll implement the smart contract functionality that will allow our blockchain to execute programmable logic.</p>
 <h2 id="smart-contract-system"><a class="header" href="#smart-contract-system">Smart Contract System</a></h2>
-<p>Smart contracts are self-executing agreements with the terms directly written into code. They’re one of the most powerful features of modern blockchains, enabling complex decentralized applications. For RustChain, we’ll implement a simple but functional smart contract system.</p>
+<p>Smart contracts are self-executing agreements with the terms directly written into code. They're one of the most powerful features of modern blockchains, enabling complex decentralized applications. For RustChain, we'll implement a simple but functional smart contract system.</p>
 <h3 id="virtual-machine-design"><a class="header" href="#virtual-machine-design">Virtual Machine Design</a></h3>
 <p>Our smart contract system will be based on a stack-based virtual machine (VM) that executes bytecode. This approach is similar to the Ethereum Virtual Machine (EVM) but simplified for educational purposes.</p>
-<p>Let’s define the VM’s instruction set and architecture:</p>
+<p>Let's define the VM's instruction set and architecture:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Operation codes for our VM
@@ -2361,7 +2368,7 @@ impl VirtualMachine {
 
                 OpCode::LOAD =&gt; {
                     let key = self.stack.pop().ok_or(ContractError::StackUnderflow)?;
-                    let key_str = format!("{:?}", key);
+                    let key_str = format!(&quot;{:?}&quot;, key);
                     let value = self.context.storage.get(&amp;key_str)
                         .cloned()
                         .unwrap_or(Value::Int(0));
@@ -2373,7 +2380,7 @@ impl VirtualMachine {
                 OpCode::STORE =&gt; {
                     let key = self.stack.pop().ok_or(ContractError::StackUnderflow)?;
                     let value = self.stack.pop().ok_or(ContractError::StackUnderflow)?;
-                    let key_str = format!("{:?}", key);
+                    let key_str = format!(&quot;{:?}&quot;, key);
 
                     self.context.storage.insert(key_str, value);
                     self.gas_remaining = self.gas_remaining.saturating_sub(100);
@@ -2453,27 +2460,27 @@ impl VirtualMachine {
 /// Errors that can occur during contract execution
 #[derive(Debug, thiserror::Error)]
 pub enum ContractError {
-    #[error("Stack underflow")]
+    #[error(&quot;Stack underflow&quot;)]
     StackUnderflow,
 
-    #[error("Invalid opcode: {0}")]
+    #[error(&quot;Invalid opcode: {0}&quot;)]
     InvalidOpcode(u8),
 
-    #[error("Invalid program counter")]
+    #[error(&quot;Invalid program counter&quot;)]
     InvalidProgramCounter,
 
-    #[error("Division by zero")]
+    #[error(&quot;Division by zero&quot;)]
     DivisionByZero,
 
-    #[error("Out of gas")]
+    #[error(&quot;Out of gas&quot;)]
     OutOfGas,
 
-    #[error("Contract execution error: {0}")]
+    #[error(&quot;Contract execution error: {0}&quot;)]
     Other(String),
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="contract-deployment-and-execution"><a class="header" href="#contract-deployment-and-execution">Contract Deployment and Execution</a></h3>
-<p>Now, let’s integrate our VM with the blockchain by adding support for deploying and executing contracts:</p>
+<p>Now, let's integrate our VM with the blockchain by adding support for deploying and executing contracts:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl BlockchainState {
@@ -2485,7 +2492,7 @@ pub enum ContractError {
 
         // Ensure sufficient balance
         if from_balance &lt; tx.fee {
-            return Err("Insufficient balance");
+            return Err(&quot;Insufficient balance&quot;);
         }
 
         // Generate contract address (hash of sender + nonce)
@@ -2514,17 +2521,17 @@ pub enum ContractError {
     /// Applies a contract execution transaction
     fn apply_contract_execution(&amp;mut self, tx: &amp;Transaction) -&gt; Result&lt;(), &amp;'static str&gt; {
         let from_balance = self.get_balance(&amp;tx.from);
-        let contract_address = tx.to.as_ref().ok_or("Missing contract address")?;
+        let contract_address = tx.to.as_ref().ok_or(&quot;Missing contract address&quot;)?;
 
         // Ensure sufficient balance
         if from_balance &lt; tx.amount + tx.fee {
-            return Err("Insufficient balance");
+            return Err(&quot;Insufficient balance&quot;);
         }
 
         // Get the contract
         let contract = match self.get_contract(contract_address) {
             Some(c) =&gt; c,
-            None =&gt; return Err("Contract not found"),
+            None =&gt; return Err(&quot;Contract not found&quot;),
         };
 
         // Clone contract storage for execution
@@ -2600,8 +2607,8 @@ pub enum ContractError {
                 Ok(())
             },
             Err(e) =&gt; Err(match e {
-                ContractError::OutOfGas =&gt; "Out of gas",
-                _ =&gt; "Contract execution failed",
+                ContractError::OutOfGas =&gt; &quot;Out of gas&quot;,
+                _ =&gt; &quot;Contract execution failed&quot;,
             }),
         };
 
@@ -2624,7 +2631,7 @@ pub enum ContractError {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="simple-contract-example"><a class="header" href="#simple-contract-example">Simple Contract Example</a></h3>
-<p>Let’s see how we can write and deploy a simple token contract using our VM:</p>
+<p>Let's see how we can write and deploy a simple token contract using our VM:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Assembles a simple token contract
@@ -2774,7 +2781,7 @@ pub fn create_token_contract(initial_supply: u64, owner_address: &amp;str) -&gt;
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="user-interface-for-contracts"><a class="header" href="#user-interface-for-contracts">User Interface for Contracts</a></h3>
-<p>Finally, let’s create a simple interface for users to interact with contracts:</p>
+<p>Finally, let's create a simple interface for users to interact with contracts:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Creates a new token contract with the given parameters
@@ -2830,37 +2837,37 @@ pub fn call_token_contract(
     let mut call_data = Vec::new();
 
     match method {
-        "totalSupply" =&gt; {
+        &quot;totalSupply&quot; =&gt; {
             call_data.push(0x01); // Function ID
         },
-        "balanceOf" =&gt; {
+        &quot;balanceOf&quot; =&gt; {
             call_data.push(0x02); // Function ID
 
             // Encode address parameter
             if let Some(Value::Address(addr)) = params.get(0) {
                 call_data.extend_from_slice(addr.as_bytes());
             } else {
-                return Err("Invalid parameters for balanceOf".into());
+                return Err(&quot;Invalid parameters for balanceOf&quot;.into());
             }
         },
-        "transfer" =&gt; {
+        &quot;transfer&quot; =&gt; {
             call_data.push(0x03); // Function ID
 
             // Encode recipient address
             if let Some(Value::Address(addr)) = params.get(0) {
                 call_data.extend_from_slice(addr.as_bytes());
             } else {
-                return Err("Invalid recipient for transfer".into());
+                return Err(&quot;Invalid recipient for transfer&quot;.into());
             }
 
             // Encode amount
             if let Some(Value::Int(amount)) = params.get(1) {
                 call_data.extend_from_slice(&amp;amount.to_le_bytes());
             } else {
-                return Err("Invalid amount for transfer".into());
+                return Err(&quot;Invalid amount for transfer&quot;.into());
             }
         },
-        _ =&gt; return Err(format!("Unknown method: {}", method).into()),
+        _ =&gt; return Err(format!(&quot;Unknown method: {}&quot;, method).into()),
     }
 
     // Create the transaction
@@ -2887,11 +2894,11 @@ pub fn call_token_contract(
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Our smart contract system provides a foundation for building decentralized applications on RustChain. While simplified compared to production systems like Ethereum, it demonstrates the core concepts of smart contract deployment and execution.</p>
-<p>In the next section, we’ll build a command-line interface and web API to make it easy for users to interact with our blockchain.</p>
+<p>In the next section, we'll build a command-line interface and web API to make it easy for users to interact with our blockchain.</p>
 <h2 id="user-interfaces"><a class="header" href="#user-interfaces">User Interfaces</a></h2>
-<p>A blockchain is only as useful as its interfaces. Let’s implement both a command-line interface (CLI) and a RESTful API to make our blockchain accessible to users and applications.</p>
+<p>A blockchain is only as useful as its interfaces. Let's implement both a command-line interface (CLI) and a RESTful API to make our blockchain accessible to users and applications.</p>
 <h3 id="command-line-interface"><a class="header" href="#command-line-interface">Command-Line Interface</a></h3>
-<p>We’ll use the <code>clap</code> crate to build a robust CLI:</p>
+<p>We'll use the <code>clap</code> crate to build a robust CLI:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use clap::{Parser, Subcommand};
@@ -2901,7 +2908,7 @@ use std::path::PathBuf;
 #[command(author, version, about, long_about = None)]
 struct Cli {
     /// Data directory for blockchain storage
-    #[arg(short, long, value_name = "DIR", default_value = "./blockchain_data")]
+    #[arg(short, long, value_name = &quot;DIR&quot;, default_value = &quot;./blockchain_data&quot;)]
     data_dir: PathBuf,
 
     #[command(subcommand)]
@@ -2913,7 +2920,7 @@ enum Commands {
     /// Start a blockchain node
     Node {
         /// Address to listen on
-        #[arg(short, long, default_value = "127.0.0.1:8000")]
+        #[arg(short, long, default_value = &quot;127.0.0.1:8000&quot;)]
         listen: String,
 
         /// Seed peers to connect to
@@ -3047,15 +3054,15 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
     match &amp;cli.command {
         Commands::Node { listen, peers } =&gt; {
-            println!("Starting blockchain node on {}", listen);
+            println!(&quot;Starting blockchain node on {}&quot;, listen);
 
             // Initialize blockchain
-            let blockchain_path = cli.data_dir.join("blockchain.dat");
+            let blockchain_path = cli.data_dir.join(&quot;blockchain.dat&quot;);
             let blockchain = if blockchain_path.exists() {
-                println!("Loading existing blockchain...");
+                println!(&quot;Loading existing blockchain...&quot;);
                 load_blockchain(blockchain_path.to_str().unwrap())?
             } else {
-                println!("Creating new blockchain...");
+                println!(&quot;Creating new blockchain...&quot;);
                 Blockchain::new()
             };
 
@@ -3076,14 +3083,14 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
             // Save or display the wallet
             let output_path = output.clone().unwrap_or_else(|| {
-                cli.data_dir.join(format!("wallet_{}.key", &amp;address[0..8]))
+                cli.data_dir.join(format!(&quot;wallet_{}.key&quot;, &amp;address[0..8]))
             });
 
             std::fs::write(&amp;output_path, secret_key)?;
 
-            println!("Created new wallet:");
-            println!("Address: {}", address);
-            println!("Private key saved to: {}", output_path.display());
+            println!(&quot;Created new wallet:&quot;);
+            println!(&quot;Address: {}&quot;, address);
+            println!(&quot;Private key saved to: {}&quot;, output_path.display());
         },
 
         Commands::WalletInfo { wallet } =&gt; {
@@ -3092,9 +3099,9 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             let wallet = CryptoWallet::from_secret(&amp;key_data)?;
             let address = generate_address(&amp;wallet.public_key());
 
-            println!("Wallet information:");
-            println!("Address: {}", address);
-            println!("Public key: {}", hex::encode(wallet.public_key()));
+            println!(&quot;Wallet information:&quot;);
+            println!(&quot;Address: {}&quot;, address);
+            println!(&quot;Public key: {}&quot;, hex::encode(wallet.public_key()));
         },
 
         Commands::Send { from, to, amount, fee } =&gt; {
@@ -3103,7 +3110,7 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             let wallet = CryptoWallet::from_secret(&amp;key_data)?;
             let from_address = generate_address(&amp;wallet.public_key());
 
-            let blockchain_path = cli.data_dir.join("blockchain.dat");
+            let blockchain_path = cli.data_dir.join(&quot;blockchain.dat&quot;);
             let mut blockchain = load_blockchain(blockchain_path.to_str().unwrap())?;
 
             // Create and sign transaction
@@ -3126,11 +3133,11 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             // Save blockchain
             save_blockchain(&amp;blockchain, blockchain_path.to_str().unwrap())?;
 
-            println!("Transaction sent successfully!");
-            println!("From: {}", from_address);
-            println!("To: {}", to);
-            println!("Amount: {}", amount);
-            println!("Fee: {}", fee);
+            println!(&quot;Transaction sent successfully!&quot;);
+            println!(&quot;From: {}&quot;, from_address);
+            println!(&quot;To: {}&quot;, to);
+            println!(&quot;Amount: {}&quot;, amount);
+            println!(&quot;Fee: {}&quot;, fee);
         },
 
         Commands::DeployContract { wallet, bytecode, fee } =&gt; {
@@ -3141,7 +3148,7 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
             let contract_code = std::fs::read(bytecode)?;
 
-            let blockchain_path = cli.data_dir.join("blockchain.dat");
+            let blockchain_path = cli.data_dir.join(&quot;blockchain.dat&quot;);
             let mut blockchain = load_blockchain(blockchain_path.to_str().unwrap())?;
 
             // Deploy contract
@@ -3155,8 +3162,8 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             // Save blockchain
             save_blockchain(&amp;blockchain, blockchain_path.to_str().unwrap())?;
 
-            println!("Contract deployed successfully!");
-            println!("Contract address: {}", contract_address);
+            println!(&quot;Contract deployed successfully!&quot;);
+            println!(&quot;Contract address: {}&quot;, contract_address);
         },
 
         Commands::CallContract { wallet, contract, method, params, amount, fee } =&gt; {
@@ -3164,7 +3171,7 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             let key_data = std::fs::read(wallet)?;
             let wallet = CryptoWallet::from_secret(&amp;key_data)?;
 
-            let blockchain_path = cli.data_dir.join("blockchain.dat");
+            let blockchain_path = cli.data_dir.join(&quot;blockchain.dat&quot;);
             let mut blockchain = load_blockchain(blockchain_path.to_str().unwrap())?;
 
             // Parse parameters
@@ -3190,48 +3197,48 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
             // Save blockchain
             save_blockchain(&amp;blockchain, blockchain_path.to_str().unwrap())?;
 
-            println!("Contract method called successfully!");
+            println!(&quot;Contract method called successfully!&quot;);
         },
 
         Commands::Query { query_type } =&gt; {
             // Load blockchain
-            let blockchain_path = cli.data_dir.join("blockchain.dat");
+            let blockchain_path = cli.data_dir.join(&quot;blockchain.dat&quot;);
             let blockchain = load_blockchain(blockchain_path.to_str().unwrap())?;
 
             match query_type {
                 QueryCommands::Balance { address } =&gt; {
                     let balance = blockchain.state.get_balance(address);
-                    println!("Balance of {}: {} coins", address, balance);
+                    println!(&quot;Balance of {}: {} coins&quot;, address, balance);
                 },
 
                 QueryCommands::Block { identifier } =&gt; {
                     // Check if identifier is a height or hash
                     if let Ok(height) = identifier.parse::&lt;u64&gt;() {
                         if let Some(block) = blockchain.get_block_by_height(height) {
-                            println!("Block #{}: {}", height, hash_to_hex(&amp;block.hash()));
-                            println!("Timestamp: {}", block.header.timestamp);
-                            println!("Transactions: {}", block.transactions.len());
+                            println!(&quot;Block #{}: {}&quot;, height, hash_to_hex(&amp;block.hash()));
+                            println!(&quot;Timestamp: {}&quot;, block.header.timestamp);
+                            println!(&quot;Transactions: {}&quot;, block.transactions.len());
                         } else {
-                            println!("Block not found at height {}", height);
+                            println!(&quot;Block not found at height {}&quot;, height);
                         }
                     } else {
                         // Try to parse as hash
                         // This is a simplified example, real implementation would parse hex
-                        println!("Block lookup by hash not implemented in this example");
+                        println!(&quot;Block lookup by hash not implemented in this example&quot;);
                     }
                 },
 
                 QueryCommands::Transaction { id } =&gt; {
-                    println!("Transaction lookup not implemented in this example");
+                    println!(&quot;Transaction lookup not implemented in this example&quot;);
                 },
 
                 QueryCommands::LatestBlocks { limit } =&gt; {
                     let chain_height = blockchain.latest_block().header.height;
 
-                    println!("Latest blocks:");
+                    println!(&quot;Latest blocks:&quot;);
                     for h in (0..=chain_height).rev().take(*limit) {
                         if let Some(block) = blockchain.get_block_by_height(h) {
-                            println!("#{}: {} (txs: {})",
+                            println!(&quot;#{}: {} (txs: {})&quot;,
                                 h,
                                 hash_to_hex(&amp;block.hash())[0..10].to_string(),
                                 block.transactions.len()
@@ -3241,7 +3248,7 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
                 },
 
                 QueryCommands::PendingTransactions { limit } =&gt; {
-                    println!("Pending transaction query not implemented in this example");
+                    println!(&quot;Pending transaction query not implemented in this example&quot;);
                 }
             }
         }
@@ -3251,7 +3258,7 @@ pub fn run_cli() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="restful-api"><a class="header" href="#restful-api">RESTful API</a></h3>
-<p>For applications that need to interact with our blockchain programmatically, we’ll implement a RESTful API using the Actix Web framework:</p>
+<p>For applications that need to interact with our blockchain programmatically, we'll implement a RESTful API using the Actix Web framework:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use actix_web::{web, App, HttpResponse, HttpServer, Responder};
@@ -3302,7 +3309,7 @@ pub async fn run_api_server(
     // Wrap blockchain in Arc&lt;Mutex&lt;&gt;&gt; for thread safety
     let blockchain = Arc::new(Mutex::new(blockchain));
 
-    println!("Starting API server on {}", bind_address);
+    println!(&quot;Starting API server on {}&quot;, bind_address);
 
     HttpServer::new(move || {
         let blockchain = blockchain.clone();
@@ -3311,15 +3318,15 @@ pub async fn run_api_server(
             .app_data(web::Data::new(blockchain.clone()))
 
             // Query endpoints
-            .route("/blocks/latest", web::get().to(get_latest_block))
-            .route("/blocks/{id}", web::get().to(get_block))
-            .route("/transactions/{id}", web::get().to(get_transaction))
-            .route("/address/{address}/balance", web::get().to(get_balance))
+            .route(&quot;/blocks/latest&quot;, web::get().to(get_latest_block))
+            .route(&quot;/blocks/{id}&quot;, web::get().to(get_block))
+            .route(&quot;/transactions/{id}&quot;, web::get().to(get_transaction))
+            .route(&quot;/address/{address}/balance&quot;, web::get().to(get_balance))
 
             // Action endpoints
-            .route("/transactions/send", web::post().to(send_transaction))
-            .route("/contracts/deploy", web::post().to(deploy_contract))
-            .route("/contracts/call", web::post().to(call_contract))
+            .route(&quot;/transactions/send&quot;, web::post().to(send_transaction))
+            .route(&quot;/contracts/deploy&quot;, web::post().to(deploy_contract))
+            .route(&quot;/contracts/call&quot;, web::post().to(call_contract))
     })
     .bind(bind_address)?
     .run()
@@ -3353,7 +3360,7 @@ async fn get_block(
     }
 
     // Otherwise try as hash (simplified)
-    HttpResponse::NotFound().body("Block not found")
+    HttpResponse::NotFound().body(&quot;Block not found&quot;)
 }
 
 /// Gets a transaction by ID
@@ -3362,7 +3369,7 @@ async fn get_transaction(
     path: web::Path&lt;String&gt;,
 ) -&gt; impl Responder {
     // In a real implementation, we would search the blockchain for the transaction
-    HttpResponse::NotFound().body("Transaction lookup not implemented in this example")
+    HttpResponse::NotFound().body(&quot;Transaction lookup not implemented in this example&quot;)
 }
 
 /// Gets the balance of an address
@@ -3386,13 +3393,13 @@ async fn send_transaction(
     // Parse private key
     let key_data = match hex::decode(&amp;req.from_key) {
         Ok(data) =&gt; data,
-        Err(_) =&gt; return HttpResponse::BadRequest().body("Invalid private key format"),
+        Err(_) =&gt; return HttpResponse::BadRequest().body(&quot;Invalid private key format&quot;),
     };
 
     // Create wallet
     let wallet = match CryptoWallet::from_secret(&amp;key_data) {
         Ok(wallet) =&gt; wallet,
-        Err(e) =&gt; return HttpResponse::BadRequest().body(format!("Invalid private key: {}", e)),
+        Err(e) =&gt; return HttpResponse::BadRequest().body(format!(&quot;Invalid private key: {}&quot;, e)),
     };
 
     let from_address = generate_address(&amp;wallet.public_key());
@@ -3413,18 +3420,18 @@ async fn send_transaction(
 
     // Sign transaction
     if let Err(e) = tx.sign(&amp;wallet) {
-        return HttpResponse::InternalServerError().body(format!("Signing error: {}", e));
+        return HttpResponse::InternalServerError().body(format!(&quot;Signing error: {}&quot;, e));
     }
 
     // Add to blockchain
     if let Err(e) = blockchain_guard.add_transaction(tx.clone()) {
-        return HttpResponse::BadRequest().body(format!("Transaction error: {:?}", e));
+        return HttpResponse::BadRequest().body(format!(&quot;Transaction error: {:?}&quot;, e));
     }
 
     // Return success response
     let response = TransactionResponse {
         id: hash_to_hex(&amp;tx.id),
-        status: "pending".to_string(),
+        status: &quot;pending&quot;.to_string(),
     };
 
     HttpResponse::Ok().json(response)
@@ -3438,19 +3445,19 @@ async fn deploy_contract(
     // Parse private key
     let key_data = match hex::decode(&amp;req.from_key) {
         Ok(data) =&gt; data,
-        Err(_) =&gt; return HttpResponse::BadRequest().body("Invalid private key format"),
+        Err(_) =&gt; return HttpResponse::BadRequest().body(&quot;Invalid private key format&quot;),
     };
 
     // Create wallet
     let wallet = match CryptoWallet::from_secret(&amp;key_data) {
         Ok(wallet) =&gt; wallet,
-        Err(e) =&gt; return HttpResponse::BadRequest().body(format!("Invalid private key: {}", e)),
+        Err(e) =&gt; return HttpResponse::BadRequest().body(format!(&quot;Invalid private key: {}&quot;, e)),
     };
 
     // Parse bytecode
     let bytecode = match hex::decode(&amp;req.bytecode) {
         Ok(data) =&gt; data,
-        Err(_) =&gt; return HttpResponse::BadRequest().body("Invalid bytecode format"),
+        Err(_) =&gt; return HttpResponse::BadRequest().body(&quot;Invalid bytecode format&quot;),
     };
 
     // Deploy contract
@@ -3471,12 +3478,12 @@ async fn deploy_contract(
 
     // Sign transaction
     if let Err(e) = tx.sign(&amp;wallet) {
-        return HttpResponse::InternalServerError().body(format!("Signing error: {}", e));
+        return HttpResponse::InternalServerError().body(format!(&quot;Signing error: {}&quot;, e));
     }
 
     // Add to blockchain
     if let Err(e) = blockchain_guard.add_transaction(tx.clone()) {
-        return HttpResponse::BadRequest().body(format!("Transaction error: {:?}", e));
+        return HttpResponse::BadRequest().body(format!(&quot;Transaction error: {:?}&quot;, e));
     }
 
     // Generate contract address
@@ -3488,9 +3495,9 @@ async fn deploy_contract(
 
     // Return success response with contract address
     let response = serde_json::json!({
-        "transaction_id": hash_to_hex(&amp;tx.id),
-        "contract_address": contract_address,
-        "status": "pending"
+        &quot;transaction_id&quot;: hash_to_hex(&amp;tx.id),
+        &quot;contract_address&quot;: contract_address,
+        &quot;status&quot;: &quot;pending&quot;
     });
 
     HttpResponse::Ok().json(response)
@@ -3504,13 +3511,13 @@ async fn call_contract(
     // Parse private key
     let key_data = match hex::decode(&amp;req.from_key) {
         Ok(data) =&gt; data,
-        Err(_) =&gt; return HttpResponse::BadRequest().body("Invalid private key format"),
+        Err(_) =&gt; return HttpResponse::BadRequest().body(&quot;Invalid private key format&quot;),
     };
 
     // Create wallet
     let wallet = match CryptoWallet::from_secret(&amp;key_data) {
         Ok(wallet) =&gt; wallet,
-        Err(e) =&gt; return HttpResponse::BadRequest().body(format!("Invalid private key: {}", e)),
+        Err(e) =&gt; return HttpResponse::BadRequest().body(format!(&quot;Invalid private key: {}&quot;, e)),
     };
 
     // Convert parameters (simplified)
@@ -3519,18 +3526,18 @@ async fn call_contract(
     // Encode method call
     let mut call_data = Vec::new();
     match req.method.as_str() {
-        "totalSupply" =&gt; {
+        &quot;totalSupply&quot; =&gt; {
             call_data.push(0x01);
         },
-        "balanceOf" =&gt; {
+        &quot;balanceOf&quot; =&gt; {
             call_data.push(0x02);
             // In a real implementation, we would encode the parameters
         },
-        "transfer" =&gt; {
+        &quot;transfer&quot; =&gt; {
             call_data.push(0x03);
             // In a real implementation, we would encode the parameters
         },
-        _ =&gt; return HttpResponse::BadRequest().body(format!("Unknown method: {}", req.method)),
+        _ =&gt; return HttpResponse::BadRequest().body(format!(&quot;Unknown method: {}&quot;, req.method)),
     }
 
     // Create transaction
@@ -3550,25 +3557,25 @@ async fn call_contract(
 
     // Sign transaction
     if let Err(e) = tx.sign(&amp;wallet) {
-        return HttpResponse::InternalServerError().body(format!("Signing error: {}", e));
+        return HttpResponse::InternalServerError().body(format!(&quot;Signing error: {}&quot;, e));
     }
 
     // Add to blockchain
     if let Err(e) = blockchain_guard.add_transaction(tx.clone()) {
-        return HttpResponse::BadRequest().body(format!("Transaction error: {:?}", e));
+        return HttpResponse::BadRequest().body(format!(&quot;Transaction error: {:?}&quot;, e));
     }
 
     // Return success response
     let response = TransactionResponse {
         id: hash_to_hex(&amp;tx.id),
-        status: "pending".to_string(),
+        status: &quot;pending&quot;.to_string(),
     };
 
     HttpResponse::Ok().json(response)
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>In this chapter, we’ve built a complete blockchain application from scratch using Rust. Our RustChain implementation includes all the essential components of a modern blockchain:</p>
+<p>In this chapter, we've built a complete blockchain application from scratch using Rust. Our RustChain implementation includes all the essential components of a modern blockchain:</p>
 <ol>
 <li><strong>Cryptographic primitives</strong>: Secure hashing, digital signatures, and Merkle trees</li>
 <li><strong>Core data structures</strong>: Transactions, blocks, and the blockchain itself</li>
@@ -3587,7 +3594,7 @@ async fn call_contract(
 <li><strong>Cross-chain interoperability</strong>: Atomic swaps, wrapped tokens, and bridges</li>
 <li><strong>Governance mechanisms</strong>: On-chain voting, proposal systems, and treasury management</li>
 </ol>
-<p>By building a blockchain from scratch, you’ve gained valuable insights into the internals of this transformative technology. Whether you’re interested in contributing to existing blockchain projects or creating your own, the knowledge and skills you’ve acquired in this chapter will serve as a strong foundation for your future endeavors in the blockchain space.</p>
+<p>By building a blockchain from scratch, you've gained valuable insights into the internals of this transformative technology. Whether you're interested in contributing to existing blockchain projects or creating your own, the knowledge and skills you've acquired in this chapter will serve as a strong foundation for your future endeavors in the blockchain space.</p>
 
                     </main>
 

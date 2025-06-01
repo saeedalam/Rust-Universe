@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html" class="active"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,8 +185,8 @@
                         <h1 id="chapter-49-webassembly-and-frontend-development-with-rust"><a class="header" href="#chapter-49-webassembly-and-frontend-development-with-rust">Chapter 49: WebAssembly and Frontend Development with Rust</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>WebAssembly (WASM) has revolutionized web development by enabling languages other than JavaScript to run in browsers at near-native speed. Rust has emerged as one of the premier languages for WebAssembly development due to its performance characteristics, memory safety guarantees, and excellent tooling support.</p>
-<p>In this chapter, we’ll explore how Rust and WebAssembly work together to create high-performance web applications. We’ll cover WebAssembly fundamentals, the Rust-to-WASM compilation process, popular frontend frameworks, and best practices for building production-ready web applications with Rust.</p>
-<p>By the end of this chapter, you’ll have the knowledge to build modern, efficient web applications using Rust that run in any modern browser.</p>
+<p>In this chapter, we'll explore how Rust and WebAssembly work together to create high-performance web applications. We'll cover WebAssembly fundamentals, the Rust-to-WASM compilation process, popular frontend frameworks, and best practices for building production-ready web applications with Rust.</p>
+<p>By the end of this chapter, you'll have the knowledge to build modern, efficient web applications using Rust that run in any modern browser.</p>
 <h2 id="webassembly-fundamentals-for-rust-developers"><a class="header" href="#webassembly-fundamentals-for-rust-developers">WebAssembly Fundamentals for Rust Developers</a></h2>
 <h3 id="what-is-webassembly"><a class="header" href="#what-is-webassembly">What is WebAssembly?</a></h3>
 <p>WebAssembly is a binary instruction format designed as a portable compilation target for high-level languages. It allows code written in languages like Rust to run in web browsers with performance comparable to native applications.</p>
@@ -211,9 +218,9 @@ let memory: &amp;mut [u8];
 <li><strong>Linear memory</strong>: A single, contiguous block of memory</li>
 <li><strong>Resizable</strong>: Can grow (but not shrink) during execution</li>
 <li><strong>Shared with JavaScript</strong>: Accessible from both Rust and JavaScript</li>
-<li><strong>Not garbage collected</strong>: Memory management is the responsibility of the Rust code (which is where Rust’s ownership system shines)</li>
+<li><strong>Not garbage collected</strong>: Memory management is the responsibility of the Rust code (which is where Rust's ownership system shines)</li>
 </ol>
-<p>Rust’s ownership system maps perfectly to this model, as it guarantees memory safety without a garbage collector.</p>
+<p>Rust's ownership system maps perfectly to this model, as it guarantees memory safety without a garbage collector.</p>
 <h3 id="the-rust-to-wasm-compilation-pipeline"><a class="header" href="#the-rust-to-wasm-compilation-pipeline">The Rust-to-WASM Compilation Pipeline</a></h3>
 <p>Compiling Rust to WebAssembly involves several steps and tools:</p>
 <ol>
@@ -222,29 +229,29 @@ let memory: &amp;mut [u8];
 <li><strong>wasm-pack</strong>: Packages Rust crates for the web</li>
 <li><strong>wasm-opt</strong>: Optimizes WebAssembly binaries for size and performance</li>
 </ol>
-<p>Here’s a typical compilation flow:</p>
+<p>Here's a typical compilation flow:</p>
 <pre><code class="language-bash"># Initialize a new Rust project
 cargo new --lib wasm-example
 cd wasm-example
 
 # Configure as a WebAssembly library in Cargo.toml
 # [lib]
-# crate-type = ["cdylib", "rlib"]
+# crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 
 # Build with wasm-pack
 wasm-pack build --target web
 </code></pre>
 <p>The <code>Cargo.toml</code> file for a WebAssembly project typically looks like:</p>
 <pre><code class="language-toml">[package]
-name = "wasm-example"
-version = "0.1.0"
-edition = "2021"
+name = &quot;wasm-example&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [lib]
-crate-type = ["cdylib", "rlib"]
+crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 
 [dependencies]
-wasm-bindgen = "0.2.87"
+wasm-bindgen = &quot;0.2.87&quot;
 
 [profile.release]
 opt-level = 3
@@ -257,7 +264,7 @@ lto = true
 </span>use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-extern "C" {
+extern &quot;C&quot; {
     // Import JavaScript console.log
     #[wasm_bindgen(js_namespace = console)]
     fn log(s: &amp;str);
@@ -265,17 +272,17 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn greet(name: &amp;str) {
-    log(&amp;format!("Hello, {}!", name));
+    log(&amp;format!(&quot;Hello, {}!&quot;, name));
 }
 <span class="boring">}</span></code></pre></pre>
 <p>In addition to <code>wasm-bindgen</code>, several other crates enhance the Rust-WASM ecosystem:</p>
 <ul>
 <li><strong>web-sys</strong>: Provides bindings to Web APIs</li>
-<li><strong>js-sys</strong>: Provides bindings to JavaScript’s standard library</li>
-<li><strong>wasm-bindgen-futures</strong>: Bridges Rust’s async/await with JavaScript Promises</li>
+<li><strong>js-sys</strong>: Provides bindings to JavaScript's standard library</li>
+<li><strong>wasm-bindgen-futures</strong>: Bridges Rust's async/await with JavaScript Promises</li>
 <li><strong>gloo</strong>: A toolkit for building Rust and WebAssembly applications</li>
 </ul>
-<p>Here’s an example using <code>web-sys</code> to interact with the DOM:</p>
+<p>Here's an example using <code>web-sys</code> to interact with the DOM:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
@@ -284,20 +291,20 @@ use web_sys::{Document, Element, HtmlElement, Window};
 #[wasm_bindgen]
 pub fn create_element() -&gt; Result&lt;(), JsValue&gt; {
     // Get the window object
-    let window = web_sys::window().expect("no global window exists");
+    let window = web_sys::window().expect(&quot;no global window exists&quot;);
 
     // Get the document object
-    let document = window.document().expect("no document on window");
+    let document = window.document().expect(&quot;no document on window&quot;);
 
     // Create a new div element
-    let div = document.create_element("div")?;
+    let div = document.create_element(&quot;div&quot;)?;
 
     // Set some properties
-    div.set_inner_html("Hello from Rust!");
-    div.set_class_name("rust-div");
+    div.set_inner_html(&quot;Hello from Rust!&quot;);
+    div.set_class_name(&quot;rust-div&quot;);
 
     // Append to the body
-    let body = document.body().expect("document should have a body");
+    let body = document.body().expect(&quot;document should have a body&quot;);
     body.append_child(&amp;div)?;
 
     Ok(())
@@ -306,7 +313,7 @@ pub fn create_element() -&gt; Result&lt;(), JsValue&gt; {
 <h2 id="modern-frontend-frameworks-in-rust"><a class="header" href="#modern-frontend-frameworks-in-rust">Modern Frontend Frameworks in Rust</a></h2>
 <p>While you can use <code>wasm-bindgen</code> and <code>web-sys</code> directly to build web applications, several frameworks have emerged to make frontend development in Rust more productive and enjoyable.</p>
 <h3 id="yew-the-react-inspired-framework"><a class="header" href="#yew-the-react-inspired-framework">Yew: The React-inspired Framework</a></h3>
-<p><a href="https://yew.rs/">Yew</a> is a modern Rust framework for creating multi-threaded frontend applications with WebAssembly. It’s heavily inspired by React and uses a component-based architecture with a JSX-like syntax:</p>
+<p><a href="https://yew.rs/">Yew</a> is a modern Rust framework for creating multi-threaded frontend applications with WebAssembly. It's heavily inspired by React and uses a component-based architecture with a JSX-like syntax:</p>
 <pre><pre class="playground"><code class="language-rust">use yew::prelude::*;
 
 #[function_component(App)]
@@ -321,8 +328,8 @@ fn app() -&gt; Html {
 
     html! {
         &lt;div&gt;
-            &lt;h1&gt;{ "Counter: " }{ *counter }&lt;/h1&gt;
-            &lt;button {onclick}&gt;{ "Increment" }&lt;/button&gt;
+            &lt;h1&gt;{ &quot;Counter: &quot; }{ *counter }&lt;/h1&gt;
+            &lt;button {onclick}&gt;{ &quot;Increment&quot; }&lt;/button&gt;
         &lt;/div&gt;
     }
 }
@@ -349,9 +356,9 @@ fn Counter(cx: Scope) -&gt; impl IntoView {
 
     view! { cx,
         &lt;div&gt;
-            &lt;h1&gt;"Counter: " {count}&lt;/h1&gt;
+            &lt;h1&gt;&quot;Counter: &quot; {count}&lt;/h1&gt;
             &lt;button on:click=move |_| set_count.update(|n| *n += 1)&gt;
-                "Increment"
+                &quot;Increment&quot;
             &lt;/button&gt;
         &lt;/div&gt;
     }
@@ -382,10 +389,10 @@ fn App(cx: Scope) -&gt; Element {
 
     cx.render(rsx! {
         div {
-            h1 { "Counter: {count}" }
+            h1 { &quot;Counter: {count}&quot; }
             button {
                 onclick: move |_| count += 1,
-                "Increment"
+                &quot;Increment&quot;
             }
         }
     })
@@ -415,8 +422,8 @@ struct PriceProps {
 #[function_component(Price)]
 fn price(props: &amp;PriceProps) -&gt; Html {
     html! {
-        &lt;span class="price"&gt;
-            { format!("{:.2} {}", props.amount, props.currency) }
+        &lt;span class=&quot;price&quot;&gt;
+            { format!(&quot;{:.2} {}&quot;, props.amount, props.currency) }
         &lt;/span&gt;
     }
 }
@@ -435,7 +442,7 @@ fn UserContainer(cx: Scope, user_id: i32) -&gt; impl IntoView {
     );
 
     view! { cx,
-        &lt;Suspense fallback=move || view! { cx, &lt;p&gt;"Loading..."&lt;/p&gt; }&gt;
+        &lt;Suspense fallback=move || view! { cx, &lt;p&gt;&quot;Loading...&quot;&lt;/p&gt; }&gt;
             {move || user_data.read().map(|user| view! { cx, &lt;UserProfile user=user /&gt; })}
         &lt;/Suspense&gt;
     }
@@ -445,7 +452,7 @@ fn UserContainer(cx: Scope, user_id: i32) -&gt; impl IntoView {
 #[component]
 fn UserProfile(cx: Scope, user: User) -&gt; impl IntoView {
     view! { cx,
-        &lt;div class="profile"&gt;
+        &lt;div class=&quot;profile&quot;&gt;
             &lt;h2&gt;{&amp;user.name}&lt;/h2&gt;
             &lt;p&gt;{&amp;user.email}&lt;/p&gt;
             // More UI elements
@@ -454,7 +461,7 @@ fn UserProfile(cx: Scope, user: User) -&gt; impl IntoView {
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="composition-over-inheritance"><a class="header" href="#composition-over-inheritance">Composition over Inheritance</a></h4>
-<p>Rust doesn’t have inheritance, which encourages better component composition:</p>
+<p>Rust doesn't have inheritance, which encourages better component composition:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Button component in Dioxus
@@ -466,12 +473,12 @@ struct ButtonProps {
 }
 
 fn Button(cx: Scope&lt;ButtonProps&gt;) -&gt; Element {
-    let variant = cx.props.variant.clone().unwrap_or_else(|| "primary".to_string());
-    let class = format!("btn btn-{}", variant);
+    let variant = cx.props.variant.clone().unwrap_or_else(|| &quot;primary&quot;.to_string());
+    let class = format!(&quot;btn btn-{}&quot;, variant);
 
     cx.render(rsx! {
         button {
-            class: "{class}",
+            class: &quot;{class}&quot;,
             onclick: move |evt| cx.props.onclick.call(evt),
             &amp;cx.props.children
         }
@@ -482,9 +489,9 @@ fn Button(cx: Scope&lt;ButtonProps&gt;) -&gt; Element {
 fn App(cx: Scope) -&gt; Element {
     cx.render(rsx! {
         Button {
-            variant: "danger",
-            onclick: move |_| log::info!("Clicked!"),
-            "Delete Item"
+            variant: &quot;danger&quot;,
+            onclick: move |_| log::info!(&quot;Clicked!&quot;),
+            &quot;Delete Item&quot;
         }
     })
 }
@@ -509,8 +516,8 @@ fn counter() -&gt; Html {
 
     html! {
         &lt;div&gt;
-            &lt;p&gt;{ "Count: " }{ *state }&lt;/p&gt;
-            &lt;button onclick={increment}&gt;{ "Increment" }&lt;/button&gt;
+            &lt;p&gt;{ &quot;Count: &quot; }{ *state }&lt;/p&gt;
+            &lt;button onclick={increment}&gt;{ &quot;Increment&quot; }&lt;/button&gt;
         &lt;/div&gt;
     }
 }
@@ -522,12 +529,12 @@ fn counter() -&gt; Html {
 </span>// Leptos context example
 #[component]
 fn App(cx: Scope) -&gt; impl IntoView {
-    let theme = create_rw_signal(cx, "light");
+    let theme = create_rw_signal(cx, &quot;light&quot;);
 
     provide_context(cx, theme);
 
     view! { cx,
-        &lt;div class=move || format!("theme-{}", theme.get())&gt;
+        &lt;div class=move || format!(&quot;theme-{}&quot;, theme.get())&gt;
             &lt;Header /&gt;
             &lt;Main /&gt;
             &lt;Footer /&gt;
@@ -537,15 +544,15 @@ fn App(cx: Scope) -&gt; impl IntoView {
 
 #[component]
 fn ThemeSwitcher(cx: Scope) -&gt; impl IntoView {
-    let theme = use_context::&lt;RwSignal&lt;&amp;str&gt;&gt;(cx).expect("theme context not found");
+    let theme = use_context::&lt;RwSignal&lt;&amp;str&gt;&gt;(cx).expect(&quot;theme context not found&quot;);
 
     let toggle_theme = move |_| {
-        theme.update(|t| *t = if *t == "light" { "dark" } else { "light" });
+        theme.update(|t| *t = if *t == &quot;light&quot; { &quot;dark&quot; } else { &quot;light&quot; });
     };
 
     view! { cx,
         &lt;button on:click=toggle_theme&gt;
-            {move || format!("Switch to {} mode", if theme.get() == "light" { "dark" } else { "light" })}
+            {move || format!(&quot;Switch to {} mode&quot;, if theme.get() == &quot;light&quot; { &quot;dark&quot; } else { &quot;light&quot; })}
         &lt;/button&gt;
     }
 }
@@ -574,8 +581,8 @@ fn counter() -&gt; Html {
 
     html! {
         &lt;div&gt;
-            &lt;p&gt;{ "Count: " }{ state.count }&lt;/p&gt;
-            &lt;button onclick={increment}&gt;{ "Increment" }&lt;/button&gt;
+            &lt;p&gt;{ &quot;Count: &quot; }{ state.count }&lt;/p&gt;
+            &lt;button onclick={increment}&gt;{ &quot;Increment&quot; }&lt;/button&gt;
         &lt;/div&gt;
     }
 }
@@ -598,7 +605,7 @@ fn counter() -&gt; Html {
 </span>use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-extern "C" {
+extern &quot;C&quot; {
     // Import individual functions
     #[wasm_bindgen(js_namespace = console)]
     fn log(s: &amp;str);
@@ -617,7 +624,7 @@ extern "C" {
 pub fn log_current_date() {
     let date = Date::new();
     let date_string = date.to_iso_string();
-    log(&amp;format!("Current date: {}", date_string));
+    log(&amp;format!(&quot;Current date: {}&quot;, date_string));
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="calling-rust-from-javascript"><a class="header" href="#calling-rust-from-javascript">Calling Rust from JavaScript</a></h3>
@@ -636,7 +643,7 @@ pub fn fibonacci(n: u32) -&gt; u32 {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>In JavaScript:</p>
-<pre><code class="language-javascript">import { fibonacci } from "./pkg/my_wasm_lib.js";
+<pre><code class="language-javascript">import { fibonacci } from &quot;./pkg/my_wasm_lib.js&quot;;
 
 console.log(fibonacci(10)); // 55
 </code></pre>
@@ -671,12 +678,12 @@ pub fn process_user(js_user: JsValue) -&gt; Result&lt;JsValue, JsValue&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>In JavaScript:</p>
-<pre><code class="language-javascript">import { process_user } from "./pkg/my_wasm_lib.js";
+<pre><code class="language-javascript">import { process_user } from &quot;./pkg/my_wasm_lib.js&quot;;
 
 const user = {
   id: 1,
-  name: "Alice",
-  email: "alice@example.com",
+  name: &quot;Alice&quot;,
+  email: &quot;alice@example.com&quot;,
 };
 
 const processed = process_user(user);
@@ -689,7 +696,7 @@ console.log(processed); // { id: 1, name: 'ALICE', email: 'alice@example.com' }
 </span>use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-extern "C" {
+extern &quot;C&quot; {
     #[derive(Debug)]
     type Chart;
 
@@ -709,10 +716,10 @@ pub fn create_chart() -&gt; Result&lt;(), JsValue&gt; {
     let data = js_sys::Array::new();
 
     // Configure chart...
-    js_sys::Reflect::set(&amp;config, &amp;"type".into(), &amp;"bar".into())?;
-    js_sys::Reflect::set(&amp;config, &amp;"data".into(), &amp;data)?;
+    js_sys::Reflect::set(&amp;config, &amp;&quot;type&quot;.into(), &amp;&quot;bar&quot;.into())?;
+    js_sys::Reflect::set(&amp;config, &amp;&quot;data&quot;.into(), &amp;data)?;
 
-    let chart = Chart::new("myChart", &amp;config);
+    let chart = Chart::new(&quot;myChart&quot;, &amp;config);
 
     // Store chart reference for later use...
 
@@ -730,20 +737,20 @@ use web_sys::{Document, Element, HtmlElement, Window};
 
 #[wasm_bindgen]
 pub fn update_counter_display(count: u32) -&gt; Result&lt;(), JsValue&gt; {
-    let window = web_sys::window().expect("no global window exists");
-    let document = window.document().expect("no document on window");
+    let window = web_sys::window().expect(&quot;no global window exists&quot;);
+    let document = window.document().expect(&quot;no document on window&quot;);
 
-    match document.get_element_by_id("counter") {
+    match document.get_element_by_id(&quot;counter&quot;) {
         Some(element) =&gt; {
             element.set_text_content(Some(&amp;count.to_string()));
             Ok(())
         },
         None =&gt; {
-            let counter = document.create_element("div")?;
-            counter.set_id("counter");
+            let counter = document.create_element(&quot;div&quot;)?;
+            counter.set_id(&quot;counter&quot;);
             counter.set_text_content(Some(&amp;count.to_string()));
 
-            let body = document.body().expect("document should have a body");
+            let body = document.body().expect(&quot;document should have a body&quot;);
             body.append_child(&amp;counter)?;
             Ok(())
         }
@@ -760,15 +767,15 @@ use web_sys::{EventTarget, HtmlInputElement};
 
 #[wasm_bindgen]
 pub fn setup_form() -&gt; Result&lt;(), JsValue&gt; {
-    let window = web_sys::window().expect("no global window exists");
-    let document = window.document().expect("no document on window");
+    let window = web_sys::window().expect(&quot;no global window exists&quot;);
+    let document = window.document().expect(&quot;no document on window&quot;);
 
-    let input = document.get_element_by_id("name-input")
-        .expect("should have input element")
+    let input = document.get_element_by_id(&quot;name-input&quot;)
+        .expect(&quot;should have input element&quot;)
         .dyn_into::&lt;HtmlInputElement&gt;()?;
 
-    let output_div = document.get_element_by_id("output")
-        .expect("should have output element");
+    let output_div = document.get_element_by_id(&quot;output&quot;)
+        .expect(&quot;should have output element&quot;);
 
     // Clone for closure
     let input_clone = input.clone();
@@ -777,7 +784,7 @@ pub fn setup_form() -&gt; Result&lt;(), JsValue&gt; {
     // Create closure
     let closure = Closure::wrap(Box::new(move |_event: web_sys::Event| {
         let value = input_clone.value();
-        output_clone.set_text_content(Some(&amp;format!("Hello, {}!", value)));
+        output_clone.set_text_content(Some(&amp;format!(&quot;Hello, {}!&quot;, value)));
     }) as Box&lt;dyn FnMut(_)&gt;);
 
     // Set the event listener
@@ -801,7 +808,7 @@ use web_sys::{Request, RequestInit, RequestMode, Response};
 #[wasm_bindgen]
 pub async fn fetch_data(url: String) -&gt; Result&lt;JsValue, JsValue&gt; {
     let mut opts = RequestInit::new();
-    opts.method("GET");
+    opts.method(&quot;GET&quot;);
     opts.mode(RequestMode::Cors);
 
     let request = Request::new_with_str_and_init(&amp;url, &amp;opts)?;
@@ -825,16 +832,16 @@ use web_sys::{HtmlCanvasElement, WebGlRenderingContext};
 
 #[wasm_bindgen]
 pub fn setup_webgl() -&gt; Result&lt;(), JsValue&gt; {
-    let window = web_sys::window().expect("no global window exists");
-    let document = window.document().expect("no document on window");
+    let window = web_sys::window().expect(&quot;no global window exists&quot;);
+    let document = window.document().expect(&quot;no document on window&quot;);
 
-    let canvas = document.get_element_by_id("canvas")
-        .expect("should have canvas element")
+    let canvas = document.get_element_by_id(&quot;canvas&quot;)
+        .expect(&quot;should have canvas element&quot;)
         .dyn_into::&lt;HtmlCanvasElement&gt;()?;
 
     let context = canvas
-        .get_context("webgl")?
-        .expect("browser should support webgl")
+        .get_context(&quot;webgl&quot;)?
+        .expect(&quot;browser should support webgl&quot;)
         .dyn_into::&lt;WebGlRenderingContext&gt;()?;
 
     // Set up WebGL rendering
@@ -846,7 +853,7 @@ pub fn setup_webgl() -&gt; Result&lt;(), JsValue&gt; {
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
-<p>These examples demonstrate the power and flexibility of using Rust with WebAssembly for web development. In the next part of this chapter, we’ll explore more advanced topics including performance optimization, server-side rendering, and building production-ready applications.</p>
+<p>These examples demonstrate the power and flexibility of using Rust with WebAssembly for web development. In the next part of this chapter, we'll explore more advanced topics including performance optimization, server-side rendering, and building production-ready applications.</p>
 <h2 id="performance-optimization-for-wasm-applications"><a class="header" href="#performance-optimization-for-wasm-applications">Performance Optimization for WASM Applications</a></h2>
 <p>One of the primary reasons to use Rust with WebAssembly is performance. However, achieving optimal performance requires careful consideration and specific optimization techniques.</p>
 <h3 id="binary-size-optimization"><a class="header" href="#binary-size-optimization">Binary Size Optimization</a></h3>
@@ -884,7 +891,7 @@ fn internal_function() { /* ... */ }
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Feature flags to include only what's needed
-#[cfg(feature = "advanced")]
+#[cfg(feature = &quot;advanced&quot;)]
 pub fn advanced_functionality() { /* ... */ }
 <span class="boring">}</span></code></pre></pre>
 </li>
@@ -922,7 +929,7 @@ impl ImageProcessor {
 <p><strong>Use SIMD when available</strong>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[cfg(target_feature = "simd128")]
+</span>#[cfg(target_feature = &quot;simd128&quot;)]
 pub fn sum_f32_simd(values: &amp;[f32]) -&gt; f32 {
     use wasm_bindgen::JsValue;
     use std::arch::wasm32::*;
@@ -1066,7 +1073,7 @@ async function loadWasmModule() {
   if (window.wasmModule) return window.wasmModule;
 
   // Load only when needed
-  const module = await import("./pkg/my_wasm_lib.js");
+  const module = await import(&quot;./pkg/my_wasm_lib.js&quot;);
   await module.default();
   window.wasmModule = module;
   return module;
@@ -1079,7 +1086,7 @@ async function loadWasmModule() {
 async function loadWasm() {
   // Compile while downloading
   const { instance } = await WebAssembly.instantiateStreaming(
-    fetch("my_module.wasm"),
+    fetch(&quot;my_module.wasm&quot;),
     importObject
   );
   return instance.exports;
@@ -1089,16 +1096,16 @@ async function loadWasm() {
 <li>
 <p><strong>Progressive enhancement</strong>:</p>
 <pre><code class="language-html">&lt;!-- In HTML --&gt;
-&lt;div id="app"&gt;
+&lt;div id=&quot;app&quot;&gt;
   &lt;!-- Initial server-rendered content --&gt;
-  &lt;div class="loading"&gt;Loading advanced features...&lt;/div&gt;
+  &lt;div class=&quot;loading&quot;&gt;Loading advanced features...&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;script type="module"&gt;
+&lt;script type=&quot;module&quot;&gt;
   // Load Rust WASM module for enhanced functionality
-  import { initialize } from "./pkg/my_wasm_lib.js";
+  import { initialize } from &quot;./pkg/my_wasm_lib.js&quot;;
   initialize().then(() =&gt; {
-    document.querySelector(".loading").remove();
+    document.querySelector(&quot;.loading&quot;).remove();
     // Enable advanced features...
   });
 &lt;/script&gt;
@@ -1124,8 +1131,8 @@ async function loadWasm() {
 
 #[wasm_bindgen]
 pub fn benchmark_function() -&gt; f64 {
-    let window = web_sys::window().expect("should have window");
-    let performance = window.performance().expect("should have performance");
+    let window = web_sys::window().expect(&quot;should have window&quot;);
+    let performance = window.performance().expect(&quot;should have performance&quot;);
 
     let start = performance.now();
 
@@ -1150,8 +1157,8 @@ pub fn memory_usage() -&gt; JsValue {
     // Get memory statistics
     // This is simplified; actual implementation would require
     // custom instrumentation
-    usage.insert("heap_size", js_sys::global().total_js_heap_size());
-    usage.insert("used_heap", js_sys::global().used_js_heap_size());
+    usage.insert(&quot;heap_size&quot;, js_sys::global().total_js_heap_size());
+    usage.insert(&quot;used_heap&quot;, js_sys::global().used_js_heap_size());
 
     serde_wasm_bindgen::to_value(&amp;usage).unwrap()
 }
@@ -1179,22 +1186,22 @@ wasm-pack build --dev
 <p>Most projects use bundlers like webpack, Rollup, or Vite to manage dependencies:</p>
 <h4 id="webpack-configuration"><a class="header" href="#webpack-configuration">Webpack Configuration:</a></h4>
 <pre><code class="language-javascript">// webpack.config.js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
+const path = require(&quot;path&quot;);
+const HtmlWebpackPlugin = require(&quot;html-webpack-plugin&quot;);
+const WasmPackPlugin = require(&quot;@wasm-tool/wasm-pack-plugin&quot;);
 
 module.exports = {
-  entry: "./js/index.js",
+  entry: &quot;./js/index.js&quot;,
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    path: path.resolve(__dirname, &quot;dist&quot;),
+    filename: &quot;bundle.js&quot;,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: &quot;index.html&quot;,
     }),
     new WasmPackPlugin({
-      crateDirectory: path.resolve(__dirname, "."),
+      crateDirectory: path.resolve(__dirname, &quot;.&quot;),
     }),
   ],
   experiments: {
@@ -1204,14 +1211,14 @@ module.exports = {
 </code></pre>
 <h4 id="vite-configuration"><a class="header" href="#vite-configuration">Vite Configuration:</a></h4>
 <pre><code class="language-javascript">// vite.config.js
-import { defineConfig } from "vite";
-import wasm from "vite-plugin-wasm";
-import topLevelAwait from "vite-plugin-top-level-await";
+import { defineConfig } from &quot;vite&quot;;
+import wasm from &quot;vite-plugin-wasm&quot;;
+import topLevelAwait from &quot;vite-plugin-top-level-await&quot;;
 
 export default defineConfig({
   plugins: [wasm(), topLevelAwait()],
   build: {
-    target: "esnext",
+    target: &quot;esnext&quot;,
   },
 });
 </code></pre>
@@ -1238,21 +1245,21 @@ server {
 <pre><code class="language-javascript">// In JavaScript
 async function loadFeature() {
   // Only load the feature when needed
-  const feature = await import("./features/advanced.js");
+  const feature = await import(&quot;./features/advanced.js&quot;);
   const wasmModule = await feature.initWasm();
   return wasmModule;
 }
 
 // Use when required
-button.addEventListener("click", async () =&gt; {
+button.addEventListener(&quot;click&quot;, async () =&gt; {
   const module = await loadFeature();
   module.runAdvancedFeature();
 });
 </code></pre>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>WebAssembly and Rust together create a powerful platform for building high-performance web applications. The combination of Rust’s safety guarantees and WebAssembly’s near-native performance opens up new possibilities for web development.</p>
-<p>In this chapter, we’ve explored the fundamentals of WebAssembly from a Rust developer’s perspective, examined modern frontend frameworks like Yew, Leptos, and Dioxus, and covered essential topics like state management, JavaScript interoperability, and performance optimization.</p>
-<p>As the WebAssembly ecosystem continues to evolve, Rust remains at the forefront, with excellent tooling and framework support. By mastering the techniques covered in this chapter, you’re well-equipped to build sophisticated, performant web applications using Rust and WebAssembly.</p>
+<p>WebAssembly and Rust together create a powerful platform for building high-performance web applications. The combination of Rust's safety guarantees and WebAssembly's near-native performance opens up new possibilities for web development.</p>
+<p>In this chapter, we've explored the fundamentals of WebAssembly from a Rust developer's perspective, examined modern frontend frameworks like Yew, Leptos, and Dioxus, and covered essential topics like state management, JavaScript interoperability, and performance optimization.</p>
+<p>As the WebAssembly ecosystem continues to evolve, Rust remains at the forefront, with excellent tooling and framework support. By mastering the techniques covered in this chapter, you're well-equipped to build sophisticated, performant web applications using Rust and WebAssembly.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
@@ -1281,7 +1288,7 @@ button.addEventListener("click", async () =&gt; {
 </li>
 </ol>
 <h2 id="project-interactive-web-application"><a class="header" href="#project-interactive-web-application">Project: Interactive Web Application</a></h2>
-<p>Let’s put everything together by building a feature-rich single-page application using Rust and WebAssembly. We’ll create a task management application with the following features:</p>
+<p>Let's put everything together by building a feature-rich single-page application using Rust and WebAssembly. We'll create a task management application with the following features:</p>
 <ul>
 <li>Task creation, editing, and deletion</li>
 <li>Task categorization and filtering</li>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html" class="active"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,8 +185,8 @@
                         <h1 id="chapter-42-machine-learning-and-data-science"><a class="header" href="#chapter-42-machine-learning-and-data-science">Chapter 42: Machine Learning and Data Science</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Machine learning (ML) and data science have revolutionized how we extract insights from data and build intelligent systems. Traditionally, languages like Python have dominated these fields due to their rich ecosystem of libraries and tools. However, Rust is making significant inroads into the world of ML and data science, offering performance, safety, and reliability that can be crucial for production systems.</p>
-<p>Rust’s strengths—memory safety without garbage collection, concurrency without data races, and performance comparable to C and C++—make it an excellent candidate for computationally intensive and mission-critical ML applications. While Rust’s ML ecosystem is still maturing compared to Python’s, it offers unique advantages for specific use cases, particularly where performance, reliability, and deployment simplicity matter.</p>
-<p>In this chapter, we’ll explore how to leverage Rust for machine learning and data science tasks. We’ll cover:</p>
+<p>Rust's strengths—memory safety without garbage collection, concurrency without data races, and performance comparable to C and C++—make it an excellent candidate for computationally intensive and mission-critical ML applications. While Rust's ML ecosystem is still maturing compared to Python's, it offers unique advantages for specific use cases, particularly where performance, reliability, and deployment simplicity matter.</p>
+<p>In this chapter, we'll explore how to leverage Rust for machine learning and data science tasks. We'll cover:</p>
 <ul>
 <li>Fundamentals of machine learning in Rust</li>
 <li>Building efficient data processing pipelines</li>
@@ -189,9 +196,9 @@
 <li>Utilizing GPU acceleration for ML workloads</li>
 <li>Integrating with the Python ML ecosystem</li>
 </ul>
-<p>By the end of this chapter, you’ll have a solid understanding of how to use Rust effectively in ML and data science projects, and you’ll appreciate the unique advantages Rust brings to this domain.</p>
+<p>By the end of this chapter, you'll have a solid understanding of how to use Rust effectively in ML and data science projects, and you'll appreciate the unique advantages Rust brings to this domain.</p>
 <h2 id="machine-learning-and-data-science-fundamentals"><a class="header" href="#machine-learning-and-data-science-fundamentals">Machine Learning and Data Science Fundamentals</a></h2>
-<p>Before diving into Rust-specific implementations, let’s briefly review some key machine learning and data science concepts.</p>
+<p>Before diving into Rust-specific implementations, let's briefly review some key machine learning and data science concepts.</p>
 <h3 id="core-ml-concepts"><a class="header" href="#core-ml-concepts">Core ML Concepts</a></h3>
 <p>Machine learning is a subset of artificial intelligence focused on building systems that can learn from and make decisions based on data. The main categories of machine learning include:</p>
 <ol>
@@ -216,9 +223,9 @@
 <li><strong>Model Evaluation</strong>: Assessing model performance</li>
 <li><strong>Model Deployment</strong>: Serving model predictions in production</li>
 </ol>
-<p>Let’s explore how to implement these steps in Rust.</p>
+<p>Let's explore how to implement these steps in Rust.</p>
 <h2 id="data-processing-in-rust"><a class="header" href="#data-processing-in-rust">Data Processing in Rust</a></h2>
-<p>Efficient data processing is the foundation of ML and data science. Let’s look at Rust’s capabilities for working with data.</p>
+<p>Efficient data processing is the foundation of ML and data science. Let's look at Rust's capabilities for working with data.</p>
 <h3 id="data-structures-for-ml"><a class="header" href="#data-structures-for-ml">Data Structures for ML</a></h3>
 <p>Rust offers several crates for handling the data structures commonly used in ML:</p>
 <h4 id="ndarray"><a class="header" href="#ndarray">ndarray</a></h4>
@@ -242,11 +249,11 @@ fn ndarray_example() {
     // Matrix operations
     let e = b.dot(&amp;arr2(&amp;[[1.0], [2.0], [3.0]])); // Matrix multiplication
 
-    println!("a: {}", a);
-    println!("b: {}", b);
-    println!("c: {}", c);
-    println!("d: {}", d);
-    println!("e: {}", e);
+    println!(&quot;a: {}&quot;, a);
+    println!(&quot;b: {}&quot;, b);
+    println!(&quot;c: {}&quot;, c);
+    println!(&quot;d: {}&quot;, d);
+    println!(&quot;e: {}&quot;, e);
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="polars"><a class="header" href="#polars">polars</a></h4>
@@ -258,20 +265,20 @@ fn ndarray_example() {
 fn polars_example() -&gt; Result&lt;(), PolarsError&gt; {
     // Create a DataFrame
     let df = df! [
-        "A" =&gt; [1, 2, 3, 4, 5],
-        "B" =&gt; [6, 7, 8, 9, 10],
-        "C" =&gt; [11, 12, 13, 14, 15]
+        &quot;A&quot; =&gt; [1, 2, 3, 4, 5],
+        &quot;B&quot; =&gt; [6, 7, 8, 9, 10],
+        &quot;C&quot; =&gt; [11, 12, 13, 14, 15]
     ]?;
 
-    println!("{}", df);
+    println!(&quot;{}&quot;, df);
 
     // Basic operations
-    let filtered = df.filter(&amp;df["A"].lt(3))?;
-    println!("Filtered:\n{}", filtered);
+    let filtered = df.filter(&amp;df[&quot;A&quot;].lt(3))?;
+    println!(&quot;Filtered:\n{}&quot;, filtered);
 
     // Group by and aggregate
-    let grouped = df.groupby(["A"])?.agg(&amp;[("B", &amp;["sum", "mean"])])?;
-    println!("Grouped:\n{}", grouped);
+    let grouped = df.groupby([&quot;A&quot;])?.agg(&amp;[(&quot;B&quot;, &amp;[&quot;sum&quot;, &quot;mean&quot;])])?;
+    println!(&quot;Grouped:\n{}&quot;, grouped);
 
     Ok(())
 }
@@ -295,7 +302,7 @@ struct Record {
 }
 
 fn load_csv_data() -&gt; Result&lt;Vec&lt;Record&gt;, Box&lt;dyn std::error::Error&gt;&gt; {
-    let file = File::open("data.csv")?;
+    let file = File::open(&quot;data.csv&quot;)?;
     let reader = BufReader::new(file);
     let mut csv_reader = Reader::from_reader(reader);
 
@@ -309,13 +316,13 @@ fn load_csv_data() -&gt; Result&lt;Vec&lt;Record&gt;, Box&lt;dyn std::error::Err
 </span>use polars::prelude::*;
 
 fn load_large_csv() -&gt; Result&lt;DataFrame, PolarsError&gt; {
-    CsvReader::from_path("large_data.csv")?
+    CsvReader::from_path(&quot;large_data.csv&quot;)?
         .has_header(true)
         .finish()
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="data-cleaning-and-transformation"><a class="header" href="#data-cleaning-and-transformation">Data Cleaning and Transformation</a></h4>
-<p>Data preprocessing is a critical step in ML workflows. Here’s an example using <code>polars</code>:</p>
+<p>Data preprocessing is a critical step in ML workflows. Here's an example using <code>polars</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use polars::prelude::*;
@@ -325,7 +332,7 @@ fn preprocess_data(df: &amp;mut DataFrame) -&gt; Result&lt;DataFrame, PolarsErro
     let df = df.fill_null(FillNullStrategy::Mean)?;
 
     // Normalize numerical features
-    let numeric_cols = vec!["feature1", "feature2", "feature3"];
+    let numeric_cols = vec![&quot;feature1&quot;, &quot;feature2&quot;, &quot;feature3&quot;];
 
     let mut processed_df = df.clone();
 
@@ -339,7 +346,7 @@ fn preprocess_data(df: &amp;mut DataFrame) -&gt; Result&lt;DataFrame, PolarsErro
     }
 
     // One-hot encode categorical features
-    let dummies = processed_df.columns(["category"])?
+    let dummies = processed_df.columns([&quot;category&quot;])?
         .to_dummies()?;
 
     // Join the processed data
@@ -347,7 +354,7 @@ fn preprocess_data(df: &amp;mut DataFrame) -&gt; Result&lt;DataFrame, PolarsErro
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="feature-engineering"><a class="header" href="#feature-engineering">Feature Engineering</a></h3>
-<p>Feature engineering is the process of creating new features or transforming existing ones to improve model performance. Here’s a simple example:</p>
+<p>Feature engineering is the process of creating new features or transforming existing ones to improve model performance. Here's a simple example:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use ndarray::{Array1, Array2};
@@ -370,9 +377,9 @@ fn interaction_features(x1: &amp;Array1&lt;f64&gt;, x2: &amp;Array1&lt;f64&gt;) 
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="building-ml-models-in-rust"><a class="header" href="#building-ml-models-in-rust">Building ML Models in Rust</a></h2>
-<p>Now that we understand how to process data in Rust, let’s look at building ML models.</p>
+<p>Now that we understand how to process data in Rust, let's look at building ML models.</p>
 <h3 id="linear-models"><a class="header" href="#linear-models">Linear Models</a></h3>
-<p>Linear models are the simplest ML algorithms. Here’s an implementation of linear regression:</p>
+<p>Linear models are the simplest ML algorithms. Here's an implementation of linear regression:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use ndarray::{Array1, Array2};
@@ -419,7 +426,7 @@ impl LinearRegression {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="tree-based-models"><a class="header" href="#tree-based-models">Tree-Based Models</a></h3>
-<p>Decision trees are popular ML algorithms for both classification and regression. Here’s a simplified implementation:</p>
+<p>Decision trees are popular ML algorithms for both classification and regression. Here's a simplified implementation:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::HashMap;
@@ -479,7 +486,7 @@ impl DecisionNode {
                     self.right.as_ref().unwrap().predict(features)
                 }
             }
-            None =&gt; panic!("Decision node without rule or prediction"),
+            None =&gt; panic!(&quot;Decision node without rule or prediction&quot;),
         }
     }
 }
@@ -638,7 +645,7 @@ impl DecisionTree {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="using-existing-ml-crates"><a class="header" href="#using-existing-ml-crates">Using Existing ML Crates</a></h3>
-<p>While implementing ML algorithms from scratch is educational, in practice, you’ll often use existing libraries. Let’s look at some Rust ML crates:</p>
+<p>While implementing ML algorithms from scratch is educational, in practice, you'll often use existing libraries. Let's look at some Rust ML crates:</p>
 <h4 id="linfa"><a class="header" href="#linfa">linfa</a></h4>
 <p>The <code>linfa</code> crate is a collection of ML algorithms written in Rust:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -662,8 +669,8 @@ fn linfa_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let test_features = Array2::ones((10, 3));
     let predictions = model.predict(&amp;test_features);
 
-    println!("Predictions: {:?}", predictions);
-    println!("Model coefficients: {:?}", model.params());
+    println!(&quot;Predictions: {:?}&quot;, predictions);
+    println!(&quot;Model coefficients: {:?}&quot;, model.params());
 
     Ok(())
 }
@@ -704,12 +711,12 @@ fn smartcore_example() {
     ]);
     let predictions = model.predict(&amp;x_test).unwrap();
 
-    println!("Predictions: {:?}", predictions);
+    println!(&quot;Predictions: {:?}&quot;, predictions);
 }
 <span class="boring">}</span></code></pre></pre>
-<p>By using these libraries, you can implement ML models more efficiently while still leveraging Rust’s performance and safety benefits.</p>
+<p>By using these libraries, you can implement ML models more efficiently while still leveraging Rust's performance and safety benefits.</p>
 <h2 id="interfacing-with-ml-frameworks"><a class="header" href="#interfacing-with-ml-frameworks">Interfacing with ML Frameworks</a></h2>
-<p>While Rust’s native ML ecosystem is growing, you might need to interface with established ML frameworks written in other languages. Let’s explore how to do this effectively.</p>
+<p>While Rust's native ML ecosystem is growing, you might need to interface with established ML frameworks written in other languages. Let's explore how to do this effectively.</p>
 <h3 id="rust-and-python-integration"><a class="header" href="#rust-and-python-integration">Rust and Python Integration</a></h3>
 <p>Python has a rich ecosystem of ML libraries like TensorFlow, PyTorch, and scikit-learn. You can interface with these libraries from Rust using crates like <code>pyo3</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -721,33 +728,33 @@ use ndarray::Array2;
 fn use_sklearn_from_rust() -&gt; PyResult&lt;()&gt; {
     Python::with_gil(|py| {
         // Import Python modules
-        let sklearn = py.import("sklearn.ensemble")?;
-        let np = py.import("numpy")?;
+        let sklearn = py.import(&quot;sklearn.ensemble&quot;)?;
+        let np = py.import(&quot;numpy&quot;)?;
 
         // Create NumPy arrays for data
-        let x_data = np.call_method1("array", (vec![
+        let x_data = np.call_method1(&quot;array&quot;, (vec![
             vec![1.0, 2.0, 3.0],
             vec![4.0, 5.0, 6.0],
             vec![7.0, 8.0, 9.0],
         ],))?;
 
-        let y_data = np.call_method1("array", (vec![0, 1, 1],))?;
+        let y_data = np.call_method1(&quot;array&quot;, (vec![0, 1, 1],))?;
 
         // Create and train a random forest classifier
-        let rf = sklearn.call_method1("RandomForestClassifier", (10,))?;
-        rf.call_method1("fit", (x_data, y_data))?;
+        let rf = sklearn.call_method1(&quot;RandomForestClassifier&quot;, (10,))?;
+        rf.call_method1(&quot;fit&quot;, (x_data, y_data))?;
 
         // Make predictions
-        let x_test = np.call_method1("array", (vec![
+        let x_test = np.call_method1(&quot;array&quot;, (vec![
             vec![3.0, 5.0, 7.0],
         ],))?;
 
-        let predictions = rf.call_method1("predict", (x_test,))?;
-        println!("Predictions: {:?}", predictions);
+        let predictions = rf.call_method1(&quot;predict&quot;, (x_test,))?;
+        println!(&quot;Predictions: {:?}&quot;, predictions);
 
         // Get feature importances
-        let importances = rf.getattr("feature_importances_")?;
-        println!("Feature importances: {:?}", importances);
+        let importances = rf.getattr(&quot;feature_importances_&quot;)?;
+        println!(&quot;Feature importances: {:?}&quot;, importances);
 
         Ok(())
     })
@@ -764,7 +771,7 @@ use std::io::Read;
 fn use_tensorflow_model() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Load a pre-trained model
     let mut model_data = Vec::new();
-    File::open("model.pb")?.read_to_end(&amp;mut model_data)?;
+    File::open(&quot;model.pb&quot;)?.read_to_end(&amp;mut model_data)?;
 
     // Create TensorFlow graph and session
     let mut graph = Graph::new();
@@ -777,8 +784,8 @@ fn use_tensorflow_model() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
 
     // Run inference
     let mut args = SessionRunArgs::new();
-    let input_op = graph.operation_by_name_required("input_op")?;
-    let output_op = graph.operation_by_name_required("output_op")?;
+    let input_op = graph.operation_by_name_required(&quot;input_op&quot;)?;
+    let output_op = graph.operation_by_name_required(&quot;output_op&quot;)?;
 
     args.add_feed(&amp;input_op, 0, &amp;input_tensor);
     let output_fetch = args.request_fetch(&amp;output_op, 0);
@@ -788,7 +795,7 @@ fn use_tensorflow_model() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
     // Get results
     let output_tensor = args.fetch::&lt;f32&gt;(output_fetch)?;
     let output_data = output_tensor.to_vec();
-    println!("Model output: {:?}", output_data);
+    println!(&quot;Model output: {:?}&quot;, output_data);
 
     Ok(())
 }
@@ -802,7 +809,7 @@ fn use_tensorflow_model() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
 fn use_onnx_model() -&gt; TractResult&lt;()&gt; {
     // Load the ONNX model
     let model = tract_onnx::onnx()
-        .model_for_path("model.onnx")?
+        .model_for_path(&quot;model.onnx&quot;)?
         .with_input_fact(0, InferenceFact::dt_shape(f32::datum_type(), tvec!(1, 3, 224, 224)))?
         .into_optimized()?
         .into_runnable()?;
@@ -822,13 +829,13 @@ fn use_onnx_model() -&gt; TractResult&lt;()&gt; {
         .map(|(idx, _)| idx)
         .unwrap();
 
-    println!("Predicted class: {}", best_class_idx);
+    println!(&quot;Predicted class: {}&quot;, best_class_idx);
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="performance-critical-ml-algorithms"><a class="header" href="#performance-critical-ml-algorithms">Performance-Critical ML Algorithms</a></h2>
-<p>One of Rust’s strengths is its performance, making it ideal for implementing performance-critical ML algorithms. Let’s explore some examples.</p>
+<p>One of Rust's strengths is its performance, making it ideal for implementing performance-critical ML algorithms. Let's explore some examples.</p>
 <h3 id="k-means-clustering"><a class="header" href="#k-means-clustering">K-Means Clustering</a></h3>
 <p>K-means is a popular unsupervised learning algorithm for clustering:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -952,7 +959,7 @@ impl KMeans {
     }
 
     fn predict(&amp;self, x: &amp;Array2&lt;f64&gt;) -&gt; Array1&lt;usize&gt; {
-        let centroids = self.centroids.as_ref().expect("Model not fitted yet");
+        let centroids = self.centroids.as_ref().expect(&quot;Model not fitted yet&quot;);
         let n_samples = x.nrows();
         let mut labels = Array1::zeros(n_samples);
 
@@ -1080,7 +1087,7 @@ fn cuda_example() -&gt; Result&lt;(), rustacuda::error::CudaError&gt; {
     let mut device_data = DeviceBox::new(&amp;host_data)?;
 
     // Load and compile the kernel
-    let module = Module::load_from_string(&amp;include_str!("kernel.ptx"))?;
+    let module = Module::load_from_string(&amp;include_str!(&quot;kernel.ptx&quot;))?;
 
     // Launch the kernel
     let stream = Stream::new(StreamFlags::NON_BLOCKING, None)?;
@@ -1094,7 +1101,7 @@ fn cuda_example() -&gt; Result&lt;(), rustacuda::error::CudaError&gt; {
     // Copy the result back
     device_data.copy_to(&amp;mut host_data)?;
 
-    println!("Result: {:?}", host_data);
+    println!(&quot;Result: {:?}&quot;, host_data);
 
     Ok(())
 }
@@ -1107,12 +1114,12 @@ fn cuda_example() -&gt; Result&lt;(), rustacuda::error::CudaError&gt; {
 
 fn opencl_example() -&gt; ocl::Result&lt;()&gt; {
     // OpenCL kernel as a string
-    let src = r#"
+    let src = r#&quot;
         __kernel void multiply_by_2(__global float* data) {
             size_t idx = get_global_id(0);
             data[idx] *= 2.0f;
         }
-    "#;
+    &quot;#;
 
     // Initialize OpenCL
     let pro_que = ProQue::builder()
@@ -1130,7 +1137,7 @@ fn opencl_example() -&gt; ocl::Result&lt;()&gt; {
         .build()?;
 
     // Create and enqueue the kernel
-    let kernel = pro_que.kernel_builder("multiply_by_2")
+    let kernel = pro_que.kernel_builder(&quot;multiply_by_2&quot;)
         .arg(&amp;buffer)
         .build()?;
 
@@ -1139,7 +1146,7 @@ fn opencl_example() -&gt; ocl::Result&lt;()&gt; {
     // Read the results
     buffer.read(&amp;mut data).enq()?;
 
-    println!("Result: {:?}", data);
+    println!(&quot;Result: {:?}&quot;, data);
 
     Ok(())
 }
@@ -1171,24 +1178,24 @@ fn neural_network_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;
     // Forward pass
     let y = net.forward(&amp;x);
 
-    println!("Input shape: {:?}", x.size());
-    println!("Output shape: {:?}", y.size());
+    println!(&quot;Input shape: {:?}&quot;, x.size());
+    println!(&quot;Output shape: {:?}&quot;, y.size());
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="modern-rust-ml-frameworks"><a class="header" href="#modern-rust-ml-frameworks">Modern Rust ML Frameworks</a></h2>
-<p>Rust’s ML ecosystem has grown significantly in recent years, with several promising frameworks emerging. Let’s explore some of the most notable ones.</p>
+<p>Rust's ML ecosystem has grown significantly in recent years, with several promising frameworks emerging. Let's explore some of the most notable ones.</p>
 <h3 id="burn-a-modern-deep-learning-framework"><a class="header" href="#burn-a-modern-deep-learning-framework">Burn: A Modern Deep Learning Framework</a></h3>
 <p>Burn is a modern deep learning framework written in Rust that offers strong GPU acceleration, automatic differentiation, and high-performance neural network implementations.</p>
 <p>Key features of Burn include:</p>
 <ol>
-<li><strong>Type-safety</strong>: Burn leverages Rust’s type system to catch errors at compile time</li>
+<li><strong>Type-safety</strong>: Burn leverages Rust's type system to catch errors at compile time</li>
 <li><strong>Backend Agnostic</strong>: Supports CPU, CUDA, and other backends</li>
 <li><strong>Dynamic Computation Graph</strong>: Allows for flexible model architectures</li>
 <li><strong>High Performance</strong>: Optimized for both training and inference</li>
 </ol>
-<p>Here’s a simple example of using Burn to create and train a neural network:</p>
+<p>Here's a simple example of using Burn to create and train a neural network:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use burn::{
@@ -1277,7 +1284,7 @@ fn train_example&lt;B: Backend&gt;() {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="candle-for-foundation-models"><a class="header" href="#candle-for-foundation-models">Candle: For Foundation Models</a></h3>
-<p>Candle is a minimalist ML framework focused on running foundation models (like LLMs) efficiently. It’s designed for inference rather than training and is optimized for production deployments.</p>
+<p>Candle is a minimalist ML framework focused on running foundation models (like LLMs) efficiently. It's designed for inference rather than training and is optimized for production deployments.</p>
 <p>Key features of Candle include:</p>
 <ol>
 <li><strong>Minimal Dependencies</strong>: Self-contained with few external dependencies</li>
@@ -1285,7 +1292,7 @@ fn train_example&lt;B: Backend&gt;() {
 <li><strong>Quantization Support</strong>: 4-bit and 8-bit quantization for efficient inference</li>
 <li><strong>Model Compatibility</strong>: Easy loading of models from Hugging Face and other sources</li>
 </ol>
-<p>Here’s how to load and run an LLM with Candle:</p>
+<p>Here's how to load and run an LLM with Candle:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use candle::{DType, Device, Tensor};
@@ -1305,7 +1312,7 @@ fn load_llama_model() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let config = Config::default();
 
     // Load weights from disk
-    let vb = VarBuilder::from_saved("path/to/model/weights", DType::F16, &amp;device)?;
+    let vb = VarBuilder::from_saved(&quot;path/to/model/weights&quot;, DType::F16, &amp;device)?;
 
     // Initialize the model
     let model = Llama::new(&amp;config, vb)?;
@@ -1319,13 +1326,13 @@ fn load_llama_model() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
     // Process outputs
     let next_token = ops::argmax(&amp;logits.i([(tokens.len() - 1)..])?, -1)?;
-    println!("Next token: {:?}", next_token);
+    println!(&quot;Next token: {:?}&quot;, next_token);
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="linfa-for-traditional-ml-algorithms"><a class="header" href="#linfa-for-traditional-ml-algorithms">Linfa: For Traditional ML Algorithms</a></h3>
-<p>Linfa is Rust’s answer to scikit-learn, providing implementations of traditional machine learning algorithms:</p>
+<p>Linfa is Rust's answer to scikit-learn, providing implementations of traditional machine learning algorithms:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use linfa::prelude::*;
@@ -1345,7 +1352,7 @@ fn kmeans_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
     // Convert to a dataset
     let dataset = Dataset::from(data.clone())
-        .with_feature_names(vec!["x".to_string(), "y".to_string()]);
+        .with_feature_names(vec![&quot;x&quot;.to_string(), &quot;y&quot;.to_string()]);
 
     // Run K-means clustering with k=2
     let model = KMeans::params(2)
@@ -1359,14 +1366,14 @@ fn kmeans_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Get cluster centers
     let centroids = model.centroids();
 
-    println!("Labels: {:?}", labels);
-    println!("Centroids: {:?}", centroids);
+    println!(&quot;Labels: {:?}&quot;, labels);
+    println!(&quot;Centroids: {:?}&quot;, centroids);
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="integration-with-python-ml-ecosystem"><a class="header" href="#integration-with-python-ml-ecosystem">Integration with Python ML Ecosystem</a></h2>
-<p>While Rust’s ML ecosystem is growing, Python remains the dominant language for ML due to its extensive libraries like TensorFlow, PyTorch, scikit-learn, and more. Fortunately, Rust provides excellent tools for integrating with Python’s ML ecosystem.</p>
+<p>While Rust's ML ecosystem is growing, Python remains the dominant language for ML due to its extensive libraries like TensorFlow, PyTorch, scikit-learn, and more. Fortunately, Rust provides excellent tools for integrating with Python's ML ecosystem.</p>
 <h3 id="pyo3-for-seamless-interoperability"><a class="header" href="#pyo3-for-seamless-interoperability">PyO3 for Seamless Interoperability</a></h3>
 <p>PyO3 allows you to create Python bindings for Rust code and call Python functions from Rust:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1378,30 +1385,30 @@ use pyo3::types::{PyList, PyDict};
 fn scikit_learn_from_rust() -&gt; PyResult&lt;()&gt; {
     Python::with_gil(|py| {
         // Import Python modules
-        let sklearn = py.import("sklearn.ensemble")?;
-        let np = py.import("numpy")?;
+        let sklearn = py.import(&quot;sklearn.ensemble&quot;)?;
+        let np = py.import(&quot;numpy&quot;)?;
 
         // Create sample data
-        let x = np.call_method1("array", ([
+        let x = np.call_method1(&quot;array&quot;, ([
             [1.0, 2.0],
             [2.0, 3.0],
             [3.0, 4.0],
             [4.0, 5.0],
         ],))?;
 
-        let y = np.call_method1("array", ([0, 0, 1, 1],))?;
+        let y = np.call_method1(&quot;array&quot;, ([0, 0, 1, 1],))?;
 
         // Create a random forest classifier
-        let rf = sklearn.call_method1("RandomForestClassifier", ())?;
+        let rf = sklearn.call_method1(&quot;RandomForestClassifier&quot;, ())?;
 
         // Train the model
-        rf.call_method1("fit", (x, y))?;
+        rf.call_method1(&quot;fit&quot;, (x, y))?;
 
         // Make predictions
-        let x_test = np.call_method1("array", ([[2.5, 3.5], [3.5, 4.5]],))?;
-        let predictions = rf.call_method1("predict", (x_test,))?;
+        let x_test = np.call_method1(&quot;array&quot;, ([[2.5, 3.5], [3.5, 4.5]],))?;
+        let predictions = rf.call_method1(&quot;predict&quot;, (x_test,))?;
 
-        println!("Predictions: {:?}", predictions);
+        println!(&quot;Predictions: {:?}&quot;, predictions);
 
         Ok(())
     })
@@ -1446,7 +1453,7 @@ fn rust_ml_helpers(_py: Python, m: &amp;PyModule) -&gt; PyResult&lt;()&gt; {
 fn tensorflow_inference() -&gt; Result&lt;(), Status&gt; {
     // Load a pre-trained model
     let mut graph = Graph::new();
-    let model_data = std::fs::read("model.pb")?;
+    let model_data = std::fs::read(&quot;model.pb&quot;)?;
     graph.import_graph_def(&amp;model_data, &amp;ImportGraphDefOptions::new())?;
 
     // Create a session
@@ -1460,14 +1467,14 @@ fn tensorflow_inference() -&gt; Result&lt;(), Status&gt; {
     let mut input_tensors = vec![input_tensor];
     let output_tensors = session.run(
         &amp;[],
-        &amp;[("input", &amp;input_tensors[0])],
-        &amp;["output"],
+        &amp;[(&quot;input&quot;, &amp;input_tensors[0])],
+        &amp;[&quot;output&quot;],
         None,
     )?;
 
     // Process results
     let output: &amp;Tensor&lt;f32&gt; = &amp;output_tensors[0];
-    println!("Output shape: {:?}", output.dims());
+    println!(&quot;Output shape: {:?}&quot;, output.dims());
 
     Ok(())
 }
@@ -1480,7 +1487,7 @@ use std::path::Path;
 
 fn pytorch_model_inference() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Load a TorchScript model
-    let model_path = Path::new("model.pt");
+    let model_path = Path::new(&quot;model.pt&quot;);
     let model = CModule::load(model_path)?;
 
     // Prepare input tensor
@@ -1490,7 +1497,7 @@ fn pytorch_model_inference() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt
     // Run inference
     let output = model.forward_ts(&amp;[input])?;
 
-    println!("Output: {:?}", output);
+    println!(&quot;Output: {:?}&quot;, output);
 
     Ok(())
 }
@@ -1498,7 +1505,7 @@ fn pytorch_model_inference() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt
 <h3 id="building-hybrid-rust-python-ml-pipelines"><a class="header" href="#building-hybrid-rust-python-ml-pipelines">Building Hybrid Rust-Python ML Pipelines</a></h3>
 <p>For production ML systems, a common pattern is to use Python for training and Rust for deployment:</p>
 <ol>
-<li><strong>Train in Python</strong>: Leverage Python’s rich ecosystem for data exploration, model development, and training</li>
+<li><strong>Train in Python</strong>: Leverage Python's rich ecosystem for data exploration, model development, and training</li>
 <li><strong>Export the Model</strong>: Save the trained model in a format that can be loaded in Rust</li>
 <li><strong>Deploy with Rust</strong>: Build a high-performance, memory-safe inference service in Rust</li>
 </ol>
@@ -1509,7 +1516,7 @@ use tch::{CModule, Tensor};
 
 // Load the PyTorch model (trained in Python)
 static MODEL: once_cell::sync::Lazy&lt;CModule&gt; = once_cell::sync::Lazy::new(|| {
-    CModule::load("model.pt").expect("Failed to load model")
+    CModule::load(&quot;model.pt&quot;).expect(&quot;Failed to load model&quot;)
 });
 
 // Request and response types
@@ -1532,11 +1539,11 @@ async fn predict(request: web::Json&lt;PredictionRequest&gt;) -&gt; impl Respond
 
     // Run inference
     let output = MODEL.forward_ts(&amp;[input])
-        .expect("Model inference failed");
+        .expect(&quot;Model inference failed&quot;);
 
     // Extract prediction and confidence
     let values = output.to_kind(tch::Kind::Float).try_into::&lt;Vec&lt;f32&gt;&gt;()
-        .expect("Failed to convert output to Vec");
+        .expect(&quot;Failed to convert output to Vec&quot;);
 
     let prediction = values[0];
     let confidence = values[1];
@@ -1553,9 +1560,9 @@ async fn predict(request: web::Json&lt;PredictionRequest&gt;) -&gt; impl Respond
 async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
-            .route("/predict", web::post().to(predict))
+            .route(&quot;/predict&quot;, web::post().to(predict))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -1575,17 +1582,17 @@ impl PythonModel {
     fn new() -&gt; PyResult&lt;Self&gt; {
         Python::with_gil(|py| {
             // Import the Python model
-            let pickle = py.import("pickle")?;
-            let io = py.import("io")?;
-            let torch = py.import("torch")?;
+            let pickle = py.import(&quot;pickle&quot;)?;
+            let io = py.import(&quot;io&quot;)?;
+            let torch = py.import(&quot;torch&quot;)?;
 
             // Load the model from disk
-            let model_file = std::fs::read("model.pkl")?;
-            let bytes_io = io.call_method1("BytesIO", (model_file,))?;
-            let model = pickle.call_method1("load", (bytes_io,))?;
+            let model_file = std::fs::read(&quot;model.pkl&quot;)?;
+            let bytes_io = io.call_method1(&quot;BytesIO&quot;, (model_file,))?;
+            let model = pickle.call_method1(&quot;load&quot;, (bytes_io,))?;
 
             // Set model to evaluation mode
-            model.call_method0("eval")?;
+            model.call_method0(&quot;eval&quot;)?;
 
             Ok(Self { model })
         })
@@ -1594,23 +1601,23 @@ impl PythonModel {
     fn predict(&amp;self, features: Vec&lt;f32&gt;) -&gt; PyResult&lt;Vec&lt;f32&gt;&gt; {
         Python::with_gil(|py| {
             // Convert input to PyTorch tensor
-            let torch = py.import("torch")?;
+            let torch = py.import(&quot;torch&quot;)?;
             let input = torch.call_method1(
-                "tensor",
+                &quot;tensor&quot;,
                 (features,),
-                Some([("dtype", torch.getattr("float32")?)]
+                Some([(&quot;dtype&quot;, torch.getattr(&quot;float32&quot;)?)]
                     .into_py_dict(py)),
             )?;
 
             // Add batch dimension
-            let input = input.call_method0("unsqueeze", (0,))?;
+            let input = input.call_method0(&quot;unsqueeze&quot;, (0,))?;
 
             // Run inference
-            let locals = [("model", &amp;self.model), ("input", input)]
+            let locals = [(&quot;model&quot;, &amp;self.model), (&quot;input&quot;, input)]
                 .into_py_dict(py);
 
             let result = py.eval(
-                "model(input).detach().numpy().tolist()[0]",
+                &quot;model(input).detach().numpy().tolist()[0]&quot;,
                 None,
                 Some(&amp;locals),
             )?;
@@ -1641,7 +1648,7 @@ async fn predict(
     match model.predict(request.features.clone()) {
         Ok(predictions) =&gt; HttpResponse::Ok().json(PredictionResponse { predictions }),
         Err(e) =&gt; {
-            eprintln!("Prediction error: {}", e);
+            eprintln!(&quot;Prediction error: {}&quot;, e);
             HttpResponse::InternalServerError().finish()
         }
     }
@@ -1653,7 +1660,7 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     let model = match PythonModel::new() {
         Ok(model) =&gt; model,
         Err(e) =&gt; {
-            eprintln!("Failed to initialize model: {}", e);
+            eprintln!(&quot;Failed to initialize model: {}&quot;, e);
             return Ok(());
         }
     };
@@ -1664,25 +1671,25 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(move || {
         App::new()
             .app_data(model_data.clone())
-            .route("/predict", web::post().to(predict))
+            .route(&quot;/predict&quot;, web::post().to(predict))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>Rust’s ML ecosystem has grown considerably, offering new frameworks like Burn and Candle that provide high-performance alternatives for specific ML use cases. While Python remains the dominant language for ML and data science, Rust offers compelling advantages for performance-critical components and production deployments.</p>
-<p>By combining Rust’s safety and performance with Python’s rich ecosystem, you can build ML systems that have the best of both worlds: the flexibility and ecosystem of Python for research and development, and the reliability and efficiency of Rust for production.</p>
-<p>As the Rust ML ecosystem continues to mature, we can expect more powerful tools and frameworks to emerge, further strengthening Rust’s position in the ML and data science landscape.</p>
+<p>Rust's ML ecosystem has grown considerably, offering new frameworks like Burn and Candle that provide high-performance alternatives for specific ML use cases. While Python remains the dominant language for ML and data science, Rust offers compelling advantages for performance-critical components and production deployments.</p>
+<p>By combining Rust's safety and performance with Python's rich ecosystem, you can build ML systems that have the best of both worlds: the flexibility and ecosystem of Python for research and development, and the reliability and efficiency of Rust for production.</p>
+<p>As the Rust ML ecosystem continues to mature, we can expect more powerful tools and frameworks to emerge, further strengthening Rust's position in the ML and data science landscape.</p>
 <p>🔨 <strong>Project: ML Prediction Service</strong></p>
-<p>For this chapter’s project, we’ll build a complete ML prediction service that:</p>
+<p>For this chapter's project, we'll build a complete ML prediction service that:</p>
 <ol>
 <li>Loads a model trained in Python</li>
 <li>Provides a high-performance API for predictions</li>
 <li>Handles data preprocessing and postprocessing</li>
 <li>Includes monitoring and error handling</li>
 </ol>
-<p>This project will demonstrate how to combine Rust’s performance and safety with Python’s rich ML ecosystem to create a production-ready ML service.</p>
+<p>This project will demonstrate how to combine Rust's performance and safety with Python's rich ML ecosystem to create a production-ready ML service.</p>
 
                     </main>
 

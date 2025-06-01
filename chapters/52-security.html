@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html" class="active"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,66 +185,66 @@
                         <h1 id="chapter-52-rust-security-patterns-and-auditing"><a class="header" href="#chapter-52-rust-security-patterns-and-auditing">Chapter 52: Rust Security Patterns and Auditing</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Security is a fundamental concern in modern software development. As systems become more interconnected and cyber threats more sophisticated, the importance of building security into applications from the ground up has never been greater. Rust was designed with security as a core principle, making it an excellent choice for developing systems where security is critical.</p>
-<p>This chapter explores the security advantages of Rust, common security patterns, auditing techniques, and best practices for building secure Rust applications. While Rust’s type system and ownership model eliminate entire classes of vulnerabilities, writing secure software still requires deliberate attention to security principles and practices.</p>
+<p>This chapter explores the security advantages of Rust, common security patterns, auditing techniques, and best practices for building secure Rust applications. While Rust's type system and ownership model eliminate entire classes of vulnerabilities, writing secure software still requires deliberate attention to security principles and practices.</p>
 <p>Rust provides strong guarantees against memory safety issues like buffer overflows, use-after-free vulnerabilities, and data races—problems that have plagued C and C++ codebases for decades and continue to account for a significant percentage of CVEs (Common Vulnerabilities and Exposures). However, memory safety is just one aspect of security. Issues like logic errors, authentication flaws, insecure defaults, and incorrect cryptographic usage can still affect Rust applications.</p>
-<p>We’ll begin by examining Rust’s inherent security advantages, then move on to explore security patterns and anti-patterns specific to Rust. We’ll look at techniques for auditing Rust code, both manually and with automated tools. We’ll also cover secure coding practices for common tasks like handling user input, managing secrets, implementing cryptography, and secure network communication. Finally, we’ll explore strategies for security testing and maintaining security throughout the software lifecycle.</p>
-<p>Whether you’re developing safety-critical systems, handling sensitive user data, or simply want to ensure your applications are resistant to common attacks, this chapter will provide you with the knowledge and techniques to leverage Rust’s security strengths and avoid potential pitfalls.</p>
-<h2 id="rusts-security-foundations"><a class="header" href="#rusts-security-foundations">Rust’s Security Foundations</a></h2>
-<p>Rust was designed with security in mind, and its core features provide a solid foundation for writing secure software. Let’s explore these foundations and understand how they contribute to Rust’s security posture.</p>
+<p>We'll begin by examining Rust's inherent security advantages, then move on to explore security patterns and anti-patterns specific to Rust. We'll look at techniques for auditing Rust code, both manually and with automated tools. We'll also cover secure coding practices for common tasks like handling user input, managing secrets, implementing cryptography, and secure network communication. Finally, we'll explore strategies for security testing and maintaining security throughout the software lifecycle.</p>
+<p>Whether you're developing safety-critical systems, handling sensitive user data, or simply want to ensure your applications are resistant to common attacks, this chapter will provide you with the knowledge and techniques to leverage Rust's security strengths and avoid potential pitfalls.</p>
+<h2 id="rusts-security-foundations"><a class="header" href="#rusts-security-foundations">Rust's Security Foundations</a></h2>
+<p>Rust was designed with security in mind, and its core features provide a solid foundation for writing secure software. Let's explore these foundations and understand how they contribute to Rust's security posture.</p>
 <h3 id="memory-safety-by-design"><a class="header" href="#memory-safety-by-design">Memory Safety by Design</a></h3>
-<p>Memory safety vulnerabilities have historically been among the most common and dangerous security issues in software written in languages like C and C++. Rust’s ownership system and borrowing rules eliminate these entire classes of vulnerabilities:</p>
+<p>Memory safety vulnerabilities have historically been among the most common and dangerous security issues in software written in languages like C and C++. Rust's ownership system and borrowing rules eliminate these entire classes of vulnerabilities:</p>
 <ol>
 <li>
-<p><strong>Buffer Overflows</strong>: Rust’s bounds checking prevents reading or writing beyond the limits of arrays and other data structures.</p>
+<p><strong>Buffer Overflows</strong>: Rust's bounds checking prevents reading or writing beyond the limits of arrays and other data structures.</p>
 <pre><pre class="playground"><code class="language-rust">// This would compile but panic at runtime (safe failure)
 fn main() {
     let array = [1, 2, 3, 4, 5];
     // Will panic rather than access memory out of bounds
-    let value = array[10]; // ← Panics with "index out of bounds"
+    let value = array[10]; // ← Panics with &quot;index out of bounds&quot;
 }</code></pre></pre>
 </li>
 <li>
-<p><strong>Use-After-Free</strong>: Rust’s ownership system ensures that references cannot outlive the data they refer to.</p>
+<p><strong>Use-After-Free</strong>: Rust's ownership system ensures that references cannot outlive the data they refer to.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let reference;
     {
-        let value = String::from("hello");
+        let value = String::from(&quot;hello&quot;);
         reference = &amp;value;
         // value is dropped here, at the end of the scope
     }
     // This would be a use-after-free in C/C++
-    // println!("{}", reference); // ← Compilation error in Rust
+    // println!(&quot;{}&quot;, reference); // ← Compilation error in Rust
 }</code></pre></pre>
 </li>
 <li>
-<p><strong>Double Free</strong>: Rust’s ownership system ensures each value is freed exactly once.</p>
+<p><strong>Double Free</strong>: Rust's ownership system ensures each value is freed exactly once.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let s = String::from("hello");
+    let s = String::from(&quot;hello&quot;);
     drop(s); // Explicitly drop the string
     // drop(s); // ← Compilation error: use of moved value
 }</code></pre></pre>
 </li>
 <li>
-<p><strong>Null Pointer Dereference</strong>: Rust’s <code>Option&lt;T&gt;</code> type eliminates null references, requiring explicit handling of the absence of a value.</p>
+<p><strong>Null Pointer Dereference</strong>: Rust's <code>Option&lt;T&gt;</code> type eliminates null references, requiring explicit handling of the absence of a value.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let maybe_value: Option&lt;&amp;str&gt; = None;
 
     // Must explicitly handle the None case
     match maybe_value {
-        Some(value) =&gt; println!("Got value: {}", value),
-        None =&gt; println!("No value present"),
+        Some(value) =&gt; println!(&quot;Got value: {}&quot;, value),
+        None =&gt; println!(&quot;No value present&quot;),
     }
 
     // Or using if let
     if let Some(value) = maybe_value {
-        println!("Got value: {}", value);
+        println!(&quot;Got value: {}&quot;, value);
     } else {
-        println!("No value present");
+        println!(&quot;No value present&quot;);
     }
 }</code></pre></pre>
 </li>
 <li>
-<p><strong>Data Races</strong>: Rust’s ownership system, combined with its concurrency model, prevents data races at compile time.</p>
+<p><strong>Data Races</strong>: Rust's ownership system, combined with its concurrency model, prevents data races at compile time.</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 
 fn main() {
@@ -264,17 +271,17 @@ fn main() {
 </li>
 </ol>
 <h3 id="type-system-security"><a class="header" href="#type-system-security">Type System Security</a></h3>
-<p>Rust’s type system contributes significantly to security by enforcing correctness and preventing common mistakes:</p>
+<p>Rust's type system contributes significantly to security by enforcing correctness and preventing common mistakes:</p>
 <ol>
 <li>
-<p><strong>Strong Type Safety</strong>: Rust’s strong, static type system catches many errors at compile time rather than runtime.</p>
+<p><strong>Strong Type Safety</strong>: Rust's strong, static type system catches many errors at compile time rather than runtime.</p>
 <pre><pre class="playground"><code class="language-rust">fn process_user_id(id: u64) {
     // Operations on user ID
 }
 
 fn main() {
     // This won't compile - type mismatch
-    // process_user_id("user123"); // ← Compilation error
+    // process_user_id(&quot;user123&quot;); // ← Compilation error
 
     // Must provide the correct type
     process_user_id(123);
@@ -327,7 +334,7 @@ fn check_access(role: UserRole) -&gt; bool {
 </li>
 </ol>
 <h3 id="safe-abstractions"><a class="header" href="#safe-abstractions">Safe Abstractions</a></h3>
-<p>Rust’s approach to abstraction also contributes to security:</p>
+<p>Rust's approach to abstraction also contributes to security:</p>
 <ol>
 <li>
 <p><strong>Safe Interfaces Over Unsafe Implementations</strong>: Rust allows writing unsafe code but encourages wrapping it in safe interfaces.</p>
@@ -374,7 +381,7 @@ impl Drop for SafeBuffer {
 <span class="boring">}</span></code></pre></pre>
 </li>
 <li>
-<p><strong>Controlled Mutability</strong>: Rust’s mutability controls and interior mutability patterns provide safe ways to handle mutable state.</p>
+<p><strong>Controlled Mutability</strong>: Rust's mutability controls and interior mutability patterns provide safe ways to handle mutable state.</p>
 <pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
 
 struct User {
@@ -404,17 +411,17 @@ impl User {
 }
 
 fn main() {
-    let user = User::new(1, "Alice");
+    let user = User::new(1, &quot;Alice&quot;);
 
     // We can modify access_count even though user is immutable
     user.record_access();
     user.record_access();
 
-    println!("Access count: {}", user.access_count());
+    println!(&quot;Access count: {}&quot;, user.access_count());
 }</code></pre></pre>
 </li>
 <li>
-<p><strong>Trait System</strong>: Rust’s trait system enables defining clear contracts that implementations must fulfill.</p>
+<p><strong>Trait System</strong>: Rust's trait system enables defining clear contracts that implementations must fulfill.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>trait Authenticator {
@@ -439,36 +446,36 @@ impl Authenticator for SimpleAuthenticator {
 </li>
 </ol>
 <h3 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h3>
-<p>Rust’s approach to error handling also enhances security:</p>
+<p>Rust's approach to error handling also enhances security:</p>
 <ol>
 <li>
-<p><strong>Result Type</strong>: Rust’s <code>Result&lt;T, E&gt;</code> type forces developers to explicitly handle errors or consciously ignore them.</p>
+<p><strong>Result Type</strong>: Rust's <code>Result&lt;T, E&gt;</code> type forces developers to explicitly handle errors or consciously ignore them.</p>
 <pre><pre class="playground"><code class="language-rust">fn read_sensitive_file(path: &amp;str) -&gt; Result&lt;String, std::io::Error&gt; {
     std::fs::read_to_string(path)
 }
 
 fn main() {
     // Must handle the error case
-    match read_sensitive_file("config.json") {
-        Ok(contents) =&gt; println!("File contents: {}", contents),
-        Err(error) =&gt; eprintln!("Failed to read file: {}", error),
+    match read_sensitive_file(&quot;config.json&quot;) {
+        Ok(contents) =&gt; println!(&quot;File contents: {}&quot;, contents),
+        Err(error) =&gt; eprintln!(&quot;Failed to read file: {}&quot;, error),
     }
 
     // Or explicitly ignore it (discouraged for sensitive operations)
-    if let Ok(contents) = read_sensitive_file("config.json") {
-        println!("File contents: {}", contents);
+    if let Ok(contents) = read_sensitive_file(&quot;config.json&quot;) {
+        println!(&quot;File contents: {}&quot;, contents);
     }
 
     // Or propagate it
     fn process_file() -&gt; Result&lt;(), std::io::Error&gt; {
-        let contents = read_sensitive_file("config.json")?;
-        println!("File contents: {}", contents);
+        let contents = read_sensitive_file(&quot;config.json&quot;)?;
+        println!(&quot;File contents: {}&quot;, contents);
         Ok(())
     }
 }</code></pre></pre>
 </li>
 <li>
-<p><strong>No Exceptions</strong>: Rust doesn’t have exceptions, which eliminates a common source of security vulnerabilities related to improper exception handling.</p>
+<p><strong>No Exceptions</strong>: Rust doesn't have exceptions, which eliminates a common source of security vulnerabilities related to improper exception handling.</p>
 </li>
 <li>
 <p><strong>Panic Safety</strong>: Rust encourages writing code that is panic-safe, meaning that if a panic occurs, no memory safety violations happen during unwinding.</p>
@@ -489,7 +496,7 @@ impl ProtectedResource {
 
         // If a panic occurs here...
         if self.data[0] == 42 {
-            panic!("Demonstration panic");
+            panic!(&quot;Demonstration panic&quot;);
         }
 
         // ...this code won't run, but no resources will be leaked
@@ -499,7 +506,7 @@ impl ProtectedResource {
 impl Drop for ProtectedResource {
     fn drop(&amp;mut self) {
         // Cleanup happens even if panic occurs
-        println!("Cleaning up resource");
+        println!(&quot;Cleaning up resource&quot;);
     }
 }
 
@@ -511,15 +518,15 @@ fn main() {
         resource.process();
     });
 
-    println!("Program continues after catching panic");
+    println!(&quot;Program continues after catching panic&quot;);
 }</code></pre></pre>
 </li>
 </ol>
-<p>These security foundations make Rust an excellent choice for security-critical applications. However, they’re just the starting point for building secure software. In the following sections, we’ll explore how to build on these foundations with security patterns and best practices.</p>
+<p>These security foundations make Rust an excellent choice for security-critical applications. However, they're just the starting point for building secure software. In the following sections, we'll explore how to build on these foundations with security patterns and best practices.</p>
 <h2 id="secure-coding-patterns"><a class="header" href="#secure-coding-patterns">Secure Coding Patterns</a></h2>
-<p>Building on Rust’s security foundations, let’s explore patterns and techniques for writing secure Rust code. These patterns will help you avoid common security pitfalls and build robust, secure applications.</p>
+<p>Building on Rust's security foundations, let's explore patterns and techniques for writing secure Rust code. These patterns will help you avoid common security pitfalls and build robust, secure applications.</p>
 <h3 id="handling-untrusted-input"><a class="header" href="#handling-untrusted-input">Handling Untrusted Input</a></h3>
-<p>One of the most fundamental security principles is to never trust user input. Rust’s type system helps enforce validation, but you still need to implement proper validation logic:</p>
+<p>One of the most fundamental security principles is to never trust user input. Rust's type system helps enforce validation, but you still need to implement proper validation logic:</p>
 <h4 id="input-validation-patterns"><a class="header" href="#input-validation-patterns">Input Validation Patterns</a></h4>
 <pre><pre class="playground"><code class="language-rust">use regex::Regex;
 use std::str::FromStr;
@@ -528,19 +535,19 @@ use std::str::FromStr;
 fn validate_username(input: &amp;str) -&gt; Result&lt;String, &amp;'static str&gt; {
     // Criteria: 3-20 alphanumeric chars and underscores, must start with a letter
     if input.is_empty() {
-        return Err("Username cannot be empty");
+        return Err(&quot;Username cannot be empty&quot;);
     }
 
     if input.len() &gt; 20 {
-        return Err("Username is too long (maximum 20 characters)");
+        return Err(&quot;Username is too long (maximum 20 characters)&quot;);
     }
 
     if !input.chars().next().unwrap().is_alphabetic() {
-        return Err("Username must start with a letter");
+        return Err(&quot;Username must start with a letter&quot;);
     }
 
     if !input.chars().all(|c| c.is_alphanumeric() || c == '_') {
-        return Err("Username can only contain letters, numbers, and underscores");
+        return Err(&quot;Username can only contain letters, numbers, and underscores&quot;);
     }
 
     Ok(input.to_string())
@@ -564,12 +571,12 @@ impl FromStr for Username {
 fn validate_email(input: &amp;str) -&gt; Result&lt;String, &amp;'static str&gt; {
     lazy_static::lazy_static! {
         static ref EMAIL_REGEX: Regex = Regex::new(
-            r"^[a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+            r&quot;^[a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$&quot;
         ).unwrap();
     }
 
     if !EMAIL_REGEX.is_match(input) {
-        return Err("Invalid email format");
+        return Err(&quot;Invalid email format&quot;);
     }
 
     Ok(input.to_string())
@@ -577,20 +584,20 @@ fn validate_email(input: &amp;str) -&gt; Result&lt;String, &amp;'static str&gt; 
 
 fn main() {
     // Using the validation functions
-    match validate_username("alice_123") {
-        Ok(username) =&gt; println!("Valid username: {}", username),
-        Err(e) =&gt; eprintln!("Invalid username: {}", e),
+    match validate_username(&quot;alice_123&quot;) {
+        Ok(username) =&gt; println!(&quot;Valid username: {}&quot;, username),
+        Err(e) =&gt; eprintln!(&quot;Invalid username: {}&quot;, e),
     }
 
     // Using the newtype pattern
-    match "bob_456".parse::&lt;Username&gt;() {
-        Ok(username) =&gt; println!("Valid username: {}", username.0),
-        Err(e) =&gt; eprintln!("Invalid username: {}", e),
+    match &quot;bob_456&quot;.parse::&lt;Username&gt;() {
+        Ok(username) =&gt; println!(&quot;Valid username: {}&quot;, username.0),
+        Err(e) =&gt; eprintln!(&quot;Invalid username: {}&quot;, e),
     }
 
-    match validate_email("user@example.com") {
-        Ok(email) =&gt; println!("Valid email: {}", email),
-        Err(e) =&gt; eprintln!("Invalid email: {}", e),
+    match validate_email(&quot;user@example.com&quot;) {
+        Ok(email) =&gt; println!(&quot;Valid email: {}&quot;, email),
+        Err(e) =&gt; eprintln!(&quot;Invalid email: {}&quot;, e),
     }
 }</code></pre></pre>
 <h4 id="secure-deserialization"><a class="header" href="#secure-deserialization">Secure Deserialization</a></h4>
@@ -604,11 +611,11 @@ use std::collections::HashMap;
 #[derive(Deserialize)]
 struct UserInput {
     #[serde(default)]
-    #[serde(deserialize_with = "deserialize_limited_string")]
+    #[serde(deserialize_with = &quot;deserialize_limited_string&quot;)]
     name: String,
 
     #[serde(default)]
-    #[serde(deserialize_with = "deserialize_limited_map")]
+    #[serde(deserialize_with = &quot;deserialize_limited_map&quot;)]
     attributes: HashMap&lt;String, String&gt;,
 }
 
@@ -620,7 +627,7 @@ where
 
     // Limit string length to prevent DoS
     if s.len() &gt; 1000 {
-        return Err(serde::de::Error::custom("String too long"));
+        return Err(serde::de::Error::custom(&quot;String too long&quot;));
     }
 
     Ok(s)
@@ -634,17 +641,17 @@ where
 
     // Limit collection size to prevent DoS
     if map.len() &gt; 100 {
-        return Err(serde::de::Error::custom("Too many map entries"));
+        return Err(serde::de::Error::custom(&quot;Too many map entries&quot;));
     }
 
     // Validate keys and values
     for (key, value) in &amp;map {
         if key.len() &gt; 50 {
-            return Err(serde::de::Error::custom("Map key too long"));
+            return Err(serde::de::Error::custom(&quot;Map key too long&quot;));
         }
 
         if value.len() &gt; 1000 {
-            return Err(serde::de::Error::custom("Map value too long"));
+            return Err(serde::de::Error::custom(&quot;Map value too long&quot;));
         }
     }
 
@@ -662,7 +669,7 @@ struct StrictUserConfig {
 
 // Pattern 3: Enum tagging to prevent type confusion attacks
 #[derive(Deserialize)]
-#[serde(tag = "type")]
+#[serde(tag = &quot;type&quot;)]
 enum UserAction {
     Login { username: String, password: String },
     Logout { session_id: String },
@@ -676,23 +683,23 @@ fn sanitize_html(input: &amp;str) -&gt; String {
     // Use a proper HTML sanitization library in production
     // This is a simplified example
     input
-        .replace('&lt;', "&amp;lt;")
-        .replace('&gt;', "&amp;gt;")
-        .replace('"', "&amp;quot;")
-        .replace('\'', "&amp;#39;")
-        .replace('&amp;', "&amp;amp;")
+        .replace('&lt;', &quot;&amp;lt;&quot;)
+        .replace('&gt;', &quot;&amp;gt;&quot;)
+        .replace('&quot;', &quot;&amp;quot;&quot;)
+        .replace('\'', &quot;&amp;#39;&quot;)
+        .replace('&amp;', &quot;&amp;amp;&quot;)
 }
 
 // Pattern: Sanitize SQL inputs to prevent SQL injection
 fn sanitize_sql_identifier(identifier: &amp;str) -&gt; Result&lt;String, &amp;'static str&gt; {
     // Check if identifier contains only allowed characters
     if !identifier.chars().all(|c| c.is_alphanumeric() || c == '_') {
-        return Err("SQL identifier contains invalid characters");
+        return Err(&quot;SQL identifier contains invalid characters&quot;);
     }
 
     // Don't allow numeric-only identifiers
     if identifier.chars().all(|c| c.is_numeric()) {
-        return Err("SQL identifier cannot be numeric only");
+        return Err(&quot;SQL identifier cannot be numeric only&quot;);
     }
 
     Ok(identifier.to_string())
@@ -702,25 +709,25 @@ fn sanitize_sql_identifier(identifier: &amp;str) -&gt; Result&lt;String, &amp;'s
 fn escape_command_arg(arg: &amp;str) -&gt; String {
     // Use shell escaping
     // In a real application, consider using a library like shell-escape
-    format!("'{}'", arg.replace('\'', "'\\''"))
+    format!(&quot;'{}'&quot;, arg.replace('\'', &quot;'\\''&quot;))
 }
 
 fn main() {
-    let user_input = "&lt;script&gt;alert('XSS')&lt;/script&gt;";
+    let user_input = &quot;&lt;script&gt;alert('XSS')&lt;/script&gt;&quot;;
     let sanitized = sanitize_html(user_input);
-    println!("Sanitized HTML: {}", sanitized);
+    println!(&quot;Sanitized HTML: {}&quot;, sanitized);
 
-    match sanitize_sql_identifier("user_table") {
-        Ok(identifier) =&gt; println!("Safe SQL identifier: {}", identifier),
-        Err(e) =&gt; eprintln!("Invalid SQL identifier: {}", e),
+    match sanitize_sql_identifier(&quot;user_table&quot;) {
+        Ok(identifier) =&gt; println!(&quot;Safe SQL identifier: {}&quot;, identifier),
+        Err(e) =&gt; eprintln!(&quot;Invalid SQL identifier: {}&quot;, e),
     }
 
-    let command_arg = "file; rm -rf /";
+    let command_arg = &quot;file; rm -rf /&quot;;
     let escaped = escape_command_arg(command_arg);
-    println!("Escaped command argument: {}", escaped);
+    println!(&quot;Escaped command argument: {}&quot;, escaped);
 }</code></pre></pre>
 <h3 id="memory-safety-beyond-the-compiler"><a class="header" href="#memory-safety-beyond-the-compiler">Memory Safety Beyond the Compiler</a></h3>
-<p>While Rust’s compiler prevents many memory safety issues, there are patterns to enhance security further:</p>
+<p>While Rust's compiler prevents many memory safety issues, there are patterns to enhance security further:</p>
 <h4 id="secure-memory-handling"><a class="header" href="#secure-memory-handling">Secure Memory Handling</a></h4>
 <pre><pre class="playground"><code class="language-rust">use std::alloc::{alloc, dealloc, Layout};
 use std::ptr;
@@ -784,12 +791,12 @@ impl Drop for SecureString {
 // Pattern 2: Prevent memory dumps by locking memory
 #[cfg(unix)]
 fn lock_memory() -&gt; Result&lt;(), &amp;'static str&gt; {
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = &quot;linux&quot;)]
     {
         use libc::{mlockall, MCL_CURRENT, MCL_FUTURE};
 
         if unsafe { mlockall(MCL_CURRENT | MCL_FUTURE) } != 0 {
-            return Err("Failed to lock memory");
+            return Err(&quot;Failed to lock memory&quot;);
         }
     }
 
@@ -802,7 +809,7 @@ fn create_secure_temp_file() -&gt; std::io::Result&lt;std::fs::File&gt; {
     use std::os::unix::fs::OpenOptionsExt;
     use uuid::Uuid;
 
-    let temp_path = format!("/tmp/secure-{}.tmp", Uuid::new_v4());
+    let temp_path = format!(&quot;/tmp/secure-{}.tmp&quot;, Uuid::new_v4());
 
     OpenOptions::new()
         .write(true)
@@ -815,10 +822,10 @@ fn create_secure_temp_file() -&gt; std::io::Result&lt;std::fs::File&gt; {
 
 fn main() {
     // Example usage of secure string
-    let password = SecureString::from_str("supersecret");
+    let password = SecureString::from_str(&quot;supersecret&quot;);
 
     // Do operations with the password
-    println!("Password length: {}", password.as_bytes().len());
+    println!(&quot;Password length: {}&quot;, password.as_bytes().len());
 
     // Password will be securely zeroed when it goes out of scope
     drop(password);
@@ -827,9 +834,9 @@ fn main() {
     #[cfg(unix)]
     {
         if let Err(e) = lock_memory() {
-            eprintln!("Warning: {}", e);
+            eprintln!(&quot;Warning: {}&quot;, e);
         } else {
-            println!("Memory locked successfully");
+            println!(&quot;Memory locked successfully&quot;);
         }
     }
 }</code></pre></pre>
@@ -905,9 +912,9 @@ fn load_lookup_table_securely(table: &amp;[u8], index: usize) -&gt; u8 {
     result
 }
 <span class="boring">}</span></code></pre></pre>
-<p>These patterns address critical aspects of secure coding beyond what Rust’s compiler automatically provides. By following these practices, you can build applications that are resilient against various types of attacks and security vulnerabilities.</p>
+<p>These patterns address critical aspects of secure coding beyond what Rust's compiler automatically provides. By following these practices, you can build applications that are resilient against various types of attacks and security vulnerabilities.</p>
 <h3 id="secure-resource-management"><a class="header" href="#secure-resource-management">Secure Resource Management</a></h3>
-<p>Resource management is critical for security, particularly for preventing denial of service attacks. Rust’s ownership model helps, but additional patterns are necessary:</p>
+<p>Resource management is critical for security, particularly for preventing denial of service attacks. Rust's ownership model helps, but additional patterns are necessary:</p>
 <h4 id="resource-limiting"><a class="header" href="#resource-limiting">Resource Limiting</a></h4>
 <pre><pre class="playground"><code class="language-rust">use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
@@ -1038,7 +1045,7 @@ impl TimeoutGuard {
 
     fn check_timeout(&amp;self) -&gt; Result&lt;(), &amp;'static str&gt; {
         if Instant::now() &gt; self.deadline {
-            Err("Operation timed out")
+            Err(&quot;Operation timed out&quot;)
         } else {
             Ok(())
         }
@@ -1053,23 +1060,23 @@ fn main() {
         .map(|i| {
             match counter.acquire() {
                 Some(handle) =&gt; {
-                    println!("Acquired resource {}", i);
+                    println!(&quot;Acquired resource {}&quot;, i);
                     Some(handle)
                 },
                 None =&gt; {
-                    println!("Failed to acquire resource {}", i);
+                    println!(&quot;Failed to acquire resource {}&quot;, i);
                     None
                 }
             }
         })
         .collect();
 
-    println!("Active resources: {}", counter.count());
+    println!(&quot;Active resources: {}&quot;, counter.count());
 
     // Resources will be automatically released when handles go out of scope
     drop(handles);
 
-    println!("After dropping handles: {}", counter.count());
+    println!(&quot;After dropping handles: {}&quot;, counter.count());
 
     // Example usage of rate limiter
     let limiter = Arc::new(RateLimiter::new(
@@ -1080,9 +1087,9 @@ fn main() {
 
     for i in 0..20 {
         if limiter.try_acquire() {
-            println!("Request {} allowed", i);
+            println!(&quot;Request {} allowed&quot;, i);
         } else {
-            println!("Request {} rate limited", i);
+            println!(&quot;Request {} rate limited&quot;, i);
         }
 
         thread::sleep(Duration::from_millis(100));
@@ -1094,18 +1101,18 @@ fn main() {
     for i in 0..5 {
         match guard.check_timeout() {
             Ok(_) =&gt; {
-                println!("Operation {} within timeout", i);
+                println!(&quot;Operation {} within timeout&quot;, i);
                 thread::sleep(Duration::from_millis(500));
             },
             Err(e) =&gt; {
-                println!("Operation {} failed: {}", i, e);
+                println!(&quot;Operation {} failed: {}&quot;, i, e);
                 break;
             }
         }
     }
 }</code></pre></pre>
 <h2 id="cryptography-best-practices"><a class="header" href="#cryptography-best-practices">Cryptography Best Practices</a></h2>
-<p>Cryptography is essential for secure applications, but implementing it correctly can be challenging. Rust’s ecosystem provides several excellent cryptography libraries that follow modern best practices. Let’s explore how to use them correctly.</p>
+<p>Cryptography is essential for secure applications, but implementing it correctly can be challenging. Rust's ecosystem provides several excellent cryptography libraries that follow modern best practices. Let's explore how to use them correctly.</p>
 <h3 id="choosing-cryptographic-libraries"><a class="header" href="#choosing-cryptographic-libraries">Choosing Cryptographic Libraries</a></h3>
 <p>When selecting a cryptography library in Rust, consider the following:</p>
 <ol>
@@ -1168,7 +1175,7 @@ impl VersionedKeyManager {
 }
 
 // Pattern 3: Secure key storage (simplified)
-#[cfg(target_os = "linux")]
+#[cfg(target_os = &quot;linux&quot;)]
 fn store_key_securely(key_data: &amp;[u8], key_id: &amp;str) -&gt; Result&lt;(), &amp;'static str&gt; {
     // In a real implementation, you would use a secure key storage solution
     // like a hardware security module (HSM) or a key management service (KMS)
@@ -1178,7 +1185,7 @@ fn store_key_securely(key_data: &amp;[u8], key_id: &amp;str) -&gt; Result&lt;(),
     use std::io::Write;
     use std::os::unix::fs::OpenOptionsExt;
 
-    let key_path = format!("/etc/app/keys/{}.key", key_id);
+    let key_path = format!(&quot;/etc/app/keys/{}.key&quot;, key_id);
 
     let mut file = OpenOptions::new()
         .write(true)
@@ -1186,10 +1193,10 @@ fn store_key_securely(key_data: &amp;[u8], key_id: &amp;str) -&gt; Result&lt;(),
         .truncate(true)
         .mode(0o600) // Only owner can read/write
         .open(key_path)
-        .map_err(|_| "Failed to open key file")?;
+        .map_err(|_| &quot;Failed to open key file&quot;)?;
 
     file.write_all(key_data)
-        .map_err(|_| "Failed to write key data")?;
+        .map_err(|_| &quot;Failed to write key data&quot;)?;
 
     Ok(())
 }
@@ -1433,7 +1440,7 @@ fn load_private_key(filename: &amp;str) -&gt; Result&lt;rustls::PrivateKey, Box&
         return Ok(rustls::PrivateKey(key));
     }
 
-    Err("No private key found".into())
+    Err(&quot;No private key found&quot;.into())
 }
 
 // Pattern 3: Certificate pinning
@@ -1470,7 +1477,7 @@ fn generate_secure_random_bytes(len: usize) -&gt; Vec&lt;u8&gt; {
 
 // Pattern 2: Secure token generation
 fn generate_secure_token(len: usize) -&gt; String {
-    const CHARSET: &amp;[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const CHARSET: &amp;[u8] = b&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&quot;;
 
     let mut rng = rand::thread_rng();
 
@@ -1494,7 +1501,7 @@ fn insecure_random_for_non_security_critical() -&gt; u32 {
     rng.gen()
 }
 <span class="boring">}</span></code></pre></pre>
-<p>These cryptography best practices provide a foundation for implementing secure cryptographic operations in your Rust applications. Remember that cryptography is complex, and it’s often best to rely on well-vetted libraries and follow established patterns rather than implementing cryptographic algorithms yourself.</p>
+<p>These cryptography best practices provide a foundation for implementing secure cryptographic operations in your Rust applications. Remember that cryptography is complex, and it's often best to rely on well-vetted libraries and follow established patterns rather than implementing cryptographic algorithms yourself.</p>
 <h2 id="security-auditing-techniques"><a class="header" href="#security-auditing-techniques">Security Auditing Techniques</a></h2>
 <p>Security auditing is an essential process for identifying and mitigating security vulnerabilities in your Rust code. While Rust provides strong safety guarantees, careful auditing is still necessary to ensure that your code is secure.</p>
 <h3 id="code-review-practices"><a class="header" href="#code-review-practices">Code Review Practices</a></h3>
@@ -1502,10 +1509,10 @@ fn insecure_random_for_non_security_critical() -&gt; u32 {
 <h4 id="security-focused-code-review-checklist"><a class="header" href="#security-focused-code-review-checklist">Security-Focused Code Review Checklist</a></h4>
 <ol>
 <li><strong>Input validation</strong>: Check that all inputs (especially those from untrusted sources) are properly validated</li>
-<li><strong>Error handling</strong>: Ensure errors are handled appropriately and don’t leak sensitive information</li>
+<li><strong>Error handling</strong>: Ensure errors are handled appropriately and don't leak sensitive information</li>
 <li><strong>Authentication and authorization</strong>: Verify that access controls are properly enforced</li>
-<li><strong>Memory management</strong>: Look for unsafe code blocks and ensure they’re used correctly</li>
-<li><strong>Secrets management</strong>: Check that secrets aren’t hardcoded or logged</li>
+<li><strong>Memory management</strong>: Look for unsafe code blocks and ensure they're used correctly</li>
+<li><strong>Secrets management</strong>: Check that secrets aren't hardcoded or logged</li>
 <li><strong>Cryptography usage</strong>: Verify that cryptographic operations follow best practices</li>
 <li><strong>Third-party dependencies</strong>: Review the security of dependencies</li>
 <li><strong>Concurrency</strong>: Check for potential race conditions or deadlocks</li>
@@ -1520,17 +1527,17 @@ fn process_user_data(input: &amp;str) -&gt; Result&lt;String, String&gt; {
     // Potential security issue: No input validation
 
     let conn = establish_database_connection()
-        .map_err(|e| format!("Database error: {}", e))?;  // Leaks internal details
+        .map_err(|e| format!(&quot;Database error: {}&quot;, e))?;  // Leaks internal details
 
     // Potential SQL injection
-    let query = format!("SELECT data FROM users WHERE id = {}", input);
+    let query = format!(&quot;SELECT data FROM users WHERE id = {}&quot;, input);
 
     // Potential information leak through error messages
     let result = conn.execute(&amp;query)
-        .map_err(|e| format!("Query failed: {}", e))?;
+        .map_err(|e| format!(&quot;Query failed: {}&quot;, e))?;
 
     // Potential sensitive data leak
-    println!("User data: {}", result);
+    println!(&quot;User data: {}&quot;, result);
 
     Ok(result)
 }
@@ -1542,20 +1549,20 @@ fn process_user_data(input: &amp;str) -&gt; Result&lt;String, String&gt; {
 fn process_user_data(input: &amp;str) -&gt; Result&lt;String, &amp;'static str&gt; {
     // Input validation
     let user_id = input.parse::&lt;u32&gt;()
-        .map_err(|_| "Invalid user ID format")?;
+        .map_err(|_| &quot;Invalid user ID format&quot;)?;
 
     let conn = establish_database_connection()
-        .map_err(|_| "Database connection failed")?;  // Generic error
+        .map_err(|_| &quot;Database connection failed&quot;)?;  // Generic error
 
     // Parameterized query prevents SQL injection
-    let query = "SELECT data FROM users WHERE id = ?";
+    let query = &quot;SELECT data FROM users WHERE id = ?&quot;;
 
     // Secure error handling without leaking details
     let result = conn.execute(query, params![user_id])
-        .map_err(|_| "Data retrieval failed")?;
+        .map_err(|_| &quot;Data retrieval failed&quot;)?;
 
     // No logging of sensitive data
-    log::debug!("Data retrieved for user ID: {}", user_id);
+    log::debug!(&quot;Data retrieved for user ID: {}&quot;, user_id);
 
     Ok(result)
 }
@@ -1570,7 +1577,7 @@ fn process_user_data(input: &amp;str) -&gt; Result&lt;String, &amp;'static str&g
 cargo audit
 </code></pre>
 <ol start="2">
-<li><strong>Clippy</strong>: Rust’s linter can catch potential security issues</li>
+<li><strong>Clippy</strong>: Rust's linter can catch potential security issues</li>
 </ol>
 <pre><code class="language-bash">cargo clippy -- -W clippy::all -W clippy::pedantic -W clippy::nursery
 </code></pre>
@@ -1593,7 +1600,7 @@ cargo deny check
 semgrep --config=p/rust-security scan .
 </code></pre>
 <h4 id="custom-lints-for-security"><a class="header" href="#custom-lints-for-security">Custom Lints for Security</a></h4>
-<p>You can also create custom lints for your project’s specific security requirements:</p>
+<p>You can also create custom lints for your project's specific security requirements:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// In a separate crate, e.g., my_security_lints
@@ -1610,7 +1617,7 @@ use rustc_hir::{Expr, ExprKind};
 declare_lint! {
     pub INSECURE_RANDOM,
     Warn,
-    "using potentially insecure random number generation"
+    &quot;using potentially insecure random number generation&quot;
 }
 
 declare_lint_pass!(InsecureRandomCheck =&gt; [INSECURE_RANDOM]);
@@ -1623,13 +1630,13 @@ impl&lt;'tcx&gt; LateLintPass&lt;'tcx&gt; for InsecureRandomCheck {
             if let Some(def_id) = cx.typeck_results().type_dependent_def_id(func.hir_id) {
                 let path_str = cx.tcx.def_path_str(def_id);
 
-                if path_str == "rand::random" || path_str == "rand::thread_rng" {
+                if path_str == &quot;rand::random&quot; || path_str == &quot;rand::thread_rng&quot; {
                     // Check if we're in a security-sensitive context
                     if is_security_sensitive_context(cx, expr) {
                         cx.lint(
                             INSECURE_RANDOM,
                             expr.span,
-                            "using rand::random in security-sensitive context, consider using ring::rand instead",
+                            &quot;using rand::random in security-sensitive context, consider using ring::rand instead&quot;,
                         );
                     }
                 }
@@ -1665,11 +1672,11 @@ struct FuzzInput {
 fn parse_and_process(input: &amp;FuzzInput) -&gt; Result&lt;(), String&gt; {
     // Process the data - vulnerabilities will be detected during fuzzing
     if input.data.len() &gt; 1000 {
-        return Err("Data too large".to_string());
+        return Err(&quot;Data too large&quot;.to_string());
     }
 
     if let Some(s) = &amp;input.option {
-        if s.contains("trigger") {
+        if s.contains(&quot;trigger&quot;) {
             // This might cause unexpected behavior with certain inputs
             let parts: Vec&lt;&amp;str&gt; = s.split('/').collect();
             let _ = parts[input.number as usize % parts.len()]; // Potential panic
@@ -1705,7 +1712,7 @@ fn secure_token_validator(token: &amp;str) -&gt; bool {
 proptest! {
     // This property test will verify that our validator enforces proper token rules
     #[test]
-    fn test_token_validator(token in "[A-Za-z0-9]{0,20}") {
+    fn test_token_validator(token in &quot;[A-Za-z0-9]{0,20}&quot;) {
         // A token should be valid if and only if it:
         // 1. Is at least 8 characters long
         // 2. Contains at least one digit
@@ -1749,7 +1756,7 @@ fn test_overflow_vulnerability() {
 fn secure_allocation(size: usize) -&gt; Result&lt;Vec&lt;u8&gt;, &amp;'static str&gt; {
     // Check for reasonable size before allocation
     if size &gt; 1_000_000_000 {
-        return Err("Allocation too large");
+        return Err(&quot;Allocation too large&quot;);
     }
 
     let mut vec = Vec::with_capacity(size);
@@ -1779,17 +1786,17 @@ fn test_overflow_mitigation() {
 </span>// Cargo.toml with explicit dependency versions and reasons
 [dependencies]
 <span class="boring">Core cryptography - audited 2023-05-15
-</span>ring = { version = "0.16.20", features = ["std"] }
+</span>ring = { version = &quot;0.16.20&quot;, features = [&quot;std&quot;] }
 
 <span class="boring">HTTP client - audited 2023-05-15
-</span>reqwest = { version = "0.11.18", default-features = false, features = ["rustls-tls"] }
+</span>reqwest = { version = &quot;0.11.18&quot;, default-features = false, features = [&quot;rustls-tls&quot;] }
 
 <span class="boring">Serialization - audited 2023-05-15
-</span>serde = { version = "1.0.163", features = ["derive"] }
-serde_json = "1.0.96"
+</span>serde = { version = &quot;1.0.163&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0.96&quot;
 
 <span class="boring">Access to native system functionality - SECURITY SENSITIVE
-</span>libc = "0.2.144"  # Required for low-level system access
+</span>libc = &quot;0.2.144&quot;  # Required for low-level system access
 <span class="boring">}</span></code></pre></pre>
 <ol start="2">
 <li><strong>Minimize Dependencies</strong>: Reduce attack surface by limiting dependencies</li>
@@ -1798,20 +1805,20 @@ serde_json = "1.0.96"
 </span><span class="boring">fn main() {
 </span>// Before minimization
 [dependencies]
-chrono = "0.4.24"  # Only using simple date formatting
-regex = "1.8.1"    # Only using one simple pattern match
-rand = "0.8.5"     # Only using random string generation
+chrono = &quot;0.4.24&quot;  # Only using simple date formatting
+regex = &quot;1.8.1&quot;    # Only using one simple pattern match
+rand = &quot;0.8.5&quot;     # Only using random string generation
 
 <span class="boring">After minimization
 </span>[dependencies]
 <span class="boring">Replaced chrono with time (smaller, fewer deps)
-</span>time = { version = "0.3.21", features = ["formatting"] }
+</span>time = { version = &quot;0.3.21&quot;, features = [&quot;formatting&quot;] }
 
 <span class="boring">Replaced regex with simple string operations for our case
 </span><span class="boring">Removed - reducing attack surface
 </span>
 <span class="boring">Replaced full rand with getrandom for our limited use case
-</span>getrandom = "0.2.9"
+</span>getrandom = &quot;0.2.9&quot;
 <span class="boring">}</span></code></pre></pre>
 <ol start="3">
 <li><strong>Vendoring Critical Dependencies</strong>: For security-critical code, consider vendoring dependencies</li>
@@ -1820,10 +1827,10 @@ rand = "0.8.5"     # Only using random string generation
 </span><span class="boring">fn main() {
 </span><span class="boring">In .cargo/config.toml
 </span>[source.crates-io]
-replace-with = "vendored-sources"
+replace-with = &quot;vendored-sources&quot;
 
 [source.vendored-sources]
-directory = "vendor"
+directory = &quot;vendor&quot;
 <span class="boring">}</span></code></pre></pre>
 <p>Then run:</p>
 <pre><code class="language-bash">cargo vendor
@@ -1906,7 +1913,7 @@ Plan for addressing findings and verification testing.
 <li><strong>Verification</strong>: Verify that fixes are effective</li>
 <li><strong>Follow-up</strong>: Continuous monitoring and periodic re-auditing</li>
 </ol>
-<p>By following these security auditing techniques, you can systematically identify and address security vulnerabilities in your Rust code, even those that Rust’s safety features don’t automatically prevent.</p>
+<p>By following these security auditing techniques, you can systematically identify and address security vulnerabilities in your Rust code, even those that Rust's safety features don't automatically prevent.</p>
 <h2 id="supply-chain-security"><a class="header" href="#supply-chain-security">Supply Chain Security</a></h2>
 <p>Supply chain security is increasingly important as modern applications often depend on dozens or hundreds of third-party dependencies. A vulnerability in any of these dependencies can compromise your entire application.</p>
 <h3 id="understanding-supply-chain-risks"><a class="header" href="#understanding-supply-chain-risks">Understanding Supply Chain Risks</a></h3>
@@ -1930,41 +1937,41 @@ Plan for addressing findings and verification testing.
 <p>Always use Cargo.lock to pin exact versions of dependencies:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-serde = "1.0.152"  # Specifies a semver-compatible version
+serde = &quot;1.0.152&quot;  # Specifies a semver-compatible version
 
 # Cargo.lock (automatically generated)
 # This pins the exact version and all transitive dependencies
 # [[package]]
-# name = "serde"
-# version = "1.0.152"
-# source = "registry+https://github.com/rust-lang/crates.io-index"
-# checksum = "bb7d1f0d3021d347a83e556fc4683dea2ea09d87bccdf88ff5c12545d89d5efb"
+# name = &quot;serde&quot;
+# version = &quot;1.0.152&quot;
+# source = &quot;registry+https://github.com/rust-lang/crates.io-index&quot;
+# checksum = &quot;bb7d1f0d3021d347a83e556fc4683dea2ea09d87bccdf88ff5c12545d89d5efb&quot;
 </code></pre>
 <p>Commit your Cargo.lock file to source control for applications (though not for libraries).</p>
 <h4 id="minimal-dependency-set"><a class="header" href="#minimal-dependency-set">Minimal Dependency Set</a></h4>
 <p>Limit the number of dependencies you use:</p>
 <pre><code class="language-toml"># Before optimization
 [dependencies]
-serde = { version = "1.0", features = ["derive"] }  # Full serialization framework
-serde_json = "1.0"  # JSON support
-regex = "1.7"  # Regular expressions
-chrono = { version = "0.4", features = ["serde"] }  # Date/time handling
-tokio = { version = "1.25", features = ["full"] }  # Async runtime with ALL features
-uuid = { version = "1.3", features = ["v4", "serde"] }  # UUID generation
-log = "0.4"  # Logging facade
-env_logger = "0.10"  # Logger implementation
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }  # Full serialization framework
+serde_json = &quot;1.0&quot;  # JSON support
+regex = &quot;1.7&quot;  # Regular expressions
+chrono = { version = &quot;0.4&quot;, features = [&quot;serde&quot;] }  # Date/time handling
+tokio = { version = &quot;1.25&quot;, features = [&quot;full&quot;] }  # Async runtime with ALL features
+uuid = { version = &quot;1.3&quot;, features = [&quot;v4&quot;, &quot;serde&quot;] }  # UUID generation
+log = &quot;0.4&quot;  # Logging facade
+env_logger = &quot;0.10&quot;  # Logger implementation
 
 # After optimization
 [dependencies]
-serde = { version = "1.0", features = ["derive"], default-features = false }  # Core only
-serde_json = { version = "1.0", default-features = false }  # No std feature
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;], default-features = false }  # Core only
+serde_json = { version = &quot;1.0&quot;, default-features = false }  # No std feature
 # regex removed - using simple string operations instead
-time = { version = "0.3", features = ["formatting", "serde"], default-features = false }  # Smaller alternative to chrono
-tokio = { version = "1.25", features = ["rt", "macros", "io-util", "net"] }  # Only needed features
-uuid = { version = "1.3", features = ["v4", "serde"], default-features = false }  # Minimal features
-log = "0.4"  # Kept as is (small and essential)
+time = { version = &quot;0.3&quot;, features = [&quot;formatting&quot;, &quot;serde&quot;], default-features = false }  # Smaller alternative to chrono
+tokio = { version = &quot;1.25&quot;, features = [&quot;rt&quot;, &quot;macros&quot;, &quot;io-util&quot;, &quot;net&quot;] }  # Only needed features
+uuid = { version = &quot;1.3&quot;, features = [&quot;v4&quot;, &quot;serde&quot;], default-features = false }  # Minimal features
+log = &quot;0.4&quot;  # Kept as is (small and essential)
 # env_logger replaced with simpler implementation
-simple_logger = { version = "4.0", default-features = false }
+simple_logger = { version = &quot;4.0&quot;, default-features = false }
 </code></pre>
 <h4 id="dependency-verification"><a class="header" href="#dependency-verification">Dependency Verification</a></h4>
 <p>Use tools to verify the integrity of dependencies:</p>
@@ -1972,11 +1979,11 @@ simple_logger = { version = "4.0", default-features = false }
 </span><span class="boring">fn main() {
 </span>// In .cargo/config.toml
 [registries.crates-io]
-protocol = "sparse"  // More secure registry protocol
+protocol = &quot;sparse&quot;  // More secure registry protocol
 
 // If using cargo-crev for verification
 [cargo-crev]
-db_path = "~/.config/crev/proofs"
+db_path = &quot;~/.config/crev/proofs&quot;
 <span class="boring">}</span></code></pre></pre>
 <p>Then use cargo-crev to verify dependencies:</p>
 <pre><code class="language-bash">cargo install cargo-crev
@@ -2095,10 +2102,10 @@ mod http_client {
     // Expose only what's needed with additional safety checks
     pub async fn get(url: &amp;str) -&gt; Result&lt;String, Error&gt; {
         // Validate URL before passing to dependency
-        if !url.starts_with("https://") {
+        if !url.starts_with(&quot;https://&quot;) {
             return Err(Error::from(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
-                "Only HTTPS URLs are supported",
+                &quot;Only HTTPS URLs are supported&quot;,
             )));
         }
 
@@ -2109,22 +2116,22 @@ mod http_client {
 }
 
 // Pattern 2: Feature-gated dependencies
-#[cfg(feature = "fancy-ui")]
+#[cfg(feature = &quot;fancy-ui&quot;)]
 mod ui {
     use fancy_ui::Renderer;
 
     pub fn render() {
-        // Only included when the "fancy-ui" feature is enabled
+        // Only included when the &quot;fancy-ui&quot; feature is enabled
         let renderer = Renderer::new();
         renderer.render();
     }
 }
 
-#[cfg(not(feature = "fancy-ui"))]
+#[cfg(not(feature = &quot;fancy-ui&quot;))]
 mod ui {
     pub fn render() {
         // Simple fallback implementation
-        println!("Rendering basic UI");
+        println!(&quot;Rendering basic UI&quot;);
     }
 }
 
@@ -2132,7 +2139,7 @@ mod ui {
 fn parse_json(input: &amp;str) -&gt; Result&lt;serde_json::Value, &amp;'static str&gt; {
     // Limit input size to prevent DoS
     if input.len() &gt; 1_000_000 {
-        return Err("Input too large");
+        return Err(&quot;Input too large&quot;);
     }
 
     // Use from_str_with_limit if available (hypothetical API)
@@ -2141,11 +2148,11 @@ fn parse_json(input: &amp;str) -&gt; Result&lt;serde_json::Value, &amp;'static s
         Ok(value) =&gt; {
             // Validate structure before using
             if value.as_object().map_or(0, |o| o.len()) &gt; 1000 {
-                return Err("Too many object fields");
+                return Err(&quot;Too many object fields&quot;);
             }
             Ok(value)
         },
-        Err(_) =&gt; Err("Invalid JSON"),
+        Err(_) =&gt; Err(&quot;Invalid JSON&quot;),
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2157,21 +2164,21 @@ fn parse_json(input: &amp;str) -&gt; Result&lt;serde_json::Value, &amp;'static s
 
 // Run potentially risky image processing in a separate process
 fn process_image(input_path: &amp;str, output_path: &amp;str) -&gt; Result&lt;(), String&gt; {
-    let status = Command::new("sandbox-runner")
-        .arg("--memory-limit=100M")
-        .arg("--time-limit=5s")
-        .arg("--")
-        .arg("./image_processor")  // Separate binary with limited permissions
+    let status = Command::new(&quot;sandbox-runner&quot;)
+        .arg(&quot;--memory-limit=100M&quot;)
+        .arg(&quot;--time-limit=5s&quot;)
+        .arg(&quot;--&quot;)
+        .arg(&quot;./image_processor&quot;)  // Separate binary with limited permissions
         .arg(input_path)
         .arg(output_path)
         .stdin(Stdio::null())
         .status()
-        .map_err(|e| format!("Failed to execute: {}", e))?;
+        .map_err(|e| format!(&quot;Failed to execute: {}&quot;, e))?;
 
     if status.success() {
         Ok(())
     } else {
-        Err(format!("Process failed with status: {}", status))
+        Err(format!(&quot;Process failed with status: {}&quot;, status))
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2191,12 +2198,12 @@ fn drop_privileges() -&gt; Result&lt;(), &amp;'static str&gt; {
         let nobody_gid = Gid::from_raw(65534);  // nobody
 
         // First drop group privileges
-        setgid(nobody_gid).map_err(|_| "Failed to drop group privileges")?;
+        setgid(nobody_gid).map_err(|_| &quot;Failed to drop group privileges&quot;)?;
 
         // Then drop user privileges
-        setuid(nobody_uid).map_err(|_| "Failed to drop user privileges")?;
+        setuid(nobody_uid).map_err(|_| &quot;Failed to drop user privileges&quot;)?;
 
-        println!("Dropped privileges to nobody");
+        println!(&quot;Dropped privileges to nobody&quot;);
     }
 
     Ok(())
@@ -2209,7 +2216,7 @@ fn main() {
     // Drop privileges if running as root
     #[cfg(unix)]
     if let Err(e) = drop_privileges() {
-        eprintln!("Warning: {}", e);
+        eprintln!(&quot;Warning: {}&quot;, e);
     }
 
     // Continue with normal operation
@@ -2225,11 +2232,11 @@ fn apply_seccomp_filter() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&g
     let filter = SeccompFilter::new(
         vec![
             // Allow basic I/O
-            "read", "write", "open", "close",
+            &quot;read&quot;, &quot;write&quot;, &quot;open&quot;, &quot;close&quot;,
             // Allow memory management
-            "mmap", "munmap", "brk",
+            &quot;mmap&quot;, &quot;munmap&quot;, &quot;brk&quot;,
             // Allow thread operations
-            "futex", "sched_yield",
+            &quot;futex&quot;, &quot;sched_yield&quot;,
             // Add other necessary syscalls...
         ]
         .into_iter()
@@ -2266,7 +2273,7 @@ struct SecretMemory {
 impl SecretMemory {
     pub fn new(size: usize) -&gt; Self {
         let layout = Layout::from_size_align(size, 64)
-            .expect("Invalid memory layout");
+            .expect(&quot;Invalid memory layout&quot;);
 
         let ptr = unsafe { alloc(layout) };
         if ptr.is_null() {
@@ -2293,7 +2300,7 @@ impl SecretMemory {
     }
 
     pub fn write(&amp;mut self, data: &amp;[u8]) {
-        assert!(data.len() &lt;= self.size, "Data too large for buffer");
+        assert!(data.len() &lt;= self.size, &quot;Data too large for buffer&quot;);
 
         unsafe {
             ptr::copy_nonoverlapping(data.as_ptr(), self.ptr, data.len());
@@ -2341,7 +2348,7 @@ impl Drop for SecretMemory {
 use actix_web::middleware::DefaultHeaders;
 
 async fn index() -&gt; impl Responder {
-    HttpResponse::Ok().body("Secure application")
+    HttpResponse::Ok().body(&quot;Secure application&quot;)
 }
 
 #[actix_web::main]
@@ -2352,23 +2359,23 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
             .wrap(
                 DefaultHeaders::new()
                     // Prevent XSS attacks
-                    .add(("Content-Security-Policy", "default-src 'self'"))
+                    .add((&quot;Content-Security-Policy&quot;, &quot;default-src 'self'&quot;))
                     // Prevent clickjacking
-                    .add(("X-Frame-Options", "DENY"))
+                    .add((&quot;X-Frame-Options&quot;, &quot;DENY&quot;))
                     // Prevent MIME type sniffing
-                    .add(("X-Content-Type-Options", "nosniff"))
+                    .add((&quot;X-Content-Type-Options&quot;, &quot;nosniff&quot;))
                     // Enable browser XSS protection
-                    .add(("X-XSS-Protection", "1; mode=block"))
+                    .add((&quot;X-XSS-Protection&quot;, &quot;1; mode=block&quot;))
                     // Enforce HTTPS
-                    .add(("Strict-Transport-Security", "max-age=31536000; includeSubDomains"))
+                    .add((&quot;Strict-Transport-Security&quot;, &quot;max-age=31536000; includeSubDomains&quot;))
                     // Restrict referrer information
-                    .add(("Referrer-Policy", "strict-origin-when-cross-origin"))
+                    .add((&quot;Referrer-Policy&quot;, &quot;strict-origin-when-cross-origin&quot;))
                     // Control permitted features
-                    .add(("Permissions-Policy", "camera=(), microphone=(), geolocation=()"))
+                    .add((&quot;Permissions-Policy&quot;, &quot;camera=(), microphone=(), geolocation=()&quot;))
             )
-            .service(web::resource("/").to(index))
+            .service(web::resource(&quot;/&quot;).to(index))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
@@ -2404,7 +2411,7 @@ impl Default for SecurityConfig {
             require_mfa: true,
 
             // Secure defaults for TLS
-            tls_min_version: "TLSv1.3".to_string(),
+            tls_min_version: &quot;TLSv1.3&quot;.to_string(),
             hsts_enabled: true,
 
             // Secure defaults for request limits
@@ -2429,13 +2436,13 @@ fn main() {
 
 fn initialize_app(config: SecurityConfig) {
     // Application initialization using secure config
-    println!("Initializing with security config: {:?}", config);
+    println!(&quot;Initializing with security config: {:?}&quot;, config);
 }</code></pre></pre>
 <p>By implementing these hardening techniques, you can build Rust applications that are resilient against a wide range of attacks and security vulnerabilities.</p>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>Throughout this chapter, we’ve explored how Rust’s inherent security features provide a strong foundation for building secure applications. Rust’s memory safety guarantees, ownership model, and type system eliminate entire classes of vulnerabilities that continue to plague applications written in other languages.</p>
-<p>However, we’ve also seen that security requires more than just language features. Building truly secure applications demands deliberate attention to security at every stage of development, from design and implementation to testing and deployment.</p>
-<p>The security patterns we’ve covered provide a toolkit for addressing various security concerns:</p>
+<p>Throughout this chapter, we've explored how Rust's inherent security features provide a strong foundation for building secure applications. Rust's memory safety guarantees, ownership model, and type system eliminate entire classes of vulnerabilities that continue to plague applications written in other languages.</p>
+<p>However, we've also seen that security requires more than just language features. Building truly secure applications demands deliberate attention to security at every stage of development, from design and implementation to testing and deployment.</p>
+<p>The security patterns we've covered provide a toolkit for addressing various security concerns:</p>
 <ol>
 <li><strong>Secure coding patterns</strong>: Techniques for handling untrusted input, managing resources safely, and implementing secure defaults</li>
 <li><strong>Cryptography best practices</strong>: Guidelines for using cryptographic libraries correctly and managing keys securely</li>
@@ -2444,7 +2451,7 @@ fn initialize_app(config: SecurityConfig) {
 <li><strong>Security hardening techniques</strong>: Additional measures to strengthen your applications against attacks</li>
 </ol>
 <p>Remember that security is not a one-time effort but a continuous process. Threats evolve, new vulnerabilities are discovered, and best practices change over time. Maintaining secure Rust applications requires ongoing vigilance, regular security reviews, and staying informed about developments in the security landscape.</p>
-<p>By combining Rust’s inherent security advantages with the patterns and practices we’ve discussed, you can build applications that not only perform well and reliably but also resist the increasingly sophisticated security threats faced by modern software.</p>
+<p>By combining Rust's inherent security advantages with the patterns and practices we've discussed, you can build applications that not only perform well and reliably but also resist the increasingly sophisticated security threats faced by modern software.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
@@ -2478,7 +2485,7 @@ fn initialize_app(config: SecurityConfig) {
 <p><strong>Security Hardening</strong>: Add security hardening to an existing Rust application, including secure headers, privilege reduction, and secure default configurations.</p>
 </li>
 </ol>
-<p>By completing these exercises, you’ll gain practical experience applying the security patterns and principles covered in this chapter to real-world Rust applications.</p>
+<p>By completing these exercises, you'll gain practical experience applying the security patterns and principles covered in this chapter to real-world Rust applications.</p>
 
                     </main>
 

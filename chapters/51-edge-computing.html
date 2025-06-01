@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html" class="active"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -178,14 +185,14 @@
                         <h1 id="chapter-51-rust-for-edge-computing"><a class="header" href="#chapter-51-rust-for-edge-computing">Chapter 51: Rust for Edge Computing</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Edge computing represents a paradigm shift in how we deploy and run applications. Rather than centralizing processing in cloud data centers, edge computing moves computation closer to data sources and end users, reducing latency, conserving bandwidth, and enabling new classes of applications that require near-instantaneous processing. As this distributed computing model gains traction across industries, Rust has emerged as an ideal language for edge environments due to its performance efficiency, security guarantees, and minimal resource requirements.</p>
-<p>This chapter explores how Rust’s unique characteristics make it particularly well-suited for edge computing scenarios. We’ll examine the fundamentals of edge computing, serverless deployment models, optimization techniques for resource-constrained environments, and strategies for building production-ready edge applications. By the chapter’s end, you’ll have the knowledge and tools to leverage Rust’s capabilities for delivering high-performance, secure applications at the edge of the network.</p>
-<p>The edge computing landscape spans diverse environments—from CDN edge nodes and serverless platforms to IoT gateways and edge servers. Each environment presents its own constraints and opportunities. Rust’s combination of performance, reliability, and fine-grained control over system resources makes it an excellent choice across this spectrum, whether you’re building latency-sensitive applications, processing data closer to its source, or deploying globally distributed services.</p>
-<p>Let’s begin our exploration of Rust’s role in the rapidly evolving world of edge computing, and discover how to harness the language’s strengths to build the next generation of distributed applications.</p>
+<p>This chapter explores how Rust's unique characteristics make it particularly well-suited for edge computing scenarios. We'll examine the fundamentals of edge computing, serverless deployment models, optimization techniques for resource-constrained environments, and strategies for building production-ready edge applications. By the chapter's end, you'll have the knowledge and tools to leverage Rust's capabilities for delivering high-performance, secure applications at the edge of the network.</p>
+<p>The edge computing landscape spans diverse environments—from CDN edge nodes and serverless platforms to IoT gateways and edge servers. Each environment presents its own constraints and opportunities. Rust's combination of performance, reliability, and fine-grained control over system resources makes it an excellent choice across this spectrum, whether you're building latency-sensitive applications, processing data closer to its source, or deploying globally distributed services.</p>
+<p>Let's begin our exploration of Rust's role in the rapidly evolving world of edge computing, and discover how to harness the language's strengths to build the next generation of distributed applications.</p>
 <h2 id="edge-computing-fundamentals"><a class="header" href="#edge-computing-fundamentals">Edge Computing Fundamentals</a></h2>
-<p>Before diving into Rust-specific implementations, it’s crucial to understand what edge computing is and why it matters in today’s technological landscape.</p>
+<p>Before diving into Rust-specific implementations, it's crucial to understand what edge computing is and why it matters in today's technological landscape.</p>
 <h3 id="what-is-edge-computing"><a class="header" href="#what-is-edge-computing">What is Edge Computing?</a></h3>
-<p>Edge computing refers to processing data near its source—“at the edge” of the network—rather than in a centralized data center or cloud. This approach reduces the distance data must travel, thereby decreasing latency and bandwidth usage while increasing responsiveness and reliability.</p>
-<p>The “edge” can refer to various locations:</p>
+<p>Edge computing refers to processing data near its source—&quot;at the edge&quot; of the network—rather than in a centralized data center or cloud. This approach reduces the distance data must travel, thereby decreasing latency and bandwidth usage while increasing responsiveness and reliability.</p>
+<p>The &quot;edge&quot; can refer to various locations:</p>
 <ul>
 <li><strong>CDN edge nodes</strong>: Points of presence (PoPs) distributed globally by content delivery networks</li>
 <li><strong>Mobile edge computing (MEC)</strong>: Computing resources within cellular networks</li>
@@ -245,20 +252,20 @@
 <li>Vercel Edge Functions</li>
 <li>Various WebAssembly frameworks</li>
 </ul>
-<h3 id="rusts-fit-for-edge-computing"><a class="header" href="#rusts-fit-for-edge-computing">Rust’s Fit for Edge Computing</a></h3>
+<h3 id="rusts-fit-for-edge-computing"><a class="header" href="#rusts-fit-for-edge-computing">Rust's Fit for Edge Computing</a></h3>
 <p>Rust offers several characteristics that make it exceptionally well-suited for edge computing:</p>
 <ol>
 <li>
-<p><strong>Performance efficiency</strong>: Rust’s zero-cost abstractions and lack of garbage collection mean applications can deliver high performance with predictable resource usage.</p>
+<p><strong>Performance efficiency</strong>: Rust's zero-cost abstractions and lack of garbage collection mean applications can deliver high performance with predictable resource usage.</p>
 </li>
 <li>
 <p><strong>Small binary size</strong>: With proper optimization, Rust binaries can be extremely compact, which is crucial for deployment to edge environments with size limitations.</p>
 </li>
 <li>
-<p><strong>Memory safety</strong>: Rust’s ownership model prevents common bugs like null pointer dereferences and buffer overflows without runtime overhead, enhancing security at the edge.</p>
+<p><strong>Memory safety</strong>: Rust's ownership model prevents common bugs like null pointer dereferences and buffer overflows without runtime overhead, enhancing security at the edge.</p>
 </li>
 <li>
-<p><strong>Concurrency without data races</strong>: Rust’s concurrency model helps developers build highly parallel applications safely, maximizing edge hardware utilization.</p>
+<p><strong>Concurrency without data races</strong>: Rust's concurrency model helps developers build highly parallel applications safely, maximizing edge hardware utilization.</p>
 </li>
 <li>
 <p><strong>Cross-compilation support</strong>: Rust can target various architectures common in edge environments, from x86 to ARM and RISC-V.</p>
@@ -271,7 +278,7 @@
 </li>
 </ol>
 <h3 id="edge-computing-vs-cloud-computing-a-comparison"><a class="header" href="#edge-computing-vs-cloud-computing-a-comparison">Edge Computing vs. Cloud Computing: A Comparison</a></h3>
-<p>To understand where edge computing fits, it’s helpful to compare it with traditional cloud computing:</p>
+<p>To understand where edge computing fits, it's helpful to compare it with traditional cloud computing:</p>
 <div class="table-wrapper"><table><thead><tr><th>Aspect</th><th>Edge Computing</th><th>Cloud Computing</th></tr></thead><tbody>
 <tr><td>Latency</td><td>Low (milliseconds)</td><td>Higher (tens to hundreds of milliseconds)</td></tr>
 <tr><td>Bandwidth Usage</td><td>Reduced (local processing)</td><td>Higher (data transmission to centralized locations)</td></tr>
@@ -285,7 +292,7 @@
 </div>
 <p>In practice, many modern architectures combine edge and cloud computing in a layered approach, with different types of processing happening at different tiers based on latency, data volume, and computational requirements.</p>
 <h3 id="setting-up-a-rust-development-environment-for-edge"><a class="header" href="#setting-up-a-rust-development-environment-for-edge">Setting Up a Rust Development Environment for Edge</a></h3>
-<p>Before we delve into specific edge platforms, let’s set up a basic Rust development environment suitable for edge computing:</p>
+<p>Before we delve into specific edge platforms, let's set up a basic Rust development environment suitable for edge computing:</p>
 <pre><code class="language-bash"># Install Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
@@ -301,10 +308,10 @@ cargo install cargo-watch  # For development workflows
 npm install -g wrangler  # For Cloudflare Workers
 npm install -g @cloudflare/workers-types  # TypeScript types for Workers
 </code></pre>
-<p>With this setup, you’ll be ready to develop Rust applications for various edge environments, whether they run as native binaries, WebAssembly modules, or in specialized containers.</p>
-<p>In the following sections, we’ll explore specific edge computing platforms and how to leverage Rust’s strengths to build efficient, reliable applications that run at the edge of the network.</p>
+<p>With this setup, you'll be ready to develop Rust applications for various edge environments, whether they run as native binaries, WebAssembly modules, or in specialized containers.</p>
+<p>In the following sections, we'll explore specific edge computing platforms and how to leverage Rust's strengths to build efficient, reliable applications that run at the edge of the network.</p>
 <h2 id="serverless-rust-applications"><a class="header" href="#serverless-rust-applications">Serverless Rust Applications</a></h2>
-<p>Serverless computing has become a dominant paradigm for edge deployment, offering developers a way to focus on code rather than infrastructure management. Rust’s efficiency and reliability make it an excellent fit for serverless environments, where resource utilization directly impacts performance and cost.</p>
+<p>Serverless computing has become a dominant paradigm for edge deployment, offering developers a way to focus on code rather than infrastructure management. Rust's efficiency and reliability make it an excellent fit for serverless environments, where resource utilization directly impacts performance and cost.</p>
 <h3 id="understanding-serverless-at-the-edge"><a class="header" href="#understanding-serverless-at-the-edge">Understanding Serverless at the Edge</a></h3>
 <p>Edge serverless platforms differ from traditional cloud serverless offerings in several key ways:</p>
 <ol>
@@ -324,9 +331,9 @@ npm install -g @cloudflare/workers-types  # TypeScript types for Workers
 <p><strong>State management</strong>: Edge functions generally have limited access to persistent storage compared to cloud functions.</p>
 </li>
 </ol>
-<p>These differences make Rust’s efficiency and predictable performance particularly valuable in edge serverless contexts.</p>
+<p>These differences make Rust's efficiency and predictable performance particularly valuable in edge serverless contexts.</p>
 <h3 id="rust-on-cloudflare-workers"><a class="header" href="#rust-on-cloudflare-workers">Rust on Cloudflare Workers</a></h3>
-<p>Cloudflare Workers is one of the most popular edge computing platforms, running JavaScript and WebAssembly in V8 isolates across Cloudflare’s global network. Let’s explore how to deploy Rust to Cloudflare Workers.</p>
+<p>Cloudflare Workers is one of the most popular edge computing platforms, running JavaScript and WebAssembly in V8 isolates across Cloudflare's global network. Let's explore how to deploy Rust to Cloudflare Workers.</p>
 <h4 id="setting-up-a-workers-project"><a class="header" href="#setting-up-a-workers-project">Setting Up a Workers Project</a></h4>
 <p>First, install the Wrangler CLI and create a new project:</p>
 <pre><code class="language-bash">npm install -g wrangler
@@ -345,7 +352,7 @@ cd my-rust-worker
 └── wrangler.toml      # Cloudflare configuration
 </code></pre>
 <h4 id="writing-a-basic-rust-worker"><a class="header" href="#writing-a-basic-rust-worker">Writing a Basic Rust Worker</a></h4>
-<p>Let’s look at a simple Rust Worker that handles HTTP requests:</p>
+<p>Let's look at a simple Rust Worker that handles HTTP requests:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
@@ -357,7 +364,7 @@ pub struct RustWorker;
 #[wasm_bindgen]
 impl RustWorker {
     pub fn new() -&gt; Self {
-        console_log!("Rust worker initialized");
+        console_log!(&quot;Rust worker initialized&quot;);
         RustWorker
     }
 
@@ -368,21 +375,21 @@ impl RustWorker {
 
         // Route based on path
         match path {
-            "/" =&gt; Response::ok("Hello from Rust on the edge!"),
-            "/json" =&gt; {
+            &quot;/&quot; =&gt; Response::ok(&quot;Hello from Rust on the edge!&quot;),
+            &quot;/json&quot; =&gt; {
                 let data = json!({
-                    "message": "This is JSON from Rust",
-                    "timestamp": Date::now().as_millis()
+                    &quot;message&quot;: &quot;This is JSON from Rust&quot;,
+                    &quot;timestamp&quot;: Date::now().as_millis()
                 });
                 Response::from_json(&amp;data)
             },
-            "/echo" =&gt; {
+            &quot;/echo&quot; =&gt; {
                 match req.text() {
-                    Ok(body) =&gt; Response::ok(format!("You sent: {}", body)),
-                    Err(_) =&gt; Response::error("Could not read request body", 400)
+                    Ok(body) =&gt; Response::ok(format!(&quot;You sent: {}&quot;, body)),
+                    Err(_) =&gt; Response::error(&quot;Could not read request body&quot;, 400)
                 }
             },
-            _ =&gt; Response::error("Not Found", 404)
+            _ =&gt; Response::error(&quot;Not Found&quot;, 404)
         }
     }
 }
@@ -399,13 +406,13 @@ pub fn init() -&gt; RustWorker {
 <span class="boring">}</span></code></pre></pre>
 <p>The JavaScript shim in <code>worker/worker.js</code> connects our Rust code to the Workers runtime:</p>
 <pre><code class="language-javascript">// Import the Rust module
-import { init } from "../pkg/rust_worker";
+import { init } from &quot;../pkg/rust_worker&quot;;
 
 // Initialize the Rust worker
 const rustWorker = init();
 
 // Register our request handler
-addEventListener("fetch", (event) =&gt; {
+addEventListener(&quot;fetch&quot;, (event) =&gt; {
   event.respondWith(handleRequest(event.request));
 });
 
@@ -419,30 +426,30 @@ async function handleRequest(request) {
 <pre><code class="language-bash">wrangler build
 wrangler publish
 </code></pre>
-<p>This compiles your Rust code to WebAssembly, bundles it with the JavaScript shim, and deploys it globally across Cloudflare’s network.</p>
+<p>This compiles your Rust code to WebAssembly, bundles it with the JavaScript shim, and deploys it globally across Cloudflare's network.</p>
 <h3 id="rust-on-aws-lambda"><a class="header" href="#rust-on-aws-lambda">Rust on AWS Lambda</a></h3>
 <p>AWS Lambda is another popular serverless platform that supports Rust through custom runtimes. While not traditionally considered an edge platform, AWS Lambda@Edge and Lambda functions in AWS Global Accelerator provide edge-like capabilities.</p>
 <h4 id="setting-up-a-lambda-project"><a class="header" href="#setting-up-a-lambda-project">Setting Up a Lambda Project</a></h4>
-<p>To create a Rust Lambda function, we’ll use the <code>lambda_runtime</code> crate:</p>
+<p>To create a Rust Lambda function, we'll use the <code>lambda_runtime</code> crate:</p>
 <pre><code class="language-bash">cargo new rust-lambda
 cd rust-lambda
 </code></pre>
 <p>Add the necessary dependencies to <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "rust-lambda"
-version = "0.1.0"
-edition = "2021"
+name = &quot;rust-lambda&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [dependencies]
-lambda_runtime = "0.8.0"
-tokio = { version = "1", features = ["macros"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-tracing = "0.1"
-tracing-subscriber = "0.3"
+lambda_runtime = &quot;0.8.0&quot;
+tokio = { version = &quot;1&quot;, features = [&quot;macros&quot;] }
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0&quot;
+tracing = &quot;0.1&quot;
+tracing-subscriber = &quot;0.3&quot;
 </code></pre>
 <h4 id="writing-a-basic-lambda-function"><a class="header" href="#writing-a-basic-lambda-function">Writing a Basic Lambda Function</a></h4>
-<p>Here’s a simple Lambda function that processes events:</p>
+<p>Here's a simple Lambda function that processes events:</p>
 <pre><pre class="playground"><code class="language-rust">use lambda_runtime::{service_fn, Error, LambdaEvent};
 use serde::{Deserialize, Serialize};
 use tracing::{info, instrument};
@@ -481,14 +488,14 @@ async fn handler(event: LambdaEvent&lt;Request&gt;) -&gt; Result&lt;Response, Er
     info!(
         name = request.name.as_str(),
         command = request.command.as_str(),
-        "Received request"
+        &quot;Received request&quot;
     );
 
     // Process the request
     let message = match request.command.as_str() {
-        "hello" =&gt; format!("Hello, {}!", request.name),
-        "goodbye" =&gt; format!("Goodbye, {}!", request.name),
-        _ =&gt; format!("Unknown command: {}", request.command),
+        &quot;hello&quot; =&gt; format!(&quot;Hello, {}!&quot;, request.name),
+        &quot;goodbye&quot; =&gt; format!(&quot;Goodbye, {}!&quot;, request.name),
+        _ =&gt; format!(&quot;Unknown command: {}&quot;, request.command),
     };
 
     // Return the response
@@ -516,7 +523,7 @@ zip rust-lambda.zip bootstrap
 </code></pre>
 <p>You can then deploy this ZIP file to AWS Lambda through the console or CLI.</p>
 <h3 id="rust-on-fastly-computeedge"><a class="header" href="#rust-on-fastly-computeedge">Rust on Fastly Compute@Edge</a></h3>
-<p>Fastly’s Compute@Edge is a serverless compute environment specifically designed for edge processing, with native support for Rust and WebAssembly.</p>
+<p>Fastly's Compute@Edge is a serverless compute environment specifically designed for edge processing, with native support for Rust and WebAssembly.</p>
 <h4 id="setting-up-a-computeedge-project"><a class="header" href="#setting-up-a-computeedge-project">Setting Up a Compute@Edge Project</a></h4>
 <p>First, install the Fastly CLI and create a new project:</p>
 <pre><code class="language-bash">brew install fastly/tap/fastly  # or use an appropriate installation method
@@ -529,25 +536,25 @@ use fastly::{Error, Request, Response};
 #[fastly::main]
 fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
     // Log the request path
-    println!("Request path: {}", req.get_path());
+    println!(&quot;Request path: {}&quot;, req.get_path());
 
     // Pattern match on the request method and path
     match (req.get_method(), req.get_path()) {
-        (&amp;Method::GET, "/") =&gt; Ok(Response::from_status(StatusCode::OK)
-            .with_body_text_plain("Welcome to Fastly Compute@Edge with Rust!")),
+        (&amp;Method::GET, &quot;/&quot;) =&gt; Ok(Response::from_status(StatusCode::OK)
+            .with_body_text_plain(&quot;Welcome to Fastly Compute@Edge with Rust!&quot;)),
 
-        (&amp;Method::GET, "/api") =&gt; {
+        (&amp;Method::GET, &quot;/api&quot;) =&gt; {
             // Fetch data from a backend and return it
-            let backend_req = Request::get("https://api.example.com/data")
-                .with_header("Accept", "application/json");
+            let backend_req = Request::get(&quot;https://api.example.com/data&quot;)
+                .with_header(&quot;Accept&quot;, &quot;application/json&quot;);
 
-            let resp = backend_req.send("origin_server")?;
+            let resp = backend_req.send(&quot;origin_server&quot;)?;
 
-            Ok(resp.with_header("X-Served-By", "Compute@Edge"))
+            Ok(resp.with_header(&quot;X-Served-By&quot;, &quot;Compute@Edge&quot;))
         },
 
         _ =&gt; Ok(Response::from_status(StatusCode::NOT_FOUND)
-            .with_body_text_plain("Not found\n")),
+            .with_body_text_plain(&quot;Not found\n&quot;)),
     }
 }</code></pre></pre>
 <h4 id="building-and-deploying-1"><a class="header" href="#building-and-deploying-1">Building and Deploying</a></h4>
@@ -555,7 +562,7 @@ fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
 <pre><code class="language-bash">fastly compute build
 fastly compute deploy
 </code></pre>
-<p>This compiles your Rust code to WebAssembly and deploys it to Fastly’s global edge network.</p>
+<p>This compiles your Rust code to WebAssembly and deploys it to Fastly's global edge network.</p>
 <h3 id="rust-on-vercel-edge-functions"><a class="header" href="#rust-on-vercel-edge-functions">Rust on Vercel Edge Functions</a></h3>
 <p>Vercel has introduced Edge Functions that can be written in several languages, including Rust via WebAssembly.</p>
 <h4 id="setting-up-a-vercel-edge-project"><a class="header" href="#setting-up-a-vercel-edge-project">Setting Up a Vercel Edge Project</a></h4>
@@ -571,16 +578,16 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn handle_request(url: &amp;str, method: &amp;str) -&gt; String {
-    if method == "GET" &amp;&amp; url.ends_with("/api/hello") {
-        return r#"{"message":"Hello from Rust at the Edge!"}"#.to_string();
+    if method == &quot;GET&quot; &amp;&amp; url.ends_with(&quot;/api/hello&quot;) {
+        return r#&quot;{&quot;message&quot;:&quot;Hello from Rust at the Edge!&quot;}&quot;#.to_string();
     }
 
-    r#"{"error":"Not found"}"#.to_string()
+    r#&quot;{&quot;error&quot;:&quot;Not found&quot;}&quot;#.to_string()
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Create a JavaScript wrapper for the Vercel Edge Functions:</p>
 <pre><code class="language-javascript">// api/hello.js
-import { handle_request } from "../pkg/vercel_edge.js";
+import { handle_request } from &quot;../pkg/vercel_edge.js&quot;;
 
 export default function handler(req) {
   const result = handle_request(req.url, req.method);
@@ -588,14 +595,14 @@ export default function handler(req) {
   return new Response(result, {
     status: 200,
     headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "max-age=0, s-maxage=86400",
+      &quot;Content-Type&quot;: &quot;application/json&quot;,
+      &quot;Cache-Control&quot;: &quot;max-age=0, s-maxage=86400&quot;,
     },
   });
 }
 
 export const config = {
-  runtime: "edge",
+  runtime: &quot;edge&quot;,
 };
 </code></pre>
 <h4 id="building-for-vercel"><a class="header" href="#building-for-vercel">Building for Vercel</a></h4>
@@ -624,8 +631,8 @@ strip = true        # Strip symbols from binary
 lazy_static! {
     static ref REGEX_PATTERNS: Vec&lt;Regex&gt; = {
         vec![
-            Regex::new(r"pattern1").unwrap(),
-            Regex::new(r"pattern2").unwrap(),
+            Regex::new(r&quot;pattern1&quot;).unwrap(),
+            Regex::new(r&quot;pattern2&quot;).unwrap(),
             // ...
         ]
     };
@@ -676,7 +683,7 @@ fn process_request(req: &amp;Request) -&gt; Response {
     // Use the stack-allocated buffer
     match req.read_body_into(&amp;mut buffer) {
         Ok(size) =&gt; process_data(&amp;buffer[..size]),
-        Err(_) =&gt; Response::error("Request too large", 413)
+        Err(_) =&gt; Response::error(&quot;Request too large&quot;, 413)
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -688,22 +695,22 @@ fn process_request(req: &amp;Request) -&gt; Response {
     let response = process_request(&amp;req);
 
     // Add caching headers based on content type
-    match response.headers().get("Content-Type") {
-        Some(content_type) if content_type.starts_with("image/") =&gt; {
-            response.with_header("Cache-Control", "public, max-age=86400")
+    match response.headers().get(&quot;Content-Type&quot;) {
+        Some(content_type) if content_type.starts_with(&quot;image/&quot;) =&gt; {
+            response.with_header(&quot;Cache-Control&quot;, &quot;public, max-age=86400&quot;)
         },
-        Some(content_type) if content_type.starts_with("text/html") =&gt; {
-            response.with_header("Cache-Control", "public, max-age=3600")
+        Some(content_type) if content_type.starts_with(&quot;text/html&quot;) =&gt; {
+            response.with_header(&quot;Cache-Control&quot;, &quot;public, max-age=3600&quot;)
         },
         _ =&gt; {
-            response.with_header("Cache-Control", "no-cache")
+            response.with_header(&quot;Cache-Control&quot;, &quot;no-cache&quot;)
         }
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <p>With these patterns and platform-specific knowledge, you can build efficient, reliable serverless Rust applications that leverage the unique characteristics of edge computing environments.</p>
 <h2 id="cold-start-optimization-techniques"><a class="header" href="#cold-start-optimization-techniques">Cold Start Optimization Techniques</a></h2>
-<p>Cold starts—the delay when code is first executed after being dormant—are a significant challenge in edge computing environments. In this section, we’ll explore techniques to minimize cold start latency and improve the user experience of edge applications written in Rust.</p>
+<p>Cold starts—the delay when code is first executed after being dormant—are a significant challenge in edge computing environments. In this section, we'll explore techniques to minimize cold start latency and improve the user experience of edge applications written in Rust.</p>
 <h3 id="understanding-cold-starts-in-edge-environments"><a class="header" href="#understanding-cold-starts-in-edge-environments">Understanding Cold Starts in Edge Environments</a></h3>
 <p>Cold starts occur when:</p>
 <ol>
@@ -734,7 +741,7 @@ use once_cell::sync::Lazy;
 static FIRST_EXECUTION: Lazy&lt;Instant&gt; = Lazy::new(|| {
     // Log the first execution time
     let now = Instant::now();
-    println!("First execution at {:?}", now);
+    println!(&quot;First execution at {:?}&quot;, now);
     now
 });
 
@@ -744,7 +751,7 @@ fn handler(req: Request) -&gt; Response {
 
     if startup_time.as_millis() &lt; 100 {
         // We're likely in a cold start
-        println!("Cold start detected, startup time: {:?}", startup_time);
+        println!(&quot;Cold start detected, startup time: {:?}&quot;, startup_time);
     }
 
     // Handle the request
@@ -763,16 +770,16 @@ fn handler(req: Request) -&gt; Response {
 wasm-opt = ['-Oz']
 
 [dependencies]
-wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
-console_error_panic_hook = { version = "0.1", optional = true }
+wasm-bindgen = { version = &quot;0.2&quot;, features = [&quot;serde-serialize&quot;] }
+console_error_panic_hook = { version = &quot;0.1&quot;, optional = true }
 
 [features]
-default = ["console_error_panic_hook"]
+default = [&quot;console_error_panic_hook&quot;]
 </code></pre>
 <h4 id="dynamic-imports-for-large-dependencies"><a class="header" href="#dynamic-imports-for-large-dependencies">Dynamic Imports for Large Dependencies</a></h4>
 <p>For JavaScript interop scenarios, consider dynamic imports:</p>
 <pre><code class="language-javascript">// worker.js
-addEventListener("fetch", (event) =&gt; {
+addEventListener(&quot;fetch&quot;, (event) =&gt; {
   event.respondWith(handleRequest(event.request));
 });
 
@@ -780,14 +787,14 @@ async function handleRequest(request) {
   // Core functionality runs immediately
   const url = new URL(request.url);
 
-  if (url.pathname.startsWith("/image")) {
+  if (url.pathname.startsWith(&quot;/image&quot;)) {
     // Dynamically import image processing module only when needed
-    const { processImage } = await import("./image_processor.js");
+    const { processImage } = await import(&quot;./image_processor.js&quot;);
     return processImage(request);
   }
 
   // Default response
-  return new Response("Hello World");
+  return new Response(&quot;Hello World&quot;);
 }
 </code></pre>
 <p>This technique can be combined with Rust modules compiled to WebAssembly.</p>
@@ -808,7 +815,7 @@ static DB_CLIENT: Lazy&lt;Mutex&lt;Option&lt;DbClient&gt;&gt;&gt; = Lazy::new(||
 
 // Configuration loaded from environment
 static CONFIG: Lazy&lt;Config&gt; = Lazy::new(|| {
-    Config::from_env().expect("Failed to load configuration")
+    Config::from_env().expect(&quot;Failed to load configuration&quot;)
 });
 
 fn get_db_client() -&gt; &amp;'static Mutex&lt;Option&lt;DbClient&gt;&gt; {
@@ -822,7 +829,7 @@ fn get_db_client() -&gt; &amp;'static Mutex&lt;Option&lt;DbClient&gt;&gt; {
 
 fn handler(req: Request) -&gt; Response {
     // Only connect to the database if this request needs it
-    if req.path() == "/api/data" {
+    if req.path() == &quot;/api/data&quot; {
         let db = get_db_client().lock().unwrap();
         // Use database...
     } else {
@@ -843,11 +850,11 @@ use tokio::task::spawn;
 async fn initialize_services() -&gt; Result&lt;Services, Error&gt; {
     // Start all initialization tasks concurrently
     let db_future = spawn(async {
-        DbClient::new("postgres://...").await
+        DbClient::new(&quot;postgres://...&quot;).await
     });
 
     let cache_future = spawn(async {
-        CacheClient::new("redis://...").await
+        CacheClient::new(&quot;redis://...&quot;).await
     });
 
     let http_future = spawn(async {
@@ -882,11 +889,11 @@ async fn initialize_services() -&gt; Result&lt;Services, Error&gt; {
     let path = req.uri().path();
 
     // Second phase: components needed based on request type
-    let context = if path.starts_with("/api") {
+    let context = if path.starts_with(&quot;/api&quot;) {
         // API requests need database access
         let db = DbClient::connect().await?;
         Context::new(router, metrics, Some(db), None)
-    } else if path.starts_with("/content") {
+    } else if path.starts_with(&quot;/content&quot;) {
         // Content requests need cache access
         let cache = CacheClient::connect().await?;
         Context::new(router, metrics, None, Some(cache))
@@ -907,35 +914,35 @@ async fn initialize_services() -&gt; Result&lt;Services, Error&gt; {
 </span>// In a separate worker or scheduled task
 async fn keep_warm() {
     let functions = [
-        "https://api.example.com/edge/critical-function-1",
-        "https://api.example.com/edge/critical-function-2",
+        &quot;https://api.example.com/edge/critical-function-1&quot;,
+        &quot;https://api.example.com/edge/critical-function-2&quot;,
     ];
 
     for &amp;function_url in &amp;functions {
         // Send a ping request
         match reqwest::Client::new()
             .get(function_url)
-            .header("X-Warm-Up", "true")
+            .header(&quot;X-Warm-Up&quot;, &quot;true&quot;)
             .send()
             .await
         {
-            Ok(_) =&gt; println!("Successfully warmed up {}", function_url),
-            Err(e) =&gt; eprintln!("Failed to warm up {}: {}", function_url, e),
+            Ok(_) =&gt; println!(&quot;Successfully warmed up {}&quot;, function_url),
+            Err(e) =&gt; eprintln!(&quot;Failed to warm up {}: {}&quot;, function_url, e),
         }
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Configure your edge platform’s scheduling mechanism to call this function periodically.</p>
+<p>Configure your edge platform's scheduling mechanism to call this function periodically.</p>
 <h4 id="smart-routing-with-sticky-sessions"><a class="header" href="#smart-routing-with-sticky-sessions">Smart Routing with Sticky Sessions</a></h4>
 <p>For platforms with global distribution, implement smart routing:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn route_request(req: Request) -&gt; Result&lt;Response, Error&gt; {
     // Check for sticky session cookie
-    let instance_id = match req.headers().get("Cookie") {
-        Some(cookie) if cookie.to_str().unwrap_or("").contains("instance_id=") =&gt; {
+    let instance_id = match req.headers().get(&quot;Cookie&quot;) {
+        Some(cookie) if cookie.to_str().unwrap_or(&quot;&quot;).contains(&quot;instance_id=&quot;) =&gt; {
             // Extract instance ID from cookie
-            extract_instance_id_from_cookie(cookie.to_str().unwrap_or(""))
+            extract_instance_id_from_cookie(cookie.to_str().unwrap_or(&quot;&quot;))
         },
         _ =&gt; {
             // No cookie, assign to least loaded instance
@@ -946,8 +953,8 @@ async fn keep_warm() {
     // Set cookie for future requests
     let mut response = handle_request(req)?;
     response.headers_mut().insert(
-        "Set-Cookie",
-        format!("instance_id={}; Path=/; Max-Age=3600", instance_id)
+        &quot;Set-Cookie&quot;,
+        format!(&quot;instance_id={}; Path=/; Max-Age=3600&quot;, instance_id)
             .parse()
             .unwrap(),
     );
@@ -968,7 +975,7 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen(start)]
 pub fn start() {
     // Run initialization code when the module is first loaded
-    console_log!("Initializing worker...");
+    console_log!(&quot;Initializing worker...&quot;);
 
     // Precompute lookup tables or other expensive data structures
     initialize_lookup_tables();
@@ -1048,13 +1055,13 @@ async fn handler(event: LambdaEvent&lt;Value&gt;) -&gt; Result&lt;Value, Error&g
     let (payload, _context) = event.into_parts();
 
     // Use the pre-initialized resource
-    let input = payload["input"].as_str().unwrap_or_default();
+    let input = payload[&quot;input&quot;].as_str().unwrap_or_default();
     let result = EXPENSIVE_RESOURCE.process(input);
 
-    Ok(serde_json::json!({ "result": result }))
+    Ok(serde_json::json!({ &quot;result&quot;: result }))
 }</code></pre></pre>
 <h4 id="fastly-computeedge"><a class="header" href="#fastly-computeedge">Fastly Compute@Edge</a></h4>
-<p>Fastly’s Compute@Edge platform benefits from concise initialization code:</p>
+<p>Fastly's Compute@Edge platform benefits from concise initialization code:</p>
 <pre><pre class="playground"><code class="language-rust">use fastly::{Error, Request, Response};
 use once_cell::sync::OnceCell;
 
@@ -1074,7 +1081,7 @@ impl RoutingTable {
     fn route(&amp;self, path: &amp;str) -&gt; &amp;str {
         // Route based on path
         // ...
-        "default_backend"
+        &quot;default_backend&quot;
     }
 }
 
@@ -1100,8 +1107,8 @@ fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
 </span>// core.rs - Always loaded immediately
 pub fn handle_basic_request(req: &amp;Request) -&gt; Option&lt;Response&gt; {
     // Handle basic requests that don't need advanced features
-    if req.uri().path() == "/" {
-        return Some(Response::new("Welcome!"));
+    if req.uri().path() == &quot;/&quot; {
+        return Some(Response::new(&quot;Welcome!&quot;));
     }
     None
 }
@@ -1109,9 +1116,9 @@ pub fn handle_basic_request(req: &amp;Request) -&gt; Option&lt;Response&gt; {
 // advanced.rs - Loaded on demand
 pub fn handle_advanced_request(req: &amp;Request) -&gt; Option&lt;Response&gt; {
     // Handle more complex requests
-    if req.uri().path().starts_with("/api") {
+    if req.uri().path().starts_with(&quot;/api&quot;) {
         // Complex processing...
-        return Some(Response::new("API Response"));
+        return Some(Response::new(&quot;API Response&quot;));
     }
     None
 }
@@ -1124,7 +1131,7 @@ async fn handler(req: Request) -&gt; Response {
     }
 
     // If core can't handle it, load advanced module
-    if req.uri().path().starts_with("/api") {
+    if req.uri().path().starts_with(&quot;/api&quot;) {
         // In a real implementation, this might dynamically load code
         // For demonstration, we'll just call the function
         if let Some(response) = handle_advanced_request(&amp;req) {
@@ -1133,12 +1140,12 @@ async fn handler(req: Request) -&gt; Response {
     }
 
     // Default response
-    Response::new("Not Found").with_status(404)
+    Response::new(&quot;Not Found&quot;).with_status(404)
 }
 <span class="boring">}</span></code></pre></pre>
 <p>In practice, dynamic loading implementation depends on your edge platform.</p>
 <h4 id="state-precomputation-and-caching"><a class="header" href="#state-precomputation-and-caching">State Precomputation and Caching</a></h4>
-<p>Precompute and cache state that’s expensive to generate:</p>
+<p>Precompute and cache state that's expensive to generate:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::HashMap;
@@ -1150,8 +1157,8 @@ static PRECOMPUTED_CACHE: Lazy&lt;Mutex&lt;HashMap&lt;String, Vec&lt;u8&gt;&gt;&
     let mut map = HashMap::new();
 
     // Precompute common values
-    map.insert("common_value_1".to_string(), compute_expensive_value(1));
-    map.insert("common_value_2".to_string(), compute_expensive_value(2));
+    map.insert(&quot;common_value_1&quot;.to_string(), compute_expensive_value(1));
+    map.insert(&quot;common_value_2&quot;.to_string(), compute_expensive_value(2));
 
     Mutex::new(map)
 });
@@ -1223,31 +1230,31 @@ impl ApplicationState {
 
 fn initialize_state() -&gt; ApplicationState {
     // Try to load from snapshot first
-    match fs::read("state_snapshot.bin") {
+    match fs::read(&quot;state_snapshot.bin&quot;) {
         Ok(data) =&gt; {
             match ApplicationState::from_snapshot(&amp;data) {
                 Ok(state) =&gt; {
-                    println!("Initialized from snapshot");
+                    println!(&quot;Initialized from snapshot&quot;);
                     return state;
                 }
                 Err(e) =&gt; {
-                    eprintln!("Failed to deserialize snapshot: {}", e);
+                    eprintln!(&quot;Failed to deserialize snapshot: {}&quot;, e);
                 }
             }
         }
         Err(e) =&gt; {
-            eprintln!("Failed to read snapshot: {}", e);
+            eprintln!(&quot;Failed to read snapshot: {}&quot;, e);
         }
     }
 
     // Fall back to initialization from scratch
-    println!("Initializing from scratch");
+    println!(&quot;Initializing from scratch&quot;);
     ApplicationState::new()
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Note that file system access varies by platform; you might need to use platform-specific storage APIs.</p>
 <h3 id="cold-start-optimization-checklist"><a class="header" href="#cold-start-optimization-checklist">Cold Start Optimization Checklist</a></h3>
-<p>Use this checklist to ensure you’ve addressed cold start issues:</p>
+<p>Use this checklist to ensure you've addressed cold start issues:</p>
 <ol>
 <li>
 <p><strong>Measurement</strong></p>
@@ -1286,9 +1293,9 @@ fn initialize_state() -&gt; ApplicationState {
 </ol>
 <p>By implementing these cold start optimization techniques, you can significantly reduce the latency experienced by users of your Rust edge applications, delivering a more responsive and consistent experience.</p>
 <h2 id="cdn-integration-patterns"><a class="header" href="#cdn-integration-patterns">CDN Integration Patterns</a></h2>
-<p>Content Delivery Networks (CDNs) form the backbone of edge computing infrastructure, providing distributed points of presence across the globe. In this section, we’ll explore how to effectively integrate Rust applications with CDNs to maximize performance, reliability, and reach.</p>
+<p>Content Delivery Networks (CDNs) form the backbone of edge computing infrastructure, providing distributed points of presence across the globe. In this section, we'll explore how to effectively integrate Rust applications with CDNs to maximize performance, reliability, and reach.</p>
 <h3 id="understanding-cdn-architecture"><a class="header" href="#understanding-cdn-architecture">Understanding CDN Architecture</a></h3>
-<p>Before diving into integration patterns, it’s important to understand the basic architecture of a CDN:</p>
+<p>Before diving into integration patterns, it's important to understand the basic architecture of a CDN:</p>
 <ol>
 <li><strong>Edge Nodes</strong>: Servers located in data centers worldwide, close to end users</li>
 <li><strong>Origin Servers</strong>: Your primary servers that host the canonical version of your content</li>
@@ -1304,16 +1311,16 @@ fn initialize_state() -&gt; ApplicationState {
 <pre><pre class="playground"><code class="language-rust">// Origin server application
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 
-#[get("/api/products")]
+#[get(&quot;/api/products&quot;)]
 async fn products() -&gt; impl Responder {
     // Set cache-friendly headers
     HttpResponse::Ok()
-        .insert_header(("Cache-Control", "public, max-age=3600"))
-        .insert_header(("Surrogate-Control", "max-age=86400")) // CDN-specific directive
-        .insert_header(("Vary", "Accept-Encoding"))
+        .insert_header((&quot;Cache-Control&quot;, &quot;public, max-age=3600&quot;))
+        .insert_header((&quot;Surrogate-Control&quot;, &quot;max-age=86400&quot;)) // CDN-specific directive
+        .insert_header((&quot;Vary&quot;, &quot;Accept-Encoding&quot;))
         .json(vec![
-            Product { id: 1, name: "Product 1" },
-            Product { id: 2, name: "Product 2" },
+            Product { id: 1, name: &quot;Product 1&quot; },
+            Product { id: 2, name: &quot;Product 2&quot; },
         ])
 }
 
@@ -1323,13 +1330,13 @@ async fn main() -&gt; std::io::Result&lt;()&gt; {
         App::new()
             .service(products)
     })
-    .bind("0.0.0.0:8080")?
+    .bind(&quot;0.0.0.0:8080&quot;)?
     .run()
     .await
 }</code></pre></pre>
-<p>This code sets appropriate cache headers that instruct the CDN how to cache the response. The <code>Surrogate-Control</code> header is specifically for CDNs and doesn’t affect browser caching.</p>
+<p>This code sets appropriate cache headers that instruct the CDN how to cache the response. The <code>Surrogate-Control</code> header is specifically for CDNs and doesn't affect browser caching.</p>
 <h4 id="2-edge-compute-integration"><a class="header" href="#2-edge-compute-integration">2. Edge Compute Integration</a></h4>
-<p>Modern CDNs support running code directly on edge nodes. Here’s an example using Cloudflare Workers:</p>
+<p>Modern CDNs support running code directly on edge nodes. Here's an example using Cloudflare Workers:</p>
 <pre><pre class="playground"><code class="language-rust">use worker::*;
 
 #[event(fetch)]
@@ -1338,17 +1345,17 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
     let router = Router::new();
 
     router
-        .get("/", |_, _| Response::ok("Hello from the edge!"))
-        .get("/api/data", |_, ctx| {
+        .get(&quot;/&quot;, |_, _| Response::ok(&quot;Hello from the edge!&quot;))
+        .get(&quot;/api/data&quot;, |_, ctx| {
             // Fetch from origin and modify response
-            let mut origin_req = Request::new("https://origin.example.com/api/data", Method::Get)?;
+            let mut origin_req = Request::new(&quot;https://origin.example.com/api/data&quot;, Method::Get)?;
 
             // Clone KV store reference from context
-            let kv = ctx.kv("MY_KV")?;
+            let kv = ctx.kv(&quot;MY_KV&quot;)?;
 
             async move {
                 // Check edge KV store first
-                if let Ok(Some(cached)) = kv.get("api_data").text().await {
+                if let Ok(Some(cached)) = kv.get(&quot;api_data&quot;).text().await {
                     return Response::ok(cached);
                 }
 
@@ -1357,10 +1364,10 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
                 let data = resp.text().await?;
 
                 // Modify the data
-                let enhanced_data = format!("Edge processed: {}", data);
+                let enhanced_data = format!(&quot;Edge processed: {}&quot;, data);
 
                 // Store in KV for future requests
-                let _ = kv.put("api_data", enhanced_data.clone()).expiration_ttl(3600).await;
+                let _ = kv.put(&quot;api_data&quot;, enhanced_data.clone()).expiration_ttl(3600).await;
 
                 Response::ok(enhanced_data)
             }
@@ -1386,47 +1393,47 @@ fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
     // Determine if request can be handled at edge
     match (req.get_method(), req.get_path()) {
         // Static content - serve from edge cache
-        (&amp;Method::GET, path) if path.starts_with("/assets/") =&gt; {
+        (&amp;Method::GET, path) if path.starts_with(&quot;/assets/&quot;) =&gt; {
             let bereq = req.clone_without_body();
-            let mut resp = bereq.send("content_backend")?;
+            let mut resp = bereq.send(&quot;content_backend&quot;)?;
 
             // Set aggressive caching for static assets
-            resp.set_header("Cache-Control", "public, max-age=86400");
+            resp.set_header(&quot;Cache-Control&quot;, &quot;public, max-age=86400&quot;);
             Ok(resp)
         },
 
         // Dynamic but cacheable API - serve from edge with shorter TTL
-        (&amp;Method::GET, path) if path.starts_with("/api/products") =&gt; {
+        (&amp;Method::GET, path) if path.starts_with(&quot;/api/products&quot;) =&gt; {
             let bereq = req.clone_without_body();
-            let mut resp = bereq.send("api_backend")?;
+            let mut resp = bereq.send(&quot;api_backend&quot;)?;
 
             // Cache API responses for 5 minutes
-            resp.set_header("Cache-Control", "public, max-age=300");
+            resp.set_header(&quot;Cache-Control&quot;, &quot;public, max-age=300&quot;);
             Ok(resp)
         },
 
         // Personalized content - process at edge but don't cache
-        (&amp;Method::GET, "/personalized") =&gt; {
+        (&amp;Method::GET, &quot;/personalized&quot;) =&gt; {
             // Get user info from request
-            let user_country = req.get_header("Fastly-Geo-Country")
-                .map(|h| h.to_str().unwrap_or("US"))
-                .unwrap_or("US");
+            let user_country = req.get_header(&quot;Fastly-Geo-Country&quot;)
+                .map(|h| h.to_str().unwrap_or(&quot;US&quot;))
+                .unwrap_or(&quot;US&quot;);
 
             // Fetch base content from origin
             let bereq = req.clone_without_body();
-            let mut resp = bereq.send("content_backend")?;
+            let mut resp = bereq.send(&quot;content_backend&quot;)?;
 
             if resp.get_status() == StatusCode::OK {
                 // Modify content based on user location
                 if let Ok(body) = resp.take_body_str() {
                     let personalized = body.replace(
-                        "{{USER_COUNTRY}}",
+                        &quot;{{USER_COUNTRY}}&quot;,
                         user_country
                     );
 
                     // Return personalized content with no-cache
                     return Ok(Response::from_status(StatusCode::OK)
-                        .with_header("Cache-Control", "private, no-store")
+                        .with_header(&quot;Cache-Control&quot;, &quot;private, no-store&quot;)
                         .with_body(personalized));
                 }
             }
@@ -1438,7 +1445,7 @@ fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
         // Default - pass through to origin
         _ =&gt; {
             let bereq = req.clone_without_body();
-            Ok(bereq.send("default_backend")?)
+            Ok(bereq.send(&quot;default_backend&quot;)?)
         }
     }
 }</code></pre></pre>
@@ -1451,34 +1458,34 @@ fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
 </span>fn set_tiered_cache_headers(resp: &amp;mut Response, content_type: &amp;str) {
     // Base TTL
     let (browser_ttl, edge_ttl) = match content_type {
-        ct if ct.starts_with("image/") =&gt; (3600, 86400 * 7),   // Images: 1h browser, 7d edge
-        ct if ct.starts_with("text/html") =&gt; (0, 300),         // HTML: no browser cache, 5m edge
-        ct if ct.starts_with("text/css") =&gt; (3600 * 24, 86400 * 30), // CSS: 1d browser, 30d edge
-        ct if ct.starts_with("application/javascript") =&gt; (3600 * 24, 86400 * 30), // JS: same as CSS
+        ct if ct.starts_with(&quot;image/&quot;) =&gt; (3600, 86400 * 7),   // Images: 1h browser, 7d edge
+        ct if ct.starts_with(&quot;text/html&quot;) =&gt; (0, 300),         // HTML: no browser cache, 5m edge
+        ct if ct.starts_with(&quot;text/css&quot;) =&gt; (3600 * 24, 86400 * 30), // CSS: 1d browser, 30d edge
+        ct if ct.starts_with(&quot;application/javascript&quot;) =&gt; (3600 * 24, 86400 * 30), // JS: same as CSS
         _ =&gt; (60, 3600),                                       // Other: 1m browser, 1h edge
     };
 
     // Browser cache
     let browser_directive = if browser_ttl &gt; 0 {
-        format!("public, max-age={}", browser_ttl)
+        format!(&quot;public, max-age={}&quot;, browser_ttl)
     } else {
-        "no-store, must-revalidate".to_string()
+        &quot;no-store, must-revalidate&quot;.to_string()
     };
 
     resp.headers_mut().insert(
-        "Cache-Control",
+        &quot;Cache-Control&quot;,
         browser_directive.parse().unwrap()
     );
 
     // CDN cache (using different header names depending on the CDN)
     resp.headers_mut().insert(
-        "Surrogate-Control",  // Akamai, others
-        format!("max-age={}", edge_ttl).parse().unwrap()
+        &quot;Surrogate-Control&quot;,  // Akamai, others
+        format!(&quot;max-age={}&quot;, edge_ttl).parse().unwrap()
     );
 
     resp.headers_mut().insert(
-        "CDN-Cache-Control",  // Some newer CDNs
-        format!("public, max-age={}", edge_ttl).parse().unwrap()
+        &quot;CDN-Cache-Control&quot;,  // Some newer CDNs
+        format!(&quot;public, max-age={}&quot;, edge_ttl).parse().unwrap()
     );
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1504,20 +1511,20 @@ fn customize_cache_key(req: &amp;mut Request) {
                 })
                 .filter(|(k, _)| {
                     // Keep only parameters that affect the response
-                    matches!(k.as_str(), "id" | "format" | "version")
+                    matches!(k.as_str(), &quot;id&quot; | &quot;format&quot; | &quot;version&quot;)
                 })
                 .collect();
 
             // Rebuild query string
             let new_query = params
                 .iter()
-                .map(|(k, v)| format!("{}={}", k, v))
+                .map(|(k, v)| format!(&quot;{}={}&quot;, k, v))
                 .collect::&lt;Vec&lt;String&gt;&gt;()
-                .join("&amp;");
+                .join(&quot;&amp;&quot;);
 
             // Set custom cache key
-            if let Ok(custom_key) = format!("{}?{}", uri.path(), new_query).parse() {
-                req.set_header("Fastly-Key", custom_key);
+            if let Ok(custom_key) = format!(&quot;{}?{}&quot;, uri.path(), new_query).parse() {
+                req.set_header(&quot;Fastly-Key&quot;, custom_key);
             }
         }
     }
@@ -1531,8 +1538,8 @@ fn customize_cache_key(req: &amp;mut Request) {
     // Main TTL is 1 hour, but stale content can be served for up to 1 day
     // while revalidation happens in the background
     resp.headers_mut().insert(
-        "Cache-Control",
-        "public, max-age=3600, stale-while-revalidate=86400".parse().unwrap()
+        &quot;Cache-Control&quot;,
+        &quot;public, max-age=3600, stale-while-revalidate=86400&quot;.parse().unwrap()
     );
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1548,18 +1555,18 @@ fn customize_cache_key(req: &amp;mut Request) {
     let mut vary_values = Vec::new();
 
     if varies_on_encoding {
-        vary_values.push("Accept-Encoding");
+        vary_values.push(&quot;Accept-Encoding&quot;);
     }
 
     if varies_on_language {
-        vary_values.push("Accept-Language");
+        vary_values.push(&quot;Accept-Language&quot;);
     }
 
     // Only add Vary header if needed
     if !vary_values.is_empty() {
         resp.headers_mut().insert(
-            "Vary",
-            vary_values.join(", ").parse().unwrap()
+            &quot;Vary&quot;,
+            vary_values.join(&quot;, &quot;).parse().unwrap()
         );
     }
 }
@@ -1571,18 +1578,18 @@ fn customize_cache_key(req: &amp;mut Request) {
 #[fastly::main]
 fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
     // Determine if this is an edge-to-shield request
-    let is_shield_request = req.get_header("Fastly-FF")
-        .map(|h| h.to_str().unwrap_or("").contains("shield"))
+    let is_shield_request = req.get_header(&quot;Fastly-FF&quot;)
+        .map(|h| h.to_str().unwrap_or(&quot;&quot;).contains(&quot;shield&quot;))
         .unwrap_or(false);
 
     if !is_shield_request {
         // This is a request from a client to an edge node
         // Route it through the shield
         let mut shield_req = req.clone();
-        shield_req.set_header("Fastly-Force-Shield", "1");
+        shield_req.set_header(&quot;Fastly-Force-Shield&quot;, &quot;1&quot;);
 
         // Pass through the shield
-        return Ok(shield_req.send("origin_backend")?);
+        return Ok(shield_req.send(&quot;origin_backend&quot;)?);
     } else {
         // This is a shield-to-origin request
         // You can add additional logic here before going to origin
@@ -1591,7 +1598,7 @@ fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
         // to prevent duplicate requests for the same resource
 
         // Then pass to origin
-        return Ok(req.send("origin_backend")?);
+        return Ok(req.send(&quot;origin_backend&quot;)?);
     }
 }</code></pre></pre>
 <p>This pattern reduces load on your origin by ensuring that each piece of content is only fetched once, regardless of how many edge nodes need it.</p>
@@ -1603,9 +1610,9 @@ use fastly::http::StatusCode;
 #[fastly::main]
 fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
     // Fetch the base template (highly cacheable)
-    let mut base_req = Request::get("https://origin.example.com/template");
+    let mut base_req = Request::get(&quot;https://origin.example.com/template&quot;);
     base_req.set_ttl(86400); // Cache for 24 hours
-    let mut resp = base_req.send("template_backend")?;
+    let mut resp = base_req.send(&quot;template_backend&quot;)?;
 
     if resp.get_status() == StatusCode::OK {
         if let Ok(body) = resp.take_body_str() {
@@ -1629,19 +1636,19 @@ fn process_esi_directives(body: String, original_req: Request) -&gt; Result&lt;S
     let mut result = body;
 
     // Process &lt;esi:include&gt; tags
-    while let Some(start) = result.find("&lt;esi:include src=\"") {
-        if let Some(end) = result[start..].find("\"/&gt;") {
+    while let Some(start) = result.find(&quot;&lt;esi:include src=\&quot;&quot;) {
+        if let Some(end) = result[start..].find(&quot;\&quot;/&gt;&quot;) {
             let tag_end = start + end + 3;
-            let src_start = start + 17; // Length of '&lt;esi:include src="'
+            let src_start = start + 17; // Length of '&lt;esi:include src=&quot;'
             let src = &amp;result[src_start..start+end];
 
             // Fetch the included content
             let include_req = Request::get(src);
-            if let Ok(include_resp) = include_req.send("includes_backend") {
+            if let Ok(include_resp) = include_req.send(&quot;includes_backend&quot;) {
                 if let Ok(include_body) = include_resp.take_body_str() {
                     // Replace the ESI tag with the included content
                     result = format!(
-                        "{}{}{}",
+                        &quot;{}{}{}&quot;,
                         &amp;result[0..start],
                         include_body,
                         &amp;result[tag_end..]
@@ -1678,7 +1685,7 @@ struct BackendConfig {
 
 #[fastly::main]
 fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
-    if req.get_path() == "/admin/backends" &amp;&amp; req.get_method().as_str() == "POST" {
+    if req.get_path() == &quot;/admin/backends&quot; &amp;&amp; req.get_method().as_str() == &quot;POST&quot; {
         // Admin endpoint to register new backends
         return handle_backend_registration(req);
     }
@@ -1711,31 +1718,31 @@ fn handle_backend_registration(req: Request) -&gt; Result&lt;Response, Error&gt;
 
             return Ok(Response::builder()
                 .status(StatusCode::CREATED)
-                .body("Backend registered")
+                .body(&quot;Backend registered&quot;)
                 .build()?);
         }
     }
 
     Ok(Response::builder()
         .status(StatusCode::BAD_REQUEST)
-        .body("Invalid backend configuration")
+        .body(&quot;Invalid backend configuration&quot;)
         .build()?)
 }
 
 fn determine_backend(path: &amp;str) -&gt; &amp;str {
     match path {
-        p if p.starts_with("/api/v1/") =&gt; "api_v1_backend",
-        p if p.starts_with("/api/v2/") =&gt; "api_v2_backend",
-        p if p.starts_with("/static/") =&gt; "static_backend",
+        p if p.starts_with(&quot;/api/v1/&quot;) =&gt; &quot;api_v1_backend&quot;,
+        p if p.starts_with(&quot;/api/v2/&quot;) =&gt; &quot;api_v2_backend&quot;,
+        p if p.starts_with(&quot;/static/&quot;) =&gt; &quot;static_backend&quot;,
         // Check dynamic backends
         _ =&gt; {
             let backends = DYNAMIC_BACKENDS.lock().unwrap();
             for backend in &amp;*backends {
-                if path.starts_with(&amp;format!("/{}/", backend.name())) {
+                if path.starts_with(&amp;format!(&quot;/{}/&quot;, backend.name())) {
                     return backend.name();
                 }
             }
-            "default_backend"
+            &quot;default_backend&quot;
         }
     }
 }</code></pre></pre>
@@ -1764,7 +1771,7 @@ async fn select_cdn(configs: &amp;[CdnConfig]) -&gt; Option&lt;&amp;CdnConfig&gt
     let mut available_cdns = Vec::new();
 
     for config in configs {
-        let health_url = format!("{}{}", config.base_url, config.health_check_path);
+        let health_url = format!(&quot;{}{}&quot;, config.base_url, config.health_check_path);
 
         // Check with timeout
         match timeout(Duration::from_secs(2), client.get(&amp;health_url).send()).await {
@@ -1774,7 +1781,7 @@ async fn select_cdn(configs: &amp;[CdnConfig]) -&gt; Option&lt;&amp;CdnConfig&gt
             },
             _ =&gt; {
                 // CDN is unhealthy or timed out
-                println!("CDN {} is unhealthy", config.name);
+                println!(&quot;CDN {} is unhealthy&quot;, config.name);
             }
         }
     }
@@ -1802,10 +1809,10 @@ async fn route_request(req_path: &amp;str, configs: &amp;[CdnConfig]) -&gt; Stri
     // Select a CDN
     if let Some(cdn) = select_cdn(configs).await {
         // Route through the selected CDN
-        format!("{}{}", cdn.base_url, req_path)
+        format!(&quot;{}{}&quot;, cdn.base_url, req_path)
     } else {
         // Fall back to direct origin access
-        format!("https://origin.example.com{}", req_path)
+        format!(&quot;https://origin.example.com{}&quot;, req_path)
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1823,17 +1830,17 @@ async fn route_request(req_path: &amp;str, configs: &amp;[CdnConfig]) -&gt; Stri
     };
 
     // Check for CDN-specific headers
-    if let Some(server) = req.headers().get("server") {
-        let server_str = server.to_str().unwrap_or("");
+    if let Some(server) = req.headers().get(&quot;server&quot;) {
+        let server_str = server.to_str().unwrap_or(&quot;&quot;);
 
-        if server_str.contains("cloudflare") {
+        if server_str.contains(&quot;cloudflare&quot;) {
             features.supports_edge_compute = true;
             features.supports_stale_while_revalidate = true;
-        } else if server_str.contains("fastly") {
+        } else if server_str.contains(&quot;fastly&quot;) {
             features.supports_edge_compute = true;
             features.supports_esi = true;
             features.supports_stale_while_revalidate = true;
-        } else if server_str.contains("akamai") {
+        } else if server_str.contains(&quot;akamai&quot;) {
             features.supports_esi = true;
             features.supports_http2_push = true;
             features.supports_stale_while_revalidate = true;
@@ -1841,7 +1848,7 @@ async fn route_request(req_path: &amp;str, configs: &amp;[CdnConfig]) -&gt; Stri
     }
 
     // Check for specific feature headers
-    if req.headers().contains_key("cdn-loop") {
+    if req.headers().contains_key(&quot;cdn-loop&quot;) {
         features.supports_edge_compute = true;
     }
 
@@ -1853,22 +1860,22 @@ fn adapt_response(resp: &amp;mut Response, features: &amp;CdnFeatures) {
 
     if features.supports_stale_while_revalidate {
         resp.headers_mut().insert(
-            "Cache-Control",
-            "public, max-age=3600, stale-while-revalidate=86400".parse().unwrap()
+            &quot;Cache-Control&quot;,
+            &quot;public, max-age=3600, stale-while-revalidate=86400&quot;.parse().unwrap()
         );
     } else {
         // Fall back to standard caching
         resp.headers_mut().insert(
-            "Cache-Control",
-            "public, max-age=3600".parse().unwrap()
+            &quot;Cache-Control&quot;,
+            &quot;public, max-age=3600&quot;.parse().unwrap()
         );
     }
 
     if features.supports_http2_push {
         // Add push directives
         resp.headers_mut().insert(
-            "Link",
-            "&lt;/styles.css&gt;; rel=preload; as=style, &lt;/script.js&gt;; rel=preload; as=script".parse().unwrap()
+            &quot;Link&quot;,
+            &quot;&lt;/styles.css&gt;; rel=preload; as=style, &lt;/script.js&gt;; rel=preload; as=script&quot;.parse().unwrap()
         );
     }
 
@@ -1883,11 +1890,11 @@ fn adapt_response(resp: &amp;mut Response, features: &amp;CdnFeatures) {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn categorize_content(path: &amp;str, content_type: &amp;str) -&gt; CachePolicy {
-    if path.starts_with("/api/") {
+    if path.starts_with(&quot;/api/&quot;) {
         CachePolicy::Api // Short TTL, careful with Vary
-    } else if content_type.starts_with("image/") {
+    } else if content_type.starts_with(&quot;image/&quot;) {
         CachePolicy::StaticAsset // Long TTL, aggressive caching
-    } else if path.contains("user") || path.contains("account") {
+    } else if path.contains(&quot;user&quot;) || path.contains(&quot;account&quot;) {
         CachePolicy::PersonalizedContent // No caching or private caching
     } else {
         CachePolicy::StandardContent // Medium TTL
@@ -1920,7 +1927,7 @@ fn adapt_response(resp: &amp;mut Response, features: &amp;CdnFeatures) {
         Ok(resp) =&gt; Ok(resp),
         Err(e) =&gt; {
             // Log the CDN failure
-            log::warn!("CDN fetch failed: {}", e);
+            log::warn!(&quot;CDN fetch failed: {}&quot;, e);
 
             // Fall back to direct origin fetch
             match fetch_direct(url).await {
@@ -1928,14 +1935,14 @@ fn adapt_response(resp: &amp;mut Response, features: &amp;CdnFeatures) {
                     // Mark response as bypassing CDN
                     let mut resp = resp;
                     resp.headers_mut().insert(
-                        "X-CDN-Bypass",
-                        "true".parse().unwrap()
+                        &quot;X-CDN-Bypass&quot;,
+                        &quot;true&quot;.parse().unwrap()
                     );
                     Ok(resp)
                 },
                 Err(e) =&gt; {
                     // Both CDN and direct fetch failed
-                    log::error!("All fetch attempts failed: {}", e);
+                    log::error!(&quot;All fetch attempts failed: {}&quot;, e);
                     Err(e)
                 }
             }
@@ -1952,18 +1959,18 @@ fn adapt_response(resp: &amp;mut Response, features: &amp;CdnFeatures) {
     // Add a unique request ID for tracking
     let request_id = uuid::Uuid::new_v4().to_string();
     resp.headers_mut().insert(
-        "X-Request-ID",
+        &quot;X-Request-ID&quot;,
         request_id.parse().unwrap()
     );
 
     // Add timing information
     let server_timing = format!(
-        "origin;dur={},process;dur={}",
+        &quot;origin;dur={},process;dur={}&quot;,
         req.origin_response_time_ms(),
         req.processing_time_ms()
     );
     resp.headers_mut().insert(
-        "Server-Timing",
+        &quot;Server-Timing&quot;,
         server_timing.parse().unwrap()
     );
 }
@@ -1972,7 +1979,7 @@ fn adapt_response(resp: &amp;mut Response, features: &amp;CdnFeatures) {
 </ol>
 <p>By implementing these CDN integration patterns in your Rust edge applications, you can leverage the global infrastructure of CDNs while maintaining control over your application logic, resulting in high-performance, globally distributed applications with reduced origin load.</p>
 <h2 id="edge-function-deployment-strategies"><a class="header" href="#edge-function-deployment-strategies">Edge Function Deployment Strategies</a></h2>
-<p>Deploying Rust applications to edge environments requires careful planning and specialized approaches. In this section, we’ll explore various deployment strategies that will help you deliver reliable, efficient, and maintainable Rust code to edge computing platforms.</p>
+<p>Deploying Rust applications to edge environments requires careful planning and specialized approaches. In this section, we'll explore various deployment strategies that will help you deliver reliable, efficient, and maintainable Rust code to edge computing platforms.</p>
 <h3 id="understanding-edge-deployment-challenges"><a class="header" href="#understanding-edge-deployment-challenges">Understanding Edge Deployment Challenges</a></h3>
 <p>Edge function deployment differs from traditional cloud deployment in several key ways:</p>
 <ol>
@@ -2099,7 +2106,7 @@ jobs:
       - name: Run integration tests against canary
         run: |
           npm install -g newman
-          newman run tests/edge-integration.postman_collection.json --env-var "base_url=https://canary.yourdomain.com"
+          newman run tests/edge-integration.postman_collection.json --env-var &quot;base_url=https://canary.yourdomain.com&quot;
 
   production-deploy:
     needs: canary-deploy
@@ -2122,7 +2129,7 @@ jobs:
       - name: Verify deployment
         run: |
           # Run post-deployment verification
-          curl -s https://yourdomain.com/healthcheck | grep -q "OK"
+          curl -s https://yourdomain.com/healthcheck | grep -q &quot;OK&quot;
 </code></pre>
 <p>This pipeline builds, tests, and deploys your Rust edge functions with a canary stage to catch issues before full deployment.</p>
 <h3 id="progressive-deployment-strategies"><a class="header" href="#progressive-deployment-strategies">Progressive Deployment Strategies</a></h3>
@@ -2136,7 +2143,7 @@ use js_sys::Math;
 #[event(fetch)]
 async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt; {
     // Get deployment version configuration
-    let version_a_percentage: u32 = env.var("VERSION_A_PERCENTAGE")
+    let version_a_percentage: u32 = env.var(&quot;VERSION_A_PERCENTAGE&quot;)
         .unwrap()
         .to_string()
         .parse()
@@ -2161,12 +2168,12 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
 #[fastly::main]
 fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
     // Get user's region from Fastly headers
-    let user_region = req.get_header("Fastly-Geo-Region")
-        .map(|h| h.to_str().unwrap_or("unknown"))
-        .unwrap_or("unknown");
+    let user_region = req.get_header(&quot;Fastly-Geo-Region&quot;)
+        .map(|h| h.to_str().unwrap_or(&quot;unknown&quot;))
+        .unwrap_or(&quot;unknown&quot;);
 
     // Get regions where new version is deployed
-    let canary_regions = ["APAC", "SA"]; // Asia-Pacific and South America
+    let canary_regions = [&quot;APAC&quot;, &quot;SA&quot;]; // Asia-Pacific and South America
 
     if canary_regions.contains(&amp;user_region) {
         // Route to new version for users in canary regions
@@ -2193,8 +2200,8 @@ struct FeatureFlags {
 #[event(fetch)]
 async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt; {
     // Load feature flags from KV store
-    let kv = env.kv("CONFIG_STORE")?;
-    let flags: FeatureFlags = match kv.get("feature_flags").json().await {
+    let kv = env.kv(&quot;CONFIG_STORE&quot;)?;
+    let flags: FeatureFlags = match kv.get(&quot;feature_flags&quot;).json().await {
         Ok(Some(flags)) =&gt; flags,
         _ =&gt; FeatureFlags {
             enable_new_api: false,
@@ -2207,23 +2214,23 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
     // Check for maintenance mode
     if flags.maintenance_mode {
         return Response::error(
-            "Service temporarily unavailable for maintenance",
+            &quot;Service temporarily unavailable for maintenance&quot;,
             503,
         );
     }
 
     // Route based on enabled features
     match req.path() {
-        "/api/v2/" if flags.enable_new_api =&gt; handle_new_api(req).await,
-        "/beta/" if flags.enable_beta_features =&gt; handle_beta_features(req).await,
+        &quot;/api/v2/&quot; if flags.enable_new_api =&gt; handle_new_api(req).await,
+        &quot;/beta/&quot; if flags.enable_beta_features =&gt; handle_beta_features(req).await,
         _ =&gt; {
             // Standard request handling
             let mut resp = handle_standard_request(req).await?;
 
             // Apply cache settings from configuration
             resp.headers_mut().append(
-                "Cache-Control",
-                format!("public, max-age={}", flags.cache_ttl_seconds).parse().unwrap(),
+                &quot;Cache-Control&quot;,
+                format!(&quot;public, max-age={}&quot;, flags.cache_ttl_seconds).parse().unwrap(),
             )?;
 
             Ok(resp)
@@ -2238,28 +2245,28 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
 </span>// In your CI/CD pipeline script
 async function deployBlueGreen() {
     // 1. Deploy new version (green)
-    console.log("Deploying green environment...");
-    await exec("wrangler publish --env green");
+    console.log(&quot;Deploying green environment...&quot;);
+    await exec(&quot;wrangler publish --env green&quot;);
 
     // 2. Run verification tests against green
-    console.log("Verifying green deployment...");
-    const testResult = await exec("newman run tests/integration.json --env-var \"base_url=https://green.yourdomain.com\"");
+    console.log(&quot;Verifying green deployment...&quot;);
+    const testResult = await exec(&quot;newman run tests/integration.json --env-var \&quot;base_url=https://green.yourdomain.com\&quot;&quot;);
 
     if (testResult.exitCode !== 0) {
-        console.error("Green deployment verification failed!");
+        console.error(&quot;Green deployment verification failed!&quot;);
         return false;
     }
 
     // 3. Update router to point to green
-    console.log("Updating router to green...");
-    await exec("wrangler kv:put --binding=CONFIG \"active_environment\" \"green\"");
+    console.log(&quot;Updating router to green...&quot;);
+    await exec(&quot;wrangler kv:put --binding=CONFIG \&quot;active_environment\&quot; \&quot;green\&quot;&quot;);
 
     // 4. Verify router is sending traffic to green
-    console.log("Verifying traffic routing...");
-    await exec("curl -s https://yourdomain.com/env | grep -q \"green\"");
+    console.log(&quot;Verifying traffic routing...&quot;);
+    await exec(&quot;curl -s https://yourdomain.com/env | grep -q \&quot;green\&quot;&quot;);
 
     // 5. Previous blue becomes inactive (can be used for next deployment)
-    console.log("Blue-green deployment completed successfully!");
+    console.log(&quot;Blue-green deployment completed successfully!&quot;);
     return true;
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2269,16 +2276,16 @@ async function deployBlueGreen() {
 #[event(fetch)]
 async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt; {
     // Get the active environment from KV
-    let kv = env.kv("CONFIG")?;
-    let active_env = match kv.get("active_environment").text().await {
+    let kv = env.kv(&quot;CONFIG&quot;)?;
+    let active_env = match kv.get(&quot;active_environment&quot;).text().await {
         Ok(Some(env)) =&gt; env,
-        _ =&gt; "blue".to_string(), // Default to blue if not set
+        _ =&gt; &quot;blue&quot;.to_string(), // Default to blue if not set
     };
 
     // Determine backend based on active environment
     let backend = match active_env.as_str() {
-        "green" =&gt; "green_backend",
-        _ =&gt; "blue_backend",
+        &quot;green&quot; =&gt; &quot;green_backend&quot;,
+        _ =&gt; &quot;blue_backend&quot;,
     };
 
     // Forward the request to the active environment
@@ -2287,7 +2294,7 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
 
     // Add header indicating which environment served the request
     let mut resp = backend_resp.cloned()?;
-    resp.headers_mut().append("X-Served-By", active_env.parse().unwrap())?;
+    resp.headers_mut().append(&quot;X-Served-By&quot;, active_env.parse().unwrap())?;
 
     Ok(resp)
 }</code></pre></pre>
@@ -2299,7 +2306,7 @@ use regex::Regex;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref VERSION_REGEX: Regex = Regex::new(r"^/v(\d+)/").unwrap();
+    static ref VERSION_REGEX: Regex = Regex::new(r&quot;^/v(\d+)/&quot;).unwrap();
 }
 
 #[fastly::main]
@@ -2308,16 +2315,16 @@ fn main(req: Request) -&gt; Result&lt;Response, Error&gt; {
 
     // Extract version from URL if present
     let version = match VERSION_REGEX.captures(path) {
-        Some(caps) =&gt; caps.get(1).map(|m| m.as_str()).unwrap_or("1"),
-        None =&gt; "1", // Default to version 1
+        Some(caps) =&gt; caps.get(1).map(|m| m.as_str()).unwrap_or(&quot;1&quot;),
+        None =&gt; &quot;1&quot;, // Default to version 1
     };
 
     // Route to the appropriate backend based on version
     let backend = match version {
-        "1" =&gt; "v1_backend",
-        "2" =&gt; "v2_backend",
-        "3" =&gt; "v3_backend",
-        _ =&gt; "latest_backend",
+        &quot;1&quot; =&gt; &quot;v1_backend&quot;,
+        &quot;2&quot; =&gt; &quot;v2_backend&quot;,
+        &quot;3&quot; =&gt; &quot;v3_backend&quot;,
+        _ =&gt; &quot;latest_backend&quot;,
     };
 
     // Forward to the appropriate backend
@@ -2355,18 +2362,18 @@ impl EdgeMetrics {
     async fn report(&amp;self, env: &amp;Env) -&gt; Result&lt;()&gt; {
         // Create metrics payload
         let metrics = json!({
-            "timing_ms": self.timing_ms(),
-            "counters": self.counters,
-            "timestamp": Date::now().as_millis(),
-            "region": env.var("REGION").unwrap_or(Var::text("unknown")).to_string(),
+            &quot;timing_ms&quot;: self.timing_ms(),
+            &quot;counters&quot;: self.counters,
+            &quot;timestamp&quot;: Date::now().as_millis(),
+            &quot;region&quot;: env.var(&quot;REGION&quot;).unwrap_or(Var::text(&quot;unknown&quot;)).to_string(),
         });
 
         // Log metrics for aggregation
-        console_log!("METRICS: {}", metrics.to_string());
+        console_log!(&quot;METRICS: {}&quot;, metrics.to_string());
 
         // Optionally send to metrics collection endpoint
-        let metrics_url = env.var("METRICS_ENDPOINT")
-            .unwrap_or(Var::text("https://metrics.example.com/ingest"))
+        let metrics_url = env.var(&quot;METRICS_ENDPOINT&quot;)
+            .unwrap_or(Var::text(&quot;https://metrics.example.com/ingest&quot;))
             .to_string();
 
         let metrics_req = Request::new_with_init(
@@ -2376,7 +2383,7 @@ impl EdgeMetrics {
                 .with_body(Some(metrics.to_string().into()))
                 .with_headers({
                     let mut headers = Headers::new();
-                    headers.set("Content-Type", "application/json")?;
+                    headers.set(&quot;Content-Type&quot;, &quot;application/json&quot;)?;
                     headers
                 }),
         )?;
@@ -2396,20 +2403,20 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
 
     // Process the request
     let path = req.path();
-    metrics.increment("total_requests");
+    metrics.increment(&quot;total_requests&quot;);
 
     let result = match path {
-        "/" =&gt; {
-            metrics.increment("home_requests");
+        &quot;/&quot; =&gt; {
+            metrics.increment(&quot;home_requests&quot;);
             handle_home(req).await
         },
-        p if p.starts_with("/api/") =&gt; {
-            metrics.increment("api_requests");
+        p if p.starts_with(&quot;/api/&quot;) =&gt; {
+            metrics.increment(&quot;api_requests&quot;);
             handle_api(req).await
         },
         _ =&gt; {
-            metrics.increment("other_requests");
-            Response::error("Not Found", 404)
+            metrics.increment(&quot;other_requests&quot;);
+            Response::error(&quot;Not Found&quot;, 404)
         }
     };
 
@@ -2427,47 +2434,47 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
 async function deploy() {
     try {
         // 1. Save current version as potential rollback target
-        await exec("wrangler kv:put --binding=DEPLOYMENTS \"previous_version\" \"$(wrangler kv:get --binding=DEPLOYMENTS \"current_version\")\"");
+        await exec(&quot;wrangler kv:put --binding=DEPLOYMENTS \&quot;previous_version\&quot; \&quot;$(wrangler kv:get --binding=DEPLOYMENTS \&quot;current_version\&quot;)\&quot;&quot;);
 
         // 2. Deploy new version
-        const deployResult = await exec("wrangler publish");
+        const deployResult = await exec(&quot;wrangler publish&quot;);
         if (deployResult.exitCode !== 0) {
-            throw new Error("Deployment failed");
+            throw new Error(&quot;Deployment failed&quot;);
         }
 
         // 3. Update current version indicator
-        await exec(`wrangler kv:put --binding=DEPLOYMENTS \"current_version\" \"${process.env.GITHUB_SHA}\"`);
+        await exec(`wrangler kv:put --binding=DEPLOYMENTS \&quot;current_version\&quot; \&quot;${process.env.GITHUB_SHA}\&quot;`);
 
         // 4. Monitor for errors (example: watch error rate for 5 minutes)
         const errorRateAcceptable = await monitorErrorRate(5 * 60);
         if (!errorRateAcceptable) {
-            console.error("Error rate exceeded threshold, rolling back...");
+            console.error(&quot;Error rate exceeded threshold, rolling back...&quot;);
             await rollback();
             return false;
         }
 
-        console.log("Deployment completed successfully!");
+        console.log(&quot;Deployment completed successfully!&quot;);
         return true;
     } catch (error) {
-        console.error("Deployment failed:", error);
+        console.error(&quot;Deployment failed:&quot;, error);
         await rollback();
         return false;
     }
 }
 
 async function rollback() {
-    console.log("Initiating rollback...");
+    console.log(&quot;Initiating rollback...&quot;);
 
     // 1. Get previous version
-    const previousVersion = await exec("wrangler kv:get --binding=DEPLOYMENTS \"previous_version\"");
+    const previousVersion = await exec(&quot;wrangler kv:get --binding=DEPLOYMENTS \&quot;previous_version\&quot;&quot;);
 
     // 2. Deploy previous version
     await exec(`wrangler publish --env rollback`);
 
     // 3. Update router to point to rollback version
-    await exec("wrangler kv:put --binding=CONFIG \"active_environment\" \"rollback\"");
+    await exec(&quot;wrangler kv:put --binding=CONFIG \&quot;active_environment\&quot; \&quot;rollback\&quot;&quot;);
 
-    console.log("Rollback completed!");
+    console.log(&quot;Rollback completed!&quot;);
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Combined with an edge router that checks for alarm conditions:</p>
@@ -2476,20 +2483,20 @@ async function rollback() {
 #[event(fetch)]
 async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt; {
     // Check if system is in alarm state
-    let kv = env.kv("DEPLOYMENTS")?;
-    let alarm_active = match kv.get("alarm_state").text().await {
-        Ok(Some(state)) =&gt; state == "active",
+    let kv = env.kv(&quot;DEPLOYMENTS&quot;)?;
+    let alarm_active = match kv.get(&quot;alarm_state&quot;).text().await {
+        Ok(Some(state)) =&gt; state == &quot;active&quot;,
         _ =&gt; false,
     };
 
     // If in alarm state, route to last known good version
     let backend = if alarm_active {
-        match kv.get("previous_version").text().await {
-            Ok(Some(_)) =&gt; "rollback_backend",
-            _ =&gt; "production_backend", // Fall back to production if no rollback available
+        match kv.get(&quot;previous_version&quot;).text().await {
+            Ok(Some(_)) =&gt; &quot;rollback_backend&quot;,
+            _ =&gt; &quot;production_backend&quot;, // Fall back to production if no rollback available
         }
     } else {
-        "production_backend"
+        &quot;production_backend&quot;
     };
 
     // Forward the request
@@ -2504,29 +2511,29 @@ async fn main(req: Request, env: Env, _ctx: Context) -&gt; Result&lt;Response&gt
 </span>// In your deployment script
 async function verifyDeployment() {
     // 1. Basic health check
-    console.log("Running health checks...");
-    const healthCheck = await exec("curl -s https://edge.yourdomain.com/health");
-    if (!healthCheck.stdout.includes("OK")) {
+    console.log(&quot;Running health checks...&quot;);
+    const healthCheck = await exec(&quot;curl -s https://edge.yourdomain.com/health&quot;);
+    if (!healthCheck.stdout.includes(&quot;OK&quot;)) {
         return false;
     }
 
     // 2. Functional verification
-    console.log("Running functional tests...");
-    const functionalTests = await exec("newman run tests/functional.json");
+    console.log(&quot;Running functional tests...&quot;);
+    const functionalTests = await exec(&quot;newman run tests/functional.json&quot;);
     if (functionalTests.exitCode !== 0) {
         return false;
     }
 
     // 3. Performance verification
-    console.log("Running performance tests...");
-    const perfTests = await exec("k6 run tests/performance.js");
+    console.log(&quot;Running performance tests...&quot;);
+    const perfTests = await exec(&quot;k6 run tests/performance.js&quot;);
     if (perfTests.exitCode !== 0) {
         return false;
     }
 
     // 4. Cross-region verification
-    console.log("Running cross-region tests...");
-    const regions = ["us-east", "eu-west", "ap-northeast"];
+    console.log(&quot;Running cross-region tests...&quot;);
+    const regions = [&quot;us-east&quot;, &quot;eu-west&quot;, &quot;ap-northeast&quot;];
     for (const region of regions) {
         const regionTest = await exec(`curl -s https://${region}.edge.yourdomain.com/region-check`);
         if (!regionTest.stdout.includes(region)) {
@@ -2535,7 +2542,7 @@ async function verifyDeployment() {
         }
     }
 
-    console.log("All verification tests passed!");
+    console.log(&quot;All verification tests passed!&quot;);
     return true;
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2547,8 +2554,8 @@ async function verifyDeployment() {
 </span>// In your deployment script
 async function deployToAllRegions() {
     const regions = [
-        "us-east-1", "us-west-2", "eu-west-1", "eu-central-1",
-        "ap-northeast-1", "ap-southeast-2", "sa-east-1"
+        &quot;us-east-1&quot;, &quot;us-west-2&quot;, &quot;eu-west-1&quot;, &quot;eu-central-1&quot;,
+        &quot;ap-northeast-1&quot;, &quot;ap-southeast-2&quot;, &quot;sa-east-1&quot;
     ];
 
     // 1. Deploy to first region (canary)
@@ -2556,29 +2563,29 @@ async function deployToAllRegions() {
     await exec(`REGION=${regions[0]} wrangler publish --env canary`);
 
     // 2. Verify canary deployment
-    console.log("Verifying canary deployment...");
+    console.log(&quot;Verifying canary deployment...&quot;);
     const canarySuccess = await verifyDeployment(regions[0]);
     if (!canarySuccess) {
-        console.error("Canary deployment failed, aborting multi-region deployment!");
+        console.error(&quot;Canary deployment failed, aborting multi-region deployment!&quot;);
         return false;
     }
 
     // 3. Deploy to remaining regions in parallel
-    console.log("Deploying to all regions...");
+    console.log(&quot;Deploying to all regions...&quot;);
     await Promise.all(regions.slice(1).map(async (region) =&gt; {
         console.log(`Deploying to ${region}...`);
         await exec(`REGION=${region} wrangler publish`);
     }));
 
     // 4. Verify all regions
-    console.log("Verifying all regions...");
+    console.log(&quot;Verifying all regions...&quot;);
     const allSuccess = await Promise.all(regions.map(verifyDeployment));
     if (allSuccess.every(Boolean)) {
-        console.log("Multi-region deployment completed successfully!");
+        console.log(&quot;Multi-region deployment completed successfully!&quot;);
         return true;
     } else {
         const failedRegions = regions.filter((_, i) =&gt; !allSuccess[i]);
-        console.error(`Deployment failed in regions: ${failedRegions.join(", ")}`);
+        console.error(`Deployment failed in regions: ${failedRegions.join(&quot;, &quot;)}`);
         return false;
     }
 }
@@ -2599,10 +2606,10 @@ async function deployToAllRegions() {
 </ol>
 <p>By following these edge function deployment strategies, you can deliver Rust applications to edge environments with confidence, ensuring reliability and performance for users worldwide.</p>
 <h2 id="conclusion-and-future-trends"><a class="header" href="#conclusion-and-future-trends">Conclusion and Future Trends</a></h2>
-<p>Throughout this chapter, we’ve explored how Rust is uniquely positioned to excel in edge computing environments. From its efficient resource utilization to its strong security guarantees, Rust provides an ideal foundation for building high-performance, reliable edge applications that run close to users worldwide.</p>
-<p>We’ve covered:</p>
+<p>Throughout this chapter, we've explored how Rust is uniquely positioned to excel in edge computing environments. From its efficient resource utilization to its strong security guarantees, Rust provides an ideal foundation for building high-performance, reliable edge applications that run close to users worldwide.</p>
+<p>We've covered:</p>
 <ol>
-<li><strong>The fundamentals of edge computing</strong> and how Rust’s characteristics align with its requirements</li>
+<li><strong>The fundamentals of edge computing</strong> and how Rust's characteristics align with its requirements</li>
 <li><strong>Serverless Rust applications</strong> that can be deployed to edge platforms</li>
 <li><strong>Optimization techniques</strong> for constrained edge environments</li>
 <li><strong>Cold start optimization</strong> to minimize latency</li>
@@ -2611,30 +2618,30 @@ async function deployToAllRegions() {
 </ol>
 <p>As edge computing continues to evolve, several trends are emerging that will shape the future of Rust in this space:</p>
 <h3 id="webassembly-as-the-universal-runtime"><a class="header" href="#webassembly-as-the-universal-runtime">WebAssembly as the Universal Runtime</a></h3>
-<p>WebAssembly is becoming the universal runtime for edge computing, and Rust’s first-class support for Wasm compilation makes it a natural fit. As the WebAssembly System Interface (WASI) matures, expect Rust’s capabilities at the edge to expand, providing even more functionality while maintaining the security and isolation that edge platforms require.</p>
+<p>WebAssembly is becoming the universal runtime for edge computing, and Rust's first-class support for Wasm compilation makes it a natural fit. As the WebAssembly System Interface (WASI) matures, expect Rust's capabilities at the edge to expand, providing even more functionality while maintaining the security and isolation that edge platforms require.</p>
 <h3 id="edge-ai-and-machine-learning"><a class="header" href="#edge-ai-and-machine-learning">Edge AI and Machine Learning</a></h3>
-<p>As machine learning models become more efficient, running inference at the edge is becoming practical. Rust’s performance characteristics make it well-suited for deploying optimized ML models to edge environments, enabling personalization, content filtering, and anomaly detection without round trips to centralized cloud infrastructure.</p>
+<p>As machine learning models become more efficient, running inference at the edge is becoming practical. Rust's performance characteristics make it well-suited for deploying optimized ML models to edge environments, enabling personalization, content filtering, and anomaly detection without round trips to centralized cloud infrastructure.</p>
 <h3 id="specialized-edge-hardware"><a class="header" href="#specialized-edge-hardware">Specialized Edge Hardware</a></h3>
-<p>Edge platforms are increasingly offering specialized hardware accelerators (TPUs, FPGAs, etc.) for specific workloads. Rust’s ability to target multiple architectures and its fine-grained control over hardware resources position it well to take advantage of these specialized capabilities as they become available in edge environments.</p>
+<p>Edge platforms are increasingly offering specialized hardware accelerators (TPUs, FPGAs, etc.) for specific workloads. Rust's ability to target multiple architectures and its fine-grained control over hardware resources position it well to take advantage of these specialized capabilities as they become available in edge environments.</p>
 <h3 id="hybrid-edge-cloud-computing"><a class="header" href="#hybrid-edge-cloud-computing">Hybrid Edge-Cloud Computing</a></h3>
-<p>The line between edge and cloud will continue to blur, with applications intelligently distributing computation across the spectrum based on latency, bandwidth, and processing requirements. Rust’s consistency across platforms makes it an excellent choice for building these hybrid applications that can smoothly transition workloads between edge and cloud as needed.</p>
+<p>The line between edge and cloud will continue to blur, with applications intelligently distributing computation across the spectrum based on latency, bandwidth, and processing requirements. Rust's consistency across platforms makes it an excellent choice for building these hybrid applications that can smoothly transition workloads between edge and cloud as needed.</p>
 <h3 id="expansion-of-edge-data-storage"><a class="header" href="#expansion-of-edge-data-storage">Expansion of Edge Data Storage</a></h3>
-<p>Edge data storage solutions are evolving beyond simple key-value stores to include more sophisticated databases with consistency guarantees. Rust’s strong type system and memory safety make it well-suited for building applications that can safely interact with these distributed storage systems while maintaining data integrity.</p>
+<p>Edge data storage solutions are evolving beyond simple key-value stores to include more sophisticated databases with consistency guarantees. Rust's strong type system and memory safety make it well-suited for building applications that can safely interact with these distributed storage systems while maintaining data integrity.</p>
 <h3 id="the-path-forward"><a class="header" href="#the-path-forward">The Path Forward</a></h3>
 <p>To stay at the forefront of edge computing with Rust:</p>
 <ol>
 <li><strong>Keep your Rust skills current</strong> by following developments in the Rust ecosystem, particularly around WebAssembly and async programming</li>
 <li><strong>Experiment with edge platforms</strong> to understand their unique characteristics and constraints</li>
-<li><strong>Participate in the edge computing community</strong> to share patterns and learn from others’ experiences</li>
+<li><strong>Participate in the edge computing community</strong> to share patterns and learn from others' experiences</li>
 <li><strong>Monitor hardware developments</strong> that might enable new edge use cases</li>
 <li><strong>Consider edge computing from the start</strong> of your application design, rather than as an afterthought</li>
 </ol>
-<p>Edge computing represents a fundamental shift in how we build and deploy applications. By leveraging Rust’s unique capabilities for this environment, you can create responsive, secure, and efficient applications that provide exceptional user experiences around the globe.</p>
-<p>As edge computing infrastructure continues to mature and become more accessible, the opportunities for Rust developers will only expand. The patterns and techniques we’ve explored in this chapter provide a foundation for your journey into edge computing with Rust—a journey that promises to push the boundaries of what’s possible at the edge of the network.</p>
+<p>Edge computing represents a fundamental shift in how we build and deploy applications. By leveraging Rust's unique capabilities for this environment, you can create responsive, secure, and efficient applications that provide exceptional user experiences around the globe.</p>
+<p>As edge computing infrastructure continues to mature and become more accessible, the opportunities for Rust developers will only expand. The patterns and techniques we've explored in this chapter provide a foundation for your journey into edge computing with Rust—a journey that promises to push the boundaries of what's possible at the edge of the network.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
-<p><strong>Basic Edge Function</strong>: Create a simple Rust function that can be deployed to Cloudflare Workers or Fastly Compute@Edge that returns a personalized greeting based on the user’s geographic location.</p>
+<p><strong>Basic Edge Function</strong>: Create a simple Rust function that can be deployed to Cloudflare Workers or Fastly Compute@Edge that returns a personalized greeting based on the user's geographic location.</p>
 </li>
 <li>
 <p><strong>Binary Size Optimization</strong>: Take an existing Rust application and optimize it for edge deployment by reducing its binary size below 1MB while maintaining core functionality.</p>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html" class="active"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -181,7 +188,7 @@
 <p>Rust offers unique advantages for embedded and IoT development:</p>
 <ol>
 <li>
-<p><strong>Memory safety without garbage collection</strong>: Rust’s ownership model ensures memory safety without the need for a garbage collector, which is crucial for systems with limited resources.</p>
+<p><strong>Memory safety without garbage collection</strong>: Rust's ownership model ensures memory safety without the need for a garbage collector, which is crucial for systems with limited resources.</p>
 </li>
 <li>
 <p><strong>Predictable performance</strong>: Rust provides fine-grained control over hardware while eliminating whole classes of bugs at compile time.</p>
@@ -196,9 +203,9 @@
 <p><strong>Growing ecosystem of embedded libraries</strong>: The Rust community has developed rich libraries and frameworks for embedded development.</p>
 </li>
 </ol>
-<p>In this chapter, we’ll explore how to use Rust for embedded systems and IoT applications. We’ll cover programming microcontrollers, handling hardware resources, implementing communication protocols, and building a complete IoT sensor node project.</p>
+<p>In this chapter, we'll explore how to use Rust for embedded systems and IoT applications. We'll cover programming microcontrollers, handling hardware resources, implementing communication protocols, and building a complete IoT sensor node project.</p>
 <h2 id="embedded-programming-concepts"><a class="header" href="#embedded-programming-concepts">Embedded Programming Concepts</a></h2>
-<p>Before diving into Rust-specific aspects of embedded programming, let’s review some fundamental concepts that apply to embedded systems development.</p>
+<p>Before diving into Rust-specific aspects of embedded programming, let's review some fundamental concepts that apply to embedded systems development.</p>
 <h3 id="what-makes-embedded-systems-different"><a class="header" href="#what-makes-embedded-systems-different">What Makes Embedded Systems Different?</a></h3>
 <p>Embedded systems differ from general-purpose computing in several key ways:</p>
 <ol>
@@ -212,7 +219,7 @@
 <p><strong>Direct hardware interaction</strong>: Embedded software often interacts directly with hardware through memory-mapped registers.</p>
 </li>
 <li>
-<p><strong>No operating system or minimal OS</strong>: Many embedded systems run without an OS (“bare metal”) or with a minimal real-time operating system (RTOS).</p>
+<p><strong>No operating system or minimal OS</strong>: Many embedded systems run without an OS (&quot;bare metal&quot;) or with a minimal real-time operating system (RTOS).</p>
 </li>
 <li>
 <p><strong>Long-running code</strong>: Embedded systems often need to run continuously for years without rebooting.</p>
@@ -272,20 +279,20 @@
 <p><strong>Cross-compilation</strong>: Compile the code on a development machine for the target architecture</p>
 </li>
 <li>
-<p><strong>Flashing</strong>: Transfer the compiled binary to the target device’s program memory</p>
+<p><strong>Flashing</strong>: Transfer the compiled binary to the target device's program memory</p>
 </li>
 <li>
 <p><strong>Debugging</strong>: Use hardware debuggers like JTAG or SWD to debug the running code</p>
 </li>
 <li>
-<p><strong>Testing</strong>: Test the system’s functionality, often requiring specialized hardware</p>
+<p><strong>Testing</strong>: Test the system's functionality, often requiring specialized hardware</p>
 </li>
 </ol>
 <p>This workflow introduces unique challenges, such as the need for cross-compilation toolchains, hardware debugging tools, and testing with physical hardware.</p>
 <h2 id="bare-metal-rust"><a class="header" href="#bare-metal-rust">Bare Metal Rust</a></h2>
-<p>“Bare metal” programming refers to writing code that runs directly on hardware without an operating system. Rust has excellent support for bare metal programming, enabling developers to write safe, efficient code for microcontrollers and other embedded devices.</p>
+<p>&quot;Bare metal&quot; programming refers to writing code that runs directly on hardware without an operating system. Rust has excellent support for bare metal programming, enabling developers to write safe, efficient code for microcontrollers and other embedded devices.</p>
 <h3 id="setting-up-for-bare-metal-development"><a class="header" href="#setting-up-for-bare-metal-development">Setting Up for Bare Metal Development</a></h3>
-<p>To start with bare metal Rust, you’ll need:</p>
+<p>To start with bare metal Rust, you'll need:</p>
 <ol>
 <li>
 <p><strong>Rust and Cargo</strong>: The standard Rust toolchain</p>
@@ -300,7 +307,7 @@
 <p><strong>probe-run or similar flashing tools</strong>: To upload your code to the device</p>
 </li>
 </ol>
-<p>Here’s how to set up these tools:</p>
+<p>Here's how to set up these tools:</p>
 <pre><code class="language-bash"># Install Rust (if not already installed)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
@@ -315,44 +322,44 @@ rustup component add llvm-tools-preview
 cargo install probe-run
 </code></pre>
 <h3 id="creating-a-bare-metal-project"><a class="header" href="#creating-a-bare-metal-project">Creating a Bare Metal Project</a></h3>
-<p>Let’s create a simple LED blinking project for an ARM Cortex-M microcontroller. First, set up a new Cargo project:</p>
+<p>Let's create a simple LED blinking project for an ARM Cortex-M microcontroller. First, set up a new Cargo project:</p>
 <pre><code class="language-bash">cargo new --bin blinky
 cd blinky
 </code></pre>
 <p>Next, configure the project for cross-compilation by creating a <code>.cargo/config.toml</code> file:</p>
-<pre><code class="language-toml">[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+<pre><code class="language-toml">[target.'cfg(all(target_arch = &quot;arm&quot;, target_os = &quot;none&quot;))']
 rustflags = [
-  "-C", "link-arg=-Tlink.x",
+  &quot;-C&quot;, &quot;link-arg=-Tlink.x&quot;,
 ]
 
 [build]
-target = "thumbv7em-none-eabihf"
+target = &quot;thumbv7em-none-eabihf&quot;
 
 [unstable]
-build-std = ["core", "alloc"]
+build-std = [&quot;core&quot;, &quot;alloc&quot;]
 </code></pre>
 <p>Add the necessary dependencies to <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "blinky"
-version = "0.1.0"
-edition = "2021"
+name = &quot;blinky&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [dependencies]
-cortex-m = "0.7.7"
-cortex-m-rt = "0.7.3"
-panic-halt = "0.2.0"
-embedded-hal = "0.2.7"
+cortex-m = &quot;0.7.7&quot;
+cortex-m-rt = &quot;0.7.3&quot;
+panic-halt = &quot;0.2.0&quot;
+embedded-hal = &quot;0.2.7&quot;
 
 # Board-specific HAL (example for STM32F4xx)
-stm32f4xx-hal = { version = "0.14.0", features = ["stm32f411"] }
+stm32f4xx-hal = { version = &quot;0.14.0&quot;, features = [&quot;stm32f411&quot;] }
 
 [profile.release]
-opt-level = "s"        # Optimize for size
+opt-level = &quot;s&quot;        # Optimize for size
 lto = true             # Enable link-time optimization
 codegen-units = 1      # Better optimizations at the cost of build time
 debug = true           # Keep debug symbols for better stack traces
 </code></pre>
-<p>Now, let’s write the code for blinking an LED (<code>src/main.rs</code>):</p>
+<p>Now, let's write the code for blinking an LED (<code>src/main.rs</code>):</p>
 <pre><pre class="playground"><code class="language-rust">#![no_std]
 #![no_main]
 
@@ -416,7 +423,7 @@ fn main() -&gt; ! {
 <li><strong>Entry point</strong>: The function where execution begins</li>
 </ol>
 <h3 id="memory-management-in-bare-metal-rust"><a class="header" href="#memory-management-in-bare-metal-rust">Memory Management in Bare Metal Rust</a></h3>
-<p>Memory management is a critical aspect of embedded programming. Rust’s ownership model helps prevent many common memory-related bugs, but you still need to be aware of how memory is used in your embedded system.</p>
+<p>Memory management is a critical aspect of embedded programming. Rust's ownership model helps prevent many common memory-related bugs, but you still need to be aware of how memory is used in your embedded system.</p>
 <h4 id="memory-layout"><a class="header" href="#memory-layout">Memory Layout</a></h4>
 <p>A typical embedded system has different types of memory:</p>
 <ul>
@@ -436,7 +443,7 @@ fn main() -&gt; ! {
 _stack_start = ORIGIN(RAM) + LENGTH(RAM);
 </code></pre>
 <h4 id="static-allocation"><a class="header" href="#static-allocation">Static Allocation</a></h4>
-<p>In many embedded systems, especially very constrained ones, all memory is statically allocated at compile time. Rust’s strong type system and ownership model work well with this approach:</p>
+<p>In many embedded systems, especially very constrained ones, all memory is statically allocated at compile time. Rust's strong type system and ownership model work well with this approach:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Statically allocated buffer
@@ -511,7 +518,7 @@ fn use_vec() {
 <span class="boring">}</span></code></pre></pre>
 <p>In practice, you would typically use a more sophisticated allocator like <code>alloc-cortex-m</code> or <code>embedded-alloc</code>.</p>
 <h3 id="handling-peripherals"><a class="header" href="#handling-peripherals">Handling Peripherals</a></h3>
-<p>Microcontrollers interact with the outside world through peripherals, which are accessed through memory-mapped registers. In Rust, peripherals are typically modeled using the “type-state” pattern, which encodes the state of a peripheral in its type.</p>
+<p>Microcontrollers interact with the outside world through peripherals, which are accessed through memory-mapped registers. In Rust, peripherals are typically modeled using the &quot;type-state&quot; pattern, which encodes the state of a peripheral in its type.</p>
 <p>The <code>embedded-hal</code> crate defines traits for common peripherals, allowing for portable code:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -580,7 +587,7 @@ fn EXTI0() {
 
 #[exception]
 fn HardFault(ef: &amp;cortex_m_rt::ExceptionFrame) -&gt; ! {
-    panic!("HardFault at {:#?}", ef);
+    panic!(&quot;HardFault at {:#?}&quot;, ef);
 }</code></pre></pre>
 <p>This pattern ensures that interrupt handlers are registered correctly and provides a safe way to handle exceptions.</p>
 <h2 id="no-std-development"><a class="header" href="#no-std-development">No-std Development</a></h2>
@@ -609,7 +616,7 @@ fn HardFault(ef: &amp;cortex_m_rt::ExceptionFrame) -&gt; ! {
 <p><strong>micromath</strong>: Math routines optimized for microcontrollers.</p>
 </li>
 <li>
-<p><strong>heapless</strong>: Collection types that don’t require heap allocation.</p>
+<p><strong>heapless</strong>: Collection types that don't require heap allocation.</p>
 </li>
 </ol>
 <h3 id="working-with-collections-in-no_std"><a class="header" href="#working-with-collections-in-no_std">Working with Collections in <code>no_std</code></a></h3>
@@ -625,7 +632,7 @@ fn use_heapless_collections() {
 
     // A string with a maximum capacity of 128 bytes
     let mut string: String&lt;U128&gt; = String::new();
-    string.push_str("Hello, world!").unwrap();
+    string.push_str(&quot;Hello, world!&quot;).unwrap();
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="error-handling-in-no_std"><a class="header" href="#error-handling-in-no_std">Error Handling in <code>no_std</code></a></h3>
@@ -648,7 +655,7 @@ enum Error {
 // For unrecoverable errors, use panic
 fn critical_operation(value: u32) {
     if value == 0 {
-        panic!("Critical failure: value cannot be zero");
+        panic!(&quot;Critical failure: value cannot be zero&quot;);
     }
     // ...
 }
@@ -656,14 +663,14 @@ fn critical_operation(value: u32) {
 <h3 id="optimizing-for-size-and-performance"><a class="header" href="#optimizing-for-size-and-performance">Optimizing for Size and Performance</a></h3>
 <p>Embedded systems often have strict constraints on code size and performance. Rust provides several ways to optimize your code:</p>
 <pre><code class="language-toml">[profile.release]
-opt-level = "s"        # Optimize for size
+opt-level = &quot;s&quot;        # Optimize for size
 lto = true             # Enable link-time optimization
 codegen-units = 1      # Better optimizations at the cost of build time
 debug = true           # Keep debug symbols for better stack traces
 </code></pre>
 <p>You can further reduce binary size using the <code>panic-abort</code> crate, which simplifies panic handling:</p>
 <pre><code class="language-toml">[dependencies]
-panic-abort = "0.3.2"
+panic-abort = &quot;0.3.2&quot;
 </code></pre>
 <p>For performance-critical code, you might need to use inline assembly:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -674,7 +681,7 @@ panic-abort = "0.3.2"
 unsafe fn count_leading_zeros(value: u32) -&gt; u32 {
     let result: u32;
     asm!(
-        "clz {result}, {value}",
+        &quot;clz {result}, {value}&quot;,
         value = in(reg) value,
         result = out(reg) result,
     );
@@ -694,13 +701,13 @@ unsafe fn count_leading_zeros(value: u32) -&gt; u32 {
 <p>For learning embedded Rust, consider these popular development boards:</p>
 <ol>
 <li><strong>STM32F4 Discovery</strong>: Feature-rich ARM Cortex-M4F board with good Rust support</li>
-<li><strong>nRF52840 DK</strong>: Nordic’s development kit with BLE capabilities</li>
+<li><strong>nRF52840 DK</strong>: Nordic's development kit with BLE capabilities</li>
 <li><strong>Adafruit Feather nRF52840</strong>: Compact board with USB and battery support</li>
 <li><strong>Raspberry Pi Pico</strong>: Affordable dual-core RP2040 microcontroller</li>
 <li><strong>ESP32-C3 DevKit</strong>: RISC-V based Wi-Fi and Bluetooth capable board</li>
 </ol>
 <h3 id="gpio-and-digital-io"><a class="header" href="#gpio-and-digital-io">GPIO and Digital I/O</a></h3>
-<p>General Purpose Input/Output (GPIO) pins are the most basic way for microcontrollers to interact with the outside world. Here’s how to use GPIO pins in Rust:</p>
+<p>General Purpose Input/Output (GPIO) pins are the most basic way for microcontrollers to interact with the outside world. Here's how to use GPIO pins in Rust:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use stm32f4xx_hal::{gpio::*, prelude::*};
@@ -1013,7 +1020,7 @@ fn bsp_example() -&gt; ! {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="creating-custom-hals"><a class="header" href="#creating-custom-hals">Creating Custom HALs</a></h3>
-<p>Sometimes you may need to work with hardware that doesn’t have an existing HAL. In such cases, you can create your own HAL implementation:</p>
+<p>Sometimes you may need to work with hardware that doesn't have an existing HAL. In such cases, you can create your own HAL implementation:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use embedded_hal::digital::v2::{InputPin, OutputPin};
@@ -1164,11 +1171,11 @@ fn type_state_example() {
 <ul>
 <li><strong>Deadlines</strong>: The time by which a task must complete</li>
 <li><strong>Jitter</strong>: Variation in the timing of periodic events</li>
-<li><strong>Response Time</strong>: The time between an event and the system’s response</li>
+<li><strong>Response Time</strong>: The time between an event and the system's response</li>
 <li><strong>Priority</strong>: The relative importance of different tasks</li>
 </ul>
 <h3 id="deterministic-timing-in-rust"><a class="header" href="#deterministic-timing-in-rust">Deterministic Timing in Rust</a></h3>
-<p>Rust’s zero-cost abstractions and lack of garbage collection make it well-suited for real-time programming. However, achieving deterministic timing still requires careful programming.</p>
+<p>Rust's zero-cost abstractions and lack of garbage collection make it well-suited for real-time programming. However, achieving deterministic timing still requires careful programming.</p>
 <h4 id="critical-sections"><a class="header" href="#critical-sections">Critical Sections</a></h4>
 <p>Critical sections are portions of code that must execute without interruption to maintain data consistency:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1313,7 +1320,7 @@ fn freertos_example() {
 
     // Create a high-priority task
     let high_priority_task = Task::new()
-        .name("high_priority")
+        .name(&quot;high_priority&quot;)
         .priority(TaskPriority(3))
         .stack_size(128)
         .start(|| {
@@ -1329,7 +1336,7 @@ fn freertos_example() {
 
     // Create a medium-priority task
     let medium_priority_task = Task::new()
-        .name("medium_priority")
+        .name(&quot;medium_priority&quot;)
         .priority(TaskPriority(2))
         .stack_size(128)
         .start(|| {
@@ -1349,7 +1356,7 @@ fn freertos_example() {
 <h3 id="measuring-and-optimizing-real-time-performance"><a class="header" href="#measuring-and-optimizing-real-time-performance">Measuring and Optimizing Real-time Performance</a></h3>
 <p>To ensure your system meets its timing requirements, you need to measure and optimize its performance:</p>
 <h4 id="cycle-counting"><a class="header" href="#cycle-counting">Cycle Counting</a></h4>
-<p>You can use the Cortex-M’s DWT (Data Watchpoint and Trace) unit to count CPU cycles:</p>
+<p>You can use the Cortex-M's DWT (Data Watchpoint and Trace) unit to count CPU cycles:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use cortex_m::peripheral::DWT;
@@ -1497,7 +1504,7 @@ fn static_collections_example() {
 
     // Add elements
     vec.push(42).unwrap();
-    string.push_str("Hello").unwrap();
+    string.push_str(&quot;Hello&quot;).unwrap();
     map.insert(1, 100).unwrap();
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1530,7 +1537,7 @@ unsafe fn read_button() -&gt; bool {
     (input &amp; (1 &lt;&lt; 0)) != 0
 }
 <span class="boring">}</span></code></pre></pre>
-<p>However, it’s usually better to use HAL libraries that provide safer abstractions.</p>
+<p>However, it's usually better to use HAL libraries that provide safer abstractions.</p>
 <h3 id="memory-pool-allocators"><a class="header" href="#memory-pool-allocators">Memory Pool Allocators</a></h3>
 <p>For situations where dynamic allocation is necessary, consider using a memory pool allocator. This pre-allocates a fixed amount of memory and divides it into fixed-size blocks:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1610,7 +1617,7 @@ static ALLOCATOR: PoolAllocator = {
 };
 <span class="boring">}</span></code></pre></pre>
 <h3 id="handling-out-of-memory-conditions"><a class="header" href="#handling-out-of-memory-conditions">Handling Out-of-Memory Conditions</a></h3>
-<p>In constrained environments, it’s important to handle out-of-memory conditions gracefully:</p>
+<p>In constrained environments, it's important to handle out-of-memory conditions gracefully:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use heapless::Vec;
@@ -1682,7 +1689,7 @@ fn HardFault(ef: &amp;cortex_m_rt::ExceptionFrame) -&gt; ! {
     loop {}
 }</code></pre></pre>
 <h3 id="safe-interrupt-handling"><a class="header" href="#safe-interrupt-handling">Safe Interrupt Handling</a></h3>
-<p>Rust’s ownership model helps ensure safe interrupt handling. The <code>cortex-m</code> crate provides tools for working with interrupts safely:</p>
+<p>Rust's ownership model helps ensure safe interrupt handling. The <code>cortex-m</code> crate provides tools for working with interrupts safely:</p>
 <pre><pre class="playground"><code class="language-rust">use cortex_m::interrupt::{free, Mutex};
 use core::cell::RefCell;
 
@@ -1832,7 +1839,7 @@ fn main() -&gt; ! {
     }
 }</code></pre></pre>
 <h2 id="device-drivers"><a class="header" href="#device-drivers">Device Drivers</a></h2>
-<p>Device drivers provide the interface between software and hardware peripherals or external components. Rust’s type system and trait-based design make it an excellent language for implementing safe and efficient device drivers.</p>
+<p>Device drivers provide the interface between software and hardware peripherals or external components. Rust's type system and trait-based design make it an excellent language for implementing safe and efficient device drivers.</p>
 <h3 id="driver-design-patterns"><a class="header" href="#driver-design-patterns">Driver Design Patterns</a></h3>
 <p>A well-designed device driver in Rust typically follows these patterns:</p>
 <ol>
@@ -1841,7 +1848,7 @@ fn main() -&gt; ! {
 <li><strong>Configuration</strong>: Allow customization through configuration structs</li>
 <li><strong>State management</strong>: Use the type system to enforce valid state transitions</li>
 </ol>
-<p>Here’s an example of a simple driver for a hypothetical temperature sensor:</p>
+<p>Here's an example of a simple driver for a hypothetical temperature sensor:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use embedded_hal::blocking::i2c::{Write, WriteRead};
@@ -1869,7 +1876,7 @@ where
         // Buffer to hold temperature data
         let mut buffer = [0u8; 2];
 
-        // Send the "read temperature" command (0x01)
+        // Send the &quot;read temperature&quot; command (0x01)
         self.i2c
             .write(self.address, &amp;[0x01])
             .map_err(Error::Communication)?;
@@ -1895,7 +1902,7 @@ where
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="using-external-sensors"><a class="header" href="#using-external-sensors">Using External Sensors</a></h3>
-<p>Let’s look at a more concrete example with a real sensor, the BME280 temperature, humidity, and pressure sensor:</p>
+<p>Let's look at a more concrete example with a real sensor, the BME280 temperature, humidity, and pressure sensor:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use bme280::BME280;
@@ -1928,14 +1935,14 @@ where
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="implementing-custom-drivers"><a class="header" href="#implementing-custom-drivers">Implementing Custom Drivers</a></h3>
-<p>For hardware without existing Rust drivers, you’ll need to implement a custom driver. This typically involves:</p>
+<p>For hardware without existing Rust drivers, you'll need to implement a custom driver. This typically involves:</p>
 <ol>
 <li>Reading the device datasheet carefully</li>
 <li>Implementing the communication protocol</li>
 <li>Creating a state machine for device initialization and operation</li>
 <li>Adding error handling and validation</li>
 </ol>
-<p>Here’s a simplified example of a custom driver for an LED matrix display:</p>
+<p>Here's a simplified example of a custom driver for an LED matrix display:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use embedded_hal::digital::v2::OutputPin;
@@ -2054,7 +2061,7 @@ where
 <li><strong>Parameterized tests</strong>: Test driver logic with different input parameters</li>
 <li><strong>Hardware-in-the-loop</strong>: Run tests on actual hardware when possible</li>
 </ol>
-<p>Here’s an example of testing a driver with mocked hardware:</p>
+<p>Here's an example of testing a driver with mocked hardware:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[cfg(test)]
@@ -2085,7 +2092,7 @@ mod tests {
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="iot-connectivity"><a class="header" href="#iot-connectivity">IoT Connectivity</a></h2>
-<p>The Internet of Things (IoT) extends embedded systems by connecting them to the internet or other networks. Rust’s focus on security and reliability makes it an excellent choice for IoT applications.</p>
+<p>The Internet of Things (IoT) extends embedded systems by connecting them to the internet or other networks. Rust's focus on security and reliability makes it an excellent choice for IoT applications.</p>
 <h3 id="network-protocols-for-iot"><a class="header" href="#network-protocols-for-iot">Network Protocols for IoT</a></h3>
 <p>Several protocols are commonly used in IoT applications:</p>
 <ol>
@@ -2095,7 +2102,7 @@ mod tests {
 <li><strong>WebSockets</strong>: Full-duplex communication over TCP</li>
 <li><strong>LoRaWAN</strong>: Long Range Wide Area Network protocol for low-power, long-range communication</li>
 </ol>
-<p>Let’s implement an MQTT client using the <code>rumqttc</code> crate:</p>
+<p>Let's implement an MQTT client using the <code>rumqttc</code> crate:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rumqttc::{Client, MqttOptions, QoS};
@@ -2104,7 +2111,7 @@ use std::thread;
 
 fn mqtt_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Set up MQTT options
-    let mut mqtt_options = MqttOptions::new("rust-client", "mqtt.example.com", 1883);
+    let mut mqtt_options = MqttOptions::new(&quot;rust-client&quot;, &quot;mqtt.example.com&quot;, 1883);
     mqtt_options.set_keep_alive(Duration::from_secs(30));
 
     // Create client
@@ -2113,22 +2120,22 @@ fn mqtt_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Spawn a thread to handle incoming messages
     thread::spawn(move || {
         for notification in connection.iter() {
-            println!("Notification: {:?}", notification);
+            println!(&quot;Notification: {:?}&quot;, notification);
         }
     });
 
     // Subscribe to a topic
-    client.subscribe("sensors/temperature", QoS::AtLeastOnce)?;
+    client.subscribe(&quot;sensors/temperature&quot;, QoS::AtLeastOnce)?;
 
     // Publish a message
     let payload = serde_json::json!({
-        "device_id": "sensor-001",
-        "temperature": 23.5,
-        "humidity": 45.2,
-        "timestamp": chrono::Utc::now().to_rfc3339(),
+        &quot;device_id&quot;: &quot;sensor-001&quot;,
+        &quot;temperature&quot;: 23.5,
+        &quot;humidity&quot;: 45.2,
+        &quot;timestamp&quot;: chrono::Utc::now().to_rfc3339(),
     }).to_string();
 
-    client.publish("sensors/temperature", QoS::AtLeastOnce, false, payload.into_bytes())?;
+    client.publish(&quot;sensors/temperature&quot;, QoS::AtLeastOnce, false, payload.into_bytes())?;
 
     // Main loop
     loop {
@@ -2141,7 +2148,7 @@ fn mqtt_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="secure-communication"><a class="header" href="#secure-communication">Secure Communication</a></h3>
-<p>Security is critical for IoT devices. Here’s how to implement secure MQTT communication using TLS:</p>
+<p>Security is critical for IoT devices. Here's how to implement secure MQTT communication using TLS:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rumqttc::{Client, MqttOptions, QoS, Transport};
@@ -2154,14 +2161,14 @@ fn secure_mqtt_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt
     let mut client_config = ClientConfig::new();
 
     // Load root CA certificate
-    let cert_bytes = include_bytes!("../certs/ca.crt");
+    let cert_bytes = include_bytes!(&quot;../certs/ca.crt&quot;);
     let mut cursor = Cursor::new(cert_bytes);
     let certs = rustls_pemfile::certs(&amp;mut cursor)?;
     let trusted_certs = certs.into_iter().map(rustls::Certificate).collect();
     client_config.root_store.add_server_trust_anchors(&amp;webpki::TrustAnchors(&amp;trusted_certs));
 
     // Set up MQTT options with TLS
-    let mut mqtt_options = MqttOptions::new("rust-client", "mqtt.example.com", 8883);
+    let mut mqtt_options = MqttOptions::new(&quot;rust-client&quot;, &quot;mqtt.example.com&quot;, 8883);
     mqtt_options.set_keep_alive(Duration::from_secs(30));
     mqtt_options.set_transport(Transport::tls_with_config(client_config.into()));
 
@@ -2172,8 +2179,8 @@ fn secure_mqtt_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="edge-computing"><a class="header" href="#edge-computing">Edge Computing</a></h3>
-<p>Edge computing involves processing data close to where it’s generated, reducing latency and bandwidth usage. Rust’s performance makes it suitable for edge computing tasks.</p>
-<p>Here’s an example of a simple edge processing application that filters and aggregates sensor data before sending it to the cloud:</p>
+<p>Edge computing involves processing data close to where it's generated, reducing latency and bandwidth usage. Rust's performance makes it suitable for edge computing tasks.</p>
+<p>Here's an example of a simple edge processing application that filters and aggregates sensor data before sending it to the cloud:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use serde::{Deserialize, Serialize};
@@ -2239,17 +2246,17 @@ impl EdgeProcessor {
 
         // Create aggregated data object
         let aggregated_data = serde_json::json!({
-            "start_time": self.readings.front().unwrap().timestamp,
-            "end_time": self.readings.back().unwrap().timestamp,
-            "count": count,
-            "avg_temperature": avg_temp,
-            "min_temperature": min_temp,
-            "max_temperature": max_temp,
-            "avg_humidity": avg_humidity,
+            &quot;start_time&quot;: self.readings.front().unwrap().timestamp,
+            &quot;end_time&quot;: self.readings.back().unwrap().timestamp,
+            &quot;count&quot;: count,
+            &quot;avg_temperature&quot;: avg_temp,
+            &quot;min_temperature&quot;: min_temp,
+            &quot;max_temperature&quot;: max_temp,
+            &quot;avg_humidity&quot;: avg_humidity,
         });
 
         // Upload to cloud (in a real application, this would use MQTT or HTTP)
-        println!("Uploading: {}", aggregated_data);
+        println!(&quot;Uploading: {}&quot;, aggregated_data);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2390,7 +2397,7 @@ where
 <li><strong>Use peripherals efficiently</strong>: Turn off unused peripherals</li>
 <li><strong>Optimize algorithms</strong>: Faster code execution means the CPU can sleep sooner</li>
 </ol>
-<p>Here’s an example of power-efficient code for a wireless sensor:</p>
+<p>Here's an example of power-efficient code for a wireless sensor:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn power_efficient_sensor_loop() -&gt; ! {
@@ -2430,7 +2437,7 @@ where
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="project-building-an-iot-sensor-node"><a class="header" href="#project-building-an-iot-sensor-node">Project: Building an IoT Sensor Node</a></h2>
-<p>Let’s bring together the concepts we’ve covered by building a complete IoT sensor node project. Our sensor node will:</p>
+<p>Let's bring together the concepts we've covered by building a complete IoT sensor node project. Our sensor node will:</p>
 <ol>
 <li>Read temperature, humidity, and light sensor data</li>
 <li>Process the data locally</li>
@@ -2439,51 +2446,51 @@ where
 <li>Implement power management for battery operation</li>
 </ol>
 <h3 id="project-setup"><a class="header" href="#project-setup">Project Setup</a></h3>
-<p>First, let’s set up our project structure:</p>
+<p>First, let's set up our project structure:</p>
 <pre><code class="language-bash">cargo new --bin iot-sensor-node
 cd iot-sensor-node
 </code></pre>
-<p>Now, let’s add our dependencies to <code>Cargo.toml</code>:</p>
+<p>Now, let's add our dependencies to <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
-name = "iot-sensor-node"
-version = "0.1.0"
-edition = "2021"
+name = &quot;iot-sensor-node&quot;
+version = &quot;0.1.0&quot;
+edition = &quot;2021&quot;
 
 [dependencies]
 # Embedded HAL and board support
-cortex-m = "0.7"
-cortex-m-rt = "0.7"
-embedded-hal = "0.2"
-esp32-hal = "0.15"       # For ESP32 microcontroller
+cortex-m = &quot;0.7&quot;
+cortex-m-rt = &quot;0.7&quot;
+embedded-hal = &quot;0.2&quot;
+esp32-hal = &quot;0.15&quot;       # For ESP32 microcontroller
 
 # Sensors
-bme280 = "0.4"          # Temperature/humidity/pressure sensor
-tsl2561 = "0.3"         # Light sensor
+bme280 = &quot;0.4&quot;          # Temperature/humidity/pressure sensor
+tsl2561 = &quot;0.3&quot;         # Light sensor
 
 # Wi-Fi and MQTT
-esp-wifi = "0.1"
-embedded-svc = "0.25"
-esp-idf-svc = { version = "0.47", features = ["mqtt"] }
+esp-wifi = &quot;0.1&quot;
+embedded-svc = &quot;0.25&quot;
+esp-idf-svc = { version = &quot;0.47&quot;, features = [&quot;mqtt&quot;] }
 
 # Utility
-heapless = "0.7"
-log = "0.4"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+heapless = &quot;0.7&quot;
+log = &quot;0.4&quot;
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0&quot;
 
 [profile.release]
-opt-level = "s"
+opt-level = &quot;s&quot;
 lto = true
 codegen-units = 1
 </code></pre>
 <h3 id="hardware-setup"><a class="header" href="#hardware-setup">Hardware Setup</a></h3>
-<p>For this project, we’ll use an ESP32 development board with the following components:</p>
+<p>For this project, we'll use an ESP32 development board with the following components:</p>
 <ol>
 <li>BME280 temperature/humidity/pressure sensor (connected via I2C)</li>
 <li>TSL2561 light sensor (connected via I2C)</li>
 <li>LiPo battery for power</li>
 </ol>
-<p>Here’s the wiring:</p>
+<p>Here's the wiring:</p>
 <pre><code>ESP32          BME280
 --------------------
 3.3V    -----&gt;  VCC
@@ -2499,7 +2506,7 @@ GPIO21  -----&gt;  SDA (shared with BME280)
 GPIO22  -----&gt;  SCL (shared with BME280)
 </code></pre>
 <h3 id="sensor-implementation"><a class="header" href="#sensor-implementation">Sensor Implementation</a></h3>
-<p>First, let’s create the sensor module (<code>src/sensors.rs</code>):</p>
+<p>First, let's create the sensor module (<code>src/sensors.rs</code>):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use bme280::BME280;
@@ -2525,9 +2532,9 @@ where
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="project-iot-weather-station"><a class="header" href="#project-iot-weather-station">Project: IoT Weather Station</a></h2>
-<p>Let’s conclude with a simplified IoT weather station project that brings together many of the concepts we’ve covered.</p>
+<p>Let's conclude with a simplified IoT weather station project that brings together many of the concepts we've covered.</p>
 <h3 id="project-overview"><a class="header" href="#project-overview">Project Overview</a></h3>
-<p>We’ll build a weather station that:</p>
+<p>We'll build a weather station that:</p>
 <ol>
 <li>Reads temperature, humidity, and pressure from a BME280 sensor</li>
 <li>Connects to WiFi and sends data to an MQTT broker</li>
@@ -2541,7 +2548,7 @@ where
 <li>Battery and power management circuitry</li>
 </ul>
 <h3 id="basic-code-structure"><a class="header" href="#basic-code-structure">Basic Code Structure</a></h3>
-<p>Here’s a simplified example of the main application structure:</p>
+<p>Here's a simplified example of the main application structure:</p>
 <pre><pre class="playground"><code class="language-rust">#![no_std]
 #![no_main]
 
@@ -2624,14 +2631,14 @@ fn main() -&gt; ! {
         let mut json_buffer: String&lt;128&gt; = String::new();
         write!(
             json_buffer,
-            "{{\"temp\":{:.2},\"hum\":{:.2},\"pres\":{:.2}}}",
+            &quot;{{\&quot;temp\&quot;:{:.2},\&quot;hum\&quot;:{:.2},\&quot;pres\&quot;:{:.2}}}&quot;,
             weather_data.temperature,
             weather_data.humidity,
             weather_data.pressure
         ).unwrap();
 
         // Send data over MQTT
-        send_mqtt_data(&amp;mut tx, &amp;mut rx, "weather/data", &amp;json_buffer, &amp;mut delay).unwrap();
+        send_mqtt_data(&amp;mut tx, &amp;mut rx, &quot;weather/data&quot;, &amp;json_buffer, &amp;mut delay).unwrap();
 
         // Sleep for 5 minutes
         delay.delay_ms(300_000u32);
@@ -2679,9 +2686,9 @@ where
 <li>Optimize for low power using sleep modes</li>
 <li>Implement secure communication using TLS</li>
 </ol>
-<p>This project demonstrates how Rust’s safety features and abstractions help build reliable IoT applications, even on constrained hardware.</p>
+<p>This project demonstrates how Rust's safety features and abstractions help build reliable IoT applications, even on constrained hardware.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored embedded systems and IoT development with Rust. We’ve covered:</p>
+<p>In this chapter, we've explored embedded systems and IoT development with Rust. We've covered:</p>
 <ol>
 <li><strong>Embedded programming fundamentals</strong>: The differences between embedded and general-purpose programming</li>
 <li><strong>Bare metal Rust</strong>: Using Rust without an operating system</li>
@@ -2693,7 +2700,7 @@ where
 <li><strong>IoT connectivity</strong>: Networking protocols for connected devices</li>
 <li><strong>Power management</strong>: Extending battery life in portable devices</li>
 </ol>
-<p>Rust’s combination of performance, safety, and expressiveness makes it an excellent choice for embedded systems and IoT applications. The ecosystem continues to grow, with more libraries, tools, and board support being added regularly.</p>
+<p>Rust's combination of performance, safety, and expressiveness makes it an excellent choice for embedded systems and IoT applications. The ecosystem continues to grow, with more libraries, tools, and board support being added regularly.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>Extend the weather station project to support multiple sensors.</li>

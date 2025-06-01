@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html" class="active"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -179,11 +186,11 @@
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Distributed systems represent one of the most challenging and rewarding areas of software development. These systems consist of multiple components running on different networked computers that coordinate their actions to appear as a single coherent system to end users. In the modern computing landscape, distributed systems have become increasingly important as applications scale to meet global demands.</p>
 <p>Rust, with its emphasis on performance, reliability, and safety, is particularly well-suited for building distributed systems. Its ownership model helps prevent many common bugs that plague concurrent and distributed applications, while its performance characteristics make it ideal for resource-intensive distributed workloads.</p>
-<p>In this chapter, we’ll explore the fundamental concepts of distributed systems and how to implement them using Rust. We’ll examine the challenges inherent in distributed computing—such as network partitions, consistency issues, and partial failures—and explore how Rust’s features can help address these challenges.</p>
-<p>By the end of this chapter, you’ll understand the key principles of distributed systems and have practical experience implementing distributed algorithms and patterns in Rust. Whether you’re building a distributed database, a microservice architecture, or a decentralized application, the concepts and techniques covered here will provide a solid foundation.</p>
+<p>In this chapter, we'll explore the fundamental concepts of distributed systems and how to implement them using Rust. We'll examine the challenges inherent in distributed computing—such as network partitions, consistency issues, and partial failures—and explore how Rust's features can help address these challenges.</p>
+<p>By the end of this chapter, you'll understand the key principles of distributed systems and have practical experience implementing distributed algorithms and patterns in Rust. Whether you're building a distributed database, a microservice architecture, or a decentralized application, the concepts and techniques covered here will provide a solid foundation.</p>
 <h2 id="distributed-systems-fundamentals"><a class="header" href="#distributed-systems-fundamentals">Distributed Systems Fundamentals</a></h2>
-<p>Before diving into Rust-specific implementations, let’s establish a foundation in distributed systems concepts.</p>
-<h3 id="what-makes-a-system-distributed"><a class="header" href="#what-makes-a-system-distributed">What Makes a System “Distributed”?</a></h3>
+<p>Before diving into Rust-specific implementations, let's establish a foundation in distributed systems concepts.</p>
+<h3 id="what-makes-a-system-distributed"><a class="header" href="#what-makes-a-system-distributed">What Makes a System &quot;Distributed&quot;?</a></h3>
 <p>A distributed system is a collection of independent computers that appears to its users as a single coherent system. These systems are characterized by:</p>
 <ol>
 <li><strong>Multiple Nodes</strong>: Independent computers or processes that communicate with each other</li>
@@ -219,7 +226,7 @@ async fn send_with_retry&lt;T: Serialize&gt;(
         match client.post(url).json(data).send().await {
             Ok(response) =&gt; return Ok(response),
             Err(err) if attempts &lt; max_retries =&gt; {
-                println!("Request failed: {}, retrying in {:?}", err, delay);
+                println!(&quot;Request failed: {}, retrying in {:?}&quot;, err, delay);
                 tokio::time::sleep(delay).await;
                 attempts += 1;
                 delay *= 2; // Exponential backoff
@@ -232,7 +239,7 @@ async fn send_with_retry&lt;T: Serialize&gt;(
 <h4 id="2-partial-failures"><a class="header" href="#2-partial-failures">2. Partial Failures</a></h4>
 <p>In a distributed system, some components might fail while others continue operating. This partial failure scenario is particularly challenging because:</p>
 <ul>
-<li>It’s difficult to determine whether a non-responding node has failed or is just slow</li>
+<li>It's difficult to determine whether a non-responding node has failed or is just slow</li>
 <li>The system must continue operating despite the failure of some components</li>
 <li>Failed components may recover and need to re-integrate into the system</li>
 </ul>
@@ -359,9 +366,9 @@ struct VectorMessage {
 <span class="boring">}</span></code></pre></pre>
 <h4 id="physical-time-synchronization"><a class="header" href="#physical-time-synchronization">Physical Time Synchronization</a></h4>
 <p>For cases where physical time is necessary, protocols like NTP (Network Time Protocol) can be used to synchronize clocks across nodes, though perfect synchronization is impossible.</p>
-<p>Now that we’ve covered the fundamental concepts of distributed systems, let’s explore how to implement these ideas in Rust, starting with communication patterns in the next section.</p>
+<p>Now that we've covered the fundamental concepts of distributed systems, let's explore how to implement these ideas in Rust, starting with communication patterns in the next section.</p>
 <h2 id="communication-patterns-in-distributed-systems"><a class="header" href="#communication-patterns-in-distributed-systems">Communication Patterns in Distributed Systems</a></h2>
-<p>Effective communication is the foundation of any distributed system. In this section, we’ll explore different communication patterns and how to implement them in Rust.</p>
+<p>Effective communication is the foundation of any distributed system. In this section, we'll explore different communication patterns and how to implement them in Rust.</p>
 <h3 id="request-response-pattern"><a class="header" href="#request-response-pattern">Request-Response Pattern</a></h3>
 <p>The request-response pattern is the simplest form of communication between nodes:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -386,7 +393,7 @@ struct Response {
 
 // Server side implementation
 async fn run_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let listener = TcpListener::bind("127.0.0.1:8080").await?;
+    let listener = TcpListener::bind(&quot;127.0.0.1:8080&quot;).await?;
 
     loop {
         let (mut socket, _) = listener.accept().await?;
@@ -402,13 +409,13 @@ async fn run_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
                     let response = Response {
                         request_id: request.id,
                         status: 200,
-                        data: format!("Processed {}", request.resource).into_bytes(),
+                        data: format!(&quot;Processed {}&quot;, request.resource).into_bytes(),
                     };
 
                     let response_bytes = serde_json::to_vec(&amp;response).unwrap();
                     socket.write_all(&amp;response_bytes).await.unwrap();
                 }
-                Err(e) =&gt; println!("Failed to read from socket: {}", e),
+                Err(e) =&gt; println!(&quot;Failed to read from socket: {}&quot;, e),
             }
         });
     }
@@ -416,7 +423,7 @@ async fn run_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 
 // Client side implementation
 async fn make_request(resource: &amp;str, operation: &amp;str) -&gt; Result&lt;Response, Box&lt;dyn std::error::Error&gt;&gt; {
-    let mut socket = TcpStream::connect("127.0.0.1:8080").await?;
+    let mut socket = TcpStream::connect(&quot;127.0.0.1:8080&quot;).await?;
 
     let request = Request {
         id: 1, // In practice, use a unique ID generator
@@ -508,25 +515,25 @@ async fn pubsub_example() {
     // Subscriber 1
     let mut rx1 = {
         let mut broker = subscriber1_broker.lock().unwrap();
-        broker.subscribe("updates")
+        broker.subscribe(&quot;updates&quot;)
     };
 
     // Subscriber 2
     let mut rx2 = {
         let mut broker = subscriber2_broker.lock().unwrap();
-        broker.subscribe("updates")
+        broker.subscribe(&quot;updates&quot;)
     };
 
     // Start subscriber tasks
     let handle1 = tokio::spawn(async move {
         while let Ok(msg) = rx1.recv().await {
-            println!("Subscriber 1 received: {:?}", msg.payload);
+            println!(&quot;Subscriber 1 received: {:?}&quot;, msg.payload);
         }
     });
 
     let handle2 = tokio::spawn(async move {
         while let Ok(msg) = rx2.recv().await {
-            println!("Subscriber 2 received: {:?}", msg.payload);
+            println!(&quot;Subscriber 2 received: {:?}&quot;, msg.payload);
         }
     });
 
@@ -535,7 +542,7 @@ async fn pubsub_example() {
     let handle_pub = tokio::spawn(async move {
         for i in 0..5 {
             let mut broker = publisher_broker.lock().unwrap();
-            broker.publish("updates", format!("Update {}", i).into_bytes());
+            broker.publish(&quot;updates&quot;, format!(&quot;Update {}&quot;, i).into_bytes());
             drop(broker); // Release lock
             tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
         }
@@ -579,7 +586,7 @@ impl MessageQueue {
 
     fn enqueue(&amp;mut self, payload: Vec&lt;u8&gt;) -&gt; Result&lt;String, &amp;'static str&gt; {
         if self.messages.len() &gt;= self.max_size {
-            return Err("Queue is full");
+            return Err(&quot;Queue is full&quot;);
         }
 
         let id = uuid::Uuid::new_v4().to_string();
@@ -615,12 +622,12 @@ async fn queue_example() {
     let producer_queue = Arc::clone(&amp;queue);
     let producer = tokio::spawn(async move {
         for i in 0..10 {
-            let payload = format!("Message {}", i).into_bytes();
+            let payload = format!(&quot;Message {}&quot;, i).into_bytes();
             {
                 let mut q = producer_queue.lock().unwrap();
                 match q.enqueue(payload) {
-                    Ok(id) =&gt; println!("Produced message with ID: {}", id),
-                    Err(e) =&gt; println!("Failed to produce message: {}", e),
+                    Ok(id) =&gt; println!(&quot;Produced message with ID: {}&quot;, id),
+                    Err(e) =&gt; println!(&quot;Failed to produce message: {}&quot;, e),
                 }
             }
             sleep(Duration::from_millis(500)).await;
@@ -638,11 +645,11 @@ async fn queue_example() {
 
             match message {
                 Some(msg) =&gt; {
-                    println!("Consumed message: {}", String::from_utf8_lossy(&amp;msg.payload));
+                    println!(&quot;Consumed message: {}&quot;, String::from_utf8_lossy(&amp;msg.payload));
                     // In a real system, process the message and acknowledge
                 }
                 None =&gt; {
-                    println!("No messages to consume");
+                    println!(&quot;No messages to consume&quot;);
                     sleep(Duration::from_secs(1)).await;
                 }
             }
@@ -713,10 +720,10 @@ impl Calculator for CalculatorService {
 // Server and client implementations would typically be generated from .proto files
 // This is a simplified example of what the server would look like
 async fn run_grpc_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let addr = "[::1]:50051".parse()?;
+    let addr = &quot;[::1]:50051&quot;.parse()?;
     let calculator_service = CalculatorService;
 
-    println!("Calculator server listening on {}", addr);
+    println!(&quot;Calculator server listening on {}&quot;, addr);
 
     // In a real implementation, Server::builder() would take the generated service
     // Server::builder()
@@ -730,7 +737,7 @@ async fn run_grpc_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&
 // Client example
 async fn calculate_sum(a: i32, b: i32) -&gt; Result&lt;i32, Box&lt;dyn std::error::Error&gt;&gt; {
     // In a real implementation, we would use the generated client
-    // let mut client = CalculatorClient::connect("http://[::1]:50051").await?;
+    // let mut client = CalculatorClient::connect(&quot;http://[::1]:50051&quot;).await?;
     // let request = Request::new(CalculatorRequest { a, b });
     // let response = client.add(request).await?;
     // Ok(response.into_inner().result)
@@ -763,11 +770,11 @@ impl StreamServer {
 
     async fn run(&amp;self, address: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
         let listener = TcpListener::bind(address).await?;
-        println!("Stream server listening on {}", address);
+        println!(&quot;Stream server listening on {}&quot;, address);
 
         loop {
             let (socket, addr) = listener.accept().await?;
-            println!("New client connected: {}", addr);
+            println!(&quot;New client connected: {}&quot;, addr);
 
             let clients = Arc::clone(&amp;self.clients);
             tokio::spawn(async move {
@@ -803,7 +810,7 @@ impl StreamServer {
                         break;
                     }
                     Ok(n) =&gt; {
-                        println!("Received {} bytes from client {}", n, client_id);
+                        println!(&quot;Received {} bytes from client {}&quot;, n, client_id);
                         // Process incoming data
                         // In a real application, you might:
                         // - Parse commands
@@ -811,7 +818,7 @@ impl StreamServer {
                         // - Store data
                     }
                     Err(e) =&gt; {
-                        eprintln!("Error reading from client {}: {}", client_id, e);
+                        eprintln!(&quot;Error reading from client {}: {}&quot;, client_id, e);
                         break;
                     }
                 }
@@ -822,7 +829,7 @@ impl StreamServer {
         let write_task = tokio::spawn(async move {
             while let Some(data) = rx.recv().await {
                 if let Err(e) = writer.write_all(&amp;data).await {
-                    eprintln!("Error writing to client: {}", e);
+                    eprintln!(&quot;Error writing to client: {}&quot;, e);
                     break;
                 }
             }
@@ -840,7 +847,7 @@ impl StreamServer {
             clients_map.remove(&amp;client_id);
         }
 
-        println!("Client {} disconnected", client_id);
+        println!(&quot;Client {} disconnected&quot;, client_id);
     }
 
     async fn broadcast(&amp;self, data: Vec&lt;u8&gt;) {
@@ -850,7 +857,7 @@ impl StreamServer {
             match tx.send(data.clone()).await {
                 Ok(_) =&gt; {},
                 Err(_) =&gt; {
-                    println!("Failed to send to client {}, they may have disconnected", client_id);
+                    println!(&quot;Failed to send to client {}, they may have disconnected&quot;, client_id);
                 }
             }
         }
@@ -861,7 +868,7 @@ impl StreamServer {
 async fn run_stream_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let server = StreamServer::new();
     let server_handle = tokio::spawn(async move {
-        server.run("127.0.0.1:8081").await.unwrap();
+        server.run(&quot;127.0.0.1:8081&quot;).await.unwrap();
     });
 
     // In a real application, we'd have a way to gracefully shut down
@@ -869,7 +876,7 @@ async fn run_stream_server() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
-<p>These communication patterns form the foundation of distributed systems. In the next section, we’ll explore service discovery mechanisms that allow system components to find and communicate with each other.</p>
+<p>These communication patterns form the foundation of distributed systems. In the next section, we'll explore service discovery mechanisms that allow system components to find and communicate with each other.</p>
 <h2 id="service-discovery"><a class="header" href="#service-discovery">Service Discovery</a></h2>
 <p>In a distributed system, services need to be able to find and communicate with each other. Service discovery is the process of automatically detecting and locating services and their endpoints within a network.</p>
 <h3 id="why-service-discovery"><a class="header" href="#why-service-discovery">Why Service Discovery?</a></h3>
@@ -990,11 +997,11 @@ impl ServiceDiscoveryClient {
             .ok_or_else(|| {
                 reqwest::Error::from(std::io::Error::new(
                     std::io::ErrorKind::NotFound,
-                    format!("No instances found for service: {}", service_name)
+                    format!(&quot;No instances found for service: {}&quot;, service_name)
                 ))
             })?;
 
-        let url = format!("http://{}:{}{}", instance.host, instance.port, path);
+        let url = format!(&quot;http://{}:{}{}&quot;, instance.host, instance.port, path);
         let client = reqwest::Client::new();
         client.get(&amp;url).send().await?.json::&lt;T&gt;().await
     }
@@ -1135,13 +1142,13 @@ async fn run_load_balancer(address: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std
     // Add some example routes
     {
         let mut balancer = lb.lock().unwrap();
-        balancer.add_route("user-service", "http://user-service-1:8080");
-        balancer.add_route("user-service", "http://user-service-2:8080");
-        balancer.add_route("order-service", "http://order-service-1:8080");
+        balancer.add_route(&quot;user-service&quot;, &quot;http://user-service-1:8080&quot;);
+        balancer.add_route(&quot;user-service&quot;, &quot;http://user-service-2:8080&quot;);
+        balancer.add_route(&quot;order-service&quot;, &quot;http://order-service-1:8080&quot;);
     }
 
     let listener = TcpListener::bind(address).await?;
-    println!("Load balancer listening on {}", address);
+    println!(&quot;Load balancer listening on {}&quot;, address);
 
     loop {
         let (mut socket, _) = listener.accept().await?;
@@ -1156,12 +1163,12 @@ async fn run_load_balancer(address: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std
                     // Extract service name from request
                     // In a real implementation, this would come from the URL path
                     let request = String::from_utf8_lossy(&amp;buffer[..n]);
-                    let service_name = if request.contains("/users") {
-                        "user-service"
-                    } else if request.contains("/orders") {
-                        "order-service"
+                    let service_name = if request.contains(&quot;/users&quot;) {
+                        &quot;user-service&quot;
+                    } else if request.contains(&quot;/orders&quot;) {
+                        &quot;order-service&quot;
                     } else {
-                        "unknown"
+                        &quot;unknown&quot;
                     };
 
                     // Get endpoint for the service
@@ -1174,12 +1181,12 @@ async fn run_load_balancer(address: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std
                         Some(endpoint) =&gt; {
                             // Forward the request to the endpoint
                             // In a real implementation, we'd make an HTTP request
-                            let response = format!("Forwarded to {}", endpoint).into_bytes();
+                            let response = format!(&quot;Forwarded to {}&quot;, endpoint).into_bytes();
                             socket.write_all(&amp;response).await.unwrap();
                         }
                         None =&gt; {
                             // Service not found
-                            let response = b"Service not found";
+                            let response = b&quot;Service not found&quot;;
                             socket.write_all(response).await.unwrap();
                         }
                     }
@@ -1205,7 +1212,7 @@ async fn dns_service_discovery(service_name: &amp;str) -&gt; Result&lt;String, B
     let resolver = Resolver::new(ResolverConfig::default(), ResolverOpts::default())?;
 
     // Assuming service names follow the pattern: service-name.namespace.svc.cluster.local
-    let dns_name = format!("{}.default.svc.cluster.local", service_name);
+    let dns_name = format!(&quot;{}.default.svc.cluster.local&quot;, service_name);
 
     // Resolve the service name to IP addresses
     let response = resolver.lookup_ip(dns_name)?;
@@ -1214,16 +1221,16 @@ async fn dns_service_discovery(service_name: &amp;str) -&gt; Result&lt;String, B
     let addresses: Vec&lt;std::net::IpAddr&gt; = response.iter().collect();
 
     if addresses.is_empty() {
-        return Err("No addresses found for service".into());
+        return Err(&quot;No addresses found for service&quot;.into());
     }
 
     // Choose a random address for simple load balancing
     let mut rng = rand::thread_rng();
     let chosen = addresses.choose(&amp;mut rng)
-        .ok_or("Failed to choose address")?;
+        .ok_or(&quot;Failed to choose address&quot;)?;
 
     // Assuming the service runs on port 8080
-    Ok(format!("http://{}:8080", chosen))
+    Ok(format!(&quot;http://{}:8080&quot;, chosen))
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="service-discovery-with-external-tools"><a class="header" href="#service-discovery-with-external-tools">Service Discovery with External Tools</a></h3>
@@ -1259,7 +1266,7 @@ struct ConsulService {
 
 #[derive(Deserialize, Debug)]
 struct ConsulServiceResponse {
-    #[serde(rename = "Service")]
+    #[serde(rename = &quot;Service&quot;)]
     service: ConsulService,
 }
 
@@ -1287,13 +1294,13 @@ impl ConsulClient {
             address: address.to_string(),
             port,
             check: ConsulCheck {
-                http: format!("http://{}:{}/health", address, port),
-                interval: "10s".to_string(),
+                http: format!(&quot;http://{}:{}/health&quot;, address, port),
+                interval: &quot;10s&quot;.to_string(),
             },
         };
 
         self.http_client
-            .put(&amp;format!("{}/v1/agent/service/register", self.consul_url))
+            .put(&amp;format!(&quot;{}/v1/agent/service/register&quot;, self.consul_url))
             .json(&amp;registration)
             .send()
             .await?;
@@ -1303,7 +1310,7 @@ impl ConsulClient {
 
     async fn deregister_service(&amp;self, id: &amp;str) -&gt; Result&lt;(), reqwest::Error&gt; {
         self.http_client
-            .put(&amp;format!("{}/v1/agent/service/deregister/{}", self.consul_url, id))
+            .put(&amp;format!(&quot;{}/v1/agent/service/deregister/{}&quot;, self.consul_url, id))
             .send()
             .await?;
 
@@ -1312,8 +1319,8 @@ impl ConsulClient {
 
     async fn discover_service(&amp;self, name: &amp;str) -&gt; Result&lt;Vec&lt;ConsulServiceResponse&gt;, reqwest::Error&gt; {
         let response = self.http_client
-            .get(&amp;format!("{}/v1/health/service/{}", self.consul_url, name))
-            .query(&amp;[("passing", "true")])
+            .get(&amp;format!(&quot;{}/v1/health/service/{}&quot;, self.consul_url, name))
+            .query(&amp;[(&quot;passing&quot;, &quot;true&quot;)])
             .send()
             .await?
             .json::&lt;Vec&lt;ConsulServiceResponse&gt;&gt;()
@@ -1330,36 +1337,36 @@ impl ConsulClient {
 
 async fn etcd_service_discovery() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     // Connect to etcd
-    let mut client = Client::connect(["localhost:2379"], None).await?;
+    let mut client = Client::connect([&quot;localhost:2379&quot;], None).await?;
 
     // Register a service
-    let service_key = "/services/my-service/instance-1";
-    let service_value = "http://10.0.0.1:8080";
+    let service_key = &quot;/services/my-service/instance-1&quot;;
+    let service_value = &quot;http://10.0.0.1:8080&quot;;
 
     client.put(service_key, service_value, None).await?;
 
     // Discover services
-    let services = client.get("/services/my-service", None).await?;
+    let services = client.get(&quot;/services/my-service&quot;, None).await?;
 
     for kv in services.kvs() {
-        println!("Found service: {:?} -&gt; {:?}",
+        println!(&quot;Found service: {:?} -&gt; {:?}&quot;,
                  String::from_utf8_lossy(kv.key()),
                  String::from_utf8_lossy(kv.value()));
     }
 
     // Watch for changes to services
-    let mut watcher = client.watch("/services", None).await?;
+    let mut watcher = client.watch(&quot;/services&quot;, None).await?;
 
     tokio::spawn(async move {
         while let Some(resp) = watcher.message().await.unwrap() {
             for event in resp.events() {
                 match event.event_type() {
                     etcd_client::EventType::Put =&gt; {
-                        println!("Service added: {:?}",
+                        println!(&quot;Service added: {:?}&quot;,
                                  String::from_utf8_lossy(event.kv().unwrap().value()));
                     }
                     etcd_client::EventType::Delete =&gt; {
-                        println!("Service removed: {:?}",
+                        println!(&quot;Service removed: {:?}&quot;,
                                  String::from_utf8_lossy(event.kv().unwrap().key()));
                     }
                 }
@@ -1382,7 +1389,7 @@ async fn kubernetes_service_discovery() -&gt; Result&lt;(), Box&lt;dyn std::erro
     let client = Client::try_default().await?;
 
     // Get services in the default namespace
-    let services: Api&lt;Service&gt; = Api::namespaced(client, "default");
+    let services: Api&lt;Service&gt; = Api::namespaced(client, &quot;default&quot;);
     let service_list = services.list(&amp;ListParams::default()).await?;
 
     for service in service_list {
@@ -1392,9 +1399,9 @@ async fn kubernetes_service_discovery() -&gt; Result&lt;(), Box&lt;dyn std::erro
             .and_then(|s| s.ports)
             .unwrap_or_default();
 
-        println!("Service: {} at {}", name, cluster_ip);
+        println!(&quot;Service: {} at {}&quot;, name, cluster_ip);
         for port in ports {
-            println!("  Port: {} -&gt; {}", port.port, port.target_port.unwrap_or_default());
+            println!(&quot;  Port: {} -&gt; {}&quot;, port.port, port.target_port.unwrap_or_default());
         }
     }
 
@@ -1411,12 +1418,12 @@ async fn kubernetes_service_discovery() -&gt; Result&lt;(), Box&lt;dyn std::erro
 async fn call_service_via_mesh(service_name: &amp;str, path: &amp;str) -&gt; Result&lt;String, reqwest::Error&gt; {
     // In a Linkerd-enabled cluster, DNS resolution uses the service name
     // Linkerd handles the actual routing and load balancing
-    let url = format!("http://{}{}", service_name, path);
+    let url = format!(&quot;http://{}{}&quot;, service_name, path);
 
     let client = reqwest::Client::new();
     let response = client.get(&amp;url)
         // Linkerd uses these headers for routing
-        .header("l5d-dst-override", format!("{}.default.svc.cluster.local:80", service_name))
+        .header(&quot;l5d-dst-override&quot;, format!(&quot;{}.default.svc.cluster.local:80&quot;, service_name))
         .send()
         .await?
         .text()
@@ -1425,7 +1432,7 @@ async fn call_service_via_mesh(service_name: &amp;str, path: &amp;str) -&gt; Res
     Ok(response)
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Service discovery is a critical component of distributed systems, allowing services to locate and communicate with each other in a dynamic environment. In the next section, we’ll explore distributed consensus algorithms, which enable coordination and agreement in distributed systems.</p>
+<p>Service discovery is a critical component of distributed systems, allowing services to locate and communicate with each other in a dynamic environment. In the next section, we'll explore distributed consensus algorithms, which enable coordination and agreement in distributed systems.</p>
 <h2 id="distributed-consensus"><a class="header" href="#distributed-consensus">Distributed Consensus</a></h2>
 <p>Distributed consensus is the process by which multiple nodes in a distributed system agree on a single value or state. This is a fundamental problem in distributed systems, as it underpins many critical operations such as leader election, atomic broadcast, and distributed transactions.</p>
 <h3 id="the-consensus-problem"><a class="header" href="#the-consensus-problem">The Consensus Problem</a></h3>
@@ -1493,7 +1500,7 @@ impl PaxosNode {
             if node_id != &amp;self.id {
                 let msg = message.clone();
                 if let Err(e) = channel.send(msg).await {
-                    println!("Failed to send to {}: {}", node_id, e);
+                    println!(&quot;Failed to send to {}: {}&quot;, node_id, e);
                 }
             }
         }
@@ -1577,7 +1584,7 @@ impl PaxosNode {
 
 // Example of setting up a simple Paxos cluster
 async fn setup_paxos_cluster() {
-    let node_ids = vec!["node1".to_string(), "node2".to_string(), "node3".to_string()];
+    let node_ids = vec![&quot;node1&quot;.to_string(), &quot;node2&quot;.to_string(), &quot;node3&quot;.to_string()];
     let mut nodes = Vec::new();
     let mut channels = HashMap::new();
 
@@ -1698,7 +1705,7 @@ impl RaftNode {
             if node_id != &amp;self.id {
                 let msg = message.clone();
                 if let Err(e) = channel.send(msg).await {
-                    println!("Failed to send to {}: {}", node_id, e);
+                    println!(&quot;Failed to send to {}: {}&quot;, node_id, e);
                 }
             }
         }
@@ -1929,7 +1936,7 @@ impl RaftNode {
 <li><strong>raft-rs</strong>: A high-performance Raft implementation used by TiKV</li>
 <li><strong>async-raft</strong>: An async/await-based Raft implementation</li>
 </ul>
-<p>Here’s how you might use the async-raft crate:</p>
+<p>Here's how you might use the async-raft crate:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use async_raft::{Config, Raft, RaftNetwork, RaftStorage};
@@ -1956,12 +1963,12 @@ struct Network {
 
 async fn run_raft_node() {
     // Create a configuration
-    let config = Config::build("node-1".into())
+    let config = Config::build(&quot;node-1&quot;.into())
         .heartbeat_interval(Duration::from_millis(100))
         .election_timeout_min(Duration::from_millis(300))
         .election_timeout_max(Duration::from_millis(600))
         .validate()
-        .expect("Failed to build Raft config");
+        .expect(&quot;Failed to build Raft config&quot;);
 
     // Create storage and network layers
     let storage = Arc::new(MemStore {});
@@ -1971,17 +1978,17 @@ async fn run_raft_node() {
     let raft = Raft::new(config, network, storage);
 
     // Start the Raft node
-    raft.initialize(vec!["node-1".into(), "node-2".into(), "node-3".into()]).await
-        .expect("Failed to initialize Raft node");
+    raft.initialize(vec![&quot;node-1&quot;.into(), &quot;node-2&quot;.into(), &quot;node-3&quot;.into()]).await
+        .expect(&quot;Failed to initialize Raft node&quot;);
 
     // Submit a command to the Raft node
     let cmd = Command {
-        key: "foo".into(),
-        value: "bar".into(),
+        key: &quot;foo&quot;.into(),
+        value: &quot;bar&quot;.into(),
     };
 
     raft.client_write(cmd).await
-        .expect("Failed to write command");
+        .expect(&quot;Failed to write command&quot;);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="practical-considerations-for-consensus"><a class="header" href="#practical-considerations-for-consensus">Practical Considerations for Consensus</a></h3>
@@ -1993,9 +2000,9 @@ async fn run_raft_node() {
 <li><strong>Membership Changes</strong>: The set of nodes in the cluster may change over time</li>
 <li><strong>Fault Tolerance</strong>: The system should handle various failure scenarios</li>
 </ol>
-<p>Distributed consensus is a fundamental building block for many distributed systems, enabling reliable coordination among nodes despite failures and network issues. In the next section, we’ll explore patterns for building resilient distributed systems.</p>
+<p>Distributed consensus is a fundamental building block for many distributed systems, enabling reliable coordination among nodes despite failures and network issues. In the next section, we'll explore patterns for building resilient distributed systems.</p>
 <h2 id="distributed-data-patterns"><a class="header" href="#distributed-data-patterns">Distributed Data Patterns</a></h2>
-<p>In distributed systems, data management is a critical concern. Let’s explore some common patterns for managing data across multiple nodes.</p>
+<p>In distributed systems, data management is a critical concern. Let's explore some common patterns for managing data across multiple nodes.</p>
 <h3 id="data-partitioning"><a class="header" href="#data-partitioning">Data Partitioning</a></h3>
 <p>Partitioning (or sharding) is the process of dividing data across multiple nodes:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2063,7 +2070,7 @@ impl ConsistentHashShardManager {
             node.put(key, value);
             Ok(())
         } else {
-            Err("No node available for key".to_string())
+            Err(&quot;No node available for key&quot;.to_string())
         }
     }
 
@@ -2078,19 +2085,19 @@ fn distributed_kv_example() {
     let mut shard_manager = ConsistentHashShardManager::new();
 
     // Add nodes
-    shard_manager.add_node("node1");
-    shard_manager.add_node("node2");
-    shard_manager.add_node("node3");
+    shard_manager.add_node(&quot;node1&quot;);
+    shard_manager.add_node(&quot;node2&quot;);
+    shard_manager.add_node(&quot;node3&quot;);
 
     // Store data
-    shard_manager.put("user:1001", "Alice").unwrap();
-    shard_manager.put("user:1002", "Bob").unwrap();
-    shard_manager.put("user:1003", "Charlie").unwrap();
+    shard_manager.put(&quot;user:1001&quot;, &quot;Alice&quot;).unwrap();
+    shard_manager.put(&quot;user:1002&quot;, &quot;Bob&quot;).unwrap();
+    shard_manager.put(&quot;user:1003&quot;, &quot;Charlie&quot;).unwrap();
 
     // Retrieve data
-    println!("User 1001: {:?}", shard_manager.get("user:1001"));
-    println!("User 1002: {:?}", shard_manager.get("user:1002"));
-    println!("User 1003: {:?}", shard_manager.get("user:1003"));
+    println!(&quot;User 1001: {:?}&quot;, shard_manager.get(&quot;user:1001&quot;));
+    println!(&quot;User 1002: {:?}&quot;, shard_manager.get(&quot;user:1002&quot;));
+    println!(&quot;User 1003: {:?}&quot;, shard_manager.get(&quot;user:1003&quot;));
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="replication"><a class="header" href="#replication">Replication</a></h3>
@@ -2184,20 +2191,20 @@ impl ReplicatedKVStore {
 // Example usage
 async fn replicated_kv_example() {
     let mut store = ReplicatedKVStore::new(
-        "primary",
-        vec!["replica1", "replica2"],
+        &quot;primary&quot;,
+        vec![&quot;replica1&quot;, &quot;replica2&quot;],
         ReplicationMode::Asynchronous,
     );
 
     // Write data
-    store.put("key1", "value1").await.unwrap();
+    store.put(&quot;key1&quot;, &quot;value1&quot;).await.unwrap();
 
     // For async replication, give some time for replication to complete
     sleep(Duration::from_millis(100)).await;
 
     // Read data
-    println!("Key1 from primary: {:?}", store.get("key1"));
-    println!("Key1 from any: {:?}", store.get_from_any("key1"));
+    println!(&quot;Key1 from primary: {:?}&quot;, store.get(&quot;key1&quot;));
+    println!(&quot;Key1 from any: {:?}&quot;, store.get_from_any(&quot;key1&quot;));
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="distributed-caching"><a class="header" href="#distributed-caching">Distributed Caching</a></h3>
@@ -2304,14 +2311,14 @@ fn distributed_cache_example() {
     cache.add_node();
 
     // Cache data
-    cache.put("user:1001", "Alice");
+    cache.put(&quot;user:1001&quot;, &quot;Alice&quot;);
 
     // Retrieve from cache
-    println!("User 1001: {:?}", cache.get("user:1001"));
+    println!(&quot;User 1001: {:?}&quot;, cache.get(&quot;user:1001&quot;));
 
     // Invalidate cache
-    cache.invalidate("user:1001");
-    println!("User 1001 after invalidation: {:?}", cache.get("user:1001"));
+    cache.invalidate(&quot;user:1001&quot;);
+    println!(&quot;User 1001 after invalidation: {:?}&quot;, cache.get(&quot;user:1001&quot;));
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="conflict-resolution"><a class="header" href="#conflict-resolution">Conflict Resolution</a></h3>
@@ -2474,37 +2481,37 @@ impl ConflictAwareNode {
 
 // Example usage
 fn conflict_resolution_example() {
-    let mut node1 = ConflictAwareNode::new("node1");
-    let mut node2 = ConflictAwareNode::new("node2");
+    let mut node1 = ConflictAwareNode::new(&quot;node1&quot;);
+    let mut node2 = ConflictAwareNode::new(&quot;node2&quot;);
 
     // Initial writes
-    node1.put("key1", "value1-from-node1");
-    node2.put("key2", "value2-from-node2");
+    node1.put(&quot;key1&quot;, &quot;value1-from-node1&quot;);
+    node2.put(&quot;key2&quot;, &quot;value2-from-node2&quot;);
 
     // Sync nodes
     node1.merge(&amp;node2);
     node2.merge(&amp;node1);
 
     // Both nodes should have both keys
-    println!("Node1 - key1: {:?}, key2: {:?}", node1.get("key1"), node1.get("key2"));
-    println!("Node2 - key1: {:?}, key2: {:?}", node2.get("key1"), node2.get("key2"));
+    println!(&quot;Node1 - key1: {:?}, key2: {:?}&quot;, node1.get(&quot;key1&quot;), node1.get(&quot;key2&quot;));
+    println!(&quot;Node2 - key1: {:?}, key2: {:?}&quot;, node2.get(&quot;key1&quot;), node2.get(&quot;key2&quot;));
 
     // Concurrent updates to same key
-    node1.put("key3", "value3-from-node1");
-    node2.put("key3", "value3-from-node2");
+    node1.put(&quot;key3&quot;, &quot;value3-from-node1&quot;);
+    node2.put(&quot;key3&quot;, &quot;value3-from-node2&quot;);
 
     // Merge again - will use timestamp to resolve
     node1.merge(&amp;node2);
     node2.merge(&amp;node1);
 
     // Both should converge to the same value
-    println!("Node1 - key3: {:?}", node1.get("key3"));
-    println!("Node2 - key3: {:?}", node2.get("key3"));
+    println!(&quot;Node1 - key3: {:?}&quot;, node1.get(&quot;key3&quot;));
+    println!(&quot;Node2 - key3: {:?}&quot;, node2.get(&quot;key3&quot;));
 }
 <span class="boring">}</span></code></pre></pre>
-<p>These distributed data patterns provide the foundation for building scalable and resilient distributed systems. In the next section, we’ll explore how to handle failures and build fault-tolerant systems.</p>
+<p>These distributed data patterns provide the foundation for building scalable and resilient distributed systems. In the next section, we'll explore how to handle failures and build fault-tolerant systems.</p>
 <h2 id="fault-tolerance-in-distributed-systems"><a class="header" href="#fault-tolerance-in-distributed-systems">Fault Tolerance in Distributed Systems</a></h2>
-<p>A key aspect of distributed systems is their ability to handle failures gracefully. In this section, we’ll explore patterns and techniques for building fault-tolerant systems.</p>
+<p>A key aspect of distributed systems is their ability to handle failures gracefully. In this section, we'll explore patterns and techniques for building fault-tolerant systems.</p>
 <h3 id="circuit-breakers"><a class="header" href="#circuit-breakers">Circuit Breakers</a></h3>
 <p>The circuit breaker pattern helps prevent cascading failures when a dependency is experiencing issues:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2605,7 +2612,7 @@ impl CircuitBreaker {
         if !self.is_closed() {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::Other,
-                "Circuit is open",
+                &quot;Circuit is open&quot;,
             ).into());
         }
 
@@ -2630,7 +2637,7 @@ impl CircuitBreaker {
         if !self.is_closed() {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::Other,
-                "Circuit is open",
+                &quot;Circuit is open&quot;,
             ).into());
         }
 
@@ -2663,18 +2670,18 @@ async fn circuit_breaker_example() {
             breaker.execute_async(|| async {
                 // Simulate an operation that sometimes fails
                 if i % 4 == 0 || i % 4 == 1 {
-                    println!("Call {} succeeded", i);
-                    Ok(format!("Result {}", i))
+                    println!(&quot;Call {} succeeded&quot;, i);
+                    Ok(format!(&quot;Result {}&quot;, i))
                 } else {
-                    println!("Call {} failed", i);
-                    Err(std::io::Error::new(std::io::ErrorKind::Other, "Simulated failure"))
+                    println!(&quot;Call {} failed&quot;, i);
+                    Err(std::io::Error::new(std::io::ErrorKind::Other, &quot;Simulated failure&quot;))
                 }
             }).await
         };
 
         match result {
-            Ok(val) =&gt; println!("Got result: {}", val),
-            Err(e) =&gt; println!("Got error: {:?}", e),
+            Ok(val) =&gt; println!(&quot;Got result: {}&quot;, val),
+            Err(e) =&gt; println!(&quot;Got error: {:?}&quot;, e),
         }
 
         sleep(Duration::from_millis(500)).await;
@@ -2720,7 +2727,7 @@ impl Bulkhead {
                 // Return an error if we can't acquire a permit
                 Err(Box::new(std::io::Error::new(
                     std::io::ErrorKind::Other,
-                    format!("Bulkhead is full: {:?}", e),
+                    format!(&quot;Bulkhead is full: {:?}&quot;, e),
                 )))
             }
         }
@@ -2738,26 +2745,26 @@ async fn bulkhead_example() {
         api_bulkhead: Arc&lt;Bulkhead&gt;,
         request_id: u32,
     ) -&gt; Result&lt;String, Box&lt;dyn std::error::Error&gt;&gt; {
-        println!("Request {} started", request_id);
+        println!(&quot;Request {} started&quot;, request_id);
 
         // Access database with bulkhead protection
         let db_result = db_bulkhead.execute(|| async {
-            println!("Request {} accessing database", request_id);
+            println!(&quot;Request {} accessing database&quot;, request_id);
             // Simulate database work
             sleep(Duration::from_millis(100)).await;
-            Ok::&lt;_, Box&lt;dyn std::error::Error&gt;&gt;("DB result")
+            Ok::&lt;_, Box&lt;dyn std::error::Error&gt;&gt;(&quot;DB result&quot;)
         }).await?;
 
         // Access API with bulkhead protection
         let api_result = api_bulkhead.execute(|| async {
-            println!("Request {} calling API", request_id);
+            println!(&quot;Request {} calling API&quot;, request_id);
             // Simulate API call
             sleep(Duration::from_millis(200)).await;
-            Ok::&lt;_, Box&lt;dyn std::error::Error&gt;&gt;("API result")
+            Ok::&lt;_, Box&lt;dyn std::error::Error&gt;&gt;(&quot;API result&quot;)
         }).await?;
 
-        println!("Request {} completed", request_id);
-        Ok(format!("Combined result: {} and {}", db_result, api_result))
+        println!(&quot;Request {} completed&quot;, request_id);
+        Ok(format!(&quot;Combined result: {} and {}&quot;, db_result, api_result))
     }
 
     // Process multiple concurrent requests
@@ -2768,8 +2775,8 @@ async fn bulkhead_example() {
 
         handles.push(tokio::spawn(async move {
             match handle_request(db_bulkhead, api_bulkhead, i).await {
-                Ok(result) =&gt; println!("Request {}: {}", i, result),
-                Err(e) =&gt; println!("Request {} failed: {}", i, e),
+                Ok(result) =&gt; println!(&quot;Request {}: {}&quot;, i, result),
+                Err(e) =&gt; println!(&quot;Request {} failed: {}&quot;, i, e),
             }
         }));
     }
@@ -2814,7 +2821,7 @@ where
                     return Err(err);
                 }
 
-                println!("Operation failed, retrying in {:?} (attempt {}/{}): {:?}",
+                println!(&quot;Operation failed, retrying in {:?} (attempt {}/{}): {:?}&quot;,
                          backoff, attempts, retries, err);
 
                 // Add jitter to prevent thundering herd
@@ -2844,11 +2851,11 @@ async fn retry_example() {
             unsafe {
                 ATTEMPTS += 1;
                 if ATTEMPTS &lt;= 3 {
-                    println!("Attempt {} failed", ATTEMPTS);
-                    Err("Transient error")
+                    println!(&quot;Attempt {} failed&quot;, ATTEMPTS);
+                    Err(&quot;Transient error&quot;)
                 } else {
-                    println!("Attempt {} succeeded", ATTEMPTS);
-                    Ok::&lt;_, &amp;str&gt;("Success!")
+                    println!(&quot;Attempt {} succeeded&quot;, ATTEMPTS);
+                    Ok::&lt;_, &amp;str&gt;(&quot;Success!&quot;)
                 }
             }
         },
@@ -2858,7 +2865,7 @@ async fn retry_example() {
         true,                             // Use jitter
     ).await;
 
-    println!("Final result: {:?}", result);
+    println!(&quot;Final result: {:?}&quot;, result);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="timeouts"><a class="header" href="#timeouts">Timeouts</a></h3>
@@ -2879,7 +2886,7 @@ where
         Ok(result) =&gt; result.map_err(|e| Box::new(e) as Box&lt;dyn std::error::Error&gt;),
         Err(_) =&gt; Err(Box::new(std::io::Error::new(
             std::io::ErrorKind::TimedOut,
-            "Operation timed out",
+            &quot;Operation timed out&quot;,
         ))),
     }
 }
@@ -2891,22 +2898,22 @@ async fn timeout_example() {
         Duration::from_secs(1),
         async {
             sleep(Duration::from_millis(500)).await;
-            Ok::&lt;_, std::io::Error&gt;("Fast operation completed")
+            Ok::&lt;_, std::io::Error&gt;(&quot;Fast operation completed&quot;)
         },
     ).await;
 
-    println!("Fast operation result: {:?}", fast_result);
+    println!(&quot;Fast operation result: {:?}&quot;, fast_result);
 
     // A function that takes too long
     let slow_result = with_timeout(
         Duration::from_secs(1),
         async {
             sleep(Duration::from_secs(2)).await;
-            Ok::&lt;_, std::io::Error&gt;("Slow operation completed")
+            Ok::&lt;_, std::io::Error&gt;(&quot;Slow operation completed&quot;)
         },
     ).await;
 
-    println!("Slow operation result: {:?}", slow_result);
+    println!(&quot;Slow operation result: {:?}&quot;, slow_result);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="health-checks-and-self-healing"><a class="header" href="#health-checks-and-self-healing">Health Checks and Self-Healing</a></h3>
@@ -2990,10 +2997,10 @@ impl HealthMonitor {
 
             match status {
                 HealthStatus::Healthy =&gt; {
-                    println!("Check {} is healthy", check.name);
+                    println!(&quot;Check {} is healthy&quot;, check.name);
                 }
                 HealthStatus::Degraded(msg) =&gt; {
-                    println!("Check {} is degraded: {}", check.name, msg);
+                    println!(&quot;Check {} is degraded: {}&quot;, check.name, msg);
                     all_healthy = false;
 
                     // Run remediation actions
@@ -3002,7 +3009,7 @@ impl HealthMonitor {
                     }
                 }
                 HealthStatus::Unhealthy(msg) =&gt; {
-                    println!("Check {} is unhealthy: {}", check.name, msg);
+                    println!(&quot;Check {} is unhealthy: {}&quot;, check.name, msg);
                     all_healthy = false;
 
                     // Run remediation actions
@@ -3029,21 +3036,21 @@ async fn health_monitor_example() {
     let mut monitor = HealthMonitor::new();
 
     // Add some health checks
-    monitor.add_check(HealthCheck::new("database", Duration::from_secs(5), || {
+    monitor.add_check(HealthCheck::new(&quot;database&quot;, Duration::from_secs(5), || {
         // Simulate a database check
         if rand::thread_rng().gen_bool(0.8) {
             HealthStatus::Healthy
         } else {
-            HealthStatus::Unhealthy("Database connection failed".to_string())
+            HealthStatus::Unhealthy(&quot;Database connection failed&quot;.to_string())
         }
     }));
 
-    monitor.add_check(HealthCheck::new("api", Duration::from_secs(10), || {
+    monitor.add_check(HealthCheck::new(&quot;api&quot;, Duration::from_secs(10), || {
         // Simulate an API check
         if rand::thread_rng().gen_bool(0.9) {
             HealthStatus::Healthy
         } else {
-            HealthStatus::Degraded("API response time degraded".to_string())
+            HealthStatus::Degraded(&quot;API response time degraded&quot;.to_string())
         }
     }));
 
@@ -3051,11 +3058,11 @@ async fn health_monitor_example() {
     monitor.add_remediation(|check_name, status| {
         match status {
             HealthStatus::Degraded(_) =&gt; {
-                println!("REMEDIATION: Taking corrective action for degraded check {}", check_name);
+                println!(&quot;REMEDIATION: Taking corrective action for degraded check {}&quot;, check_name);
                 // In a real system, this might restart a service, scale up resources, etc.
             }
             HealthStatus::Unhealthy(_) =&gt; {
-                println!("REMEDIATION: Taking corrective action for unhealthy check {}", check_name);
+                println!(&quot;REMEDIATION: Taking corrective action for unhealthy check {}&quot;, check_name);
                 // In a real system, this might restart a service, fail over to backup, etc.
             }
             _ =&gt; {}
@@ -3071,9 +3078,9 @@ async fn health_monitor_example() {
     sleep(Duration::from_secs(30)).await;
 }
 <span class="boring">}</span></code></pre></pre>
-<p>By implementing these fault tolerance patterns, you can build distributed systems that are resilient to various types of failures. In the next section, we’ll explore a complete distributed system example that combines many of the concepts we’ve covered.</p>
+<p>By implementing these fault tolerance patterns, you can build distributed systems that are resilient to various types of failures. In the next section, we'll explore a complete distributed system example that combines many of the concepts we've covered.</p>
 <h2 id="project-building-a-distributed-key-value-store"><a class="header" href="#project-building-a-distributed-key-value-store">Project: Building a Distributed Key-Value Store</a></h2>
-<p>Let’s build a simple distributed key-value store that incorporates many of the concepts we’ve discussed in this chapter.</p>
+<p>Let's build a simple distributed key-value store that incorporates many of the concepts we've discussed in this chapter.</p>
 <h3 id="project-requirements"><a class="header" href="#project-requirements">Project Requirements</a></h3>
 <p>Our distributed key-value store should have the following features:</p>
 <ol>
@@ -3084,7 +3091,7 @@ async fn health_monitor_example() {
 <li>Basic fault tolerance mechanisms</li>
 </ol>
 <h3 id="implementation"><a class="header" href="#implementation">Implementation</a></h3>
-<p>First, let’s define the core data structures:</p>
+<p>First, let's define the core data structures:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::HashMap;
@@ -3268,7 +3275,7 @@ impl StorageNode {
         let replication_factor = self.replication_factor;
 
         // Define the API routes
-        let get_route = warp::path!("kv" / String)
+        let get_route = warp::path!(&quot;kv&quot; / String)
             .and(warp::get())
             .and(with_store(store.clone()))
             .and(with_partitioner(partitioner.clone()))
@@ -3276,7 +3283,7 @@ impl StorageNode {
                 handle_get(key, store, partitioner)
             });
 
-        let put_route = warp::path!("kv" / String)
+        let put_route = warp::path!(&quot;kv&quot; / String)
             .and(warp::put())
             .and(warp::body::json())
             .and(with_store(store.clone()))
@@ -3288,7 +3295,7 @@ impl StorageNode {
                 handle_put(key, value.to_string(), store, partitioner, cluster, node_info, replication_factor)
             });
 
-        let delete_route = warp::path!("kv" / String)
+        let delete_route = warp::path!(&quot;kv&quot; / String)
             .and(warp::delete())
             .and(with_store(store.clone()))
             .and(with_partitioner(partitioner.clone()))
@@ -3302,7 +3309,7 @@ impl StorageNode {
         let routes = get_route.or(put_route).or(delete_route);
 
         // Start the server
-        println!("Starting node {} on {}:{}", self.info.id, self.info.host, self.info.port);
+        println!(&quot;Starting node {} on {}:{}&quot;, self.info.id, self.info.host, self.info.port);
         warp::serve(routes)
             .run(([127, 0, 0, 1], self.info.port))
             .await;
@@ -3348,11 +3355,11 @@ async fn handle_get(
         Some(node) =&gt; {
             let store = store.lock().unwrap();
             match store.get(&amp;key) {
-                Some(value) =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ "value": value }))),
-                None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ "error": "Key not found" }))),
+                Some(value) =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ &quot;value&quot;: value }))),
+                None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ &quot;error&quot;: &quot;Key not found&quot; }))),
             }
         }
-        None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ "error": "No node available for key" }))),
+        None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ &quot;error&quot;: &quot;No node available for key&quot; }))),
     }
 }
 
@@ -3388,12 +3395,12 @@ async fn handle_put(
             // Replicate to other nodes
             for replica in replicas {
                 // In a real system, we'd send the replication message to the replica
-                println!("Replicating key {} to node {}", key, replica.id);
+                println!(&quot;Replicating key {} to node {}&quot;, key, replica.id);
             }
 
-            Ok(warp::reply::json(&amp;serde_json::json!({ "success": true })))
+            Ok(warp::reply::json(&amp;serde_json::json!({ &quot;success&quot;: true })))
         }
-        None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ "error": "No node available for key" }))),
+        None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ &quot;error&quot;: &quot;No node available for key&quot; }))),
     }
 }
 
@@ -3428,21 +3435,21 @@ async fn handle_delete(
             // Propagate delete to replicas
             for replica in replicas {
                 // In a real system, we'd send the delete message to the replica
-                println!("Propagating delete of key {} to node {}", key, replica.id);
+                println!(&quot;Propagating delete of key {} to node {}&quot;, key, replica.id);
             }
 
-            Ok(warp::reply::json(&amp;serde_json::json!({ "success": success })))
+            Ok(warp::reply::json(&amp;serde_json::json!({ &quot;success&quot;: success })))
         }
-        None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ "error": "No node available for key" }))),
+        None =&gt; Ok(warp::reply::json(&amp;serde_json::json!({ &quot;error&quot;: &quot;No node available for key&quot; }))),
     }
 }
 
 // Start the distributed key-value store
 async fn run_distributed_kv_store() {
     // Create a cluster of nodes
-    let node1 = StorageNode::new("node1", "127.0.0.1", 3001, 2);
-    let node2 = StorageNode::new("node2", "127.0.0.1", 3002, 2);
-    let node3 = StorageNode::new("node3", "127.0.0.1", 3003, 2);
+    let node1 = StorageNode::new(&quot;node1&quot;, &quot;127.0.0.1&quot;, 3001, 2);
+    let node2 = StorageNode::new(&quot;node2&quot;, &quot;127.0.0.1&quot;, 3002, 2);
+    let node3 = StorageNode::new(&quot;node3&quot;, &quot;127.0.0.1&quot;, 3003, 2);
 
     // Start each node in its own task
     tokio::spawn(async move {
@@ -3468,7 +3475,7 @@ async fn run_distributed_kv_store() {
 <h3 id="using-the-distributed-key-value-store"><a class="header" href="#using-the-distributed-key-value-store">Using the Distributed Key-Value Store</a></h3>
 <p>Once running, you can interact with the system using HTTP requests:</p>
 <pre><code class="language-bash"># Store a value
-curl -X PUT http://localhost:3001/kv/mykey -H "Content-Type: application/json" -d '"myvalue"'
+curl -X PUT http://localhost:3001/kv/mykey -H &quot;Content-Type: application/json&quot; -d '&quot;myvalue&quot;'
 
 # Retrieve a value
 curl -X GET http://localhost:3001/kv/mykey
@@ -3489,7 +3496,7 @@ curl -X DELETE http://localhost:3001/kv/mykey
 <li><strong>Authentication and Authorization</strong>: Secure the API</li>
 </ol>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored the fundamental concepts and patterns for building distributed systems with Rust. We’ve covered:</p>
+<p>In this chapter, we've explored the fundamental concepts and patterns for building distributed systems with Rust. We've covered:</p>
 <ol>
 <li>
 <p><strong>Distributed Systems Fundamentals</strong>: Understanding the key challenges like network unreliability, partial failures, and the CAP theorem.</p>
@@ -3513,7 +3520,7 @@ curl -X DELETE http://localhost:3001/kv/mykey
 <p><strong>A Complete Example</strong>: Putting it all together with a distributed key-value store.</p>
 </li>
 </ol>
-<p>Rust’s performance, safety, and concurrency features make it an excellent choice for distributed systems. While building production-grade distributed systems requires careful consideration of many factors, the concepts and patterns we’ve explored provide a solid foundation.</p>
+<p>Rust's performance, safety, and concurrency features make it an excellent choice for distributed systems. While building production-grade distributed systems requires careful consideration of many factors, the concepts and patterns we've explored provide a solid foundation.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>

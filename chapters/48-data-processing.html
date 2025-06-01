@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html" class="active"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,9 +184,9 @@
                     <main>
                         <h1 id="chapter-48-real-time-data-processing-system"><a class="header" href="#chapter-48-real-time-data-processing-system">Chapter 48: Real-Time Data Processing System</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>In today’s data-driven world, the ability to process and analyze information in real-time has become a critical competitive advantage across industries. From financial services monitoring market changes to e-commerce platforms tracking user behavior, or IoT networks processing sensor data—real-time data processing enables organizations to make faster, more informed decisions.</p>
-<p>In this chapter, we’ll build a complete real-time data processing system in Rust, leveraging the language’s performance, safety, and concurrency features. Our system, which we’ll call “RustStream,” will demonstrate how to collect, process, analyze, and visualize streaming data with minimal latency.</p>
-<p>By the end of this chapter, you’ll understand:</p>
+<p>In today's data-driven world, the ability to process and analyze information in real-time has become a critical competitive advantage across industries. From financial services monitoring market changes to e-commerce platforms tracking user behavior, or IoT networks processing sensor data—real-time data processing enables organizations to make faster, more informed decisions.</p>
+<p>In this chapter, we'll build a complete real-time data processing system in Rust, leveraging the language's performance, safety, and concurrency features. Our system, which we'll call &quot;RustStream,&quot; will demonstrate how to collect, process, analyze, and visualize streaming data with minimal latency.</p>
+<p>By the end of this chapter, you'll understand:</p>
 <ol>
 <li>The architecture of modern streaming data systems</li>
 <li>How to implement event sourcing and stream processing patterns</li>
@@ -210,9 +217,9 @@
 <li><strong>Dashboard</strong>: Visualizing real-time metrics and insights</li>
 <li><strong>Cluster Management</strong>: Coordinating distributed nodes for scalability and fault tolerance</li>
 </ol>
-<p>Let’s begin by exploring the fundamental concepts of event sourcing and stream processing, which form the theoretical foundation of our system.</p>
+<p>Let's begin by exploring the fundamental concepts of event sourcing and stream processing, which form the theoretical foundation of our system.</p>
 <h2 id="fundamentals-of-real-time-data-processing"><a class="header" href="#fundamentals-of-real-time-data-processing">Fundamentals of Real-Time Data Processing</a></h2>
-<p>Before diving into implementation, let’s establish a solid understanding of the key concepts and architectural patterns in real-time data processing.</p>
+<p>Before diving into implementation, let's establish a solid understanding of the key concepts and architectural patterns in real-time data processing.</p>
 <h3 id="event-sourcing"><a class="header" href="#event-sourcing">Event Sourcing</a></h3>
 <p>Event sourcing is a pattern where changes to application state are stored as a sequence of events. Instead of just storing the current state, we record each change as an immutable fact. This approach offers several advantages:</p>
 <ol>
@@ -258,11 +265,11 @@
 <li><strong>At-least-once</strong>: Events are never lost but might be processed multiple times</li>
 <li><strong>Exactly-once</strong>: Events are processed once and only once (the most challenging to implement)</li>
 </ul>
-<p>With these fundamental concepts in mind, let’s begin building our RustStream system, starting with the core event data model and processing engine.</p>
+<p>With these fundamental concepts in mind, let's begin building our RustStream system, starting with the core event data model and processing engine.</p>
 <h2 id="event-model-and-core-components"><a class="header" href="#event-model-and-core-components">Event Model and Core Components</a></h2>
-<p>Let’s start by designing the core data model for our stream processing system. In Rust, we’ll define flexible, efficient structures that can represent a wide variety of event types while maintaining strong typing where possible.</p>
+<p>Let's start by designing the core data model for our stream processing system. In Rust, we'll define flexible, efficient structures that can represent a wide variety of event types while maintaining strong typing where possible.</p>
 <h3 id="event-data-model"><a class="header" href="#event-data-model">Event Data Model</a></h3>
-<p>First, let’s define our event structure:</p>
+<p>First, let's define our event structure:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use chrono::{DateTime, Utc};
@@ -325,7 +332,7 @@ impl Event {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>This flexible event model allows us to represent diverse data types while maintaining serialization compatibility. Next, let’s define the interfaces for event sources and sinks:</p>
+<p>This flexible event model allows us to represent diverse data types while maintaining serialization compatibility. Next, let's define the interfaces for event sources and sinks:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use async_trait::async_trait;
@@ -334,19 +341,19 @@ use thiserror::Error;
 /// Errors that can occur in the event processing system
 #[derive(Debug, Error)]
 pub enum EventError {
-    #[error("I/O error: {0}")]
+    #[error(&quot;I/O error: {0}&quot;)]
     Io(#[from] std::io::Error),
 
-    #[error("Serialization error: {0}")]
+    #[error(&quot;Serialization error: {0}&quot;)]
     Serialization(String),
 
-    #[error("Connection error: {0}")]
+    #[error(&quot;Connection error: {0}&quot;)]
     Connection(String),
 
-    #[error("Processing error: {0}")]
+    #[error(&quot;Processing error: {0}&quot;)]
     Processing(String),
 
-    #[error("Timeout error")]
+    #[error(&quot;Timeout error&quot;)]
     Timeout,
 }
 
@@ -380,7 +387,7 @@ pub trait EventSink: Send + Sync {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="stream-processing-engine"><a class="header" href="#stream-processing-engine">Stream Processing Engine</a></h3>
-<p>Now let’s build the core stream processing engine that will orchestrate data flow through our system:</p>
+<p>Now let's build the core stream processing engine that will orchestrate data flow through our system:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use futures::stream::{self, Stream, StreamExt};
@@ -513,12 +520,12 @@ impl StreamEngine {
                         for sink in &amp;sinks {
                             let mut sink = sink.lock().await;
                             if let Err(e) = sink.write(&amp;event).await {
-                                eprintln!("Error writing to sink {}: {}", sink.name(), e);
+                                eprintln!(&quot;Error writing to sink {}: {}&quot;, sink.name(), e);
                             }
                         }
                     }
                     Err(e) =&gt; {
-                        eprintln!("Error in stream processing: {}", e);
+                        eprintln!(&quot;Error in stream processing: {}&quot;, e);
                     }
                 }
             }
@@ -527,7 +534,7 @@ impl StreamEngine {
             for sink in &amp;sinks {
                 let mut sink = sink.lock().await;
                 if let Err(e) = sink.flush().await {
-                    eprintln!("Error flushing sink {}: {}", sink.name(), e);
+                    eprintln!(&quot;Error flushing sink {}: {}&quot;, sink.name(), e);
                 }
             }
         });
@@ -553,7 +560,7 @@ impl StreamEngine {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="common-stream-operators"><a class="header" href="#common-stream-operators">Common Stream Operators</a></h3>
-<p>Let’s implement some common stream operators that form the building blocks of our processing pipelines:</p>
+<p>Let's implement some common stream operators that form the building blocks of our processing pipelines:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Filters events based on a predicate
@@ -684,20 +691,20 @@ impl Operator for WindowOperator {
                                     // Create a window event containing all events
                                     if !events_to_emit.is_empty() {
                                         let window_event = Event::new(
-                                            "window",
-                                            "stream_engine",
+                                            &quot;window&quot;,
+                                            &quot;stream_engine&quot;,
                                             EventData::Array(
                                                 events_to_emit
                                                     .into_iter()
                                                     .map(|e| EventData::Object({
                                                         let mut map = HashMap::new();
-                                                        map.insert("event".to_string(), EventData::Object({
+                                                        map.insert(&quot;event&quot;.to_string(), EventData::Object({
                                                             let mut inner_map = HashMap::new();
-                                                            inner_map.insert("id".to_string(), EventData::String(e.id.to_string()));
-                                                            inner_map.insert("type".to_string(), EventData::String(e.event_type));
-                                                            inner_map.insert("source".to_string(), EventData::String(e.source));
-                                                            inner_map.insert("timestamp".to_string(), EventData::String(e.timestamp.to_rfc3339()));
-                                                            inner_map.insert("data".to_string(), e.data);
+                                                            inner_map.insert(&quot;id&quot;.to_string(), EventData::String(e.id.to_string()));
+                                                            inner_map.insert(&quot;type&quot;.to_string(), EventData::String(e.event_type));
+                                                            inner_map.insert(&quot;source&quot;.to_string(), EventData::String(e.source));
+                                                            inner_map.insert(&quot;timestamp&quot;.to_string(), EventData::String(e.timestamp.to_rfc3339()));
+                                                            inner_map.insert(&quot;data&quot;.to_string(), e.data);
                                                             inner_map
                                                         }));
                                                         map
@@ -730,20 +737,20 @@ impl Operator for WindowOperator {
             // Emit any remaining events in the window
             if !window.is_empty() {
                 let window_event = Event::new(
-                    "window",
-                    "stream_engine",
+                    &quot;window&quot;,
+                    &quot;stream_engine&quot;,
                     EventData::Array(
                         window
                             .into_iter()
                             .map(|e| EventData::Object({
                                 let mut map = HashMap::new();
-                                map.insert("event".to_string(), EventData::Object({
+                                map.insert(&quot;event&quot;.to_string(), EventData::Object({
                                     let mut inner_map = HashMap::new();
-                                    inner_map.insert("id".to_string(), EventData::String(e.id.to_string()));
-                                    inner_map.insert("type".to_string(), EventData::String(e.event_type));
-                                    inner_map.insert("source".to_string(), EventData::String(e.source));
-                                    inner_map.insert("timestamp".to_string(), EventData::String(e.timestamp.to_rfc3339()));
-                                    inner_map.insert("data".to_string(), e.data);
+                                    inner_map.insert(&quot;id&quot;.to_string(), EventData::String(e.id.to_string()));
+                                    inner_map.insert(&quot;type&quot;.to_string(), EventData::String(e.event_type));
+                                    inner_map.insert(&quot;source&quot;.to_string(), EventData::String(e.source));
+                                    inner_map.insert(&quot;timestamp&quot;.to_string(), EventData::String(e.timestamp.to_rfc3339()));
+                                    inner_map.insert(&quot;data&quot;.to_string(), e.data);
                                     inner_map
                                 }));
                                 map
@@ -761,11 +768,11 @@ impl Operator for WindowOperator {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>With these core components in place, we have the foundation of our stream processing system. Let’s now implement some concrete event sources and sinks that will allow our system to connect to the outside world.</p>
+<p>With these core components in place, we have the foundation of our stream processing system. Let's now implement some concrete event sources and sinks that will allow our system to connect to the outside world.</p>
 <h2 id="event-sources-and-sinks"><a class="header" href="#event-sources-and-sinks">Event Sources and Sinks</a></h2>
-<p>Now that we have our core stream processing engine, let’s implement concrete source and sink adapters to connect our system to the outside world.</p>
+<p>Now that we have our core stream processing engine, let's implement concrete source and sink adapters to connect our system to the outside world.</p>
 <h3 id="file-based-sources-and-sinks"><a class="header" href="#file-based-sources-and-sinks">File-based Sources and Sinks</a></h3>
-<p>Let’s start with file-based implementations that are useful for testing and development:</p>
+<p>Let's start with file-based implementations that are useful for testing and development:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::{File, OpenOptions};
@@ -881,7 +888,7 @@ impl EventSink for FileSink {
         // Use tokio::task::spawn_blocking for file I/O
         let mut writer = &amp;mut self.writer;
         let result = tokio::task::spawn_blocking(move || {
-            writeln!(writer, "{}", json)?;
+            writeln!(writer, &quot;{}&quot;, json)?;
             Ok(())
         }).await;
 
@@ -906,7 +913,7 @@ impl EventSink for FileSink {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="network-sources-and-sinks"><a class="header" href="#network-sources-and-sinks">Network Sources and Sinks</a></h3>
-<p>Let’s implement TCP-based sources and sinks for network communication:</p>
+<p>Let's implement TCP-based sources and sinks for network communication:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader as TokioBufReader};
@@ -927,13 +934,13 @@ impl TcpSource {
         let socket_addr: SocketAddr = addr
             .as_ref()
             .parse()
-            .map_err(|e| EventError::Connection(format!("Invalid address: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Invalid address: {}&quot;, e)))?;
 
         let listener = TcpListener::bind(socket_addr)
             .await
-            .map_err(|e| EventError::Connection(format!("Failed to bind: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Failed to bind: {}&quot;, e)))?;
 
-        println!("TCP source listening on {}", socket_addr);
+        println!(&quot;TCP source listening on {}&quot;, socket_addr);
 
         // Channel for events
         let (tx, rx) = mpsc::channel(1000);
@@ -943,7 +950,7 @@ impl TcpSource {
             loop {
                 match listener.accept().await {
                     Ok((socket, peer_addr)) =&gt; {
-                        println!("New connection from {}", peer_addr);
+                        println!(&quot;New connection from {}&quot;, peer_addr);
                         let tx = tx.clone();
 
                         // Handle this connection
@@ -952,7 +959,7 @@ impl TcpSource {
                         });
                     }
                     Err(e) =&gt; {
-                        eprintln!("Error accepting connection: {}", e);
+                        eprintln!(&quot;Error accepting connection: {}&quot;, e);
                     }
                 }
             }
@@ -1040,13 +1047,13 @@ impl TcpSink {
         let socket_addr: SocketAddr = addr
             .as_ref()
             .parse()
-            .map_err(|e| EventError::Connection(format!("Invalid address: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Invalid address: {}&quot;, e)))?;
 
         let stream = TcpStream::connect(socket_addr)
             .await
-            .map_err(|e| EventError::Connection(format!("Failed to connect: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Failed to connect: {}&quot;, e)))?;
 
-        println!("Connected to TCP server at {}", socket_addr);
+        println!(&quot;Connected to TCP server at {}&quot;, socket_addr);
 
         Ok(Self {
             name: name.to_string(),
@@ -1083,7 +1090,7 @@ impl EventSink for TcpSink {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="kafka-integration"><a class="header" href="#kafka-integration">Kafka Integration</a></h3>
-<p>For production systems, Apache Kafka is a popular choice for event streaming. Let’s implement Kafka source and sink adapters:</p>
+<p>For production systems, Apache Kafka is a popular choice for event streaming. Let's implement Kafka source and sink adapters:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rdkafka::config::ClientConfig;
@@ -1108,18 +1115,18 @@ impl KafkaSource {
         group_id: &amp;str,
     ) -&gt; EventResult&lt;Self&gt; {
         let consumer: StreamConsumer = ClientConfig::new()
-            .set("bootstrap.servers", brokers)
-            .set("group.id", group_id)
-            .set("enable.auto.commit", "true")
-            .set("auto.offset.reset", "earliest")
+            .set(&quot;bootstrap.servers&quot;, brokers)
+            .set(&quot;group.id&quot;, group_id)
+            .set(&quot;enable.auto.commit&quot;, &quot;true&quot;)
+            .set(&quot;auto.offset.reset&quot;, &quot;earliest&quot;)
             .create()
-            .map_err(|e| EventError::Connection(format!("Kafka consumer error: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Kafka consumer error: {}&quot;, e)))?;
 
         consumer
             .subscribe(&amp;[topic])
-            .map_err(|e| EventError::Connection(format!("Kafka subscription error: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Kafka subscription error: {}&quot;, e)))?;
 
-        println!("Subscribed to Kafka topic: {}", topic);
+        println!(&quot;Subscribed to Kafka topic: {}&quot;, topic);
 
         Ok(Self {
             name: name.to_string(),
@@ -1143,14 +1150,14 @@ impl EventSource for KafkaSource {
                 if let Some(payload) = msg.payload() {
                     // Parse as JSON
                     let event: Event = serde_json::from_slice(payload)
-                        .map_err(|e| EventError::Serialization(format!("Kafka message parse error: {}", e)))?;
+                        .map_err(|e| EventError::Serialization(format!(&quot;Kafka message parse error: {}&quot;, e)))?;
 
                     Ok(Some(event))
                 } else {
-                    Err(EventError::Processing("Empty Kafka message".to_string()))
+                    Err(EventError::Processing(&quot;Empty Kafka message&quot;.to_string()))
                 }
             }
-            Err(e) =&gt; Err(EventError::Processing(format!("Kafka consumer error: {}", e))),
+            Err(e) =&gt; Err(EventError::Processing(format!(&quot;Kafka consumer error: {}&quot;, e))),
         }
     }
 
@@ -1171,12 +1178,12 @@ impl KafkaSink {
     /// Creates a new Kafka sink
     pub fn new(name: &amp;str, brokers: &amp;str, topic: &amp;str) -&gt; EventResult&lt;Self&gt; {
         let producer: FutureProducer = ClientConfig::new()
-            .set("bootstrap.servers", brokers)
-            .set("message.timeout.ms", "5000")
+            .set(&quot;bootstrap.servers&quot;, brokers)
+            .set(&quot;message.timeout.ms&quot;, &quot;5000&quot;)
             .create()
-            .map_err(|e| EventError::Connection(format!("Kafka producer error: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Kafka producer error: {}&quot;, e)))?;
 
-        println!("Connected to Kafka for topic: {}", topic);
+        println!(&quot;Connected to Kafka for topic: {}&quot;, topic);
 
         Ok(Self {
             name: name.to_string(),
@@ -1209,7 +1216,7 @@ impl EventSink for KafkaSink {
 
         match result {
             Ok(_) =&gt; Ok(()),
-            Err((e, _)) =&gt; Err(EventError::Processing(format!("Kafka send error: {}", e))),
+            Err((e, _)) =&gt; Err(EventError::Processing(format!(&quot;Kafka send error: {}&quot;, e))),
         }
     }
 
@@ -1220,7 +1227,7 @@ impl EventSink for KafkaSink {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="http-webhook-sink"><a class="header" href="#http-webhook-sink">HTTP Webhook Sink</a></h3>
-<p>Let’s also implement an HTTP webhook sink for sending events to web services:</p>
+<p>Let's also implement an HTTP webhook sink for sending events to web services:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use reqwest::{Client, StatusCode};
@@ -1273,13 +1280,13 @@ impl EventSink for WebhookSink {
             .json(event)
             .send()
             .await
-            .map_err(|e| EventError::Connection(format!("HTTP request failed: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;HTTP request failed: {}&quot;, e)))?;
 
         // Check status
         let status = response.status();
         if status != StatusCode::OK &amp;&amp; status != StatusCode::CREATED &amp;&amp; status != StatusCode::ACCEPTED {
             return Err(EventError::Processing(format!(
-                "HTTP request returned non-success status: {}", status
+                &quot;HTTP request returned non-success status: {}&quot;, status
             )));
         }
 
@@ -1292,11 +1299,11 @@ impl EventSink for WebhookSink {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>With these sources and sinks, our RustStream system can connect to various external systems, making it useful in real-world scenarios. In the next section, we’ll build the analytics engine that will process the streaming data to derive insights.</p>
+<p>With these sources and sinks, our RustStream system can connect to various external systems, making it useful in real-world scenarios. In the next section, we'll build the analytics engine that will process the streaming data to derive insights.</p>
 <h2 id="analytics-engine"><a class="header" href="#analytics-engine">Analytics Engine</a></h2>
-<p>With our core stream processing engine and adapters in place, let’s build a real-time analytics engine that can derive insights from streaming data. This will include metrics calculation, anomaly detection, and pattern recognition.</p>
+<p>With our core stream processing engine and adapters in place, let's build a real-time analytics engine that can derive insights from streaming data. This will include metrics calculation, anomaly detection, and pattern recognition.</p>
 <h3 id="metrics-and-aggregations"><a class="header" href="#metrics-and-aggregations">Metrics and Aggregations</a></h3>
-<p>First, let’s create a framework for calculating metrics over streaming data:</p>
+<p>First, let's create a framework for calculating metrics over streaming data:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::{HashMap, VecDeque};
@@ -1319,9 +1326,9 @@ pub enum MetricValue {
 impl fmt::Display for MetricValue {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
         match self {
-            MetricValue::Count(v) =&gt; write!(f, "{}", v),
-            MetricValue::Gauge(v) =&gt; write!(f, "{:.2}", v),
-            MetricValue::Timer(v) =&gt; write!(f, "{:.2}ms", v),
+            MetricValue::Count(v) =&gt; write!(f, &quot;{}&quot;, v),
+            MetricValue::Gauge(v) =&gt; write!(f, &quot;{:.2}&quot;, v),
+            MetricValue::Timer(v) =&gt; write!(f, &quot;{:.2}ms&quot;, v),
         }
     }
 }
@@ -1427,10 +1434,10 @@ impl MetricsRepository {
         tag_pairs.sort_by_key(|k| k.0);
 
         for (k, v) in tag_pairs {
-            parts.push(format!("{}={}", k, v));
+            parts.push(format!(&quot;{}={}&quot;, k, v));
         }
 
-        parts.join(";")
+        parts.join(&quot;;&quot;)
     }
 }
 
@@ -1555,7 +1562,7 @@ impl MetricCalculator for CountMetricCalculator {
 
         // Create metric
         vec![Metric::new(&amp;self.name, MetricValue::Count(1))
-            .with_tag("event_type", &amp;event.event_type)]
+            .with_tag(&quot;event_type&quot;, &amp;event.event_type)]
     }
 }
 
@@ -1568,12 +1575,12 @@ impl CountMetricCalculator {
         }
 
         // Try to extract from event type
-        if dimension == "event_type" {
+        if dimension == &quot;event_type&quot; {
             return Some(event.event_type.clone());
         }
 
         // Try to extract from event source
-        if dimension == "source" {
+        if dimension == &quot;source&quot; {
             return Some(event.source.clone());
         }
 
@@ -1637,7 +1644,7 @@ impl MetricCalculator for GaugeMetricCalculator {
 
             // Create metric
             vec![Metric::new(&amp;self.name, MetricValue::Gauge(value))
-                .with_tag("event_type", &amp;event.event_type)]
+                .with_tag(&quot;event_type&quot;, &amp;event.event_type)]
         } else {
             Vec::new()
         }
@@ -1645,7 +1652,7 @@ impl MetricCalculator for GaugeMetricCalculator {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="anomaly-detection"><a class="header" href="#anomaly-detection">Anomaly Detection</a></h3>
-<p>Now let’s implement an anomaly detection system that can identify unusual patterns in the data stream:</p>
+<p>Now let's implement an anomaly detection system that can identify unusual patterns in the data stream:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Types of anomaly detection algorithms
@@ -1838,12 +1845,12 @@ impl AnomalyDetectionService {
                 // Check all detectors
                 for detector in &amp;detectors {
                     if let Some(anomaly) = detector.check().await {
-                        println!("Anomaly detected: {:?}", anomaly);
+                        println!(&quot;Anomaly detected: {:?}&quot;, anomaly);
 
                         // Send alert if sink is configured
                         if let Some(sink) = &amp;alert_sink {
                             if let Err(e) = sink.send_alert(&amp;anomaly).await {
-                                eprintln!("Error sending alert: {}", e);
+                                eprintln!(&quot;Error sending alert: {}&quot;, e);
                             }
                         }
                     }
@@ -1863,7 +1870,7 @@ pub trait AlertSink: Send + Sync {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="pattern-recognition"><a class="header" href="#pattern-recognition">Pattern Recognition</a></h3>
-<p>Finally, let’s implement a simple pattern recognition system using the Complex Event Processing (CEP) approach:</p>
+<p>Finally, let's implement a simple pattern recognition system using the Complex Event Processing (CEP) approach:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// A pattern to match in the event stream
@@ -2111,7 +2118,7 @@ impl Operator for PatternMatchingOperator {
                     if !matches.is_empty() {
                         // In a real implementation, we would emit these as new events
                         for m in &amp;matches {
-                            println!("Pattern matched: {} with {} events", m.pattern_name, m.events.len());
+                            println!(&quot;Pattern matched: {} with {} events&quot;, m.pattern_name, m.events.len());
                         }
                     }
                 }
@@ -2124,11 +2131,11 @@ impl Operator for PatternMatchingOperator {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>With these components, our analytics engine can calculate metrics, detect anomalies, and recognize patterns in real-time data streams. This provides the foundation for deriving actionable insights from the data flowing through our system.</p>
-<p>In the next section, we’ll build an alerting system to notify users when important conditions are detected.</p>
+<p>In the next section, we'll build an alerting system to notify users when important conditions are detected.</p>
 <h2 id="alerting-system"><a class="header" href="#alerting-system">Alerting System</a></h2>
-<p>Now that our system can detect anomalies and recognize patterns, we need a way to alert users when significant events occur. Let’s build a flexible alerting system that can integrate with various notification channels.</p>
+<p>Now that our system can detect anomalies and recognize patterns, we need a way to alert users when significant events occur. Let's build a flexible alerting system that can integrate with various notification channels.</p>
 <h3 id="alert-model"><a class="header" href="#alert-model">Alert Model</a></h3>
-<p>First, let’s define our alert data model:</p>
+<p>First, let's define our alert data model:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fmt;
@@ -2149,10 +2156,10 @@ pub enum AlertSeverity {
 impl fmt::Display for AlertSeverity {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
         match self {
-            AlertSeverity::Info =&gt; write!(f, "INFO"),
-            AlertSeverity::Warning =&gt; write!(f, "WARNING"),
-            AlertSeverity::Error =&gt; write!(f, "ERROR"),
-            AlertSeverity::Critical =&gt; write!(f, "CRITICAL"),
+            AlertSeverity::Info =&gt; write!(f, &quot;INFO&quot;),
+            AlertSeverity::Warning =&gt; write!(f, &quot;WARNING&quot;),
+            AlertSeverity::Error =&gt; write!(f, &quot;ERROR&quot;),
+            AlertSeverity::Critical =&gt; write!(f, &quot;CRITICAL&quot;),
         }
     }
 }
@@ -2207,7 +2214,7 @@ impl Alert {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="alert-manager"><a class="header" href="#alert-manager">Alert Manager</a></h3>
-<p>Next, let’s create an alert manager to handle alert routing, deduplication, and throttling:</p>
+<p>Next, let's create an alert manager to handle alert routing, deduplication, and throttling:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Routes alerts to notification channels
@@ -2294,7 +2301,7 @@ impl AlertManager {
         // Send to all channels
         for channel in &amp;self.channels {
             if let Err(e) = channel.send(&amp;alert).await {
-                eprintln!("Error sending alert to channel {}: {}", channel.name(), e);
+                eprintln!(&quot;Error sending alert to channel {}: {}&quot;, channel.name(), e);
             }
         }
 
@@ -2303,7 +2310,7 @@ impl AlertManager {
 
     /// Generates a key for alert deduplication
     fn alert_key(&amp;self, alert: &amp;Alert) -&gt; String {
-        format!("{}:{}", alert.source, alert.title)
+        format!(&quot;{}:{}&quot;, alert.source, alert.title)
     }
 }
 
@@ -2324,13 +2331,13 @@ impl AlertSink for AnomalyAlertSink {
     async fn send_alert(&amp;self, anomaly: &amp;AnomalyEvent) -&gt; EventResult&lt;()&gt; {
         // Create an alert from the anomaly
         let alert = Alert::new(
-            &amp;format!("Anomaly detected in metric '{}'", anomaly.metric_name),
+            &amp;format!(&quot;Anomaly detected in metric '{}'&quot;, anomaly.metric_name),
             &amp;format!(
-                "The metric '{}' has an anomalous value of {}",
+                &quot;The metric '{}' has an anomalous value of {}&quot;,
                 anomaly.metric_name, anomaly.current_value
             ),
             AlertSeverity::Warning,
-            "anomaly_detector",
+            &quot;anomaly_detector&quot;,
         );
 
         // Send the alert
@@ -2340,7 +2347,7 @@ impl AlertSink for AnomalyAlertSink {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="notification-channels"><a class="header" href="#notification-channels">Notification Channels</a></h3>
-<p>Let’s implement several notification channels for different delivery methods:</p>
+<p>Let's implement several notification channels for different delivery methods:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Sends email notifications
@@ -2392,15 +2399,15 @@ impl NotificationChannel for EmailChannel {
         // In a real implementation, we would use an SMTP client
         // This is a simplified example
         println!(
-            "Sending email alert '{}' to {} recipients",
+            &quot;Sending email alert '{}' to {} recipients&quot;,
             alert.title,
             self.to_addresses.len()
         );
 
         // Create email content
-        let subject = format!("[{}] {}", alert.severity, alert.title);
+        let subject = format!(&quot;[{}] {}&quot;, alert.severity, alert.title);
         let body = format!(
-            "Alert: {}\nSeverity: {}\nTime: {}\nSource: {}\n\n{}",
+            &quot;Alert: {}\nSeverity: {}\nTime: {}\nSource: {}\n\n{}&quot;,
             alert.title, alert.severity, alert.timestamp, alert.source, alert.description
         );
 
@@ -2436,45 +2443,45 @@ impl NotificationChannel for SlackChannel {
     async fn send(&amp;self, alert: &amp;Alert) -&gt; EventResult&lt;()&gt; {
         // In a real implementation, we would use the Slack API
         // This is a simplified example
-        println!("Sending Slack alert: {}", alert.title);
+        println!(&quot;Sending Slack alert: {}&quot;, alert.title);
 
         // Create Slack message
         let emoji = match alert.severity {
-            AlertSeverity::Info =&gt; ":information_source:",
-            AlertSeverity::Warning =&gt; ":warning:",
-            AlertSeverity::Error =&gt; ":x:",
-            AlertSeverity::Critical =&gt; ":rotating_light:",
+            AlertSeverity::Info =&gt; &quot;:information_source:&quot;,
+            AlertSeverity::Warning =&gt; &quot;:warning:&quot;,
+            AlertSeverity::Error =&gt; &quot;:x:&quot;,
+            AlertSeverity::Critical =&gt; &quot;:rotating_light:&quot;,
         };
 
         let message = json!({
-            "text": format!("{} *{}*", emoji, alert.title),
-            "attachments": [{
-                "color": match alert.severity {
-                    AlertSeverity::Info =&gt; "#36a64f",
-                    AlertSeverity::Warning =&gt; "#ffcc00",
-                    AlertSeverity::Error =&gt; "#ff9900",
-                    AlertSeverity::Critical =&gt; "#ff0000",
+            &quot;text&quot;: format!(&quot;{} *{}*&quot;, emoji, alert.title),
+            &quot;attachments&quot;: [{
+                &quot;color&quot;: match alert.severity {
+                    AlertSeverity::Info =&gt; &quot;#36a64f&quot;,
+                    AlertSeverity::Warning =&gt; &quot;#ffcc00&quot;,
+                    AlertSeverity::Error =&gt; &quot;#ff9900&quot;,
+                    AlertSeverity::Critical =&gt; &quot;#ff0000&quot;,
                 },
-                "fields": [
+                &quot;fields&quot;: [
                     {
-                        "title": "Description",
-                        "value": alert.description,
-                        "short": false
+                        &quot;title&quot;: &quot;Description&quot;,
+                        &quot;value&quot;: alert.description,
+                        &quot;short&quot;: false
                     },
                     {
-                        "title": "Severity",
-                        "value": alert.severity.to_string(),
-                        "short": true
+                        &quot;title&quot;: &quot;Severity&quot;,
+                        &quot;value&quot;: alert.severity.to_string(),
+                        &quot;short&quot;: true
                     },
                     {
-                        "title": "Source",
-                        "value": alert.source,
-                        "short": true
+                        &quot;title&quot;: &quot;Source&quot;,
+                        &quot;value&quot;: alert.source,
+                        &quot;short&quot;: true
                     },
                     {
-                        "title": "Time",
-                        "value": alert.timestamp.to_rfc3339(),
-                        "short": true
+                        &quot;title&quot;: &quot;Time&quot;,
+                        &quot;value&quot;: alert.timestamp.to_rfc3339(),
+                        &quot;short&quot;: true
                     }
                 ]
             }]
@@ -2512,7 +2519,7 @@ impl NotificationChannel for LogFileChannel {
     async fn send(&amp;self, alert: &amp;Alert) -&gt; EventResult&lt;()&gt; {
         // Format the log entry
         let log_entry = format!(
-            "[{}] [{}] {}: {}\n",
+            &quot;[{}] [{}] {}: {}\n&quot;,
             alert.timestamp.to_rfc3339(),
             alert.severity,
             alert.source,
@@ -2534,7 +2541,7 @@ impl NotificationChannel for LogFileChannel {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="alert-rules"><a class="header" href="#alert-rules">Alert Rules</a></h3>
-<p>Finally, let’s create a rule-based system to generate alerts from events and metrics:</p>
+<p>Finally, let's create a rule-based system to generate alerts from events and metrics:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// A rule that generates alerts based on conditions
@@ -2716,7 +2723,7 @@ impl Operator for AlertRuleOperator {
                             // Send the alert
                             let mut manager = alert_manager.lock().await;
                             if let Err(e) = manager.send_alert(alert).await {
-                                eprintln!("Error sending alert: {}", e);
+                                eprintln!(&quot;Error sending alert: {}&quot;, e);
                             }
                         }
                     }
@@ -2730,11 +2737,11 @@ impl Operator for AlertRuleOperator {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>With this alerting system, our RustStream platform can notify users through various channels when important conditions are detected in the data stream. The rule-based approach allows for flexible alert definitions, while the alert manager provides deduplication and throttling to prevent alert fatigue.</p>
-<p>In the next section, we’ll build a dashboard to visualize the real-time data and analytics.</p>
+<p>In the next section, we'll build a dashboard to visualize the real-time data and analytics.</p>
 <h2 id="dashboard-and-visualization"><a class="header" href="#dashboard-and-visualization">Dashboard and Visualization</a></h2>
-<p>To make our real-time data processing system complete, we need a way to visualize the data and insights. Let’s create a web-based dashboard that provides real-time visualizations of metrics, alerts, and events.</p>
+<p>To make our real-time data processing system complete, we need a way to visualize the data and insights. Let's create a web-based dashboard that provides real-time visualizations of metrics, alerts, and events.</p>
 <h3 id="web-api"><a class="header" href="#web-api">Web API</a></h3>
-<p>First, let’s build a RESTful API that exposes our system’s data:</p>
+<p>First, let's build a RESTful API that exposes our system's data:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use actix_web::{web, App, HttpResponse, HttpServer, Responder};
@@ -2802,12 +2809,12 @@ pub async fn start_dashboard_api(
             .app_data(app_state.clone())
             .wrap(Logger::default())
             // API routes
-            .route("/api/metrics", web::get().to(get_metrics))
-            .route("/api/metrics/{name}", web::get().to(get_metric_by_name))
-            .route("/api/alerts", web::get().to(get_alerts))
-            .route("/api/events", web::get().to(get_events))
+            .route(&quot;/api/metrics&quot;, web::get().to(get_metrics))
+            .route(&quot;/api/metrics/{name}&quot;, web::get().to(get_metric_by_name))
+            .route(&quot;/api/alerts&quot;, web::get().to(get_alerts))
+            .route(&quot;/api/events&quot;, web::get().to(get_events))
             // Static files for the dashboard frontend
-            .service(actix_files::Files::new("/", "./dashboard/dist").index_file("index.html"))
+            .service(actix_files::Files::new(&quot;/&quot;, &quot;./dashboard/dist&quot;).index_file(&quot;index.html&quot;))
     })
     .bind(bind_address)?
     .run()
@@ -2823,7 +2830,7 @@ async fn get_metrics(state: web::Data&lt;AppState&gt;) -&gt; impl Responder {
             name: m.name.clone(),
             value: m.value.to_string(),
             tags: m.tags.clone(),
-            updated_at: format!("{:?}", m.updated_at.elapsed()),
+            updated_at: format!(&quot;{:?}&quot;, m.updated_at.elapsed()),
         })
         .collect();
 
@@ -2845,7 +2852,7 @@ async fn get_metric_by_name(
             name: m.name.clone(),
             value: m.value.to_string(),
             tags: m.tags.clone(),
-            updated_at: format!("{:?}", m.updated_at.elapsed()),
+            updated_at: format!(&quot;{:?}&quot;, m.updated_at.elapsed()),
         })
         .collect();
 
@@ -2884,7 +2891,7 @@ async fn get_events(state: web::Data&lt;AppState&gt;) -&gt; impl Responder {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="websocket-support"><a class="header" href="#websocket-support">WebSocket Support</a></h3>
-<p>To provide real-time updates to the dashboard, let’s add WebSocket support:</p>
+<p>To provide real-time updates to the dashboard, let's add WebSocket support:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use actix_web::{web, Error, HttpRequest, HttpResponse};
@@ -2930,7 +2937,7 @@ impl Actor for DashboardWebSocket {
                         name: m.name.clone(),
                         value: m.value.to_string(),
                         tags: m.tags.clone(),
-                        updated_at: format!("{:?}", m.updated_at.elapsed()),
+                        updated_at: format!(&quot;{:?}&quot;, m.updated_at.elapsed()),
                     })
                     .collect::&lt;Vec&lt;_&gt;&gt;()
             };
@@ -2964,11 +2971,11 @@ impl StreamHandler&lt;Result&lt;ws::Message, ws::ProtocolError&gt;&gt; for Dashb
                     match command {
                         DashboardCommand::Subscribe { topic } =&gt; {
                             // Handle subscription request
-                            ctx.text(format!("Subscribed to {}", topic));
+                            ctx.text(format!(&quot;Subscribed to {}&quot;, topic));
                         }
                         DashboardCommand::Unsubscribe { topic } =&gt; {
                             // Handle unsubscription request
-                            ctx.text(format!("Unsubscribed from {}", topic));
+                            ctx.text(format!(&quot;Unsubscribed from {}&quot;, topic));
                         }
                     }
                 }
@@ -2998,14 +3005,14 @@ impl DashboardWebSocket {
             }
 
             // Send ping
-            ctx.ping(b"");
+            ctx.ping(b&quot;&quot;);
         });
     }
 }
 
 /// Command sent from the dashboard client
 #[derive(Deserialize)]
-#[serde(tag = "type")]
+#[serde(tag = &quot;type&quot;)]
 enum DashboardCommand {
     /// Subscribe to a topic
     Subscribe {
@@ -3038,11 +3045,11 @@ async fn ws_dashboard(
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="frontend-dashboard"><a class="header" href="#frontend-dashboard">Frontend Dashboard</a></h3>
-<p>For the dashboard frontend, we’ll use a modern JavaScript framework. Here’s a simplified React-based dashboard component:</p>
+<p>For the dashboard frontend, we'll use a modern JavaScript framework. Here's a simplified React-based dashboard component:</p>
 <pre><code class="language-jsx">// Dashboard.jsx
-import React, { useState, useEffect } from "react";
-import { LineChart, BarChart, PieChart } from "./Charts";
-import { MetricsTable, AlertsTable, EventsTable } from "./Tables";
+import React, { useState, useEffect } from &quot;react&quot;;
+import { LineChart, BarChart, PieChart } from &quot;./Charts&quot;;
+import { MetricsTable, AlertsTable, EventsTable } from &quot;./Tables&quot;;
 
 // Dashboard component
 export function Dashboard() {
@@ -3056,11 +3063,11 @@ export function Dashboard() {
     const socket = new WebSocket(`ws://${window.location.host}/ws`);
 
     socket.onopen = () =&gt; {
-      console.log("WebSocket connected");
+      console.log(&quot;WebSocket connected&quot;);
       // Subscribe to updates
-      socket.send(JSON.stringify({ type: "Subscribe", topic: "metrics" }));
-      socket.send(JSON.stringify({ type: "Subscribe", topic: "alerts" }));
-      socket.send(JSON.stringify({ type: "Subscribe", topic: "events" }));
+      socket.send(JSON.stringify({ type: &quot;Subscribe&quot;, topic: &quot;metrics&quot; }));
+      socket.send(JSON.stringify({ type: &quot;Subscribe&quot;, topic: &quot;alerts&quot; }));
+      socket.send(JSON.stringify({ type: &quot;Subscribe&quot;, topic: &quot;events&quot; }));
     };
 
     socket.onmessage = (event) =&gt; {
@@ -3076,7 +3083,7 @@ export function Dashboard() {
     };
 
     socket.onclose = () =&gt; {
-      console.log("WebSocket disconnected");
+      console.log(&quot;WebSocket disconnected&quot;);
     };
 
     setWs(socket);
@@ -3090,55 +3097,55 @@ export function Dashboard() {
   // Fetch initial data
   useEffect(() =&gt; {
     // Fetch metrics
-    fetch("/api/metrics")
+    fetch(&quot;/api/metrics&quot;)
       .then((res) =&gt; res.json())
       .then((data) =&gt; setMetrics(data.metrics))
-      .catch((err) =&gt; console.error("Error fetching metrics:", err));
+      .catch((err) =&gt; console.error(&quot;Error fetching metrics:&quot;, err));
 
     // Fetch alerts
-    fetch("/api/alerts")
+    fetch(&quot;/api/alerts&quot;)
       .then((res) =&gt; res.json())
       .then((data) =&gt; setAlerts(data.alerts))
-      .catch((err) =&gt; console.error("Error fetching alerts:", err));
+      .catch((err) =&gt; console.error(&quot;Error fetching alerts:&quot;, err));
 
     // Fetch events
-    fetch("/api/events")
+    fetch(&quot;/api/events&quot;)
       .then((res) =&gt; res.json())
       .then((data) =&gt; setEvents(data))
-      .catch((err) =&gt; console.error("Error fetching events:", err));
+      .catch((err) =&gt; console.error(&quot;Error fetching events:&quot;, err));
   }, []);
 
   return (
-    &lt;div className="dashboard"&gt;
+    &lt;div className=&quot;dashboard&quot;&gt;
       &lt;header&gt;
         &lt;h1&gt;RustStream Dashboard&lt;/h1&gt;
       &lt;/header&gt;
 
-      &lt;div className="dashboard-grid"&gt;
+      &lt;div className=&quot;dashboard-grid&quot;&gt;
         {/* Metrics section */}
-        &lt;div className="dashboard-panel"&gt;
+        &lt;div className=&quot;dashboard-panel&quot;&gt;
           &lt;h2&gt;Key Metrics&lt;/h2&gt;
-          &lt;div className="charts-container"&gt;
+          &lt;div className=&quot;charts-container&quot;&gt;
             &lt;LineChart
-              data={metrics.filter((m) =&gt; m.name === "events_per_second")}
-              title="Events Per Second"
+              data={metrics.filter((m) =&gt; m.name === &quot;events_per_second&quot;)}
+              title=&quot;Events Per Second&quot;
             /&gt;
             &lt;BarChart
-              data={metrics.filter((m) =&gt; m.name === "events_by_type")}
-              title="Events by Type"
+              data={metrics.filter((m) =&gt; m.name === &quot;events_by_type&quot;)}
+              title=&quot;Events by Type&quot;
             /&gt;
           &lt;/div&gt;
           &lt;MetricsTable metrics={metrics} /&gt;
         &lt;/div&gt;
 
         {/* Alerts section */}
-        &lt;div className="dashboard-panel"&gt;
+        &lt;div className=&quot;dashboard-panel&quot;&gt;
           &lt;h2&gt;Recent Alerts&lt;/h2&gt;
           &lt;AlertsTable alerts={alerts} /&gt;
         &lt;/div&gt;
 
         {/* Events section */}
-        &lt;div className="dashboard-panel"&gt;
+        &lt;div className=&quot;dashboard-panel&quot;&gt;
           &lt;h2&gt;Recent Events&lt;/h2&gt;
           &lt;EventsTable events={events} /&gt;
         &lt;/div&gt;
@@ -3148,7 +3155,7 @@ export function Dashboard() {
 }
 </code></pre>
 <h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
-<p>Finally, let’s create a dashboard manager that connects our web API to the real-time processing system:</p>
+<p>Finally, let's create a dashboard manager that connects our web API to the real-time processing system:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Manages the dashboard components
@@ -3237,7 +3244,7 @@ struct DashboardEventSink {
 #[async_trait]
 impl EventSink for DashboardEventSink {
     fn name(&amp;self) -&gt; &amp;str {
-        "dashboard_event_sink"
+        &quot;dashboard_event_sink&quot;
     }
 
     async fn write(&amp;mut self, event: &amp;Event) -&gt; EventResult&lt;()&gt; {
@@ -3268,13 +3275,13 @@ impl AlertSink for DashboardAlertSink {
     async fn send_alert(&amp;self, anomaly: &amp;AnomalyEvent) -&gt; EventResult&lt;()&gt; {
         // Create an alert from the anomaly
         let alert = Alert::new(
-            &amp;format!("Anomaly detected in metric '{}'", anomaly.metric_name),
+            &amp;format!(&quot;Anomaly detected in metric '{}'&quot;, anomaly.metric_name),
             &amp;format!(
-                "The metric '{}' has an anomalous value of {}",
+                &quot;The metric '{}' has an anomalous value of {}&quot;,
                 anomaly.metric_name, anomaly.current_value
             ),
             AlertSeverity::Warning,
-            "anomaly_detector",
+            &quot;anomaly_detector&quot;,
         );
 
         // Record the alert
@@ -3284,12 +3291,12 @@ impl AlertSink for DashboardAlertSink {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>With these components, we’ve created a complete web-based dashboard for our RustStream system. The dashboard provides real-time visualizations of metrics, alerts, and events, allowing users to monitor and understand the data flowing through the system.</p>
-<p>In the next section, we’ll implement high availability and fault tolerance features to ensure our system remains reliable in production environments.</p>
+<p>With these components, we've created a complete web-based dashboard for our RustStream system. The dashboard provides real-time visualizations of metrics, alerts, and events, allowing users to monitor and understand the data flowing through the system.</p>
+<p>In the next section, we'll implement high availability and fault tolerance features to ensure our system remains reliable in production environments.</p>
 <h2 id="high-availability-and-fault-tolerance"><a class="header" href="#high-availability-and-fault-tolerance">High Availability and Fault Tolerance</a></h2>
-<p>Real-time data processing systems must be highly available and resilient to failures. Let’s implement strategies to ensure our RustStream system can operate reliably in production environments.</p>
+<p>Real-time data processing systems must be highly available and resilient to failures. Let's implement strategies to ensure our RustStream system can operate reliably in production environments.</p>
 <h3 id="distributed-cluster-management"><a class="header" href="#distributed-cluster-management">Distributed Cluster Management</a></h3>
-<p>To support multiple nodes working together, we’ll implement a simple cluster management system:</p>
+<p>To support multiple nodes working together, we'll implement a simple cluster management system:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use tokio::sync::mpsc;
@@ -3460,7 +3467,7 @@ impl ClusterManager {
         // Check if node already exists
         if let Some(existing) = self.nodes.get(&amp;node.id) {
             if existing.status != NodeStatus::Failed {
-                return Err("Node already exists in the cluster");
+                return Err(&quot;Node already exists in the cluster&quot;);
             }
         }
 
@@ -3480,7 +3487,7 @@ impl ClusterManager {
     pub async fn remove_node(&amp;mut self, node_id: &amp;str) -&gt; Result&lt;(), &amp;'static str&gt; {
         // Check if node exists
         if !self.nodes.contains_key(node_id) {
-            return Err("Node not found in the cluster");
+            return Err(&quot;Node not found in the cluster&quot;);
         }
 
         // Remove node
@@ -3578,23 +3585,23 @@ where
     pub async fn start(&amp;self, kafka_brokers: &amp;str) -&gt; EventResult&lt;()&gt; {
         // Producer for sending state updates
         let producer: FutureProducer = ClientConfig::new()
-            .set("bootstrap.servers", kafka_brokers)
-            .set("message.timeout.ms", "5000")
+            .set(&quot;bootstrap.servers&quot;, kafka_brokers)
+            .set(&quot;message.timeout.ms&quot;, &quot;5000&quot;)
             .create()
-            .map_err(|e| EventError::Connection(format!("Kafka producer error: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Kafka producer error: {}&quot;, e)))?;
 
         // Consumer for receiving state updates
         let consumer: StreamConsumer = ClientConfig::new()
-            .set("bootstrap.servers", kafka_brokers)
-            .set("group.id", "state_replicator")
-            .set("enable.auto.commit", "true")
-            .set("auto.offset.reset", "latest")
+            .set(&quot;bootstrap.servers&quot;, kafka_brokers)
+            .set(&quot;group.id&quot;, &quot;state_replicator&quot;)
+            .set(&quot;enable.auto.commit&quot;, &quot;true&quot;)
+            .set(&quot;auto.offset.reset&quot;, &quot;latest&quot;)
             .create()
-            .map_err(|e| EventError::Connection(format!("Kafka consumer error: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Kafka consumer error: {}&quot;, e)))?;
 
         consumer
             .subscribe(&amp;[&amp;self.topic])
-            .map_err(|e| EventError::Connection(format!("Kafka subscription error: {}", e)))?;
+            .map_err(|e| EventError::Connection(format!(&quot;Kafka subscription error: {}&quot;, e)))?;
 
         // Start consumer task
         let state = self.state.clone();
@@ -3623,7 +3630,7 @@ where
                         }
                     }
                     Err(e) =&gt; {
-                        eprintln!("Error receiving state update: {}", e);
+                        eprintln!(&quot;Error receiving state update: {}&quot;, e);
                     }
                 }
             }
@@ -3661,7 +3668,7 @@ where
                             .payload(&amp;payload);
 
                         if let Err((e, _)) = producer_clone.send(record, Duration::from_secs(5)).await {
-                            eprintln!("Error replicating state: {}", e);
+                            eprintln!(&quot;Error replicating state: {}&quot;, e);
                         }
                     }
                 }
@@ -3673,7 +3680,7 @@ where
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="checkpointing-and-recovery"><a class="header" href="#checkpointing-and-recovery">Checkpointing and Recovery</a></h3>
-<p>To enable recovery from failures, let’s implement checkpointing:</p>
+<p>To enable recovery from failures, let's implement checkpointing:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Manages checkpoints for recovery
@@ -3741,13 +3748,13 @@ impl CheckpointManager {
                     match service.create_checkpoint().await {
                         Ok(data) =&gt; {
                             // Write checkpoint to file
-                            let path = format!("{}/{}.checkpoint", checkpoint_dir, name);
+                            let path = format!(&quot;{}/{}.checkpoint&quot;, checkpoint_dir, name);
                             if let Err(e) = tokio::fs::write(&amp;path, &amp;data).await {
-                                eprintln!("Error writing checkpoint for {}: {}", name, e);
+                                eprintln!(&quot;Error writing checkpoint for {}: {}&quot;, name, e);
                             }
                         }
                         Err(e) =&gt; {
-                            eprintln!("Error creating checkpoint for {}: {}", name, e);
+                            eprintln!(&quot;Error creating checkpoint for {}: {}&quot;, name, e);
                         }
                     }
                 }
@@ -3761,7 +3768,7 @@ impl CheckpointManager {
     pub async fn restore_services(&amp;mut self) -&gt; std::io::Result&lt;()&gt; {
         for service in &amp;mut self.services {
             let name = service.name();
-            let path = format!("{}/{}.checkpoint", self.checkpoint_dir, name);
+            let path = format!(&quot;{}/{}.checkpoint&quot;, self.checkpoint_dir, name);
 
             // Check if checkpoint exists
             if tokio::fs::metadata(&amp;path).await.is_ok() {
@@ -3770,9 +3777,9 @@ impl CheckpointManager {
 
                 // Restore service
                 if let Err(e) = service.restore_checkpoint(&amp;data).await {
-                    eprintln!("Error restoring checkpoint for {}: {}", name, e);
+                    eprintln!(&quot;Error restoring checkpoint for {}: {}&quot;, name, e);
                 } else {
-                    println!("Restored checkpoint for {}", name);
+                    println!(&quot;Restored checkpoint for {}&quot;, name);
                 }
             }
         }
@@ -3784,20 +3791,20 @@ impl CheckpointManager {
 /// Implementation of Checkpointable for MetricsRepository
 impl Checkpointable for MetricsRepository {
     fn name(&amp;self) -&gt; &amp;str {
-        "metrics_repository"
+        &quot;metrics_repository&quot;
     }
 
     async fn create_checkpoint(&amp;self) -&gt; Result&lt;Vec&lt;u8&gt;, &amp;'static str&gt; {
         // Serialize metrics
         let metrics: Vec&lt;_&gt; = self.get_all().collect();
         serde_json::to_vec(&amp;metrics)
-            .map_err(|_| "Failed to serialize metrics")
+            .map_err(|_| &quot;Failed to serialize metrics&quot;)
     }
 
     async fn restore_checkpoint(&amp;mut self, data: &amp;[u8]) -&gt; Result&lt;(), &amp;'static str&gt; {
         // Deserialize metrics
         let metrics: Vec&lt;Metric&gt; = serde_json::from_slice(data)
-            .map_err(|_| "Failed to deserialize metrics")?;
+            .map_err(|_| &quot;Failed to deserialize metrics&quot;)?;
 
         // Restore metrics
         for metric in metrics {
@@ -3810,9 +3817,9 @@ impl Checkpointable for MetricsRepository {
 <span class="boring">}</span></code></pre></pre>
 <p>With these components, our RustStream system is now fault-tolerant and can continue operating even if individual nodes fail. The leader election ensures that critical operations have a single coordinator, while state replication and checkpointing allow the system to recover from failures.</p>
 <h2 id="deployment-and-performance-tuning"><a class="header" href="#deployment-and-performance-tuning">Deployment and Performance Tuning</a></h2>
-<p>Now that we’ve built a complete real-time data processing system, let’s discuss how to deploy it in production and optimize its performance.</p>
+<p>Now that we've built a complete real-time data processing system, let's discuss how to deploy it in production and optimize its performance.</p>
 <h3 id="docker-containerization"><a class="header" href="#docker-containerization">Docker Containerization</a></h3>
-<p>For easy deployment, let’s containerize our application:</p>
+<p>For easy deployment, let's containerize our application:</p>
 <pre><code class="language-dockerfile"># Dockerfile
 FROM rust:1.59 as builder
 
@@ -3850,7 +3857,7 @@ ENV RUST_LOG=info
 EXPOSE 8080 8081
 
 # Run the application
-CMD ["ruststream"]
+CMD [&quot;ruststream&quot;]
 </code></pre>
 <h3 id="kubernetes-deployment"><a class="header" href="#kubernetes-deployment">Kubernetes Deployment</a></h3>
 <p>For production environments, Kubernetes provides robust orchestration:</p>
@@ -3886,19 +3893,19 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: KAFKA_BROKERS
-              value: "kafka-0.kafka-headless:9092,kafka-1.kafka-headless:9092"
+              value: &quot;kafka-0.kafka-headless:9092,kafka-1.kafka-headless:9092&quot;
             - name: CHECKPOINT_DIR
-              value: "/data/checkpoints"
+              value: &quot;/data/checkpoints&quot;
           volumeMounts:
             - name: data
               mountPath: /data
           resources:
             limits:
-              cpu: "1"
-              memory: "1Gi"
+              cpu: &quot;1&quot;
+              memory: &quot;1Gi&quot;
             requests:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: &quot;500m&quot;
+              memory: &quot;512Mi&quot;
           livenessProbe:
             httpGet:
               path: /health
@@ -3915,13 +3922,13 @@ spec:
     - metadata:
         name: data
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes: [&quot;ReadWriteOnce&quot;]
         resources:
           requests:
             storage: 10Gi
 </code></pre>
 <h3 id="performance-tuning"><a class="header" href="#performance-tuning">Performance Tuning</a></h3>
-<p>To optimize our system’s performance, we should focus on these areas:</p>
+<p>To optimize our system's performance, we should focus on these areas:</p>
 <ol>
 <li>
 <p><strong>Memory Management</strong></p>
@@ -3974,8 +3981,8 @@ spec:
 </ol>
 <p>By applying these optimization techniques, we can ensure that our RustStream system delivers the low-latency, high-throughput performance required for real-time data processing applications.</p>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
-<p>In this chapter, we’ve built a comprehensive real-time data processing system from the ground up using Rust. Our RustStream platform demonstrates how to collect, process, analyze, and visualize streaming data with minimal latency while maintaining reliability and fault tolerance.</p>
-<p>We’ve implemented several key components:</p>
+<p>In this chapter, we've built a comprehensive real-time data processing system from the ground up using Rust. Our RustStream platform demonstrates how to collect, process, analyze, and visualize streaming data with minimal latency while maintaining reliability and fault tolerance.</p>
+<p>We've implemented several key components:</p>
 <ol>
 <li><strong>Event Model and Core Processing Engine</strong>: A flexible, composable stream processing framework</li>
 <li><strong>Event Sources and Sinks</strong>: Adapters for connecting to various external systems</li>
@@ -3984,7 +3991,7 @@ spec:
 <li><strong>Dashboard</strong>: Web-based visualization of real-time data and insights</li>
 <li><strong>High Availability Features</strong>: Clustering, state replication, and fault recovery</li>
 </ol>
-<p>The RustStream system we’ve created is not only educational but also practical. The patterns and components we’ve developed can be applied to real-world streaming use cases such as:</p>
+<p>The RustStream system we've created is not only educational but also practical. The patterns and components we've developed can be applied to real-world streaming use cases such as:</p>
 <ul>
 <li>Real-time analytics for web applications</li>
 <li>IoT sensor data processing</li>
@@ -3993,7 +4000,7 @@ spec:
 <li>User behavior tracking</li>
 <li>Operational metrics and alerting</li>
 </ul>
-<p>Rust’s combination of performance, safety, and expressive type system makes it an excellent choice for building such systems. The language allows us to create efficient, concurrent code without sacrificing reliability—a critical requirement for production data processing applications.</p>
+<p>Rust's combination of performance, safety, and expressive type system makes it an excellent choice for building such systems. The language allows us to create efficient, concurrent code without sacrificing reliability—a critical requirement for production data processing applications.</p>
 <p>As you continue your journey with Rust and real-time systems, consider exploring these advanced topics:</p>
 <ul>
 <li>Stream processing with machine learning for predictive analytics</li>
@@ -4002,7 +4009,7 @@ spec:
 <li>Custom DSLs for stream processing operations</li>
 <li>Specialized hardware acceleration for stream processing</li>
 </ul>
-<p>The skills you’ve developed in this chapter provide a solid foundation for tackling these and other challenges in the rapidly evolving field of real-time data processing.</p>
+<p>The skills you've developed in this chapter provide a solid foundation for tackling these and other challenges in the rapidly evolving field of real-time data processing.</p>
 
                     </main>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html" class="active"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,24 +184,24 @@
                     <main>
                         <h1 id="chapter-23-closures-in-depth"><a class="header" href="#chapter-23-closures-in-depth">Chapter 23: Closures in Depth</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Closures are one of Rust’s most powerful features, enabling elegant and flexible programming patterns that blend functional and imperative approaches. While we’ve encountered closures in previous chapters—using them with iterators, error handling, and various standard library functions—this chapter will explore them in much greater depth.</p>
+<p>Closures are one of Rust's most powerful features, enabling elegant and flexible programming patterns that blend functional and imperative approaches. While we've encountered closures in previous chapters—using them with iterators, error handling, and various standard library functions—this chapter will explore them in much greater depth.</p>
 <p>At their core, closures are anonymous functions that can capture their environment. This seemingly simple capability unlocks remarkable expressiveness and enables patterns that would be cumbersome or impossible with regular functions. From event handlers to customization points, from lazy evaluation to function builders, closures are essential to idiomatic Rust code.</p>
-<p>In this chapter, we’ll dissect how closures work in Rust, exploring their unique traits, memory representations, and performance characteristics. We’ll learn how to use closures effectively as function arguments and return values, and develop an understanding of closure type inference. We’ll also examine practical patterns for working with closures and build a comprehensive event system that showcases their power in real-world code.</p>
-<p>By the end of this chapter, you’ll have a deep understanding of closures and the tools to use them confidently in your Rust projects.</p>
+<p>In this chapter, we'll dissect how closures work in Rust, exploring their unique traits, memory representations, and performance characteristics. We'll learn how to use closures effectively as function arguments and return values, and develop an understanding of closure type inference. We'll also examine practical patterns for working with closures and build a comprehensive event system that showcases their power in real-world code.</p>
+<p>By the end of this chapter, you'll have a deep understanding of closures and the tools to use them confidently in your Rust projects.</p>
 <h2 id="understanding-closures"><a class="header" href="#understanding-closures">Understanding Closures</a></h2>
-<p>Before we dive into Rust’s specific implementation of closures, let’s establish what closures are conceptually and why they’re valuable.</p>
+<p>Before we dive into Rust's specific implementation of closures, let's establish what closures are conceptually and why they're valuable.</p>
 <h3 id="what-are-closures"><a class="header" href="#what-are-closures">What Are Closures?</a></h3>
 <p>A closure is an anonymous function that can capture values from its surrounding environment. This combination of functionality (the function) and environment (the captured values) creates a powerful abstraction that can be passed around and invoked like any other function.</p>
-<p>Let’s look at a simple example:</p>
+<p>Let's look at a simple example:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 10;
 
     // This is a closure that captures 'x' from its environment
     let add_x = |y| x + y;
 
-    println!("Result: {}", add_x(5)); // Outputs: Result: 15
+    println!(&quot;Result: {}&quot;, add_x(5)); // Outputs: Result: 15
 }</code></pre></pre>
-<p>In this example, <code>add_x</code> is a closure that takes a parameter <code>y</code> and adds it to the captured value <code>x</code>. The closure “closes over” its environment, hence the name “closure.”</p>
+<p>In this example, <code>add_x</code> is a closure that takes a parameter <code>y</code> and adds it to the captured value <code>x</code>. The closure &quot;closes over&quot; its environment, hence the name &quot;closure.&quot;</p>
 <h3 id="closures-vs-functions"><a class="header" href="#closures-vs-functions">Closures vs. Functions</a></h3>
 <p>While closures and functions serve similar purposes, they have key differences:</p>
 <ol>
@@ -203,7 +210,7 @@
 <li><strong>Environment capture</strong>: Closures can capture values from their enclosing scope.</li>
 <li><strong>Traits</strong>: Closures implement specific traits based on how they use captured values.</li>
 </ol>
-<p>Here’s a comparison:</p>
+<p>Here's a comparison:</p>
 <pre><pre class="playground"><code class="language-rust">// Regular function
 fn add_five(x: i32) -&gt; i32 {
     x + 5
@@ -221,10 +228,10 @@ fn main() {
     // Closure capturing environment
     let add_y = |x| x + y;
 
-    println!("Function: {}", add_five(10));          // 15
-    println!("Explicit closure: {}", add_five_closure(10)); // 15
-    println!("Inferred closure: {}", add_five_inferred(10)); // 15
-    println!("Capturing closure: {}", add_y(10));    // 15
+    println!(&quot;Function: {}&quot;, add_five(10));          // 15
+    println!(&quot;Explicit closure: {}&quot;, add_five_closure(10)); // 15
+    println!(&quot;Inferred closure: {}&quot;, add_five_inferred(10)); // 15
+    println!(&quot;Capturing closure: {}&quot;, add_y(10));    // 15
 }</code></pre></pre>
 <h3 id="closure-syntax-variations"><a class="header" href="#closure-syntax-variations">Closure Syntax Variations</a></h3>
 <p>Rust closures support several syntax variations for different needs:</p>
@@ -235,12 +242,12 @@ let add_one = |x| x + 1;
 
 // Multiple statements (requires braces)
 let print_and_add_one = |x| {
-    println!("Adding one to {}", x);
+    println!(&quot;Adding one to {}&quot;, x);
     x + 1
 };
 
 // No parameters
-let say_hello = || println!("Hello!");
+let say_hello = || println!(&quot;Hello!&quot;);
 
 // Multiple parameters
 let add = |x, y| x + y;
@@ -254,10 +261,10 @@ let typed_add = |x: i32, y: i32| -&gt; i32 { x + y };
 <li><strong>Higher-order functions</strong>: Functions that take other functions as arguments or return them</li>
 <li><strong>Callbacks</strong>: Providing code to be executed later in response to events</li>
 <li><strong>Customization points</strong>: Allowing users to customize behavior of a function or algorithm</li>
-<li><strong>Lazy evaluation</strong>: Delaying computation until it’s needed</li>
+<li><strong>Lazy evaluation</strong>: Delaying computation until it's needed</li>
 <li><strong>Iterators and functional patterns</strong>: Transforming data with operations like <code>map</code> and <code>filter</code></li>
 </ol>
-<p>Let’s see an example using a higher-order function:</p>
+<p>Let's see an example using a higher-order function:</p>
 <pre><pre class="playground"><code class="language-rust">fn apply_operation&lt;F&gt;(x: i32, y: i32, operation: F) -&gt; i32
 where
     F: Fn(i32, i32) -&gt; i32,
@@ -269,14 +276,14 @@ fn main() {
     let sum = apply_operation(5, 3, |a, b| a + b);
     let product = apply_operation(5, 3, |a, b| a * b);
 
-    println!("Sum: {}", sum);       // 8
-    println!("Product: {}", product); // 15
+    println!(&quot;Sum: {}&quot;, sum);       // 8
+    println!(&quot;Product: {}&quot;, product); // 15
 }</code></pre></pre>
 <p>This flexibility makes closures a cornerstone of expressive Rust code.</p>
 <h2 id="closure-environments-and-captures"><a class="header" href="#closure-environments-and-captures">Closure Environments and Captures</a></h2>
-<p>One of the most powerful aspects of closures is their ability to capture values from their environment. Let’s explore how this works in Rust.</p>
+<p>One of the most powerful aspects of closures is their ability to capture values from their environment. Let's explore how this works in Rust.</p>
 <h3 id="how-closures-capture-their-environment"><a class="header" href="#how-closures-capture-their-environment">How Closures Capture Their Environment</a></h3>
-<p>When a closure references a variable from its surrounding scope, it “captures” that variable. Rust offers three ways to capture variables:</p>
+<p>When a closure references a variable from its surrounding scope, it &quot;captures&quot; that variable. Rust offers three ways to capture variables:</p>
 <ol>
 <li><strong>Borrowing immutably</strong>: The closure gets a shared reference (<code>&amp;T</code>)</li>
 <li><strong>Borrowing mutably</strong>: The closure gets a mutable reference (<code>&amp;mut T</code>)</li>
@@ -284,13 +291,13 @@ fn main() {
 </ol>
 <p>Rust automatically determines the capture method based on how the closure uses the variables:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let name = String::from("Rust");
+    let name = String::from(&quot;Rust&quot;);
 
     // Immutable borrow capture
-    let greet = || println!("Hello, {}!", name);
+    let greet = || println!(&quot;Hello, {}!&quot;, name);
 
     // We can still use 'name' here because the closure only borrowed it
-    println!("Name: {}", name);
+    println!(&quot;Name: {}&quot;, name);
 
     greet(); // Prints: Hello, Rust!
 
@@ -301,31 +308,31 @@ fn main() {
     // Mutable borrow capture
     let mut increment = || {
         counter += 1;
-        println!("Counter: {}", counter);
+        println!(&quot;Counter: {}&quot;, counter);
     };
 
     // Can't use 'counter' here because it's mutably borrowed by the closure
-    // println!("Counter: {}", counter); // Error!
+    // println!(&quot;Counter: {}&quot;, counter); // Error!
 
     increment(); // Prints: Counter: 1
     increment(); // Prints: Counter: 2
 
     // Now we can use 'counter' again
-    println!("Final counter: {}", counter); // Prints: Final counter: 2
+    println!(&quot;Final counter: {}&quot;, counter); // Prints: Final counter: 2
 }</code></pre></pre>
 <h3 id="move-closures"><a class="header" href="#move-closures">Move Closures</a></h3>
 <p>Sometimes, you need a closure to take ownership of the values it captures, especially when the closure might outlive the current scope. This is where <code>move</code> closures come in:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let name = String::from("Rust");
+    let name = String::from(&quot;Rust&quot;);
 
     // Regular closure - borrows 'name'
-    let regular_closure = || println!("Hello, {}!", name);
+    let regular_closure = || println!(&quot;Hello, {}!&quot;, name);
 
     // Move closure - takes ownership of 'name'
-    let move_closure = move || println!("Hello, {}!", name);
+    let move_closure = move || println!(&quot;Hello, {}!&quot;, name);
 
     // Can't use 'name' anymore after the move closure
-    // println!("Name: {}", name); // Error! 'name' was moved
+    // println!(&quot;Name: {}&quot;, name); // Error! 'name' was moved
 
     regular_closure(); // Works fine
     move_closure();    // Also works fine
@@ -334,33 +341,33 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 
 fn main() {
-    let name = String::from("Rust");
+    let name = String::from(&quot;Rust&quot;);
 
     // This closure must take ownership of 'name' because it will be used in another thread
     let handle = thread::spawn(move || {
-        println!("Hello, {}! From another thread.", name);
+        println!(&quot;Hello, {}! From another thread.&quot;, name);
     });
 
     // Wait for the thread to finish
     handle.join().unwrap();
 
     // Can't use 'name' here because it was moved into the closure
-    // println!("Name: {}", name); // Error!
+    // println!(&quot;Name: {}&quot;, name); // Error!
 }</code></pre></pre>
 <h3 id="partial-moves-in-closures"><a class="header" href="#partial-moves-in-closures">Partial Moves in Closures</a></h3>
-<p>Rust’s ownership system applies to closures as well. You can partially move values into a closure:</p>
+<p>Rust's ownership system applies to closures as well. You can partially move values into a closure:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let person = (String::from("Alice"), 30);
+    let person = (String::from(&quot;Alice&quot;), 30);
 
     // This closure moves the first element of the tuple but borrows the second
     let closure = move || {
         let name = person.0; // This moves 'person.0'
-        println!("Name: {}, Age: {}", name, person.1);
+        println!(&quot;Name: {}, Age: {}&quot;, name, person.1);
     };
 
     // Can't use 'person.0' anymore, but can use 'person.1'
-    // println!("Name: {}", person.0); // Error! 'person.0' was moved
-    println!("Age: {}", person.1);    // Works fine
+    // println!(&quot;Name: {}&quot;, person.0); // Error! 'person.0' was moved
+    println!(&quot;Age: {}&quot;, person.1);    // Works fine
 
     closure();
 }</code></pre></pre>
@@ -374,7 +381,7 @@ fn main() {
 
         // Inner closure captures both 'x' from the main function
         // and 'y' from the outer closure
-        let inner = || println!("x + y = {}", x + y);
+        let inner = || println!(&quot;x + y = {}&quot;, x + y);
 
         inner();
     };
@@ -390,7 +397,7 @@ fn main() {
 </ol>
 <p>This implementation allows closures to have different sizes and memory layouts based on what they capture.</p>
 <h2 id="fnonce-fnmut-and-fn-traits"><a class="header" href="#fnonce-fnmut-and-fn-traits">FnOnce, FnMut, and Fn Traits</a></h2>
-<p>Rust’s closure system is built on three traits that define how a closure interacts with its captured environment: <code>FnOnce</code>, <code>FnMut</code>, and <code>Fn</code>. Understanding these traits is crucial for working effectively with closures.</p>
+<p>Rust's closure system is built on three traits that define how a closure interacts with its captured environment: <code>FnOnce</code>, <code>FnMut</code>, and <code>Fn</code>. Understanding these traits is crucial for working effectively with closures.</p>
 <h3 id="the-three-closure-traits"><a class="header" href="#the-three-closure-traits">The Three Closure Traits</a></h3>
 <ol>
 <li>
@@ -411,7 +418,7 @@ fn main() {
 <h3 id="how-rust-chooses-the-trait"><a class="header" href="#how-rust-chooses-the-trait">How Rust Chooses the Trait</a></h3>
 <p>Rust automatically determines which trait(s) a closure implements based on how it uses its captures:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let name = String::from("Rust");
+    let name = String::from(&quot;Rust&quot;);
 
     // FnOnce - consumes 'name'
     let consume = || {
@@ -428,7 +435,7 @@ fn main() {
     // FnMut - mutates 'counter'
     let mut mutate = || {
         counter += 1;
-        println!("Counter: {}", counter);
+        println!(&quot;Counter: {}&quot;, counter);
     };
     mutate(); // Counter: 1
     mutate(); // Counter: 2
@@ -439,7 +446,7 @@ fn main() {
 
     // Fn - only reads 'value'
     let read_only = || {
-        println!("Value: {}", value);
+        println!(&quot;Value: {}&quot;, value);
     };
     read_only(); // Value: 10
     read_only(); // Value: 10
@@ -453,7 +460,7 @@ where
 {
     // Can only call f once
     let result = f();
-    println!("Result: {}", result);
+    println!(&quot;Result: {}&quot;, result);
 }
 
 // Accepts any closure that implements FnMut
@@ -464,7 +471,7 @@ where
     // Can call f multiple times
     let result1 = f();
     let result2 = f();
-    println!("Results: {}, {}", result1, result2);
+    println!(&quot;Results: {}, {}&quot;, result1, result2);
 }
 
 // Accepts any closure that implements Fn
@@ -475,14 +482,14 @@ where
     // Can call f multiple times
     let result1 = f();
     let result2 = f();
-    println!("Results: {}, {}", result1, result2);
+    println!(&quot;Results: {}, {}&quot;, result1, result2);
 }
 
 fn main() {
-    let name = String::from("Rust");
+    let name = String::from(&quot;Rust&quot;);
 
     // This closure implements Fn (it only reads name)
-    let read_only = || format!("Hello, {}!", name);
+    let read_only = || format!(&quot;Hello, {}!&quot;, name);
 
     // Can use with any of the functions
     consume_with_once(read_only);
@@ -496,7 +503,7 @@ fn main() {
     // This closure implements FnMut (it mutates counter)
     let increment = || {
         counter += 1;
-        format!("Counter: {}", counter)
+        format!(&quot;Counter: {}&quot;, counter)
     };
 
     // Can use with FnOnce and FnMut, but not Fn
@@ -509,7 +516,7 @@ fn main() {
     // This closure implements FnOnce (it moves name)
     let consume = || {
         let inner_name = name; // Moves 'name'
-        format!("Consumed: {}", inner_name)
+        format!(&quot;Consumed: {}&quot;, inner_name)
     };
 
     // Can only use with FnOnce
@@ -518,7 +525,7 @@ fn main() {
     // consume_with_fn(consume); // Error! Requires Fn but closure is FnOnce
 }</code></pre></pre>
 <h3 id="trait-bounds-in-generic-functions"><a class="header" href="#trait-bounds-in-generic-functions">Trait Bounds in Generic Functions</a></h3>
-<p>When writing generic functions that accept closures, it’s important to use the appropriate trait bound:</p>
+<p>When writing generic functions that accept closures, it's important to use the appropriate trait bound:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// This function can accept any closure that can be called once
@@ -590,7 +597,7 @@ pub trait Fn&lt;Args&gt;: FnMut&lt;Args&gt; {
 <li><code>Fn</code> takes <code>&amp;self</code>, allowing only immutable access</li>
 </ul>
 <h2 id="move-closures-1"><a class="header" href="#move-closures-1">Move Closures</a></h2>
-<p>We’ve briefly touched on <code>move</code> closures earlier, but they deserve a more detailed examination given their importance in Rust programming.</p>
+<p>We've briefly touched on <code>move</code> closures earlier, but they deserve a more detailed examination given their importance in Rust programming.</p>
 <h3 id="when-to-use-move-closures"><a class="header" href="#when-to-use-move-closures">When to Use Move Closures</a></h3>
 <p>Move closures are essential in several scenarios:</p>
 <ol>
@@ -599,9 +606,9 @@ pub trait Fn&lt;Args&gt;: FnMut&lt;Args&gt; {
 <li><strong>Ownership transfer</strong>: When you want to transfer ownership of values into a closure</li>
 <li><strong>Escaping references</strong>: When a closure might outlive the scope of its captured references</li>
 </ol>
-<p>Let’s explore these scenarios in more detail:</p>
+<p>Let's explore these scenarios in more detail:</p>
 <h4 id="threads-and-move-closures"><a class="header" href="#threads-and-move-closures">Threads and Move Closures</a></h4>
-<p>When spawning a thread, the closure passed to <code>thread::spawn</code> must be <code>'static</code>, meaning it can’t contain any references to data owned by another scope:</p>
+<p>When spawning a thread, the closure passed to <code>thread::spawn</code> must be <code>'static</code>, meaning it can't contain any references to data owned by another scope:</p>
 <pre><pre class="playground"><code class="language-rust">use std::thread;
 
 fn main() {
@@ -609,19 +616,19 @@ fn main() {
 
     // ERROR without 'move': closure may outlive borrowed value 'numbers'
     let handle = thread::spawn(move || {
-        println!("Processing: {:?}", numbers);
+        println!(&quot;Processing: {:?}&quot;, numbers);
         // Do something with numbers
         numbers.iter().sum::&lt;i32&gt;()
     });
 
     // Can't use 'numbers' here anymore
-    // println!("Original: {:?}", numbers); // Error!
+    // println!(&quot;Original: {:?}&quot;, numbers); // Error!
 
     let sum = handle.join().unwrap();
-    println!("Sum: {}", sum); // Sum: 15
+    println!(&quot;Sum: {}&quot;, sum); // Sum: 15
 }</code></pre></pre>
 <h4 id="returning-closures"><a class="header" href="#returning-closures">Returning Closures</a></h4>
-<p>When returning a closure that captures local variables, you’ll often need to use <code>move</code>:</p>
+<p>When returning a closure that captures local variables, you'll often need to use <code>move</code>:</p>
 <pre><pre class="playground"><code class="language-rust">fn create_counter(start: i32) -&gt; impl FnMut() -&gt; i32 {
     let mut count = start;
 
@@ -636,9 +643,9 @@ fn main() {
 fn main() {
     let mut counter = create_counter(0);
 
-    println!("{}", counter()); // 1
-    println!("{}", counter()); // 2
-    println!("{}", counter()); // 3
+    println!(&quot;{}&quot;, counter()); // 1
+    println!(&quot;{}&quot;, counter()); // 2
+    println!(&quot;{}&quot;, counter()); // 3
 }</code></pre></pre>
 <h4 id="closure-lifetimes"><a class="header" href="#closure-lifetimes">Closure Lifetimes</a></h4>
 <p>Move closures can help manage lifetimes in complex scenarios:</p>
@@ -675,7 +682,7 @@ where
 
 fn main() {
     let expensive_calculation = |num| {
-        println!("Calculating...");
+        println!(&quot;Calculating...&quot;);
         // Simulate expensive calculation
         std::thread::sleep(std::time::Duration::from_secs(1));
         num * 2
@@ -684,24 +691,24 @@ fn main() {
     let mut cache = Cache::new(expensive_calculation);
 
     // First call will calculate
-    println!("First call: {}", cache.value(42)); // Calculating... First call: 84
+    println!(&quot;First call: {}&quot;, cache.value(42)); // Calculating... First call: 84
 
     // Second call will use cached value
-    println!("Second call: {}", cache.value(42)); // Second call: 84
+    println!(&quot;Second call: {}&quot;, cache.value(42)); // Second call: 84
 }</code></pre></pre>
 <h3 id="move-closure-performance"><a class="header" href="#move-closure-performance">Move Closure Performance</a></h3>
 <p>Using <code>move</code> can sometimes impact performance, as it may lead to more data being copied or moved than necessary. However, in many cases, the Rust compiler can optimize away unnecessary copies, especially for types that implement <code>Copy</code>.</p>
 <p>For small, <code>Copy</code> types like integers, the performance impact is negligible. For larger types, consider the trade-offs between copying data and borrowing it.</p>
 <h2 id="closure-performance-and-optimization"><a class="header" href="#closure-performance-and-optimization">Closure Performance and Optimization</a></h2>
-<p>Closures in Rust are designed to be as efficient as possible, often compiling down to code that’s as fast as equivalent hand-written functions. However, understanding their performance characteristics can help you make informed decisions.</p>
+<p>Closures in Rust are designed to be as efficient as possible, often compiling down to code that's as fast as equivalent hand-written functions. However, understanding their performance characteristics can help you make informed decisions.</p>
 <h3 id="zero-cost-abstraction"><a class="header" href="#zero-cost-abstraction">Zero-Cost Abstraction</a></h3>
-<p>Rust’s closures are designed as a zero-cost abstraction, meaning they don’t add runtime overhead compared to equivalent code without closures. The compiler implements several optimizations:</p>
+<p>Rust's closures are designed as a zero-cost abstraction, meaning they don't add runtime overhead compared to equivalent code without closures. The compiler implements several optimizations:</p>
 <ol>
 <li><strong>Inlining</strong>: The compiler often inlines simple closures, eliminating function call overhead</li>
-<li><strong>Monomorphization</strong>: Generic closures are specialized for each specific type they’re used with</li>
-<li><strong>Capture optimization</strong>: The compiler only captures what’s actually used by the closure</li>
+<li><strong>Monomorphization</strong>: Generic closures are specialized for each specific type they're used with</li>
+<li><strong>Capture optimization</strong>: The compiler only captures what's actually used by the closure</li>
 </ol>
-<p>Let’s look at a simple example:</p>
+<p>Let's look at a simple example:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 10;
     let y = 20;
@@ -709,7 +716,7 @@ fn main() {
     // This closure only captures x, not y
     let add_x = |z| z + x;
 
-    println!("Result: {}", add_x(5)); // Result: 15
+    println!(&quot;Result: {}&quot;, add_x(5)); // Result: 15
 }</code></pre></pre>
 <p>In this case, the compiled code will only capture <code>x</code>, not <code>y</code>, even though both are in scope.</p>
 <h3 id="closure-size-and-layout"><a class="header" href="#closure-size-and-layout">Closure Size and Layout</a></h3>
@@ -728,21 +735,21 @@ fn main() {
     let val_capture = move || x + 1;
 
     // Captures a String by reference
-    let s = String::from("hello");
+    let s = String::from(&quot;hello&quot;);
     let string_ref_capture = || s.len();
 
     // Captures a String by value
     let string_val_capture = move || s.len();
 
-    println!("No captures: {} bytes", size_of_val(&amp;no_capture));
-    println!("Ref capture: {} bytes", size_of_val(&amp;ref_capture));
-    println!("Val capture: {} bytes", size_of_val(&amp;val_capture));
-    println!("String ref capture: {} bytes", size_of_val(&amp;string_ref_capture));
-    println!("String val capture: {} bytes", size_of_val(&amp;string_val_capture));
+    println!(&quot;No captures: {} bytes&quot;, size_of_val(&amp;no_capture));
+    println!(&quot;Ref capture: {} bytes&quot;, size_of_val(&amp;ref_capture));
+    println!(&quot;Val capture: {} bytes&quot;, size_of_val(&amp;val_capture));
+    println!(&quot;String ref capture: {} bytes&quot;, size_of_val(&amp;string_ref_capture));
+    println!(&quot;String val capture: {} bytes&quot;, size_of_val(&amp;string_val_capture));
 }</code></pre></pre>
 <p>The results might surprise you—closures are often quite small, especially when they capture by reference.</p>
 <h3 id="benchmarking-closures"><a class="header" href="#benchmarking-closures">Benchmarking Closures</a></h3>
-<p>To understand the performance impact of different closure patterns, it’s helpful to benchmark them:</p>
+<p>To understand the performance impact of different closure patterns, it's helpful to benchmark them:</p>
 <pre><pre class="playground"><code class="language-rust">use std::time::{Duration, Instant};
 
 // Function to benchmark a closure
@@ -754,7 +761,7 @@ where
     let result = f();
     let duration = start.elapsed();
 
-    println!("{}: {:?} ({} iterations)", name, duration, iterations);
+    println!(&quot;{}: {:?} ({} iterations)&quot;, name, duration, iterations);
 
     result
 }
@@ -766,12 +773,12 @@ fn main() {
     // Benchmark different approaches
 
     // 1. Closure that captures by reference
-    benchmark("Ref capture", 1_000_000, || {
+    benchmark(&quot;Ref capture&quot;, 1_000_000, || {
         data.iter().map(|x| x * multiplier).sum::&lt;i32&gt;()
     });
 
     // 2. Closure that captures by value
-    benchmark("Move capture", 1_000_000, move || {
+    benchmark(&quot;Move capture&quot;, 1_000_000, move || {
         data.iter().map(|x| x * multiplier).sum::&lt;i32&gt;()
     });
 
@@ -781,16 +788,16 @@ fn main() {
     }
 
     let data2 = vec![1, 2, 3, 4, 5];
-    benchmark("Explicit function", 1_000_000, || {
+    benchmark(&quot;Explicit function&quot;, 1_000_000, || {
         map_and_sum(&amp;data2, multiplier)
     });
 }</code></pre></pre>
-<p>In many cases, you’ll find that the performance difference between these approaches is minimal, especially in release mode.</p>
+<p>In many cases, you'll find that the performance difference between these approaches is minimal, especially in release mode.</p>
 <h3 id="closure-optimizations"><a class="header" href="#closure-optimizations">Closure Optimizations</a></h3>
 <p>The Rust compiler applies several optimizations to closures:</p>
 <ol>
 <li><strong>Devirtualization</strong>: When the specific closure type is known at compile time, the compiler can eliminate dynamic dispatch</li>
-<li><strong>Capture elision</strong>: The compiler only captures what’s actually used</li>
+<li><strong>Capture elision</strong>: The compiler only captures what's actually used</li>
 <li><strong>Inlining</strong>: Small closures are often inlined at their call sites</li>
 <li><strong>Dead capture elimination</strong>: Unused captured variables are eliminated</li>
 </ol>
@@ -798,7 +805,7 @@ fn main() {
 <h2 id="closures-as-function-arguments"><a class="header" href="#closures-as-function-arguments">Closures as Function Arguments</a></h2>
 <p>One of the most common uses of closures is passing them as arguments to functions. This pattern enables flexible and reusable code by allowing customization of behavior.</p>
 <h3 id="basic-patterns"><a class="header" href="#basic-patterns">Basic Patterns</a></h3>
-<p>Let’s examine some common patterns for functions that accept closures:</p>
+<p>Let's examine some common patterns for functions that accept closures:</p>
 <pre><pre class="playground"><code class="language-rust">// Function that applies a transformation to each element
 fn transform&lt;T, U, F&gt;(input: Vec&lt;T&gt;, f: F) -&gt; Vec&lt;U&gt;
 where
@@ -832,23 +839,23 @@ fn main() {
 
     // Transform each number to its square
     let squares = transform(numbers.clone(), |x| x * x);
-    println!("Squares: {:?}", squares); // [1, 4, 9, 16, 25]
+    println!(&quot;Squares: {:?}&quot;, squares); // [1, 4, 9, 16, 25]
 
     // Keep only even numbers
     let evens = keep_if(numbers.clone(), |x| x % 2 == 0);
-    println!("Evens: {:?}", evens); // [2, 4]
+    println!(&quot;Evens: {:?}&quot;, evens); // [2, 4]
 
     // Process until we find a number greater than 3
     let mut found = false;
     process_until(numbers, |x| {
-        println!("Processing: {}", x);
+        println!(&quot;Processing: {}&quot;, x);
         if x &gt; 3 {
             found = true;
             return true;
         }
         false
     });
-    println!("Found number &gt; 3: {}", found); // true
+    println!(&quot;Found number &gt; 3: {}&quot;, found); // true
 }</code></pre></pre>
 <h3 id="callbacks-and-event-handlers"><a class="header" href="#callbacks-and-event-handlers">Callbacks and Event Handlers</a></h3>
 <p>Closures are excellent for callback-based APIs:</p>
@@ -882,12 +889,12 @@ impl Button {
 fn main() {
     let mut counter = 0;
 
-    let mut button = Button::new("submit");
+    let mut button = Button::new(&quot;submit&quot;);
 
     // Set a click handler that captures counter
     button.set_click_handler(move || {
         counter += 1;
-        println!("Button clicked! Counter: {}", counter);
+        println!(&quot;Button clicked! Counter: {}&quot;, counter);
     });
 
     // Simulate clicking the button
@@ -920,11 +927,11 @@ fn main() {
 
     // Sort in ascending order
     let ascending = numbers.sorted_by(|a, b| a.cmp(b));
-    println!("Ascending: {:?}", ascending); // [1, 1, 2, 3, 4, 5, 6, 9]
+    println!(&quot;Ascending: {:?}&quot;, ascending); // [1, 1, 2, 3, 4, 5, 6, 9]
 
     // Sort in descending order
     let descending = numbers.sorted_by(|a, b| b.cmp(a));
-    println!("Descending: {:?}", descending); // [9, 6, 5, 4, 3, 2, 1, 1]
+    println!(&quot;Descending: {:?}&quot;, descending); // [9, 6, 5, 4, 3, 2, 1, 1]
 
     // Sort by distance from 5
     let by_distance_from_5 = numbers.sorted_by(|a, b| {
@@ -932,7 +939,7 @@ fn main() {
         let b_dist = (*b as i32 - 5).abs();
         a_dist.cmp(&amp;b_dist)
     });
-    println!("By distance from 5: {:?}", by_distance_from_5);
+    println!(&quot;By distance from 5: {:?}&quot;, by_distance_from_5);
 }</code></pre></pre>
 <h3 id="multiple-closure-parameters"><a class="header" href="#multiple-closure-parameters">Multiple Closure Parameters</a></h3>
 <p>Functions can accept multiple closures for different purposes:</p>
@@ -966,7 +973,7 @@ fn main() {
         },
     );
 
-    println!("Result: {:?}", result); // [100, 64, 36, 16, 4]
+    println!(&quot;Result: {:?}&quot;, result); // [100, 64, 36, 16, 4]
 }</code></pre></pre>
 <h3 id="closure-type-erasure"><a class="header" href="#closure-type-erasure">Closure Type Erasure</a></h3>
 <p>When you need to store closures of different types but with the same signature, you can use trait objects:</p>
@@ -984,12 +991,12 @@ fn main() {
 
     let input = 5;
     for (i, transform) in transformers.iter().enumerate() {
-        println!("Transformer {}: {} -&gt; {}", i, input, transform(input));
+        println!(&quot;Transformer {}: {} -&gt; {}&quot;, i, input, transform(input));
     }
 }</code></pre></pre>
 <p>This pattern is useful for plugins, command registries, and other scenarios where you need a collection of functions with the same signature but different implementations.</p>
 <h2 id="returning-closures-1"><a class="header" href="#returning-closures-1">Returning Closures</a></h2>
-<p>Returning closures from functions creates powerful abstractions, enabling factory patterns, customized behaviors, and dynamic function creation. Let’s explore how to return closures and the patterns they enable.</p>
+<p>Returning closures from functions creates powerful abstractions, enabling factory patterns, customized behaviors, and dynamic function creation. Let's explore how to return closures and the patterns they enable.</p>
 <h3 id="basic-closure-return"><a class="header" href="#basic-closure-return">Basic Closure Return</a></h3>
 <p>To return a closure from a function, you need to use the <code>impl Trait</code> syntax or <code>Box&lt;dyn Trait&gt;</code>:</p>
 <pre><pre class="playground"><code class="language-rust">// Return a closure using impl Trait
@@ -1001,32 +1008,32 @@ fn main() {
     let add_five = create_adder(5);
     let add_ten = create_adder(10);
 
-    println!("5 + 3 = {}", add_five(3)); // 8
-    println!("10 + 3 = {}", add_ten(3)); // 13
+    println!(&quot;5 + 3 = {}&quot;, add_five(3)); // 8
+    println!(&quot;10 + 3 = {}&quot;, add_ten(3)); // 13
 }</code></pre></pre>
 <p>The <code>move</code> keyword is essential here because the closure needs to own the <code>amount</code> variable. Without it, the closure would try to reference a variable that no longer exists once the function returns.</p>
 <h3 id="boxing-returned-closures"><a class="header" href="#boxing-returned-closures">Boxing Returned Closures</a></h3>
 <p>When you need to return different closure types based on a condition, you can use a boxed trait object:</p>
 <pre><pre class="playground"><code class="language-rust">fn create_operation(op: &amp;str) -&gt; Box&lt;dyn Fn(i32, i32) -&gt; i32&gt; {
     match op {
-        "add" =&gt; Box::new(|a, b| a + b),
-        "subtract" =&gt; Box::new(|a, b| a - b),
-        "multiply" =&gt; Box::new(|a, b| a * b),
-        "divide" =&gt; Box::new(|a, b| a / b),
+        &quot;add&quot; =&gt; Box::new(|a, b| a + b),
+        &quot;subtract&quot; =&gt; Box::new(|a, b| a - b),
+        &quot;multiply&quot; =&gt; Box::new(|a, b| a * b),
+        &quot;divide&quot; =&gt; Box::new(|a, b| a / b),
         _ =&gt; Box::new(|a, b| a),
     }
 }
 
 fn main() {
     let operations = [
-        create_operation("add"),
-        create_operation("subtract"),
-        create_operation("multiply"),
-        create_operation("divide"),
+        create_operation(&quot;add&quot;),
+        create_operation(&quot;subtract&quot;),
+        create_operation(&quot;multiply&quot;),
+        create_operation(&quot;divide&quot;),
     ];
 
     for op in &amp;operations {
-        println!("10 op 5 = {}", op(10, 5));
+        println!(&quot;10 op 5 = {}&quot;, op(10, 5));
     }
 }</code></pre></pre>
 <p>Using a boxed closure has a small runtime cost due to dynamic dispatch, but it gives you greater flexibility.</p>
@@ -1037,24 +1044,24 @@ where
     F: Fn(String) + 'static,
 {
     move |message| {
-        let formatted = format!("[{}] {}", prefix, message);
+        let formatted = format!(&quot;[{}] {}&quot;, prefix, message);
         log_fn(formatted);
     }
 }
 
 fn main() {
     let mut error_logger = create_logger(
-        String::from("ERROR"),
-        |msg| eprintln!("{}", msg),
+        String::from(&quot;ERROR&quot;),
+        |msg| eprintln!(&quot;{}&quot;, msg),
     );
 
     let mut info_logger = create_logger(
-        String::from("INFO"),
-        |msg| println!("{}", msg),
+        String::from(&quot;INFO&quot;),
+        |msg| println!(&quot;{}&quot;, msg),
     );
 
-    error_logger(String::from("Something went wrong"));   // [ERROR] Something went wrong
-    info_logger(String::from("Operation successful"));    // [INFO] Operation successful
+    error_logger(String::from(&quot;Something went wrong&quot;));   // [ERROR] Something went wrong
+    info_logger(String::from(&quot;Operation successful&quot;));    // [INFO] Operation successful
 }</code></pre></pre>
 <h3 id="building-complex-function-chains"><a class="header" href="#building-complex-function-chains">Building Complex Function Chains</a></h3>
 <p>You can build complex function chains by returning closures that compose operations:</p>
@@ -1077,8 +1084,8 @@ fn main() {
     // First add 5, then multiply by 3
     let add_then_multiply = compose(multiply_by_three, add_five);
 
-    println!("multiply_then_add(10) = {}", multiply_then_add(10)); // 10 * 3 + 5 = 35
-    println!("add_then_multiply(10) = {}", add_then_multiply(10)); // (10 + 5) * 3 = 45
+    println!(&quot;multiply_then_add(10) = {}&quot;, multiply_then_add(10)); // 10 * 3 + 5 = 35
+    println!(&quot;add_then_multiply(10) = {}&quot;, add_then_multiply(10)); // (10 + 5) * 3 = 45
 }</code></pre></pre>
 <h3 id="stateful-closures"><a class="header" href="#stateful-closures">Stateful Closures</a></h3>
 <p>Returning closures can encapsulate state, creating a form of object with private data:</p>
@@ -1094,11 +1101,11 @@ fn main() {
     let mut counter1 = create_counter(0);
     let mut counter2 = create_counter(10);
 
-    println!("Counter 1: {}", counter1()); // 1
-    println!("Counter 1: {}", counter1()); // 2
-    println!("Counter 2: {}", counter2()); // 11
-    println!("Counter 1: {}", counter1()); // 3
-    println!("Counter 2: {}", counter2()); // 12
+    println!(&quot;Counter 1: {}&quot;, counter1()); // 1
+    println!(&quot;Counter 1: {}&quot;, counter1()); // 2
+    println!(&quot;Counter 2: {}&quot;, counter2()); // 11
+    println!(&quot;Counter 1: {}&quot;, counter1()); // 3
+    println!(&quot;Counter 2: {}&quot;, counter2()); // 12
 }</code></pre></pre>
 <p>This pattern is powerful because it allows you to create functions with private state that can only be accessed through the function calls.</p>
 <h3 id="closures-with-configurable-behavior"><a class="header" href="#closures-with-configurable-behavior">Closures with Configurable Behavior</a></h3>
@@ -1111,7 +1118,7 @@ where
         if validate(input) {
             Ok(())
         } else {
-            Err(format!("Validation failed for: {}", input))
+            Err(format!(&quot;Validation failed for: {}&quot;, input))
         }
     }
 }
@@ -1122,25 +1129,25 @@ fn main() {
     let no_numbers = create_validator(|s| !s.chars().any(|c| c.is_digit(10)));
     let min_length = create_validator(|s| s.len() &gt;= 8);
 
-    let username = "alice_smith";
+    let username = &quot;alice_smith&quot;;
 
     // Apply each validator
     for (name, validator) in [
-        ("no_empty", &amp;no_empty),
-        ("no_numbers", &amp;no_numbers),
-        ("min_length", &amp;min_length),
+        (&quot;no_empty&quot;, &amp;no_empty),
+        (&quot;no_numbers&quot;, &amp;no_numbers),
+        (&quot;min_length&quot;, &amp;min_length),
     ] {
         match validator(username) {
-            Ok(()) =&gt; println!("{} passed", name),
-            Err(e) =&gt; println!("{} failed: {}", name, e),
+            Ok(()) =&gt; println!(&quot;{} passed&quot;, name),
+            Err(e) =&gt; println!(&quot;{} failed: {}&quot;, name, e),
         }
     }
 }</code></pre></pre>
 <h3 id="return-type-challenges"><a class="header" href="#return-type-challenges">Return Type Challenges</a></h3>
 <p>One challenge with returning closures is specifying their type. The simplest approach is <code>impl Fn(...)</code>, but this has limitations:</p>
 <ol>
-<li><strong>Different closure types</strong>: You can’t return different closure types from the same function without boxing.</li>
-<li><strong>Recursion</strong>: It’s tricky to have closures that call themselves recursively.</li>
+<li><strong>Different closure types</strong>: You can't return different closure types from the same function without boxing.</li>
+<li><strong>Recursion</strong>: It's tricky to have closures that call themselves recursively.</li>
 </ol>
 <p>For the recursion challenge, one solution is to use a <code>Rc</code> and a mutable reference:</p>
 <pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
@@ -1172,12 +1179,12 @@ fn create_factorial_calculator() -&gt; impl Fn(u64) -&gt; u64 {
 fn main() {
     let factorial = create_factorial_calculator();
 
-    println!("5! = {}", factorial(5)); // 120
-    println!("10! = {}", factorial(10)); // 3628800
+    println!(&quot;5! = {}&quot;, factorial(5)); // 120
+    println!(&quot;10! = {}&quot;, factorial(10)); // 3628800
 }</code></pre></pre>
 <p>This complex pattern allows a closure to refer to itself recursively.</p>
 <h2 id="closure-type-inference"><a class="header" href="#closure-type-inference">Closure Type Inference</a></h2>
-<p>One of the most convenient aspects of Rust’s closures is type inference, which allows you to write concise code without explicitly specifying parameter and return types. However, it’s important to understand how inference works and when you might need to provide type annotations.</p>
+<p>One of the most convenient aspects of Rust's closures is type inference, which allows you to write concise code without explicitly specifying parameter and return types. However, it's important to understand how inference works and when you might need to provide type annotations.</p>
 <h3 id="how-closure-type-inference-works"><a class="header" href="#how-closure-type-inference-works">How Closure Type Inference Works</a></h3>
 <p>Rust infers the types of closure parameters and returns based on how the closure is used:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -1187,7 +1194,7 @@ fn main() {
     // Rust infers that `n` is &amp;i32 based on the iterator type
     let sum: i32 = numbers.iter().map(|n| n * 2).sum();
 
-    println!("Sum of doubled values: {}", sum);
+    println!(&quot;Sum of doubled values: {}&quot;, sum);
 }</code></pre></pre>
 <p>In this example, Rust infers that <code>n</code> is of type <code>&amp;i32</code> because <code>iter()</code> produces an iterator of references.</p>
 <h3 id="explicit-type-annotations"><a class="header" href="#explicit-type-annotations">Explicit Type Annotations</a></h3>
@@ -1200,14 +1207,14 @@ fn main() {
     let to_string = |x: i32| -&gt; String { x.to_string() };
 
     // Both parameter and return types
-    let format_number = |x: i32| -&gt; String { format!("Number: {}", x) };
+    let format_number = |x: i32| -&gt; String { format!(&quot;Number: {}&quot;, x) };
 
-    println!("Square: {}", square(5));
-    println!("String: {}", to_string(42));
-    println!("Formatted: {}", format_number(123));
+    println!(&quot;Square: {}&quot;, square(5));
+    println!(&quot;String: {}&quot;, to_string(42));
+    println!(&quot;Formatted: {}&quot;, format_number(123));
 }</code></pre></pre>
 <h3 id="type-inference-limitations"><a class="header" href="#type-inference-limitations">Type Inference Limitations</a></h3>
-<p>There are situations where Rust’s type inference for closures has limitations:</p>
+<p>There are situations where Rust's type inference for closures has limitations:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // Error: Cannot infer type
     // let get_something = || get_value();
@@ -1217,7 +1224,7 @@ fn main() {
 
     // Or use the closure in a way that allows inference
     let value = get_something();
-    println!("Value: {}", value);
+    println!(&quot;Value: {}&quot;, value);
 }
 
 // This would cause an error without a type annotation
@@ -1235,13 +1242,13 @@ fn main() {
     // Type inference works here
     let pair = (3, 5);
     let squared = apply_to_pair(pair, |x| x * x);
-    println!("Squared: {:?}", squared); // (9, 25)
+    println!(&quot;Squared: {:?}&quot;, squared); // (9, 25)
 
     // Type annotation needed here to disambiguate
     let to_str = apply_to_pair(pair, |x: i32| -&gt; String { x.to_string() });
-    println!("As strings: {:?}", to_str); // ("3", "5")
+    println!(&quot;As strings: {:?}&quot;, to_str); // (&quot;3&quot;, &quot;5&quot;)
 }</code></pre></pre>
-<p>In the second example, without type annotations, Rust wouldn’t know whether to call <code>to_string()</code> or another method that returns a string-like type.</p>
+<p>In the second example, without type annotations, Rust wouldn't know whether to call <code>to_string()</code> or another method that returns a string-like type.</p>
 <h3 id="closure-type-inference-with-multiple-uses"><a class="header" href="#closure-type-inference-with-multiple-uses">Closure Type Inference with Multiple Uses</a></h3>
 <p>Type inference for closures becomes tricky when the same closure is used in different contexts:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -1255,12 +1262,12 @@ fn main() {
     let result1: Vec&lt;i32&gt; = numbers.iter().map(square).collect();
     let result2: Vec&lt;i32&gt; = numbers.iter().filter(|&amp;x| x % 2 == 0).map(square).collect();
 
-    println!("Result: {:?}", result); // [1, 4, 9, 16, 25]
-    println!("Result 1: {:?}", result1); // [1, 4, 9, 16, 25]
-    println!("Result 2: {:?}", result2); // [4, 16]
+    println!(&quot;Result: {:?}&quot;, result); // [1, 4, 9, 16, 25]
+    println!(&quot;Result 1: {:?}&quot;, result1); // [1, 4, 9, 16, 25]
+    println!(&quot;Result 2: {:?}&quot;, result2); // [4, 16]
 }</code></pre></pre>
 <h3 id="function-pointers-vs-closures"><a class="header" href="#function-pointers-vs-closures">Function Pointers vs. Closures</a></h3>
-<p>It’s important to understand the difference between function pointers and closures when it comes to type inference:</p>
+<p>It's important to understand the difference between function pointers and closures when it comes to type inference:</p>
 <pre><pre class="playground"><code class="language-rust">fn add_one(x: i32) -&gt; i32 {
     x + 1
 }
@@ -1273,8 +1280,8 @@ fn main() {
     let c = |x: i32| x + 1;
 
     // Both can be used the same way
-    println!("Function: {}", f(5)); // 6
-    println!("Closure: {}", c(5));  // 6
+    println!(&quot;Function: {}&quot;, f(5)); // 6
+    println!(&quot;Closure: {}&quot;, c(5));  // 6
 
     // But they have different types
     // This would error: let same: fn(i32) -&gt; i32 = c;
@@ -1298,30 +1305,30 @@ fn main() {
     let parse_i32 = |s: &amp;str| s.parse::&lt;i32&gt;();
 
     // 2. Turbofish syntax
-    let result = "42".parse::&lt;i32&gt;().unwrap();
+    let result = &quot;42&quot;.parse::&lt;i32&gt;().unwrap();
 
     // 3. Intermediate variable with explicit type
-    let parse_result: Result&lt;i32, _&gt; = "42".parse();
+    let parse_result: Result&lt;i32, _&gt; = &quot;42&quot;.parse();
     let number = parse_result.unwrap();
 
-    println!("Number: {}", number);
+    println!(&quot;Number: {}&quot;, number);
 }</code></pre></pre>
 <h2 id="closure-debugging-techniques"><a class="header" href="#closure-debugging-techniques">Closure Debugging Techniques</a></h2>
-<p>Debugging closures can be challenging due to their anonymous nature. Let’s explore techniques to make debugging closures easier.</p>
+<p>Debugging closures can be challenging due to their anonymous nature. Let's explore techniques to make debugging closures easier.</p>
 <h3 id="printing-closure-contents"><a class="header" href="#printing-closure-contents">Printing Closure Contents</a></h3>
-<p>Since closures are anonymous types, you can’t directly print them. However, you can print their captured values:</p>
+<p>Since closures are anonymous types, you can't directly print them. However, you can print their captured values:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 10;
     let y = 20;
 
     let closure = move || {
         // Print captured values
-        println!("Captured values: x = {}, y = {}", x, y);
+        println!(&quot;Captured values: x = {}, y = {}&quot;, x, y);
         x + y
     };
 
     let result = closure();
-    println!("Result: {}", result); // 30
+    println!(&quot;Result: {}&quot;, result); // 30
 }</code></pre></pre>
 <h3 id="tracing-closure-execution"><a class="header" href="#tracing-closure-execution">Tracing Closure Execution</a></h3>
 <p>Adding debug prints inside closures helps trace their execution:</p>
@@ -1330,20 +1337,20 @@ fn main() {
 
     let sum = numbers.iter()
         .map(|&amp;n| {
-            println!("Mapping: {} -&gt; {}", n, n * 2);
+            println!(&quot;Mapping: {} -&gt; {}&quot;, n, n * 2);
             n * 2
         })
         .filter(|&amp;n| {
             let keep = n &gt; 5;
-            println!("Filtering: {} (keep: {})", n, keep);
+            println!(&quot;Filtering: {} (keep: {})&quot;, n, keep);
             keep
         })
         .fold(0, |acc, n| {
-            println!("Folding: {} + {} = {}", acc, n, acc + n);
+            println!(&quot;Folding: {} + {} = {}&quot;, acc, n, acc + n);
             acc + n
         });
 
-    println!("Final sum: {}", sum);
+    println!(&quot;Final sum: {}&quot;, sum);
 }</code></pre></pre>
 <h3 id="using-debug-assertions"><a class="header" href="#using-debug-assertions">Using Debug Assertions</a></h3>
 <p>Debug assertions help verify assumptions about closure behavior:</p>
@@ -1352,14 +1359,14 @@ fn main() {
 
     let filter = |x: i32| {
         // Assert that our filter logic is correct
-        debug_assert!(x &gt; threshold == (x &gt; 5), "Filter logic mismatch for x = {}", x);
+        debug_assert!(x &gt; threshold == (x &gt; 5), &quot;Filter logic mismatch for x = {}&quot;, x);
         x &gt; threshold
     };
 
     let numbers = vec![1, 5, 6, 10];
     let filtered: Vec&lt;_&gt; = numbers.into_iter().filter(filter).collect();
 
-    println!("Filtered: {:?}", filtered); // [6, 10]
+    println!(&quot;Filtered: {:?}&quot;, filtered); // [6, 10]
 }</code></pre></pre>
 <h3 id="function-extraction-for-debugging"><a class="header" href="#function-extraction-for-debugging">Function Extraction for Debugging</a></h3>
 <p>For complex closures, extracting them into named functions can make debugging easier:</p>
@@ -1387,10 +1394,10 @@ fn main() {
     // Use a named function
     let primes: Vec&lt;_&gt; = (1..20).filter(|&amp;n| is_prime(n)).collect();
 
-    println!("Primes: {:?}", primes);
+    println!(&quot;Primes: {:?}&quot;, primes);
 }</code></pre></pre>
 <h3 id="inspecting-closure-types"><a class="header" href="#inspecting-closure-types">Inspecting Closure Types</a></h3>
-<p>While you can’t easily print a closure’s type, you can use compiler errors to inspect it:</p>
+<p>While you can't easily print a closure's type, you can use compiler errors to inspect it:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = 10;
     let add_x = |y| x + y;
@@ -1404,15 +1411,15 @@ fn main() {
     // Now pass your closure to check if it matches
     takes_specific_closure(add_x);
 
-    println!("Closure works: {}", add_x(5));
+    println!(&quot;Closure works: {}&quot;, add_x(5));
 }</code></pre></pre>
 <p>The compiler errors or successful compilation will tell you if your understanding of the closure type is correct.</p>
 <h3 id="debugging-lifetime-issues"><a class="header" href="#debugging-lifetime-issues">Debugging Lifetime Issues</a></h3>
-<p>Closures that capture references often encounter lifetime issues. Here’s how to debug them:</p>
+<p>Closures that capture references often encounter lifetime issues. Here's how to debug them:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // Scenario: Closure capturing a reference with too short a lifetime
     let result = {
-        let value = String::from("temporary");
+        let value = String::from(&quot;temporary&quot;);
 
         // This would fail because value doesn't live long enough
         // let closure = || &amp;value;
@@ -1425,7 +1432,7 @@ fn main() {
         closure()
     };
 
-    println!("Result: {}", result);
+    println!(&quot;Result: {}&quot;, result);
 }</code></pre></pre>
 <p>Understanding lifetime issues with closures is crucial for correct code.</p>
 <h3 id="memory-layout-debugging"><a class="header" href="#memory-layout-debugging">Memory Layout Debugging</a></h3>
@@ -1439,27 +1446,27 @@ fn main() {
     let x = 10;
     let capture_ref = || x + 1;
 
-    let s = String::from("hello");
+    let s = String::from(&quot;hello&quot;);
     let capture_string_ref = || s.len();
 
     let move_closure = move || s.len();
 
     // Inspect memory characteristics
-    println!("No capture - size: {}, align: {}",
+    println!(&quot;No capture - size: {}, align: {}&quot;,
              size_of_val(&amp;no_capture), align_of_val(&amp;no_capture));
 
-    println!("Ref capture - size: {}, align: {}",
+    println!(&quot;Ref capture - size: {}, align: {}&quot;,
              size_of_val(&amp;capture_ref), align_of_val(&amp;capture_ref));
 
-    println!("String ref - size: {}, align: {}",
+    println!(&quot;String ref - size: {}, align: {}&quot;,
              size_of_val(&amp;capture_string_ref), align_of_val(&amp;capture_string_ref));
 
-    println!("Move closure - size: {}, align: {}",
+    println!(&quot;Move closure - size: {}, align: {}&quot;,
              size_of_val(&amp;move_closure), align_of_val(&amp;move_closure));
 }</code></pre></pre>
 <p>This helps you understand the memory implications of different capture patterns.</p>
 <h2 id="ergonomic-closure-patterns"><a class="header" href="#ergonomic-closure-patterns">Ergonomic Closure Patterns</a></h2>
-<p>Rust’s closures enable elegant and expressive programming patterns that make code more readable and maintainable. Let’s explore some ergonomic patterns that leverage closures effectively.</p>
+<p>Rust's closures enable elegant and expressive programming patterns that make code more readable and maintainable. Let's explore some ergonomic patterns that leverage closures effectively.</p>
 <h3 id="the-builder-pattern-with-closures"><a class="header" href="#the-builder-pattern-with-closures">The Builder Pattern with Closures</a></h3>
 <p>Closures can enhance the builder pattern by allowing customization functions:</p>
 <pre><pre class="playground"><code class="language-rust">struct RequestBuilder {
@@ -1473,7 +1480,7 @@ impl RequestBuilder {
     fn new(url: &amp;str) -&gt; Self {
         RequestBuilder {
             url: url.to_string(),
-            method: "GET".to_string(),
+            method: &quot;GET&quot;.to_string(),
             headers: Vec::new(),
             body: None,
         }
@@ -1522,30 +1529,30 @@ struct Request {
 
 fn main() {
     // Regular builder pattern
-    let simple_request = RequestBuilder::new("https://api.example.com")
-        .method("POST")
-        .header("Content-Type", "application/json")
-        .body(r#"{"key": "value"}"#)
+    let simple_request = RequestBuilder::new(&quot;https://api.example.com&quot;)
+        .method(&quot;POST&quot;)
+        .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+        .body(r#&quot;{&quot;key&quot;: &quot;value&quot;}&quot;#)
         .build();
 
     // Using closure for complex customization
-    let complex_request = RequestBuilder::new("https://api.example.com")
+    let complex_request = RequestBuilder::new(&quot;https://api.example.com&quot;)
         .with(|req| {
             // Complex conditional logic
             if true {
-                req.method = "PUT".to_string();
-                req.headers.push(("Authorization".to_string(), "Bearer token".to_string()));
+                req.method = &quot;PUT&quot;.to_string();
+                req.headers.push((&quot;Authorization&quot;.to_string(), &quot;Bearer token&quot;.to_string()));
             }
 
             // Add multiple headers
             for i in 1..5 {
-                req.headers.push((format!("X-Custom-{}", i), format!("Value-{}", i)));
+                req.headers.push((format!(&quot;X-Custom-{}&quot;, i), format!(&quot;Value-{}&quot;, i)));
             }
         })
         .build();
 
-    println!("Simple request to: {}", simple_request.url);
-    println!("Complex request has {} headers", complex_request.headers.len());
+    println!(&quot;Simple request to: {}&quot;, simple_request.url);
+    println!(&quot;Complex request has {} headers&quot;, complex_request.headers.len());
 }</code></pre></pre>
 <p>The <code>with</code> method takes a closure that allows arbitrary modifications to the builder, enabling complex customization logic.</p>
 <h3 id="raii-guards-with-closures"><a class="header" href="#raii-guards-with-closures">RAII Guards with Closures</a></h3>
@@ -1580,15 +1587,15 @@ fn main() {
     // Example: Temporary file that's automatically deleted
     let content = with_resource(
         || {
-            println!("Creating temporary file...");
-            "file content".to_string()
+            println!(&quot;Creating temporary file...&quot;);
+            &quot;file content&quot;.to_string()
         },
         || {
-            println!("Deleting temporary file...");
+            println!(&quot;Deleting temporary file...&quot;);
         },
     );
 
-    println!("Working with content: {}", content);
+    println!(&quot;Working with content: {}&quot;, content);
     // Cleanup happens automatically when _guard goes out of scope
 }</code></pre></pre>
 <h3 id="fluent-interfaces-with-method-chaining"><a class="header" href="#fluent-interfaces-with-method-chaining">Fluent Interfaces with Method Chaining</a></h3>
@@ -1640,15 +1647,15 @@ fn main() {
     let result = DataProcessor::new(numbers)
         .filter(|&amp;n| n % 2 == 0)     // Keep even numbers
         .map(|n| n * n)              // Square them
-        .for_each(|&amp;n| println!("Processing: {}", n))
+        .for_each(|&amp;n| println!(&quot;Processing: {}&quot;, n))
         .result();
 
-    println!("Final result: {:?}", result);
+    println!(&quot;Final result: {:?}&quot;, result);
 }</code></pre></pre>
 <h3 id="option-and-result-combinators"><a class="header" href="#option-and-result-combinators">Option and Result Combinators</a></h3>
-<p>Closures work elegantly with Rust’s <code>Option</code> and <code>Result</code> combinators for expressive error handling:</p>
+<p>Closures work elegantly with Rust's <code>Option</code> and <code>Result</code> combinators for expressive error handling:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    let numbers = vec!["42", "foo", "64", "bar", "256"];
+    let numbers = vec![&quot;42&quot;, &quot;foo&quot;, &quot;64&quot;, &quot;bar&quot;, &quot;256&quot;];
 
     // Using map and filter_map with Option
     let sum: i32 = numbers.iter()
@@ -1658,19 +1665,19 @@ fn main() {
         })
         .sum();
 
-    println!("Sum: {}", sum); // 362
+    println!(&quot;Sum: {}&quot;, sum); // 362
 
     // Using and_then, map_err with Result
     let parsed: Result&lt;Vec&lt;i32&gt;, _&gt; = numbers.iter()
         .map(|&amp;s| {
             s.parse::&lt;i32&gt;()
-                .map_err(|e| format!("Failed to parse '{}': {}", s, e))
+                .map_err(|e| format!(&quot;Failed to parse '{}': {}&quot;, s, e))
         })
         .collect();
 
     match parsed {
-        Ok(values) =&gt; println!("All values: {:?}", values),
-        Err(e) =&gt; println!("Error: {}", e),
+        Ok(values) =&gt; println!(&quot;All values: {:?}&quot;, values),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 }</code></pre></pre>
 <h3 id="lazy-evaluation-with-closures"><a class="header" href="#lazy-evaluation-with-closures">Lazy Evaluation with Closures</a></h3>
@@ -1700,19 +1707,19 @@ impl&lt;T, F: FnOnce() -&gt; T&gt; Lazy&lt;T, F&gt; {
 
 fn main() {
     let mut expensive_data = Lazy::new(|| {
-        println!("Computing expensive value...");
+        println!(&quot;Computing expensive value...&quot;);
         // Simulate expensive computation
         std::thread::sleep(std::time::Duration::from_secs(1));
         vec![1, 2, 3, 4, 5]
     });
 
-    println!("Lazy value created, but not computed yet");
+    println!(&quot;Lazy value created, but not computed yet&quot;);
 
     // Value is computed only when needed
-    println!("First access: {:?}", expensive_data.value());
+    println!(&quot;First access: {:?}&quot;, expensive_data.value());
 
     // Second access reuses the computed value
-    println!("Second access: {:?}", expensive_data.value());
+    println!(&quot;Second access: {:?}&quot;, expensive_data.value());
 }</code></pre></pre>
 <h3 id="context-managers-with-closures"><a class="header" href="#context-managers-with-closures">Context Managers with Closures</a></h3>
 <p>Closures can implement a Python-like context manager pattern:</p>
@@ -1720,23 +1727,23 @@ fn main() {
 where
     F: FnOnce() -&gt; T,
 {
-    println!("Setting up context");
+    println!(&quot;Setting up context&quot;);
 
     let result = context_fn();
 
-    println!("Tearing down context");
+    println!(&quot;Tearing down context&quot;);
 
     result
 }
 
 fn main() {
     let result = with_context(|| {
-        println!("Working inside context");
+        println!(&quot;Working inside context&quot;);
         // Do work with the context
         42
     });
 
-    println!("Result: {}", result);
+    println!(&quot;Result: {}&quot;, result);
 }</code></pre></pre>
 <h3 id="currying-and-partial-application"><a class="header" href="#currying-and-partial-application">Currying and Partial Application</a></h3>
 <p>Closures make it easy to implement currying and partial application:</p>
@@ -1762,12 +1769,12 @@ fn main() {
     let curried_add = curry(add);
     let add_5 = curried_add(5);
 
-    println!("5 + 3 = {}", add_5(3)); // 8
+    println!(&quot;5 + 3 = {}&quot;, add_5(3)); // 8
 
     // Partial application
     let add_10 = partial(add, 10);
 
-    println!("10 + 7 = {}", add_10(7)); // 17
+    println!(&quot;10 + 7 = {}&quot;, add_10(7)); // 17
 }</code></pre></pre>
 <h2 id="building-composable-function-pipelines"><a class="header" href="#building-composable-function-pipelines">Building Composable Function Pipelines</a></h2>
 <p>One of the most powerful applications of closures is building composable function pipelines. This functional approach enables you to create reusable, modular components that can be combined in various ways.</p>
@@ -1811,18 +1818,18 @@ fn main() {
     let add_then_multiply = compose(multiply_by_two, add_one);
     let multiply_then_add = compose(add_one, multiply_by_two);
 
-    println!("add_then_multiply(5) = {}", add_then_multiply(5)); // (5+1)*2 = 12
-    println!("multiply_then_add(5) = {}", multiply_then_add(5)); // 5*2+1 = 11
+    println!(&quot;add_then_multiply(5) = {}&quot;, add_then_multiply(5)); // (5+1)*2 = 12
+    println!(&quot;multiply_then_add(5) = {}&quot;, multiply_then_add(5)); // 5*2+1 = 11
 
     // Pipeline composition
     let result = pipe(5)
         .then(|x| x + 1)         // 6
         .then(|x| x * 2)         // 12
-        .then(|x| x.to_string()) // "12"
-        .then(|x| x + "!")       // "12!"
+        .then(|x| x.to_string()) // &quot;12&quot;
+        .then(|x| x + &quot;!&quot;)       // &quot;12!&quot;
         .end();
 
-    println!("Pipeline result: {}", result);
+    println!(&quot;Pipeline result: {}&quot;, result);
 }</code></pre></pre>
 <h3 id="data-processing-pipelines"><a class="header" href="#data-processing-pipelines">Data Processing Pipelines</a></h3>
 <p>Closures are excellent for creating data processing pipelines:</p>
@@ -1871,7 +1878,7 @@ fn main() {
         .transform(to_strings)
         .result();
 
-    println!("Result: {:?}", result); // ["4", "16", "36", "64", "100"]
+    println!(&quot;Result: {:?}&quot;, result); // [&quot;4&quot;, &quot;16&quot;, &quot;36&quot;, &quot;64&quot;, &quot;100&quot;]
 }</code></pre></pre>
 <h3 id="middleware-pattern-with-closures"><a class="header" href="#middleware-pattern-with-closures">Middleware Pattern with Closures</a></h3>
 <p>Closures can implement a middleware pattern similar to that used in web frameworks:</p>
@@ -1897,26 +1904,26 @@ fn create_middleware_chain(middlewares: Vec&lt;Middleware&gt;, final_handler: Bo
 fn main() {
     // Define middlewares
     let logger: Middleware = Box::new(|req, next| {
-        println!("Request: {}", req);
+        println!(&quot;Request: {}&quot;, req);
         let res = next(req);
-        println!("Response: {}", res);
+        println!(&quot;Response: {}&quot;, res);
         res
     });
 
     let authenticator: Middleware = Box::new(|req, next| {
-        println!("Authenticating request");
+        println!(&quot;Authenticating request&quot;);
         // Could check auth headers here
         next(req)
     });
 
     let transformer: Middleware = Box::new(|req, next| {
-        let modified_req = req + " (modified)";
+        let modified_req = req + &quot; (modified)&quot;;
         next(modified_req)
     });
 
     // Final handler
     let handler = Box::new(|req: Request| {
-        format!("Handled: {}", req)
+        format!(&quot;Handled: {}&quot;, req)
     });
 
     // Create middleware chain
@@ -1926,9 +1933,9 @@ fn main() {
     );
 
     // Process a request
-    let response = app("Hello".to_string());
+    let response = app(&quot;Hello&quot;.to_string());
 
-    println!("Final response: {}", response);
+    println!(&quot;Final response: {}&quot;, response);
 }</code></pre></pre>
 <h3 id="composable-error-handling"><a class="header" href="#composable-error-handling">Composable Error Handling</a></h3>
 <p>Closures enable composable error handling with the <code>Result</code> type:</p>
@@ -1985,43 +1992,43 @@ fn main() {
 
     let might_fail = |n: i32| -&gt; Result&lt;i32&gt; {
         if n &gt; 100 {
-            Err(format!("Number too large: {}", n))
+            Err(format!(&quot;Number too large: {}&quot;, n))
         } else {
             Ok(n)
         }
     };
 
     // Compose them into a pipeline
-    let result = pipe_results("42")
+    let result = pipe_results(&quot;42&quot;)
         .then(parse_number)   // Ok(42)
         .then(double)         // Ok(84)
         .then(might_fail)     // Ok(84)
-        .map(|n| n.to_string()) // Ok("84")
+        .map(|n| n.to_string()) // Ok(&quot;84&quot;)
         .end();
 
     match result {
-        Ok(value) =&gt; println!("Success: {}", value),
-        Err(e) =&gt; println!("Error: {}", e),
+        Ok(value) =&gt; println!(&quot;Success: {}&quot;, value),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 
     // A pipeline that fails
-    let failed = pipe_results("999")
+    let failed = pipe_results(&quot;999&quot;)
         .then(parse_number)   // Ok(999)
         .then(double)         // Ok(1998)
-        .then(might_fail)     // Err("Number too large: 1998")
+        .then(might_fail)     // Err(&quot;Number too large: 1998&quot;)
         .or_else(|e| {
-            println!("Handling error: {}", e);
+            println!(&quot;Handling error: {}&quot;, e);
             Ok(100) // Provide a fallback value
         })
         .end();
 
     match failed {
-        Ok(value) =&gt; println!("Success with fallback: {}", value),
-        Err(e) =&gt; println!("Error: {}", e),
+        Ok(value) =&gt; println!(&quot;Success with fallback: {}&quot;, value),
+        Err(e) =&gt; println!(&quot;Error: {}&quot;, e),
     }
 }</code></pre></pre>
 <h2 id="common-closure-use-cases"><a class="header" href="#common-closure-use-cases">Common Closure Use Cases</a></h2>
-<p>Let’s explore some common practical use cases for closures in Rust code.</p>
+<p>Let's explore some common practical use cases for closures in Rust code.</p>
 <h3 id="customization-points"><a class="header" href="#customization-points">Customization Points</a></h3>
 <p>Closures serve as excellent customization points in library APIs:</p>
 <pre><pre class="playground"><code class="language-rust">struct SortOptions&lt;F&gt;
@@ -2048,10 +2055,10 @@ where
 
 fn main() {
     let words = vec![
-        "apple".to_string(),
-        "Banana".to_string(),
-        "cherry".to_string(),
-        "Date".to_string(),
+        &quot;apple&quot;.to_string(),
+        &quot;Banana&quot;.to_string(),
+        &quot;cherry&quot;.to_string(),
+        &quot;Date&quot;.to_string(),
     ];
 
     // Default lexicographical ordering
@@ -2072,8 +2079,8 @@ fn main() {
     let sorted1 = sort_strings(words.clone(), default_options);
     let sorted2 = sort_strings(words.clone(), length_options);
 
-    println!("Default sort: {:?}", sorted1);
-    println!("Length sort: {:?}", sorted2);
+    println!(&quot;Default sort: {:?}&quot;, sorted1);
+    println!(&quot;Length sort: {:?}&quot;, sorted2);
 }</code></pre></pre>
 <h3 id="event-handling-and-callbacks"><a class="header" href="#event-handling-and-callbacks">Event Handling and Callbacks</a></h3>
 <p>Closures are perfect for event handling and callback systems:</p>
@@ -2112,24 +2119,24 @@ fn main() {
     let mut emitter = EventEmitter::new();
 
     // Add event listeners
-    emitter.on("message", |data| {
-        println!("Received message: {}", data);
+    emitter.on(&quot;message&quot;, |data| {
+        println!(&quot;Received message: {}&quot;, data);
     });
 
     let mut counter = 0;
-    emitter.on("message", move |_| {
+    emitter.on(&quot;message&quot;, move |_| {
         counter += 1;
-        println!("Message count: {}", counter);
+        println!(&quot;Message count: {}&quot;, counter);
     });
 
-    emitter.on("error", |err| {
-        eprintln!("Error occurred: {}", err);
+    emitter.on(&quot;error&quot;, |err| {
+        eprintln!(&quot;Error occurred: {}&quot;, err);
     });
 
     // Emit events
-    emitter.emit("message", "Hello, world!");
-    emitter.emit("message", "Another message");
-    emitter.emit("error", "Something went wrong");
+    emitter.emit(&quot;message&quot;, &quot;Hello, world!&quot;);
+    emitter.emit(&quot;message&quot;, &quot;Another message&quot;);
+    emitter.emit(&quot;error&quot;, &quot;Something went wrong&quot;);
 }</code></pre></pre>
 <h3 id="memoization-and-caching"><a class="header" href="#memoization-and-caching">Memoization and Caching</a></h3>
 <p>Closures can implement memoization for expensive function calls:</p>
@@ -2157,7 +2164,7 @@ where
 fn main() {
     // An expensive calculation
     let mut fibonacci = memoize(|n: u64| {
-        println!("Computing fibonacci({})...", n);
+        println!(&quot;Computing fibonacci({})...&quot;, n);
         match n {
             0 =&gt; 0,
             1 =&gt; 1,
@@ -2174,11 +2181,11 @@ fn main() {
         }
     });
 
-    println!("fibonacci(10) = {}", fibonacci(10)); // Computes
-    println!("fibonacci(10) = {}", fibonacci(10)); // Uses cache
-    println!("fibonacci(20) = {}", fibonacci(20)); // Computes
-    println!("fibonacci(10) = {}", fibonacci(10)); // Uses cache
-    println!("fibonacci(20) = {}", fibonacci(20)); // Uses cache
+    println!(&quot;fibonacci(10) = {}&quot;, fibonacci(10)); // Computes
+    println!(&quot;fibonacci(10) = {}&quot;, fibonacci(10)); // Uses cache
+    println!(&quot;fibonacci(20) = {}&quot;, fibonacci(20)); // Computes
+    println!(&quot;fibonacci(10) = {}&quot;, fibonacci(10)); // Uses cache
+    println!(&quot;fibonacci(20) = {}&quot;, fibonacci(20)); // Uses cache
 }</code></pre></pre>
 <h3 id="dependency-injection"><a class="header" href="#dependency-injection">Dependency Injection</a></h3>
 <p>Closures can implement a form of dependency injection:</p>
@@ -2195,29 +2202,29 @@ where
     }
 
     fn perform_action(&amp;self, action: &amp;str) {
-        (self.logger)(&amp;format!("Performing action: {}", action));
+        (self.logger)(&amp;format!(&quot;Performing action: {}&quot;, action));
         // Do something
-        (self.logger)(&amp;format!("Action completed: {}", action));
+        (self.logger)(&amp;format!(&quot;Action completed: {}&quot;, action));
     }
 }
 
 fn main() {
     // Console logger implementation
     let console_logger = |message: &amp;str| {
-        println!("[CONSOLE] {}", message);
+        println!(&quot;[CONSOLE] {}&quot;, message);
     };
 
     // File logger implementation (simulated)
     let file_logger = |message: &amp;str| {
-        println!("[FILE] {}", message);
+        println!(&quot;[FILE] {}&quot;, message);
     };
 
     // Create services with different loggers
     let service1 = Service::new(console_logger);
     let service2 = Service::new(file_logger);
 
-    service1.perform_action("Save data");
-    service2.perform_action("Load data");
+    service1.perform_action(&quot;Save data&quot;);
+    service2.perform_action(&quot;Load data&quot;);
 }</code></pre></pre>
 <h3 id="command-pattern"><a class="header" href="#command-pattern">Command Pattern</a></h3>
 <p>Closures can implement the Command pattern:</p>
@@ -2238,7 +2245,7 @@ where
     }
 
     fn execute(&amp;mut self) {
-        println!("Executing command: {}", self.name);
+        println!(&quot;Executing command: {}&quot;, self.name);
         (self.execute)();
     }
 }
@@ -2275,24 +2282,24 @@ fn main() {
     let mut registry = CommandRegistry::new();
 
     // Register commands
-    registry.register("save", || {
-        println!("Saving data...");
+    registry.register(&quot;save&quot;, || {
+        println!(&quot;Saving data...&quot;);
     });
 
     let mut counter = 0;
-    registry.register("increment", move || {
+    registry.register(&quot;increment&quot;, move || {
         counter += 1;
-        println!("Counter: {}", counter);
+        println!(&quot;Counter: {}&quot;, counter);
     });
 
     // Execute commands
-    registry.execute("save");
-    registry.execute("increment");
-    registry.execute("increment");
+    registry.execute(&quot;save&quot;);
+    registry.execute(&quot;increment&quot;);
+    registry.execute(&quot;increment&quot;);
 
     // Unknown command
-    if !registry.execute("unknown") {
-        println!("Unknown command: unknown");
+    if !registry.execute(&quot;unknown&quot;) {
+        println!(&quot;Unknown command: unknown&quot;);
     }
 }</code></pre></pre>
 <h3 id="lazy-initialization"><a class="header" href="#lazy-initialization">Lazy Initialization</a></h3>
@@ -2322,20 +2329,20 @@ impl&lt;T, F: FnOnce() -&gt; T&gt; LazyInit&lt;T, F&gt; {
 
 fn main() {
     let mut config = LazyInit::new(|| {
-        println!("Loading configuration...");
+        println!(&quot;Loading configuration...&quot;);
         // Simulate loading from a file
         std::thread::sleep(std::time::Duration::from_millis(500));
-        vec!["setting1=value1", "setting2=value2"]
+        vec![&quot;setting1=value1&quot;, &quot;setting2=value2&quot;]
     });
 
-    println!("Application started");
+    println!(&quot;Application started&quot;);
 
     // Configuration is loaded only when needed
-    println!("First access, will initialize: {:?}", config.get());
-    println!("Second access, already initialized: {:?}", config.get());
+    println!(&quot;First access, will initialize: {:?}&quot;, config.get());
+    println!(&quot;Second access, already initialized: {:?}&quot;, config.get());
 }</code></pre></pre>
 <h2 id="project-event-system-with-closure-callbacks"><a class="header" href="#project-event-system-with-closure-callbacks">Project: Event System with Closure Callbacks</a></h2>
-<p>Let’s apply what we’ve learned to build a practical event system that uses closures for callbacks. Our system will include:</p>
+<p>Let's apply what we've learned to build a practical event system that uses closures for callbacks. Our system will include:</p>
 <ol>
 <li>An event emitter that can register and trigger events</li>
 <li>Support for different event types</li>
@@ -2344,7 +2351,7 @@ fn main() {
 <li>Cancellable events</li>
 </ol>
 <h3 id="step-1-designing-the-core-types"><a class="header" href="#step-1-designing-the-core-types">Step 1: Designing the Core Types</a></h3>
-<p>First, let’s define our core types:</p>
+<p>First, let's define our core types:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::any::{Any, TypeId};
@@ -2392,7 +2399,7 @@ where
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-2-implementing-the-event-dispatcher"><a class="header" href="#step-2-implementing-the-event-dispatcher">Step 2: Implementing the Event Dispatcher</a></h3>
-<p>Now, let’s implement our event dispatcher:</p>
+<p>Now, let's implement our event dispatcher:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Main event dispatcher
@@ -2485,7 +2492,7 @@ impl EventDispatcher {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-3-creating-event-types"><a class="header" href="#step-3-creating-event-types">Step 3: Creating Event Types</a></h3>
-<p>Let’s define some example event types:</p>
+<p>Let's define some example event types:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Some example event types
@@ -2505,7 +2512,7 @@ pub enum MouseButton {
 
 impl Event for ClickEvent {
     fn name(&amp;self) -&gt; &amp;'static str {
-        "click"
+        &quot;click&quot;
     }
 
     fn cancellable(&amp;self) -&gt; bool {
@@ -2523,7 +2530,7 @@ pub struct KeyPressEvent {
 
 impl Event for KeyPressEvent {
     fn name(&amp;self) -&gt; &amp;'static str {
-        "keypress"
+        &quot;keypress&quot;
     }
 }
 
@@ -2535,12 +2542,12 @@ pub struct WindowResizeEvent {
 
 impl Event for WindowResizeEvent {
     fn name(&amp;self) -&gt; &amp;'static str {
-        "resize"
+        &quot;resize&quot;
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-4-using-the-event-system"><a class="header" href="#step-4-using-the-event-system">Step 4: Using the Event System</a></h3>
-<p>Now let’s see how we can use our event system:</p>
+<p>Now let's see how we can use our event system:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut dispatcher = EventDispatcher::new();
 
@@ -2548,18 +2555,18 @@ impl Event for WindowResizeEvent {
 
     // Click handler with high priority
     dispatcher.on::&lt;ClickEvent, _&gt;(|event| {
-        println!("High priority click at ({}, {}) with {:?}",
+        println!(&quot;High priority click at ({}, {}) with {:?}&quot;,
                  event.x, event.y, event.button);
         EventResult::Continue
     }, 100);
 
     // Click handler with normal priority
     dispatcher.on::&lt;ClickEvent, _&gt;(|event| {
-        println!("Normal priority click at ({}, {})", event.x, event.y);
+        println!(&quot;Normal priority click at ({}, {})&quot;, event.x, event.y);
 
         // Cancel the event if right button is clicked
         if event.button == MouseButton::Right {
-            println!("Cancelling right-click event");
+            println!(&quot;Cancelling right-click event&quot;);
             return EventResult::Cancel;
         }
 
@@ -2569,11 +2576,11 @@ impl Event for WindowResizeEvent {
     // Key press handler
     let mut command_history = Vec::new();
     dispatcher.on::&lt;KeyPressEvent, _&gt;(move |event| {
-        println!("Key pressed: {}", event.key);
+        println!(&quot;Key pressed: {}&quot;, event.key);
 
-        if event.ctrl &amp;&amp; event.key == "s" {
-            println!("Save command detected");
-            command_history.push("save");
+        if event.ctrl &amp;&amp; event.key == &quot;s&quot; {
+            println!(&quot;Save command detected&quot;);
+            command_history.push(&quot;save&quot;);
         }
 
         EventResult::Continue
@@ -2583,51 +2590,51 @@ impl Event for WindowResizeEvent {
     let mut resize_count = 0;
     dispatcher.on::&lt;WindowResizeEvent, _&gt;(move |event| {
         resize_count += 1;
-        println!("Window resized to {}x{} (resize count: {})",
+        println!(&quot;Window resized to {}x{} (resize count: {})&quot;,
                  event.width, event.height, resize_count);
         EventResult::Continue
     }, 0);
 
     // Dispatch some events
-    println!("\nDispatching left-click event:");
+    println!(&quot;\nDispatching left-click event:&quot;);
     let handled = dispatcher.dispatch(ClickEvent {
         x: 100,
         y: 200,
         button: MouseButton::Left,
     });
-    println!("Event was handled: {}\n", handled);
+    println!(&quot;Event was handled: {}\n&quot;, handled);
 
-    println!("Dispatching right-click event:");
+    println!(&quot;Dispatching right-click event:&quot;);
     let handled = dispatcher.dispatch(ClickEvent {
         x: 300,
         y: 400,
         button: MouseButton::Right,
     });
-    println!("Event was handled: {}\n", handled);
+    println!(&quot;Event was handled: {}\n&quot;, handled);
 
-    println!("Dispatching key press events:");
+    println!(&quot;Dispatching key press events:&quot;);
     dispatcher.dispatch(KeyPressEvent {
-        key: "a".into(),
+        key: &quot;a&quot;.into(),
         ctrl: false,
         shift: false,
         alt: false,
     });
 
     dispatcher.dispatch(KeyPressEvent {
-        key: "s".into(),
+        key: &quot;s&quot;.into(),
         ctrl: true,
         shift: false,
         alt: false,
     });
 
-    println!("\nDispatching resize event:");
+    println!(&quot;\nDispatching resize event:&quot;);
     dispatcher.dispatch(WindowResizeEvent {
         width: 800,
         height: 600,
     });
 }</code></pre></pre>
 <h3 id="step-5-enhancing-the-event-system"><a class="header" href="#step-5-enhancing-the-event-system">Step 5: Enhancing the Event System</a></h3>
-<p>Let’s add some additional features to our event system:</p>
+<p>Let's add some additional features to our event system:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Add to EventDispatcher implementation
@@ -2675,7 +2682,7 @@ pub struct HandlerToken {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="step-6-making-the-system-more-flexible"><a class="header" href="#step-6-making-the-system-more-flexible">Step 6: Making the System More Flexible</a></h3>
-<p>Finally, let’s add support for wildcard event handling and asynchronous event dispatching:</p>
+<p>Finally, let's add support for wildcard event handling and asynchronous event dispatching:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Add to EventDispatcher implementation
@@ -2710,7 +2717,7 @@ impl EventDispatcher {
 </ol>
 <p>The key insight is how closures make it natural to register callbacks without having to define numerous tiny classes or function objects. The state captured by closures allows for concise and expressive event handlers.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored Rust’s closures in depth. We’ve learned:</p>
+<p>In this chapter, we've explored Rust's closures in depth. We've learned:</p>
 <ol>
 <li><strong>Closure Fundamentals</strong>: What closures are and how they capture their environment</li>
 <li><strong>Closure Traits</strong>: The <code>FnOnce</code>, <code>FnMut</code>, and <code>Fn</code> traits and how they determine closure behavior</li>
@@ -2725,8 +2732,8 @@ impl EventDispatcher {
 <li><strong>Common Use Cases</strong>: Practical applications of closures in real-world code</li>
 <li><strong>Event Systems</strong>: Implementing callback-based architectures with closures</li>
 </ol>
-<p>Closures are one of Rust’s most powerful features, enabling elegant functional programming patterns while maintaining Rust’s safety guarantees. By mastering closures, you can write more concise, expressive, and flexible code.</p>
-<p>The combination of first-class functions, environment capture, and Rust’s trait system makes closures a uniquely powerful tool. From simple transformations to complex event systems, closures provide a natural way to express computation that depends on both code and data.</p>
+<p>Closures are one of Rust's most powerful features, enabling elegant functional programming patterns while maintaining Rust's safety guarantees. By mastering closures, you can write more concise, expressive, and flexible code.</p>
+<p>The combination of first-class functions, environment capture, and Rust's trait system makes closures a uniquely powerful tool. From simple transformations to complex event systems, closures provide a natural way to express computation that depends on both code and data.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>

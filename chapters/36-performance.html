@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html" class="active"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,23 +184,23 @@
                     <main>
                         <h1 id="chapter-36-performance-optimization"><a class="header" href="#chapter-36-performance-optimization">Chapter 36: Performance Optimization</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Performance optimization is a critical skill for Rust developers. While Rust’s focus on zero-cost abstractions provides an excellent foundation for high-performance software, achieving optimal performance often requires careful analysis, measurement, and targeted optimizations. This chapter explores the art and science of optimizing Rust code to reach its full potential.</p>
+<p>Performance optimization is a critical skill for Rust developers. While Rust's focus on zero-cost abstractions provides an excellent foundation for high-performance software, achieving optimal performance often requires careful analysis, measurement, and targeted optimizations. This chapter explores the art and science of optimizing Rust code to reach its full potential.</p>
 <p>Rust is designed with performance in mind, but writing efficient code still requires understanding the costs of different operations, identifying bottlenecks, and applying appropriate optimizations. The language provides powerful tools for fine-grained control over memory layout, CPU instructions, and concurrency patterns, allowing developers to squeeze maximum performance from modern hardware.</p>
-<p>In this chapter, we’ll explore a range of performance optimization techniques, from basic benchmarking and profiling to advanced strategies like SIMD vectorization and cache optimization. We’ll also examine the tradeoffs involved in optimization decisions, as performance improvements often come with costs in terms of code complexity, maintainability, or portability.</p>
-<p>By the end of this chapter, you’ll have a comprehensive toolkit for measuring, analyzing, and improving the performance of your Rust applications. We’ll also develop a practical project that applies these optimization techniques to a performance-critical algorithm, demonstrating how to achieve significant speedups in real-world code.</p>
+<p>In this chapter, we'll explore a range of performance optimization techniques, from basic benchmarking and profiling to advanced strategies like SIMD vectorization and cache optimization. We'll also examine the tradeoffs involved in optimization decisions, as performance improvements often come with costs in terms of code complexity, maintainability, or portability.</p>
+<p>By the end of this chapter, you'll have a comprehensive toolkit for measuring, analyzing, and improving the performance of your Rust applications. We'll also develop a practical project that applies these optimization techniques to a performance-critical algorithm, demonstrating how to achieve significant speedups in real-world code.</p>
 <h2 id="benchmarking-with-criterion"><a class="header" href="#benchmarking-with-criterion">Benchmarking with Criterion</a></h2>
-<p>Before optimizing any code, it’s essential to establish a baseline and have a reliable way to measure performance improvements. Rust’s ecosystem offers several benchmarking tools, with Criterion.rs being one of the most powerful and user-friendly options.</p>
-<p>Criterion is a statistics-driven benchmarking library that provides robust measurements, detailed reports, and the ability to compare performance between different versions of your code. Unlike Rust’s built-in benchmark framework, Criterion works with stable Rust and provides more sophisticated statistical analysis.</p>
+<p>Before optimizing any code, it's essential to establish a baseline and have a reliable way to measure performance improvements. Rust's ecosystem offers several benchmarking tools, with Criterion.rs being one of the most powerful and user-friendly options.</p>
+<p>Criterion is a statistics-driven benchmarking library that provides robust measurements, detailed reports, and the ability to compare performance between different versions of your code. Unlike Rust's built-in benchmark framework, Criterion works with stable Rust and provides more sophisticated statistical analysis.</p>
 <h3 id="setting-up-criterion"><a class="header" href="#setting-up-criterion">Setting Up Criterion</a></h3>
-<p>To get started with Criterion, add it to your project’s <code>Cargo.toml</code> file:</p>
+<p>To get started with Criterion, add it to your project's <code>Cargo.toml</code> file:</p>
 <pre><code class="language-toml">[dev-dependencies]
-criterion = "0.4"
+criterion = &quot;0.4&quot;
 
 [[bench]]
-name = "my_benchmark"
+name = &quot;my_benchmark&quot;
 harness = false
 </code></pre>
-<p>The <code>harness = false</code> line tells Cargo to disable the built-in benchmark harness and use Criterion’s instead.</p>
+<p>The <code>harness = false</code> line tells Cargo to disable the built-in benchmark harness and use Criterion's instead.</p>
 <p>Next, create a benchmark file at <code>benches/my_benchmark.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -208,13 +215,13 @@ fn fibonacci(n: u64) -&gt; u64 {
 }
 
 fn criterion_benchmark(c: &amp;mut Criterion) {
-    c.bench_function("fib 20", |b| b.iter(|| fibonacci(black_box(20))));
+    c.bench_function(&quot;fib 20&quot;, |b| b.iter(|| fibonacci(black_box(20))));
 }
 
 criterion_group!(benches, criterion_benchmark);
 criterion_main!(benches);
 <span class="boring">}</span></code></pre></pre>
-<p>In this example, we’re benchmarking a recursive Fibonacci implementation. The <code>black_box</code> function prevents the compiler from optimizing away the function call during benchmarking.</p>
+<p>In this example, we're benchmarking a recursive Fibonacci implementation. The <code>black_box</code> function prevents the compiler from optimizing away the function call during benchmarking.</p>
 <h3 id="running-benchmarks"><a class="header" href="#running-benchmarks">Running Benchmarks</a></h3>
 <p>To run your benchmarks, use the <code>cargo bench</code> command:</p>
 <pre><code class="language-bash">cargo bench
@@ -224,7 +231,7 @@ criterion_main!(benches);
 </code></pre>
 <p>This output shows the median time along with the 95% confidence interval. Criterion also generates HTML reports with more detailed information and plots in the <code>target/criterion</code> directory.</p>
 <h3 id="comparing-performance"><a class="header" href="#comparing-performance">Comparing Performance</a></h3>
-<p>One of Criterion’s most valuable features is its ability to compare the performance of different versions of your code. When you run benchmarks with Criterion, it saves the results in the <code>target/criterion</code> directory. Future benchmark runs will automatically compare the new results with the saved baseline.</p>
+<p>One of Criterion's most valuable features is its ability to compare the performance of different versions of your code. When you run benchmarks with Criterion, it saves the results in the <code>target/criterion</code> directory. Future benchmark runs will automatically compare the new results with the saved baseline.</p>
 <p>For example, if we improve our Fibonacci implementation to use iteration instead of recursion:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -240,8 +247,8 @@ criterion_main!(benches);
 }
 
 fn criterion_benchmark(c: &amp;mut Criterion) {
-    c.bench_function("fib 20 recursive", |b| b.iter(|| fibonacci(black_box(20))));
-    c.bench_function("fib 20 iterative", |b| b.iter(|| fibonacci_iterative(black_box(20))));
+    c.bench_function(&quot;fib 20 recursive&quot;, |b| b.iter(|| fibonacci(black_box(20))));
+    c.bench_function(&quot;fib 20 iterative&quot;, |b| b.iter(|| fibonacci_iterative(black_box(20))));
 }
 <span class="boring">}</span></code></pre></pre>
 <p>The next benchmark run will show both the absolute performance and the relative improvement:</p>
@@ -252,16 +259,16 @@ fib 20 iterative        time:   [1.0638 µs 1.0639 µs 1.0642 µs]
 </code></pre>
 <h3 id="benchmark-groups-and-parameters"><a class="header" href="#benchmark-groups-and-parameters">Benchmark Groups and Parameters</a></h3>
 <p>For more complex benchmarking scenarios, Criterion supports parameter sweeps and grouping related benchmarks.</p>
-<p>Here’s an example of benchmarking the Fibonacci function with different input values:</p>
+<p>Here's an example of benchmarking the Fibonacci function with different input values:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn criterion_benchmark(c: &amp;mut Criterion) {
-    let mut group = c.benchmark_group("Fibonacci");
+    let mut group = c.benchmark_group(&quot;Fibonacci&quot;);
     for i in [5, 10, 15, 20].iter() {
-        group.bench_with_input(format!("recursive {}", i), i, |b, i| {
+        group.bench_with_input(format!(&quot;recursive {}&quot;, i), i, |b, i| {
             b.iter(|| fibonacci(black_box(*i)))
         });
-        group.bench_with_input(format!("iterative {}", i), i, |b, i| {
+        group.bench_with_input(format!(&quot;iterative {}&quot;, i), i, |b, i| {
             b.iter(|| fibonacci_iterative(black_box(*i)))
         });
     }
@@ -276,7 +283,7 @@ fib 20 iterative        time:   [1.0638 µs 1.0639 µs 1.0642 µs]
 <p><strong>Benchmark real-world scenarios</strong>: Ensure your benchmarks reflect actual usage patterns of your code.</p>
 </li>
 <li>
-<p><strong>Isolate what you’re measuring</strong>: Focus benchmarks on specific functions or components to identify bottlenecks precisely.</p>
+<p><strong>Isolate what you're measuring</strong>: Focus benchmarks on specific functions or components to identify bottlenecks precisely.</p>
 </li>
 <li>
 <p><strong>Use realistic input data</strong>: Performance can vary dramatically with different inputs, so use representative data.</p>
@@ -285,7 +292,7 @@ fib 20 iterative        time:   [1.0638 µs 1.0639 µs 1.0642 µs]
 <p><strong>Control your environment</strong>: Close other applications, use consistent power settings, and run benchmarks multiple times to reduce variance.</p>
 </li>
 <li>
-<p><strong>Be aware of compiler optimizations</strong>: The compiler might optimize away code that doesn’t have observable effects. Use <code>black_box</code> to prevent this.</p>
+<p><strong>Be aware of compiler optimizations</strong>: The compiler might optimize away code that doesn't have observable effects. Use <code>black_box</code> to prevent this.</p>
 </li>
 <li>
 <p><strong>Consider throughput and latency</strong>: Depending on your application, you might need to optimize for average-case performance, worst-case latency, or maximum throughput.</p>
@@ -298,11 +305,11 @@ fib 20 iterative        time:   [1.0638 µs 1.0639 µs 1.0642 µs]
 <li><strong>Divan</strong>: A modern benchmarking library with a focus on ergonomics and generating useful insights.</li>
 <li><strong>Flamegraph</strong>: For visualizing CPU usage across your code (discussed further in the profiling section).</li>
 </ul>
-<p>By establishing a solid benchmarking practice, you create the foundation for all future optimization work. Remember the optimization mantra: “Measure, don’t guess.” Only by measuring performance accurately can you identify where to focus your optimization efforts and verify that your changes actually improve performance.</p>
+<p>By establishing a solid benchmarking practice, you create the foundation for all future optimization work. Remember the optimization mantra: &quot;Measure, don't guess.&quot; Only by measuring performance accurately can you identify where to focus your optimization efforts and verify that your changes actually improve performance.</p>
 <h2 id="identifying-bottlenecks"><a class="header" href="#identifying-bottlenecks">Identifying Bottlenecks</a></h2>
-<p>Before diving into optimization, it’s crucial to identify where your code is actually spending time. Premature optimization is a common pitfall—developers often focus on optimizing code that isn’t a bottleneck, leading to increased complexity without meaningful performance gains.</p>
+<p>Before diving into optimization, it's crucial to identify where your code is actually spending time. Premature optimization is a common pitfall—developers often focus on optimizing code that isn't a bottleneck, leading to increased complexity without meaningful performance gains.</p>
 <h3 id="the-8020-rule"><a class="header" href="#the-8020-rule">The 80/20 Rule</a></h3>
-<p>Performance optimization typically follows the Pareto principle: 80% of execution time is spent in 20% of the code. By focusing your efforts on these critical “hot spots,” you can achieve significant performance improvements with minimal effort.</p>
+<p>Performance optimization typically follows the Pareto principle: 80% of execution time is spent in 20% of the code. By focusing your efforts on these critical &quot;hot spots,&quot; you can achieve significant performance improvements with minimal effort.</p>
 <h3 id="common-bottlenecks-in-rust-programs"><a class="header" href="#common-bottlenecks-in-rust-programs">Common Bottlenecks in Rust Programs</a></h3>
 <p>Several patterns commonly cause performance bottlenecks in Rust code:</p>
 <ol>
@@ -337,7 +344,7 @@ fib 20 iterative        time:   [1.0638 µs 1.0639 µs 1.0642 µs]
 <li><strong>Microbenchmarking</strong> helps identify inefficient functions or algorithms.</li>
 <li><strong>Macrobenchmarking</strong> reveals systemic issues like I/O bottlenecks or interaction effects.</li>
 </ul>
-<p>A balanced approach using both techniques provides the most complete picture of your application’s performance characteristics.</p>
+<p>A balanced approach using both techniques provides the most complete picture of your application's performance characteristics.</p>
 <h3 id="using-logging-for-initial-insights"><a class="header" href="#using-logging-for-initial-insights">Using Logging for Initial Insights</a></h3>
 <p>A simple but effective technique for initial performance investigation is strategic logging:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -350,20 +357,20 @@ fn process_data(data: &amp;[u32]) -&gt; Vec&lt;u32&gt; {
     // Processing step 1
     let step1_start = Instant::now();
     let intermediate = step_1(data);
-    println!("Step 1 took: {:?}", step1_start.elapsed());
+    println!(&quot;Step 1 took: {:?}&quot;, step1_start.elapsed());
 
     // Processing step 2
     let step2_start = Instant::now();
     let result = step_2(&amp;intermediate);
-    println!("Step 2 took: {:?}", step2_start.elapsed());
+    println!(&quot;Step 2 took: {:?}&quot;, step2_start.elapsed());
 
-    println!("Total processing took: {:?}", start.elapsed());
+    println!(&quot;Total processing took: {:?}&quot;, start.elapsed());
     result
 }
 <span class="boring">}</span></code></pre></pre>
 <p>This approach provides quick insights into where time is being spent, helping to guide more detailed profiling efforts.</p>
-<h3 id="using-rusts-built-in-tracing"><a class="header" href="#using-rusts-built-in-tracing">Using Rust’s Built-in Tracing</a></h3>
-<p>Rust’s standard library includes a basic tracing facility that can help identify bottlenecks with minimal overhead:</p>
+<h3 id="using-rusts-built-in-tracing"><a class="header" href="#using-rusts-built-in-tracing">Using Rust's Built-in Tracing</a></h3>
+<p>Rust's standard library includes a basic tracing facility that can help identify bottlenecks with minimal overhead:</p>
 <pre><pre class="playground"><code class="language-rust">#![feature(trace_macros)]
 
 fn main() {
@@ -373,7 +380,7 @@ fn main() {
 }</code></pre></pre>
 <p>This will output the macro expansions during compilation, which can help identify unexpected code generation or excessive template instantiations.</p>
 <h3 id="from-identification-to-action"><a class="header" href="#from-identification-to-action">From Identification to Action</a></h3>
-<p>Once you’ve identified bottlenecks, categorize them:</p>
+<p>Once you've identified bottlenecks, categorize them:</p>
 <ol>
 <li><strong>Algorithmic Issues</strong>: Can you use a more efficient algorithm?</li>
 <li><strong>Resource Contention</strong>: Are threads waiting for locks or I/O?</li>
@@ -384,7 +391,7 @@ fn main() {
 <h2 id="profiling-tools"><a class="header" href="#profiling-tools">Profiling Tools</a></h2>
 <p>Profiling tools provide detailed insights into how your program uses resources. Rust supports a variety of profiling approaches, from simple timing measurements to sophisticated system-wide profilers.</p>
 <h3 id="sampling-profilers"><a class="header" href="#sampling-profilers">Sampling Profilers</a></h3>
-<p>Sampling profilers periodically sample the program’s state to determine where it spends time. They have low overhead but provide statistical rather than exact measurements.</p>
+<p>Sampling profilers periodically sample the program's state to determine where it spends time. They have low overhead but provide statistical rather than exact measurements.</p>
 <h4 id="perf-linux"><a class="header" href="#perf-linux">perf (Linux)</a></h4>
 <p>The <code>perf</code> tool on Linux provides comprehensive profiling capabilities:</p>
 <pre><code class="language-bash"># Record profiling data
@@ -399,7 +406,7 @@ cargo flamegraph --bin my_program
 </code></pre>
 <p>This generates a flame graph visualization showing where your program spends time, with the most time-consuming functions having the widest bars.</p>
 <h4 id="instruments-macos"><a class="header" href="#instruments-macos">Instruments (macOS)</a></h4>
-<p>On macOS, Xcode’s Instruments provides powerful profiling capabilities:</p>
+<p>On macOS, Xcode's Instruments provides powerful profiling capabilities:</p>
 <pre><code class="language-bash">instruments -t Time\ Profiler ./target/release/my_program
 </code></pre>
 <p>You can also use the GUI version for more interactive analysis.</p>
@@ -416,7 +423,7 @@ wpa CPU_Report.etl
 <p>Tracy is a real-time, frame-based profiler with Rust bindings:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-tracy-client = "0.15.2"
+tracy-client = &quot;0.15.2&quot;
 </code></pre>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -424,17 +431,17 @@ tracy-client = "0.15.2"
 use tracy_client::span;
 
 fn expensive_function() {
-    let _span = span!("expensive_function");
+    let _span = span!(&quot;expensive_function&quot;);
 
     // Function implementation
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Tracy provides a GUI client that displays timing information, making it especially useful for interactive applications like games.</p>
 <h4 id="pprof"><a class="header" href="#pprof">pprof</a></h4>
-<p>The pprof crate provides integration with Google’s pprof profiler:</p>
+<p>The pprof crate provides integration with Google's pprof profiler:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-pprof = { version = "0.11", features = ["flamegraph", "protobuf"] }
+pprof = { version = &quot;0.11&quot;, features = [&quot;flamegraph&quot;, &quot;protobuf&quot;] }
 </code></pre>
 <pre><pre class="playground"><code class="language-rust">use pprof::ProfilerGuard;
 use std::fs::File;
@@ -448,12 +455,12 @@ fn main() {
 
     // Write profile data
     if let Ok(report) = guard.report().build() {
-        let file = File::create("profile.pb").unwrap();
+        let file = File::create(&quot;profile.pb&quot;).unwrap();
         let profile = report.pprof().unwrap();
         profile.write_to_file(file).unwrap();
 
         // Generate a flamegraph
-        let file = File::create("flamegraph.svg").unwrap();
+        let file = File::create(&quot;flamegraph.svg&quot;).unwrap();
         report.flamegraph(file).unwrap();
     }
 }</code></pre></pre>
@@ -500,7 +507,7 @@ vtune -report summary
 <p>For asynchronous Rust applications using Tokio, tokio-console provides insights into task scheduling and execution:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-console-subscriber = "0.1.8"
+console-subscriber = &quot;0.1.8&quot;
 </code></pre>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -515,9 +522,9 @@ tokio-console
 <p>The tracing ecosystem provides instrumentation for Rust applications:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-tracing = "0.1"
-tracing-subscriber = "0.3"
-tracing-timing = "0.6"
+tracing = &quot;0.1&quot;
+tracing-subscriber = &quot;0.3&quot;
+tracing-timing = &quot;0.6&quot;
 </code></pre>
 <pre><pre class="playground"><code class="language-rust">use tracing::{info, instrument};
 use tracing_subscriber::FmtSubscriber;
@@ -525,7 +532,7 @@ use tracing_timing::Histogram;
 
 #[instrument]
 fn process_data(data: &amp;[u32]) -&gt; Vec&lt;u32&gt; {
-    info!("Processing {} elements", data.len());
+    info!(&quot;Processing {} elements&quot;, data.len());
     // Implementation
 }
 
@@ -538,7 +545,7 @@ fn main() {
     // Your application code
 }</code></pre></pre>
 <h3 id="interpreting-profiling-results"><a class="header" href="#interpreting-profiling-results">Interpreting Profiling Results</a></h3>
-<p>Profiling generates large amounts of data. Here’s how to extract actionable insights:</p>
+<p>Profiling generates large amounts of data. Here's how to extract actionable insights:</p>
 <ol>
 <li>
 <p><strong>Focus on the hottest paths</strong>: Look for functions that consume the most time or resources.</p>
@@ -547,10 +554,10 @@ fn main() {
 <p><strong>Consider call frequencies</strong>: A function called millions of times might be worth optimizing even if each individual call is fast.</p>
 </li>
 <li>
-<p><strong>Look for unexpected patterns</strong>: Functions that shouldn’t be expensive but show up prominently in profiles may indicate bugs.</p>
+<p><strong>Look for unexpected patterns</strong>: Functions that shouldn't be expensive but show up prominently in profiles may indicate bugs.</p>
 </li>
 <li>
-<p><strong>Consider the full call stack</strong>: Sometimes the problem isn’t a function itself but how or when it’s called.</p>
+<p><strong>Consider the full call stack</strong>: Sometimes the problem isn't a function itself but how or when it's called.</p>
 </li>
 <li>
 <p><strong>Compare before and after</strong>: Always reprofile after making changes to confirm improvements.</p>
@@ -563,15 +570,15 @@ fn main() {
 <li>Cloud providers offer continuous profiling services (e.g., Google Cloud Profiler, Amazon CodeGuru)</li>
 <li>Set up alerts for significant performance regressions</li>
 </ul>
-<p>By making profiling part of your regular development and operations process, you can catch performance issues early and continuously improve your application’s efficiency.</p>
+<p>By making profiling part of your regular development and operations process, you can catch performance issues early and continuously improve your application's efficiency.</p>
 <h2 id="memory-profiling"><a class="header" href="#memory-profiling">Memory Profiling</a></h2>
-<p>Memory usage can significantly impact performance, especially in resource-constrained environments. Rust’s ownership system helps prevent memory leaks, but inefficient memory usage patterns can still cause performance problems. This section explores tools and techniques for profiling and optimizing memory usage in Rust applications.</p>
+<p>Memory usage can significantly impact performance, especially in resource-constrained environments. Rust's ownership system helps prevent memory leaks, but inefficient memory usage patterns can still cause performance problems. This section explores tools and techniques for profiling and optimizing memory usage in Rust applications.</p>
 <h3 id="understanding-memory-usage-patterns"><a class="header" href="#understanding-memory-usage-patterns">Understanding Memory Usage Patterns</a></h3>
-<p>Before diving into profiling tools, it’s helpful to understand common memory usage patterns and their performance implications:</p>
+<p>Before diving into profiling tools, it's helpful to understand common memory usage patterns and their performance implications:</p>
 <ol>
 <li><strong>Allocation Frequency</strong>: Creating and destroying many small objects can cause allocator overhead.</li>
 <li><strong>Memory Fragmentation</strong>: Non-contiguous memory allocation can lead to poor cache utilization.</li>
-<li><strong>Resident Set Size (RSS)</strong>: The portion of your program’s memory that is held in RAM.</li>
+<li><strong>Resident Set Size (RSS)</strong>: The portion of your program's memory that is held in RAM.</li>
 <li><strong>Virtual Memory</strong>: The total address space reserved by your program, including memory that may be paged to disk.</li>
 <li><strong>Memory Bandwidth</strong>: The rate at which memory can be read or written, which can become a bottleneck.</li>
 </ol>
@@ -581,9 +588,9 @@ fn main() {
 
 fn main() {
     let mem = mem_info().unwrap();
-    println!("Total memory: {} KB", mem.total);
-    println!("Free memory: {} KB", mem.free);
-    println!("Available memory: {} KB", mem.avail);
+    println!(&quot;Total memory: {} KB&quot;, mem.total);
+    println!(&quot;Free memory: {} KB&quot;, mem.free);
+    println!(&quot;Available memory: {} KB&quot;, mem.avail);
 }</code></pre></pre>
 <p>For process-specific information, you can use the <code>psutil</code> crate:</p>
 <pre><pre class="playground"><code class="language-rust">use psutil::process::Process;
@@ -593,8 +600,8 @@ fn main() {
     let process = Process::new(process::id() as usize).unwrap();
     let memory_info = process.memory_info().unwrap();
 
-    println!("RSS: {} bytes", memory_info.rss());
-    println!("VMS: {} bytes", memory_info.vms());
+    println!(&quot;RSS: {} bytes&quot;, memory_info.rss());
+    println!(&quot;VMS: {} bytes&quot;, memory_info.vms());
 }</code></pre></pre>
 <h3 id="tracking-allocations-with-alloc_counter"><a class="header" href="#tracking-allocations-with-alloc_counter">Tracking Allocations with <code>alloc_counter</code></a></h3>
 <p>The <code>alloc_counter</code> crate allows you to track allocations within specific code blocks:</p>
@@ -611,14 +618,14 @@ fn main() {
         v.iter().sum::&lt;i32&gt;()
     });
 
-    println!("Result: {}", result);
-    println!("Allocations: {}", counts.0);
-    println!("Deallocations: {}", counts.1);
-    println!("Bytes allocated: {}", counts.2);
-    println!("Bytes deallocated: {}", counts.3);
+    println!(&quot;Result: {}&quot;, result);
+    println!(&quot;Allocations: {}&quot;, counts.0);
+    println!(&quot;Deallocations: {}&quot;, counts.1);
+    println!(&quot;Bytes allocated: {}&quot;, counts.2);
+    println!(&quot;Bytes deallocated: {}&quot;, counts.3);
 }</code></pre></pre>
 <h3 id="custom-allocators-for-debugging"><a class="header" href="#custom-allocators-for-debugging">Custom Allocators for Debugging</a></h3>
-<p>Rust’s allocator API allows you to implement custom allocators for debugging:</p>
+<p>Rust's allocator API allows you to implement custom allocators for debugging:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::alloc::{GlobalAlloc, Layout, System};
@@ -653,9 +660,9 @@ static ALLOCATOR: CountingAllocator = CountingAllocator {
 };
 
 fn print_allocation_stats() {
-    println!("Allocations: {}", ALLOCATOR.allocations.load(Ordering::SeqCst));
-    println!("Deallocations: {}", ALLOCATOR.deallocations.load(Ordering::SeqCst));
-    println!("Bytes allocated: {}", ALLOCATOR.bytes_allocated.load(Ordering::SeqCst));
+    println!(&quot;Allocations: {}&quot;, ALLOCATOR.allocations.load(Ordering::SeqCst));
+    println!(&quot;Deallocations: {}&quot;, ALLOCATOR.deallocations.load(Ordering::SeqCst));
+    println!(&quot;Bytes allocated: {}&quot;, ALLOCATOR.bytes_allocated.load(Ordering::SeqCst));
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="memory-leak-detection-with-miri"><a class="header" href="#memory-leak-detection-with-miri">Memory Leak Detection with MIRI</a></h3>
@@ -782,12 +789,12 @@ let mut v: SmallVec&lt;[u64; 8]&gt; = SmallVec::new();
 </span>use std::borrow::Cow;
 
 fn process_string(input: &amp;str) -&gt; Cow&lt;'static, str&gt; {
-    if input == "common case" {
+    if input == &quot;common case&quot; {
         // No allocation, returns static reference
-        Cow::Borrowed("common case")
+        Cow::Borrowed(&quot;common case&quot;)
     } else {
         // Allocate only for uncommon cases
-        Cow::Owned(format!("processed: {}", input))
+        Cow::Owned(format!(&quot;processed: {}&quot;, input))
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -859,18 +866,18 @@ struct BetterLayout {
 fn track_memory_metrics() {
     // Record current memory usage
     let mem_info = sys_info::mem_info().unwrap();
-    gauge!("system.memory.used", mem_info.total - mem_info.avail);
+    gauge!(&quot;system.memory.used&quot;, mem_info.total - mem_info.avail);
 
     // Track allocations in critical functions
-    counter!("app.allocations.total").increment(1);
+    counter!(&quot;app.allocations.total&quot;).increment(1);
 }
 <span class="boring">}</span></code></pre></pre>
-<p>By combining these profiling techniques and optimization strategies, you can significantly reduce your application’s memory footprint and improve performance. Remember that memory optimization is an iterative process—measure, optimize, and measure again to ensure your changes have the desired effect.</p>
+<p>By combining these profiling techniques and optimization strategies, you can significantly reduce your application's memory footprint and improve performance. Remember that memory optimization is an iterative process—measure, optimize, and measure again to ensure your changes have the desired effect.</p>
 <h2 id="common-optimizations"><a class="header" href="#common-optimizations">Common Optimizations</a></h2>
 <p>After identifying bottlenecks through profiling, you can apply targeted optimizations to improve performance. This section covers common optimization techniques that are particularly effective in Rust.</p>
 <h3 id="compiler-optimizations"><a class="header" href="#compiler-optimizations">Compiler Optimizations</a></h3>
 <h4 id="optimization-levels"><a class="header" href="#optimization-levels">Optimization Levels</a></h4>
-<p>Rust’s compiler offers several optimization levels, controlled via the <code>-O</code> flag or the <code>opt-level</code> setting in <code>Cargo.toml</code>:</p>
+<p>Rust's compiler offers several optimization levels, controlled via the <code>-O</code> flag or the <code>opt-level</code> setting in <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[profile.release]
 opt-level = 3  # Maximum optimization
 </code></pre>
@@ -886,18 +893,18 @@ opt-level = 3  # Maximum optimization
 <h4 id="target-specific-optimizations"><a class="header" href="#target-specific-optimizations">Target-Specific Optimizations</a></h4>
 <p>You can enable CPU-specific optimizations by specifying the target CPU:</p>
 <pre><code class="language-toml">[profile.release]
-rustflags = ["-C", "target-cpu=native"]
+rustflags = [&quot;-C&quot;, &quot;target-cpu=native&quot;]
 </code></pre>
 <p>This enables all CPU features available on the build machine. For distributable binaries, you can specify a baseline CPU architecture:</p>
 <pre><code class="language-toml">[profile.release]
-rustflags = ["-C", "target-cpu=x86-64-v3"]  # For modern x86-64 CPUs
+rustflags = [&quot;-C&quot;, &quot;target-cpu=x86-64-v3&quot;]  # For modern x86-64 CPUs
 </code></pre>
 <h4 id="enabling-additional-features"><a class="header" href="#enabling-additional-features">Enabling Additional Features</a></h4>
 <p>Some optimizations require specific Cargo features:</p>
 <pre><code class="language-toml">[profile.release]
 codegen-units = 1      # Optimize across the whole program
-lto = "fat"            # Link-time optimization
-panic = "abort"        # Smaller binary size by not unwinding on panic
+lto = &quot;fat&quot;            # Link-time optimization
+panic = &quot;abort&quot;        # Smaller binary size by not unwinding on panic
 strip = true           # Strip symbols for smaller binary
 </code></pre>
 <h3 id="reducing-allocations"><a class="header" href="#reducing-allocations">Reducing Allocations</a></h3>
@@ -935,7 +942,7 @@ fn process_efficient(data: &amp;[u8]) -&gt; Vec&lt;Vec&lt;u8&gt;&gt; {
 fn extract_inefficient(text: &amp;str, pattern: &amp;str) -&gt; String {
     text.lines()
         .find(|line| line.contains(pattern))
-        .unwrap_or("")
+        .unwrap_or(&quot;&quot;)
         .to_string()  // Allocates
 }
 
@@ -943,7 +950,7 @@ fn extract_inefficient(text: &amp;str, pattern: &amp;str) -&gt; String {
 fn extract_efficient&lt;'a&gt;(text: &amp;'a str, pattern: &amp;str) -&gt; &amp;'a str {
     text.lines()
         .find(|line| line.contains(pattern))
-        .unwrap_or("")  // No allocation
+        .unwrap_or(&quot;&quot;)  // No allocation
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="object-pooling"><a class="header" href="#object-pooling">Object Pooling</a></h4>
@@ -985,12 +992,12 @@ impl ConnectionPool {
 </span><span class="boring">fn main() {
 </span>// Inefficient: Creates multiple intermediate strings
 fn format_inefficient(name: &amp;str, age: u32, city: &amp;str) -&gt; String {
-    "Name: ".to_string() + name + ", Age: " + &amp;age.to_string() + ", City: " + city
+    &quot;Name: &quot;.to_string() + name + &quot;, Age: &quot; + &amp;age.to_string() + &quot;, City: &quot; + city
 }
 
 // Better: Single allocation with format!
 fn format_better(name: &amp;str, age: u32, city: &amp;str) -&gt; String {
-    format!("Name: {}, Age: {}, City: {}", name, age, city)
+    format!(&quot;Name: {}, Age: {}, City: {}&quot;, name, age, city)
 }
 
 // Most efficient: Pre-allocate and write directly
@@ -1001,7 +1008,7 @@ fn format_efficient(name: &amp;str, age: u32, city: &amp;str) -&gt; String {
 
     // Write directly into the string
     use std::fmt::Write;
-    write!(result, "Name: {}, Age: {}, City: {}", name, age, city).unwrap();
+    write!(result, &quot;Name: {}, Age: {}, City: {}&quot;, name, age, city).unwrap();
 
     result
 }
@@ -1055,27 +1062,27 @@ impl SymbolTable {
 </span><span class="boring">fn main() {
 </span>// O(n) lookups
 let list: Vec&lt;(String, u32)&gt; = vec![
-    ("Alice".to_string(), 30),
-    ("Bob".to_string(), 25),
+    (&quot;Alice&quot;.to_string(), 30),
+    (&quot;Bob&quot;.to_string(), 25),
     // ...
 ];
 
 // Find a value (linear search)
 let bob_age = list.iter()
-    .find(|(name, _)| name == "Bob")
+    .find(|(name, _)| name == &quot;Bob&quot;)
     .map(|(_, age)| age)
     .copied();
 
 // O(1) lookups with HashMap
 use std::collections::HashMap;
 let map: HashMap&lt;String, u32&gt; = HashMap::from([
-    ("Alice".to_string(), 30),
-    ("Bob".to_string(), 25),
+    (&quot;Alice&quot;.to_string(), 30),
+    (&quot;Bob&quot;.to_string(), 25),
     // ...
 ]);
 
 // Find a value (constant time)
-let bob_age = map.get("Bob").copied();
+let bob_age = map.get(&quot;Bob&quot;).copied();
 <span class="boring">}</span></code></pre></pre>
 <h4 id="avoiding-unnecessary-work"><a class="header" href="#avoiding-unnecessary-work">Avoiding Unnecessary Work</a></h4>
 <p>Look for opportunities to eliminate redundant calculations:</p>
@@ -1129,9 +1136,9 @@ fn sum_without_checks(a: &amp;[i32], b: &amp;[i32]) -&gt; Vec&lt;i32&gt; {
     result
 }
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Note</strong>: Only use unsafe code when you’re confident about memory safety and have verified the performance benefits through benchmarking.</p>
+<p><strong>Note</strong>: Only use unsafe code when you're confident about memory safety and have verified the performance benefits through benchmarking.</p>
 <h3 id="iterators-and-closure-optimizations"><a class="header" href="#iterators-and-closure-optimizations">Iterators and Closure Optimizations</a></h3>
-<p>Rust’s iterators are designed for zero-cost abstractions, but some patterns are more efficient than others:</p>
+<p>Rust's iterators are designed for zero-cost abstractions, but some patterns are more efficient than others:</p>
 <h4 id="chaining-vs-collecting"><a class="header" href="#chaining-vs-collecting">Chaining vs. Collecting</a></h4>
 <p>Avoid unnecessary collections when chaining operations:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1255,7 +1262,7 @@ async fn process_file_async(path: &amp;str) -&gt; std::io::Result&lt;usize&gt; {
     let mut count = 0;
 
     while let Some(line) = lines.next_line().await? {
-        if line.contains("important") {
+        if line.contains(&quot;important&quot;) {
             count += 1;
         }
     }
@@ -1273,7 +1280,7 @@ strip = true
 <h4 id="lto-optimization-levels"><a class="header" href="#lto-optimization-levels">LTO Optimization Levels</a></h4>
 <p>Different LTO levels offer tradeoffs between binary size, compile time, and runtime performance:</p>
 <pre><code class="language-toml">[profile.release]
-lto = "thin"  # Faster than "fat" LTO, still provides good optimization
+lto = &quot;thin&quot;  # Faster than &quot;fat&quot; LTO, still provides good optimization
 </code></pre>
 <h4 id="disabling-standard-library"><a class="header" href="#disabling-standard-library">Disabling Standard Library</a></h4>
 <p>For extremely constrained environments, you can disable the standard library:</p>
@@ -1442,14 +1449,14 @@ fn count_bits_fastest(n: u32) -&gt; u32 {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="when-not-to-optimize"><a class="header" href="#when-not-to-optimize">When Not to Optimize</a></h3>
-<p>It’s important to recognize when optimization might be counterproductive:</p>
+<p>It's important to recognize when optimization might be counterproductive:</p>
 <ol>
-<li><strong>Premature Optimization</strong>: Don’t optimize without evidence that the code is a bottleneck.</li>
+<li><strong>Premature Optimization</strong>: Don't optimize without evidence that the code is a bottleneck.</li>
 <li><strong>Readable Code</strong>: Sometimes clarity is more important than performance.</li>
 <li><strong>Maintenance Burden</strong>: Complex optimizations can make code harder to maintain.</li>
 <li><strong>Diminishing Returns</strong>: After initial optimizations, further improvements often yield smaller benefits.</li>
 </ol>
-<p>Always benchmark before and after optimization to ensure your changes actually improve performance. Remember Donald Knuth’s famous quote: “Premature optimization is the root of all evil.”</p>
+<p>Always benchmark before and after optimization to ensure your changes actually improve performance. Remember Donald Knuth's famous quote: &quot;Premature optimization is the root of all evil.&quot;</p>
 <h2 id="parallelization-strategies"><a class="header" href="#parallelization-strategies">Parallelization Strategies</a></h2>
 <p>Parallelism can dramatically improve performance for CPU-bound workloads. Rust provides several tools for parallel programming, ranging from low-level thread management to high-level abstractions. This section explores various parallelization strategies and how to implement them effectively.</p>
 <h3 id="thread-based-parallelism"><a class="header" href="#thread-based-parallelism">Thread-Based Parallelism</a></h3>
@@ -1459,7 +1466,7 @@ fn count_bits_fastest(n: u32) -&gt; u32 {
 fn main() {
     let handles: Vec&lt;_&gt; = (0..8).map(|i| {
         thread::spawn(move || {
-            println!("Thread {} is running", i);
+            println!(&quot;Thread {} is running&quot;, i);
             // Perform work
         })
     }).collect();
@@ -1494,7 +1501,7 @@ fn main() {
         results.push(result);
     }
 
-    println!("Results: {:?}", results);
+    println!(&quot;Results: {:?}&quot;, results);
 }
 
 fn perform_work(id: u32) -&gt; u32 {
@@ -1522,7 +1529,7 @@ fn main() {
     drop(tx);  // Drop the original sender
 
     let results: Vec&lt;_&gt; = rx.iter().collect();
-    println!("Processed {} items", results.len());
+    println!(&quot;Processed {} items&quot;, results.len());
 }</code></pre></pre>
 <h3 id="rayon-data-parallelism-made-easy"><a class="header" href="#rayon-data-parallelism-made-easy">Rayon: Data Parallelism Made Easy</a></h3>
 <p>Rayon is a data-parallelism library that makes it easy to convert sequential operations into parallel ones. It handles thread creation, work stealing, and join for you:</p>
@@ -1548,8 +1555,8 @@ fn expensive_calculation(x: i32) -&gt; i32 {
     // Simulate expensive computation
     (0..x).map(|i| i % 5).sum()
 }</code></pre></pre>
-<h4 id="rayons-join-for-recursive-parallelism"><a class="header" href="#rayons-join-for-recursive-parallelism">Rayon’s Join for Recursive Parallelism</a></h4>
-<p>Rayon’s <code>join</code> function is ideal for recursive algorithms like mergesort:</p>
+<h4 id="rayons-join-for-recursive-parallelism"><a class="header" href="#rayons-join-for-recursive-parallelism">Rayon's Join for Recursive Parallelism</a></h4>
+<p>Rayon's <code>join</code> function is ideal for recursive algorithms like mergesort:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rayon::join;
@@ -1623,7 +1630,7 @@ fn main() {
             results
         }).join().unwrap();
 
-        println!("Received {} results", results.len());
+        println!(&quot;Received {} results&quot;, results.len());
     }).unwrap();
 }</code></pre></pre>
 <h4 id="lock-free-data-structures"><a class="header" href="#lock-free-data-structures">Lock-Free Data Structures</a></h4>
@@ -1691,7 +1698,7 @@ async fn main() {
         results.push(handle.await.unwrap());
     }
 
-    println!("Processed {} items", results.len());
+    println!(&quot;Processed {} items&quot;, results.len());
 }</code></pre></pre>
 <h3 id="parallel-domain-specific-problems"><a class="header" href="#parallel-domain-specific-problems">Parallel Domain-Specific Problems</a></h3>
 <p>Different problems benefit from different parallelization strategies:</p>
@@ -1813,7 +1820,7 @@ let sum: usize = (0..1000).into_par_iter()
 <p><strong>Consider Work Stealing</strong>: For uneven workloads, use algorithms that dynamically balance work across threads.</p>
 </li>
 <li>
-<p><strong>Be Aware of False Sharing</strong>: Ensure that data accessed by different threads doesn’t share the same cache line.</p>
+<p><strong>Be Aware of False Sharing</strong>: Ensure that data accessed by different threads doesn't share the same cache line.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Potential false sharing
@@ -1923,9 +1930,9 @@ for position in &amp;particle_system.positions {
     process_position(position);
 }
 <span class="boring">}</span></code></pre></pre>
-<p>If you’re only working with a subset of fields at a time, the SoA approach can be more cache-efficient.</p>
+<p>If you're only working with a subset of fields at a time, the SoA approach can be more cache-efficient.</p>
 <h3 id="temporal-locality"><a class="header" href="#temporal-locality">Temporal Locality</a></h3>
-<p>Temporal locality refers to reusing data that has been recently accessed. Taking advantage of temporal locality means organizing your code to reuse data while it’s still in cache.</p>
+<p>Temporal locality refers to reusing data that has been recently accessed. Taking advantage of temporal locality means organizing your code to reuse data while it's still in cache.</p>
 <h4 id="blockingtiling"><a class="header" href="#blockingtiling">Blocking/Tiling</a></h4>
 <p>For operations on large arrays, you can use blocking (or tiling) to improve cache utilization:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2029,7 +2036,7 @@ struct AutoAligned {
 <span class="boring">}</span></code></pre></pre>
 <p>By default, Rust aligns struct fields appropriately, but you can control alignment with <code>#[repr]</code> attributes.</p>
 <h3 id="prefetching"><a class="header" href="#prefetching">Prefetching</a></h3>
-<p>For predictable memory access patterns, you can use prefetching to load data into cache before it’s needed:</p>
+<p>For predictable memory access patterns, you can use prefetching to load data into cache before it's needed:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::arch::x86_64::_mm_prefetch;
@@ -2146,7 +2153,7 @@ fn sum_if_positive_branchless(data: &amp;[i32]) -&gt; i32 {
 <span class="boring">}</span></code></pre></pre>
 <p>For unpredictable branches in performance-critical code, consider using branchless alternatives.</p>
 <h3 id="custom-data-structures-for-cache-efficiency"><a class="header" href="#custom-data-structures-for-cache-efficiency">Custom Data Structures for Cache Efficiency</a></h3>
-<p>Sometimes, standard data structures aren’t cache-optimal. Consider custom implementations:</p>
+<p>Sometimes, standard data structures aren't cache-optimal. Consider custom implementations:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Cache-inefficient: Linked list with nodes scattered in memory
@@ -2207,9 +2214,9 @@ unsafe fn measure_cache_performance() {
 
     PAPI_stop_counters(values.as_mut_ptr(), values.len() as i32);
 
-    println!("L1 data cache misses: {}", values[0]);
-    println!("L2 data cache misses: {}", values[1]);
-    println!("L3 total cache misses: {}", values[2]);
+    println!(&quot;L1 data cache misses: {}&quot;, values[0]);
+    println!(&quot;L2 data cache misses: {}&quot;, values[1]);
+    println!(&quot;L3 total cache misses: {}&quot;, values[2]);
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="balancing-cache-optimization"><a class="header" href="#balancing-cache-optimization">Balancing Cache Optimization</a></h3>
@@ -2223,8 +2230,8 @@ unsafe fn measure_cache_performance() {
 <p>By understanding CPU caches and applying these techniques where appropriate, you can significantly improve the performance of memory-bound applications.</p>
 <h2 id="optimizing-compilation-time"><a class="header" href="#optimizing-compilation-time">Optimizing Compilation Time</a></h2>
 <p>While runtime performance is critical for users, compilation time directly impacts developer productivity. As Rust projects grow, build times can become a significant bottleneck in the development cycle. This section explores strategies to reduce compilation time without sacrificing runtime performance.</p>
-<h3 id="understanding-rusts-compilation-model"><a class="header" href="#understanding-rusts-compilation-model">Understanding Rust’s Compilation Model</a></h3>
-<p>Rust’s compilation process involves several steps:</p>
+<h3 id="understanding-rusts-compilation-model"><a class="header" href="#understanding-rusts-compilation-model">Understanding Rust's Compilation Model</a></h3>
+<p>Rust's compilation process involves several steps:</p>
 <ol>
 <li><strong>Parsing</strong>: Rust source code is parsed into an Abstract Syntax Tree (AST)</li>
 <li><strong>Macro Expansion</strong>: Macros are expanded</li>
@@ -2273,7 +2280,7 @@ cargo udeps  # Find unused dependencies
 <li>For CLI apps, <code>clap</code> is powerful but <code>argh</code> or <code>pico-args</code> compile much faster</li>
 </ul>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored comprehensive performance optimization techniques for Rust applications. We began by emphasizing the importance of measurement-driven optimization, establishing benchmarks as the foundation for all performance work. The key insights from this chapter include:</p>
+<p>In this chapter, we've explored comprehensive performance optimization techniques for Rust applications. We began by emphasizing the importance of measurement-driven optimization, establishing benchmarks as the foundation for all performance work. The key insights from this chapter include:</p>
 <ol>
 <li>
 <p><strong>Measure First, Optimize Second</strong>: Always establish baseline performance and identify bottlenecks through profiling before attempting optimizations.</p>
@@ -2285,7 +2292,7 @@ cargo udeps  # Find unused dependencies
 <p><strong>Layer Your Optimizations</strong>: Apply optimizations in a layered approach, starting with high-level improvements (algorithms, data structures) before moving to low-level optimizations (SIMD, cache optimization).</p>
 </li>
 <li>
-<p><strong>Leverage Rust’s Zero-Cost Abstractions</strong>: Rust’s design allows for high-level, safe code that compiles to efficient machine code, often eliminating the need for unsafe optimizations.</p>
+<p><strong>Leverage Rust's Zero-Cost Abstractions</strong>: Rust's design allows for high-level, safe code that compiles to efficient machine code, often eliminating the need for unsafe optimizations.</p>
 </li>
 <li>
 <p><strong>Understand the Hardware</strong>: Many performance optimizations require an understanding of how modern CPUs work, including caches, branch prediction, and parallelism capabilities.</p>
@@ -2303,9 +2310,9 @@ cargo udeps  # Find unused dependencies
 <p><strong>Test Thoroughly</strong>: Performance optimizations, especially those using unsafe code or advanced features like SIMD, require thorough testing to ensure correctness.</p>
 </li>
 </ol>
-<p>Throughout the chapter, we’ve progressed from basic benchmarking and profiling to advanced optimization techniques like SIMD vectorization and link-time optimization. Our practical project demonstrated how applying these techniques in a systematic way can yield substantial performance improvements—up to 100x in our example.</p>
-<p>Remember that performance optimization is an iterative process. As Donald Knuth famously noted, “Premature optimization is the root of all evil.” Focus your optimization efforts on the parts of your code that will provide the greatest benefit, as determined by profiling and measurement, not intuition or guesswork.</p>
-<p>By applying the principles and techniques covered in this chapter, you’ll be well-equipped to write Rust code that is not only safe and correct but also blazingly fast.</p>
+<p>Throughout the chapter, we've progressed from basic benchmarking and profiling to advanced optimization techniques like SIMD vectorization and link-time optimization. Our practical project demonstrated how applying these techniques in a systematic way can yield substantial performance improvements—up to 100x in our example.</p>
+<p>Remember that performance optimization is an iterative process. As Donald Knuth famously noted, &quot;Premature optimization is the root of all evil.&quot; Focus your optimization efforts on the parts of your code that will provide the greatest benefit, as determined by profiling and measurement, not intuition or guesswork.</p>
+<p>By applying the principles and techniques covered in this chapter, you'll be well-equipped to write Rust code that is not only safe and correct but also blazingly fast.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
@@ -2392,19 +2399,19 @@ cargo udeps  # Find unused dependencies
 <h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
 <h3 id="books"><a class="header" href="#books">Books</a></h3>
 <ul>
-<li>“Programming Rust: Fast, Safe Systems Development” by Jim Blandy, Jason Orendorff, and Leonora F.S. Tindall</li>
-<li>“Rust High Performance” by Iban Eguia Moraza</li>
-<li>“Hands-On Concurrency with Rust” by Brian L. Troutwine</li>
-<li>“Computer Systems: A Programmer’s Perspective” by Randal E. Bryant and David R. O’Hallaron</li>
-<li>“The Rust Performance Book” (online) - https://nnethercote.github.io/perf-book/</li>
+<li>&quot;Programming Rust: Fast, Safe Systems Development&quot; by Jim Blandy, Jason Orendorff, and Leonora F.S. Tindall</li>
+<li>&quot;Rust High Performance&quot; by Iban Eguia Moraza</li>
+<li>&quot;Hands-On Concurrency with Rust&quot; by Brian L. Troutwine</li>
+<li>&quot;Computer Systems: A Programmer's Perspective&quot; by Randal E. Bryant and David R. O'Hallaron</li>
+<li>&quot;The Rust Performance Book&quot; (online) - https://nnethercote.github.io/perf-book/</li>
 </ul>
 <h3 id="articles-and-papers"><a class="header" href="#articles-and-papers">Articles and Papers</a></h3>
 <ul>
-<li>“Rust Performance Pitfalls” by Nicholas Nethercote</li>
-<li>“SIMD at Insomniac Games” by Mike Acton</li>
-<li>“Optimizing Software in C++” by Agner Fog (many principles apply to Rust)</li>
-<li>“What Every Programmer Should Know About Memory” by Ulrich Drepper</li>
-<li>“Gallery of Processor Cache Effects” by Igor Ostrovsky</li>
+<li>&quot;Rust Performance Pitfalls&quot; by Nicholas Nethercote</li>
+<li>&quot;SIMD at Insomniac Games&quot; by Mike Acton</li>
+<li>&quot;Optimizing Software in C++&quot; by Agner Fog (many principles apply to Rust)</li>
+<li>&quot;What Every Programmer Should Know About Memory&quot; by Ulrich Drepper</li>
+<li>&quot;Gallery of Processor Cache Effects&quot; by Igor Ostrovsky</li>
 </ul>
 <h3 id="tools-and-libraries"><a class="header" href="#tools-and-libraries">Tools and Libraries</a></h3>
 <ul>
@@ -2425,9 +2432,9 @@ cargo udeps  # Find unused dependencies
 <h3 id="online-resources"><a class="header" href="#online-resources">Online Resources</a></h3>
 <ul>
 <li>Rust Performance Working Group: https://github.com/rust-lang/wg-performance</li>
-<li>“Rust Optimization Techniques” by Andrew Gallant: https://blog.burntsushi.net/rust-performance-tips/</li>
+<li>&quot;Rust Optimization Techniques&quot; by Andrew Gallant: https://blog.burntsushi.net/rust-performance-tips/</li>
 <li>Rust Compiler Performance Working Group: https://github.com/rust-lang/compiler-team/tree/master/content/working-groups/performance</li>
-<li>“Writing Fast Rust” by Nicholas Nethercote: https://nnethercote.github.io/2021/12/08/how-to-speed-up-the-rust-compiler.html</li>
+<li>&quot;Writing Fast Rust&quot; by Nicholas Nethercote: https://nnethercote.github.io/2021/12/08/how-to-speed-up-the-rust-compiler.html</li>
 <li>Rust Profiling Tools Overview: https://www.justanotherdot.com/posts/profiling-in-rust.html</li>
 </ul>
 <h3 id="community"><a class="header" href="#community">Community</a></h3>
@@ -2436,7 +2443,7 @@ cargo udeps  # Find unused dependencies
 <li>/r/rust on Reddit: https://www.reddit.com/r/rust/</li>
 <li>SIMD topic on Rust Internals forum: https://internals.rust-lang.org/t/simd-vector-for-nightly-and-stable-targets/9900</li>
 </ul>
-<p>By digging deeper into these resources, you’ll develop a comprehensive understanding of performance optimization in Rust and the principles that apply across all systems programming.</p>
+<p>By digging deeper into these resources, you'll develop a comprehensive understanding of performance optimization in Rust and the principles that apply across all systems programming.</p>
 
                     </main>
 

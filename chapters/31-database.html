@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,43 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/custom.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
     </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
-    </div>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -74,22 +60,24 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -97,25 +85,45 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="../chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="../chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="../chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="../chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="../chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust's Secret Weapon</li><li class="chapter-item expanded "><a href="../chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="../chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="../chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="../chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="../chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="../chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="../chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="../chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="../chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="../chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="../chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="../chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="../chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="../chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="../chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="../chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="../chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="../chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="../chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="../chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="../chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="../chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="../chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="../chapters/31-database.html" class="active"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="../chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="../chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="../chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="../chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="../chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="../chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="../chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="../chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="../chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="../chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="../chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="../chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="../chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="../chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="../chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="../chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="../chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="../chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="../chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="../chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="../chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="../appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust's Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="../appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="../appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="../appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust's Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="../appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="../appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="../appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="../appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="../appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="../appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="../appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -125,14 +133,13 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -177,13 +184,13 @@
                     <main>
                         <h1 id="chapter-31-database-interaction"><a class="header" href="#chapter-31-database-interaction">Chapter 31: Database Interaction</a></h1>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>Data persistence is a fundamental requirement for most applications. Whether you’re building a web service, a desktop application, or an embedded system, the ability to store and retrieve data efficiently is crucial. Rust’s emphasis on performance, safety, and correctness makes it an excellent language for database interaction, where these qualities are particularly valuable.</p>
-<p>In this chapter, we’ll explore how to interact with databases in Rust. We’ll cover both relational databases (like PostgreSQL, MySQL, and SQLite) and NoSQL databases (like MongoDB and Redis). We’ll examine various approaches to database interaction, from raw clients to ORMs, and discuss the trade-offs between them.</p>
-<p>Rust’s type system provides unique advantages for database interaction. It allows for compile-time validation of SQL queries, type-safe data mapping, and elimination of common database-related errors. However, working with databases in Rust also presents challenges, particularly around handling dynamic queries and managing connections in an async environment.</p>
-<p>We’ll start with core database concepts and then dive into specific Rust crates like Diesel, SeaORM, and SQLx for relational databases, as well as options for NoSQL databases. We’ll explore connection pooling, transactions, migrations, and other essential topics for building robust data-driven applications.</p>
-<p>By the end of this chapter, you’ll have a comprehensive understanding of database interaction in Rust and the tools to build efficient, type-safe, and reliable data access layers for your applications.</p>
+<p>Data persistence is a fundamental requirement for most applications. Whether you're building a web service, a desktop application, or an embedded system, the ability to store and retrieve data efficiently is crucial. Rust's emphasis on performance, safety, and correctness makes it an excellent language for database interaction, where these qualities are particularly valuable.</p>
+<p>In this chapter, we'll explore how to interact with databases in Rust. We'll cover both relational databases (like PostgreSQL, MySQL, and SQLite) and NoSQL databases (like MongoDB and Redis). We'll examine various approaches to database interaction, from raw clients to ORMs, and discuss the trade-offs between them.</p>
+<p>Rust's type system provides unique advantages for database interaction. It allows for compile-time validation of SQL queries, type-safe data mapping, and elimination of common database-related errors. However, working with databases in Rust also presents challenges, particularly around handling dynamic queries and managing connections in an async environment.</p>
+<p>We'll start with core database concepts and then dive into specific Rust crates like Diesel, SeaORM, and SQLx for relational databases, as well as options for NoSQL databases. We'll explore connection pooling, transactions, migrations, and other essential topics for building robust data-driven applications.</p>
+<p>By the end of this chapter, you'll have a comprehensive understanding of database interaction in Rust and the tools to build efficient, type-safe, and reliable data access layers for your applications.</p>
 <h2 id="database-concepts"><a class="header" href="#database-concepts">Database Concepts</a></h2>
-<p>Before diving into specific Rust database libraries, let’s review some core concepts that apply across different database systems and interaction approaches.</p>
+<p>Before diving into specific Rust database libraries, let's review some core concepts that apply across different database systems and interaction approaches.</p>
 <h3 id="relational-vs-nosql-databases"><a class="header" href="#relational-vs-nosql-databases">Relational vs. NoSQL Databases</a></h3>
 <p><strong>Relational Databases</strong> organize data into tables with rows and columns, enforcing relationships between tables through foreign keys. They use SQL (Structured Query Language) for querying and manipulation. Examples include:</p>
 <ul>
@@ -198,7 +205,7 @@
 <li>Column-family stores (Cassandra): Optimized for queries over large datasets</li>
 <li>Graph databases (Neo4j): Specialized for representing network relationships</li>
 </ul>
-<p>The choice between relational and NoSQL databases depends on your application’s requirements:</p>
+<p>The choice between relational and NoSQL databases depends on your application's requirements:</p>
 <div class="table-wrapper"><table><thead><tr><th>Factor</th><th>Relational</th><th>NoSQL</th></tr></thead><tbody>
 <tr><td>Data structure</td><td>Well-defined schema</td><td>Flexible schema</td></tr>
 <tr><td>Consistency</td><td>Strong (ACID)</td><td>Often eventual (BASE)</td></tr>
@@ -230,7 +237,7 @@
 <ul>
 <li><strong>Atomicity</strong>: All operations in a transaction succeed or all fail</li>
 <li><strong>Consistency</strong>: The database remains in a valid state before and after the transaction</li>
-<li><strong>Isolation</strong>: Concurrent transactions don’t interfere with each other</li>
+<li><strong>Isolation</strong>: Concurrent transactions don't interfere with each other</li>
 <li><strong>Durability</strong>: Completed transactions survive system failures</li>
 </ul>
 <p>In Rust, transactions are typically represented as objects that can be committed or rolled back.</p>
@@ -283,19 +290,19 @@
 <li>Handle transient errors with appropriate retry strategies</li>
 <li>Properly clean up resources in error cases</li>
 </ul>
-<p>With these concepts in mind, let’s explore how Rust’s ecosystem addresses database interaction, starting with the popular Diesel ORM.</p>
+<p>With these concepts in mind, let's explore how Rust's ecosystem addresses database interaction, starting with the popular Diesel ORM.</p>
 <h2 id="sql-with-diesel-orm"><a class="header" href="#sql-with-diesel-orm">SQL with Diesel ORM</a></h2>
 <p>Diesel is one of the most mature and widely used ORMs in the Rust ecosystem. It provides a type-safe interface for SQL databases, with compile-time checked queries and an emphasis on safety and performance.</p>
 <h3 id="key-features-of-diesel"><a class="header" href="#key-features-of-diesel">Key Features of Diesel</a></h3>
 <ol>
-<li><strong>Type Safety</strong>: Diesel leverages Rust’s type system to catch query errors at compile time.</li>
+<li><strong>Type Safety</strong>: Diesel leverages Rust's type system to catch query errors at compile time.</li>
 <li><strong>Schema Management</strong>: Automatic generation of Rust code from database schema.</li>
 <li><strong>Query Builder</strong>: A DSL (Domain-Specific Language) for building SQL queries in a type-safe manner.</li>
 <li><strong>Migration Support</strong>: Tools for managing database schema changes.</li>
 <li><strong>Multiple Database Support</strong>: Works with PostgreSQL, MySQL, and SQLite.</li>
 </ol>
 <h3 id="setting-up-diesel"><a class="header" href="#setting-up-diesel">Setting Up Diesel</a></h3>
-<p>Let’s start by setting up Diesel in a new project:</p>
+<p>Let's start by setting up Diesel in a new project:</p>
 <pre><code class="language-bash"># Install the Diesel CLI (with PostgreSQL support)
 cargo install diesel_cli --no-default-features --features postgres
 
@@ -309,9 +316,9 @@ echo DATABASE_URL=postgres://username:password@localhost/diesel_demo &gt; .env
 # Set up Diesel in the project
 diesel setup
 </code></pre>
-<p>This creates a <code>migrations</code> directory and a <code>diesel.toml</code> configuration file. It also creates a database if it doesn’t exist.</p>
+<p>This creates a <code>migrations</code> directory and a <code>diesel.toml</code> configuration file. It also creates a database if it doesn't exist.</p>
 <h3 id="defining-the-schema"><a class="header" href="#defining-the-schema">Defining the Schema</a></h3>
-<p>Diesel uses a <code>schema.rs</code> file to represent your database schema. Let’s create a simple schema for a blog application:</p>
+<p>Diesel uses a <code>schema.rs</code> file to represent your database schema. Let's create a simple schema for a blog application:</p>
 <pre><code class="language-bash"># Create a new migration
 diesel migration generate create_posts
 </code></pre>
@@ -346,7 +353,7 @@ table! {
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="defining-models"><a class="header" href="#defining-models">Defining Models</a></h3>
-<p>Next, let’s define models that correspond to our database tables:</p>
+<p>Next, let's define models that correspond to our database tables:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// src/models.rs
@@ -385,15 +392,15 @@ use std::env;
 pub fn establish_connection() -&gt; PgConnection {
     dotenv().ok();
 
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
+    let database_url = env::var(&quot;DATABASE_URL&quot;)
+        .expect(&quot;DATABASE_URL must be set&quot;);
 
     PgConnection::establish(&amp;database_url)
-        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
+        .unwrap_or_else(|_| panic!(&quot;Error connecting to {}&quot;, database_url))
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="basic-crud-operations"><a class="header" href="#basic-crud-operations">Basic CRUD Operations</a></h3>
-<p>Now let’s implement basic CRUD (Create, Read, Update, Delete) operations:</p>
+<p>Now let's implement basic CRUD (Create, Read, Update, Delete) operations:</p>
 <h4 id="creating-records"><a class="header" href="#creating-records">Creating Records</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -419,7 +426,7 @@ pub fn create_post&lt;'a&gt;(
         .values(&amp;new_post)
         .returning(Post::as_returning())
         .get_result(conn)
-        .expect("Error saving new post")
+        .expect(&quot;Error saving new post&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="reading-records"><a class="header" href="#reading-records">Reading Records</a></h4>
@@ -433,7 +440,7 @@ pub fn get_all_posts(conn: &amp;mut PgConnection) -&gt; Vec&lt;Post&gt; {
         .filter(published.eq(true))
         .order(created_at.desc())
         .load::&lt;Post&gt;(conn)
-        .expect("Error loading posts")
+        .expect(&quot;Error loading posts&quot;)
 }
 
 pub fn get_post_by_id(conn: &amp;mut PgConnection, post_id: i32) -&gt; Option&lt;Post&gt; {
@@ -443,7 +450,7 @@ pub fn get_post_by_id(conn: &amp;mut PgConnection, post_id: i32) -&gt; Option&lt
         .find(post_id)
         .first::&lt;Post&gt;(conn)
         .optional()
-        .expect("Error loading post")
+        .expect(&quot;Error loading post&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="updating-records"><a class="header" href="#updating-records">Updating Records</a></h4>
@@ -457,7 +464,7 @@ pub fn publish_post(conn: &amp;mut PgConnection, post_id: i32) -&gt; Post {
         .set(published.eq(true))
         .returning(Post::as_returning())
         .get_result(conn)
-        .expect("Error publishing post")
+        .expect(&quot;Error publishing post&quot;)
 }
 
 pub fn update_post_title(
@@ -471,7 +478,7 @@ pub fn update_post_title(
         .set(title.eq(new_title))
         .returning(Post::as_returning())
         .get_result(conn)
-        .expect("Error updating post title")
+        .expect(&quot;Error updating post title&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="deleting-records"><a class="header" href="#deleting-records">Deleting Records</a></h4>
@@ -483,7 +490,7 @@ pub fn delete_post(conn: &amp;mut PgConnection, post_id: i32) -&gt; usize {
 
     diesel::delete(posts.find(post_id))
         .execute(conn)
-        .expect("Error deleting post")
+        .expect(&quot;Error deleting post&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="advanced-query-operations"><a class="header" href="#advanced-query-operations">Advanced Query Operations</a></h3>
@@ -494,7 +501,7 @@ pub fn delete_post(conn: &amp;mut PgConnection, post_id: i32) -&gt; usize {
 </span>// Filter with multiple conditions
 posts
     .filter(published.eq(true))
-    .filter(title.like("%Rust%"))
+    .filter(title.like(&quot;%Rust%&quot;))
     .load::&lt;Post&gt;(conn)
 <span class="boring">}</span></code></pre></pre>
 <h4 id="joining-tables"><a class="header" href="#joining-tables">Joining Tables</a></h4>
@@ -581,29 +588,29 @@ pub fn create_pool(database_url: &amp;str) -&gt; Pool {
     r2d2::Pool::builder()
         .max_size(15)
         .build(manager)
-        .expect("Failed to create pool")
+        .expect(&quot;Failed to create pool&quot;)
 }
 
 // Using the pool
 pub fn get_all_posts_with_pool(pool: &amp;Pool) -&gt; Vec&lt;Post&gt; {
     use crate::schema::posts::dsl::*;
 
-    let mut conn = pool.get().expect("Couldn't get connection from pool");
+    let mut conn = pool.get().expect(&quot;Couldn't get connection from pool&quot;);
 
     posts
         .filter(published.eq(true))
         .order(created_at.desc())
         .load::&lt;Post&gt;(&amp;mut conn)
-        .expect("Error loading posts")
+        .expect(&quot;Error loading posts&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="async-diesel"><a class="header" href="#async-diesel">Async Diesel</a></h3>
-<p>The main Diesel crate is synchronous, but there’s <code>diesel-async</code> for asynchronous database operations:</p>
+<p>The main Diesel crate is synchronous, but there's <code>diesel-async</code> for asynchronous database operations:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Cargo.toml
 [dependencies]
-diesel-async = { version = "0.3", features = ["postgres", "bb8"] }
+diesel-async = { version = &quot;0.3&quot;, features = [&quot;postgres&quot;, &quot;bb8&quot;] }
 <span class="boring">}</span></code></pre></pre>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -630,7 +637,7 @@ let results = posts::table
 <h3 id="best-practices-with-diesel"><a class="header" href="#best-practices-with-diesel">Best Practices with Diesel</a></h3>
 <ol>
 <li><strong>Use the Repository Pattern</strong>: Encapsulate database operations in repository structs.</li>
-<li><strong>Leverage Diesel’s Type System</strong>: Use Diesel’s types for database operations rather than raw strings.</li>
+<li><strong>Leverage Diesel's Type System</strong>: Use Diesel's types for database operations rather than raw strings.</li>
 <li><strong>Handle Errors Properly</strong>: Use Result types and propagate errors up the call stack.</li>
 <li><strong>Write Database Tests</strong>: Test your database code with a test database.</li>
 <li><strong>Keep Migrations Simple</strong>: Each migration should make a small, focused change.</li>
@@ -640,7 +647,7 @@ let results = posts::table
 <h3 id="limitations-of-diesel"><a class="header" href="#limitations-of-diesel">Limitations of Diesel</a></h3>
 <p>While Diesel is powerful, it has some limitations:</p>
 <ol>
-<li><strong>Learning Curve</strong>: Diesel’s DSL can be complex to learn.</li>
+<li><strong>Learning Curve</strong>: Diesel's DSL can be complex to learn.</li>
 <li><strong>Limited Database Support</strong>: Currently only supports PostgreSQL, MySQL, and SQLite.</li>
 <li><strong>Compile Times</strong>: Can increase compile times due to macro expansion.</li>
 <li><strong>Dynamic Queries</strong>: Building truly dynamic queries can be challenging.</li>
@@ -648,7 +655,7 @@ let results = posts::table
 </ol>
 <p>Despite these limitations, Diesel remains one of the most robust ORMs for Rust, providing excellent compile-time safety and performance.</p>
 <h2 id="seaorm-and-sqlx"><a class="header" href="#seaorm-and-sqlx">SeaORM and SQLx</a></h2>
-<p>While Diesel offers a comprehensive ORM experience with a focus on compile-time safety, it may not fit all use cases, particularly those requiring async support or more flexibility. Let’s explore two alternatives: SeaORM and SQLx.</p>
+<p>While Diesel offers a comprehensive ORM experience with a focus on compile-time safety, it may not fit all use cases, particularly those requiring async support or more flexibility. Let's explore two alternatives: SeaORM and SQLx.</p>
 <h3 id="sqlx-a-rust-sql-toolkit"><a class="header" href="#sqlx-a-rust-sql-toolkit">SQLx: A Rust SQL Toolkit</a></h3>
 <p>SQLx is a pure Rust SQL crate designed from the ground up for async Rust with compile-time checked queries. Unlike traditional ORMs, SQLx focuses on being a lightweight toolkit that lets you write SQL directly while still providing type safety.</p>
 <h4 id="key-features-of-sqlx"><a class="header" href="#key-features-of-sqlx">Key Features of SQLx</a></h4>
@@ -660,7 +667,7 @@ let results = posts::table
 <li><strong>Macro-Based Approach</strong>: Uses macros like <code>query!</code> and <code>query_as!</code> for type-safe queries.</li>
 </ol>
 <h4 id="setting-up-sqlx"><a class="header" href="#setting-up-sqlx">Setting Up SQLx</a></h4>
-<p>Let’s set up a project with SQLx:</p>
+<p>Let's set up a project with SQLx:</p>
 <pre><code class="language-bash"># Create a new project
 cargo new sqlx_demo
 cd sqlx_demo
@@ -676,11 +683,11 @@ sqlx database create
 </code></pre>
 <p>Update <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid", "json"] }
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-anyhow = "1"
+sqlx = { version = &quot;0.7&quot;, features = [&quot;runtime-tokio-rustls&quot;, &quot;postgres&quot;, &quot;chrono&quot;, &quot;uuid&quot;, &quot;json&quot;] }
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1&quot;
+anyhow = &quot;1&quot;
 </code></pre>
 <h4 id="executing-queries-with-sqlx"><a class="header" href="#executing-queries-with-sqlx">Executing Queries with SQLx</a></h4>
 <p>SQLx offers several ways to execute queries, from raw SQL to compile-time checked queries:</p>
@@ -693,7 +700,7 @@ use anyhow::Result;
 async fn create_pool() -&gt; Result&lt;PgPool&gt; {
     let pool = PgPoolOptions::new()
         .max_connections(5)
-        .connect(&amp;std::env::var("DATABASE_URL")?)
+        .connect(&amp;std::env::var(&quot;DATABASE_URL&quot;)?)
         .await?;
 
     Ok(pool)
@@ -702,7 +709,7 @@ async fn create_pool() -&gt; Result&lt;PgPool&gt; {
 // Execute a simple query
 async fn create_posts_table(pool: &amp;PgPool) -&gt; Result&lt;()&gt; {
     sqlx::query(
-        r#"
+        r#&quot;
         CREATE TABLE IF NOT EXISTS posts (
             id SERIAL PRIMARY KEY,
             title TEXT NOT NULL,
@@ -710,7 +717,7 @@ async fn create_posts_table(pool: &amp;PgPool) -&gt; Result&lt;()&gt; {
             published BOOLEAN NOT NULL DEFAULT FALSE,
             created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
-        "#,
+        &quot;#,
     )
     .execute(pool)
     .await?;
@@ -718,8 +725,8 @@ async fn create_posts_table(pool: &amp;PgPool) -&gt; Result&lt;()&gt; {
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
-<h4 id="using-sqlxs-compile-time-checked-queries"><a class="header" href="#using-sqlxs-compile-time-checked-queries">Using SQLx’s Compile-Time Checked Queries</a></h4>
-<p>One of SQLx’s standout features is its ability to check queries against your database schema at compile time:</p>
+<h4 id="using-sqlxs-compile-time-checked-queries"><a class="header" href="#using-sqlxs-compile-time-checked-queries">Using SQLx's Compile-Time Checked Queries</a></h4>
+<p>One of SQLx's standout features is its ability to check queries against your database schema at compile time:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use sqlx::{PgPool, FromRow};
@@ -742,11 +749,11 @@ async fn create_post(
     // This query is checked against the database at compile time
     let post = sqlx::query_as!(
         Post,
-        r#"
+        r#&quot;
         INSERT INTO posts (title, body)
         VALUES ($1, $2)
         RETURNING *
-        "#,
+        &quot;#,
         title,
         body
     )
@@ -759,7 +766,7 @@ async fn create_post(
 async fn get_post_by_id(pool: &amp;PgPool, id: i32) -&gt; Result&lt;Option&lt;Post&gt;&gt; {
     let post = sqlx::query_as!(
         Post,
-        "SELECT * FROM posts WHERE id = $1",
+        &quot;SELECT * FROM posts WHERE id = $1&quot;,
         id
     )
     .fetch_optional(pool)
@@ -771,11 +778,11 @@ async fn get_post_by_id(pool: &amp;PgPool, id: i32) -&gt; Result&lt;Option&lt;Po
 async fn get_published_posts(pool: &amp;PgPool) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
     let posts = sqlx::query_as!(
         Post,
-        r#"
+        r#&quot;
         SELECT * FROM posts
         WHERE published = true
         ORDER BY created_at DESC
-        "#
+        &quot;#
     )
     .fetch_all(pool)
     .await?;
@@ -802,7 +809,7 @@ cargo sqlx prepare -- --lib
 
     // Update the post's user_id
     sqlx::query!(
-        "UPDATE posts SET user_id = $1 WHERE id = $2",
+        &quot;UPDATE posts SET user_id = $1 WHERE id = $2&quot;,
         new_user_id,
         post_id
     )
@@ -811,7 +818,7 @@ cargo sqlx prepare -- --lib
 
     // Update the post count for the new user
     sqlx::query!(
-        "UPDATE users SET post_count = post_count + 1 WHERE id = $1",
+        &quot;UPDATE users SET post_count = post_count + 1 WHERE id = $1&quot;,
         new_user_id
     )
     .execute(&amp;mut *tx)
@@ -865,11 +872,11 @@ async fn create_post_with_metadata(
     metadata: Metadata,
 ) -&gt; Result&lt;i32&gt; {
     let id = sqlx::query!(
-        r#"
+        r#&quot;
         INSERT INTO posts (title, body, metadata)
         VALUES ($1, $2, $3)
         RETURNING id
-        "#,
+        &quot;#,
         title,
         body,
         Json(metadata) as _
@@ -892,7 +899,7 @@ async fn publish_multiple_posts(
 ) -&gt; Result&lt;()&gt; {
     // Prepare the query
     let query = sqlx::query!(
-        "UPDATE posts SET published = true WHERE id = $1",
+        &quot;UPDATE posts SET published = true WHERE id = $1&quot;,
     );
 
     // Execute for each post ID
@@ -914,7 +921,7 @@ async fn publish_multiple_posts(
 <li><strong>Multiple Database Support</strong>: Works with PostgreSQL, MySQL, and SQLite.</li>
 </ol>
 <h4 id="setting-up-seaorm"><a class="header" href="#setting-up-seaorm">Setting Up SeaORM</a></h4>
-<p>Let’s set up a project with SeaORM:</p>
+<p>Let's set up a project with SeaORM:</p>
 <pre><code class="language-bash"># Create a new project
 cargo new seaorm_demo
 cd seaorm_demo
@@ -924,13 +931,13 @@ echo DATABASE_URL=postgres://username:password@localhost/seaorm_demo &gt; .env
 </code></pre>
 <p>Update <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-sea-orm = { version = "0.12", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"] }
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1", features = ["derive"] }
-dotenv = "0.15"
-async-std = { version = "1", features = ["attributes", "tokio1"] }
+sea-orm = { version = &quot;0.12&quot;, features = [&quot;sqlx-postgres&quot;, &quot;runtime-tokio-rustls&quot;, &quot;macros&quot;] }
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+dotenv = &quot;0.15&quot;
+async-std = { version = &quot;1&quot;, features = [&quot;attributes&quot;, &quot;tokio1&quot;] }
 </code></pre>
-<h4 id="using-seaorms-entity-generator"><a class="header" href="#using-seaorms-entity-generator">Using SeaORM’s Entity Generator</a></h4>
+<h4 id="using-seaorms-entity-generator"><a class="header" href="#using-seaorms-entity-generator">Using SeaORM's Entity Generator</a></h4>
 <p>SeaORM provides a CLI tool to generate entity files from an existing database:</p>
 <pre><code class="language-bash"># Install the SeaORM CLI
 cargo install sea-orm-cli
@@ -949,7 +956,7 @@ use dotenv::dotenv;
 
 async fn establish_connection() -&gt; Result&lt;DatabaseConnection, sea_orm::DbErr&gt; {
     dotenv().ok();
-    let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let database_url = std::env::var(&quot;DATABASE_URL&quot;).expect(&quot;DATABASE_URL must be set&quot;);
     let db = Database::connect(database_url).await?;
     Ok(db)
 }
@@ -995,7 +1002,7 @@ async fn publish_post(
     let post = Posts::find_by_id(id)
         .one(db)
         .await?
-        .ok_or_else(|| sea_orm::DbErr::Custom("Post not found".to_owned()))?;
+        .ok_or_else(|| sea_orm::DbErr::Custom(&quot;Post not found&quot;.to_owned()))?;
 
     // Convert to active model
     let mut post: posts::ActiveModel = post.into();
@@ -1097,8 +1104,8 @@ async fn find_posts_with_filters(
 
     // Add sorting
     match sort_by {
-        "title" =&gt; query = query.order_by_asc(Column::Title),
-        "created_at_desc" =&gt; query = query.order_by_desc(Column::CreatedAt),
+        &quot;title&quot; =&gt; query = query.order_by_asc(Column::Title),
+        &quot;created_at_desc&quot; =&gt; query = query.order_by_desc(Column::CreatedAt),
         _ =&gt; query = query.order_by_desc(Column::CreatedAt),
     }
 
@@ -1128,7 +1135,7 @@ async fn transfer_post_ownership(
     let post = Posts::find_by_id(post_id)
         .one(&amp;txn)
         .await?
-        .ok_or_else(|| DbErr::Custom("Post not found".to_owned()))?;
+        .ok_or_else(|| DbErr::Custom(&quot;Post not found&quot;.to_owned()))?;
 
     let mut post: posts::ActiveModel = post.into();
     post.user_id = Set(Some(new_user_id));
@@ -1138,7 +1145,7 @@ async fn transfer_post_ownership(
     let user = Users::find_by_id(new_user_id)
         .one(&amp;txn)
         .await?
-        .ok_or_else(|| DbErr::Custom("User not found".to_owned()))?;
+        .ok_or_else(|| DbErr::Custom(&quot;User not found&quot;.to_owned()))?;
 
     let mut user: users::ActiveModel = user.into();
     user.post_count = Set(user.post_count.unwrap_or(0) + 1);
@@ -1217,7 +1224,7 @@ enum Users {
 <li>You want direct control over SQL queries</li>
 <li>Performance is critical</li>
 <li>Your application has simple data access patterns</li>
-<li>You’re comfortable writing raw SQL</li>
+<li>You're comfortable writing raw SQL</li>
 </ul>
 <p>Choose SeaORM when:</p>
 <ul>
@@ -1246,9 +1253,9 @@ enum Users {
 <li><strong>Entity Versioning</strong>: Track schema changes with migrations.</li>
 </ol>
 <h2 id="nosql-options-in-rust"><a class="header" href="#nosql-options-in-rust">NoSQL Options in Rust</a></h2>
-<p>While relational databases are widely used for structured data, NoSQL databases offer alternatives optimized for specific use cases. In this section, we’ll explore two popular NoSQL options in Rust: MongoDB for document storage and Redis for key-value storage.</p>
+<p>While relational databases are widely used for structured data, NoSQL databases offer alternatives optimized for specific use cases. In this section, we'll explore two popular NoSQL options in Rust: MongoDB for document storage and Redis for key-value storage.</p>
 <h3 id="mongodb-with-rust"><a class="header" href="#mongodb-with-rust">MongoDB with Rust</a></h3>
-<p>MongoDB is a document-oriented database that stores data in flexible, JSON-like documents. It’s well-suited for applications with evolving data requirements and complex hierarchical data structures.</p>
+<p>MongoDB is a document-oriented database that stores data in flexible, JSON-like documents. It's well-suited for applications with evolving data requirements and complex hierarchical data structures.</p>
 <h4 id="key-features-of-mongodb"><a class="header" href="#key-features-of-mongodb">Key Features of MongoDB</a></h4>
 <ol>
 <li><strong>Document Model</strong>: Flexible schema with nested data structures</li>
@@ -1261,12 +1268,12 @@ enum Users {
 <p>The official MongoDB Rust driver provides an idiomatic Rust API for interacting with MongoDB:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-mongodb = "2.6"
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1", features = ["derive"] }
-futures = "0.3"
-bson = { version = "2.6", features = ["chrono-0_4"] }
-chrono = "0.4"
+mongodb = &quot;2.6&quot;
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+futures = &quot;0.3&quot;
+bson = { version = &quot;2.6&quot;, features = [&quot;chrono-0_4&quot;] }
+chrono = &quot;0.4&quot;
 </code></pre>
 <h4 id="setting-up-mongodb-connection"><a class="header" href="#setting-up-mongodb-connection">Setting Up MongoDB Connection</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1276,21 +1283,21 @@ use anyhow::Result;
 
 async fn connect_to_mongodb() -&gt; Result&lt;Client&gt; {
     // Parse a connection string into an options struct
-    let mut client_options = ClientOptions::parse("mongodb://localhost:27017").await?;
+    let mut client_options = ClientOptions::parse(&quot;mongodb://localhost:27017&quot;).await?;
 
     // Configure client options
-    client_options.app_name = Some("my-rust-app".to_string());
+    client_options.app_name = Some(&quot;my-rust-app&quot;.to_string());
 
     // Create a new client
     let client = Client::with_options(client_options)?;
 
     // Ping the server to check connection
     client
-        .database("admin")
-        .run_command(bson::doc! {"ping": 1}, None)
+        .database(&quot;admin&quot;)
+        .run_command(bson::doc! {&quot;ping&quot;: 1}, None)
         .await?;
 
-    println!("Connected to MongoDB!");
+    println!(&quot;Connected to MongoDB!&quot;);
 
     Ok(client)
 }
@@ -1304,12 +1311,12 @@ use bson::{oid::ObjectId, DateTime};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Post {
-    #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = &quot;_id&quot;, skip_serializing_if = &quot;Option::is_none&quot;)]
     id: Option&lt;ObjectId&gt;,
     title: String,
     body: String,
     published: bool,
-    #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
+    #[serde(with = &quot;bson::serde_helpers::chrono_datetime_as_bson_datetime&quot;)]
     created_at: chrono::DateTime&lt;chrono::Utc&gt;,
     tags: Vec&lt;String&gt;,
     view_count: i32,
@@ -1320,7 +1327,7 @@ struct Post {
 struct Comment {
     author: String,
     content: String,
-    #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
+    #[serde(with = &quot;bson::serde_helpers::chrono_datetime_as_bson_datetime&quot;)]
     created_at: chrono::DateTime&lt;chrono::Utc&gt;,
 }
 
@@ -1332,7 +1339,7 @@ struct PostRepository {
 impl PostRepository {
     fn new(database: &amp;mongodb::Database) -&gt; Self {
         Self {
-            collection: database.collection("posts"),
+            collection: database.collection(&quot;posts&quot;),
         }
     }
 }
@@ -1357,7 +1364,7 @@ impl PostRepository {
     // Find post by ID
     async fn find_by_id(&amp;self, id: &amp;ObjectId) -&gt; Result&lt;Option&lt;Post&gt;&gt; {
         let post = self.collection
-            .find_one(doc! { "_id": id }, None)
+            .find_one(doc! { &quot;_id&quot;: id }, None)
             .await?;
 
         Ok(post)
@@ -1371,7 +1378,7 @@ impl PostRepository {
     ) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
         let options = FindOptions::builder()
             .limit(limit)
-            .sort(doc! { "created_at": -1 })
+            .sort(doc! { &quot;created_at&quot;: -1 })
             .build();
 
         let filter = filter.unwrap_or_else(|| doc! {});
@@ -1385,7 +1392,7 @@ impl PostRepository {
     // Update a post
     async fn update_post(&amp;self, id: &amp;ObjectId, update: bson::Document) -&gt; Result&lt;bool&gt; {
         let result = self.collection
-            .update_one(doc! { "_id": id }, update, None)
+            .update_one(doc! { &quot;_id&quot;: id }, update, None)
             .await?;
 
         Ok(result.modified_count &gt; 0)
@@ -1394,7 +1401,7 @@ impl PostRepository {
     // Delete a post
     async fn delete_post(&amp;self, id: &amp;ObjectId) -&gt; Result&lt;bool&gt; {
         let result = self.collection
-            .delete_one(doc! { "_id": id }, None)
+            .delete_one(doc! { &quot;_id&quot;: id }, None)
             .await?;
 
         Ok(result.deleted_count &gt; 0)
@@ -1402,7 +1409,7 @@ impl PostRepository {
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="working-with-embedded-documents"><a class="header" href="#working-with-embedded-documents">Working with Embedded Documents</a></h4>
-<p>One of MongoDB’s strengths is handling nested document structures:</p>
+<p>One of MongoDB's strengths is handling nested document structures:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Add a comment to a post
@@ -1420,8 +1427,8 @@ async fn add_comment(
 
     let result = self.collection
         .update_one(
-            doc! { "_id": post_id },
-            doc! { "$push": { "comments": bson::to_bson(&amp;comment)? } },
+            doc! { &quot;_id&quot;: post_id },
+            doc! { &quot;$push&quot;: { &quot;comments&quot;: bson::to_bson(&amp;comment)? } },
             None,
         )
         .await?;
@@ -1435,9 +1442,9 @@ async fn find_posts_with_comment_by_author(
     author: &amp;str,
 ) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
     let filter = doc! {
-        "comments": {
-            "$elemMatch": {
-                "author": author
+        &quot;comments&quot;: {
+            &quot;$elemMatch&quot;: {
+                &quot;author&quot;: author
             }
         }
     };
@@ -1456,8 +1463,8 @@ async fn find_posts_by_tag_with_min_views(
     min_views: i32,
 ) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
     let filter = doc! {
-        "tags": tag,
-        "view_count": { "$gte": min_views }
+        &quot;tags&quot;: tag,
+        &quot;view_count&quot;: { &quot;$gte&quot;: min_views }
     };
 
     self.find_posts(Some(filter), None).await
@@ -1467,16 +1474,16 @@ async fn find_posts_by_tag_with_min_views(
 async fn get_post_counts_by_tag(&amp;self) -&gt; Result&lt;Vec&lt;bson::Document&gt;&gt; {
     let pipeline = vec![
         doc! {
-            "$unwind": "$tags"
+            &quot;$unwind&quot;: &quot;$tags&quot;
         },
         doc! {
-            "$group": {
-                "_id": "$tags",
-                "count": { "$sum": 1 }
+            &quot;$group&quot;: {
+                &quot;_id&quot;: &quot;$tags&quot;,
+                &quot;count&quot;: { &quot;$sum&quot;: 1 }
             }
         },
         doc! {
-            "$sort": { "count": -1 }
+            &quot;$sort&quot;: { &quot;count&quot;: -1 }
         }
     ];
 
@@ -1507,8 +1514,8 @@ async fn transfer_post_ownership(
         .write_concern(mongodb::options::WriteConcern::majority())
         .build();
 
-    let posts_coll = client.database("blog").collection::&lt;Post&gt;("posts");
-    let users_coll = client.database("blog").collection::&lt;User&gt;("users");
+    let posts_coll = client.database(&quot;blog&quot;).collection::&lt;Post&gt;(&quot;posts&quot;);
+    let users_coll = client.database(&quot;blog&quot;).collection::&lt;User&gt;(&quot;users&quot;);
 
     let result = session
         .with_transaction(
@@ -1517,8 +1524,8 @@ async fn transfer_post_ownership(
                     // Update the post's owner
                     posts_coll
                         .update_one_with_session(
-                            doc! { "_id": post_id },
-                            doc! { "$set": { "owner_id": to_user_id } },
+                            doc! { &quot;_id&quot;: post_id },
+                            doc! { &quot;$set&quot;: { &quot;owner_id&quot;: to_user_id } },
                             None,
                             s,
                         )
@@ -1527,8 +1534,8 @@ async fn transfer_post_ownership(
                     // Decrement post count for original owner
                     users_coll
                         .update_one_with_session(
-                            doc! { "_id": from_user_id },
-                            doc! { "$inc": { "post_count": -1 } },
+                            doc! { &quot;_id&quot;: from_user_id },
+                            doc! { &quot;$inc&quot;: { &quot;post_count&quot;: -1 } },
                             None,
                             s,
                         )
@@ -1537,8 +1544,8 @@ async fn transfer_post_ownership(
                     // Increment post count for new owner
                     users_coll
                         .update_one_with_session(
-                            doc! { "_id": to_user_id },
-                            doc! { "$inc": { "post_count": 1 } },
+                            doc! { &quot;_id&quot;: to_user_id },
+                            doc! { &quot;$inc&quot;: { &quot;post_count&quot;: 1 } },
                             None,
                             s,
                         )
@@ -1565,32 +1572,32 @@ async fn watch_posts_changes(repository: &amp;PostRepository) -&gt; Result&lt;()
     let options = ChangeStreamOptions::builder().build();
     let mut change_stream = repository.collection.watch(None, options).await?;
 
-    println!("Watching for changes to posts collection...");
+    println!(&quot;Watching for changes to posts collection...&quot;);
 
     while let Some(result) = change_stream.next().await {
         match result {
             Ok(change) =&gt; {
-                println!("Change detected: {:?}", change);
+                println!(&quot;Change detected: {:?}&quot;, change);
 
                 // Process different operation types
                 if let Some(op_type) = change.operation_type {
                     match op_type.as_str() {
-                        "insert" =&gt; {
+                        &quot;insert&quot; =&gt; {
                             if let Some(doc) = change.full_document {
-                                println!("New post inserted: {:?}", doc);
+                                println!(&quot;New post inserted: {:?}&quot;, doc);
                             }
                         },
-                        "update" =&gt; {
-                            println!("Post updated with ID: {:?}", change.document_key);
+                        &quot;update&quot; =&gt; {
+                            println!(&quot;Post updated with ID: {:?}&quot;, change.document_key);
                         },
-                        "delete" =&gt; {
-                            println!("Post deleted with ID: {:?}", change.document_key);
+                        &quot;delete&quot; =&gt; {
+                            println!(&quot;Post deleted with ID: {:?}&quot;, change.document_key);
                         },
-                        _ =&gt; println!("Other operation: {}", op_type),
+                        _ =&gt; println!(&quot;Other operation: {}&quot;, op_type),
                     }
                 }
             },
-            Err(e) =&gt; println!("Error from change stream: {}", e),
+            Err(e) =&gt; println!(&quot;Error from change stream: {}&quot;, e),
         }
     }
 
@@ -1598,7 +1605,7 @@ async fn watch_posts_changes(repository: &amp;PostRepository) -&gt; Result&lt;()
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="redis-with-rust"><a class="header" href="#redis-with-rust">Redis with Rust</a></h3>
-<p>Redis is an in-memory data structure store that can be used as a database, cache, and message broker. It’s known for its exceptional performance and versatility.</p>
+<p>Redis is an in-memory data structure store that can be used as a database, cache, and message broker. It's known for its exceptional performance and versatility.</p>
 <h4 id="key-features-of-redis"><a class="header" href="#key-features-of-redis">Key Features of Redis</a></h4>
 <ol>
 <li><strong>In-Memory Storage</strong>: Extremely fast data access</li>
@@ -1611,10 +1618,10 @@ async fn watch_posts_changes(repository: &amp;PostRepository) -&gt; Result&lt;()
 <p>There are several Redis clients for Rust, with <code>redis-rs</code> being the most popular:</p>
 <pre><code class="language-toml"># Cargo.toml
 [dependencies]
-redis = { version = "0.23", features = ["tokio-comp", "connection-manager"] }
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+redis = { version = &quot;0.23&quot;, features = [&quot;tokio-comp&quot;, &quot;connection-manager&quot;] }
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1&quot;
 </code></pre>
 <h4 id="setting-up-redis-connection"><a class="header" href="#setting-up-redis-connection">Setting Up Redis Connection</a></h4>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1623,14 +1630,14 @@ serde_json = "1"
 
 // Create a connection manager (recommended for multi-threaded applications)
 async fn create_connection_manager() -&gt; RedisResult&lt;ConnectionManager&gt; {
-    let client = Client::open("redis://127.0.0.1/")?;
+    let client = Client::open(&quot;redis://127.0.0.1/&quot;)?;
     let manager = ConnectionManager::new(client).await?;
 
     // Test the connection
     let mut conn = manager.clone();
-    redis::cmd("PING").query_async::&lt;_, String&gt;(&amp;mut conn).await?;
+    redis::cmd(&quot;PING&quot;).query_async::&lt;_, String&gt;(&amp;mut conn).await?;
 
-    println!("Connected to Redis!");
+    println!(&quot;Connected to Redis!&quot;);
 
     Ok(manager)
 }
@@ -1756,7 +1763,7 @@ async fn get_set_members(
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="working-with-json-in-redis"><a class="header" href="#working-with-json-in-redis">Working with JSON in Redis</a></h4>
-<p>Redis doesn’t natively support JSON, but you can store serialized JSON as strings:</p>
+<p>Redis doesn't natively support JSON, but you can store serialized JSON as strings:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use serde::{Serialize, Deserialize};
@@ -1775,9 +1782,9 @@ async fn save_user(
     user: &amp;User,
 ) -&gt; RedisResult&lt;()&gt; {
     let json = serde_json::to_string(user)
-        .map_err(|e| redis::RedisError::from((redis::ErrorKind::ClientError, "JSON serialization error", e.to_string())))?;
+        .map_err(|e| redis::RedisError::from((redis::ErrorKind::ClientError, &quot;JSON serialization error&quot;, e.to_string())))?;
 
-    let key = format!("user:{}", user.id);
+    let key = format!(&quot;user:{}&quot;, user.id);
     conn.set(key, json).await?;
 
     Ok(())
@@ -1787,13 +1794,13 @@ async fn get_user(
     conn: &amp;mut ConnectionManager,
     user_id: &amp;str,
 ) -&gt; RedisResult&lt;Option&lt;User&gt;&gt; {
-    let key = format!("user:{}", user_id);
+    let key = format!(&quot;user:{}&quot;, user_id);
     let json: Option&lt;String&gt; = conn.get(key).await?;
 
     match json {
         Some(json) =&gt; {
             let user = serde_json::from_str(&amp;json)
-                .map_err(|e| redis::RedisError::from((redis::ErrorKind::ClientError, "JSON deserialization error", e.to_string())))?;
+                .map_err(|e| redis::RedisError::from((redis::ErrorKind::ClientError, &quot;JSON deserialization error&quot;, e.to_string())))?;
             Ok(Some(user))
         },
         None =&gt; Ok(None),
@@ -1845,17 +1852,17 @@ async fn subscribe_to_channel(
 
 // Usage
 async fn handle_messages() -&gt; RedisResult&lt;()&gt; {
-    let mut rx = subscribe_to_channel("redis://127.0.0.1/", "notifications").await?;
+    let mut rx = subscribe_to_channel(&quot;redis://127.0.0.1/&quot;, &quot;notifications&quot;).await?;
 
     while let Some(msg) = rx.recv().await {
-        println!("Received message: {}", msg);
+        println!(&quot;Received message: {}&quot;, msg);
     }
 
     Ok(())
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="redis-as-a-cache"><a class="header" href="#redis-as-a-cache">Redis as a Cache</a></h4>
-<p>One of Redis’s most common use cases is as a cache:</p>
+<p>One of Redis's most common use cases is as a cache:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use redis::{ConnectionManager, RedisResult, AsyncCommands};
@@ -1894,7 +1901,7 @@ impl Cache {
                 .map_err(|_| {
                     let redis_err = redis::RedisError::from((
                         redis::ErrorKind::ClientError,
-                        "Failed to deserialize cached value",
+                        &quot;Failed to deserialize cached value&quot;,
                     ));
                     E::from(redis_err)
                 })?;
@@ -1910,7 +1917,7 @@ impl Cache {
             .map_err(|_| {
                 let redis_err = redis::RedisError::from((
                     redis::ErrorKind::ClientError,
-                    "Failed to serialize value for caching",
+                    &quot;Failed to serialize value for caching&quot;,
                 ));
                 E::from(redis_err)
             })?;
@@ -1949,7 +1956,7 @@ impl Cache {
 <p>Choose Redis when:</p>
 <ul>
 <li>Ultra-low latency is critical</li>
-<li>You’re implementing caching</li>
+<li>You're implementing caching</li>
 <li>You need simple data structures with specialized operations</li>
 <li>You need pub/sub messaging capabilities</li>
 <li>Your dataset can fit in memory</li>
@@ -2007,8 +2014,8 @@ type Pool = r2d2::Pool&lt;ConnectionManager&lt;PgConnection&gt;&gt;;
 fn create_connection_pool() -&gt; Pool {
     dotenv().ok();
 
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
+    let database_url = env::var(&quot;DATABASE_URL&quot;)
+        .expect(&quot;DATABASE_URL must be set&quot;);
 
     let manager = ConnectionManager::&lt;PgConnection&gt;::new(database_url);
 
@@ -2018,7 +2025,7 @@ fn create_connection_pool() -&gt; Pool {
         .idle_timeout(Some(std::time::Duration::from_secs(10 * 60))) // 10 minutes
         .connection_timeout(std::time::Duration::from_secs(5))       // 5 seconds
         .build(manager)
-        .expect("Failed to create pool")
+        .expect(&quot;Failed to create pool&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="connection-pooling-with-deadpool-asynchronous"><a class="header" href="#connection-pooling-with-deadpool-asynchronous">Connection Pooling with deadpool (Asynchronous)</a></h3>
@@ -2032,16 +2039,16 @@ use std::env;
 async fn create_postgres_pool() -&gt; deadpool_postgres::Pool {
     let mut config = Config::new();
 
-    config.host = Some(env::var("DB_HOST").unwrap_or_else(|_| "localhost".to_string()));
-    config.port = Some(env::var("DB_PORT").unwrap_or_else(|_| "5432".to_string()).parse::&lt;u16&gt;().unwrap());
-    config.dbname = Some(env::var("DB_NAME").unwrap_or_else(|_| "postgres".to_string()));
-    config.user = Some(env::var("DB_USER").unwrap_or_else(|_| "postgres".to_string()));
-    config.password = Some(env::var("DB_PASSWORD").unwrap_or_else(|_| "password".to_string()));
+    config.host = Some(env::var(&quot;DB_HOST&quot;).unwrap_or_else(|_| &quot;localhost&quot;.to_string()));
+    config.port = Some(env::var(&quot;DB_PORT&quot;).unwrap_or_else(|_| &quot;5432&quot;.to_string()).parse::&lt;u16&gt;().unwrap());
+    config.dbname = Some(env::var(&quot;DB_NAME&quot;).unwrap_or_else(|_| &quot;postgres&quot;.to_string()));
+    config.user = Some(env::var(&quot;DB_USER&quot;).unwrap_or_else(|_| &quot;postgres&quot;.to_string()));
+    config.password = Some(env::var(&quot;DB_PASSWORD&quot;).unwrap_or_else(|_| &quot;password&quot;.to_string()));
 
     config.pool = Some(PoolConfig::new(15));
 
     config.create_pool(Some(Runtime::Tokio1), NoTls)
-        .expect("Failed to create pool")
+        .expect(&quot;Failed to create pool&quot;)
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="sqlx-pool"><a class="header" href="#sqlx-pool">SQLx Pool</a></h3>
@@ -2052,8 +2059,8 @@ async fn create_postgres_pool() -&gt; deadpool_postgres::Pool {
 use std::env;
 
 async fn create_sqlx_pool() -&gt; Result&lt;sqlx::PgPool, sqlx::Error&gt; {
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
+    let database_url = env::var(&quot;DATABASE_URL&quot;)
+        .expect(&quot;DATABASE_URL must be set&quot;);
 
     let pool = PgPoolOptions::new()
         .max_connections(15)
@@ -2075,7 +2082,7 @@ fn get_posts(pool: &amp;Pool) -&gt; Result&lt;Vec&lt;Post&gt;, diesel::result::E
     use schema::posts::dsl::*;
 
     let mut conn = pool.get()
-        .expect("Failed to get connection from pool");
+        .expect(&quot;Failed to get connection from pool&quot;);
 
     posts.load::&lt;Post&gt;(&amp;mut conn)
 }
@@ -2084,7 +2091,7 @@ fn get_posts(pool: &amp;Pool) -&gt; Result&lt;Vec&lt;Post&gt;, diesel::result::E
 async fn get_posts(pool: &amp;sqlx::PgPool) -&gt; Result&lt;Vec&lt;Post&gt;, sqlx::Error&gt; {
     sqlx::query_as!(
         Post,
-        "SELECT * FROM posts"
+        &quot;SELECT * FROM posts&quot;
     )
     .fetch_all(pool)
     .await
@@ -2093,7 +2100,7 @@ async fn get_posts(pool: &amp;sqlx::PgPool) -&gt; Result&lt;Vec&lt;Post&gt;, sql
 <h3 id="connection-pool-best-practices"><a class="header" href="#connection-pool-best-practices">Connection Pool Best Practices</a></h3>
 <ol>
 <li>
-<p><strong>Proper Sizing</strong>: Size your connection pool based on your application’s needs. Too small, and requests will queue; too large, and you may overwhelm the database.</p>
+<p><strong>Proper Sizing</strong>: Size your connection pool based on your application's needs. Too small, and requests will queue; too large, and you may overwhelm the database.</p>
 </li>
 <li>
 <p><strong>Monitoring</strong>: Monitor pool metrics like usage, wait times, and timeouts to identify bottlenecks.</p>
@@ -2115,7 +2122,7 @@ async fn get_posts(pool: &amp;sqlx::PgPool) -&gt; Result&lt;Vec&lt;Post&gt;, sql
 </li>
 </ol>
 <h3 id="example-repository-pattern-with-connection-pooling"><a class="header" href="#example-repository-pattern-with-connection-pooling">Example: Repository Pattern with Connection Pooling</a></h3>
-<p>Here’s an example of how to use connection pooling with the repository pattern:</p>
+<p>Here's an example of how to use connection pooling with the repository pattern:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct PostRepository {
@@ -2138,7 +2145,7 @@ impl PostRepository {
         };
 
         let mut conn = self.pool.get()
-            .expect("Failed to get connection from pool");
+            .expect(&quot;Failed to get connection from pool&quot;);
 
         diesel::insert_into(posts::table)
             .values(&amp;new_post)
@@ -2150,7 +2157,7 @@ impl PostRepository {
         use schema::posts::dsl::*;
 
         let mut conn = self.pool.get()
-            .expect("Failed to get connection from pool");
+            .expect(&quot;Failed to get connection from pool&quot;);
 
         posts.load::&lt;Post&gt;(&amp;mut conn)
     }
@@ -2166,13 +2173,13 @@ impl PostRepository {
 <ol>
 <li><strong>Atomicity</strong>: All operations in a transaction succeed or all fail. There are no partial completions.</li>
 <li><strong>Consistency</strong>: The database remains in a valid state before and after the transaction</li>
-<li><strong>Isolation</strong>: Concurrent transactions don’t interfere with each other.</li>
+<li><strong>Isolation</strong>: Concurrent transactions don't interfere with each other.</li>
 <li><strong>Durability</strong>: Once a transaction is committed, it remains committed even in the case of system failure.</li>
 </ol>
 <h3 id="transaction-management-in-rust"><a class="header" href="#transaction-management-in-rust">Transaction Management in Rust</a></h3>
-<p>Different database libraries in Rust provide various APIs for transaction management. Let’s explore some common approaches:</p>
+<p>Different database libraries in Rust provide various APIs for transaction management. Let's explore some common approaches:</p>
 <h3 id="transactions-with-diesel"><a class="header" href="#transactions-with-diesel">Transactions with Diesel</a></h3>
-<p>Diesel provides a transaction API that’s easy to use:</p>
+<p>Diesel provides a transaction API that's easy to use:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use diesel::prelude::*;
@@ -2219,7 +2226,7 @@ async fn transfer_funds(
 
     // Deduct from the source account
     sqlx::query!(
-        "UPDATE accounts SET balance = balance - $1 WHERE id = $2",
+        &quot;UPDATE accounts SET balance = balance - $1 WHERE id = $2&quot;,
         amount,
         from_account_id
     )
@@ -2228,7 +2235,7 @@ async fn transfer_funds(
 
     // Add to the destination account
     sqlx::query!(
-        "UPDATE accounts SET balance = balance + $1 WHERE id = $2",
+        &quot;UPDATE accounts SET balance = balance + $1 WHERE id = $2&quot;,
         amount,
         to_account_id
     )
@@ -2255,7 +2262,7 @@ fn process_order(
     conn.transaction(|conn| {
         // Process the order
         diesel::update(orders::table.find(order_id))
-            .set(orders::status.eq("processing"))
+            .set(orders::status.eq(&quot;processing&quot;))
             .execute(conn)?;
 
         // Try to process each item, but if one fails, continue with others
@@ -2279,7 +2286,7 @@ fn process_order(
 
         // Mark the order as processed
         diesel::update(orders::table.find(order_id))
-            .set(orders::status.eq("processed"))
+            .set(orders::status.eq(&quot;processed&quot;))
             .execute(conn)?;
 
         Ok(())
@@ -2318,13 +2325,13 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 enum TransactionError {
-    #[error("Database error: {0}")]
+    #[error(&quot;Database error: {0}&quot;)]
     Database(#[from] Error),
 
-    #[error("Insufficient funds in account {0}")]
+    #[error(&quot;Insufficient funds in account {0}&quot;)]
     InsufficientFunds(i32),
 
-    #[error("Account {0} not found")]
+    #[error(&quot;Account {0} not found&quot;)]
     AccountNotFound(i32),
 }
 
@@ -2388,13 +2395,13 @@ impl OrderRepository {
         items: Vec&lt;OrderItemData&gt;,
     ) -&gt; Result&lt;Order, Error&gt; {
         let mut conn = self.pool.get()
-            .expect("Failed to get connection from pool");
+            .expect(&quot;Failed to get connection from pool&quot;);
 
         conn.transaction(|conn| {
             // Create the order
             let new_order = NewOrder {
                 customer_id,
-                status: "pending",
+                status: &quot;pending&quot;,
                 created_at: chrono::Utc::now().naive_utc(),
             };
 
@@ -2454,7 +2461,7 @@ impl OrderService {
         items: Vec&lt;OrderItemData&gt;,
     ) -&gt; Result&lt;Order, ServiceError&gt; {
         let mut conn = self.order_repo.pool.get()
-            .expect("Failed to get connection from pool");
+            .expect(&quot;Failed to get connection from pool&quot;);
 
         conn.transaction(|conn| {
             // Check inventory for each product
@@ -2498,7 +2505,7 @@ impl OrderService {
 <p><strong>Proper Error Handling</strong>: Design your error handling to ensure transactions are rolled back when necessary.</p>
 </li>
 <li>
-<p><strong>Avoid External Calls</strong>: Don’t make HTTP requests or other external calls within a transaction.</p>
+<p><strong>Avoid External Calls</strong>: Don't make HTTP requests or other external calls within a transaction.</p>
 </li>
 <li>
 <p><strong>Choose Appropriate Isolation Levels</strong>: Use the minimum isolation level needed for your use case.</p>
@@ -2559,7 +2566,7 @@ pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
 
 fn run_migrations(conn: &amp;mut impl MigrationHarness&lt;diesel::pg::Pg&gt;) {
     conn.run_pending_migrations(MIGRATIONS)
-        .expect("Failed to run database migrations");
+        .expect(&quot;Failed to run database migrations&quot;);
 }
 
 // In your application startup
@@ -2595,7 +2602,7 @@ use std::path::Path;
 async fn main() -&gt; Result&lt;(), sqlx::Error&gt; {
     let pool = establish_connection().await?;
 
-    let migrator = Migrator::new(Path::new("./migrations")).await?;
+    let migrator = Migrator::new(Path::new(&quot;./migrations&quot;)).await?;
     migrator.run(&amp;pool).await?;
 
     Ok(())
@@ -2700,13 +2707,13 @@ ALTER TABLE products RENAME COLUMN price_decimal TO price;
 </span>// Development setup
 if cfg!(debug_assertions) {
     // Apply all migrations and optionally reset the database
-    let _ = sqlx::query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
+    let _ = sqlx::query(&quot;DROP SCHEMA public CASCADE; CREATE SCHEMA public;&quot;)
         .execute(&amp;pool)
         .await;
-    sqlx::migrate!("./migrations")
+    sqlx::migrate!(&quot;./migrations&quot;)
         .run(&amp;pool)
         .await
-        .expect("Failed to run migrations");
+        .expect(&quot;Failed to run migrations&quot;);
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="staging-environment"><a class="header" href="#staging-environment">Staging Environment</a></h4>
@@ -2722,12 +2729,12 @@ if cfg!(debug_assertions) {
 use std::time::Instant;
 
 let start = Instant::now();
-sqlx::migrate!("./migrations")
+sqlx::migrate!(&quot;./migrations&quot;)
     .run(&amp;pool)
     .await
-    .expect("Failed to run migrations");
+    .expect(&quot;Failed to run migrations&quot;);
 let duration = start.elapsed();
-println!("Migrations completed in {}ms", duration.as_millis());
+println!(&quot;Migrations completed in {}ms&quot;, duration.as_millis());
 <span class="boring">}</span></code></pre></pre>
 <h4 id="production-environment"><a class="header" href="#production-environment">Production Environment</a></h4>
 <p>In production, you need to:</p>
@@ -2741,11 +2748,11 @@ println!("Migrations completed in {}ms", duration.as_millis());
 </span>// Production migration with logging
 use log::{info, error};
 
-info!("Starting database migrations");
-match sqlx::migrate!("./migrations").run(&amp;pool).await {
-    Ok(_) =&gt; info!("Migrations completed successfully"),
+info!(&quot;Starting database migrations&quot;);
+match sqlx::migrate!(&quot;./migrations&quot;).run(&amp;pool).await {
+    Ok(_) =&gt; info!(&quot;Migrations completed successfully&quot;),
     Err(e) =&gt; {
-        error!("Migration failed: {}", e);
+        error!(&quot;Migration failed: {}&quot;, e);
         // Implement rollback or alerting logic
     }
 }
@@ -2762,12 +2769,12 @@ match sqlx::migrate!("./migrations").run(&amp;pool).await {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Phase 1: Add new column (can be done without downtime)
-sqlx::query!("ALTER TABLE users ADD COLUMN email_address TEXT")
+sqlx::query!(&quot;ALTER TABLE users ADD COLUMN email_address TEXT&quot;)
     .execute(&amp;pool)
     .await?;
 
 // Phase 2: Copy data (can be done in the background)
-sqlx::query!("UPDATE users SET email_address = email WHERE email_address IS NULL")
+sqlx::query!(&quot;UPDATE users SET email_address = email WHERE email_address IS NULL&quot;)
     .execute(&amp;pool)
     .await?;
 
@@ -2776,7 +2783,7 @@ sqlx::query!("UPDATE users SET email_address = email WHERE email_address IS NULL
 // Phase 4: Update application to read from new column
 
 // Phase 5: Remove old column (after all instances are updated)
-sqlx::query!("ALTER TABLE users DROP COLUMN email")
+sqlx::query!(&quot;ALTER TABLE users DROP COLUMN email&quot;)
     .execute(&amp;pool)
     .await?;
 <span class="boring">}</span></code></pre></pre>
@@ -2787,39 +2794,39 @@ sqlx::query!("ALTER TABLE users DROP COLUMN email")
 </span>#[tokio::test]
 async fn test_migrations() {
     // Create a test database
-    let test_db_url = "postgres://postgres:password@localhost/test_db";
+    let test_db_url = &quot;postgres://postgres:password@localhost/test_db&quot;;
     sqlx::postgres::PgPoolOptions::new()
         .connect(test_db_url)
         .await
-        .expect("Failed to connect to test database");
+        .expect(&quot;Failed to connect to test database&quot;);
 
     // Run migrations
-    sqlx::migrate!("./migrations")
+    sqlx::migrate!(&quot;./migrations&quot;)
         .run(&amp;pool)
         .await
-        .expect("Failed to run migrations");
+        .expect(&quot;Failed to run migrations&quot;);
 
     // Verify schema
     let tables = sqlx::query!(
-        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+        &quot;SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'&quot;
     )
     .fetch_all(&amp;pool)
     .await
-    .expect("Failed to fetch tables");
+    .expect(&quot;Failed to fetch tables&quot;);
 
-    assert!(tables.iter().any(|t| t.table_name == "users"));
+    assert!(tables.iter().any(|t| t.table_name == &quot;users&quot;));
 
     // Verify column definitions
     let columns = sqlx::query!(
-        "SELECT column_name, data_type FROM information_schema.columns
-         WHERE table_name = 'users' AND table_schema = 'public'"
+        &quot;SELECT column_name, data_type FROM information_schema.columns
+         WHERE table_name = 'users' AND table_schema = 'public'&quot;
     )
     .fetch_all(&amp;pool)
     .await
-    .expect("Failed to fetch columns");
+    .expect(&quot;Failed to fetch columns&quot;);
 
-    assert!(columns.iter().any(|c| c.column_name == "id" &amp;&amp; c.data_type == "integer"));
-    assert!(columns.iter().any(|c| c.column_name == "email" &amp;&amp; c.data_type == "text"));
+    assert!(columns.iter().any(|c| c.column_name == &quot;id&quot; &amp;&amp; c.data_type == &quot;integer&quot;));
+    assert!(columns.iter().any(|c| c.column_name == &quot;email&quot; &amp;&amp; c.data_type == &quot;text&quot;));
 }
 <span class="boring">}</span></code></pre></pre>
 <h3 id="migration-best-practices"><a class="header" href="#migration-best-practices">Migration Best Practices</a></h3>
@@ -2836,9 +2843,9 @@ async fn test_migrations() {
 <li><strong>Plan for Failures</strong>: Have a clear plan for what to do if a migration fails.</li>
 </ol>
 <h2 id="query-building-and-type-safety"><a class="header" href="#query-building-and-type-safety">Query Building and Type Safety</a></h2>
-<p>One of Rust’s core strengths is its powerful type system, which can be leveraged to create type-safe database queries. This section explores approaches to building queries that are checked at compile time.</p>
+<p>One of Rust's core strengths is its powerful type system, which can be leveraged to create type-safe database queries. This section explores approaches to building queries that are checked at compile time.</p>
 <h3 id="type-safe-query-building"><a class="header" href="#type-safe-query-building">Type-Safe Query Building</a></h3>
-<h4 id="diesels-query-dsl"><a class="header" href="#diesels-query-dsl">Diesel’s Query DSL</a></h4>
+<h4 id="diesels-query-dsl"><a class="header" href="#diesels-query-dsl">Diesel's Query DSL</a></h4>
 <p>Diesel provides a type-safe query DSL that ensures queries are valid at compile time:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2859,14 +2866,14 @@ fn find_active_users(conn: &amp;mut PgConnection) -&gt; QueryResult&lt;Vec&lt;Us
 <li>Type mismatches in comparisons</li>
 <li>Invalid joins between tables</li>
 </ul>
-<h4 id="sqlxs-query-macros"><a class="header" href="#sqlxs-query-macros">SQLx’s Query Macros</a></h4>
+<h4 id="sqlxs-query-macros"><a class="header" href="#sqlxs-query-macros">SQLx's Query Macros</a></h4>
 <p>SQLx provides compile-time checked SQL queries through its macros:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn find_active_users(pool: &amp;PgPool) -&gt; Result&lt;Vec&lt;User&gt;, sqlx::Error&gt; {
     sqlx::query_as!(
         User,
-        "SELECT * FROM users WHERE active = $1 ORDER BY created_at DESC LIMIT $2",
+        &quot;SELECT * FROM users WHERE active = $1 ORDER BY created_at DESC LIMIT $2&quot;,
         true,
         10
     )
@@ -2898,7 +2905,7 @@ fn find_active_users(conn: &amp;mut PgConnection) -&gt; QueryResult&lt;Vec&lt;Us
 
     // Add optional conditions
     if should_filter_by_role() {
-        query = query.and(role.eq("admin"));
+        query = query.and(role.eq(&quot;admin&quot;));
     }
 
     if should_filter_by_date() {
@@ -2922,23 +2929,23 @@ fn find_users(conn: &amp;mut PgConnection) -&gt; QueryResult&lt;Vec&lt;User&gt;&
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn find_users(pool: &amp;PgPool, role_filter: Option&lt;&amp;str&gt;, min_date: Option&lt;chrono::NaiveDate&gt;) -&gt; Result&lt;Vec&lt;User&gt;, sqlx::Error&gt; {
-    let mut sql = String::from("SELECT * FROM users WHERE active = $1");
+    let mut sql = String::from(&quot;SELECT * FROM users WHERE active = $1&quot;);
     let mut params = vec![sqlx::postgres::PgArguments::default()];
 
     params.push(true);
 
     if let Some(role) = role_filter {
-        sql.push_str(" AND role = $2");
+        sql.push_str(&quot; AND role = $2&quot;);
         params.push(role);
     }
 
     if let Some(date) = min_date {
         let param_idx = params.len() + 1;
-        sql.push_str(&amp;format!(" AND created_at &gt; ${}", param_idx));
+        sql.push_str(&amp;format!(&quot; AND created_at &gt; ${}&quot;, param_idx));
         params.push(date);
     }
 
-    sql.push_str(" ORDER BY created_at DESC");
+    sql.push_str(&quot; ORDER BY created_at DESC&quot;);
 
     // Note: This approach doesn't have compile-time checking for dynamic queries
     sqlx::query_as_with::&lt;_, User, _&gt;(&amp;sql, params)
@@ -2954,36 +2961,36 @@ fn find_users(conn: &amp;mut PgConnection) -&gt; QueryResult&lt;Vec&lt;User&gt;&
 
 #[derive(Debug, Error)]
 enum DatabaseError {
-    #[error("Database error: {0}")]
+    #[error(&quot;Database error: {0}&quot;)]
     Connection(#[from] sqlx::Error),
 
-    #[error("Entity not found: {0}")]
+    #[error(&quot;Entity not found: {0}&quot;)]
     NotFound(String),
 
-    #[error("Unique constraint violation: {0}")]
+    #[error(&quot;Unique constraint violation: {0}&quot;)]
     UniqueViolation(String),
 
-    #[error("Foreign key violation: {0}")]
+    #[error(&quot;Foreign key violation: {0}&quot;)]
     ForeignKeyViolation(String),
 
-    #[error("Invalid input: {0}")]
+    #[error(&quot;Invalid input: {0}&quot;)]
     InvalidInput(String),
 }
 
 async fn create_user(pool: &amp;PgPool, username: &amp;str, email: &amp;str) -&gt; Result&lt;User, DatabaseError&gt; {
     // Validate input
     if username.is_empty() {
-        return Err(DatabaseError::InvalidInput("Username cannot be empty".into()));
+        return Err(DatabaseError::InvalidInput(&quot;Username cannot be empty&quot;.into()));
     }
 
     if !email.contains('@') {
-        return Err(DatabaseError::InvalidInput("Invalid email format".into()));
+        return Err(DatabaseError::InvalidInput(&quot;Invalid email format&quot;.into()));
     }
 
     // Attempt to create the user
     match sqlx::query_as!(
         User,
-        "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *",
+        &quot;INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *&quot;,
         username,
         email
     )
@@ -2995,13 +3002,13 @@ async fn create_user(pool: &amp;PgPool, username: &amp;str, email: &amp;str) -&g
             sqlx::Error::Database(db_err) =&gt; {
                 // Check PostgreSQL error codes
                 if let Some(code) = db_err.code() {
-                    if code == "23505" { // unique_violation
+                    if code == &quot;23505&quot; { // unique_violation
                         return Err(DatabaseError::UniqueViolation(
-                            "Username or email already exists".into()
+                            &quot;Username or email already exists&quot;.into()
                         ));
-                    } else if code == "23503" { // foreign_key_violation
+                    } else if code == &quot;23503&quot; { // foreign_key_violation
                         return Err(DatabaseError::ForeignKeyViolation(
-                            "Referenced entity does not exist".into()
+                            &quot;Referenced entity does not exist&quot;.into()
                         ));
                     }
                 }
@@ -3026,26 +3033,26 @@ mod tests {
 
     async fn setup_test_db() -&gt; PgPool {
         INIT.call_once(|| {
-            dotenv::from_filename(".env.test").ok();
+            dotenv::from_filename(&quot;.env.test&quot;).ok();
         });
 
         let pool = PgPoolOptions::new()
             .max_connections(5)
-            .connect(&amp;std::env::var("DATABASE_URL").unwrap())
+            .connect(&amp;std::env::var(&quot;DATABASE_URL&quot;).unwrap())
             .await
-            .expect("Failed to create pool");
+            .expect(&quot;Failed to create pool&quot;);
 
         // Run migrations
-        sqlx::migrate!("./migrations")
+        sqlx::migrate!(&quot;./migrations&quot;)
             .run(&amp;pool)
             .await
-            .expect("Failed to run migrations");
+            .expect(&quot;Failed to run migrations&quot;);
 
         // Clean test data
-        sqlx::query!("TRUNCATE users, posts, comments RESTART IDENTITY CASCADE")
+        sqlx::query!(&quot;TRUNCATE users, posts, comments RESTART IDENTITY CASCADE&quot;)
             .execute(&amp;pool)
             .await
-            .expect("Failed to clean test data");
+            .expect(&quot;Failed to clean test data&quot;);
 
         pool
     }
@@ -3056,13 +3063,13 @@ mod tests {
         let repo = UserRepository::new(pool);
 
         // Test creating a user
-        let user = repo.create("test_user", "test@example.com").await.unwrap();
+        let user = repo.create(&quot;test_user&quot;, &quot;test@example.com&quot;).await.unwrap();
 
-        assert_eq!(user.username, "test_user");
-        assert_eq!(user.email, "test@example.com");
+        assert_eq!(user.username, &quot;test_user&quot;);
+        assert_eq!(user.email, &quot;test@example.com&quot;);
 
         // Test unique constraint
-        let result = repo.create("test_user", "another@example.com").await;
+        let result = repo.create(&quot;test_user&quot;, &quot;another@example.com&quot;).await;
         assert!(matches!(result, Err(DatabaseError::UniqueViolation(_))));
     }
 
@@ -3072,20 +3079,20 @@ mod tests {
         let repo = UserRepository::new(pool);
 
         // Create test user
-        repo.create("find_me", "findme@example.com").await.unwrap();
+        repo.create(&quot;find_me&quot;, &quot;findme@example.com&quot;).await.unwrap();
 
         // Test finding the user
-        let user = repo.find_by_username("find_me").await.unwrap();
-        assert_eq!(user.email, "findme@example.com");
+        let user = repo.find_by_username(&quot;find_me&quot;).await.unwrap();
+        assert_eq!(user.email, &quot;findme@example.com&quot;);
 
         // Test user not found
-        let result = repo.find_by_username("nonexistent").await;
+        let result = repo.find_by_username(&quot;nonexistent&quot;).await;
         assert!(matches!(result, Err(DatabaseError::NotFound(_))));
     }
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>In this chapter, we’ve explored the diverse landscape of database interaction in Rust. We’ve seen how Rust’s type system, ownership model, and performance characteristics make it an excellent language for building robust database applications.</p>
+<p>In this chapter, we've explored the diverse landscape of database interaction in Rust. We've seen how Rust's type system, ownership model, and performance characteristics make it an excellent language for building robust database applications.</p>
 <p>We started with core database concepts, understanding the trade-offs between relational and NoSQL databases, and the importance of connection management and transactions.</p>
 <p>We then examined several approaches to database interaction in Rust:</p>
 <ol>
@@ -3104,12 +3111,12 @@ mod tests {
 <li><strong>Error Handling</strong>: Dealing with database errors gracefully.</li>
 <li><strong>Testing</strong>: Verifying database code works correctly.</li>
 </ol>
-<p>Throughout the chapter, we’ve emphasized best practices and patterns for building maintainable, performant, and reliable database applications in Rust.</p>
-<p>The ecosystem for database interaction in Rust continues to evolve, with libraries becoming more mature and new options emerging. By understanding the principles and approaches covered in this chapter, you’ll be well-equipped to choose the right tools for your specific use cases and to adapt as the ecosystem grows.</p>
+<p>Throughout the chapter, we've emphasized best practices and patterns for building maintainable, performant, and reliable database applications in Rust.</p>
+<p>The ecosystem for database interaction in Rust continues to evolve, with libraries becoming more mature and new options emerging. By understanding the principles and approaches covered in this chapter, you'll be well-equipped to choose the right tools for your specific use cases and to adapt as the ecosystem grows.</p>
 <h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ol>
 <li>
-<p><strong>Basic CRUD Operations</strong>: Implement a simple CRUD (Create, Read, Update, Delete) application for a “tasks” entity using Diesel.</p>
+<p><strong>Basic CRUD Operations</strong>: Implement a simple CRUD (Create, Read, Update, Delete) application for a &quot;tasks&quot; entity using Diesel.</p>
 </li>
 <li>
 <p><strong>Async API with SQLx</strong>: Build a RESTful API using an async web framework like Axum or Actix Web, with SQLx for database access.</p>
