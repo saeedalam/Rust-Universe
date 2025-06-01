@@ -1,0 +1,26 @@
+name: Remove CNAME file
+
+on:
+  workflow_dispatch:
+
+jobs:
+  remove-cname:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+
+      - name: Remove CNAME file
+        run: |
+          if [ -f CNAME ]; then
+            rm CNAME
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
+            git add -A
+            git commit -m "Remove CNAME file to use default GitHub Pages URL"
+            git push
+          else
+            echo "CNAME file not found"
+          fi
