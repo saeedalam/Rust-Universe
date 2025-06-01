@@ -19,18 +19,6 @@
       <img src="https://img.shields.io/badge/Chapters-52-FF7800?style=for-the-badge&logo=bookstack" alt="52 Chapters">
     </a>
   </p>
-
-  <br>
-  
-  <div style="background-color: #2b2b2b; color: #fff; border-radius: 8px; padding: 20px; max-width: 500px; margin: 0 auto; text-align: left;">
-    <pre style="margin: 0;"><code style="color: #E8E9B8;">fn main() {
-    println!("Welcome to the Rust Universe!");
-    
-    let journey = RustJourney::new();
-    journey.begin()
-        .expect("Your coding adventure awaits!");
-}</code></pre>
-  </div>
 </div>
 
 <div align="center">
@@ -267,7 +255,6 @@ This book is licensed under the MIT License.
 
 <div align="center">
   <p>
-    <strong>Happy coding with Rust! 🦀</strong><br>
     <a href="https://www.linkedin.com/in/saeedvalam">Connect on LinkedIn</a>
   </p>
 </div>
