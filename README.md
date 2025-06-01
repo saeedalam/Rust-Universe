@@ -19,6 +19,8 @@
       <img src="https://img.shields.io/badge/Chapters-52-FF7800?style=for-the-badge&logo=bookstack" alt="52 Chapters">
     </a>
   </p>
+  
+  <a href="https://saeedalam.github.io/Rust-Universe" style="display: inline-block; background-color: #CE412B; color: white; font-weight: bold; padding: 12px 30px; text-decoration: none; border-radius: 6px; margin-top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">READ THE BOOK ONLINE</a>
 </div>
 
 <div align="center">
