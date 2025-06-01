@@ -1,10 +1,12 @@
-name: Deploy mdBook
+name: Legacy mdBook Deployment
+# This workflow is kept for reference but is no longer the primary deployment method
+# Please use pages.yml workflow instead
 
 on:
   push:
     branches:
-      - master
-  pull_request:
+      - main # Changed to avoid conflicting with the new workflow
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -22,11 +24,10 @@ jobs:
           # Build from the root directory where book.toml is located
           mdbook build
 
-      - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/master'
+      - name: Deploy to GitHub Pages (Legacy Method)
+        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book
           publish_branch: gh-pages
-          cname: rustbook.saeedalam.com # Optional: Remove if not using custom domain
