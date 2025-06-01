@@ -1,0 +1,1376 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Enums and Pattern Matching - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/12-enums.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-12-enums-and-pattern-matching"><a class="header" href="#chapter-12-enums-and-pattern-matching">Chapter 12: Enums and Pattern Matching</a></h1>
+<p>In the previous chapter, we explored structs for creating custom data types that group related values. Now, we’ll dive into enums (short for “enumerations”), another powerful way to create custom types in Rust. While structs are about grouping related fields together, enums are about defining a type that can be one of several variants.</p>
+<p>Combined with pattern matching, enums become an incredibly expressive tool for modeling domain concepts, handling errors, and writing concise, maintainable code.</p>
+<h2 id="defining-and-using-enums"><a class="header" href="#defining-and-using-enums">Defining and Using Enums</a></h2>
+<p>An enum allows you to define a type by enumerating its possible variants. Let’s start with a simple example:</p>
+<pre><pre class="playground"><code class="language-rust">enum Direction {
+    North,
+    East,
+    South,
+    West,
+}
+
+fn main() {
+    let heading = Direction::North;
+
+    // Using a function that takes a Direction
+    describe_direction(heading);
+}
+
+fn describe_direction(direction: Direction) {
+    match direction {
+        Direction::North =&gt; println!("Heading north!"),
+        Direction::East =&gt; println!("Heading east!"),
+        Direction::South =&gt; println!("Heading south!"),
+        Direction::West =&gt; println!("Heading west!"),
+    }
+}</code></pre></pre>
+<p>Here, <code>Direction</code> is an enum with four variants. We can create a value of the <code>Direction</code> type by specifying one of its variants using the <code>::</code> syntax.</p>
+<h3 id="enums-with-associated-data"><a class="header" href="#enums-with-associated-data">Enums with Associated Data</a></h3>
+<p>Unlike enums in some other languages, Rust’s enums can contain data associated with each variant:</p>
+<pre><pre class="playground"><code class="language-rust">enum Message {
+    Quit,                       // No data
+    Move { x: i32, y: i32 },    // Named fields like a struct
+    Write(String),              // A single string value
+    ChangeColor(i32, i32, i32), // Three integers
+}
+
+fn main() {
+    let messages = [
+        Message::Quit,
+        Message::Move { x: 10, y: 5 },
+        Message::Write(String::from("Hello, Rust!")),
+        Message::ChangeColor(255, 0, 0),
+    ];
+
+    for msg in &amp;messages {
+        process_message(msg);
+    }
+}
+
+fn process_message(message: &amp;Message) {
+    match message {
+        Message::Quit =&gt; println!("Quitting the application"),
+        Message::Move { x, y } =&gt; println!("Moving to position ({}, {})", x, y),
+        Message::Write(text) =&gt; println!("Text message: {}", text),
+        Message::ChangeColor(r, g, b) =&gt; println!("Changing color to RGB({}, {}, {})", r, g, b),
+    }
+}</code></pre></pre>
+<p>In this example, each variant of the <code>Message</code> enum can hold different types and amounts of data. This makes enums very flexible for representing different types of messages in a system.</p>
+<h3 id="enum-methods-with-impl"><a class="header" href="#enum-methods-with-impl">Enum Methods with impl</a></h3>
+<p>Like structs, enums can have methods implemented on them:</p>
+<pre><pre class="playground"><code class="language-rust">enum Shape {
+    Circle(f64),               // Radius
+    Rectangle(f64, f64),       // Width and height
+    Triangle(f64, f64, f64),   // Three sides
+}
+
+impl Shape {
+    fn area(&amp;self) -&gt; f64 {
+        match self {
+            Shape::Circle(radius) =&gt; std::f64::consts::PI * radius * radius,
+            Shape::Rectangle(width, height) =&gt; width * height,
+            Shape::Triangle(a, b, c) =&gt; {
+                // Heron's formula
+                let s = (a + b + c) / 2.0;
+                (s * (s - a) * (s - b) * (s - c)).sqrt()
+            }
+        }
+    }
+
+    fn describe(&amp;self) {
+        match self {
+            Shape::Circle(_) =&gt; println!("A circle with area {:.2}", self.area()),
+            Shape::Rectangle(_, _) =&gt; println!("A rectangle with area {:.2}", self.area()),
+            Shape::Triangle(_, _, _) =&gt; println!("A triangle with area {:.2}", self.area()),
+        }
+    }
+}
+
+fn main() {
+    let shapes = [
+        Shape::Circle(5.0),
+        Shape::Rectangle(4.0, 6.0),
+        Shape::Triangle(3.0, 4.0, 5.0),
+    ];
+
+    for shape in &amp;shapes {
+        shape.describe();
+    }
+}</code></pre></pre>
+<p>Here, we’ve implemented methods on the <code>Shape</code> enum to calculate the area of different shapes and to describe them.</p>
+<h2 id="the-option-enum"><a class="header" href="#the-option-enum">The Option Enum</a></h2>
+<p>One of the most useful enums in Rust’s standard library is <code>Option&lt;T&gt;</code>. It’s used to express the possibility of absence, replacing <code>null</code> or <code>nil</code> that exist in many other languages.</p>
+<p><code>Option&lt;T&gt;</code> is defined as:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Where <code>T</code> is a generic type parameter. <code>Option&lt;T&gt;</code> can either be <code>Some</code> with a value of type <code>T</code>, or <code>None</code>, representing the absence of a value.</p>
+<p>Here’s how to use it:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let some_number = Some(5);
+    let absent_number: Option&lt;i32&gt; = None;
+
+    println!("some_number: {:?}", some_number);
+    println!("absent_number: {:?}", absent_number);
+
+    // Using map to transform the value inside Some
+    let doubled = some_number.map(|x| x * 2);
+    println!("doubled: {:?}", doubled);
+
+    // Using unwrap_or to provide a default value
+    let value = absent_number.unwrap_or(0);
+    println!("value with default: {}", value);
+}</code></pre></pre>
+<p>The <code>Option&lt;T&gt;</code> enum is so common that it’s included in the prelude, meaning you don’t need to explicitly import it. The variants <code>Some</code> and <code>None</code> are also imported automatically.</p>
+<h3 id="why-option-is-better-than-null"><a class="header" href="#why-option-is-better-than-null">Why Option<T> is Better Than null</a></h3>
+<p>Rust doesn’t have a <code>null</code> value like many other languages. Instead, the concept of an optional value is represented using the <code>Option&lt;T&gt;</code> enum. This has several advantages:</p>
+<ol>
+<li>It makes the possibility of absence explicit in the type system</li>
+<li>It forces you to handle the possibility of absence before using a value</li>
+<li>It eliminates an entire class of errors: null pointer exceptions</li>
+</ol>
+<p>Consider this example:</p>
+<pre><pre class="playground"><code class="language-rust">fn find_user_by_id(id: u32) -&gt; Option&lt;String&gt; {
+    // Simulating a database lookup
+    match id {
+        1 =&gt; Some(String::from("Alice")),
+        2 =&gt; Some(String::from("Bob")),
+        _ =&gt; None,
+    }
+}
+
+fn greet_user(id: u32) {
+    match find_user_by_id(id) {
+        Some(name) =&gt; println!("Hello, {}!", name),
+        None =&gt; println!("User not found."),
+    }
+}
+
+fn main() {
+    greet_user(1); // Prints: Hello, Alice!
+    greet_user(3); // Prints: User not found.
+
+    // This won't compile:
+    // let name = find_user_by_id(1);
+    // println!("Length: {}", name.len());
+
+    // We must handle the Option first:
+    if let Some(name) = find_user_by_id(1) {
+        println!("Length: {}", name.len());
+    }
+}</code></pre></pre>
+<p>In this example, the <code>find_user_by_id</code> function returns an <code>Option&lt;String&gt;</code>, making it clear that the user might not be found. The caller must explicitly handle both the <code>Some</code> and <code>None</code> cases before using the value.</p>
+<h3 id="working-with-option"><a class="header" href="#working-with-option">Working with Option<T></a></h3>
+<p>The <code>Option&lt;T&gt;</code> enum has many useful methods for working with optional values:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let numbers = vec![Some(1), None, Some(3), None, Some(5)];
+
+    // Filter out None values and unwrap the Some values
+    let filtered: Vec&lt;i32&gt; = numbers.iter()
+        .filter_map(|&amp;x| x)
+        .collect();
+
+    println!("Filtered: {:?}", filtered);
+
+    let maybe_value = Some(42);
+
+    // is_some() checks if the Option is Some
+    if maybe_value.is_some() {
+        println!("We have a value!");
+    }
+
+    // is_none() checks if the Option is None
+    if maybe_value.is_none() {
+        println!("We don't have a value.");
+    }
+
+    // unwrap() extracts the value from Some, but panics on None
+    let value = maybe_value.unwrap();
+    println!("Value: {}", value);
+
+    // unwrap_or() provides a default value for None
+    let empty: Option&lt;i32&gt; = None;
+    let default_value = empty.unwrap_or(0);
+    println!("Default value: {}", default_value);
+
+    // unwrap_or_else() uses a closure to generate a default value
+    let computed_default = empty.unwrap_or_else(|| {
+        println!("Computing default...");
+        123
+    });
+    println!("Computed default: {}", computed_default);
+
+    // map() transforms the value inside Some, leaving None untouched
+    let squared = maybe_value.map(|x| x * x);
+    println!("Squared: {:?}", squared);
+
+    // and_then() chains operations that return Options
+    let result = maybe_value
+        .and_then(|x| if x &gt; 0 { Some(x) } else { None })
+        .and_then(|x| Some(x.to_string()));
+
+    println!("Result: {:?}", result);
+}</code></pre></pre>
+<p>This example shows just some of the methods available on <code>Option&lt;T&gt;</code>. The standard library provides many more methods for working with optional values in a safe and expressive way.</p>
+<h2 id="the-result-enum"><a class="header" href="#the-result-enum">The Result Enum</a></h2>
+<p>While <code>Option&lt;T&gt;</code> handles the possibility of absence, <code>Result&lt;T, E&gt;</code> is used for operations that can fail. It’s defined as:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Where <code>T</code> is the type of the success value, and <code>E</code> is the type of the error value.</p>
+<p>Here’s a simple example:</p>
+<pre><pre class="playground"><code class="language-rust">use std::fs::File;
+use std::io::Read;
+
+fn read_file_contents(path: &amp;str) -&gt; Result&lt;String, std::io::Error&gt; {
+    let mut file = match File::open(path) {
+        Ok(file) =&gt; file,
+        Err(error) =&gt; return Err(error),
+    };
+
+    let mut contents = String::new();
+    match file.read_to_string(&amp;mut contents) {
+        Ok(_) =&gt; Ok(contents),
+        Err(error) =&gt; Err(error),
+    }
+}
+
+fn main() {
+    match read_file_contents("hello.txt") {
+        Ok(contents) =&gt; println!("File contents: {}", contents),
+        Err(error) =&gt; println!("Error reading file: {}", error),
+    }
+}</code></pre></pre>
+<p>In this example, <code>read_file_contents</code> returns a <code>Result&lt;String, std::io::Error&gt;</code>. If the file is successfully read, it returns <code>Ok(contents)</code> with the file contents. If there’s an error, it returns <code>Err(error)</code> with the error details.</p>
+<h3 id="the--operator"><a class="header" href="#the--operator">The ? Operator</a></h3>
+<p>The <code>?</code> operator provides a concise way to handle errors with <code>Result</code> types. It unwraps the value if the operation succeeds or returns the error from the current function if it fails:</p>
+<pre><pre class="playground"><code class="language-rust">use std::fs::File;
+use std::io::{self, Read};
+
+fn read_file_contents(path: &amp;str) -&gt; Result&lt;String, io::Error&gt; {
+    let mut file = File::open(path)?;
+    let mut contents = String::new();
+    file.read_to_string(&amp;mut contents)?;
+    Ok(contents)
+}
+
+fn main() -&gt; Result&lt;(), io::Error&gt; {
+    let contents = read_file_contents("hello.txt")?;
+    println!("File contents: {}", contents);
+    Ok(())
+}</code></pre></pre>
+<p>The <code>?</code> operator significantly reduces boilerplate code when working with functions that return <code>Result</code> types.</p>
+<h3 id="working-with-result"><a class="header" href="#working-with-result">Working with Result</a></h3>
+<p>Like <code>Option&lt;T&gt;</code>, the <code>Result&lt;T, E&gt;</code> enum has many useful methods:</p>
+<pre><pre class="playground"><code class="language-rust">fn parse_port(s: &amp;str) -&gt; Result&lt;u16, String&gt; {
+    match s.parse::&lt;u16&gt;() {
+        Ok(port) =&gt; Ok(port),
+        Err(_) =&gt; Err(format!("Invalid port number: {}", s)),
+    }
+}
+
+fn main() {
+    let inputs = ["80", "8080", "65536", "abc"];
+
+    for input in &amp;inputs {
+        // Using is_ok() and is_err()
+        let result = parse_port(input);
+        println!("{} - is_ok: {}, is_err: {}", input, result.is_ok(), result.is_err());
+
+        // Using unwrap_or
+        let port = parse_port(input).unwrap_or(0);
+        println!("Port (with default): {}", port);
+
+        // Using map and unwrap_or_else
+        let description = parse_port(input)
+            .map(|p| format!("Valid port: {}", p))
+            .unwrap_or_else(|e| e);
+
+        println!("Description: {}", description);
+
+        println!();
+    }
+
+    // Collecting results
+    let parsed: Result&lt;Vec&lt;u16&gt;, _&gt; = inputs.iter()
+        .map(|s| parse_port(s))
+        .collect();
+
+    println!("Collected results: {:?}", parsed);
+}</code></pre></pre>
+<p>The <code>Result&lt;T, E&gt;</code> type provides a rich API for handling errors in a safe and expressive way, encouraging robust error handling throughout your code.</p>
+<h2 id="pattern-matching-with-match"><a class="header" href="#pattern-matching-with-match">Pattern Matching with match</a></h2>
+<p>Pattern matching is a powerful feature in Rust, allowing you to destructure complex data types and conditionally execute code based on the structure of values. The <code>match</code> expression is the primary way to do pattern matching:</p>
+<pre><pre class="playground"><code class="language-rust">enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+    // ... other states
+    Wyoming,
+}
+
+fn value_in_cents(coin: Coin) -&gt; u8 {
+    match coin {
+        Coin::Penny =&gt; {
+            println!("Lucky penny!");
+            1
+        }
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter(state) =&gt; {
+            println!("Quarter from {:?}!", state);
+            25
+        }
+    }
+}
+
+fn main() {
+    let coin = Coin::Quarter(UsState::Alaska);
+    println!("Value: {} cents", value_in_cents(coin));
+}</code></pre></pre>
+<p>In the <code>match</code> expression, each arm consists of a pattern and the code to run if the value matches that pattern. The patterns are checked in order, and the first matching pattern is executed.</p>
+<h3 id="the-_-placeholder"><a class="header" href="#the-_-placeholder">The _ Placeholder</a></h3>
+<p>The <code>match</code> expression must be exhaustive, meaning it must handle all possible values of the type being matched. The <code>_</code> placeholder is a catchall pattern that matches any value not specifically handled:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let dice_roll = 6;
+
+    match dice_roll {
+        1 =&gt; println!("You got a one!"),
+        2 =&gt; println!("You got a two!"),
+        3 =&gt; println!("You got a three!"),
+        // Handle all other values
+        _ =&gt; println!("You rolled something else: {}", dice_roll),
+    }
+}</code></pre></pre>
+<p>Without the <code>_</code> pattern, the compiler would complain that the <code>match</code> doesn’t handle all possible values of <code>dice_roll</code>.</p>
+<h3 id="match-guards"><a class="header" href="#match-guards">Match Guards</a></h3>
+<p>Match guards are additional <code>if</code> conditions specified after a pattern, allowing for more complex matching logic:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let num = 5;
+
+    match num {
+        n if n &lt; 0 =&gt; println!("{} is negative", n),
+        n if n &gt; 0 =&gt; println!("{} is positive", n),
+        _ =&gt; println!("zero"),
+    }
+
+    let pair = (2, -2);
+
+    match pair {
+        (x, y) if x == y =&gt; println!("These are twins"),
+        (x, y) if x + y == 0 =&gt; println!("These are opposites"),
+        (x, y) if x % 2 == 0 &amp;&amp; y % 2 == 0 =&gt; println!("Both are even"),
+        _ =&gt; println!("No special property"),
+    }
+}</code></pre></pre>
+<p>Match guards are useful when the pattern alone isn’t enough to express your matching criteria.</p>
+<h3 id="binding-with--operator"><a class="header" href="#binding-with--operator">Binding with @ Operator</a></h3>
+<p>The <code>@</code> operator lets you create a variable that holds a value while also testing it against a pattern:</p>
+<pre><pre class="playground"><code class="language-rust">enum Message {
+    Hello { id: i32 },
+}
+
+fn main() {
+    let msg = Message::Hello { id: 5 };
+
+    match msg {
+        Message::Hello { id: id_var @ 3..=7 } =&gt; {
+            println!("Found an id in range: {}", id_var)
+        }
+        Message::Hello { id: 10..=12 } =&gt; {
+            println!("Found an id in another range")
+        }
+        Message::Hello { id } =&gt; {
+            println!("Found some other id: {}", id)
+        }
+    }
+}</code></pre></pre>
+<p>In this example, <code>id_var @ 3..=7</code> matches any <code>id</code> between 3 and 7 (inclusive) and binds the actual value to <code>id_var</code>.</p>
+<h2 id="if-let-expressions"><a class="header" href="#if-let-expressions">if let Expressions</a></h2>
+<p>The <code>if let</code> syntax is a more concise way to handle values that match one pattern while ignoring the rest:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let some_value = Some(3);
+
+    // Using match
+    match some_value {
+        Some(3) =&gt; println!("three"),
+        _ =&gt; (),
+    }
+
+    // Using if let (more concise)
+    if let Some(3) = some_value {
+        println!("three");
+    }
+
+    // if let with else
+    let another_value = Some(5);
+
+    if let Some(x) = another_value {
+        println!("Got a value: {}", x);
+    } else {
+        println!("No value");
+    }
+}</code></pre></pre>
+<p>The <code>if let</code> syntax is especially useful when you only care about one specific pattern and want to ignore all others. It’s less verbose than using <code>match</code> when you only need to match against a single pattern.</p>
+<h2 id="while-let-expressions"><a class="header" href="#while-let-expressions">while let Expressions</a></h2>
+<p>Similar to <code>if let</code>, <code>while let</code> continues executing a block as long as a pattern matches:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mut stack = Vec::new();
+
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+
+    // Pop values off the stack while it's not empty
+    while let Some(top) = stack.pop() {
+        println!("{}", top);
+    }
+}</code></pre></pre>
+<p>This loop will run as long as <code>stack.pop()</code> returns <code>Some(value)</code>, automatically stopping when it returns <code>None</code> (when the stack is empty).</p>
+<h2 id="let-destructuring"><a class="header" href="#let-destructuring">let Destructuring</a></h2>
+<p>Pattern matching isn’t just for enums; it’s also used with other Rust constructs. For example, you can destructure tuples, arrays, and structs in <code>let</code> statements:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Destructuring a tuple
+    let (x, y, z) = (1, 2, 3);
+    println!("x: {}, y: {}, z: {}", x, y, z);
+
+    // Destructuring an array
+    let [first, second, third] = [1, 2, 3];
+    println!("first: {}, second: {}, third: {}", first, second, third);
+
+    // Destructuring a struct
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    let point = Point { x: 10, y: 20 };
+    let Point { x, y } = point;
+    println!("x: {}, y: {}", x, y);
+
+    // Destructuring with different variable names
+    let Point { x: a, y: b } = point;
+    println!("a: {}, b: {}", a, b);
+
+    // Partial destructuring
+    let ((a, b), c) = ((1, 2), 3);
+    println!("a: {}, b: {}, c: {}", a, b, c);
+}</code></pre></pre>
+<p>Destructuring makes it easy to extract the parts of a complex value into separate variables.</p>
+<h2 id="function-parameters"><a class="header" href="#function-parameters">Function Parameters</a></h2>
+<p>Pattern matching works in function parameters too:</p>
+<pre><pre class="playground"><code class="language-rust">fn print_coordinates(&amp;(x, y): &amp;(i32, i32)) {
+    println!("Current location: ({}, {})", x, y);
+}
+
+fn main() {
+    let point = (3, 5);
+    print_coordinates(&amp;point);
+}</code></pre></pre>
+<p>Here, the function parameter directly destructures the tuple reference into its components.</p>
+<h2 id="creating-custom-errors-with-enums"><a class="header" href="#creating-custom-errors-with-enums">Creating Custom Errors with Enums</a></h2>
+<p>Enums are ideal for creating custom error types that can represent different error conditions:</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+enum AppError {
+    IoError(std::io::Error),
+    ParseError(String),
+    NetworkError { status_code: u16, message: String },
+    Other,
+}
+
+impl From&lt;std::io::Error&gt; for AppError {
+    fn from(error: std::io::Error) -&gt; Self {
+        AppError::IoError(error)
+    }
+}
+
+impl std::fmt::Display for AppError {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        match self {
+            AppError::IoError(err) =&gt; write!(f, "IO Error: {}", err),
+            AppError::ParseError(msg) =&gt; write!(f, "Parse Error: {}", msg),
+            AppError::NetworkError { status_code, message } =&gt; {
+                write!(f, "Network Error ({}): {}", status_code, message)
+            }
+            AppError::Other =&gt; write!(f, "Unknown error"),
+        }
+    }
+}
+
+fn parse_config(filename: &amp;str) -&gt; Result&lt;String, AppError&gt; {
+    use std::fs::File;
+    use std::io::Read;
+
+    // This could return an IoError
+    let mut file = File::open(filename)?;  // ? automatically converts io::Error to AppError
+
+    let mut contents = String::new();
+    file.read_to_string(&amp;mut contents)?;   // ? automatically converts io::Error to AppError
+
+    // Check if the config is valid
+    if contents.is_empty() {
+        return Err(AppError::ParseError("Config file is empty".to_string()));
+    }
+
+    // Simulate a network validation (just for demonstration)
+    if filename.contains("network") {
+        return Err(AppError::NetworkError {
+            status_code: 404,
+            message: "Config source not found".to_string(),
+        });
+    }
+
+    Ok(contents)
+}
+
+fn main() {
+    let filenames = ["config.txt", "empty.txt", "network_config.txt"];
+
+    for filename in &amp;filenames {
+        match parse_config(filename) {
+            Ok(config) =&gt; println!("Config loaded: {} bytes", config.len()),
+            Err(error) =&gt; println!("Failed to load config: {}", error),
+        }
+    }
+}</code></pre></pre>
+<p>This example shows how to create a custom error type using an enum, implement conversion from standard library errors, and implement the <code>Display</code> trait for user-friendly error messages.</p>
+<h2 id="state-pattern-with-enums"><a class="header" href="#state-pattern-with-enums">State Pattern with Enums</a></h2>
+<p>Enums are excellent for implementing the state pattern, where an object’s behavior changes based on its internal state:</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+enum State {
+    Draft,
+    PendingReview,
+    Published,
+}
+
+struct Post {
+    state: State,
+    content: String,
+    approvals: u32,
+}
+
+impl Post {
+    fn new() -&gt; Post {
+        Post {
+            state: State::Draft,
+            content: String::new(),
+            approvals: 0,
+        }
+    }
+
+    fn add_content(&amp;mut self, text: &amp;str) {
+        match self.state {
+            State::Draft =&gt; {
+                self.content.push_str(text);
+            }
+            _ =&gt; println!("Cannot add content in the current state: {:?}", self.state),
+        }
+    }
+
+    fn submit_for_review(&amp;mut self) {
+        if let State::Draft = self.state {
+            self.state = State::PendingReview;
+        }
+    }
+
+    fn approve(&amp;mut self) {
+        if let State::PendingReview = self.state {
+            self.approvals += 1;
+            if self.approvals &gt;= 2 {
+                self.state = State::Published;
+            }
+        }
+    }
+
+    fn reject(&amp;mut self) {
+        if let State::PendingReview = self.state {
+            self.state = State::Draft;
+            self.approvals = 0;
+        }
+    }
+
+    fn content(&amp;self) -&gt; &amp;str {
+        match self.state {
+            State::Published =&gt; &amp;self.content,
+            _ =&gt; "",
+        }
+    }
+}
+
+fn main() {
+    let mut post = Post::new();
+
+    // Add content while in draft
+    post.add_content("I've been learning Rust for a month now");
+    println!("Draft content preview: '{}'", post.content());
+
+    // Submit for review
+    post.submit_for_review();
+    println!("Pending review content preview: '{}'", post.content());
+
+    // First approval
+    post.approve();
+    println!("After 1st approval content preview: '{}'", post.content());
+
+    // Second approval -&gt; Published
+    post.approve();
+    println!("Published content: '{}'", post.content());
+
+    // Can't add more content after publishing
+    post.add_content(" and I'm loving it!");
+    println!("Final content: '{}'", post.content());
+}</code></pre></pre>
+<p>In this example, the <code>Post</code> struct uses the <code>State</code> enum to track its current state, and its behavior changes based on that state.</p>
+<h2 id="-project-command-line-parser"><a class="header" href="#-project-command-line-parser">🔨 Project: Command Line Parser</a></h2>
+<p>Let’s build a command-line argument parser that demonstrates the use of enums and pattern matching. This project will create a flexible, extensible framework for parsing command-line arguments.</p>
+<h3 id="step-1-create-the-project"><a class="header" href="#step-1-create-the-project">Step 1: Create the Project</a></h3>
+<pre><code class="language-bash">cargo new cli_parser
+cd cli_parser
+</code></pre>
+<h3 id="step-2-define-the-core-types"><a class="header" href="#step-2-define-the-core-types">Step 2: Define the Core Types</a></h3>
+<p>Create <code>src/lib.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+use std::fmt;
+use std::str::FromStr;
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ArgValue {
+    String(String),
+    Integer(i64),
+    Float(f64),
+    Boolean(bool),
+    List(Vec&lt;ArgValue&gt;),
+}
+
+impl fmt::Display for ArgValue {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            ArgValue::String(s) =&gt; write!(f, "{}", s),
+            ArgValue::Integer(i) =&gt; write!(f, "{}", i),
+            ArgValue::Float(fl) =&gt; write!(f, "{}", fl),
+            ArgValue::Boolean(b) =&gt; write!(f, "{}", b),
+            ArgValue::List(items) =&gt; {
+                write!(f, "[")?;
+                for (i, item) in items.iter().enumerate() {
+                    if i &gt; 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}", item)?;
+                }
+                write!(f, "]")
+            }
+        }
+    }
+}
+
+#[derive(Debug)]
+pub enum ArgParseError {
+    MissingValue(String),
+    InvalidFormat(String),
+    UnknownArgument(String),
+    TypeMismatch { arg: String, expected: String },
+    Other(String),
+}
+
+impl fmt::Display for ArgParseError {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            ArgParseError::MissingValue(arg) =&gt; write!(f, "Missing value for argument: {}", arg),
+            ArgParseError::InvalidFormat(msg) =&gt; write!(f, "Invalid format: {}", msg),
+            ArgParseError::UnknownArgument(arg) =&gt; write!(f, "Unknown argument: {}", arg),
+            ArgParseError::TypeMismatch { arg, expected } =&gt; {
+                write!(f, "Type mismatch for {}: expected {}", arg, expected)
+            }
+            ArgParseError::Other(msg) =&gt; write!(f, "Error: {}", msg),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ArgType {
+    String,
+    Integer,
+    Float,
+    Boolean,
+    List(Box&lt;ArgType&gt;),
+}
+
+impl fmt::Display for ArgType {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            ArgType::String =&gt; write!(f, "string"),
+            ArgType::Integer =&gt; write!(f, "integer"),
+            ArgType::Float =&gt; write!(f, "float"),
+            ArgType::Boolean =&gt; write!(f, "boolean"),
+            ArgType::List(item_type) =&gt; write!(f, "list of {}", item_type),
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct ArgDefinition {
+    pub name: String,
+    pub short: Option&lt;char&gt;,
+    pub long: String,
+    pub arg_type: ArgType,
+    pub required: bool,
+    pub help: String,
+    pub default: Option&lt;ArgValue&gt;,
+}
+
+impl ArgDefinition {
+    pub fn new(name: &amp;str, arg_type: ArgType) -&gt; Self {
+        let long = format!("--{}", name.replace('_', "-"));
+        ArgDefinition {
+            name: name.to_string(),
+            short: None,
+            long,
+            arg_type,
+            required: false,
+            help: String::new(),
+            default: None,
+        }
+    }
+
+    pub fn short(mut self, short: char) -&gt; Self {
+        self.short = Some(short);
+        self
+    }
+
+    pub fn long(mut self, long: &amp;str) -&gt; Self {
+        self.long = format!("--{}", long);
+        self
+    }
+
+    pub fn required(mut self, required: bool) -&gt; Self {
+        self.required = required;
+        self
+    }
+
+    pub fn help(mut self, help: &amp;str) -&gt; Self {
+        self.help = help.to_string();
+        self
+    }
+
+    pub fn default(mut self, value: ArgValue) -&gt; Self {
+        self.default = Some(value);
+        self
+    }
+}
+
+#[derive(Debug)]
+pub struct ArgParser {
+    program_name: String,
+    program_description: String,
+    definitions: Vec&lt;ArgDefinition&gt;,
+}
+
+impl ArgParser {
+    pub fn new(program_name: &amp;str) -&gt; Self {
+        ArgParser {
+            program_name: program_name.to_string(),
+            program_description: String::new(),
+            definitions: Vec::new(),
+        }
+    }
+
+    pub fn description(mut self, description: &amp;str) -&gt; Self {
+        self.program_description = description.to_string();
+        self
+    }
+
+    pub fn add_arg(mut self, definition: ArgDefinition) -&gt; Self {
+        self.definitions.push(definition);
+        self
+    }
+
+    pub fn print_help(&amp;self) {
+        println!("{}", self.program_name);
+        if !self.program_description.is_empty() {
+            println!("{}", self.program_description);
+        }
+        println!("\nUSAGE:");
+        println!("  {} [OPTIONS]", self.program_name);
+
+        if !self.definitions.is_empty() {
+            println!("\nOPTIONS:");
+            for def in &amp;self.definitions {
+                let short_str = if let Some(short) = def.short {
+                    format!("-{}, ", short)
+                } else {
+                    "    ".to_string()
+                };
+
+                let required_str = if def.required { " (required)" } else { "" };
+                let default_str = if let Some(ref default) = def.default {
+                    format!(" [default: {}]", default)
+                } else {
+                    String::new()
+                };
+
+                println!("  {}{} &lt;{}&gt;{}{}",
+                         short_str,
+                         def.long,
+                         def.arg_type,
+                         required_str,
+                         default_str);
+
+                if !def.help.is_empty() {
+                    println!("      {}", def.help);
+                }
+            }
+        }
+    }
+
+    pub fn parse&lt;T&gt;(&amp;self, args: T) -&gt; Result&lt;HashMap&lt;String, ArgValue&gt;, ArgParseError&gt;
+    where
+        T: IntoIterator,
+        T::Item: AsRef&lt;str&gt;,
+    {
+        let mut result = HashMap::new();
+        let mut args_iter = args.into_iter().peekable();
+
+        // Skip the program name
+        args_iter.next();
+
+        while let Some(arg) = args_iter.next() {
+            let arg = arg.as_ref();
+
+            if arg == "--help" || arg == "-h" {
+                self.print_help();
+                return Ok(result);
+            }
+
+            // Find the matching definition
+            let def = self.find_definition(arg)
+                .ok_or_else(|| ArgParseError::UnknownArgument(arg.to_string()))?;
+
+            let value = match def.arg_type {
+                ArgType::Boolean =&gt; {
+                    // Boolean flags don't need a value
+                    ArgValue::Boolean(true)
+                }
+                _ =&gt; {
+                    // All other types need a value
+                    let value_str = args_iter.next()
+                        .ok_or_else(|| ArgParseError::MissingValue(def.name.clone()))?;
+
+                    self.parse_value(value_str.as_ref(), &amp;def.arg_type)?
+                }
+            };
+
+            result.insert(def.name.clone(), value);
+        }
+
+        // Check for required arguments
+        for def in &amp;self.definitions {
+            if def.required &amp;&amp; !result.contains_key(&amp;def.name) {
+                if let Some(default) = &amp;def.default {
+                    result.insert(def.name.clone(), default.clone());
+                } else {
+                    return Err(ArgParseError::MissingValue(def.name.clone()));
+                }
+            }
+        }
+
+        // Add defaults for missing optional arguments
+        for def in &amp;self.definitions {
+            if !result.contains_key(&amp;def.name) {
+                if let Some(default) = &amp;def.default {
+                    result.insert(def.name.clone(), default.clone());
+                }
+            }
+        }
+
+        Ok(result)
+    }
+
+    fn find_definition(&amp;self, arg: &amp;str) -&gt; Option&lt;&amp;ArgDefinition&gt; {
+        // Check for long form (--name)
+        if arg.starts_with("--") {
+            return self.definitions.iter().find(|def| def.long == arg);
+        }
+
+        // Check for short form (-n)
+        if arg.starts_with('-') &amp;&amp; arg.len() == 2 {
+            let c = arg.chars().nth(1)?;
+            return self.definitions.iter().find(|def| def.short == Some(c));
+        }
+
+        None
+    }
+
+    fn parse_value(&amp;self, value_str: &amp;str, arg_type: &amp;ArgType) -&gt; Result&lt;ArgValue, ArgParseError&gt; {
+        match arg_type {
+            ArgType::String =&gt; Ok(ArgValue::String(value_str.to_string())),
+
+            ArgType::Integer =&gt; {
+                i64::from_str(value_str)
+                    .map(ArgValue::Integer)
+                    .map_err(|_| ArgParseError::TypeMismatch {
+                        arg: value_str.to_string(),
+                        expected: "integer".to_string(),
+                    })
+            }
+
+            ArgType::Float =&gt; {
+                f64::from_str(value_str)
+                    .map(ArgValue::Float)
+                    .map_err(|_| ArgParseError::TypeMismatch {
+                        arg: value_str.to_string(),
+                        expected: "float".to_string(),
+                    })
+            }
+
+            ArgType::Boolean =&gt; {
+                match value_str.to_lowercase().as_str() {
+                    "true" | "yes" | "1" =&gt; Ok(ArgValue::Boolean(true)),
+                    "false" | "no" | "0" =&gt; Ok(ArgValue::Boolean(false)),
+                    _ =&gt; Err(ArgParseError::TypeMismatch {
+                        arg: value_str.to_string(),
+                        expected: "boolean".to_string(),
+                    }),
+                }
+            }
+
+            ArgType::List(item_type) =&gt; {
+                let items: Vec&lt;&amp;str&gt; = value_str.split(',').collect();
+                let mut result = Vec::new();
+
+                for item in items {
+                    let item = item.trim();
+                    let value = self.parse_value(item, item_type)?;
+                    result.push(value);
+                }
+
+                Ok(ArgValue::List(result))
+            }
+        }
+    }
+}
+
+// Helper methods to get typed values from ArgValue
+pub trait ArgValueExt {
+    fn as_string(&amp;self) -&gt; Result&lt;&amp;String, ArgParseError&gt;;
+    fn as_integer(&amp;self) -&gt; Result&lt;i64, ArgParseError&gt;;
+    fn as_float(&amp;self) -&gt; Result&lt;f64, ArgParseError&gt;;
+    fn as_boolean(&amp;self) -&gt; Result&lt;bool, ArgParseError&gt;;
+    fn as_list(&amp;self) -&gt; Result&lt;&amp;Vec&lt;ArgValue&gt;, ArgParseError&gt;;
+}
+
+impl ArgValueExt for ArgValue {
+    fn as_string(&amp;self) -&gt; Result&lt;&amp;String, ArgParseError&gt; {
+        match self {
+            ArgValue::String(s) =&gt; Ok(s),
+            _ =&gt; Err(ArgParseError::TypeMismatch {
+                arg: format!("{:?}", self),
+                expected: "string".to_string(),
+            }),
+        }
+    }
+
+    fn as_integer(&amp;self) -&gt; Result&lt;i64, ArgParseError&gt; {
+        match self {
+            ArgValue::Integer(i) =&gt; Ok(*i),
+            _ =&gt; Err(ArgParseError::TypeMismatch {
+                arg: format!("{:?}", self),
+                expected: "integer".to_string(),
+            }),
+        }
+    }
+
+    fn as_float(&amp;self) -&gt; Result&lt;f64, ArgParseError&gt; {
+        match self {
+            ArgValue::Float(f) =&gt; Ok(*f),
+            ArgValue::Integer(i) =&gt; Ok(*i as f64),
+            _ =&gt; Err(ArgParseError::TypeMismatch {
+                arg: format!("{:?}", self),
+                expected: "float".to_string(),
+            }),
+        }
+    }
+
+    fn as_boolean(&amp;self) -&gt; Result&lt;bool, ArgParseError&gt; {
+        match self {
+            ArgValue::Boolean(b) =&gt; Ok(*b),
+            _ =&gt; Err(ArgParseError::TypeMismatch {
+                arg: format!("{:?}", self),
+                expected: "boolean".to_string(),
+            }),
+        }
+    }
+
+    fn as_list(&amp;self) -&gt; Result&lt;&amp;Vec&lt;ArgValue&gt;, ArgParseError&gt; {
+        match self {
+            ArgValue::List(l) =&gt; Ok(l),
+            _ =&gt; Err(ArgParseError::TypeMismatch {
+                arg: format!("{:?}", self),
+                expected: "list".to_string(),
+            }),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-3-create-a-demo-application"><a class="header" href="#step-3-create-a-demo-application">Step 3: Create a Demo Application</a></h3>
+<p>Create <code>src/main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use cli_parser::{ArgDefinition, ArgParser, ArgType, ArgValue, ArgValueExt};
+use std::env;
+use std::process;
+
+fn main() {
+    let parser = ArgParser::new("file_processor")
+        .description("Process files with various options")
+        .add_arg(
+            ArgDefinition::new("input", ArgType::String)
+                .short('i')
+                .help("Input file to process")
+                .required(true)
+        )
+        .add_arg(
+            ArgDefinition::new("output", ArgType::String)
+                .short('o')
+                .help("Output file (defaults to stdout)")
+        )
+        .add_arg(
+            ArgDefinition::new("verbose", ArgType::Boolean)
+                .short('v')
+                .help("Enable verbose output")
+                .default(ArgValue::Boolean(false))
+        )
+        .add_arg(
+            ArgDefinition::new("count", ArgType::Integer)
+                .short('c')
+                .help("Number of items to process")
+                .default(ArgValue::Integer(10))
+        )
+        .add_arg(
+            ArgDefinition::new("filters", ArgType::List(Box::new(ArgType::String)))
+                .short('f')
+                .help("Comma-separated list of filters to apply")
+        )
+        .add_arg(
+            ArgDefinition::new("threshold", ArgType::Float)
+                .short('t')
+                .help("Threshold value for processing")
+                .default(ArgValue::Float(0.5))
+        );
+
+    // Parse command line arguments
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    // If no arguments, show help
+    if args.len() == 1 {
+        parser.print_help();
+        return;
+    }
+
+    let parsed_args = match parser.parse(args) {
+        Ok(args) =&gt; args,
+        Err(err) =&gt; {
+            eprintln!("Error: {}", err);
+            eprintln!("Try '--help' for more information.");
+            process::exit(1);
+        }
+    };
+
+    // Use the parsed arguments
+    let input_file = parsed_args.get("input").unwrap().as_string().unwrap();
+    println!("Processing file: {}", input_file);
+
+    if let Some(output) = parsed_args.get("output") {
+        println!("Output will be written to: {}", output.as_string().unwrap());
+    } else {
+        println!("Output will be written to stdout");
+    }
+
+    let verbose = parsed_args.get("verbose").unwrap().as_boolean().unwrap();
+    if verbose {
+        println!("Verbose mode enabled");
+    }
+
+    let count = parsed_args.get("count").unwrap().as_integer().unwrap();
+    println!("Processing {} items", count);
+
+    let threshold = parsed_args.get("threshold").unwrap().as_float().unwrap();
+    println!("Using threshold: {}", threshold);
+
+    if let Some(filters) = parsed_args.get("filters") {
+        let filter_list = filters.as_list().unwrap();
+        println!("Applying {} filters:", filter_list.len());
+        for (i, filter) in filter_list.iter().enumerate() {
+            println!("  {}. {}", i+1, filter.as_string().unwrap());
+        }
+    } else {
+        println!("No filters applied");
+    }
+}</code></pre></pre>
+<h3 id="step-4-run-the-demo"><a class="header" href="#step-4-run-the-demo">Step 4: Run the Demo</a></h3>
+<pre><code class="language-bash"># Show help
+cargo run
+
+# Process with minimum arguments
+cargo run -- -i input.txt
+
+# Process with all arguments
+cargo run -- -i input.txt -o output.txt -v -c 20 -f "resize,crop,blur" -t 0.75
+</code></pre>
+<p>This CLI parser demonstrates several key concepts:</p>
+<ol>
+<li><strong>Enum Variants with Data</strong>: <code>ArgValue</code> and <code>ArgType</code> represent different kinds of values</li>
+<li><strong>Pattern Matching</strong>: Used extensively to process and validate arguments</li>
+<li><strong>Error Handling</strong>: Custom <code>ArgParseError</code> enum for different error scenarios</li>
+<li><strong>Builder Pattern</strong>: Fluent interfaces for creating parsers and argument definitions</li>
+<li><strong>Traits</strong>: <code>ArgValueExt</code> for safely extracting typed values</li>
+</ol>
+<p>The parser is also extensible. You could add support for subcommands, positional arguments, or argument groups.</p>
+<h2 id="looking-ahead"><a class="header" href="#looking-ahead">Looking Ahead</a></h2>
+<p>In this chapter, we’ve explored Rust’s powerful enum type and pattern matching capabilities. We’ve seen how enums enable us to model domain concepts that can be one of several variants, and how pattern matching allows us to elegantly handle these variants.</p>
+<p>We’ve also explored the <code>Option&lt;T&gt;</code> and <code>Result&lt;T, E&gt;</code> enums, which form the foundation of Rust’s approach to representing optional values and handling errors.</p>
+<p>In the next chapter, we’ll dive into collections, exploring Rust’s standard collection types like vectors, strings, and hash maps, and learning how to use them effectively in your programs.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/11-structs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/13-modules.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/11-structs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/13-modules.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Comparison with Other Languages - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/appendices/c-language-comparison.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="appendices-final-part"><a class="header" href="#appendices-final-part">Appendices (Final Part)</a></h1>
+<h2 id="appendix-i-comprehensive-glossary"><a class="header" href="#appendix-i-comprehensive-glossary">Appendix I: Comprehensive Glossary</a></h2>
+<p>This glossary provides definitions for Rust-specific terminology and concepts.</p>
+<h3 id="a"><a class="header" href="#a">A</a></h3>
+<p><strong>Abstract Syntax Tree (AST)</strong>: The data structure representing the syntactic structure of Rust code after parsing.</p>
+<p><strong>Allocator</strong>: A component responsible for managing memory allocation and deallocation. Rust allows using custom allocators.</p>
+<p><strong>Arc</strong>: Atomic Reference Counted pointer (<code>Arc&lt;T&gt;</code>), a thread-safe shared ownership smart pointer.</p>
+<p><strong>Associated Functions</strong>: Functions defined within an implementation block that don’t take <code>self</code> as a parameter.</p>
+<p><strong>Associated Types</strong>: Type placeholders defined in traits that implementing types must specify.</p>
+<p><strong>Async/Await</strong>: Syntax for writing asynchronous code that looks similar to synchronous code.</p>
+<h3 id="b"><a class="header" href="#b">B</a></h3>
+<p><strong>Binary Crate</strong>: A crate that compiles to an executable rather than a library.</p>
+<p><strong>Binding</strong>: Assigning a value to a name (variable).</p>
+<p><strong>Blanket Implementation</strong>: Implementing a trait for all types that satisfy certain constraints.</p>
+<p><strong>Block Expression</strong>: A sequence of statements enclosed by curly braces, which evaluates to a value.</p>
+<p><strong>Borrowing</strong>: Taking a reference to a value without taking ownership.</p>
+<p><strong>Borrow Checker</strong>: The part of the Rust compiler that enforces the borrowing rules.</p>
+<p><strong>Box</strong>: A smart pointer for heap allocation (<code>Box&lt;T&gt;</code>).</p>
+<h3 id="c"><a class="header" href="#c">C</a></h3>
+<p><strong>Cargo</strong>: Rust’s package manager and build system.</p>
+<p><strong>Channel</strong>: A communication mechanism between threads, typically provided by the <code>std::sync::mpsc</code> module.</p>
+<p><strong>Clone</strong>: Creating a duplicate of a value. Implemented via the <code>Clone</code> trait.</p>
+<p><strong>Closure</strong>: An anonymous function that can capture values from its environment.</p>
+<p><strong>Coherence</strong>: The property that there is at most one implementation of a trait for any given type.</p>
+<p><strong>Compile-time</strong>: Operations performed during compilation rather than when the program runs.</p>
+<p><strong>Const Generics</strong>: Generic parameters that represent constant values rather than types.</p>
+<p><strong>Crate</strong>: A Rust compilation unit, which can be a library or an executable binary.</p>
+<h3 id="d"><a class="header" href="#d">D</a></h3>
+<p><strong>Deref Coercion</strong>: Automatic conversion from a reference to a type that implements <code>Deref</code> to a reference to the target type.</p>
+<p><strong>Derive</strong>: Automatically implementing traits through the <code>#[derive]</code> attribute.</p>
+<p><strong>Discriminant</strong>: The value used to determine which variant of an enum is active.</p>
+<p><strong>Drop Check</strong>: The compiler mechanism that ensures values aren’t dropped while references to them still exist.</p>
+<p><strong>DST (Dynamically Sized Type)</strong>: A type whose size is not known at compile time, like slices (<code>[T]</code>) or trait objects.</p>
+<p><strong>Dynamic Dispatch</strong>: Late binding of method calls based on the actual type of an object, used with trait objects.</p>
+<h3 id="e"><a class="header" href="#e">E</a></h3>
+<p><strong>Edition</strong>: A version of the Rust language that may include backwards-incompatible changes. Current editions include 2015, 2018, and 2021.</p>
+<p><strong>Enum</strong>: A type representing a value that can be one of several variants.</p>
+<p><strong>Error Propagation</strong>: Passing errors up the call stack, often using the <code>?</code> operator.</p>
+<p><strong>Expression</strong>: A piece of code that evaluates to a value.</p>
+<p><strong>Extern Crate</strong>: A declaration that the current crate depends on an external crate.</p>
+<h3 id="f"><a class="header" href="#f">F</a></h3>
+<p><strong>Feature Flag</strong>: A conditional compilation option specified in Cargo.toml.</p>
+<p><strong>Foreign Function Interface (FFI)</strong>: The mechanism for calling functions written in other languages.</p>
+<p><strong>Future</strong>: A value representing an asynchronous computation that may not have completed yet.</p>
+<p><strong>Fn Traits</strong>: The family of traits (<code>Fn</code>, <code>FnMut</code>, <code>FnOnce</code>) that closures and functions implement.</p>
+<h3 id="g"><a class="header" href="#g">G</a></h3>
+<p><strong>Generics</strong>: Parameters in types, functions, and traits that allow code to operate on different types.</p>
+<p><strong>Guard Pattern</strong>: Using RAII to ensure cleanup code runs when a value goes out of scope.</p>
+<h3 id="h"><a class="header" href="#h">H</a></h3>
+<p><strong>Higher-Ranked Trait Bounds (HRTB)</strong>: A trait bound that uses the <code>for&lt;'a&gt;</code> syntax to specify a bound for all possible lifetimes.</p>
+<h3 id="i"><a class="header" href="#i">I</a></h3>
+<p><strong>Immutability</strong>: By default, variables in Rust cannot be changed after being assigned.</p>
+<p><strong>Implementation</strong>: Code that provides behavior for a struct, enum, or trait.</p>
+<p><strong>Interior Mutability</strong>: The ability to mutate data even through a shared reference using types like <code>RefCell</code> or <code>Mutex</code>.</p>
+<p><strong>Iterator</strong>: A type that produces a sequence of values, implementing the <code>Iterator</code> trait.</p>
+<h3 id="l"><a class="header" href="#l">L</a></h3>
+<p><strong>Lifetime</strong>: A compiler construct that ensures references are valid for a specific scope.</p>
+<p><strong>Lifetime Elision</strong>: Rules that allow omitting lifetime annotations in common patterns.</p>
+<p><strong>Library Crate</strong>: A crate that provides functionality to be used by other crates rather than being an executable.</p>
+<h3 id="m"><a class="header" href="#m">M</a></h3>
+<p><strong>Macro</strong>: A way to define code that generates other code at compile time.</p>
+<p><strong>Match</strong>: A control flow construct that compares a value against patterns and executes code based on which pattern matches.</p>
+<p><strong>Method</strong>: A function associated with a type that takes <code>self</code> as its first parameter.</p>
+<p><strong>MIRI</strong>: An interpreter for Rust’s mid-level IR (MIR) that can detect certain types of undefined behavior.</p>
+<p><strong>Module</strong>: A namespace that contains items such as functions, types, and other modules.</p>
+<p><strong>Move Semantics</strong>: When a value is assigned or passed to a function, ownership is transferred by default.</p>
+<p><strong>Mutability</strong>: The ability to change a value after its initial assignment.</p>
+<p><strong>Mutex</strong>: A synchronization primitive that protects shared data in concurrent contexts.</p>
+<h3 id="n"><a class="header" href="#n">N</a></h3>
+<p><strong>Never Type (<code>!</code>)</strong>: The type of computations that never complete normally (e.g., a function that always panics).</p>
+<p><strong>Newtype Pattern</strong>: Wrapping a type in a single-field tuple struct to create a new type.</p>
+<p><strong>Non-Lexical Lifetimes (NLL)</strong>: An improvement to the borrow checker that allows references to be valid for just the portions of code where they’re actually used.</p>
+<h3 id="o"><a class="header" href="#o">O</a></h3>
+<p><strong>Orphan Rule</strong>: The rule that implementations of a trait can only be defined in the crate where either the trait or the type is defined.</p>
+<p><strong>Owned Type</strong>: A type that has a single owner responsible for its cleanup.</p>
+<p><strong>Ownership</strong>: Rust’s core memory management concept where each value has a single owner.</p>
+<h3 id="p"><a class="header" href="#p">P</a></h3>
+<p><strong>Panic</strong>: An unrecoverable error that typically results in thread termination.</p>
+<p><strong>Pattern Matching</strong>: Checking a value against patterns and extracting parts of it.</p>
+<p><strong>Pin</strong>: A wrapper type that prevents the underlying value from being moved in memory, used with <code>Future</code>s.</p>
+<p><strong>Prelude</strong>: The set of items automatically imported into every Rust module.</p>
+<p><strong>Procedural Macro</strong>: A function that takes code as input and produces code as output, used for custom derive, attribute-like macros, and function-like macros.</p>
+<h3 id="r"><a class="header" href="#r">R</a></h3>
+<p><strong>Raw Pointer</strong>: An unsafe pointer type (<code>*const T</code> or <code>*mut T</code>) with no safety guarantees.</p>
+<p><strong>Rc</strong>: Reference Counted pointer (<code>Rc&lt;T&gt;</code>), a single-threaded shared ownership smart pointer.</p>
+<p><strong>Recursive Type</strong>: A type that can contain itself, like a tree structure.</p>
+<p><strong>Reference</strong>: A non-owning pointer to a value (<code>&amp;T</code> or <code>&amp;mut T</code>).</p>
+<p><strong>RefCell</strong>: A type that provides interior mutability in single-threaded contexts.</p>
+<p><strong>Rustdoc</strong>: Rust’s documentation generation tool.</p>
+<p><strong>Rustfmt</strong>: A tool for formatting Rust code according to style guidelines.</p>
+<h3 id="s"><a class="header" href="#s">S</a></h3>
+<p><strong>Send</strong>: A marker trait indicating a type can be safely transferred between threads.</p>
+<p><strong>Slice</strong>: A view into a contiguous sequence of elements (<code>[T]</code>).</p>
+<p><strong>Smart Pointer</strong>: A data structure that acts like a pointer but provides additional functionality.</p>
+<p><strong>Static Dispatch</strong>: Resolving function calls at compile time, used with generics and trait bounds.</p>
+<p><strong>Static Lifetime (<code>'static</code>)</strong>: The lifetime that lasts for the entire program.</p>
+<p><strong>String Literal</strong>: A fixed string in the source code, has type <code>&amp;'static str</code>.</p>
+<p><strong>String Type</strong>: The owned, growable string type (<code>String</code>).</p>
+<p><strong>Struct</strong>: A custom data type that groups related values.</p>
+<p><strong>Sync</strong>: A marker trait indicating a type can be safely shared between threads.</p>
+<h3 id="t"><a class="header" href="#t">T</a></h3>
+<p><strong>Trait</strong>: A feature similar to interfaces in other languages, defining shared behavior.</p>
+<p><strong>Trait Bound</strong>: A constraint on a generic type requiring it to implement certain traits.</p>
+<p><strong>Trait Object</strong>: A value that implements a specific trait, with type erased.</p>
+<p><strong>Type Alias</strong>: A new name for an existing type.</p>
+<p><strong>Type Inference</strong>: The compiler’s ability to deduce types without explicit annotations.</p>
+<h3 id="u"><a class="header" href="#u">U</a></h3>
+<p><strong>Unsafe</strong>: A keyword that marks code that bypasses some of Rust’s safety guarantees.</p>
+<p><strong>Unwrap</strong>: Extracting the value from an <code>Option</code> or <code>Result</code>, causing a panic if there isn’t one.</p>
+<h3 id="v"><a class="header" href="#v">V</a></h3>
+<p><strong>Variable Shadowing</strong>: Declaring a new variable with the same name as an existing one.</p>
+<p><strong>Variance</strong>: How the subtyping relationship of parameters affects the subtyping relationship of the parametrized type.</p>
+<p><strong>Vec</strong>: Rust’s dynamic array type (<code>Vec&lt;T&gt;</code>).</p>
+<h3 id="w"><a class="header" href="#w">W</a></h3>
+<p><strong>Wrapper Type</strong>: A type that contains another type to add behavior or meaning.</p>
+<h2 id="appendix-j-learning-paths-for-different-backgrounds"><a class="header" href="#appendix-j-learning-paths-for-different-backgrounds">Appendix J: Learning Paths for Different Backgrounds</a></h2>
+<p>This appendix provides customized learning paths for developers coming to Rust from different programming backgrounds.</p>
+<h3 id="for-cc-developers"><a class="header" href="#for-cc-developers">For C/C++ Developers</a></h3>
+<h4 id="focus-areas"><a class="header" href="#focus-areas">Focus Areas:</a></h4>
+<ul>
+<li>Ownership and borrowing (major conceptual difference)</li>
+<li>RAII vs. manual memory management</li>
+<li>Pattern matching and algebraic data types</li>
+<li>Trait-based polymorphism vs. inheritance</li>
+<li>Safe concurrency guarantees</li>
+</ul>
+<h4 id="recommended-chapters"><a class="header" href="#recommended-chapters">Recommended Chapters:</a></h4>
+<ol>
+<li>Chapter 7: Understanding Ownership</li>
+<li>Chapter 8: Borrowing and References</li>
+<li>Chapter 10: Advanced Ownership Patterns</li>
+<li>Chapter 12: Enums and Pattern Matching</li>
+<li>Chapter 16: Traits and Polymorphism</li>
+<li>Chapter 24: Concurrency Fundamentals</li>
+</ol>
+<h4 id="pitfalls-to-avoid"><a class="header" href="#pitfalls-to-avoid">Pitfalls to Avoid:</a></h4>
+<ul>
+<li>Trying to manually manage memory</li>
+<li>Overusing unsafe code</li>
+<li>Fighting the borrow checker</li>
+<li>Trying to implement inheritance hierarchies</li>
+</ul>
+<h4 id="projects-to-try"><a class="header" href="#projects-to-try">Projects to Try:</a></h4>
+<ol>
+<li>Port a small C/C++ utility to Rust</li>
+<li>Implement a system-level component (file parser, network protocol)</li>
+<li>Rewrite a data structure implementation</li>
+</ol>
+<h3 id="for-javac-developers"><a class="header" href="#for-javac-developers">For Java/C# Developers</a></h3>
+<h4 id="focus-areas-1"><a class="header" href="#focus-areas-1">Focus Areas:</a></h4>
+<ul>
+<li>Value types vs. reference types</li>
+<li>Traits vs. interfaces</li>
+<li>Error handling without exceptions</li>
+<li>Functional programming concepts</li>
+<li>Dealing without inheritance</li>
+<li>Working without a garbage collector</li>
+</ul>
+<h4 id="recommended-chapters-1"><a class="header" href="#recommended-chapters-1">Recommended Chapters:</a></h4>
+<ol>
+<li>Chapter 7: Understanding Ownership</li>
+<li>Chapter 16: Traits and Polymorphism</li>
+<li>Chapter 20: Result, Option, and Recoverable Errors</li>
+<li>Chapter 21: Error Handling Patterns and Libraries</li>
+<li>Chapter 22: Iterators and Functional Programming</li>
+</ol>
+<h4 id="pitfalls-to-avoid-1"><a class="header" href="#pitfalls-to-avoid-1">Pitfalls to Avoid:</a></h4>
+<ul>
+<li>Creating deep inheritance structures</li>
+<li>Overusing trait objects (dynamic dispatch)</li>
+<li>Treating all types like they’re heap-allocated</li>
+<li>Using exceptions for control flow</li>
+</ul>
+<h4 id="projects-to-try-1"><a class="header" href="#projects-to-try-1">Projects to Try:</a></h4>
+<ol>
+<li>Build a REST API with Actix Web or Rocket</li>
+<li>Create a database-backed application</li>
+<li>Implement a simple plugin system using traits</li>
+</ol>
+<h3 id="for-pythonjavascriptruby-developers"><a class="header" href="#for-pythonjavascriptruby-developers">For Python/JavaScript/Ruby Developers</a></h3>
+<h4 id="focus-areas-2"><a class="header" href="#focus-areas-2">Focus Areas:</a></h4>
+<ul>
+<li>Static typing and type inference</li>
+<li>Memory management concepts</li>
+<li>Performance considerations</li>
+<li>Compile-time vs. runtime behavior</li>
+<li>Structured error handling</li>
+</ul>
+<h4 id="recommended-chapters-2"><a class="header" href="#recommended-chapters-2">Recommended Chapters:</a></h4>
+<ol>
+<li>Chapter 4: Basic Syntax and Data Types</li>
+<li>Chapter 7: Understanding Ownership</li>
+<li>Chapter 14: Collections and Data Structures</li>
+<li>Chapter 20: Result, Option, and Recoverable Errors</li>
+<li>Chapter 25: Asynchronous Programming</li>
+</ol>
+<h4 id="pitfalls-to-avoid-2"><a class="header" href="#pitfalls-to-avoid-2">Pitfalls to Avoid:</a></h4>
+<ul>
+<li>Writing code that depends on runtime type checking</li>
+<li>Ignoring compiler warnings</li>
+<li>Overusing string types for everything</li>
+<li>Neglecting error handling</li>
+</ul>
+<h4 id="projects-to-try-2"><a class="header" href="#projects-to-try-2">Projects to Try:</a></h4>
+<ol>
+<li>Build a CLI tool for a task you’d usually use a script for</li>
+<li>Create a web scraper or data processor</li>
+<li>Implement a small web service</li>
+</ol>
+<h3 id="for-functional-programmers-haskell-ocaml-f"><a class="header" href="#for-functional-programmers-haskell-ocaml-f">For Functional Programmers (Haskell, OCaml, F#)</a></h3>
+<h4 id="focus-areas-3"><a class="header" href="#focus-areas-3">Focus Areas:</a></h4>
+<ul>
+<li>Ownership model and mutability</li>
+<li>Impure functions and side effects</li>
+<li>Rust’s approach to type classes (traits)</li>
+<li>Performance and memory layout</li>
+</ul>
+<h4 id="recommended-chapters-3"><a class="header" href="#recommended-chapters-3">Recommended Chapters:</a></h4>
+<ol>
+<li>Chapter 7: Understanding Ownership</li>
+<li>Chapter 15: Introduction to Generics</li>
+<li>Chapter 16: Traits and Polymorphism</li>
+<li>Chapter 17: Advanced Trait Patterns</li>
+<li>Chapter 22: Iterators and Functional Programming</li>
+</ol>
+<h4 id="pitfalls-to-avoid-3"><a class="header" href="#pitfalls-to-avoid-3">Pitfalls to Avoid:</a></h4>
+<ul>
+<li>Avoiding mutability at all costs</li>
+<li>Overusing closures for everything</li>
+<li>Expecting lazy evaluation by default</li>
+<li>Writing overly complex type-level code</li>
+</ul>
+<h4 id="projects-to-try-3"><a class="header" href="#projects-to-try-3">Projects to Try:</a></h4>
+<ol>
+<li>Implement a functional data structure with Rust performance</li>
+<li>Create a parser combinator library</li>
+<li>Build a small compiler or interpreter</li>
+</ol>
+<h3 id="for-embeddedsystems-programmers"><a class="header" href="#for-embeddedsystems-programmers">For Embedded/Systems Programmers</a></h3>
+<h4 id="focus-areas-4"><a class="header" href="#focus-areas-4">Focus Areas:</a></h4>
+<ul>
+<li>Unsafe Rust for hardware interaction</li>
+<li>No-std environment</li>
+<li>Concurrency and interrupt safety</li>
+<li>Memory layout and optimization</li>
+</ul>
+<h4 id="recommended-chapters-4"><a class="header" href="#recommended-chapters-4">Recommended Chapters:</a></h4>
+<ol>
+<li>Chapter 27: Unsafe Rust</li>
+<li>Chapter 36: Performance Optimization</li>
+<li>Chapter 43: Embedded Systems and IoT</li>
+</ol>
+<h4 id="pitfalls-to-avoid-4"><a class="header" href="#pitfalls-to-avoid-4">Pitfalls to Avoid:</a></h4>
+<ul>
+<li>Using too many abstractions that increase binary size</li>
+<li>Relying on standard library features in no-std contexts</li>
+<li>Neglecting proper error handling in critical systems</li>
+</ul>
+<h4 id="projects-to-try-4"><a class="header" href="#projects-to-try-4">Projects to Try:</a></h4>
+<ol>
+<li>Write a bare-metal program for a microcontroller</li>
+<li>Create a hardware abstraction layer</li>
+<li>Implement a real-time scheduler</li>
+</ol>
+<h3 id="learning-timeline"><a class="header" href="#learning-timeline">Learning Timeline</a></h3>
+<h4 id="first-month"><a class="header" href="#first-month">First Month:</a></h4>
+<ul>
+<li>Focus on ownership, borrowing, and basic syntax</li>
+<li>Work through simple exercises</li>
+<li>Get comfortable with the compiler error messages</li>
+</ul>
+<h4 id="month-2-3"><a class="header" href="#month-2-3">Month 2-3:</a></h4>
+<ul>
+<li>Dive into traits and generics</li>
+<li>Implement your first small project</li>
+<li>Explore the standard library in depth</li>
+</ul>
+<h4 id="month-4-6"><a class="header" href="#month-4-6">Month 4-6:</a></h4>
+<ul>
+<li>Learn advanced topics specific to your background</li>
+<li>Contribute to open source Rust projects</li>
+<li>Implement larger applications</li>
+</ul>
+<h2 id="appendix-k-interview-questions-and-answers"><a class="header" href="#appendix-k-interview-questions-and-answers">Appendix K: Interview Questions and Answers</a></h2>
+<p>This appendix contains common Rust interview questions and detailed answers, useful for both job seekers and interviewers.</p>
+<h3 id="fundamentals"><a class="header" href="#fundamentals">Fundamentals</a></h3>
+<p><strong>Q: What makes Rust different from other systems programming languages?</strong></p>
+<p>A: Rust provides memory safety guarantees without a garbage collector through its ownership system. It prevents common bugs like null pointer dereferencing, buffer overflows, and data races at compile time. Unlike C and C++, Rust achieves safety without runtime overhead, and unlike garbage-collected languages like Java or Go, it provides deterministic resource management and doesn’t require a runtime. Rust also features modern language conveniences like pattern matching, type inference, and zero-cost abstractions.</p>
+<p><strong>Q: Explain Rust’s ownership model.</strong></p>
+<p>A: Rust’s ownership model is based on three key rules:</p>
+<ol>
+<li>Each value has exactly one owner at a time</li>
+<li>When the owner goes out of scope, the value is dropped</li>
+<li>Ownership can be transferred (moved) but not duplicated by default</li>
+</ol>
+<p>This system allows Rust to guarantee memory safety at compile time without requiring a garbage collector. When values are passed to functions or assigned to new variables, ownership is transferred unless the type implements the Copy trait. For shared access without ownership transfer, Rust uses references with strict borrowing rules enforced by the borrow checker.</p>
+<p><strong>Q: What is the difference between <code>String</code> and <code>&amp;str</code> in Rust?</strong></p>
+<p>A: <code>String</code> is an owned, heap-allocated, growable string type. It has ownership of the memory it uses, can be modified, and is automatically freed when it goes out of scope.</p>
+<p><code>&amp;str</code> is a string slice - a reference to a sequence of UTF-8 bytes stored elsewhere. It’s a non-owning view into a string, which might be stored in a <code>String</code>, in a string literal (which has a <code>'static</code> lifetime), or elsewhere. It cannot be modified directly and doesn’t own the memory it references.</p>
+<p><strong>Q: Explain the concept of lifetimes in Rust.</strong></p>
+<p>A: Lifetimes are Rust’s way of ensuring that references are valid for as long as they’re used. They’re part of the type system but focus on the scope during which a reference is valid. The compiler uses lifetime annotations to track relationships between references and ensure that references don’t outlive the data they point to.</p>
+<p>Lifetimes are usually implicit through Rust’s lifetime elision rules, but they sometimes need to be made explicit with annotations like <code>'a</code>. Generic lifetime parameters allow functions to express constraints like “this reference must live at least as long as that one” without specifying concrete lifetimes.</p>
+<h3 id="intermediate"><a class="header" href="#intermediate">Intermediate</a></h3>
+<p><strong>Q: What is the difference between <code>Rc&lt;T&gt;</code> and <code>Arc&lt;T&gt;</code>? When would you use each?</strong></p>
+<p>A: Both <code>Rc&lt;T&gt;</code> (Reference Counted) and <code>Arc&lt;T&gt;</code> (Atomically Reference Counted) are smart pointers that enable multiple ownership of a value.</p>
+<p><code>Rc&lt;T&gt;</code> is for single-threaded scenarios. It has lower overhead because it doesn’t need synchronization primitives, but it’s not thread-safe.</p>
+<p><code>Arc&lt;T&gt;</code> is for multi-threaded scenarios. It uses atomic operations for its reference counting, making it thread-safe but slightly less efficient than <code>Rc&lt;T&gt;</code>.</p>
+<p>Use <code>Rc&lt;T&gt;</code> when you need shared ownership in a single thread, such as for tree structures where nodes have multiple parents. Use <code>Arc&lt;T&gt;</code> when you need to share data across multiple threads.</p>
+<p><strong>Q: How does Rust handle concurrency safely?</strong></p>
+<p>A: Rust ensures thread safety through its type system using the <code>Send</code> and <code>Sync</code> traits:</p>
+<ul>
+<li><code>Send</code>: Types that can be safely transferred between threads</li>
+<li><code>Sync</code>: Types that can be safely shared between threads (through references)</li>
+</ul>
+<p>The ownership system prevents data races by ensuring that either:</p>
+<ol>
+<li>Only one thread has mutable access to data at a time, or</li>
+<li>Multiple threads can have read-only access</li>
+</ol>
+<p>For shared mutable state, Rust provides synchronization primitives like <code>Mutex</code> and <code>RwLock</code> that enforce exclusive access at runtime while maintaining the type system guarantees. The compiler ensures these are used correctly.</p>
+<p>Additionally, Rust’s <code>async</code>/<code>await</code> system enables efficient concurrent programming without the complexity of manual thread management.</p>
+<p><strong>Q: Explain the difference between <code>Box&lt;T&gt;</code>, <code>Rc&lt;T&gt;</code>, and <code>RefCell&lt;T&gt;</code>.</strong></p>
+<p>A: These smart pointers serve different purposes in Rust’s memory management:</p>
+<ul>
+<li>
+<p><code>Box&lt;T&gt;</code>: Provides single ownership of heap-allocated data. It’s useful for recursively defined types, trait objects, or when you need to ensure a value lives on the heap.</p>
+</li>
+<li>
+<p><code>Rc&lt;T&gt;</code>: Enables multiple ownership through reference counting. It allows multiple parts of your code to read the same data without copying it, but only in single-threaded contexts.</p>
+</li>
+<li>
+<p><code>RefCell&lt;T&gt;</code>: Provides interior mutability, allowing you to mutate data even when there are immutable references to it. It enforces borrowing rules at runtime instead of compile time.</p>
+</li>
+</ul>
+<p>These can be combined: <code>Rc&lt;RefCell&lt;T&gt;&gt;</code> is common for shared mutable state in single-threaded programs, while <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> serves a similar purpose in multi-threaded contexts.</p>
+<p><strong>Q: What are traits in Rust and how do they differ from interfaces in other languages?</strong></p>
+<p>A: Traits in Rust define shared behavior that types can implement. They’re similar to interfaces in languages like Java but with key differences:</p>
+<ol>
+<li>
+<p><strong>Implementation location</strong>: Traits can be implemented for any type in either the crate that defines the trait or the crate that defines the type, addressing the “expression problem.”</p>
+</li>
+<li>
+<p><strong>Static dispatch by default</strong>: Trait bounds use monomorphization for zero-cost abstractions, unlike the dynamic dispatch of interfaces.</p>
+</li>
+<li>
+<p><strong>Associated types and constants</strong>: Traits can include type and constant definitions, not just methods.</p>
+</li>
+<li>
+<p><strong>Default implementations</strong>: Traits can provide default method implementations that implementors can use or override.</p>
+</li>
+<li>
+<p><strong>No inheritance</strong>: Traits can build on other traits through supertraits, but there’s no inheritance hierarchy.</p>
+</li>
+<li>
+<p><strong>Orphan rule</strong>: Implementations are restricted to prevent conflicting implementations in different crates.</p>
+</li>
+</ol>
+<h3 id="advanced"><a class="header" href="#advanced">Advanced</a></h3>
+<p><strong>Q: What is unsafe Rust and when should it be used?</strong></p>
+<p>A: Unsafe Rust is a subset of Rust that gives you additional capabilities not available in safe Rust, such as:</p>
+<ul>
+<li>Dereferencing raw pointers</li>
+<li>Calling unsafe functions or methods</li>
+<li>Implementing unsafe traits</li>
+<li>Accessing or modifying mutable static variables</li>
+<li>Accessing fields of unions</li>
+</ul>
+<p>Unsafe code should be used only when necessary, typically for:</p>
+<ol>
+<li>Interfacing with non-Rust code (C libraries, system calls)</li>
+<li>Implementing low-level memory optimizations</li>
+<li>Building safe abstractions that the compiler cannot verify</li>
+<li>Performance-critical code where safe alternatives are too restrictive</li>
+</ol>
+<p>The key principle is that unsafe code should be minimized and encapsulated in safe abstractions. The unsafe block should uphold Rust’s safety guarantees even though the compiler can’t verify them automatically.</p>
+<p><strong>Q: Explain the concept of zero-cost abstractions in Rust.</strong></p>
+<p>A: Zero-cost abstractions are a core principle in Rust where high-level abstractions compile down to code that’s as efficient as hand-written low-level code. The idea is that “you don’t pay for what you don’t use” and “what you do use is as efficient as possible.”</p>
+<p>This is achieved through:</p>
+<ol>
+<li><strong>Monomorphization</strong>: Generic code is specialized for each concrete type it’s used with, eliminating runtime type checking</li>
+<li><strong>Inlining</strong>: The compiler can inline function calls, including those through traits</li>
+<li><strong>LLVM optimizations</strong>: Rust leverages LLVM’s powerful optimizer</li>
+<li><strong>Compile-time evaluation</strong>: Many abstractions are resolved at compile time</li>
+</ol>
+<p>Examples include iterators, closures, and trait implementations, which provide high-level expressiveness without runtime overhead.</p>
+<p><strong>Q: How does Rust’s <code>async</code>/<code>await</code> system work under the hood?</strong></p>
+<p>A: Rust’s <code>async</code>/<code>await</code> system transforms asynchronous code into state machines through a compiler transformation:</p>
+<ol>
+<li>An <code>async fn</code> or block is converted into a state machine that implements the <code>Future</code> trait</li>
+<li>Each <code>await</code> point becomes a state in the machine where execution can pause</li>
+<li>When an awaited future is not ready, the current future yields control back to the executor</li>
+<li>The executor polls futures when the resources they’re waiting for become available</li>
+</ol>
+<p>Unlike languages with built-in runtime, Rust’s approach:</p>
+<ul>
+<li>Doesn’t require a specific runtime or executor</li>
+<li>Has minimal memory overhead (only what’s captured in the state machine)</li>
+<li>Allows for zero-cost composition of futures</li>
+<li>Preserves Rust’s ownership and borrowing rules across await points</li>
+</ul>
+<p>This system enables efficient concurrent programming without the overhead of threads or the complexity of callback-based approaches.</p>
+<p><strong>Q: What are procedural macros and how do they differ from declarative macros?</strong></p>
+<p>A: Rust has two main types of macros:</p>
+<p><strong>Declarative macros</strong> (created with <code>macro_rules!</code>):</p>
+<ul>
+<li>Pattern-matching based, similar to match expressions</li>
+<li>Limited to token substitution and repetition</li>
+<li>Defined in the same crate where they’re used</li>
+<li>Simpler to write and understand</li>
+</ul>
+<p><strong>Procedural macros</strong>:</p>
+<ul>
+<li>Function-like programs that operate on Rust’s syntax tree</li>
+<li>Can perform arbitrary computation during compilation</li>
+<li>Defined in separate crates with specific dependencies</li>
+<li>Three types: custom derive, attribute-like, and function-like</li>
+<li>More powerful but more complex to implement</li>
+</ul>
+<p>Procedural macros are used for code generation tasks like deriving trait implementations, creating domain-specific languages, or implementing custom attributes that modify code behavior.</p>
+<h2 id="appendix-l-recommended-reading-and-resources"><a class="header" href="#appendix-l-recommended-reading-and-resources">Appendix L: Recommended Reading and Resources</a></h2>
+<p>This appendix provides a curated list of books, articles, videos, and other resources for deepening your Rust knowledge.</p>
+<h3 id="books"><a class="header" href="#books">Books</a></h3>
+<h4 id="official-documentation"><a class="header" href="#official-documentation">Official Documentation</a></h4>
+<ul>
+<li><strong>The Rust Programming Language</strong> (“The Book”) - The official Rust book, covering all language fundamentals</li>
+<li><strong>Rust by Example</strong> - Learn Rust through annotated examples</li>
+<li><strong>The Rustonomicon</strong> - Advanced guide to unsafe Rust</li>
+<li><strong>The Rust Reference</strong> - Detailed reference documentation for the language</li>
+<li><strong>Asynchronous Programming in Rust</strong> - Comprehensive guide to async Rust</li>
+</ul>
+<h4 id="beginner-to-intermediate"><a class="header" href="#beginner-to-intermediate">Beginner to Intermediate</a></h4>
+<ul>
+<li><strong>Programming Rust</strong> (Jim Blandy, Jason Orendorff, Leonora F.S. Tindall) - Comprehensive introduction with practical examples</li>
+<li><strong>Rust in Action</strong> (Tim McNamara) - Hands-on approach to learning Rust</li>
+<li><strong>Rust for Rustaceans</strong> (Jon Gjengset) - Intermediate Rust programming</li>
+<li><strong>Hands-on Rust</strong> (Herbert Wolverson) - Game development focus with practical projects</li>
+</ul>
+<h4 id="advanced-and-specialized"><a class="header" href="#advanced-and-specialized">Advanced and Specialized</a></h4>
+<ul>
+<li><strong>Zero To Production In Rust</strong> (Luca Palmieri) - Building production-ready web services</li>
+<li><strong>Black Hat Rust</strong> (Sylvain Kerkour) - Security-focused Rust programming</li>
+<li><strong>Rust Atomics and Locks</strong> (Mara Bos) - In-depth guide to concurrency and low-level synchronization</li>
+<li><strong>Rust Design Patterns</strong> (Community-driven) - Common patterns and idioms in Rust</li>
+</ul>
+<h3 id="online-courses-and-videos"><a class="header" href="#online-courses-and-videos">Online Courses and Videos</a></h3>
+<ul>
+<li><strong>Rust Fundamentals</strong> (Pluralsight) - Comprehensive beginner course</li>
+<li><strong>Crust of Rust</strong> (Jon Gjengset) - Deep dives into Rust concepts on YouTube</li>
+<li><strong>Rust for the Impatient</strong> (Google) - Fast-paced introduction for experienced programmers</li>
+<li><strong>Learning Rust</strong> (LinkedIn Learning) - Structured introduction to the language</li>
+</ul>
+<h3 id="blogs-and-articles"><a class="header" href="#blogs-and-articles">Blogs and Articles</a></h3>
+<ul>
+<li><strong>This Week in Rust</strong> - Weekly newsletter covering Rust developments</li>
+<li><strong>Inside Rust Blog</strong> - Official blog discussing Rust language development</li>
+<li><strong>Fasterthanli.me</strong> - In-depth articles on Rust concepts</li>
+<li><strong>Read Rust</strong> - Curated collection of Rust blog posts</li>
+<li><strong>Rust Magazine</strong> - Community-driven publication with technical articles</li>
+</ul>
+<h3 id="interactive-learning"><a class="header" href="#interactive-learning">Interactive Learning</a></h3>
+<ul>
+<li><strong>Rustlings</strong> - Small exercises to get comfortable with reading and writing Rust</li>
+<li><strong>Exercism Rust Track</strong> - Mentored coding exercises</li>
+<li><strong>Rust Playground</strong> - Online environment for experimenting with Rust code</li>
+<li><strong>LeetCode Rust</strong> - Algorithm challenges solvable in Rust</li>
+<li><strong>Advent of Code</strong> - Annual programming puzzles with active Rust community</li>
+</ul>
+<h3 id="community-resources"><a class="header" href="#community-resources">Community Resources</a></h3>
+<ul>
+<li><strong>Rust Users Forum</strong> - Q&amp;A and discussions for Rust users</li>
+<li><strong>Rust Internals Forum</strong> - Discussions about Rust development</li>
+<li><strong>The Rust Discord</strong> - Real-time chat with Rust developers</li>
+<li><strong>r/rust</strong> - Reddit community for Rust</li>
+<li><strong>Rust Meetups</strong> - Local community gatherings worldwide</li>
+<li><strong>RustConf</strong> - Annual conference for Rust developers</li>
+</ul>
+<h3 id="domain-specific-resources"><a class="header" href="#domain-specific-resources">Domain-Specific Resources</a></h3>
+<h4 id="systems-programming"><a class="header" href="#systems-programming">Systems Programming</a></h4>
+<ul>
+<li><strong>Writing an OS in Rust</strong> (Philipp Oppermann’s blog)</li>
+<li><strong>Rust Embedded Book</strong> - Guide for embedded systems development</li>
+</ul>
+<h4 id="web-development"><a class="header" href="#web-development">Web Development</a></h4>
+<ul>
+<li><strong>Are we web yet?</strong> - Status of Rust web development ecosystem</li>
+<li><strong>Actix Web Documentation</strong> - Guide for the Actix web framework</li>
+<li><strong>Rocket Guide</strong> - Documentation for the Rocket web framework</li>
+</ul>
+<h4 id="game-development"><a class="header" href="#game-development">Game Development</a></h4>
+<ul>
+<li><strong>Are we game yet?</strong> - Status of Rust game development ecosystem</li>
+<li><strong>Bevy Engine Documentation</strong> - Guide for the Bevy game engine</li>
+<li><strong>Game Development with Rust and WebGL</strong> (Online tutorial series)</li>
+</ul>
+<h4 id="data-science"><a class="header" href="#data-science">Data Science</a></h4>
+<ul>
+<li><strong>Polars</strong> - Documentation for the Polars DataFrame library</li>
+<li><strong>Are we learning yet?</strong> - Status of Rust machine learning ecosystem</li>
+</ul>
+<h3 id="reference-material"><a class="header" href="#reference-material">Reference Material</a></h3>
+<ul>
+<li><strong>Rust API Guidelines</strong> - Best practices for API design</li>
+<li><strong>Rust Cookbook</strong> - Solutions to common programming problems</li>
+<li><strong>Rust Cheat Sheet</strong> - Quick reference for syntax and concepts</li>
+<li><strong>Rust Standard Library Documentation</strong> - Comprehensive API docs</li>
+<li><strong>Compiler Error Index</strong> - Explanations for Rust compiler errors</li>
+</ul>
+<h3 id="tools-and-utilities"><a class="header" href="#tools-and-utilities">Tools and Utilities</a></h3>
+<ul>
+<li><strong>Rust Analyzer</strong> - Advanced language server for IDE integration</li>
+<li><strong>Clippy</strong> - Linting tool for catching common mistakes</li>
+<li><strong>Rustfmt</strong> - Automatic code formatter</li>
+<li><strong>Cargo Watch</strong> - Utility for automatically rebuilding on file changes</li>
+<li><strong>Cargo Audit</strong> - Security vulnerability scanner for dependencies</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendices/b-rust-evolution.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendices/d-recommended-libraries.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendices/b-rust-evolution.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendices/d-recommended-libraries.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

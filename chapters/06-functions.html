@@ -1,0 +1,1434 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Functions and Procedures - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/06-functions.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-6-functions-and-procedures"><a class="header" href="#chapter-6-functions-and-procedures">Chapter 6: Functions and Procedures</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Functions are the fundamental building blocks of code organization in any programming language. In Rust, functions play a critical role in creating maintainable, reusable, and well-structured programs. This chapter will explore how to define and use functions effectively in Rust.</p>
+<p>By the end of this chapter, you’ll understand:</p>
+<ul>
+<li>How to define and call functions in Rust</li>
+<li>Working with parameters and return values</li>
+<li>Different ways to pass arguments to functions</li>
+<li>How Rust’s expression-based nature affects functions</li>
+<li>Using closures for inline functionality</li>
+<li>Creating and using higher-order functions</li>
+<li>Function organization best practices</li>
+<li>Debugging function calls</li>
+<li>Building a practical application using functions</li>
+</ul>
+<h2 id="defining-and-calling-functions"><a class="header" href="#defining-and-calling-functions">Defining and Calling Functions</a></h2>
+<p>In Rust, functions are defined using the <code>fn</code> keyword, followed by the function name, a pair of parentheses, and a block containing the function body.</p>
+<h3 id="basic-function-syntax"><a class="header" href="#basic-function-syntax">Basic Function Syntax</a></h3>
+<pre><pre class="playground"><code class="language-rust">// Function definition
+fn say_hello() {
+    println!("Hello, world!");
+}
+
+fn main() {
+    // Function call
+    say_hello();
+}</code></pre></pre>
+<p>Every Rust program begins with the <code>main</code> function, which serves as the entry point. This function doesn’t accept any parameters and doesn’t return a value. As your programs grow, you’ll organize your code by creating additional functions.</p>
+<h3 id="function-naming-conventions"><a class="header" href="#function-naming-conventions">Function Naming Conventions</a></h3>
+<p>Rust uses <code>snake_case</code> for function names, which means all letters are lowercase with words separated by underscores:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn calculate_total() {
+    // Function body
+}
+
+// Not following Rust conventions:
+// fn CalculateTotal() { ... }  // PascalCase
+// fn calculateTotal() { ... }  // camelCase
+<span class="boring">}</span></code></pre></pre>
+<p>Following these naming conventions makes your code more idiomatic and easier for other Rust developers to read and understand.</p>
+<h3 id="functions-with-multiple-statements"><a class="header" href="#functions-with-multiple-statements">Functions with Multiple Statements</a></h3>
+<p>A function body typically contains multiple statements:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_data() {
+    let data = [1, 2, 3, 4, 5];
+    let sum = calculate_sum(&amp;data);
+    println!("The sum is: {}", sum);
+
+    // More statements...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Each statement in the function body executes in sequence when the function is called.</p>
+<h2 id="parameters-and-return-values"><a class="header" href="#parameters-and-return-values">Parameters and Return Values</a></h2>
+<p>Functions become more powerful when they can accept input and produce output.</p>
+<h3 id="function-parameters"><a class="header" href="#function-parameters">Function Parameters</a></h3>
+<p>Parameters are specified in the function signature inside the parentheses:</p>
+<pre><pre class="playground"><code class="language-rust">fn greet(name: &amp;str) {
+    println!("Hello, {}!", name);
+}
+
+fn main() {
+    greet("Alice");
+    greet("Bob");
+}</code></pre></pre>
+<p>Multiple parameters are separated by commas:</p>
+<pre><pre class="playground"><code class="language-rust">fn print_sum(a: i32, b: i32) {
+    println!("{} + {} = {}", a, b, a + b);
+}
+
+fn main() {
+    print_sum(5, 7);
+}</code></pre></pre>
+<p>In Rust, parameters must have explicit type annotations. This helps the compiler enforce type safety and makes your code more self-documenting.</p>
+<h3 id="return-values"><a class="header" href="#return-values">Return Values</a></h3>
+<p>Functions can return values using the <code>-&gt;</code> syntax, followed by the return type:</p>
+<pre><pre class="playground"><code class="language-rust">fn add(a: i32, b: i32) -&gt; i32 {
+    a + b // No semicolon means this is an expression that returns a + b
+}
+
+fn main() {
+    let sum = add(5, 7);
+    println!("The sum is: {}", sum);
+}</code></pre></pre>
+<p>Rust has an important distinction between expressions and statements. Expressions return values, while statements don’t. The last expression in a function is implicitly returned, without needing the <code>return</code> keyword.</p>
+<p>You can also use the <code>return</code> keyword for explicit returns, especially for early returns:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn is_positive(number: i32) -&gt; bool {
+    if number &lt; 0 {
+        return false; // Early return
+    }
+
+    // Last expression is returned implicitly
+    number &gt; 0
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="returning-multiple-values"><a class="header" href="#returning-multiple-values">Returning Multiple Values</a></h3>
+<p>Rust doesn’t support multiple return values directly, but we can use tuples to achieve the same effect:</p>
+<pre><pre class="playground"><code class="language-rust">fn get_statistics(numbers: &amp;[i32]) -&gt; (i32, i32, i32) {
+    let sum: i32 = numbers.iter().sum();
+    let min = *numbers.iter().min().unwrap_or(&amp;0);
+    let max = *numbers.iter().max().unwrap_or(&amp;0);
+
+    (sum, min, max) // Returns a tuple containing sum, min, and max
+}
+
+fn main() {
+    let numbers = [1, 5, 10, 2, 15];
+    let (sum, min, max) = get_statistics(&amp;numbers);
+
+    println!("Sum: {}, Min: {}, Max: {}", sum, min, max);
+}</code></pre></pre>
+<p>The tuple can be destructured immediately when calling the function, making it clean and straightforward to work with multiple return values.</p>
+<h2 id="return-type-inference-and-the-unit-type"><a class="header" href="#return-type-inference-and-the-unit-type">Return Type Inference and the Unit Type</a></h2>
+<p>Let’s explore how Rust handles function return types, including the special case of functions that don’t return a value.</p>
+<h3 id="the-unit-type"><a class="header" href="#the-unit-type">The Unit Type</a></h3>
+<p>If a function doesn’t return a value, it implicitly returns the unit type, written as <code>()</code>. This is similar to <code>void</code> in other languages:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// These two function definitions are equivalent
+fn do_something() {
+    println!("Doing something...");
+}
+
+fn do_something_explicit() -&gt; () {
+    println!("Doing something...");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The unit type is Rust’s way of saying “nothing” or “no meaningful value.” It’s the type of expressions that don’t evaluate to a value.</p>
+<h3 id="type-inference-in-function-returns"><a class="header" href="#type-inference-in-function-returns">Type Inference in Function Returns</a></h3>
+<p>While Rust can sometimes infer the return type of a function, it’s considered good practice to always specify it for better readability and to avoid confusion:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Not recommended - relies on type inference
+fn inferred_return() {
+    42 // Returns i32
+}
+
+// Recommended - explicitly state the return type
+fn explicit_return() -&gt; i32 {
+    42
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Explicit return types make your code’s intentions clearer and help prevent subtle bugs that might occur if the compiler infers a different type than you intended.</p>
+<h2 id="passing-arguments-by-value-vs-reference"><a class="header" href="#passing-arguments-by-value-vs-reference">Passing Arguments by Value vs Reference</a></h2>
+<p>Understanding how arguments are passed to functions is crucial in Rust because it directly affects ownership of values.</p>
+<h3 id="passing-by-value"><a class="header" href="#passing-by-value">Passing by Value</a></h3>
+<p>When you pass an argument by value, ownership of the value is transferred to the function:</p>
+<pre><pre class="playground"><code class="language-rust">fn take_ownership(s: String) {
+    println!("{}", s);
+} // s goes out of scope and is dropped here
+
+fn main() {
+    let s = String::from("hello");
+    take_ownership(s);
+
+    // s is no longer valid here because its ownership was moved
+    // println!("{}", s); // This would cause a compile error
+}</code></pre></pre>
+<p>This behavior is a direct consequence of Rust’s ownership rules, which we’ll explore in depth in Chapter 7. For now, understand that when a value is moved to a function, you can no longer use it in the calling function.</p>
+<h3 id="passing-by-reference"><a class="header" href="#passing-by-reference">Passing by Reference</a></h3>
+<p>To avoid transferring ownership, you can pass a reference to the value using the <code>&amp;</code> symbol:</p>
+<pre><pre class="playground"><code class="language-rust">fn borrow(s: &amp;String) {
+    println!("{}", s);
+} // s goes out of scope, but the underlying data is not dropped
+
+fn main() {
+    let s = String::from("hello");
+    borrow(&amp;s);
+    println!("{}", s); // This is valid because s still owns the data
+}</code></pre></pre>
+<p>When you pass a reference, the function can access the value but doesn’t take ownership of it.</p>
+<h3 id="mutable-references"><a class="header" href="#mutable-references">Mutable References</a></h3>
+<p>If a function needs to modify a parameter, you can pass a mutable reference with <code>&amp;mut</code>:</p>
+<pre><pre class="playground"><code class="language-rust">fn change(s: &amp;mut String) {
+    s.push_str(", world");
+}
+
+fn main() {
+    let mut s = String::from("hello");
+    change(&amp;mut s);
+    println!("{}", s); // Prints: hello, world
+}</code></pre></pre>
+<p>Mutable references allow the function to modify the value they refer to.</p>
+<h3 id="slices-for-partial-access"><a class="header" href="#slices-for-partial-access">Slices for Partial Access</a></h3>
+<p>Slices allow you to reference a part of a collection without taking ownership:</p>
+<pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;str) -&gt; &amp;str {
+    let bytes = s.as_bytes();
+
+    for (i, &amp;item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &amp;s[0..i];
+        }
+    }
+
+    &amp;s[..]
+}
+
+fn main() {
+    let my_string = String::from("hello world");
+    let word = first_word(&amp;my_string);
+    println!("First word: {}", word);
+}</code></pre></pre>
+<p>Slices are a powerful way to work with parts of strings, arrays, and other collections. We’ll explore them more thoroughly in Chapter 9.</p>
+<h3 id="visual-representation-of-references"><a class="header" href="#visual-representation-of-references">Visual Representation of References</a></h3>
+<p>Here’s a visual representation of how references work in memory:</p>
+<pre><code>By Value:
+┌─────────────┐            ┌─────────────┐
+│ Variable s  │            │ Parameter s │
+│ in main()   │──(Move)───▶│ in function │
+└─────────────┘            └─────────────┘
+
+By Reference:
+┌─────────────┐            ┌─────────────┐
+│ Variable s  │◄───────────│ Parameter &amp;s│
+│ in main()   │──(Borrow)──▶│ in function │
+└─────────────┘            └─────────────┘
+</code></pre>
+<p>Understanding these patterns is essential for effective Rust programming.</p>
+<h2 id="function-expressions-and-statements"><a class="header" href="#function-expressions-and-statements">Function Expressions and Statements</a></h2>
+<p>As we learned in Chapter 5, Rust is an expression-based language. This affects how we write functions and influences function return values.</p>
+<h3 id="expressions-vs-statements-in-functions"><a class="header" href="#expressions-vs-statements-in-functions">Expressions vs Statements in Functions</a></h3>
+<p>In Rust, statements don’t return values, while expressions do:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // This is a statement (doesn't return a value)
+    let x = 5;
+
+    // This is an expression (returns a value)
+    let y = {
+        let a = 3;
+        a + 1 // No semicolon, so this is an expression
+    };
+
+    println!("y: {}", y); // Prints: y: 4
+}</code></pre></pre>
+<h3 id="functions-as-expressions"><a class="header" href="#functions-as-expressions">Functions as Expressions</a></h3>
+<p>The entire function definition is a statement, but the function body can contain expressions that determine the return value:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn absolute_value(x: i32) -&gt; i32 {
+    if x &gt;= 0 { x } else { -x }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Here, the <code>if</code> expression evaluates to either <code>x</code> or <code>-x</code>, and this value is returned from the function.</p>
+<h3 id="expression-blocks-in-functions"><a class="header" href="#expression-blocks-in-functions">Expression Blocks in Functions</a></h3>
+<p>You can use a block expression to compute complex values:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn complex_calculation(x: i32, y: i32) -&gt; i32 {
+    let result = {
+        let sum = x + y;
+        let product = x * y;
+        sum + product // This value is assigned to result
+    };
+
+    result * 2 // This is the return value of the function
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="implicit-returns-vs-explicit-returns"><a class="header" href="#implicit-returns-vs-explicit-returns">Implicit Returns vs Explicit Returns</a></h3>
+<p>An implicit return happens when the last expression in a function isn’t terminated with a semicolon:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn square(x: i32) -&gt; i32 {
+    x * x // Implicit return
+}
+<span class="boring">}</span></code></pre></pre>
+<p>An explicit return uses the <code>return</code> keyword:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn square_explicit(x: i32) -&gt; i32 {
+    return x * x; // Explicit return
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The explicit form is typically used for early returns or when clarity is more important than conciseness:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_positive_number(x: i32) -&gt; i32 {
+    if x &lt;= 0 {
+        return 0; // Early return for invalid input
+    }
+
+    // Continue processing
+    x * 2
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Understanding this expression-based nature of Rust is key to writing idiomatic and effective code.</p>
+<h2 id="introduction-to-closures"><a class="header" href="#introduction-to-closures">Introduction to Closures</a></h2>
+<p>Closures are anonymous functions that can capture their environment—essentially functions without names that can use variables from the scope where they’re defined.</p>
+<h3 id="basic-closure-syntax"><a class="header" href="#basic-closure-syntax">Basic Closure Syntax</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // A simple closure that takes one parameter
+    let add_one = |x| x + 1;
+
+    // Using the closure
+    let five = add_one(4);
+    println!("4 + 1 = {}", five); // Prints: 4 + 1 = 5
+
+    // A closure with explicit type annotations
+    let add_two: fn(i32) -&gt; i32 = |x| x + 2;
+    println!("4 + 2 = {}", add_two(4)); // Prints: 4 + 2 = 6
+}</code></pre></pre>
+<p>Closures can be defined with:</p>
+<ul>
+<li>Less verbosity than functions, often with type inference</li>
+<li>Parameters enclosed in <code>|</code> pipes rather than parentheses</li>
+<li>No requirement for type annotations unless needed for clarity</li>
+</ul>
+<h3 id="capturing-the-environment"><a class="header" href="#capturing-the-environment">Capturing the Environment</a></h3>
+<p>A key feature of closures is their ability to capture variables from their surrounding scope:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let multiplier = 3;
+
+    // This closure captures 'multiplier' from its environment
+    let multiply = |x| x * multiplier;
+
+    println!("5 * 3 = {}", multiply(5)); // Prints: 5 * 3 = 15
+}</code></pre></pre>
+<p>The closure <code>multiply</code> uses the variable <code>multiplier</code> that’s defined outside the closure. This is called “capturing” the environment.</p>
+<h3 id="types-of-capture"><a class="header" href="#types-of-capture">Types of Capture</a></h3>
+<p>Closures can capture variables in three ways:</p>
+<ol>
+<li><strong>By reference</strong> (<code>&amp;T</code>): Borrows values</li>
+<li><strong>By mutable reference</strong> (<code>&amp;mut T</code>): Borrows values with ability to change them</li>
+<li><strong>By value</strong> (<code>T</code>): Takes ownership of values</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let text = String::from("Hello");
+    let print = || println!("{}", text);  // Captures by reference
+
+    let mut count = 0;
+    let mut increment = || {
+        count += 1;  // Captures by mutable reference
+        println!("Count: {}", count);
+    };
+
+    let owned_text = String::from("mine");
+    let take_ownership = move || {
+        println!("I own: {}", owned_text);  // Captures by value with 'move'
+    };
+
+    print();
+    increment();
+    increment();
+    take_ownership();
+
+    // text and count are still accessible here
+    println!("Text: {}, Count: {}", text, count);
+
+    // owned_text is no longer accessible
+    // println!("{}", owned_text);  // This would cause a compile error
+}</code></pre></pre>
+<p>The <code>move</code> keyword forces a closure to take ownership of the values it uses from its environment, which is especially important for concurrency, which we’ll explore in later chapters.</p>
+<h3 id="using-closures-as-function-arguments"><a class="header" href="#using-closures-as-function-arguments">Using Closures as Function Arguments</a></h3>
+<p>Functions can take closures as arguments, which enables powerful programming patterns:</p>
+<pre><pre class="playground"><code class="language-rust">fn run_function&lt;F&gt;(f: F) -&gt; i32
+where
+    F: Fn() -&gt; i32,
+{
+    f()
+}
+
+fn main() {
+    let answer = run_function(|| 42);
+    println!("The answer is: {}", answer); // Prints: The answer is: 42
+}</code></pre></pre>
+<p>The generic type parameter <code>F</code> and the <code>Fn</code> trait constraint allow the function to accept any closure that takes no arguments and returns an <code>i32</code>.</p>
+<h2 id="basic-higher-order-functions"><a class="header" href="#basic-higher-order-functions">Basic Higher-Order Functions</a></h2>
+<p>Higher-order functions either take functions as arguments or return functions as results. They’re a cornerstone of functional programming in Rust.</p>
+<h3 id="map-filter-and-fold"><a class="header" href="#map-filter-and-fold">Map, Filter, and Fold</a></h3>
+<p>The standard library provides several higher-order functions for collections:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let numbers = vec![1, 2, 3, 4, 5];
+
+    // Using map to transform each element
+    let doubled: Vec&lt;i32&gt; = numbers.iter().map(|x| x * 2).collect();
+    println!("Doubled: {:?}", doubled); // [2, 4, 6, 8, 10]
+
+    // Using filter to keep only elements that satisfy a condition
+    let even: Vec&lt;&amp;i32&gt; = numbers.iter().filter(|&amp;&amp;x| x % 2 == 0).collect();
+    println!("Even numbers: {:?}", even); // [2, 4]
+
+    // Using fold to accumulate a result
+    let sum: i32 = numbers.iter().fold(0, |acc, x| acc + x);
+    println!("Sum: {}", sum); // 15
+}</code></pre></pre>
+<p>These functions demonstrate the power of closures and higher-order functions for data processing:</p>
+<ul>
+<li><code>map</code> applies a function to each element, creating a new collection</li>
+<li><code>filter</code> keeps only elements that match a predicate</li>
+<li><code>fold</code> (also known as reduce) combines elements into a single result</li>
+</ul>
+<h3 id="chaining-iterator-methods"><a class="header" href="#chaining-iterator-methods">Chaining Iterator Methods</a></h3>
+<p>Higher-order functions can be chained together to create complex data transformations:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    let result: i32 = numbers.iter()
+        .filter(|&amp;&amp;x| x % 2 == 0)  // Keep even numbers
+        .map(|&amp;x| x * x)           // Square each number
+        .sum();                    // Sum the results
+
+    println!("Sum of squares of even numbers: {}", result); // 220
+}</code></pre></pre>
+<p>This approach is:</p>
+<ul>
+<li>Declarative: You describe what you want, not how to do it</li>
+<li>Composable: Operations can be combined in flexible ways</li>
+<li>Readable: The data transformation is expressed as a pipeline</li>
+</ul>
+<h3 id="custom-higher-order-functions"><a class="header" href="#custom-higher-order-functions">Custom Higher-Order Functions</a></h3>
+<p>You can create your own higher-order functions:</p>
+<pre><pre class="playground"><code class="language-rust">fn apply_twice&lt;F&gt;(f: F, x: i32) -&gt; i32
+where
+    F: Fn(i32) -&gt; i32,
+{
+    f(f(x))
+}
+
+fn main() {
+    let add_one = |x| x + 1;
+    let result = apply_twice(add_one, 5);
+    println!("apply_twice(add_one, 5) = {}", result); // 7 (5+1+1)
+
+    let multiply_by_2 = |x| x * 2;
+    let result = apply_twice(multiply_by_2, 5);
+    println!("apply_twice(multiply_by_2, 5) = {}", result); // 20 (5*2*2)
+}</code></pre></pre>
+<p>The function <code>apply_twice</code> is generic over any function <code>F</code> that takes an <code>i32</code> and returns an <code>i32</code>.</p>
+<h3 id="common-traits-for-function-types"><a class="header" href="#common-traits-for-function-types">Common Traits for Function Types</a></h3>
+<p>Rust defines several traits for function types:</p>
+<ul>
+<li><code>Fn</code>: Closures that capture by reference</li>
+<li><code>FnMut</code>: Closures that capture by mutable reference</li>
+<li><code>FnOnce</code>: Closures that capture by value</li>
+</ul>
+<p>These traits provide fine-grained control over closure behavior:</p>
+<pre><pre class="playground"><code class="language-rust">fn call_once&lt;F&gt;(f: F)
+where
+    F: FnOnce() -&gt; String,
+{
+    println!("{}", f());
+}
+
+fn call_mut&lt;F&gt;(mut f: F)
+where
+    F: FnMut() -&gt; i32,
+{
+    println!("Result: {}", f());
+    println!("Result again: {}", f());
+}
+
+fn main() {
+    let s = String::from("hello");
+
+    // FnOnce - can only be called once because it consumes s
+    call_once(|| s + " world");
+    // s is moved now, can't use it anymore
+
+    let mut counter = 0;
+
+    // FnMut - can modify its environment
+    call_mut(|| {
+        counter += 1;
+        counter
+    });
+
+    println!("Final counter: {}", counter); // 2
+}</code></pre></pre>
+<p>We’ll explore these traits in more depth in Chapter 23 on closures.</p>
+<h2 id="function-overloading-or-lack-thereof"><a class="header" href="#function-overloading-or-lack-thereof">Function Overloading (or lack thereof)</a></h2>
+<p>Unlike some other languages like C++ or Java, Rust does not support function overloading—defining multiple functions with the same name but different parameter types. Instead, Rust offers several alternative approaches to achieve similar functionality.</p>
+<h3 id="why-no-function-overloading"><a class="header" href="#why-no-function-overloading">Why No Function Overloading?</a></h3>
+<p>The lack of function overloading in Rust is a deliberate design decision that:</p>
+<ul>
+<li>Simplifies the language and compiler</li>
+<li>Makes code more explicit and easier to understand</li>
+<li>Avoids ambiguity in function resolution</li>
+<li>Works better with Rust’s trait system</li>
+</ul>
+<h3 id="alternatives-to-function-overloading"><a class="header" href="#alternatives-to-function-overloading">Alternatives to Function Overloading</a></h3>
+<h4 id="trait-methods"><a class="header" href="#trait-methods">Trait Methods</a></h4>
+<p>Different traits can define methods with the same name:</p>
+<pre><pre class="playground"><code class="language-rust">trait Speak {
+    fn speak(&amp;self);
+}
+
+trait Greet {
+    fn speak(&amp;self); // Same name as in Speak trait
+}
+
+struct Person {
+    name: String,
+}
+
+impl Speak for Person {
+    fn speak(&amp;self) {
+        println!("{} is speaking.", self.name);
+    }
+}
+
+impl Greet for Person {
+    fn speak(&amp;self) {
+        println!("Hello, I'm {}.", self.name);
+    }
+}
+
+fn main() {
+    let person = Person { name: String::from("Alice") };
+
+    // Need to specify which implementation to use
+    Speak::speak(&amp;person); // Alice is speaking.
+    Greet::speak(&amp;person); // Hello, I'm Alice.
+}</code></pre></pre>
+<h4 id="generic-functions"><a class="header" href="#generic-functions">Generic Functions</a></h4>
+<p>Generic functions can often replace the need for overloading:</p>
+<pre><pre class="playground"><code class="language-rust">// Instead of separate functions for different numeric types:
+// fn add_i32(a: i32, b: i32) -&gt; i32 { a + b }
+// fn add_f64(a: f64, b: f64) -&gt; f64 { a + b }
+
+// Use a generic function:
+fn add&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(a: T, b: T) -&gt; T {
+    a + b
+}
+
+fn main() {
+    println!("5 + 10 = {}", add(5, 10));            // Works with integers
+    println!("3.14 + 2.71 = {}", add(3.14, 2.71));  // Works with floats
+}</code></pre></pre>
+<p>The generic function works with any type that implements the <code>Add</code> trait with itself.</p>
+<h4 id="enum-parameters"><a class="header" href="#enum-parameters">Enum Parameters</a></h4>
+<p>For a small, fixed set of types, you can use an enum:</p>
+<pre><pre class="playground"><code class="language-rust">enum Number {
+    Integer(i32),
+    Float(f64),
+}
+
+fn print_number(num: Number) {
+    match num {
+        Number::Integer(i) =&gt; println!("Integer: {}", i),
+        Number::Float(f) =&gt; println!("Float: {}", f),
+    }
+}
+
+fn main() {
+    print_number(Number::Integer(42));
+    print_number(Number::Float(3.14));
+}</code></pre></pre>
+<h4 id="optional-parameters"><a class="header" href="#optional-parameters">Optional Parameters</a></h4>
+<p>Rust doesn’t have default parameters, but you can simulate them with <code>Option</code> types:</p>
+<pre><pre class="playground"><code class="language-rust">fn greet(name: &amp;str, prefix: Option&lt;&amp;str&gt;) {
+    match prefix {
+        Some(p) =&gt; println!("{} {}", p, name),
+        None =&gt; println!("Hello, {}", name),
+    }
+}
+
+fn main() {
+    greet("Alice", Some("Ms."));  // Ms. Alice
+    greet("Bob", None);           // Hello, Bob
+}</code></pre></pre>
+<p>This pattern allows you to make parameters optional without creating multiple function versions.</p>
+<h4 id="builder-pattern"><a class="header" href="#builder-pattern">Builder Pattern</a></h4>
+<p>For functions with many optional parameters, consider the Builder pattern:</p>
+<pre><pre class="playground"><code class="language-rust">struct GreetingBuilder {
+    name: String,
+    prefix: Option&lt;String&gt;,
+    suffix: Option&lt;String&gt;,
+    formal: bool,
+}
+
+impl GreetingBuilder {
+    fn new(name: &amp;str) -&gt; Self {
+        GreetingBuilder {
+            name: name.to_string(),
+            prefix: None,
+            suffix: None,
+            formal: false,
+        }
+    }
+
+    fn with_prefix(mut self, prefix: &amp;str) -&gt; Self {
+        self.prefix = Some(prefix.to_string());
+        self
+    }
+
+    fn with_suffix(mut self, suffix: &amp;str) -&gt; Self {
+        self.suffix = Some(suffix.to_string());
+        self
+    }
+
+    fn formal(mut self) -&gt; Self {
+        self.formal = true;
+        self
+    }
+
+    fn build(self) -&gt; String {
+        let mut result = String::new();
+
+        if let Some(p) = self.prefix {
+            result.push_str(&amp;p);
+            result.push(' ');
+        }
+
+        if self.formal {
+            result.push_str("Dear ");
+        }
+
+        result.push_str(&amp;self.name);
+
+        if let Some(s) = self.suffix {
+            result.push(' ');
+            result.push_str(&amp;s);
+        }
+
+        result
+    }
+}
+
+fn main() {
+    // Basic greeting
+    let greeting = GreetingBuilder::new("Alice").build();
+    println!("{}", greeting);  // Alice
+
+    // Formal greeting with prefix and suffix
+    let formal_greeting = GreetingBuilder::new("Mr. Smith")
+        .formal()
+        .with_suffix("Esq.")
+        .build();
+    println!("{}", formal_greeting);  // Dear Mr. Smith Esq.
+}</code></pre></pre>
+<p>This pattern allows for highly customizable function calls with clear semantics.</p>
+<h2 id="organizing-code-with-functions"><a class="header" href="#organizing-code-with-functions">Organizing Code with Functions</a></h2>
+<p>Well-organized code improves readability and maintainability. Functions play a key role in this organization.</p>
+<h3 id="function-grouping"><a class="header" href="#function-grouping">Function Grouping</a></h3>
+<p>Group related functions together in modules or files:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// File: math_utils.rs
+pub fn add(a: i32, b: i32) -&gt; i32 {
+    a + b
+}
+
+pub fn subtract(a: i32, b: i32) -&gt; i32 {
+    a - b
+}
+
+pub fn multiply(a: i32, b: i32) -&gt; i32 {
+    a * b
+}
+
+pub fn divide(a: i32, b: i32) -&gt; Option&lt;i32&gt; {
+    if b == 0 {
+        None
+    } else {
+        Some(a / b)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This organization makes it easier to find related functionality and keeps your codebase clean.</p>
+<h3 id="private-helper-functions"><a class="header" href="#private-helper-functions">Private Helper Functions</a></h3>
+<p>Use private functions for internal implementation details:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn process_data(data: &amp;[i32]) -&gt; i32 {
+    // Public interface
+    let clean_data = clean_input(data);
+    calculate_result(&amp;clean_data)
+}
+
+// Private helper functions (not accessible outside this module)
+fn clean_input(data: &amp;[i32]) -&gt; Vec&lt;i32&gt; {
+    data.iter().filter(|&amp;&amp;x| x &gt;= 0).cloned().collect()
+}
+
+fn calculate_result(data: &amp;[i32]) -&gt; i32 {
+    data.iter().sum()
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This approach provides a clean public API while hiding implementation details.</p>
+<h3 id="single-responsibility-principle"><a class="header" href="#single-responsibility-principle">Single Responsibility Principle</a></h3>
+<p>Each function should have a single, well-defined purpose:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Bad: function does too many things
+fn process_and_print_user_data(user_id: u32) {
+    let user = fetch_user(user_id);
+    let orders = get_user_orders(user_id);
+    let total = calculate_total(&amp;orders);
+    println!("User: {}", user.name);
+    println!("Total orders: ${:.2}", total);
+}
+
+// Better: split into focused functions
+fn get_user_report(user_id: u32) -&gt; UserReport {
+    let user = fetch_user(user_id);
+    let orders = get_user_orders(user_id);
+    let total = calculate_total(&amp;orders);
+    UserReport { user, orders, total }
+}
+
+fn print_user_report(report: &amp;UserReport) {
+    println!("User: {}", report.user.name);
+    println!("Total orders: ${:.2}", report.total);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Functions that adhere to the Single Responsibility Principle are:</p>
+<ul>
+<li>Easier to understand</li>
+<li>Easier to test</li>
+<li>More reusable</li>
+<li>Easier to maintain</li>
+</ul>
+<h3 id="function-length"><a class="header" href="#function-length">Function Length</a></h3>
+<p>Keep functions short and focused:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Too long and complex
+fn process_data(data: &amp;[i32]) -&gt; Vec&lt;i32&gt; {
+    let mut result = Vec::new();
+
+    for &amp;item in data {
+        if item &gt; 0 {
+            if item % 2 == 0 {
+                result.push(item * 2);
+            } else {
+                result.push(item + 1);
+            }
+        } else if item &lt; 0 {
+            result.push(-item);
+        }
+    }
+
+    result
+}
+
+// Better: broken down into smaller functions
+fn process_data(data: &amp;[i32]) -&gt; Vec&lt;i32&gt; {
+    data.iter()
+        .filter(|&amp;&amp;x| x != 0)
+        .map(|&amp;x| transform_item(x))
+        .collect()
+}
+
+fn transform_item(item: i32) -&gt; i32 {
+    if item &gt; 0 {
+        transform_positive(item)
+    } else {
+        transform_negative(item)
+    }
+}
+
+fn transform_positive(item: i32) -&gt; i32 {
+    if item % 2 == 0 {
+        item * 2
+    } else {
+        item + 1
+    }
+}
+
+fn transform_negative(item: i32) -&gt; i32 {
+    -item
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Shorter functions are generally easier to understand, test, and maintain.</p>
+<h2 id="debugging-function-calls"><a class="header" href="#debugging-function-calls">Debugging Function Calls</a></h2>
+<p>Effective debugging is essential for development. Rust provides several tools to help debug function calls.</p>
+<h3 id="tracing-function-execution"><a class="header" href="#tracing-function-execution">Tracing Function Execution</a></h3>
+<p>Add print statements to trace function execution:</p>
+<pre><pre class="playground"><code class="language-rust">fn factorial(n: u32) -&gt; u32 {
+    println!("factorial({}) called", n);
+
+    if n &lt;= 1 {
+        println!("factorial({}) returning 1", n);
+        1
+    } else {
+        let result = n * factorial(n - 1);
+        println!("factorial({}) returning {}", n, result);
+        result
+    }
+}
+
+fn main() {
+    println!("Calculating factorial(5)");
+    let result = factorial(5);
+    println!("Final result: {}", result);
+}</code></pre></pre>
+<p>This approach can help you understand the flow of function calls, especially in recursive functions.</p>
+<h3 id="using-the-dbg-macro"><a class="header" href="#using-the-dbg-macro">Using the dbg! Macro</a></h3>
+<p>The <code>dbg!</code> macro is perfect for quick debugging:</p>
+<pre><pre class="playground"><code class="language-rust">fn calculate_values(a: i32, b: i32) -&gt; (i32, i32, i32) {
+    let sum = dbg!(a + b);
+    let product = dbg!(a * b);
+    let difference = dbg!(a - b);
+
+    dbg!((sum, product, difference))
+}
+
+fn main() {
+    let result = calculate_values(5, 7);
+    println!("Result: {:?}", result);
+}</code></pre></pre>
+<p>The <code>dbg!</code> macro prints the expression, file, and line number, and then returns the value. It’s perfect for quick checks during development.</p>
+<h3 id="function-call-stack"><a class="header" href="#function-call-stack">Function Call Stack</a></h3>
+<p>When a panic occurs, Rust shows the function call stack:</p>
+<pre><pre class="playground"><code class="language-rust">fn a() {
+    b();
+}
+
+fn b() {
+    c(42);
+}
+
+fn c(value: i32) {
+    if value == 42 {
+        panic!("Found the answer!");
+    }
+}
+
+fn main() {
+    a();
+}</code></pre></pre>
+<p>Running this program will show a stack trace like:</p>
+<pre><code>thread 'main' panicked at 'Found the answer!', src/main.rs:10:9
+stack backtrace:
+   0: ...
+   1: rust_out::c
+   2: rust_out::b
+   3: rust_out::a
+   4: rust_out::main
+   ...
+</code></pre>
+<p>This helps you trace the sequence of function calls that led to the panic.</p>
+<h3 id="adding-debug-information"><a class="header" href="#adding-debug-information">Adding Debug Information</a></h3>
+<p>For complex functions, add more detailed debugging:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_item(item: &amp;str) -&gt; Result&lt;i32, String&gt; {
+    println!("Processing item: {}", item);
+
+    let parsed = match item.parse::&lt;i32&gt;() {
+        Ok(n) =&gt; {
+            println!("Successfully parsed {} as {}", item, n);
+            n
+        },
+        Err(e) =&gt; {
+            println!("Error parsing {}: {}", item, e);
+            return Err(format!("Parse error: {}", e));
+        }
+    };
+
+    let result = parsed * 2;
+    println!("Calculated result: {}", result);
+
+    Ok(result)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This approach provides more context about what’s happening during function execution.</p>
+<h2 id="-project-command-line-task-manager"><a class="header" href="#-project-command-line-task-manager">🔨 Project: Command-line Task Manager</a></h2>
+<p>Let’s build a simple command-line task manager to practice everything we’ve learned about functions. This project will help you solidify your understanding of functions, function parameters, return values, and code organization.</p>
+<h3 id="project-requirements"><a class="header" href="#project-requirements">Project Requirements</a></h3>
+<ol>
+<li>Add, list, complete, and delete tasks</li>
+<li>Save tasks to a file for persistence</li>
+<li>Load tasks from a file when starting the program</li>
+<li>Organize code with well-structured functions</li>
+<li>Handle errors gracefully</li>
+</ol>
+<h3 id="step-1-create-the-project"><a class="header" href="#step-1-create-the-project">Step 1: Create the Project</a></h3>
+<p>First, let’s create a new Rust project:</p>
+<pre><code class="language-bash">cargo new task_manager
+cd task_manager
+</code></pre>
+<h3 id="step-2-add-dependencies"><a class="header" href="#step-2-add-dependencies">Step 2: Add Dependencies</a></h3>
+<p>Edit your <code>Cargo.toml</code> file to add the dependencies we’ll need:</p>
+<pre><code class="language-toml">[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = "0.4"
+</code></pre>
+<p>We’re using:</p>
+<ul>
+<li><code>serde</code> and <code>serde_json</code> for serializing and deserializing our task data</li>
+<li><code>chrono</code> for working with dates and times</li>
+</ul>
+<h3 id="step-3-define-the-task-structure"><a class="header" href="#step-3-define-the-task-structure">Step 3: Define the Task Structure</a></h3>
+<p>Now, let’s create the main program in <code>src/main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use std::fs;
+use std::io::{self, Write};
+use std::path::Path;
+use chrono::{DateTime, Local};
+use serde::{Deserialize, Serialize};
+
+// Define the Task struct to represent a single task
+#[derive(Debug, Serialize, Deserialize)]
+struct Task {
+    id: usize,
+    description: String,
+    completed: bool,
+    created_at: DateTime&lt;Local&gt;,
+}
+
+impl Task {
+    // Constructor function to create a new task
+    fn new(id: usize, description: String) -&gt; Self {
+        Task {
+            id,
+            description,
+            completed: false,
+            created_at: Local::now(),
+        }
+    }
+
+    // Method to display a task
+    fn display(&amp;self) {
+        let status = if self.completed { "✓" } else { "☐" };
+        println!(
+            "{}. [{}] {} (created: {})",
+            self.id,
+            status,
+            self.description,
+            self.created_at.format("%Y-%m-%d %H:%M")
+        );
+    }
+}
+
+// TaskList to manage a collection of tasks
+#[derive(Debug, Serialize, Deserialize)]
+struct TaskList {
+    tasks: Vec&lt;Task&gt;,
+    next_id: usize,
+}
+
+impl TaskList {
+    // Constructor for an empty task list
+    fn new() -&gt; Self {
+        TaskList {
+            tasks: Vec::new(),
+            next_id: 1,
+        }
+    }
+}
+
+fn main() {
+    // Load existing tasks or create a new task list
+    let mut task_list = load_tasks().unwrap_or_else(|_| {
+        println!("No existing tasks found. Starting with an empty list.");
+        TaskList::new()
+    });
+
+    println!("Welcome to Task Manager!");
+    print_help();
+
+    // Main program loop
+    loop {
+        let command = get_user_input("Enter command (or 'help' for commands): ");
+
+        match command.trim() {
+            "add" =&gt; add_task(&amp;mut task_list),
+            "list" =&gt; list_tasks(&amp;task_list),
+            "complete" =&gt; complete_task(&amp;mut task_list),
+            "delete" =&gt; delete_task(&amp;mut task_list),
+            "help" =&gt; print_help(),
+            "quit" | "exit" =&gt; break,
+            _ =&gt; println!("Unknown command. Type 'help' for available commands."),
+        }
+
+        // Save after each change
+        if let Err(e) = save_tasks(&amp;task_list) {
+            println!("Error saving tasks: {}", e);
+        }
+    }
+
+    println!("Goodbye!");
+}
+
+// Function to display available commands
+fn print_help() {
+    println!("\nAvailable commands:");
+    println!("  add       - Add a new task");
+    println!("  list      - List all tasks");
+    println!("  complete  - Mark a task as completed");
+    println!("  delete    - Delete a task");
+    println!("  help      - Show this help message");
+    println!("  quit      - Exit the program");
+}
+
+// Function to get user input with a prompt
+fn get_user_input(prompt: &amp;str) -&gt; String {
+    print!("{}", prompt);
+    io::stdout().flush().unwrap();
+
+    let mut input = String::new();
+    io::stdin().read_line(&amp;mut input).expect("Failed to read input");
+    input
+}
+
+// Function to add a new task
+fn add_task(task_list: &amp;mut TaskList) {
+    let description = get_user_input("Enter task description: ");
+    let description = description.trim().to_string();
+
+    if description.is_empty() {
+        println!("Task description cannot be empty!");
+        return;
+    }
+
+    let task = Task::new(task_list.next_id, description);
+    task_list.next_id += 1;
+    task_list.tasks.push(task);
+
+    println!("Task added successfully!");
+}
+
+// Function to list all tasks
+fn list_tasks(task_list: &amp;TaskList) {
+    if task_list.tasks.is_empty() {
+        println!("No tasks found.");
+        return;
+    }
+
+    println!("\nYour tasks:");
+    for task in &amp;task_list.tasks {
+        task.display();
+    }
+}
+
+// Function to mark a task as completed
+fn complete_task(task_list: &amp;mut TaskList) {
+    list_tasks(task_list);
+
+    if task_list.tasks.is_empty() {
+        return;
+    }
+
+    let input = get_user_input("Enter task ID to mark as completed: ");
+
+    match input.trim().parse::&lt;usize&gt;() {
+        Ok(id) =&gt; {
+            if let Some(task) = task_list.tasks.iter_mut().find(|t| t.id == id) {
+                task.completed = true;
+                println!("Task marked as completed!");
+            } else {
+                println!("Task with ID {} not found!", id);
+            }
+        },
+        Err(_) =&gt; println!("Invalid task ID!"),
+    }
+}
+
+// Function to delete a task
+fn delete_task(task_list: &amp;mut TaskList) {
+    list_tasks(task_list);
+
+    if task_list.tasks.is_empty() {
+        return;
+    }
+
+    let input = get_user_input("Enter task ID to delete: ");
+
+    match input.trim().parse::&lt;usize&gt;() {
+        Ok(id) =&gt; {
+            let initial_len = task_list.tasks.len();
+            task_list.tasks.retain(|t| t.id != id);
+
+            if task_list.tasks.len() &lt; initial_len {
+                println!("Task deleted successfully!");
+            } else {
+                println!("Task with ID {} not found!", id);
+            }
+        },
+        Err(_) =&gt; println!("Invalid task ID!"),
+    }
+}
+
+// Function to save tasks to a file
+fn save_tasks(task_list: &amp;TaskList) -&gt; io::Result&lt;()&gt; {
+    let json = serde_json::to_string_pretty(task_list)?;
+    fs::write("tasks.json", json)?;
+    Ok(())
+}
+
+// Function to load tasks from a file
+fn load_tasks() -&gt; io::Result&lt;TaskList&gt; {
+    // Check if file exists
+    if !Path::new("tasks.json").exists() {
+        return Err(io::Error::new(io::ErrorKind::NotFound, "Tasks file not found"));
+    }
+
+    let json = fs::read_to_string("tasks.json")?;
+    let tasks = serde_json::from_str(&amp;json)?;
+    Ok(tasks)
+}</code></pre></pre>
+<h3 id="step-4-build-and-run-the-task-manager"><a class="header" href="#step-4-build-and-run-the-task-manager">Step 4: Build and Run the Task Manager</a></h3>
+<pre><code class="language-bash">cargo run
+</code></pre>
+<p>When you run the program, you’ll see a welcome message and the available commands. You can add tasks, list them, mark them as completed, and delete them. Your tasks will be saved to a file and loaded the next time you run the program.</p>
+<h3 id="step-5-understanding-the-code-organization"><a class="header" href="#step-5-understanding-the-code-organization">Step 5: Understanding the Code Organization</a></h3>
+<p>This task manager demonstrates several key concepts about functions:</p>
+<ol>
+<li>
+<p><strong>Single Responsibility</strong>: Each function has a clear, specific purpose. For example, <code>add_task</code> only adds a task, and <code>delete_task</code> only deletes a task.</p>
+</li>
+<li>
+<p><strong>Error Handling</strong>: Functions like <code>save_tasks</code> and <code>load_tasks</code> return <code>Result</code> types to handle potential errors.</p>
+</li>
+<li>
+<p><strong>Helper Functions</strong>: <code>get_user_input</code> encapsulates common functionality that’s used by multiple other functions.</p>
+</li>
+<li>
+<p><strong>Methods vs Functions</strong>: Task-specific behaviors are methods on structs (like <code>Task::new</code> and <code>Task::display</code>), while operations on the overall program are standalone functions.</p>
+</li>
+<li>
+<p><strong>Function Composition</strong>: The main program flow uses function composition to build a complete application from smaller, focused functions.</p>
+</li>
+<li>
+<p><strong>Parameter Passing</strong>: Different functions demonstrate various ways to pass parameters:</p>
+<ul>
+<li><code>list_tasks</code> takes an immutable reference (<code>&amp;TaskList</code>)</li>
+<li><code>add_task</code> takes a mutable reference (<code>&amp;mut TaskList</code>)</li>
+<li><code>Task::new</code> takes ownership of the <code>description</code> parameter</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-6-extending-the-project"><a class="header" href="#step-6-extending-the-project">Step 6: Extending the Project</a></h3>
+<p>Here are some ways you could extend the task manager to practice more advanced function concepts:</p>
+<ol>
+<li>
+<p><strong>Add due dates to tasks</strong>: Implement a new field for due dates and functions to sort or filter tasks by due date.</p>
+</li>
+<li>
+<p><strong>Implement task priorities</strong>: Add a priority level to tasks and create functions to sort tasks by priority.</p>
+</li>
+<li>
+<p><strong>Add filtering and sorting options</strong>: Create functions that return filtered subsets of tasks or sort tasks in different ways.</p>
+</li>
+<li>
+<p><strong>Create project categories for tasks</strong>: Implement a category system for tasks and functions to filter tasks by category.</p>
+</li>
+<li>
+<p><strong>Add task notes or descriptions</strong>: Allow users to add detailed notes to tasks and implement functions to display or search notes.</p>
+</li>
+<li>
+<p><strong>Implement search functionality</strong>: Create a function that searches tasks by keywords in their descriptions.</p>
+</li>
+<li>
+<p><strong>Add undo functionality</strong>: Implement functions to undo the last operation.</p>
+</li>
+</ol>
+<p>Each of these extensions would give you more practice with function design, parameter passing, and organizing code effectively.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored functions and procedures in Rust, learning how they serve as the fundamental building blocks for organizing and structuring your code. We’ve covered:</p>
+<ul>
+<li>Defining and calling functions with the <code>fn</code> keyword</li>
+<li>Working with parameters and return values</li>
+<li>The distinction between expressions and statements in function bodies</li>
+<li>Different ways to pass arguments: by value and by reference</li>
+<li>Rust’s lack of function overloading and alternatives like generics</li>
+<li>Closures as anonymous functions that can capture their environment</li>
+<li>Higher-order functions that take functions as arguments or return them</li>
+<li>Best practices for organizing code with functions</li>
+<li>Debugging techniques for function calls</li>
+<li>Building a practical command-line task manager application</li>
+</ul>
+<p>Functions are at the heart of Rust programming. They allow you to break down complex problems into smaller, manageable pieces, promote code reuse, and create clear abstractions. By mastering functions, you’ve taken a significant step toward becoming a proficient Rust programmer.</p>
+<p>As you continue your Rust journey, you’ll build on this foundation to explore more advanced topics like ownership (coming up in the next chapter), borrowing, traits, and generics. The function concepts you’ve learned here will serve as essential building blocks for these more advanced features.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p><strong>Function Signature Exploration</strong>: Write a function that takes multiple parameters of different types and returns a tuple with multiple values. Experiment with different parameter and return types.</p>
+</li>
+<li>
+<p><strong>Reference Parameter Practice</strong>: Create a function that modifies a string in place using a mutable reference. Then create another function that only reads from a string using an immutable reference.</p>
+</li>
+<li>
+<p><strong>Closure Experiment</strong>: Write a program that creates closures capturing variables in different ways (by reference, by mutable reference, and by value with <code>move</code>). Observe how this affects the accessibility of the captured variables after the closure is used.</p>
+</li>
+<li>
+<p><strong>Higher-Order Function Implementation</strong>: Create your own higher-order function that takes a function as a parameter and applies it to each element of a collection, similar to <code>map</code>. Test it with different closures.</p>
+</li>
+<li>
+<p><strong>Function Organization Challenge</strong>: Take an existing program with a long, complex function and refactor it into multiple smaller functions, each with a single responsibility.</p>
+</li>
+<li>
+<p><strong>Advanced Task Manager</strong>: Extend the task manager project with at least two of the suggested extensions from Step 6.</p>
+</li>
+<li>
+<p><strong>Generic Function Practice</strong>: Write a generic function that works with multiple types that implement a specific trait, similar to the <code>add</code> function example.</p>
+</li>
+<li>
+<p><strong>Builder Pattern Implementation</strong>: Create a complex data structure and implement the Builder pattern to construct it with various optional parameters.</p>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch03-03-how-functions-work.html">The Rust Programming Language: Functions</a></li>
+<li><a href="https://doc.rust-lang.org/book/ch13-01-closures.html">The Rust Programming Language: Closures</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/fn.html">Rust By Example: Functions</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/fn/closures.html">Rust By Example: Closures</a></li>
+<li><a href="https://rust-unofficial.github.io/patterns/patterns/creational/builder.html">Rust Design Patterns: Builder Pattern</a></li>
+<li><a href="https://rust-lang-nursery.github.io/rust-cookbook/algorithms.html">Rust Cookbook: Algorithms</a> - For examples of higher-order functions</li>
+<li><a href="https://rust-lang.github.io/api-guidelines/flexibility.html">Rust API Guidelines: Function Design</a></li>
+<li><a href="https://davidkoloski.me/blog/function-parameters-in-rust/">Common Rust Function Patterns</a> - Blog about function parameter patterns in Rust</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/05-control-flow.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/07-understanding-ownership.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/05-control-flow.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/07-understanding-ownership.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

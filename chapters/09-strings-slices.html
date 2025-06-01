@@ -1,0 +1,2009 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Working with Strings and Slices - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/09-strings-slices.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-9-working-with-strings-and-slices"><a class="header" href="#chapter-9-working-with-strings-and-slices">Chapter 9: Working with Strings and Slices</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In this chapter, we’ll explore one of Rust’s most foundational concepts: working with strings and slices. Understanding how Rust handles text and collections is crucial for writing efficient and correct programs.</p>
+<p>Rust’s approach to string handling differs from many other programming languages. Where languages like Python, JavaScript, or Java abstract away the details of text encoding and memory management, Rust exposes these details explicitly. This approach gives you more control but also requires a deeper understanding of how strings work.</p>
+<p>By the end of this chapter, you’ll understand:</p>
+<ul>
+<li>The differences between <code>String</code> and <code>&amp;str</code></li>
+<li>How Rust handles UTF-8 text</li>
+<li>String manipulation and formatting</li>
+<li>Array types and slices</li>
+<li>Common string processing patterns</li>
+</ul>
+<p>This knowledge forms a critical foundation for nearly every Rust program you’ll write.</p>
+<h2 id="string-vs-str-and-when-to-use-each"><a class="header" href="#string-vs-str-and-when-to-use-each">String vs str and When to Use Each</a></h2>
+<p>Rust has two primary string types:</p>
+<ol>
+<li><code>String</code>: A growable, heap-allocated string type</li>
+<li><code>&amp;str</code>: A string slice that references a sequence of UTF-8 bytes</li>
+</ol>
+<p>This duality can be confusing for newcomers, but each type serves specific purposes in Rust’s memory model.</p>
+<h3 id="understanding-the-string-type"><a class="header" href="#understanding-the-string-type">Understanding the String Type</a></h3>
+<p>A <code>String</code> is:</p>
+<ul>
+<li>Owned: The variable that holds a <code>String</code> owns the data</li>
+<li>Mutable: Can be modified if declared as mutable</li>
+<li>Heap-allocated: The content lives on the heap</li>
+<li>Growable: Its size can change during execution</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Creating a new empty String
+    let mut s1 = String::new();
+
+    // Creating a String with initial content
+    let s2 = String::from("Hello");
+
+    // Creating a String from a string literal
+    let s3 = "World".to_string();
+
+    // Modifying a String
+    s1.push_str("Hello, ");
+    s1.push_str("world!");
+
+    println!("s1: {}", s1);
+    println!("s2: {}", s2);
+    println!("s3: {}", s3);
+}</code></pre></pre>
+<h3 id="understanding-the-str-type"><a class="header" href="#understanding-the-str-type">Understanding the str Type</a></h3>
+<p>A string slice (<code>&amp;str</code>) is:</p>
+<ul>
+<li>Borrowed: It doesn’t own the data it refers to</li>
+<li>Immutable: Cannot be modified</li>
+<li>Fixed size: Its size is determined at compile time or when created</li>
+<li>A view: It’s a reference to a sequence of UTF-8 bytes</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // String literal - these are &amp;'static str
+    let hello = "Hello, world!";
+
+    // String slice from a String
+    let s = String::from("Hello, world!");
+    let hello_slice = &amp;s[0..5]; // "Hello"
+
+    println!("String literal: {}", hello);
+    println!("String slice: {}", hello_slice);
+}</code></pre></pre>
+<h3 id="when-to-use-each-type"><a class="header" href="#when-to-use-each-type">When to Use Each Type</a></h3>
+<p>The choice between <code>String</code> and <code>&amp;str</code> depends on your specific needs:</p>
+<p><strong>Use <code>String</code> when:</strong></p>
+<ul>
+<li>You need to own and modify the string data</li>
+<li>You’re building or manipulating strings</li>
+<li>The size of the string will change</li>
+<li>You need to store strings in a data structure</li>
+</ul>
+<p><strong>Use <code>&amp;str</code> when:</strong></p>
+<ul>
+<li>You only need to read the data</li>
+<li>You want to accept both string literals and <code>String</code> values</li>
+<li>You’re passing string data without transferring ownership</li>
+<li>You need to reference a substring</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">// This function accepts both String and &amp;str
+fn process_string(s: &amp;str) {
+    println!("Processing: {}", s);
+}
+
+fn main() {
+    let s1 = "Hello"; // &amp;str
+    let s2 = String::from("World"); // String
+
+    // Both work because &amp;String can be coerced to &amp;str
+    process_string(s1);
+    process_string(&amp;s2);
+}</code></pre></pre>
+<h3 id="string-coercion-and-deref"><a class="header" href="#string-coercion-and-deref">String Coercion and Deref</a></h3>
+<p>Rust allows a <code>&amp;String</code> to be automatically converted to a <code>&amp;str</code> when needed. This is thanks to the <code>Deref</code> trait implementation:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let owned = String::from("Hello");
+
+    // These are equivalent:
+    let slice1: &amp;str = &amp;owned[..];
+    let slice2: &amp;str = &amp;owned;
+
+    println!("slice1: {}", slice1);
+    println!("slice2: {}", slice2);
+}</code></pre></pre>
+<p>This coercion is why it’s often best to accept <code>&amp;str</code> parameters in functions—they can accept both string literals and <code>String</code> references, making your API more flexible.</p>
+<h2 id="why-strings-are-complex-data-types"><a class="header" href="#why-strings-are-complex-data-types">Why Strings are Complex Data Types</a></h2>
+<p>Strings in Rust are more complex than in many other languages for several important reasons:</p>
+<h3 id="1-utf-8-encoding"><a class="header" href="#1-utf-8-encoding">1. UTF-8 Encoding</a></h3>
+<p>Rust strings are always valid UTF-8, which is more complex than simple ASCII or fixed-width encoding:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let hello = "Hello"; // Each character is 1 byte in UTF-8
+    let hello_len = hello.len();
+
+    let hindi = "नमस्ते"; // Each character takes multiple bytes in UTF-8
+    let hindi_len = hindi.len();
+
+    println!("'{}' length in bytes: {}", hello, hello_len); // 5
+    println!("'{}' length in bytes: {}", hindi, hindi_len); // 18
+    println!("'{}' length in chars: {}", hindi, hindi.chars().count()); // 6
+}</code></pre></pre>
+<h3 id="2-memory-safety"><a class="header" href="#2-memory-safety">2. Memory Safety</a></h3>
+<p>Rust ensures all string operations maintain memory safety, preventing buffer overflows, use-after-free, and other common string-related vulnerabilities:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let s = String::from("hello");
+
+    // This would cause a compile error:
+    // let c = s[0]; // Error: cannot index a String
+
+    // Instead, we use safe methods:
+    if let Some(first_char) = s.chars().next() {
+        println!("First character: {}", first_char);
+    }
+}</code></pre></pre>
+<h3 id="3-ownership-and-borrowing"><a class="header" href="#3-ownership-and-borrowing">3. Ownership and Borrowing</a></h3>
+<p>Strings follow Rust’s ownership rules, which ensures memory safety without garbage collection:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let s1 = String::from("hello");
+    let s2 = s1; // Ownership is moved from s1 to s2
+
+    // This would cause a compile error:
+    // println!("{}", s1); // Error: s1 has been moved
+
+    // This works because we borrow, not move:
+    let s3 = String::from("world");
+    let s4 = &amp;s3; // Borrowing s3
+
+    println!("s3: {}", s3); // Still valid because we only borrowed
+    println!("s4: {}", s4);
+}</code></pre></pre>
+<p>These complexities make Rust strings more challenging to work with initially, but they provide important guarantees that prevent many common bugs in other languages.</p>
+<h2 id="creating-and-modifying-strings"><a class="header" href="#creating-and-modifying-strings">Creating and Modifying Strings</a></h2>
+<p>Rust provides several ways to create and modify strings:</p>
+<h3 id="creating-strings"><a class="header" href="#creating-strings">Creating Strings</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Creating an empty String
+    let empty = String::new();
+
+    // Creating with capacity hint (for efficiency)
+    let with_capacity = String::with_capacity(20);
+
+    // From a string literal
+    let from_literal = String::from("Hello, world!");
+    let also_from_literal = "Hello, world!".to_string();
+
+    // From other types
+    let from_integer = 42.to_string();
+    let from_float = 3.14159.to_string();
+    let from_bool = true.to_string();
+
+    // From character array
+    let from_chars = String::from_iter(['H', 'e', 'l', 'l', 'o']);
+
+    // From bytes (must be valid UTF-8)
+    let from_bytes = String::from_utf8(vec![72, 101, 108, 108, 111]).unwrap(); // "Hello"
+
+    println!("From integer: {}", from_integer);
+    println!("From float: {}", from_float);
+    println!("From chars: {}", from_chars);
+    println!("From bytes: {}", from_bytes);
+}</code></pre></pre>
+<h3 id="modifying-strings"><a class="header" href="#modifying-strings">Modifying Strings</a></h3>
+<p>When you have a mutable <code>String</code>, you can modify it in several ways:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mut s = String::from("Hello");
+
+    // Appending
+    s.push_str(", world"); // Append a string slice
+    s.push('!');           // Append a single character
+
+    println!("After appending: {}", s);
+
+    // Inserting
+    s.insert(5, ',');      // Insert a character at position 5
+    s.insert_str(6, " dear"); // Insert a string at position 6
+
+    println!("After inserting: {}", s);
+
+    // Replacing
+    let replaced = s.replace("dear", "wonderful");
+    println!("After replacing: {}", replaced);
+
+    // Removing
+    s.truncate(12);        // Keep only the first 12 bytes
+    println!("After truncating: {}", s);
+
+    let removed = s.remove(5); // Remove and return character at index 5
+    println!("Removed character: {}", removed);
+    println!("After removing: {}", s);
+
+    // Clearing
+    s.clear();             // Remove all content
+    println!("After clearing: '{}'", s);
+}</code></pre></pre>
+<h3 id="capacity-management"><a class="header" href="#capacity-management">Capacity Management</a></h3>
+<p>String capacity can be managed explicitly for better performance:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Create with initial capacity
+    let mut s = String::with_capacity(20);
+
+    println!("Length: {}, Capacity: {}", s.len(), s.capacity());
+
+    // Add some content
+    s.push_str("Hello, world!");
+
+    println!("Length: {}, Capacity: {}", s.len(), s.capacity());
+
+    // Reserve more space
+    s.reserve(20);
+    println!("After reserve - Length: {}, Capacity: {}", s.len(), s.capacity());
+
+    // Shrink to fit
+    s.shrink_to_fit();
+    println!("After shrink - Length: {}, Capacity: {}", s.len(), s.capacity());
+}</code></pre></pre>
+<p>Managing capacity can be important for performance when you’re doing many string operations.</p>
+<h2 id="string-operations-and-methods"><a class="header" href="#string-operations-and-methods">String Operations and Methods</a></h2>
+<p>Rust provides a rich set of methods for working with strings:</p>
+<h3 id="basic-operations"><a class="header" href="#basic-operations">Basic Operations</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let s = String::from("Hello, world!");
+
+    // Length and capacity
+    println!("Length: {}", s.len());
+    println!("Is empty: {}", s.is_empty());
+
+    // Checking content
+    println!("Contains 'world': {}", s.contains("world"));
+    println!("Starts with 'He': {}", s.starts_with("He"));
+    println!("Ends with '!': {}", s.ends_with("!"));
+
+    // Searching
+    if let Some(pos) = s.find("world") {
+        println!("'world' found at position: {}", pos);
+    }
+
+    if let Some(pos) = s.rfind('o') {
+        println!("Last 'o' found at position: {}", pos);
+    }
+
+    // Splitting
+    let parts: Vec&lt;&amp;str&gt; = s.split(',').collect();
+    println!("Split parts: {:?}", parts);
+
+    // Trimming
+    let s2 = "   Hello, world!   ";
+    println!("Original: '{}'", s2);
+    println!("Trimmed: '{}'", s2.trim());
+    println!("Trim start: '{}'", s2.trim_start());
+    println!("Trim end: '{}'", s2.trim_end());
+}</code></pre></pre>
+<h3 id="transformation-methods"><a class="header" href="#transformation-methods">Transformation Methods</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let s = String::from("Hello, world!");
+
+    // Case conversion
+    println!("Uppercase: {}", s.to_uppercase());
+    println!("Lowercase: {}", s.to_lowercase());
+
+    // Repetition
+    let repeated = "abc".repeat(3);
+    println!("Repeated: {}", repeated);
+
+    // Replacing
+    let replaced = s.replace("world", "Rust");
+    println!("Replaced: {}", replaced);
+
+    // Replace first N occurrences
+    let text = "one two one three one four";
+    let replaced_n = text.replacen("one", "ONE", 2);
+    println!("Replaced first 2: {}", replaced_n);
+
+    // Replace with pattern
+    let replaced_pattern = text.replace("one", "1");
+    println!("Replaced pattern: {}", replaced_pattern);
+}</code></pre></pre>
+<h3 id="iteration-methods"><a class="header" href="#iteration-methods">Iteration Methods</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let text = "Hello, 世界!";
+
+    // Iterate over characters
+    println!("Characters:");
+    for c in text.chars() {
+        print!("'{}' ", c);
+    }
+    println!();
+
+    // Iterate over bytes
+    println!("Bytes:");
+    for b in text.bytes() {
+        print!("{} ", b);
+    }
+    println!();
+
+    // Character count
+    println!("Character count: {}", text.chars().count());
+
+    // Byte count
+    println!("Byte count: {}", text.len());
+}</code></pre></pre>
+<h2 id="working-with-string-data"><a class="header" href="#working-with-string-data">Working with String Data</a></h2>
+<h3 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h3>
+<p>There are several ways to concatenate strings in Rust:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Using the + operator
+    let s1 = String::from("Hello, ");
+    let s2 = String::from("world!");
+    let s3 = s1 + &amp;s2; // Note: s1 is moved and can't be used anymore
+
+    // Using format! macro (preferred for multiple pieces)
+    let s4 = String::from("Hello");
+    let s5 = String::from("world");
+    let s6 = format!("{}, {}!", s4, s5); // Doesn't take ownership
+
+    println!("s3: {}", s3);
+    println!("s6: {}", s6);
+
+    // We can still use s4 and s5
+    println!("s4 and s5 still available: {} {}", s4, s5);
+
+    // Using String methods
+    let mut s7 = String::from("Hello");
+    s7.push_str(", ");
+    s7.push_str("world!");
+    println!("s7: {}", s7);
+}</code></pre></pre>
+<h3 id="slicing"><a class="header" href="#slicing">Slicing</a></h3>
+<p>String slicing must respect UTF-8 character boundaries:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let s = String::from("Hello, world!");
+
+    // Basic slicing
+    let hello = &amp;s[0..5];
+    let world = &amp;s[7..12];
+
+    println!("{} {}", hello, world);
+
+    // Alternative slice syntax
+    let hello_alt = &amp;s[..5];      // From start to index 5
+    let world_alt = &amp;s[7..];      // From index 7 to end
+    let entire = &amp;s[..];          // Entire string
+
+    println!("{} {} {}", hello_alt, world_alt, entire);
+
+    // Caution with UTF-8:
+    let hindi = "नमस्ते";
+
+    // This would panic - not a character boundary:
+    // let first_byte = &amp;hindi[0..1];
+
+    // Safe ways to slice
+    let char_indices: Vec&lt;(usize, char)&gt; = hindi.char_indices().collect();
+    if char_indices.len() &gt;= 2 {
+        let start = char_indices[0].0;
+        let end = char_indices[1].0;
+        let first_char = &amp;hindi[start..end];
+        println!("First character: {}", first_char);
+    }
+}</code></pre></pre>
+<h3 id="common-string-processing-tasks"><a class="header" href="#common-string-processing-tasks">Common String Processing Tasks</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Counting words
+    let text = "The quick brown fox jumps over the lazy dog";
+    let word_count = text.split_whitespace().count();
+    println!("Word count: {}", word_count);
+
+    // Reversing a string (by characters, not bytes)
+    let original = "Hello, 世界!";
+    let reversed: String = original.chars().rev().collect();
+    println!("Original: {}", original);
+    println!("Reversed: {}", reversed);
+
+    // Word frequency
+    let text = "apple banana apple cherry banana apple";
+    let mut word_counts = std::collections::HashMap::new();
+
+    for word in text.split_whitespace() {
+        let count = word_counts.entry(word).or_insert(0);
+        *count += 1;
+    }
+
+    println!("Word frequencies: {:?}", word_counts);
+}</code></pre></pre>
+<h2 id="utf-8-handling-and-unicode-support"><a class="header" href="#utf-8-handling-and-unicode-support">UTF-8 Handling and Unicode Support</a></h2>
+<p>Rust’s strings are always valid UTF-8, which provides first-class support for international text.</p>
+<h3 id="character-encoding-basics"><a class="header" href="#character-encoding-basics">Character Encoding Basics</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // A string with various scripts
+    let text = "Hello, 世界! Привет! नमस्ते! 👋";
+
+    // Character count vs byte count
+    println!("Text: {}", text);
+    println!("Character count: {}", text.chars().count());
+    println!("Byte count: {}", text.len());
+
+    // Iterating through characters
+    println!("\nCharacters:");
+    for (i, c) in text.chars().enumerate() {
+        println!("Character {}: '{}' (bytes: {})", i, c, c.len_utf8());
+    }
+
+    // Unicode code points
+    println!("\nUnicode code points:");
+    for c in text.chars() {
+        println!("'{}': U+{:04X}", c, c as u32);
+    }
+}</code></pre></pre>
+<h3 id="handling-international-text"><a class="header" href="#handling-international-text">Handling International Text</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Some examples of international text
+    let english = "Hello";
+    let russian = "Привет";
+    let japanese = "こんにちは";
+    let hindi = "नमस्ते";
+    let emoji = "👋 🌍";
+
+    println!("Languages and their byte sizes:");
+    println!("English ({}): {} bytes", english, english.len());
+    println!("Russian ({}): {} bytes", russian, russian.len());
+    println!("Japanese ({}): {} bytes", japanese, japanese.len());
+    println!("Hindi ({}): {} bytes", hindi, hindi.len());
+    println!("Emoji ({}): {} bytes", emoji, emoji.len());
+
+    // Comparing character count vs byte count
+    let text = "नमस्ते";
+    println!("\nText: {}", text);
+    println!("Bytes: {} (length)", text.len());
+    println!("Chars: {} (count)", text.chars().count());
+
+    // Printing bytes
+    println!("\nBytes in '{}':", text);
+    for b in text.bytes() {
+        print!("{:02X} ", b);
+    }
+    println!();
+}</code></pre></pre>
+<h3 id="grapheme-clusters"><a class="header" href="#grapheme-clusters">Grapheme Clusters</a></h3>
+<p>Some Unicode characters are composed of multiple code points that should be treated as a single visual unit:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Basic example - family emoji is multiple code points
+    let family = "👨‍👩‍👧‍👦";
+
+    println!("Family emoji: {}", family);
+    println!("Bytes: {}", family.len());
+    println!("Characters: {}", family.chars().count());
+
+    // To properly handle grapheme clusters, you'd typically use the unicode-segmentation crate
+    // This is just an example of the issue
+    println!("Individual code points:");
+    for c in family.chars() {
+        println!("  {}", c);
+    }
+
+    // Another example - accented characters
+    let accented = "é"; // Can be represented as 'e' + combining accent
+    let combined = "e\u{0301}"; // Same visual character, different representation
+
+    println!("\nAccented 'é': {} (bytes: {})", accented, accented.len());
+    println!("Combined 'e + ´': {} (bytes: {})", combined, combined.len());
+    println!("They look the same but are different in UTF-8!");
+}</code></pre></pre>
+<p>For proper grapheme handling, you would typically use the <code>unicode-segmentation</code> crate.</p>
+<h3 id="validating-and-converting-utf-8"><a class="header" href="#validating-and-converting-utf-8">Validating and Converting UTF-8</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Valid UTF-8 bytes
+    let valid_utf8 = vec![72, 101, 108, 108, 111]; // "Hello"
+
+    // Converting from bytes to String
+    match String::from_utf8(valid_utf8) {
+        Ok(s) =&gt; println!("Valid UTF-8: {}", s),
+        Err(e) =&gt; println!("Invalid UTF-8: {}", e),
+    }
+
+    // Invalid UTF-8 bytes
+    let invalid_utf8 = vec![72, 101, 108, 108, 111, 0xFF];
+
+    // This will fail
+    match String::from_utf8(invalid_utf8.clone()) {
+        Ok(s) =&gt; println!("Valid UTF-8: {}", s),
+        Err(e) =&gt; println!("Invalid UTF-8: {}", e),
+    }
+
+    // Using lossy conversion
+    let lossy_result = String::from_utf8_lossy(&amp;invalid_utf8);
+    println!("Lossy result: {}", lossy_result);
+}</code></pre></pre>
+<h2 id="array-types-and-fixed-size-arrays"><a class="header" href="#array-types-and-fixed-size-arrays">Array Types and Fixed-Size Arrays</a></h2>
+<p>Arrays in Rust are fixed-size collections of elements of the same type, stored in contiguous memory.</p>
+<h3 id="defining-arrays"><a class="header" href="#defining-arrays">Defining Arrays</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Defining an array with explicit type [type; size]
+    let numbers: [i32; 5] = [1, 2, 3, 4, 5];
+
+    // Defining an array with type inference
+    let colors = ["red", "green", "blue", "yellow", "purple"];
+
+    // Creating an array with repeated values
+    let zeros = [0; 10]; // Creates [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    println!("Numbers: {:?}", numbers);
+    println!("Colors: {:?}", colors);
+    println!("Zeros: {:?}", zeros);
+}</code></pre></pre>
+<h3 id="accessing-array-elements"><a class="header" href="#accessing-array-elements">Accessing Array Elements</a></h3>
+<p>Arrays use zero-based indexing, like most programming languages:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    // Accessing by index
+    let first_day = days[0];
+    let weekend = [days[5], days[6]];
+
+    println!("First day: {}", first_day);
+    println!("Weekend: {:?}", weekend);
+
+    // Getting array length
+    println!("Number of days: {}", days.len());
+
+    // Safely accessing elements
+    let index = 10;
+    match days.get(index) {
+        Some(day) =&gt; println!("Day at index {}: {}", index, day),
+        None =&gt; println!("No day at index {}", index),
+    }
+
+    // This would panic at runtime:
+    // let invalid = days[10]; // index out of bounds
+}</code></pre></pre>
+<h3 id="arrays-in-memory"><a class="header" href="#arrays-in-memory">Arrays in Memory</a></h3>
+<p>Arrays have a fixed size known at compile time and are stored on the stack:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // A small array is stored on the stack
+    let numbers = [1, 2, 3, 4, 5];
+
+    // Size of the array in bytes
+    let size = std::mem::size_of_val(&amp;numbers);
+    println!("Size of numbers array: {} bytes", size);
+
+    // For large arrays, consider using a vector or Box&lt;[T]&gt;
+    // let large = [0; 1_000_000]; // This might cause a stack overflow
+
+    // Better alternatives for large arrays:
+    let large_vec = vec![0; 1_000_000]; // On the heap
+    let large_boxed = Box::new([0; 1_000]); // On the heap
+
+    println!("Large vector length: {}", large_vec.len());
+    println!("Large boxed array length: {}", large_boxed.len());
+}</code></pre></pre>
+<h3 id="iterating-over-arrays"><a class="header" href="#iterating-over-arrays">Iterating Over Arrays</a></h3>
+<p>There are several ways to iterate over arrays:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let numbers = [1, 2, 3, 4, 5];
+
+    // Using a for loop (preferred)
+    println!("For loop:");
+    for number in numbers {
+        print!("{} ", number);
+    }
+    println!();
+
+    // Using a for loop with references
+    println!("For loop with references:");
+    for number in &amp;numbers {
+        print!("{} ", number);
+    }
+    println!();
+
+    // Using iterator methods
+    println!("Iterator:");
+    numbers.iter().for_each(|number| print!("{} ", number));
+    println!();
+
+    // With indices
+    println!("With indices:");
+    for (i, number) in numbers.iter().enumerate() {
+        println!("numbers[{}] = {}", i, number);
+    }
+}</code></pre></pre>
+<h3 id="multidimensional-arrays"><a class="header" href="#multidimensional-arrays">Multidimensional Arrays</a></h3>
+<p>Rust supports multidimensional arrays:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // 2D array: 3 rows, 4 columns
+    let grid = [
+        [1, 2, 3, 4],
+        [5, 6, 7, 8],
+        [9, 10, 11, 12],
+    ];
+
+    // Accessing elements
+    println!("Element at row 1, column 2: {}", grid[1][2]);
+
+    // Iterating over a 2D array
+    for row in &amp;grid {
+        for cell in row {
+            print!("{:4}", cell); // Print with padding
+        }
+        println!();
+    }
+}</code></pre></pre>
+<h2 id="slice-types-and-dynamic-size"><a class="header" href="#slice-types-and-dynamic-size">Slice Types and Dynamic Size</a></h2>
+<p>Slices are a view into a contiguous sequence of elements in a collection. Unlike arrays, slices have a dynamic size determined at runtime.</p>
+<h3 id="creating-slices"><a class="header" href="#creating-slices">Creating Slices</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Create an array
+    let numbers = [1, 2, 3, 4, 5];
+
+    // Create slices from the array
+    let all: &amp;[i32] = &amp;numbers[..]; // Slice of the entire array
+    let first_three: &amp;[i32] = &amp;numbers[0..3]; // Slice from index 0 to 2
+    let last_two: &amp;[i32] = &amp;numbers[3..5]; // Slice from index 3 to 4
+
+    println!("All: {:?}", all);
+    println!("First three: {:?}", first_three);
+    println!("Last two: {:?}", last_two);
+
+    // Alternative syntax
+    let first_three_alt = &amp;numbers[..3]; // From start to index 2
+    let last_two_alt = &amp;numbers[3..]; // From index 3 to end
+
+    println!("First three (alt): {:?}", first_three_alt);
+    println!("Last two (alt): {:?}", last_two_alt);
+}</code></pre></pre>
+<h3 id="slice-type-signature"><a class="header" href="#slice-type-signature">Slice Type Signature</a></h3>
+<p>Slices have the type <code>&amp;[T]</code> for some type <code>T</code>:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Array
+    let numbers = [1, 2, 3, 4, 5];
+
+    // Various ways to create slices
+    let slice1: &amp;[i32] = &amp;numbers;
+    let slice2: &amp;[i32] = &amp;numbers[1..4];
+
+    // The len() method returns the slice length
+    println!("Slice 1 length: {}", slice1.len());
+    println!("Slice 2 length: {}", slice2.len());
+
+    // Slices implement Debug
+    println!("Slice 1: {:?}", slice1);
+    println!("Slice 2: {:?}", slice2);
+}</code></pre></pre>
+<h3 id="using-slices-in-functions"><a class="header" href="#using-slices-in-functions">Using Slices in Functions</a></h3>
+<p>Slices are a flexible way to pass arrays or parts of arrays to functions:</p>
+<pre><pre class="playground"><code class="language-rust">// This function takes a slice, so it can accept:
+// - A whole array reference
+// - A slice of an array
+// - A slice of a vector
+fn sum(numbers: &amp;[i32]) -&gt; i32 {
+    let mut total = 0;
+    for number in numbers {
+        total += number;
+    }
+    total
+}
+
+fn main() {
+    let array = [1, 2, 3, 4, 5];
+    let vector = vec![6, 7, 8, 9, 10];
+
+    // Using the whole array
+    println!("Sum of array: {}", sum(&amp;array));
+
+    // Using a slice of the array
+    println!("Sum of first 3 elements: {}", sum(&amp;array[0..3]));
+
+    // Using a vector
+    println!("Sum of vector: {}", sum(&amp;vector));
+
+    // Using a slice of the vector
+    println!("Sum of last 2 elements: {}", sum(&amp;vector[3..]));
+}</code></pre></pre>
+<h3 id="mutable-slices"><a class="header" href="#mutable-slices">Mutable Slices</a></h3>
+<p>Slices can be mutable, allowing you to modify the original data:</p>
+<pre><pre class="playground"><code class="language-rust">fn double_elements(numbers: &amp;mut [i32]) {
+    for number in numbers {
+        *number *= 2;
+    }
+}
+
+fn main() {
+    let mut array = [1, 2, 3, 4, 5];
+
+    println!("Before: {:?}", array);
+
+    // Double all elements
+    double_elements(&amp;mut array);
+    println!("After doubling all: {:?}", array);
+
+    // Double just a slice
+    double_elements(&amp;mut array[1..4]);
+    println!("After doubling middle: {:?}", array);
+}</code></pre></pre>
+<h3 id="string-slices"><a class="header" href="#string-slices">String Slices</a></h3>
+<p>String slices (<code>&amp;str</code>) are a specific kind of slice that must contain valid UTF-8:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let message = String::from("Hello, world!");
+
+    // Creating string slices
+    let hello: &amp;str = &amp;message[0..5];
+    let world: &amp;str = &amp;message[7..12];
+
+    println!("{} {}", hello, world);
+
+    // String literals are already &amp;str
+    let greeting: &amp;str = "Hello, world!";
+
+    // Functions that accept &amp;str
+    print_message(hello);
+    print_message(world);
+    print_message(greeting);
+    print_message(&amp;message); // String coerces to &amp;str
+}
+
+fn print_message(message: &amp;str) {
+    println!("Message: {}", message);
+}</code></pre></pre>
+<h3 id="slices-vs-references"><a class="header" href="#slices-vs-references">Slices vs References</a></h3>
+<p>It’s important to understand the difference between slices and simple references:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let array = [1, 2, 3, 4, 5];
+
+    // Reference to the whole array (type: &amp;[i32; 5])
+    let array_ref: &amp;[i32; 5] = &amp;array;
+
+    // Slice of the whole array (type: &amp;[i32])
+    let slice: &amp;[i32] = &amp;array[..];
+
+    println!("Array reference: {:?}", array_ref);
+    println!("Slice: {:?}", slice);
+
+    // Key differences:
+    // 1. The reference knows the exact size (5)
+    // 2. The slice has a dynamic size
+
+    // This works
+    process_slice(slice);
+
+    // This also works - array ref coerces to slice
+    process_slice(array_ref);
+
+    // But the reverse isn't true:
+    // let array_ref_2: &amp;[i32; 5] = slice; // Error: expected reference, found slice
+}
+
+fn process_slice(slice: &amp;[i32]) {
+    println!("Processing {} elements", slice.len());
+}</code></pre></pre>
+<h2 id="string-interpolation-and-formatting"><a class="header" href="#string-interpolation-and-formatting">String Interpolation and Formatting</a></h2>
+<p>Rust provides powerful string formatting capabilities through the <code>format!</code> macro and related macros.</p>
+<h3 id="basic-string-formatting"><a class="header" href="#basic-string-formatting">Basic String Formatting</a></h3>
+<p>The simplest form of string formatting uses <code>{}</code> placeholders:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let name = "Alice";
+    let age = 30;
+
+    // Basic interpolation
+    let message = format!("Hello, my name is {} and I am {} years old.", name, age);
+    println!("{}", message);
+
+    // Multiple values
+    println!("Name: {}, Age: {}, Year: {}", name, age, 2023);
+}</code></pre></pre>
+<h3 id="positional-arguments"><a class="header" href="#positional-arguments">Positional Arguments</a></h3>
+<p>You can reference arguments by position:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = 10;
+    let y = 20;
+
+    // Using positional arguments
+    println!("Default order: {}, {}", x, y);
+    println!("Reversed order: {1}, {0}", x, y);
+
+    // Reusing arguments
+    println!("First: {0}, second: {1}, first again: {0}", x, y);
+
+    // Mixed numbered and unnumbered
+    println!("Mixed: {0}, {}, {}, {0}", x, y);
+}</code></pre></pre>
+<h3 id="named-arguments"><a class="header" href="#named-arguments">Named Arguments</a></h3>
+<p>For more readable formatting, you can use named arguments:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let name = "Bob";
+    let score = 95.6;
+
+    // Using named arguments
+    println!("{name} scored {score}%");
+    println!("{person} achieved {result}%", person = name, result = score);
+
+    // Mixing named and positional
+    println!("{0}: {score}, {1}: {percent}%",
+             "Score", "Percentage", score = score, percent = score);
+}</code></pre></pre>
+<h3 id="formatting-specifiers"><a class="header" href="#formatting-specifiers">Formatting Specifiers</a></h3>
+<p>Rust provides many formatting options:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Integer formatting
+    println!("Default: {}", 42);
+    println!("Binary: {:b}", 42);
+    println!("Octal: {:o}", 42);
+    println!("Hexadecimal: {:x}", 42);
+    println!("Hexadecimal (uppercase): {:X}", 42);
+
+    // Floating point formatting
+    let pi = 3.14159265359;
+    println!("Default: {}", pi);
+    println!("Two decimal places: {:.2}", pi);
+    println!("Scientific notation: {:e}", pi);
+    println!("Width of 10, 3 decimals: {:10.3}", pi);
+
+    // Padding and alignment
+    println!("Right-aligned: {:&gt;10}", "text");  // "      text"
+    println!("Left-aligned: {:&lt;10}", "text");   // "text      "
+    println!("Centered: {:^10}", "text");       // "   text   "
+
+    // Custom padding character
+    println!("Zero-padded: {:0&gt;5}", "42");      // "00042"
+    println!("Hash-padded: {:#&gt;5}", "42");      // "###42"
+
+    // Sign control
+    println!("Always show sign: {:+}", 42);     // "+42"
+    println!("Negative numbers only: {:-}", 42); // "42"
+    println!("Space for positive: {: }", 42);   // " 42"
+}</code></pre></pre>
+<h3 id="debug-formatting"><a class="header" href="#debug-formatting">Debug Formatting</a></h3>
+<p>The <code>Debug</code> trait provides formatting for debugging:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Basic types
+    println!("Debug format: {:?}", "hello");
+
+    // Collections
+    let numbers = vec![1, 2, 3];
+    println!("Vector: {:?}", numbers);
+
+    // Pretty printing
+    let complex = vec![vec![1, 2], vec![3, 4]];
+    println!("Regular debug: {:?}", complex);
+    println!("Pretty debug: {:#?}", complex);
+
+    // Custom structs
+    #[derive(Debug)]
+    struct Person {
+        name: String,
+        age: u32,
+    }
+
+    let person = Person {
+        name: String::from("Charlie"),
+        age: 25,
+    };
+
+    println!("Person: {:?}", person);
+    println!("Person (pretty): {:#?}", person);
+}</code></pre></pre>
+<h3 id="display-vs-debug"><a class="header" href="#display-vs-debug">Display vs Debug</a></h3>
+<p>Rust separates user-facing formatting (<code>Display</code>) from debugging output (<code>Debug</code>):</p>
+<pre><pre class="playground"><code class="language-rust">use std::fmt;
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+// Implement Display for user-friendly output
+impl fmt::Display for Point {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+
+// Implement Debug for detailed output
+impl fmt::Debug for Point {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, "Point {{ x: {}, y: {} }}", self.x, self.y)
+    }
+}
+
+fn main() {
+    let point = Point { x: 10, y: 20 };
+
+    // Display format (user-friendly)
+    println!("Display: {}", point);
+
+    // Debug format (programmer-friendly)
+    println!("Debug: {:?}", point);
+}</code></pre></pre>
+<h3 id="formatting-to-string"><a class="header" href="#formatting-to-string">Formatting to String</a></h3>
+<p>Use <code>format!</code> to create strings without printing them:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let name = "Dave";
+    let age = 35;
+    let city = "New York";
+
+    // Create a formatted string
+    let profile = format!(
+        "Name: {}\nAge: {}\nCity: {}",
+        name, age, city
+    );
+
+    println!("Profile:\n{}", profile);
+
+    // Create URLs or other structured strings
+    let base_url = "https://example.com";
+    let endpoint = "users";
+    let id = 42;
+
+    let url = format!("{}/{}/{}", base_url, endpoint, id);
+    println!("URL: {}", url);
+}</code></pre></pre>
+<h2 id="common-string-manipulation-patterns"><a class="header" href="#common-string-manipulation-patterns">Common String Manipulation Patterns</a></h2>
+<p>Let’s explore some common patterns and techniques for working with strings in Rust.</p>
+<h3 id="splitting-and-joining-strings"><a class="header" href="#splitting-and-joining-strings">Splitting and Joining Strings</a></h3>
+<p>Rust provides powerful methods for splitting and joining strings:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Splitting by delimiter
+    let csv = "apple,banana,cherry,date";
+    let fruits: Vec&lt;&amp;str&gt; = csv.split(',').collect();
+    println!("Fruits: {:?}", fruits);
+
+    // Splitting with multiple delimiters
+    let text = "apple,banana;cherry.date";
+    let fruits: Vec&lt;&amp;str&gt; = text.split(&amp;[',', ';', '.'][..]).collect();
+    println!("Fruits with multiple delimiters: {:?}", fruits);
+
+    // Splitting whitespace
+    let sentence = "The quick brown fox";
+    let words: Vec&lt;&amp;str&gt; = sentence.split_whitespace().collect();
+    println!("Words: {:?}", words);
+
+    // Splitting lines
+    let multiline = "Line 1\nLine 2\nLine 3";
+    let lines: Vec&lt;&amp;str&gt; = multiline.lines().collect();
+    println!("Lines: {:?}", lines);
+
+    // Joining with a delimiter
+    let words = ["Hello", "world", "from", "Rust"];
+    let sentence = words.join(" ");
+    println!("Joined: {}", sentence);
+
+    // Joining with iterator
+    let numbers = [1, 2, 3, 4, 5];
+    let joined: String = numbers.iter()
+        .map(|n| n.to_string())
+        .collect::&lt;Vec&lt;String&gt;&gt;()
+        .join("-");
+    println!("Joined numbers: {}", joined);
+}</code></pre></pre>
+<h3 id="finding-and-replacing"><a class="header" href="#finding-and-replacing">Finding and Replacing</a></h3>
+<p>Rust offers various ways to find and replace content within strings:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let text = "Rust is a systems programming language";
+
+    // Finding substrings
+    if let Some(pos) = text.find("systems") {
+        println!("'systems' found at position: {}", pos);
+    }
+
+    // Finding with predicate
+    if let Some(pos) = text.find(|c: char| c.is_uppercase()) {
+        println!("First uppercase letter at position: {}", pos);
+    }
+
+    // Finding last occurrence
+    if let Some(pos) = text.rfind('a') {
+        println!("Last 'a' found at position: {}", pos);
+    }
+
+    // Simple replacement
+    let replaced = text.replace("systems", "modern systems");
+    println!("After replace: {}", replaced);
+
+    // Replace all occurrences
+    let text = "Rust is fast, Rust is safe, Rust is productive";
+    let replaced_all = text.replace("Rust", "Rust 🦀");
+    println!("After replacing all: {}", replaced_all);
+
+    // Replace with pattern and limit
+    let replaced_pattern = text.replacen("Rust", "Rust 🦀", 2); // Replace only first 2
+    println!("After replacing pattern: {}", replaced_pattern);
+
+    // Replace with closures (using regex)
+    // For more complex replacements, the regex crate is recommended
+    // Example: text.replace(regex, |caps| format!("{}", caps[1].to_uppercase()))
+}</code></pre></pre>
+<h3 id="transforming-case"><a class="header" href="#transforming-case">Transforming Case</a></h3>
+<p>Case conversion is a common operation:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mixed_case = "Hello World";
+
+    // Case conversion
+    println!("Uppercase: {}", mixed_case.to_uppercase());
+    println!("Lowercase: {}", mixed_case.to_lowercase());
+
+    // Checking case
+    let uppercase = "HELLO";
+    let lowercase = "hello";
+    let mixed = "Hello";
+
+    println!("Is 'HELLO' all uppercase? {}", uppercase.chars().all(|c| c.is_uppercase() || !c.is_alphabetic()));
+    println!("Is 'hello' all lowercase? {}", lowercase.chars().all(|c| c.is_lowercase() || !c.is_alphabetic()));
+
+    // Custom title case (capitalize first letter of each word)
+    let title_case: String = mixed_case
+        .split_whitespace()
+        .map(|word| {
+            let mut chars = word.chars();
+            match chars.next() {
+                None =&gt; String::new(),
+                Some(first) =&gt; first.to_uppercase().collect::&lt;String&gt;() + chars.as_str(),
+            }
+        })
+        .collect::&lt;Vec&lt;String&gt;&gt;()
+        .join(" ");
+
+    println!("Title case: {}", title_case);
+}</code></pre></pre>
+<h3 id="trimming-and-padding"><a class="header" href="#trimming-and-padding">Trimming and Padding</a></h3>
+<p>Removing whitespace and adjusting string length:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Trimming
+    let padded = "   Hello, world!   ";
+    println!("Original: '{}'", padded);
+    println!("Trimmed: '{}'", padded.trim());
+    println!("Trim start: '{}'", padded.trim_start());
+    println!("Trim end: '{}'", padded.trim_end());
+
+    // Trimming specific characters
+    let text = "###Hello, world!***";
+    println!("Trimmed specific chars: '{}'", text.trim_matches(|c| c == '#' || c == '*'));
+
+    // Padding a string to a minimum length
+    let short = "Hello";
+    println!("Right-padded: '{}'", format!("{:10}", short));  // Pad with spaces to width 10
+    println!("Left-padded: '{}'", format!("{:&gt;10}", short));  // Right-aligned
+
+    // Custom padding
+    println!("Zero-padded: '{}'", format!("{:0&gt;8}", "42"));   // Pad with zeros to width 8
+}</code></pre></pre>
+<h3 id="parsing-strings-to-other-types"><a class="header" href="#parsing-strings-to-other-types">Parsing Strings to Other Types</a></h3>
+<p>Converting strings to other data types is a common operation:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Parsing basic types
+    let num_str = "42";
+    let num: i32 = num_str.parse().unwrap();
+    println!("Parsed number: {} ({})", num, num + 1);
+
+    // With explicit type annotation
+    let float_str = "3.14159";
+    let pi: f64 = float_str.parse().unwrap();
+    println!("π ≈ {}", pi);
+
+    // With error handling
+    let not_a_num = "hello";
+    match not_a_num.parse::&lt;i32&gt;() {
+        Ok(n) =&gt; println!("Parsed number: {}", n),
+        Err(e) =&gt; println!("Error parsing: {}", e),
+    }
+
+    // Using the try_from pattern (requires a specific import)
+    let hex_str = "FF";
+    let hex_value = u8::from_str_radix(hex_str, 16).unwrap();
+    println!("Hex FF as decimal: {}", hex_value);
+
+    // Parsing complex types
+    let point_str = "(10,20)";
+    let coords: (i32, i32) = {
+        // A simple parser for demonstration
+        let inner = point_str.trim_matches(|c| c == '(' || c == ')');
+        let parts: Vec&lt;&amp;str&gt; = inner.split(',').collect();
+        if parts.len() == 2 {
+            (parts[0].parse().unwrap(), parts[1].parse().unwrap())
+        } else {
+            panic!("Invalid format")
+        }
+    };
+    println!("Parsed point: {:?}", coords);
+}</code></pre></pre>
+<h3 id="working-with-unicode"><a class="header" href="#working-with-unicode">Working with Unicode</a></h3>
+<p>Proper handling of Unicode is essential for international text:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Counting characters vs bytes
+    let text = "Здравствуйте"; // Russian greeting
+    println!("Text: {}", text);
+    println!("Bytes: {}", text.len());
+    println!("Characters: {}", text.chars().count());
+
+    // Iterating through Unicode characters
+    println!("Characters in '{}':", text);
+    for (i, c) in text.chars().enumerate() {
+        println!("{}: '{}' (byte size: {})", i, c, c.len_utf8());
+    }
+
+    // Normalizing Unicode (conceptual example)
+    // For real applications, use the 'unicode-normalization' crate
+    let cafe1 = "café"; // Single code point 'é'
+    let cafe2 = "cafe\u{0301}"; // 'e' + combining accent
+
+    println!("café (composed): {} ({} bytes)", cafe1, cafe1.len());
+    println!("café (decomposed): {} ({} bytes)", cafe2, cafe2.len());
+
+    // Validating UTF-8
+    let valid_bytes = [72, 101, 108, 108, 111]; // "Hello"
+    let is_valid = std::str::from_utf8(&amp;valid_bytes).is_ok();
+    println!("Is valid UTF-8? {}", is_valid);
+}</code></pre></pre>
+<h3 id="filtering-and-mapping-characters"><a class="header" href="#filtering-and-mapping-characters">Filtering and Mapping Characters</a></h3>
+<p>Transforming strings at the character level:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let text = "H3llo, W0rld! 123";
+
+    // Filter only alphabetic characters
+    let letters: String = text.chars()
+        .filter(|c| c.is_alphabetic())
+        .collect();
+    println!("Letters only: {}", letters);
+
+    // Filter and transform
+    let doubled: String = text.chars()
+        .filter(|c| c.is_alphanumeric())
+        .map(|c| if c.is_numeric() { 'X' } else { c })
+        .collect();
+    println!("Transformed: {}", doubled);
+
+    // Count specific characters
+    let digit_count = text.chars().filter(|c| c.is_numeric()).count();
+    println!("Number of digits: {}", digit_count);
+
+    // Remove spaces
+    let no_spaces = text.chars().filter(|c| !c.is_whitespace()).collect::&lt;String&gt;();
+    println!("Without spaces: {}", no_spaces);
+}</code></pre></pre>
+<h3 id="handling-common-patterns"><a class="header" href="#handling-common-patterns">Handling Common Patterns</a></h3>
+<p>Some practical examples for everyday string tasks:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Check if string starts or ends with specific text
+    let filename = "document.pdf";
+    println!("Is PDF? {}", filename.ends_with(".pdf"));
+    println!("Is document? {}", filename.starts_with("document"));
+
+    // Counting occurrences
+    let text = "She sells seashells by the seashore";
+    let count = text.matches("se").count();
+    println!("Occurrences of 'se': {}", count);
+
+    // Checking if string contains only specific characters
+    let numeric = "12345";
+    let is_numeric = numeric.chars().all(|c| c.is_numeric());
+    println!("Is numeric? {}", is_numeric);
+
+    // Reversing words in a sentence
+    let sentence = "The quick brown fox";
+    let reversed_words: String = sentence
+        .split_whitespace()
+        .rev()
+        .collect::&lt;Vec&lt;&amp;str&gt;&gt;()
+        .join(" ");
+    println!("Reversed words: {}", reversed_words);
+
+    // Creating an acronym
+    let phrase = "Portable Network Graphics";
+    let acronym: String = phrase
+        .split_whitespace()
+        .map(|word| word.chars().next().unwrap().to_uppercase().to_string())
+        .collect();
+    println!("Acronym: {}", acronym);
+}</code></pre></pre>
+<h3 id="working-with-string-builders"><a class="header" href="#working-with-string-builders">Working with String Builders</a></h3>
+<p>For building strings incrementally with good performance:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Pre-allocate capacity for better performance
+    let mut builder = String::with_capacity(100);
+
+    // Add content incrementally
+    builder.push_str("Hello");
+    builder.push_str(", ");
+    builder.push_str("world");
+    builder.push('!');
+
+    println!("Built string: {}", builder);
+    println!("Length: {}, Capacity: {}", builder.len(), builder.capacity());
+
+    // Using with a loop
+    let items = ["apple", "banana", "cherry", "date"];
+    let mut list = String::with_capacity(100);
+
+    for (i, item) in items.iter().enumerate() {
+        if i &gt; 0 {
+            list.push_str(", ");
+        }
+        list.push_str(item);
+    }
+
+    println!("Item list: {}", list);
+}</code></pre></pre>
+<h2 id="-project-string-manipulation-library"><a class="header" href="#-project-string-manipulation-library">🔨 Project: String Manipulation Library</a></h2>
+<p>Let’s create a useful string manipulation library that showcases many of the techniques we’ve learned in this chapter. Our library will provide a collection of functions for common text processing tasks.</p>
+<h3 id="project-requirements"><a class="header" href="#project-requirements">Project Requirements</a></h3>
+<ol>
+<li>Create a set of reusable string manipulation utilities</li>
+<li>Handle UTF-8 text correctly, including international characters</li>
+<li>Provide efficient implementations with good performance</li>
+<li>Include thorough documentation and tests</li>
+<li>Create a simple demo application to showcase the library</li>
+</ol>
+<h3 id="step-1-setting-up-the-project"><a class="header" href="#step-1-setting-up-the-project">Step 1: Setting Up the Project</a></h3>
+<p>Let’s start by creating a new Rust project:</p>
+<pre><code class="language-bash">cargo new string_utils --lib
+cd string_utils
+</code></pre>
+<h3 id="step-2-core-string-utilities"><a class="header" href="#step-2-core-string-utilities">Step 2: Core String Utilities</a></h3>
+<p>Let’s implement our core library functions in <code>src/lib.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! # String Utils
+//!
+//! A collection of utilities for string manipulation in Rust.
+//! This library provides functions for common text processing tasks
+//! with proper UTF-8 handling.
+
+/// Counts words in a string, respecting Unicode word boundaries.
+///
+/// # Examples
+///
+/// ```
+/// let count = string_utils::count_words("Hello, world!");
+/// assert_eq!(count, 2);
+/// ```
+pub fn count_words(text: &amp;str) -&gt; usize {
+    text.split_whitespace().count()
+}
+
+/// Reverses a string, preserving UTF-8 character boundaries.
+///
+/// # Examples
+///
+/// ```
+/// let reversed = string_utils::reverse_string("Hello");
+/// assert_eq!(reversed, "olleH");
+/// ```
+pub fn reverse_string(text: &amp;str) -&gt; String {
+    text.chars().rev().collect()
+}
+
+/// Capitalizes the first letter of each word.
+///
+/// # Examples
+///
+/// ```
+/// let title_case = string_utils::title_case("hello world");
+/// assert_eq!(title_case, "Hello World");
+/// ```
+pub fn title_case(text: &amp;str) -&gt; String {
+    let mut result = String::with_capacity(text.len());
+    let mut capitalize_next = true;
+
+    for c in text.chars() {
+        if c.is_whitespace() || c.is_punctuation() {
+            capitalize_next = true;
+            result.push(c);
+        } else if capitalize_next {
+            result.push(c.to_uppercase().next().unwrap_or(c));
+            capitalize_next = false;
+        } else {
+            result.push(c);
+        }
+    }
+
+    result
+}
+
+/// Truncates a string to a maximum length, respecting UTF-8 character boundaries.
+/// Adds an ellipsis (...) if truncated.
+///
+/// # Examples
+///
+/// ```
+/// let truncated = string_utils::truncate("Hello, world!", 5);
+/// assert_eq!(truncated, "Hello...");
+/// ```
+pub fn truncate(text: &amp;str, max_length: usize) -&gt; String {
+    if text.chars().count() &lt;= max_length {
+        return text.to_string();
+    }
+
+    let mut result = String::new();
+    let mut char_count = 0;
+
+    for c in text.chars() {
+        if char_count &lt; max_length {
+            result.push(c);
+            char_count += 1;
+        } else {
+            break;
+        }
+    }
+
+    result.push_str("...");
+    result
+}
+
+/// Removes extra whitespace, including leading, trailing, and duplicate spaces.
+///
+/// # Examples
+///
+/// ```
+/// let cleaned = string_utils::normalize_whitespace("  Hello   world  ");
+/// assert_eq!(cleaned, "Hello world");
+/// ```
+pub fn normalize_whitespace(text: &amp;str) -&gt; String {
+    let mut result = String::with_capacity(text.len());
+    let mut last_was_space = false;
+
+    for c in text.trim().chars() {
+        if c.is_whitespace() {
+            if !last_was_space {
+                result.push(' ');
+                last_was_space = true;
+            }
+        } else {
+            result.push(c);
+            last_was_space = false;
+        }
+    }
+
+    result
+}
+
+/// Checks if text is a palindrome, ignoring case, punctuation, and whitespace.
+///
+/// # Examples
+///
+/// ```
+/// assert!(string_utils::is_palindrome("A man, a plan, a canal: Panama"));
+/// assert!(!string_utils::is_palindrome("hello"));
+/// ```
+pub fn is_palindrome(text: &amp;str) -&gt; bool {
+    let filtered: Vec&lt;char&gt; = text
+        .chars()
+        .filter(|c| c.is_alphanumeric())
+        .map(|c| c.to_lowercase().next().unwrap())
+        .collect();
+
+    let half_len = filtered.len() / 2;
+
+    for i in 0..half_len {
+        if filtered[i] != filtered[filtered.len() - 1 - i] {
+            return false;
+        }
+    }
+
+    true
+}
+
+/// Extracts all email addresses from a text.
+///
+/// # Examples
+///
+/// ```
+/// let emails = string_utils::extract_emails("Contact us at info@example.com or support@example.org");
+/// assert_eq!(emails, vec!["info@example.com", "support@example.org"]);
+/// ```
+pub fn extract_emails(text: &amp;str) -&gt; Vec&lt;String&gt; {
+    // A simple regex-free email extractor for demonstration
+    // A production version would use a proper regex
+    let mut emails = Vec::new();
+    let mut word_start = 0;
+    let mut in_word = false;
+
+    for (i, c) in text.char_indices() {
+        if c.is_alphanumeric() || c == '.' || c == '@' || c == '_' || c == '-' {
+            if !in_word {
+                word_start = i;
+                in_word = true;
+            }
+        } else {
+            if in_word {
+                let word = &amp;text[word_start..i];
+                if word.contains('@') {
+                    // Simple validation - contains @ and at least one . after @
+                    let parts: Vec&lt;&amp;str&gt; = word.split('@').collect();
+                    if parts.len() == 2 &amp;&amp; !parts[0].is_empty() &amp;&amp; parts[1].contains('.') {
+                        emails.push(word.to_string());
+                    }
+                }
+                in_word = false;
+            }
+        }
+    }
+
+    // Check the last word
+    if in_word {
+        let word = &amp;text[word_start..];
+        if word.contains('@') {
+            let parts: Vec&lt;&amp;str&gt; = word.split('@').collect();
+            if parts.len() == 2 &amp;&amp; !parts[0].is_empty() &amp;&amp; parts[1].contains('.') {
+                emails.push(word.to_string());
+            }
+        }
+    }
+
+    emails
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_count_words() {
+        assert_eq!(count_words("Hello, world!"), 2);
+        assert_eq!(count_words("One two three four"), 4);
+        assert_eq!(count_words(""), 0);
+        assert_eq!(count_words("    "), 0);
+        assert_eq!(count_words("Hello   multiple   spaces"), 3);
+    }
+
+    #[test]
+    fn test_reverse_string() {
+        assert_eq!(reverse_string("hello"), "olleh");
+        assert_eq!(reverse_string("Привет"), "тевирП");
+        assert_eq!(reverse_string(""), "");
+        assert_eq!(reverse_string("a"), "a");
+    }
+
+    #[test]
+    fn test_title_case() {
+        assert_eq!(title_case("hello world"), "Hello World");
+        assert_eq!(title_case("the quick brown fox"), "The Quick Brown Fox");
+        assert_eq!(title_case(""), "");
+        assert_eq!(title_case("hello-world"), "Hello-World");
+    }
+
+    #[test]
+    fn test_truncate() {
+        assert_eq!(truncate("Hello, world!", 5), "Hello...");
+        assert_eq!(truncate("Hello", 10), "Hello");
+        assert_eq!(truncate("", 5), "");
+        assert_eq!(truncate("Привет", 3), "При...");
+    }
+
+    #[test]
+    fn test_normalize_whitespace() {
+        assert_eq!(normalize_whitespace("  Hello   world  "), "Hello world");
+        assert_eq!(normalize_whitespace("No  duplicate    spaces"), "No duplicate spaces");
+        assert_eq!(normalize_whitespace(""), "");
+        assert_eq!(normalize_whitespace("   "), "");
+    }
+
+    #[test]
+    fn test_is_palindrome() {
+        assert!(is_palindrome("A man, a plan, a canal: Panama"));
+        assert!(is_palindrome("racecar"));
+        assert!(is_palindrome("Madam, I'm Adam"));
+        assert!(!is_palindrome("hello"));
+        assert!(is_palindrome(""));
+        assert!(is_palindrome("a"));
+    }
+
+    #[test]
+    fn test_extract_emails() {
+        assert_eq!(
+            extract_emails("Contact us at info@example.com"),
+            vec!["info@example.com"]
+        );
+        assert_eq!(
+            extract_emails("Multiple emails: one@example.com and two@example.org"),
+            vec!["one@example.com", "two@example.org"]
+        );
+        assert_eq!(extract_emails("No emails here"), Vec::&lt;String&gt;::new());
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-3-advanced-text-analysis-functions"><a class="header" href="#step-3-advanced-text-analysis-functions">Step 3: Advanced Text Analysis Functions</a></h3>
+<p>Let’s add some more advanced functionality:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::{HashMap, HashSet};
+
+/// Calculates the Jaccard similarity between two strings.
+///
+/// The Jaccard similarity measures the similarity of two sets
+/// by looking at the ratio of their intersection size to their union size.
+///
+/// # Examples
+///
+/// ```
+/// let similarity = string_utils::jaccard_similarity(
+///     "rust programming language",
+///     "the rust programming environment"
+/// );
+/// assert!(similarity &gt; 0.0 &amp;&amp; similarity &lt; 1.0);
+/// ```
+pub fn jaccard_similarity(text1: &amp;str, text2: &amp;str) -&gt; f64 {
+    // Convert to sets of words
+    let words1: HashSet&lt;&amp;str&gt; = text1.split_whitespace().collect();
+    let words2: HashSet&lt;&amp;str&gt; = text2.split_whitespace().collect();
+
+    if words1.is_empty() &amp;&amp; words2.is_empty() {
+        return 1.0; // Both empty means identical
+    }
+
+    // Calculate intersection and union sizes
+    let intersection_size = words1.intersection(&amp;words2).count();
+    let union_size = words1.union(&amp;words2).count();
+
+    // Jaccard similarity coefficient
+    intersection_size as f64 / union_size as f64
+}
+
+/// Finds the longest common substring between two strings.
+///
+/// # Examples
+///
+/// ```
+/// let common = string_utils::longest_common_substring("hello world", "hello rust");
+/// assert_eq!(common, "hello ");
+/// ```
+pub fn longest_common_substring&lt;'a&gt;(text1: &amp;'a str, text2: &amp;'a str) -&gt; &amp;'a str {
+    if text1.is_empty() || text2.is_empty() {
+        return "";
+    }
+
+    let mut longest_start = 0;
+    let mut longest_length = 0;
+
+    // Simple implementation - not the most efficient but easy to understand
+    for i in 0..text1.len() {
+        for j in 0..text2.len() {
+            let mut length = 0;
+
+            while i + length &lt; text1.len() &amp;&amp;
+                  j + length &lt; text2.len() &amp;&amp;
+                  text1.as_bytes()[i + length] == text2.as_bytes()[j + length] {
+                length += 1;
+            }
+
+            if length &gt; longest_length {
+                longest_length = length;
+                longest_start = i;
+            }
+        }
+    }
+
+    if longest_length == 0 {
+        return "";
+    }
+
+    &amp;text1[longest_start..longest_start + longest_length]
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-4-creating-a-demo-application"><a class="header" href="#step-4-creating-a-demo-application">Step 4: Creating a Demo Application</a></h3>
+<p>Now let’s create a simple application to demonstrate our library. In <code>src/main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use string_utils::{count_words, reverse_string, title_case, truncate};
+use std::io::{self, Write};
+
+fn main() {
+    println!("🦀 String Utilities Demo 🦀");
+    println!("Enter text to process (or 'quit' to exit):");
+
+    loop {
+        print!("&gt; ");
+        io::stdout().flush().unwrap();
+
+        let mut input = String::new();
+        io::stdin().read_line(&amp;mut input).unwrap();
+
+        let input = input.trim();
+        if input.eq_ignore_ascii_case("quit") {
+            break;
+        }
+
+        if input.is_empty() {
+            continue;
+        }
+
+        process_command(input);
+    }
+
+    println!("Goodbye!");
+}
+
+fn process_command(input: &amp;str) {
+    if input.is_empty() {
+        return;
+    }
+
+    let parts: Vec&lt;&amp;str&gt; = input.splitn(2, ' ').collect();
+    if parts.len() &lt; 2 {
+        println!("Invalid command. Type 'help' for assistance.");
+        return;
+    }
+
+    let command = parts[0].to_lowercase();
+    let args = parts[1];
+
+    match command.as_str() {
+        "analyze" =&gt; analyze_text(args),
+        "reverse" =&gt; println!("Reversed: {}", reverse_string(args)),
+        "titlecase" =&gt; println!("Title case: {}", title_case(args)),
+        "truncate" =&gt; {
+            let trunc_parts: Vec&lt;&amp;str&gt; = args.splitn(2, ' ').collect();
+            if trunc_parts.len() == 2 {
+                if let Ok(len) = trunc_parts[1].parse::&lt;usize&gt;() {
+                    println!("Truncated: {}", truncate(trunc_parts[0], len));
+                } else {
+                    println!("Invalid length. Please enter a valid number.");
+                }
+            } else {
+                println!("Usage: truncate &lt;text&gt; &lt;length&gt;");
+            }
+        },
+        "normalize" =&gt; println!("Normalized: '{}'", normalize_whitespace(args)),
+        "palindrome" =&gt; {
+            if is_palindrome(args) {
+                println!("'{}' is a palindrome!", args);
+            } else {
+                println!("'{}' is NOT a palindrome.", args);
+            }
+        },
+        "emails" =&gt; {
+            let emails = extract_emails(args);
+            if emails.is_empty() {
+                println!("No email addresses found.");
+            } else {
+                println!("Found {} email(s):", emails.len());
+                for (i, email) in emails.iter().enumerate() {
+                    println!("  {}. {}", i + 1, email);
+                }
+            }
+        },
+        "help" =&gt; print_help(),
+        "quit" =&gt; break,
+        _ =&gt; println!("Unknown command. Type 'help' for assistance."),
+    }
+}
+
+fn print_help() {
+    println!("\nAvailable commands:");
+    println!("  analyze &lt;text&gt;          - Show basic text analysis");
+    println!("  reverse &lt;text&gt;          - Reverse a string");
+    println!("  titlecase &lt;text&gt;        - Convert text to title case");
+    println!("  truncate &lt;text&gt; &lt;len&gt;   - Truncate text to specified length");
+    println!("  normalize &lt;text&gt;        - Normalize whitespace");
+    println!("  palindrome &lt;text&gt;       - Check if text is a palindrome");
+    println!("  emails &lt;text&gt;           - Extract email addresses");
+    println!("  help                    - Show this help");
+    println!("  quit                    - Exit the program");
+    println!();
+}
+
+fn analyze_text(text: &amp;str) {
+    println!("\nAnalysis of: '{}'", text);
+    println!("Length: {} bytes, {} characters", text.len(), text.chars().count());
+    println!("Word count: {}", count_words(text));
+    println!("Line count: {}", text.lines().count());
+
+    let frequencies = word_frequencies(text);
+    if !frequencies.is_empty() {
+        println!("Top words:");
+
+        // Sort by frequency
+        let mut word_counts: Vec&lt;(&amp;String, &amp;usize)&gt; = frequencies.iter().collect();
+        word_counts.sort_by(|a, b| b.1.cmp(a.1));
+
+        // Print top 5 or fewer
+        for (i, (word, count)) in word_counts.iter().take(5).enumerate() {
+            println!("  {}. '{}': {} time(s)", i + 1, word, count);
+        }
+    }
+
+    // Check if palindrome
+    if is_palindrome(text) {
+        println!("This text is a palindrome.");
+    }
+
+    // Show character distribution
+    let mut char_types = HashMap::new();
+    char_types.insert("letters", 0);
+    char_types.insert("digits", 0);
+    char_types.insert("spaces", 0);
+    char_types.insert("punctuation", 0);
+    char_types.insert("other", 0);
+
+    for c in text.chars() {
+        let category = if c.is_alphabetic() {
+            "letters"
+        } else if c.is_numeric() {
+            "digits"
+        } else if c.is_whitespace() {
+            "spaces"
+        } else if c.is_ascii_punctuation() {
+            "punctuation"
+        } else {
+            "other"
+        };
+
+        *char_types.entry(category).or_insert(0) += 1;
+    }
+
+    println!("Character types:");
+    for (category, count) in char_types.iter() {
+        if *count &gt; 0 {
+            println!("  {}: {}", category, count);
+        }
+    }
+}</code></pre></pre>
+<h3 id="step-5-building-and-running-the-project"><a class="header" href="#step-5-building-and-running-the-project">Step 5: Building and Running the Project</a></h3>
+<pre><code class="language-bash">cargo build
+cargo run
+</code></pre>
+<p>Our demo application provides a command-line interface to test the various string utilities. You can try commands like:</p>
+<pre><code>analyze The quick brown fox jumps over the lazy dog
+palindrome A man, a plan, a canal: Panama
+compare Rust is amazing | Rust is fantastic
+</code></pre>
+<h3 id="extending-the-library"><a class="header" href="#extending-the-library">Extending the Library</a></h3>
+<p>Here are some ideas for further expanding this string utilities library:</p>
+<ol>
+<li><strong>Add Unicode normalization</strong>: Implement functions to normalize Unicode text (NFC, NFD, etc.)</li>
+<li><strong>Create specialized text processors</strong>: Add parsers for specific formats like CSV, JSON, etc.</li>
+<li><strong>Improve performance</strong>: Optimize key functions for large text processing</li>
+<li><strong>Add localization support</strong>: Functions for specific language requirements</li>
+<li><strong>Implement full-text search</strong>: Simple search algorithms with relevance ranking</li>
+</ol>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored Rust’s approach to strings and slices, which is more complex but also more powerful than many other programming languages. We’ve covered:</p>
+<ul>
+<li>The differences between <code>String</code> and <code>&amp;str</code> and when to use each</li>
+<li>Why strings are complex, especially regarding UTF-8 encoding</li>
+<li>Creating, modifying, and manipulating strings</li>
+<li>Common string operations and methods</li>
+<li>Working with string data through concatenation and slicing</li>
+<li>Handling UTF-8 and Unicode correctly</li>
+<li>Array types and fixed-size arrays</li>
+<li>Slice types and dynamic sizing</li>
+<li>String formatting and interpolation</li>
+<li>Common string manipulation patterns</li>
+</ul>
+<p>The project we built demonstrates how to create a practical string manipulation library that can be reused across multiple applications. By implementing proper UTF-8 handling, we ensured our library works correctly with text in any language.</p>
+<p>Understanding strings and slices is crucial for Rust programming because text processing is fundamental to so many applications. The patterns and techniques we’ve explored in this chapter will serve as a solid foundation for working with textual data in your Rust projects.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>Implement a function that counts characters by Unicode category (letters, numbers, symbols, etc.)</li>
+<li>Create a function that validates if a string is a valid email address</li>
+<li>Implement a simple text templating system that replaces placeholders with values</li>
+<li>Write a function that encodes and decodes text using Caesar cipher</li>
+<li>Create a utility that can split text into sentences, respecting punctuation rules</li>
+<li>Implement a function that detects the language of a given text</li>
+<li>Write a program that generates random pronounceable passwords</li>
+<li>Create a function that converts numbers to their written form (e.g., 42 → “forty-two”)</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch08-02-strings.html">The Rust Programming Language: Strings</a></li>
+<li><a href="https://doc.rust-lang.org/std/primitive.str.html">The Rust Standard Library: str</a></li>
+<li><a href="https://doc.rust-lang.org/std/string/struct.String.html">The Rust Standard Library: String</a></li>
+<li><a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">Understanding Ownership in Rust</a></li>
+<li><a href="http://www.unicode.org/versions/latest/">Unicode Book</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/std/str.html">Rust By Example: Strings</a></li>
+<li><a href="https://crates.io/crates/unicode-segmentation">The unicode-segmentation Crate</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/08-borrowing-references.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/10-advanced-ownership.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/08-borrowing-references.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/10-advanced-ownership.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

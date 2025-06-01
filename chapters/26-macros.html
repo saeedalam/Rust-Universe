@@ -1,0 +1,2020 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Macros and Metaprogramming - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/26-macros.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-26-macros-and-metaprogramming"><a class="header" href="#chapter-26-macros-and-metaprogramming">Chapter 26: Macros and Metaprogramming</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In the previous chapters, we’ve explored a wide range of Rust’s features, from basic syntax to advanced concepts like asynchronous programming. Throughout this journey, you may have noticed code like <code>println!()</code>, <code>vec![]</code>, or <code>assert_eq!()</code> with an exclamation mark. These are <em>macros</em>, one of Rust’s most powerful metaprogramming features.</p>
+<p>Metaprogramming is the practice of writing code that manipulates or generates other code. In Rust, macros provide a way to extend the language by enabling code generation at compile time. While functions and traits offer powerful abstractions, macros take this a step further by allowing you to define new syntax and idioms that would otherwise be impossible within the constraints of the language.</p>
+<p>Think of macros as sophisticated code templates or mini-compilers. When you invoke a macro, the Rust compiler expands it into more complex code before proceeding with the regular compilation process. This expansion happens during compile time, not at runtime, which means macros have zero runtime overhead—the expanded code is what actually gets compiled.</p>
+<p>Rust offers several types of macros, each with different capabilities and use cases:</p>
+<ol>
+<li><strong>Declarative macros</strong> (<code>macro_rules!</code>): Pattern-matching macros that operate like sophisticated find-and-replace functions</li>
+<li><strong>Procedural macros</strong>: Code that operates on Rust’s abstract syntax tree, including:
+<ul>
+<li><strong>Derive macros</strong>: Add implementations to structs and enums</li>
+<li><strong>Attribute macros</strong>: Create custom attributes for code</li>
+<li><strong>Function-like procedural macros</strong>: Look like function calls but operate on tokens</li>
+</ul>
+</li>
+</ol>
+<p>In this chapter, we’ll explore each type of macro, understand when to use them, learn the principles of macro hygiene, and develop practical skills for creating and debugging macros. By the end, you’ll have added a powerful tool to your Rust programming toolkit that enables you to reduce boilerplate, create elegant domain-specific languages, and extend the language in ways that fit your specific needs.</p>
+<p>Let’s begin by understanding what macros are and how they differ from functions.</p>
+<h2 id="what-are-macros"><a class="header" href="#what-are-macros">What Are Macros?</a></h2>
+<p>Macros are a way to write code that writes other code, which is then compiled along with the rest of your program. Unlike functions, which are called at runtime, macros are expanded at compile time. This fundamental difference gives macros unique capabilities that can’t be achieved with regular functions.</p>
+<h3 id="macros-vs-functions"><a class="header" href="#macros-vs-functions">Macros vs. Functions</a></h3>
+<p>To understand macros, it’s helpful to compare them with functions:</p>
+<div class="table-wrapper"><table><thead><tr><th>Characteristic</th><th>Functions</th><th>Macros</th></tr></thead><tbody>
+<tr><td>Execution time</td><td>Runtime</td><td>Compile time</td></tr>
+<tr><td>Type checking</td><td>Before execution</td><td>After expansion</td></tr>
+<tr><td>Arguments</td><td>Fixed number</td><td>Variable number</td></tr>
+<tr><td>Overloading</td><td>Not supported</td><td>Supported via pattern matching</td></tr>
+<tr><td>Return values</td><td>Single value</td><td>Can generate multiple items</td></tr>
+<tr><td>Scope awareness</td><td>Limited</td><td>Can manipulate scope</td></tr>
+</tbody></table>
+</div>
+<p>Let’s explore these differences with examples:</p>
+<h4 id="1-variable-number-of-arguments"><a class="header" href="#1-variable-number-of-arguments">1. Variable Number of Arguments</a></h4>
+<p>Functions in Rust require a fixed number of arguments with specific types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn add(a: i32, b: i32) -&gt; i32 {
+    a + b
+}
+
+// Can only call with exactly 2 arguments
+let sum = add(1, 2);
+<span class="boring">}</span></code></pre></pre>
+<p>Macros, however, can accept a variable number of arguments:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// The println! macro can take any number of arguments
+println!("Hello");
+println!("Hello, {}", name);
+println!("Hello, {}, {}, and {}", a, b, c);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="2-generating-multiple-items"><a class="header" href="#2-generating-multiple-items">2. Generating Multiple Items</a></h4>
+<p>Functions must return a single value (even if it’s a tuple or other container):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn create_point() -&gt; (i32, i32) {
+    (0, 0)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Macros can generate multiple independent items:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! create_functions {
+    ($($name:ident),*) =&gt; {
+        $(
+            fn $name() {
+                println!("Called function {}", stringify!($name));
+            }
+        )*
+    }
+}
+
+// Generates three separate function definitions
+create_functions!(foo, bar, baz);
+
+fn main() {
+    foo(); // Prints: Called function foo
+    bar(); // Prints: Called function bar
+    baz(); // Prints: Called function baz
+}</code></pre></pre>
+<h4 id="3-type-flexibility"><a class="header" href="#3-type-flexibility">3. Type Flexibility</a></h4>
+<p>Functions have strict type requirements:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn first&lt;T&gt;(list: &amp;[T]) -&gt; Option&lt;&amp;T&gt; {
+    if list.is_empty() {
+        None
+    } else {
+        Some(&amp;list[0])
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Macros can operate on different types without generic parameters:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! first {
+    ($arr:expr) =&gt; {
+        if $arr.len() &gt; 0 {
+            Some(&amp;$arr[0])
+        } else {
+            None
+        }
+    };
+}
+
+// Works with any type that has .len() and supports indexing
+first!([1, 2, 3]);       // Some(&amp;1)
+first!(vec!["a", "b"]);  // Some(&amp;"a")
+<span class="boring">}</span></code></pre></pre>
+<h4 id="4-compile-time-code-generation"><a class="header" href="#4-compile-time-code-generation">4. Compile-Time Code Generation</a></h4>
+<p>Functions cannot generate new code structures:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// This is not possible with functions
+fn create_struct(name: &amp;str) {
+    // Can't generate a struct definition at runtime
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Macros can generate entire code structures:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! create_struct {
+    ($name:ident, $($field:ident: $ty:ty),*) =&gt; {
+        struct $name {
+            $($field: $ty),*
+        }
+    }
+}
+
+// Generates a struct definition
+create_struct!(Point, x: f64, y: f64);
+
+fn main() {
+    let p = Point { x: 1.0, y: 2.0 };
+}</code></pre></pre>
+<h3 id="when-to-use-macros"><a class="header" href="#when-to-use-macros">When to Use Macros</a></h3>
+<p>Given their power, you might wonder why we don’t use macros for everything. The answer lies in the trade-offs:</p>
+<h4 id="advantages-of-macros"><a class="header" href="#advantages-of-macros">Advantages of Macros</a></h4>
+<ol>
+<li><strong>Reduce repetition</strong>: Generate similar code patterns without duplication</li>
+<li><strong>Create domain-specific languages</strong>: Design syntax tailored to specific problems</li>
+<li><strong>Conditional compilation</strong>: Include or exclude code based on compile-time factors</li>
+<li><strong>Interface with the type system</strong>: Generate implementations based on type information</li>
+<li><strong>Extend the language</strong>: Add features that feel like part of Rust itself</li>
+</ol>
+<h4 id="disadvantages-of-macros"><a class="header" href="#disadvantages-of-macros">Disadvantages of Macros</a></h4>
+<ol>
+<li><strong>Complexity</strong>: Macros are harder to write, read, and debug than regular code</li>
+<li><strong>Error messages</strong>: Errors in generated code can be confusing to trace back to the macro</li>
+<li><strong>Limited tooling</strong>: IDE support for macros is less mature than for regular Rust code</li>
+<li><strong>Cognitive overhead</strong>: Macros require understanding both the macro itself and its expansion</li>
+</ol>
+<p>As a rule of thumb:</p>
+<blockquote>
+<p>Use a function when you can, use a macro when you must.</p>
+</blockquote>
+<p>Macros are most appropriate when:</p>
+<ul>
+<li>You need to reduce significant boilerplate that can’t be abstracted with functions/traits</li>
+<li>You’re working with compile-time metaprogramming</li>
+<li>You need to create custom syntax or domain-specific languages</li>
+<li>You want to provide a more ergonomic API that reduces cognitive overhead</li>
+</ul>
+<h3 id="built-in-macros-in-rust"><a class="header" href="#built-in-macros-in-rust">Built-in Macros in Rust</a></h3>
+<p>Rust provides several built-in macros that you likely use regularly:</p>
+<h4 id="format-macros"><a class="header" href="#format-macros">Format Macros</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Print to standard output
+println!("Hello, {}!", "world");
+
+// Print to standard error
+eprintln!("Error: {}", "something went wrong");
+
+// Format into a String
+let s = format!("Value: {}", 42);
+
+// Write to a buffer
+use std::io::Write;
+let mut buf = Vec::new();
+write!(&amp;mut buf, "Data: {}", "bytes").unwrap();
+<span class="boring">}</span></code></pre></pre>
+<h4 id="collection-macros"><a class="header" href="#collection-macros">Collection Macros</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create a vector
+let v = vec![1, 2, 3];
+
+// Create a hash map
+use std::collections::HashMap;
+let map = HashMap::from([
+    ("key1", "value1"),
+    ("key2", "value2"),
+]);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="assertion-macros"><a class="header" href="#assertion-macros">Assertion Macros</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Assert equality
+assert_eq!(2 + 2, 4);
+
+// Assert inequality
+assert_ne!(10, 5);
+
+// General assertion with custom message
+assert!(value &gt; 0, "Value must be positive, got {}", value);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="debug-macros"><a class="header" href="#debug-macros">Debug Macros</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Print debug representation
+dbg!(value);
+
+// Print and capture for inspection
+let result = dbg!(complex_expression());
+<span class="boring">}</span></code></pre></pre>
+<h4 id="other-common-macros"><a class="header" href="#other-common-macros">Other Common Macros</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Include file contents as a &amp;str
+let config = include_str!("config.json");
+
+// Include file contents as a byte array
+let image = include_bytes!("image.png");
+
+// Compile-time string concatenation
+let path = concat!("/home/", "user", "/config");
+
+// Get environment variable at compile time
+let version = env!("VERSION");
+
+// Optional environment variable
+let debug = option_env!("DEBUG").unwrap_or("false");
+
+// Current file, line, and column
+println!("Error at {}:{}:{}", file!(), line!(), column!());
+<span class="boring">}</span></code></pre></pre>
+<h3 id="understanding-macro-expansion"><a class="header" href="#understanding-macro-expansion">Understanding Macro Expansion</a></h3>
+<p>To truly understand macros, it’s helpful to see what they expand to. The Rust Playground or the <code>cargo expand</code> command (from the <code>cargo-expand</code> crate) can show you the expanded code.</p>
+<p>For example, this macro invocation:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let numbers = vec![1, 2, 3];
+<span class="boring">}</span></code></pre></pre>
+<p>Expands to something like:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let numbers = {
+    let mut v = Vec::new();
+    v.push(1);
+    v.push(2);
+    v.push(3);
+    v
+};
+<span class="boring">}</span></code></pre></pre>
+<p>This reveals how the <code>vec!</code> macro creates temporary variables and multiple statements—something a function couldn’t do.</p>
+<p>In the next section, we’ll dive deeper into declarative macros and learn how to create our own using the <code>macro_rules!</code> system.</p>
+<h2 id="declarative-macros-macro_rules"><a class="header" href="#declarative-macros-macro_rules">Declarative Macros (<code>macro_rules!</code>)</a></h2>
+<p>Declarative macros, created with the <code>macro_rules!</code> syntax, are the most common type of macro in Rust. They provide a pattern-matching system that lets you transform input code into output code based on syntax patterns.</p>
+<h3 id="basic-syntax"><a class="header" href="#basic-syntax">Basic Syntax</a></h3>
+<p>The general syntax for defining a declarative macro is:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! macro_name {
+    (pattern1) =&gt; {
+        // Expansion code for pattern1
+    };
+    (pattern2) =&gt; {
+        // Expansion code for pattern2
+    };
+    // More patterns...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Each pattern represents a possible way to invoke the macro, and the corresponding expansion is the code that will replace the macro invocation. Let’s start with a simple example:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! say_hello {
+    () =&gt; {
+        println!("Hello, World!");
+    };
+}
+
+fn main() {
+    say_hello!();  // Expands to: println!("Hello, World!");
+}</code></pre></pre>
+<p>In this case, we have a simple macro with a single pattern that matches when the macro is called with no arguments. When matched, it expands to a <code>println!</code> statement.</p>
+<h3 id="pattern-matching-and-metavariables"><a class="header" href="#pattern-matching-and-metavariables">Pattern Matching and Metavariables</a></h3>
+<p>Declarative macros become powerful when you start using pattern matching and metavariables. Metavariables capture parts of the input pattern to use in the output.</p>
+<p>Here’s the syntax for a metavariable:</p>
+<pre><code>$name:type
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>$name</code> is the name of the metavariable</li>
+<li><code>type</code> is the designator specifying what kind of syntax element it matches</li>
+</ul>
+<p>Let’s see an example with metavariables:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! say_hello {
+    // Pattern with a single identifier
+    ($name:ident) =&gt; {
+        println!("Hello, {}!", stringify!($name));
+    };
+}
+
+fn main() {
+    say_hello!(World);  // Expands to: println!("Hello, {}!", "World");
+}</code></pre></pre>
+<p>Here, <code>$name:ident</code> captures an identifier in the macro call and uses it in the expansion. The <code>stringify!</code> macro converts the identifier to a string literal.</p>
+<h3 id="common-designators"><a class="header" href="#common-designators">Common Designators</a></h3>
+<p>Rust provides several designators to match different kinds of syntax elements:</p>
+<div class="table-wrapper"><table><thead><tr><th>Designator</th><th>Matches</th></tr></thead><tbody>
+<tr><td><code>ident</code></td><td>Identifiers (<code>foo</code>, <code>bar</code>)</td></tr>
+<tr><td><code>expr</code></td><td>Expressions (<code>2 + 2</code>, <code>foo()</code>, <code>&amp;value</code>)</td></tr>
+<tr><td><code>block</code></td><td>Block expressions (<code>{ ... }</code>)</td></tr>
+<tr><td><code>path</code></td><td>Paths (<code>std::collections::HashMap</code>)</td></tr>
+<tr><td><code>tt</code></td><td>Token tree (a single token or balanced <code>()</code>, <code>[]</code>, or <code>{}</code>)</td></tr>
+<tr><td><code>item</code></td><td>Items (functions, structs, modules, etc.)</td></tr>
+<tr><td><code>ty</code></td><td>Types (<code>i32</code>, <code>String</code>, <code>Vec&lt;u8&gt;</code>)</td></tr>
+<tr><td><code>pat</code></td><td>Patterns (as used in <code>match</code> arms)</td></tr>
+<tr><td><code>stmt</code></td><td>Statements</td></tr>
+<tr><td><code>meta</code></td><td>Meta items (attributes)</td></tr>
+<tr><td><code>literal</code></td><td>Literals (<code>42</code>, <code>"hello"</code>)</td></tr>
+<tr><td><code>vis</code></td><td>Visibility qualifiers (<code>pub</code>, <code>pub(crate)</code>)</td></tr>
+<tr><td><code>lifetime</code></td><td>Lifetime annotations (<code>'a</code>, <code>'static</code>)</td></tr>
+</tbody></table>
+</div>
+<p>Let’s see examples of some common designators:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! examples {
+    // Match an expression
+    (expr: $e:expr) =&gt; {
+        println!("Expression: {}", $e);
+    };
+
+    // Match an identifier
+    (ident: $i:ident) =&gt; {
+        println!("Identifier: {}", stringify!($i));
+    };
+
+    // Match a type
+    (type: $t:ty) =&gt; {
+        println!("Type: {}", stringify!($t));
+    };
+
+    // Match a block
+    (block: $b:block) =&gt; {
+        println!("About to execute block");
+        $b
+        println!("Block executed");
+    };
+}
+
+fn main() {
+    examples!(expr: 2 + 2);           // Expression: 4
+    examples!(ident: hello);          // Identifier: hello
+    examples!(type: Vec&lt;String&gt;);     // Type: Vec&lt;String&gt;
+    examples!(block: {                // About to execute block
+        println!("Inside block");     // Inside block
+    });                               // Block executed
+}</code></pre></pre>
+<h3 id="repetition-with-fragments"><a class="header" href="#repetition-with-fragments">Repetition with Fragments</a></h3>
+<p>One of the most powerful features of declarative macros is the ability to repeat patterns using the <code>$(...)</code> syntax with a separator and a repetition operator:</p>
+<pre><code>$(...),*      // Repeat with comma separator (0 or more times)
+$(...);*      // Repeat with semicolon separator (0 or more times)
+$(...)+       // Repeat 1 or more times
+$(...)?       // Optional (0 or 1 times)
+</code></pre>
+<p>Here’s an example that creates a vector with a variable number of elements:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! make_vec {
+    ($($element:expr),*) =&gt; {
+        {
+            let mut v = Vec::new();
+            $(
+                v.push($element);
+            )*
+            v
+        }
+    };
+}
+
+fn main() {
+    let v1 = make_vec!();             // Creates an empty vector
+    let v2 = make_vec!(1);            // Creates a vector with one element
+    let v3 = make_vec!(1, 2, 3, 4);   // Creates a vector with multiple elements
+
+    println!("{:?}", v3);  // [1, 2, 3, 4]
+}</code></pre></pre>
+<p>Let’s break down how this works:</p>
+<ol>
+<li><code>$($element:expr),*</code> matches zero or more expressions separated by commas</li>
+<li>Each matched expression is bound to the <code>$element</code> metavariable</li>
+<li>In the expansion, we create a new vector and then repeat <code>v.push($element);</code> for each captured expression</li>
+</ol>
+<h3 id="matching-multiple-patterns"><a class="header" href="#matching-multiple-patterns">Matching Multiple Patterns</a></h3>
+<p>Macros can have multiple patterns to handle different invocation styles:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! print_result {
+    // Pattern 1: Single expression
+    ($expression:expr) =&gt; {
+        println!("{} = {}", stringify!($expression), $expression);
+    };
+
+    // Pattern 2: Expression with a custom message
+    ($expression:expr, $message:expr) =&gt; {
+        println!("{}: {}", $message, $expression);
+    };
+}
+
+fn main() {
+    print_result!(10 * 10);           // 10 * 10 = 100
+    print_result!(10 * 10, "Result"); // Result: 100
+}</code></pre></pre>
+<p>The compiler tries each pattern in order and uses the first one that matches.</p>
+<h3 id="recursive-macros"><a class="header" href="#recursive-macros">Recursive Macros</a></h3>
+<p>Macros can call themselves recursively, which is useful for processing nested structures:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! calculate {
+    // Base case: single value
+    ($value:expr) =&gt; {
+        $value
+    };
+
+    // Recursive case: addition
+    ($first:expr, + $($rest:tt)+) =&gt; {
+        $first + calculate!($($rest)+)
+    };
+
+    // Recursive case: subtraction
+    ($first:expr, - $($rest:tt)+) =&gt; {
+        $first - calculate!($($rest)+)
+    };
+}
+
+fn main() {
+    let result = calculate!(10, + 20, - 5, + 7);
+    println!("Result: {}", result);  // Result: 32
+}</code></pre></pre>
+<p>This macro processes a series of operations from left to right. The patterns use the token tree (<code>tt</code>) designator to capture the remaining tokens for recursive processing.</p>
+<h3 id="advanced-techniques"><a class="header" href="#advanced-techniques">Advanced Techniques</a></h3>
+<p>Let’s explore some advanced techniques with declarative macros:</p>
+<h4 id="internal-rules-with-"><a class="header" href="#internal-rules-with-">Internal Rules with <code>@</code></a></h4>
+<p>You can define internal rules that aren’t directly exposed to users by using patterns that start with <code>@</code>:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! complex {
+    // Public interface
+    ($($element:expr),*) =&gt; {
+        complex!(@internal, Vec::new(), $($element),*)
+    };
+
+    // Internal implementation
+    (@internal, $vec:expr, $($element:expr),*) =&gt; {
+        {
+            let mut v = $vec;
+            $(
+                v.push($element);
+            )*
+            v
+        }
+    };
+}
+
+fn main() {
+    let v = complex!(1, 2, 3);
+    println!("{:?}", v);  // [1, 2, 3]
+}</code></pre></pre>
+<h4 id="matching-different-delimiters"><a class="header" href="#matching-different-delimiters">Matching Different Delimiters</a></h4>
+<p>Macros can match different types of delimiters:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! with_delimiters {
+    // Match parentheses
+    (($($inner:tt)*)) =&gt; {
+        println!("Parentheses: {}", stringify!($($inner)*));
+    };
+
+    // Match square brackets
+    ([$($inner:tt)*]) =&gt; {
+        println!("Square brackets: {}", stringify!($($inner)*));
+    };
+
+    // Match curly braces
+    ({$($inner:tt)*}) =&gt; {
+        println!("Curly braces: {}", stringify!($($inner)*));
+    };
+}
+
+fn main() {
+    with_delimiters!((a b c));    // Parentheses: a b c
+    with_delimiters!([x y z]);    // Square brackets: x y z
+    with_delimiters!({foo bar});  // Curly braces: foo bar
+}</code></pre></pre>
+<h4 id="counting-in-macros"><a class="header" href="#counting-in-macros">Counting in Macros</a></h4>
+<p>Counting at compile time can be useful, but it requires recursive patterns:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! count_exprs {
+    () =&gt; (0);
+    ($e:expr) =&gt; (1);
+    ($e:expr, $($rest:expr),+) =&gt; (1 + count_exprs!($($rest),+));
+}
+
+fn main() {
+    let count = count_exprs!(1, 2, 3, 4);
+    println!("Count: {}", count);  // Count: 4
+}</code></pre></pre>
+<h4 id="conditional-expansion"><a class="header" href="#conditional-expansion">Conditional Expansion</a></h4>
+<p>You can use different expansion patterns based on input:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! check_condition {
+    ($condition:expr, $true_case:expr, $false_case:expr) =&gt; {
+        if $condition {
+            $true_case
+        } else {
+            $false_case
+        }
+    };
+}
+
+fn main() {
+    let value = 42;
+    let result = check_condition!(value &gt; 50, "Greater than 50", "Less than or equal to 50");
+    println!("Result: {}", result);  // Result: Less than or equal to 50
+}</code></pre></pre>
+<h3 id="debugging-declarative-macros"><a class="header" href="#debugging-declarative-macros">Debugging Declarative Macros</a></h3>
+<p>Debugging macros can be challenging. Here are some techniques:</p>
+<h4 id="using-trace_macros"><a class="header" href="#using-trace_macros">Using <code>trace_macros!</code></a></h4>
+<p>The <code>trace_macros!</code> feature (available only in nightly Rust) shows the expansion of macros as they happen:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span>#![feature(trace_macros)]
+
+<span class="boring">fn main() {
+</span>trace_macros!(true);
+make_vec!(1, 2, 3);
+trace_macros!(false);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-log_syntax"><a class="header" href="#using-log_syntax">Using <code>log_syntax!</code></a></h4>
+<p>The <code>log_syntax!</code> macro (also nightly-only) logs the tokens it receives:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span>#![feature(log_syntax)]
+
+<span class="boring">fn main() {
+</span>macro_rules! debug_macro {
+    ($($tokens:tt)*) =&gt; {
+        log_syntax!($($tokens)*);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-cargo-expand"><a class="header" href="#using-cargo-expand">Using <code>cargo expand</code></a></h4>
+<p>For stable Rust, the <code>cargo-expand</code> tool is invaluable:</p>
+<pre><code class="language-bash">cargo install cargo-expand
+cargo expand
+</code></pre>
+<p>This shows the expanded code after macro expansion.</p>
+<h3 id="limitations-of-declarative-macros"><a class="header" href="#limitations-of-declarative-macros">Limitations of Declarative Macros</a></h3>
+<p>While powerful, declarative macros have limitations:</p>
+<ol>
+<li><strong>Limited parsing capabilities</strong>: They can only match against predefined patterns</li>
+<li><strong>Cryptic error messages</strong>: When macros fail to match, the error messages can be confusing</li>
+<li><strong>No semantic understanding</strong>: They operate purely on syntax without understanding of types or meanings</li>
+<li><strong>Limited recursion</strong>: The compiler limits recursion depth to prevent infinite expansion</li>
+<li><strong>Debugging difficulty</strong>: Errors in expanded code can be hard to trace back to the macro</li>
+</ol>
+<p>Despite these limitations, declarative macros are an essential tool in many Rust libraries and applications. For more complex metaprogramming needs, procedural macros offer even more power, which we’ll explore in the next section.</p>
+<h3 id="practical-example-building-a-sql-like-dsl"><a class="header" href="#practical-example-building-a-sql-like-dsl">Practical Example: Building a SQL-like DSL</a></h3>
+<p>Let’s conclude this section with a practical example that combines many of the techniques we’ve discussed. We’ll create a simple SQL-like domain-specific language for querying data:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! sql {
+    // SELECT clause
+    (SELECT $($column:ident),* FROM $table:ident) =&gt; {
+        sql!(SELECT $($column),* FROM $table WHERE true)
+    };
+
+    // SELECT with WHERE clause
+    (SELECT $($column:ident),* FROM $table:ident WHERE $condition:expr) =&gt; {
+        {
+            println!("Executing query on table: {}", stringify!($table));
+
+            // This would actually query a database in a real implementation
+            let results = vec![
+                // Simulate some results
+                $(stringify!($column)),*
+            ];
+
+            // Apply the WHERE condition (simplified)
+            if $condition {
+                results
+            } else {
+                Vec::new()
+            }
+        }
+    };
+}
+
+fn main() {
+    // Simple query
+    let columns = sql!(SELECT id, name, age FROM users);
+    println!("Columns: {:?}", columns);
+
+    // Query with condition
+    let filtered = sql!(SELECT id, email FROM users WHERE true);
+    println!("Filtered: {:?}", filtered);
+}</code></pre></pre>
+<p>This simple DSL allows us to write code that looks like SQL queries, demonstrating how macros can create domain-specific languages in Rust.</p>
+<p>In the next section, we’ll explore procedural macros, which offer even more powerful metaprogramming capabilities by operating directly on Rust’s syntax tree.</p>
+<h2 id="procedural-macros"><a class="header" href="#procedural-macros">Procedural Macros</a></h2>
+<p>While declarative macros are powerful, they have limitations. Procedural macros take metaprogramming in Rust to the next level. Unlike declarative macros, which use pattern matching, procedural macros are actual Rust functions that operate on raw tokens or abstract syntax trees.</p>
+<p>Procedural macros enable more complex code generation and manipulation, making them ideal for generating implementations, creating domain-specific languages, and providing custom syntax extensions.</p>
+<h3 id="setting-up-a-procedural-macro-crate"><a class="header" href="#setting-up-a-procedural-macro-crate">Setting Up a Procedural Macro Crate</a></h3>
+<p>Procedural macros must be defined in their own crate with a special configuration. Here’s how to set up a basic procedural macro crate:</p>
+<ol>
+<li>
+<p>Create a new library crate:</p>
+<pre><code class="language-bash">cargo new --lib my_proc_macro
+</code></pre>
+</li>
+<li>
+<p>Configure <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[lib]
+proc-macro = true
+
+[dependencies]
+syn = "2.0"
+quote = "1.0"
+proc-macro2 = "1.0"
+</code></pre>
+</li>
+</ol>
+<p>The three dependencies are standard for procedural macros:</p>
+<ul>
+<li><code>syn</code>: Parses Rust code into a data structure for manipulation</li>
+<li><code>quote</code>: Turns Rust syntax tree data structures back into code</li>
+<li><code>proc-macro2</code>: A wrapper around the compiler’s proc-macro API with better error handling</li>
+</ul>
+<h3 id="types-of-procedural-macros"><a class="header" href="#types-of-procedural-macros">Types of Procedural Macros</a></h3>
+<p>Rust offers three types of procedural macros:</p>
+<ol>
+<li><strong>Derive macros</strong>: Add implementations to structs and enums with <code>#[derive(MacroName)]</code></li>
+<li><strong>Attribute macros</strong>: Create custom attributes with <code>#[my_attribute]</code></li>
+<li><strong>Function-like macros</strong>: Look like function calls but operate on tokens with <code>my_macro!()</code></li>
+</ol>
+<p>Let’s explore each type in detail.</p>
+<h3 id="derive-macros"><a class="header" href="#derive-macros">Derive Macros</a></h3>
+<p>Derive macros allow you to automatically implement traits for structs and enums using the <code>#[derive(MacroName)]</code> syntax. They’re perfect for reducing boilerplate when implementing traits across many types.</p>
+<h4 id="basic-structure-of-a-derive-macro"><a class="header" href="#basic-structure-of-a-derive-macro">Basic Structure of a Derive Macro</a></h4>
+<p>Here’s the basic structure of a derive macro:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput};
+
+#[proc_macro_derive(MyTrait)]
+pub fn my_trait_derive(input: TokenStream) -&gt; TokenStream {
+    // Parse the input tokens into a syntax tree
+    let input = parse_macro_input!(input as DeriveInput);
+
+    // Build the implementation
+    let name = input.ident;
+    let expanded = quote! {
+        impl MyTrait for #name {
+            fn my_method(&amp;self) {
+                println!("Hello from {}", stringify!(#name));
+            }
+        }
+    };
+
+    // Return the generated implementation
+    TokenStream::from(expanded)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="example-implementing-a-simple-debug-clone"><a class="header" href="#example-implementing-a-simple-debug-clone">Example: Implementing a Simple Debug Clone</a></h4>
+<p>Let’s create a macro that implements a simplified version of <code>Debug</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, Data, DeriveInput, Fields};
+
+#[proc_macro_derive(SimpleDebug)]
+pub fn simple_debug_derive(input: TokenStream) -&gt; TokenStream {
+    // Parse the input tokens
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    // Generate implementation based on struct or enum
+    let implementation = match input.data {
+        Data::Struct(data_struct) =&gt; {
+            // Get fields for a struct
+            match data_struct.fields {
+                Fields::Named(fields) =&gt; {
+                    let field_names = fields.named.iter().map(|field| &amp;field.ident);
+
+                    quote! {
+                        impl std::fmt::Debug for #name {
+                            fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+                                f.debug_struct(stringify!(#name))
+                                    #( .field(stringify!(#field_names), &amp;self.#field_names) )*
+                                    .finish()
+                            }
+                        }
+                    }
+                },
+                Fields::Unnamed(_) =&gt; {
+                    quote! {
+                        impl std::fmt::Debug for #name {
+                            fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+                                f.debug_tuple(stringify!(#name))
+                                    // Handle tuple fields here
+                                    .finish()
+                            }
+                        }
+                    }
+                },
+                Fields::Unit =&gt; {
+                    quote! {
+                        impl std::fmt::Debug for #name {
+                            fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+                                f.write_str(stringify!(#name))
+                            }
+                        }
+                    }
+                },
+            }
+        },
+        Data::Enum(_) =&gt; {
+            // Implementation for enums would go here
+            quote! {
+                impl std::fmt::Debug for #name {
+                    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+                        write!(f, "Enum {}", stringify!(#name))
+                    }
+                }
+            }
+        },
+        Data::Union(_) =&gt; {
+            // Implementation for unions would go here
+            quote! {
+                impl std::fmt::Debug for #name {
+                    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+                        write!(f, "Union {}", stringify!(#name))
+                    }
+                }
+            }
+        },
+    };
+
+    TokenStream::from(implementation)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-the-derive-macro"><a class="header" href="#using-the-derive-macro">Using the Derive Macro</a></h4>
+<p>In the consumer crate, you would use the macro like this:</p>
+<pre><pre class="playground"><code class="language-rust">use my_proc_macro::SimpleDebug;
+
+#[derive(SimpleDebug)]
+struct Person {
+    name: String,
+    age: u32,
+}
+
+fn main() {
+    let person = Person {
+        name: "Alice".to_string(),
+        age: 30,
+    };
+
+    println!("{:?}", person);
+}</code></pre></pre>
+<h4 id="derive-macros-with-custom-attributes"><a class="header" href="#derive-macros-with-custom-attributes">Derive Macros with Custom Attributes</a></h4>
+<p>You can also add custom attributes to your derive macros using the <code>#[proc_macro_derive(Name, attributes(attr_name))]</code> syntax:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput, Attribute, Meta, NestedMeta};
+
+#[proc_macro_derive(Builder, attributes(builder))]
+pub fn builder_derive(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+    let builder_name = syn::Ident::new(&amp;format!("{}Builder", name), name.span());
+
+    // Implementation details would go here
+
+    TokenStream::from(quote! {
+        // Generated builder implementation
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="attribute-macros"><a class="header" href="#attribute-macros">Attribute Macros</a></h3>
+<p>Attribute macros define new attributes that can be applied to items like functions, structs, or modules. They’re useful for adding behavior or transformations to existing code.</p>
+<h4 id="basic-structure-of-an-attribute-macro"><a class="header" href="#basic-structure-of-an-attribute-macro">Basic Structure of an Attribute Macro</a></h4>
+<p>Here’s the basic structure of an attribute macro:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, ItemFn};
+
+#[proc_macro_attribute]
+pub fn my_attribute(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+    // Parse attribute arguments
+    let attr_args = parse_macro_input!(attr as syn::AttributeArgs);
+
+    // Parse the item the attribute is applied to
+    let input = parse_macro_input!(item as ItemFn);
+
+    // Transform the item
+    let name = &amp;input.sig.ident;
+    let inputs = &amp;input.sig.inputs;
+    let output = &amp;input.sig.output;
+    let body = &amp;input.block;
+
+    let result = quote! {
+        fn #name(#inputs) #output {
+            println!("Entering function {}", stringify!(#name));
+            let result = #body;
+            println!("Exiting function {}", stringify!(#name));
+            result
+        }
+    };
+
+    TokenStream::from(result)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="example-timing-function-execution"><a class="header" href="#example-timing-function-execution">Example: Timing Function Execution</a></h4>
+<p>Let’s create an attribute macro that times how long a function takes to execute:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, ItemFn};
+
+#[proc_macro_attribute]
+pub fn timed(_attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+    // Parse the function
+    let input = parse_macro_input!(item as ItemFn);
+
+    // Extract function details
+    let name = &amp;input.sig.ident;
+    let inputs = &amp;input.sig.inputs;
+    let output = &amp;input.sig.output;
+    let block = &amp;input.block;
+
+    // Generate the new function with timing
+    let expanded = quote! {
+        fn #name(#inputs) #output {
+            let start = std::time::Instant::now();
+            let result = #block;
+            let duration = start.elapsed();
+            println!("Function '{}' took {:?}", stringify!(#name), duration);
+            result
+        }
+    };
+
+    TokenStream::from(expanded)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-the-attribute-macro"><a class="header" href="#using-the-attribute-macro">Using the Attribute Macro</a></h4>
+<p>In the consumer crate, you would use the macro like this:</p>
+<pre><pre class="playground"><code class="language-rust">use my_proc_macro::timed;
+
+#[timed]
+fn fibonacci(n: u32) -&gt; u32 {
+    match n {
+        0 =&gt; 0,
+        1 =&gt; 1,
+        _ =&gt; fibonacci(n - 1) + fibonacci(n - 2),
+    }
+}
+
+fn main() {
+    let result = fibonacci(20);
+    println!("Result: {}", result);
+}</code></pre></pre>
+<h4 id="attribute-macros-with-arguments"><a class="header" href="#attribute-macros-with-arguments">Attribute Macros with Arguments</a></h4>
+<p>Attribute macros can also accept arguments:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, ItemFn, parse::Parse, parse::ParseStream, LitStr};
+
+// Define a struct to parse attribute arguments
+struct LogArgs {
+    message: LitStr,
+}
+
+impl Parse for LogArgs {
+    fn parse(input: ParseStream) -&gt; syn::Result&lt;Self&gt; {
+        let message = input.parse()?;
+        Ok(LogArgs { message })
+    }
+}
+
+#[proc_macro_attribute]
+pub fn log(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+    // Parse attribute arguments
+    let args = parse_macro_input!(attr as LogArgs);
+    let message = &amp;args.message;
+
+    // Parse the function
+    let input = parse_macro_input!(item as ItemFn);
+    let name = &amp;input.sig.ident;
+    let inputs = &amp;input.sig.inputs;
+    let output = &amp;input.sig.output;
+    let block = &amp;input.block;
+
+    // Generate the modified function
+    let expanded = quote! {
+        fn #name(#inputs) #output {
+            println!("{}: Entering function {}", #message, stringify!(#name));
+            let result = #block;
+            println!("{}: Exiting function {}", #message, stringify!(#name));
+            result
+        }
+    };
+
+    TokenStream::from(expanded)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This would be used like:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[log("DEBUG")]
+fn process_data() {
+    // Function implementation
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="function-like-procedural-macros"><a class="header" href="#function-like-procedural-macros">Function-Like Procedural Macros</a></h3>
+<p>Function-like procedural macros look like function calls in your code but operate on token streams at compile time. They’re useful for creating domain-specific languages and complex code generation.</p>
+<h4 id="basic-structure-of-a-function-like-macro"><a class="header" href="#basic-structure-of-a-function-like-macro">Basic Structure of a Function-Like Macro</a></h4>
+<p>Here’s the basic structure of a function-like procedural macro:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::quote;
+use syn::parse_macro_input;
+
+#[proc_macro]
+pub fn my_macro(input: TokenStream) -&gt; TokenStream {
+    // Parse the input tokens
+    let parsed = parse_macro_input!(input as MyMacroInput);
+
+    // Generate the output code
+    let expanded = quote! {
+        // Generated code
+    };
+
+    TokenStream::from(expanded)
+}
+
+// Define a struct for parsing the macro input
+struct MyMacroInput {
+    // Fields to store parsed input
+}
+
+impl syn::parse::Parse for MyMacroInput {
+    fn parse(input: syn::parse::ParseStream) -&gt; syn::Result&lt;Self&gt; {
+        // Parse the input stream into the struct
+        // ...
+        Ok(MyMacroInput { /* ... */ })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="example-sql-query-builder"><a class="header" href="#example-sql-query-builder">Example: SQL Query Builder</a></h4>
+<p>Let’s create a function-like macro that generates code for building SQL queries:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::{quote, format_ident};
+use syn::{parse_macro_input, LitStr, Token, Ident, parse::{Parse, ParseStream}};
+
+// Input parser for the sql_query macro
+struct SqlQueryInput {
+    query_string: LitStr,
+    args: Vec&lt;Ident&gt;,
+}
+
+impl Parse for SqlQueryInput {
+    fn parse(input: ParseStream) -&gt; syn::Result&lt;Self&gt; {
+        let query_string = input.parse()?;
+
+        let mut args = Vec::new();
+        while !input.is_empty() {
+            input.parse::&lt;Token![,]&gt;()?;
+            let arg: Ident = input.parse()?;
+            args.push(arg);
+        }
+
+        Ok(SqlQueryInput { query_string, args })
+    }
+}
+
+#[proc_macro]
+pub fn sql_query(input: TokenStream) -&gt; TokenStream {
+    let SqlQueryInput { query_string, args } = parse_macro_input!(input as SqlQueryInput);
+
+    let query_text = query_string.value();
+    let placeholders: Vec&lt;_&gt; = (0..args.len()).map(|i| format!("${}", i+1)).collect();
+
+    let function_name = format_ident!("execute_query");
+
+    let expanded = quote! {
+        fn #function_name(conn: &amp;mut postgres::Client) -&gt; Result&lt;Vec&lt;Row&gt;, postgres::Error&gt; {
+            let query = #query_text;
+            let rows = conn.query(query, &amp;[#(&amp;&amp;#args),*])?;
+            Ok(rows)
+        }
+    };
+
+    TokenStream::from(expanded)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-the-function-like-macro"><a class="header" href="#using-the-function-like-macro">Using the Function-Like Macro</a></h4>
+<p>In the consumer crate, you would use the macro like this:</p>
+<pre><pre class="playground"><code class="language-rust">use my_proc_macro::sql_query;
+
+fn main() -&gt; Result&lt;(), postgres::Error&gt; {
+    let mut client = postgres::Client::connect("postgres://user:password@localhost", postgres::NoTls)?;
+
+    let user_id = 42;
+    let status = "active";
+
+    // This generates a function that executes the SQL query
+    sql_query!("SELECT * FROM users WHERE id = $1 AND status = $2", user_id, status);
+
+    let rows = execute_query(&amp;mut client)?;
+
+    for row in rows {
+        println!("User: {:?}", row);
+    }
+
+    Ok(())
+}</code></pre></pre>
+<h3 id="working-with-syntax-trees"><a class="header" href="#working-with-syntax-trees">Working with Syntax Trees</a></h3>
+<p>When writing procedural macros, you’ll often need to traverse and manipulate Rust’s syntax tree. The <code>syn</code> crate provides tools for this:</p>
+<h4 id="parsing-different-item-types"><a class="header" href="#parsing-different-item-types">Parsing Different Item Types</a></h4>
+<p>Different attributes might be applied to different types of items. <code>syn</code> provides specific parsers for each:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Parse a function
+let input = parse_macro_input!(item as syn::ItemFn);
+
+// Parse a struct
+let input = parse_macro_input!(item as syn::ItemStruct);
+
+// Parse an enum
+let input = parse_macro_input!(item as syn::ItemEnum);
+
+// Parse a module
+let input = parse_macro_input!(item as syn::ItemMod);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="visiting-and-modifying-syntax-trees"><a class="header" href="#visiting-and-modifying-syntax-trees">Visiting and Modifying Syntax Trees</a></h4>
+<p>For more complex transformations, you might need to traverse and modify parts of the syntax tree:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use syn::visit_mut::{self, VisitMut};
+
+struct MyVisitor;
+
+impl VisitMut for MyVisitor {
+    fn visit_expr_mut(&amp;mut self, expr: &amp;mut syn::Expr) {
+        // Transform expressions here
+        visit_mut::visit_expr_mut(self, expr);
+    }
+
+    fn visit_item_fn_mut(&amp;mut self, func: &amp;mut syn::ItemFn) {
+        // Transform functions here
+        visit_mut::visit_item_fn_mut(self, func);
+    }
+}
+
+// Use the visitor
+let mut visitor = MyVisitor;
+visitor.visit_item_fn_mut(&amp;mut input);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="debugging-procedural-macros"><a class="header" href="#debugging-procedural-macros">Debugging Procedural Macros</a></h3>
+<p>Debugging procedural macros can be challenging. Here are some techniques:</p>
+<h4 id="printing-during-compilation"><a class="header" href="#printing-during-compilation">Printing During Compilation</a></h4>
+<p>You can use <code>eprintln!</code> in your macro code to print during compilation:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[proc_macro_derive(MyTrait)]
+pub fn my_trait_derive(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+
+    eprintln!("Deriving MyTrait for {}", input.ident);
+
+    // Rest of the implementation...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>These messages will appear in the terminal during compilation.</p>
+<h4 id="using-cargo-expand-1"><a class="header" href="#using-cargo-expand-1">Using <code>cargo-expand</code></a></h4>
+<p>The <code>cargo-expand</code> tool is invaluable for debugging procedural macros:</p>
+<pre><code class="language-bash">cargo install cargo-expand
+cargo expand
+</code></pre>
+<p>This shows the expanded code after all macros are processed.</p>
+<h4 id="pretty-printing-syntax-trees"><a class="header" href="#pretty-printing-syntax-trees">Pretty-Printing Syntax Trees</a></h4>
+<p>You can pretty-print syntax trees for easier debugging:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[proc_macro_derive(MyTrait)]
+pub fn my_trait_derive(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+
+    // Pretty-print the parsed input
+    eprintln!("{:#?}", input);
+
+    // Rest of the implementation...
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="best-practices-for-procedural-macros"><a class="header" href="#best-practices-for-procedural-macros">Best Practices for Procedural Macros</a></h3>
+<p>When writing procedural macros, follow these best practices:</p>
+<ol>
+<li>
+<p><strong>Provide clear error messages</strong>: Use <code>syn::Error</code> and its spanning features to provide clear error messages tied to specific tokens.</p>
+</li>
+<li>
+<p><strong>Document expected usage</strong>: Clearly document how your macro should be used, including required attributes and limitations.</p>
+</li>
+<li>
+<p><strong>Test thoroughly</strong>: Write tests that cover various ways your macro might be used.</p>
+</li>
+<li>
+<p><strong>Keep dependencies minimal</strong>: Procedural macros are compiled separately, so keep dependencies minimal to reduce compile times.</p>
+</li>
+<li>
+<p><strong>Handle edge cases</strong>: Consider how your macro will handle edge cases like generics, visibility modifiers, and attributes.</p>
+</li>
+<li>
+<p><strong>Respect hygiene</strong>: Ensure your generated code doesn’t introduce unexpected name conflicts.</p>
+</li>
+<li>
+<p><strong>Make expansion deterministic</strong>: The expansion should be deterministic to avoid confusing compilation issues.</p>
+</li>
+</ol>
+<p>In the next section, we’ll explore macro hygiene and advanced metaprogramming techniques in more detail.</p>
+<h2 id="macro-hygiene"><a class="header" href="#macro-hygiene">Macro Hygiene</a></h2>
+<p>When writing macros, one of the most important concepts to understand is “hygiene.” Macro hygiene refers to how macros handle name resolution and prevents unintended name conflicts between variables in the macro definition and the macro’s expansion context.</p>
+<h3 id="understanding-hygiene"><a class="header" href="#understanding-hygiene">Understanding Hygiene</a></h3>
+<p>In unhygienic macro systems (like C preprocessor macros), variables defined in a macro can easily conflict with variables in the code where the macro is used. Rust’s macro system is partially hygienic, providing some protection against these conflicts.</p>
+<p>Let’s look at an example of hygiene in action:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! create_function {
+    ($func_name:ident) =&gt; {
+        fn $func_name() {
+            let x = 42;
+            println!("Value: {}", x);
+        }
+    };
+}
+
+fn main() {
+    let x = 10;
+
+    create_function!(my_func);
+
+    my_func();  // Prints "Value: 42", not "Value: 10"
+
+    println!("Outside value: {}", x);  // Prints "Outside value: 10"
+}</code></pre></pre>
+<p>In this example, the <code>x</code> inside the macro doesn’t interfere with the <code>x</code> in <code>main()</code>. This is hygiene at work.</p>
+<h3 id="hygiene-in-declarative-macros"><a class="header" href="#hygiene-in-declarative-macros">Hygiene in Declarative Macros</a></h3>
+<p>In declarative macros, identifiers created by the macro generally don’t clash with identifiers in the calling code. However, there are exceptions and nuances:</p>
+<h4 id="variables-introduced-by-macros"><a class="header" href="#variables-introduced-by-macros">Variables Introduced by Macros</a></h4>
+<p>Variables introduced in a macro expansion are hygienic and won’t conflict with variables in the calling context:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! hygiene_example {
+    () =&gt; {
+        let value = 100;
+        println!("Inside macro: {}", value);
+    };
+}
+
+fn main() {
+    let value = 42;
+
+    hygiene_example!();  // Prints "Inside macro: 100"
+
+    println!("In main: {}", value);  // Prints "In main: 42"
+}</code></pre></pre>
+<h4 id="variables-captured-from-the-calling-context"><a class="header" href="#variables-captured-from-the-calling-context">Variables Captured from the Calling Context</a></h4>
+<p>When a macro uses variables from the calling context, it uses the variables that are in scope where the macro is called:</p>
+<pre><pre class="playground"><code class="language-rust">macro_rules! use_value {
+    () =&gt; {
+        println!("Value: {}", value);
+    };
+}
+
+fn main() {
+    let value = 42;
+    use_value!();  // Prints "Value: 42"
+
+    {
+        let value = 100;
+        use_value!();  // Prints "Value: 100"
+    }
+}</code></pre></pre>
+<h4 id="escaping-hygiene-with-ident_name"><a class="header" href="#escaping-hygiene-with-ident_name">Escaping Hygiene with <code>ident_name</code></a></h4>
+<p>For cases where you need to break hygiene (carefully!), you can use the <code>$crate</code> special identifier and the <code>paste</code> crate:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Using $crate to refer to items in the current crate
+macro_rules! create_helper {
+    () =&gt; {
+        fn helper() {
+            println!("Helper function");
+        }
+    };
+}
+
+macro_rules! use_helper {
+    () =&gt; {
+        $crate::helper()
+    };
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>paste</code> crate allows joining identifiers:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use paste::paste;
+
+macro_rules! create_function {
+    ($name:ident) =&gt; {
+        paste! {
+            fn [&lt;get_ $name&gt;]() -&gt; String {
+                stringify!($name).to_string()
+            }
+        }
+    };
+}
+
+create_function!(user);  // Creates fn get_user() -&gt; String
+<span class="boring">}</span></code></pre></pre>
+<h3 id="hygiene-in-procedural-macros"><a class="header" href="#hygiene-in-procedural-macros">Hygiene in Procedural Macros</a></h3>
+<p>Procedural macros have more control over hygiene because they’re directly generating Rust code:</p>
+<h4 id="avoiding-name-collisions"><a class="header" href="#avoiding-name-collisions">Avoiding Name Collisions</a></h4>
+<p>When generating variable names in procedural macros, use strategies to avoid conflicts:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Bad: potential name collision
+let temp = calculate_something();
+
+// Better: use a name unlikely to conflict
+let __my_macro_temp_1234 = calculate_something();
+
+// Best: use gensym from proc-macro2 to generate unique identifiers
+let temp_name = format_ident!("__temp_{}", proc_macro2::Span::call_site().start().line);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-fully-qualified-paths"><a class="header" href="#using-fully-qualified-paths">Using Fully Qualified Paths</a></h4>
+<p>To avoid name conflicts with imported items, use fully qualified paths:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Instead of:
+let result = Option::Some(value);
+
+// Use:
+let result = ::std::option::Option::Some(value);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="the-quote-macro-and-hygiene"><a class="header" href="#the-quote-macro-and-hygiene">The <code>quote!</code> Macro and Hygiene</a></h4>
+<p>The <code>quote!</code> macro used in procedural macros has hygiene features:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let name = format_ident!("my_function");
+let expanded = quote! {
+    fn #name() {
+        let value = 42;
+        println!("Value: {}", value);
+    }
+};
+<span class="boring">}</span></code></pre></pre>
+<h4 id="span-information"><a class="header" href="#span-information">Span Information</a></h4>
+<p>The <code>Span</code> type in procedural macros carries hygiene information:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let span = proc_macro2::Span::call_site();
+let ident = syn::Ident::new("value", span);
+<span class="boring">}</span></code></pre></pre>
+<p>Different spans can create different hygiene contexts.</p>
+<h3 id="common-hygiene-issues-and-solutions"><a class="header" href="#common-hygiene-issues-and-solutions">Common Hygiene Issues and Solutions</a></h3>
+<h4 id="issue-1-macro-generated-items-not-visible"><a class="header" href="#issue-1-macro-generated-items-not-visible">Issue 1: Macro-Generated Items Not Visible</a></h4>
+<p>Problem: Items defined in a macro aren’t visible outside:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! create_type {
+    () =&gt; {
+        struct MyType {
+            value: i32,
+        }
+    };
+}
+
+create_type!();
+
+// Error: can't find type `MyType`
+let instance: MyType = MyType { value: 42 };
+<span class="boring">}</span></code></pre></pre>
+<p>Solution: Export the type or use the macro in the scope where it’s needed:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! with_type {
+    ($body:expr) =&gt; {
+        {
+            struct MyType {
+                value: i32,
+            }
+
+            $body
+        }
+    };
+}
+
+with_type!({
+    let instance = MyType { value: 42 };
+    println!("Value: {}", instance.value);
+});
+<span class="boring">}</span></code></pre></pre>
+<h4 id="issue-2-temporary-variable-conflicts"><a class="header" href="#issue-2-temporary-variable-conflicts">Issue 2: Temporary Variable Conflicts</a></h4>
+<p>Problem: Temporary variables in macros might conflict:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! calculate {
+    ($a:expr, $b:expr) =&gt; {
+        let temp = $a;
+        temp + $b
+    };
+}
+
+let temp = 10;
+let result = calculate!(5, temp);  // Might cause issues
+<span class="boring">}</span></code></pre></pre>
+<p>Solution: Use more unique names or block expressions:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! calculate {
+    ($a:expr, $b:expr) =&gt; {
+        {
+            let __temp = $a;
+            __temp + $b
+        }
+    };
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="issue-3-multiple-macro-expansions"><a class="header" href="#issue-3-multiple-macro-expansions">Issue 3: Multiple Macro Expansions</a></h4>
+<p>Problem: Using the same macro multiple times might redefine items:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! define_helper {
+    () =&gt; {
+        fn helper() {
+            println!("Helper");
+        }
+    };
+}
+
+define_helper!();
+define_helper!();  // Error: helper already defined
+<span class="boring">}</span></code></pre></pre>
+<p>Solution: Use modules or check if items exist:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! define_helper {
+    () =&gt; {
+        #[allow(dead_code)]
+        mod helpers {
+            pub fn helper() {
+                println!("Helper");
+            }
+        }
+    };
+}
+
+define_helper!();
+define_helper!();  // Now OK
+<span class="boring">}</span></code></pre></pre>
+<h3 id="best-practices-for-hygienic-macros"><a class="header" href="#best-practices-for-hygienic-macros">Best Practices for Hygienic Macros</a></h3>
+<ol>
+<li><strong>Be minimal</strong>: Capture only what you need from the caller’s context</li>
+<li><strong>Use blocks</strong>: Wrap macro expansions in blocks to isolate temporary variables</li>
+<li><strong>Use unique names</strong>: For variables that must escape hygiene, use distinctive names</li>
+<li><strong>Use <code>$crate</code></strong>: For referring to items in the same crate as the macro</li>
+<li><strong>Test thoroughly</strong>: Check macro behavior in different scopes and contexts</li>
+<li><strong>Document behavior</strong>: Clearly document which names a macro introduces</li>
+</ol>
+<p>By understanding and respecting hygiene, you can create macros that are safer and more predictable for users of your code.</p>
+<h2 id="practical-project-custom-derive-macro-for-data-validation"><a class="header" href="#practical-project-custom-derive-macro-for-data-validation">Practical Project: Custom Derive Macro for Data Validation</a></h2>
+<p>To consolidate our understanding of macros, let’s build a practical project: a custom derive macro for validating data structures. This will demonstrate how to create a powerful, user-friendly macro that implements real-world functionality.</p>
+<h3 id="project-overview"><a class="header" href="#project-overview">Project Overview</a></h3>
+<p>We’ll create a <code>Validate</code> trait with a <code>validate</code> method that returns a <code>Result&lt;(), ValidationError&gt;</code>. Our derive macro will automatically implement this trait for structs based on field attributes.</p>
+<h3 id="step-1-set-up-the-project-structure"><a class="header" href="#step-1-set-up-the-project-structure">Step 1: Set Up the Project Structure</a></h3>
+<p>First, we need to create our project structure:</p>
+<pre><code class="language-bash"># Create a workspace
+mkdir validator
+cd validator
+touch Cargo.toml
+
+# Create the macro crate
+mkdir validator-derive
+cd validator-derive
+cargo init --lib
+cd ..
+
+# Create the main crate
+mkdir validator-core
+cd validator-core
+cargo init --lib
+cd ..
+</code></pre>
+<p>Configure the workspace <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[workspace]
+members = [
+    "validator-core",
+    "validator-derive",
+]
+</code></pre>
+<h3 id="step-2-define-the-core-traits-and-types"><a class="header" href="#step-2-define-the-core-traits-and-types">Step 2: Define the Core Traits and Types</a></h3>
+<p>In <code>validator-core/src/lib.rs</code>, define the validation infrastructure:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! Core validation traits and error types
+
+use std::fmt;
+use std::collections::HashMap;
+
+/// Validation error containing all validation failures
+#[derive(Debug, Clone)]
+pub struct ValidationError {
+    /// Map of field name to error messages
+    pub errors: HashMap&lt;String, Vec&lt;String&gt;&gt;,
+}
+
+impl ValidationError {
+    /// Create a new, empty validation error
+    pub fn new() -&gt; Self {
+        ValidationError {
+            errors: HashMap::new(),
+        }
+    }
+
+    /// Add a validation error for a field
+    pub fn add(&amp;mut self, field: &amp;str, message: &amp;str) {
+        self.errors
+            .entry(field.to_string())
+            .or_insert_with(Vec::new)
+            .push(message.to_string());
+    }
+
+    /// Check if there are any validation errors
+    pub fn is_empty(&amp;self) -&gt; bool {
+        self.errors.is_empty()
+    }
+}
+
+impl fmt::Display for ValidationError {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        writeln!(f, "Validation failed:")?;
+        for (field, errors) in &amp;self.errors {
+            for error in errors {
+                writeln!(f, "  {}: {}", field, error)?;
+            }
+        }
+        Ok(())
+    }
+}
+
+impl std::error::Error for ValidationError {}
+
+/// Trait for types that can be validated
+pub trait Validate {
+    /// Validate the value and return errors if validation fails
+    fn validate(&amp;self) -&gt; Result&lt;(), ValidationError&gt;;
+}
+
+/// Built-in validation functions
+pub mod validators {
+    /// Check if a string is not empty
+    pub fn not_empty(value: &amp;str) -&gt; bool {
+        !value.is_empty()
+    }
+
+    /// Check if a number is in a range
+    pub fn in_range&lt;T: PartialOrd&gt;(value: &amp;T, min: &amp;T, max: &amp;T) -&gt; bool {
+        value &gt;= min &amp;&amp; value &lt;= max
+    }
+
+    /// Check if a string matches a regex pattern
+    pub fn matches_regex(value: &amp;str, pattern: &amp;str) -&gt; bool {
+        regex::Regex::new(pattern)
+            .map(|re| re.is_match(value))
+            .unwrap_or(false)
+    }
+
+    /// Check if a string is a valid email
+    pub fn is_email(value: &amp;str) -&gt; bool {
+        matches_regex(value, r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+    }
+}
+
+// Re-export the derive macro
+#[cfg(feature = "derive")]
+pub use validator_derive::Validate;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-3-configure-the-derive-macro-crate"><a class="header" href="#step-3-configure-the-derive-macro-crate">Step 3: Configure the Derive Macro Crate</a></h3>
+<p>Update <code>validator-derive/Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = "validator-derive"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = { version = "2.0", features = ["full", "extra-traits"] }
+quote = "1.0"
+proc-macro2 = "1.0"
+validator-core = { path = "../validator-core" }
+</code></pre>
+<h3 id="step-4-implement-the-derive-macro"><a class="header" href="#step-4-implement-the-derive-macro">Step 4: Implement the Derive Macro</a></h3>
+<p>In <code>validator-derive/src/lib.rs</code>, implement the derive macro:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use proc_macro::TokenStream;
+use quote::{quote, format_ident};
+use syn::{parse_macro_input, DeriveInput, Data, Fields, Meta, NestedMeta, Lit};
+
+/// Derives the `Validate` trait for a struct
+#[proc_macro_derive(Validate, attributes(validate))]
+pub fn validate_derive(input: TokenStream) -&gt; TokenStream {
+    // Parse the input tokens into a syntax tree
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = &amp;input.ident;
+
+    // Only handle structs
+    let fields = match &amp;input.data {
+        Data::Struct(data) =&gt; match &amp;data.fields {
+            Fields::Named(fields) =&gt; &amp;fields.named,
+            _ =&gt; {
+                return TokenStream::from(quote! {
+                    compile_error!("Validate can only be derived for structs with named fields");
+                });
+            }
+        },
+        _ =&gt; {
+            return TokenStream::from(quote! {
+                compile_error!("Validate can only be derived for structs");
+            });
+        }
+    };
+
+    // Generate validations for each field
+    let validations = fields.iter().filter_map(|field| {
+        let field_name = field.ident.as_ref()?;
+        let field_name_str = field_name.to_string();
+
+        let mut field_validations = Vec::new();
+
+        // Look for validation attributes
+        for attr in &amp;field.attrs {
+            if attr.path().is_ident("validate") {
+                if let Ok(Meta::List(meta_list)) = attr.parse_meta() {
+                    for nested in meta_list.nested.iter() {
+                        if let NestedMeta::Meta(Meta::NameValue(name_value)) = nested {
+                            let ident = name_value.path.get_ident().unwrap().to_string();
+
+                            match ident.as_str() {
+                                "not_empty" =&gt; {
+                                    field_validations.push(quote! {
+                                        if !validator_core::validators::not_empty(&amp;self.#field_name) {
+                                            errors.add(#field_name_str, "must not be empty");
+                                        }
+                                    });
+                                },
+                                "email" =&gt; {
+                                    field_validations.push(quote! {
+                                        if !validator_core::validators::is_email(&amp;self.#field_name) {
+                                            errors.add(#field_name_str, "must be a valid email");
+                                        }
+                                    });
+                                },
+                                "min_length" =&gt; {
+                                    if let Lit::Int(int_lit) = &amp;name_value.lit {
+                                        let min_length = int_lit.base10_parse::&lt;usize&gt;().unwrap();
+                                        field_validations.push(quote! {
+                                            if self.#field_name.len() &lt; #min_length {
+                                                errors.add(#field_name_str, &amp;format!("must be at least {} characters", #min_length));
+                                            }
+                                        });
+                                    }
+                                },
+                                "max_length" =&gt; {
+                                    if let Lit::Int(int_lit) = &amp;name_value.lit {
+                                        let max_length = int_lit.base10_parse::&lt;usize&gt;().unwrap();
+                                        field_validations.push(quote! {
+                                            if self.#field_name.len() &gt; #max_length {
+                                                errors.add(#field_name_str, &amp;format!("must be at most {} characters", #max_length));
+                                            }
+                                        });
+                                    }
+                                },
+                                "regex" =&gt; {
+                                    if let Lit::Str(str_lit) = &amp;name_value.lit {
+                                        let pattern = str_lit.value();
+                                        field_validations.push(quote! {
+                                            if !validator_core::validators::matches_regex(&amp;self.#field_name, #pattern) {
+                                                errors.add(#field_name_str, &amp;format!("must match pattern: {}", #pattern));
+                                            }
+                                        });
+                                    }
+                                },
+                                _ =&gt; {
+                                    // Unknown validator
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if field_validations.is_empty() {
+            None
+        } else {
+            Some(quote! {
+                #(#field_validations)*
+            })
+        }
+    }).collect::&lt;Vec&lt;_&gt;&gt;();
+
+    // Generate the implementation
+    let expanded = quote! {
+        impl validator_core::Validate for #name {
+            fn validate(&amp;self) -&gt; Result&lt;(), validator_core::ValidationError&gt; {
+                let mut errors = validator_core::ValidationError::new();
+
+                #(#validations)*
+
+                if errors.is_empty() {
+                    Ok(())
+                } else {
+                    Err(errors)
+                }
+            }
+        }
+    };
+
+    TokenStream::from(expanded)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-5-update-core-crate-dependencies"><a class="header" href="#step-5-update-core-crate-dependencies">Step 5: Update Core Crate Dependencies</a></h3>
+<p>Update <code>validator-core/Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = "validator-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+regex = "1.10.2"
+validator-derive = { path = "../validator-derive", optional = true }
+
+[features]
+default = ["derive"]
+derive = ["validator-derive"]
+</code></pre>
+<h3 id="step-6-create-a-usage-example"><a class="header" href="#step-6-create-a-usage-example">Step 6: Create a Usage Example</a></h3>
+<p>Create a new example to test our validation macro:</p>
+<pre><code class="language-bash">mkdir -p examples
+touch examples/validate_user.rs
+</code></pre>
+<p>In <code>examples/validate_user.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use validator_core::Validate;
+
+#[derive(Validate, Debug)]
+struct User {
+    #[validate(not_empty = true)]
+    name: String,
+
+    #[validate(email = true)]
+    email: String,
+
+    #[validate(min_length = 8, max_length = 64)]
+    password: String,
+
+    #[validate(regex = r"^\d{3}-\d{3}-\d{4}$")]
+    phone: String,
+}
+
+fn main() {
+    // Valid user
+    let valid_user = User {
+        name: "John Doe".to_string(),
+        email: "john@example.com".to_string(),
+        password: "secure_password123".to_string(),
+        phone: "123-456-7890".to_string(),
+    };
+
+    match valid_user.validate() {
+        Ok(()) =&gt; println!("Valid user: {:?}", valid_user),
+        Err(err) =&gt; println!("Validation failed: {}", err),
+    }
+
+    // Invalid user
+    let invalid_user = User {
+        name: "".to_string(),
+        email: "not-an-email".to_string(),
+        password: "short".to_string(),
+        phone: "invalid".to_string(),
+    };
+
+    match invalid_user.validate() {
+        Ok(()) =&gt; println!("Valid user: {:?}", invalid_user),
+        Err(err) =&gt; println!("Validation failed: {}", err),
+    }
+}</code></pre></pre>
+<h3 id="step-7-running-the-example"><a class="header" href="#step-7-running-the-example">Step 7: Running the Example</a></h3>
+<p>To run the example:</p>
+<pre><code class="language-bash">cargo run --example validate_user
+</code></pre>
+<h3 id="what-weve-learned"><a class="header" href="#what-weve-learned">What We’ve Learned</a></h3>
+<p>Through this practical project, we’ve learned:</p>
+<ol>
+<li><strong>Creating a multi-crate structure</strong> for macros and their supporting code</li>
+<li><strong>Parsing attributes</strong> from struct fields</li>
+<li><strong>Generating custom validation code</strong> based on attribute parameters</li>
+<li><strong>Creating a user-friendly API</strong> that feels like a native Rust feature</li>
+<li><strong>Implementing error handling</strong> for validation failures</li>
+</ol>
+<p>Our derive macro demonstrates how procedural macros can dramatically reduce boilerplate and provide elegant, declarative APIs for complex functionality.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored Rust’s powerful metaprogramming capabilities through macros. We’ve learned:</p>
+<ol>
+<li>
+<p><strong>Macro types and their capabilities</strong>:</p>
+<ul>
+<li>Declarative macros for pattern-based code generation</li>
+<li>Derive macros for implementing traits automatically</li>
+<li>Attribute macros for transforming existing code</li>
+<li>Function-like procedural macros for custom syntax</li>
+</ul>
+</li>
+<li>
+<p><strong>Key concepts</strong>:</p>
+<ul>
+<li>Macro hygiene and preventing name conflicts</li>
+<li>Token-based vs. AST-based macros</li>
+<li>Pattern matching with metavariables</li>
+<li>Code generation with quoting and interpolation</li>
+</ul>
+</li>
+<li>
+<p><strong>Best practices</strong>:</p>
+<ul>
+<li>When to use macros vs. other abstractions</li>
+<li>Debugging and error handling in macros</li>
+<li>Maintaining readability and maintainability</li>
+<li>Creating user-friendly APIs</li>
+</ul>
+</li>
+<li>
+<p><strong>Practical applications</strong>:</p>
+<ul>
+<li>Domain-specific languages</li>
+<li>Code generation</li>
+<li>Compile-time validation</li>
+<li>Reducing boilerplate</li>
+</ul>
+</li>
+</ol>
+<p>Macros are one of Rust’s most powerful features, enabling you to extend the language in ways that would otherwise be impossible. By mastering macros, you gain the ability to create more expressive, concise, and maintainable code, as well as libraries that provide elegant APIs for complex functionality.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p><strong>Declarative Macro Practice</strong>:</p>
+<ul>
+<li>Create a <code>hashmap!</code> macro that allows creating <code>HashMap</code>s with a syntax similar to the <code>vec!</code> macro</li>
+<li>Extend the <code>println!</code> macro to support a <code>#[debug]</code> flag that includes file and line information</li>
+</ul>
+</li>
+<li>
+<p><strong>Derive Macro Extensions</strong>:</p>
+<ul>
+<li>Extend our <code>Validate</code> derive macro to support nested validation of struct fields</li>
+<li>Create a <code>Builder</code> derive macro that generates a builder pattern for structs</li>
+</ul>
+</li>
+<li>
+<p><strong>Attribute Macro Challenges</strong>:</p>
+<ul>
+<li>Create a <code>#[benchmark]</code> attribute that automatically times function execution and logs results</li>
+<li>Implement a <code>#[cached]</code> attribute that adds memoization to functions</li>
+</ul>
+</li>
+<li>
+<p><strong>Function-Like Macro Projects</strong>:</p>
+<ul>
+<li>Build a simple testing framework using function-like procedural macros</li>
+<li>Create a type-safe SQL query builder that validates queries at compile time</li>
+</ul>
+</li>
+<li>
+<p><strong>Advanced Challenges</strong>:</p>
+<ul>
+<li>Implement a compile-time state machine DSL using macros</li>
+<li>Create a macro that generates serialization/deserialization code based on a schema definition</li>
+</ul>
+</li>
+</ol>
+<p>By working through these exercises, you’ll deepen your understanding of Rust’s metaprogramming capabilities and be better prepared to leverage macros in your own projects.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/25-async.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/27-unsafe.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/25-async.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/27-unsafe.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

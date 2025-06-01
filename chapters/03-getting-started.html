@@ -1,0 +1,934 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Getting Started with the Rust Toolchain - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/03-getting-started.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-3-getting-started-with-the-rust-toolchain"><a class="header" href="#chapter-3-getting-started-with-the-rust-toolchain">Chapter 3: Getting Started with the Rust Toolchain</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>The Rust toolchain provides a powerful, integrated set of tools that makes developing Rust applications efficient and enjoyable. This chapter will introduce you to the essential components of the Rust development environment and guide you through setting up your workspace for productive coding.</p>
+<p>By the end of this chapter, you’ll understand:</p>
+<ul>
+<li>How to install and configure Rust on your system</li>
+<li>How to set up a professional development environment with IDE support</li>
+<li>The structure of Rust projects and how to use Cargo effectively</li>
+<li>Essential Cargo commands for building, testing, and managing your code</li>
+<li>How to create and structure a new Rust project from scratch</li>
+<li>How to navigate and utilize the excellent Rust documentation</li>
+<li>How to find and manage external dependencies from crates.io</li>
+<li>The typical workflow for Rust development</li>
+<li>How to build a simple command-line calculator application</li>
+</ul>
+<h2 id="installing-rust-and-the-toolchain-rustup"><a class="header" href="#installing-rust-and-the-toolchain-rustup">Installing Rust and the Toolchain (rustup)</a></h2>
+<p>Rust provides a comprehensive toolchain managed by <code>rustup</code>, which handles installation, updates, and multiple versions of the Rust compiler and tools.</p>
+<h3 id="installing-rustup"><a class="header" href="#installing-rustup">Installing rustup</a></h3>
+<p>The recommended way to install Rust is through <code>rustup</code>, which works on all major platforms:</p>
+<h4 id="for-unix-based-systems-macos-linux"><a class="header" href="#for-unix-based-systems-macos-linux">For Unix-based systems (macOS, Linux):</a></h4>
+<pre><code class="language-bash">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+</code></pre>
+<h4 id="for-windows"><a class="header" href="#for-windows">For Windows:</a></h4>
+<p>Download and run the rustup-init.exe from <a href="https://rustup.rs">https://rustup.rs</a></p>
+<p>After installation, restart your terminal and verify your installation:</p>
+<pre><code class="language-bash">rustc --version
+cargo --version
+rustup --version
+</code></pre>
+<p>You should see output similar to:</p>
+<pre><code>rustc 1.73.0 (cc66ad468 2023-10-03)
+cargo 1.73.0 (9c4383fb3 2023-08-26)
+rustup 1.26.0 (5af9b9484 2023-04-05)
+</code></pre>
+<h3 id="core-components"><a class="header" href="#core-components">Core Components</a></h3>
+<p>The installation provides you with several key tools:</p>
+<ul>
+<li><strong>rustc</strong>: The Rust compiler that transforms your code into executable binaries</li>
+<li><strong>cargo</strong>: Rust’s package manager and build system</li>
+<li><strong>rustup</strong>: The toolchain manager itself, used to update Rust and add components</li>
+</ul>
+<h3 id="managing-multiple-rust-versions"><a class="header" href="#managing-multiple-rust-versions">Managing Multiple Rust Versions</a></h3>
+<p>One of <code>rustup</code>’s key features is the ability to manage multiple Rust versions:</p>
+<pre><code class="language-bash"># List available toolchains
+rustup toolchain list
+
+# Install a specific version
+rustup install 1.68.0
+
+# Set a default toolchain
+rustup default stable
+
+# Use a specific version for just one project
+cd my_project
+rustup override set 1.68.0
+
+# Use nightly for experimental features
+rustup install nightly
+rustup run nightly cargo build
+</code></pre>
+<h3 id="adding-components"><a class="header" href="#adding-components">Adding Components</a></h3>
+<p>You can extend your Rust installation with additional components:</p>
+<pre><code class="language-bash"># View available and installed components
+rustup component list
+
+# Add the code formatter
+rustup component add rustfmt
+
+# Add the linter
+rustup component add clippy
+
+# Add the language server for IDE integration
+rustup component add rust-analyzer
+
+# Add the Rust source code (useful for documentation)
+rustup component add rust-src
+</code></pre>
+<h3 id="understanding-rust-editions"><a class="header" href="#understanding-rust-editions">Understanding Rust Editions</a></h3>
+<p>Rust uses “editions” to introduce new language features while maintaining backward compatibility:</p>
+<pre><code class="language-toml"># In Cargo.toml, you specify the edition
+[package]
+name = "my_project"
+version = "0.1.0"
+edition = "2021"  # Current is 2021, previous were 2018 and 2015
+</code></pre>
+<p>The edition system allows Rust to evolve without breaking existing code.</p>
+<h2 id="setting-up-your-development-environment"><a class="header" href="#setting-up-your-development-environment">Setting up your Development Environment</a></h2>
+<p>A good development environment significantly improves productivity. Let’s explore the most popular options for Rust development.</p>
+<h3 id="visual-studio-code"><a class="header" href="#visual-studio-code">Visual Studio Code</a></h3>
+<p>VS Code with the rust-analyzer extension provides an excellent experience:</p>
+<ol>
+<li>Install <a href="https://code.visualstudio.com/">Visual Studio Code</a></li>
+<li>Install the <a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">rust-analyzer extension</a></li>
+<li>Recommended additional extensions:
+<ul>
+<li>Better TOML: For Cargo.toml editing</li>
+<li>CodeLLDB: For debugging Rust code</li>
+<li>Error Lens: For inline error display</li>
+<li>crates: For managing dependencies</li>
+</ul>
+</li>
+</ol>
+<p>Configure VS Code settings for optimal Rust development (settings.json):</p>
+<pre><code class="language-json">{
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "rust-analyzer.inlayHints.enable": true,
+  "editor.formatOnSave": true
+}
+</code></pre>
+<h3 id="intellij-idea--clion"><a class="header" href="#intellij-idea--clion">IntelliJ IDEA / CLion</a></h3>
+<p>JetBrains IDEs provide robust Rust support:</p>
+<ol>
+<li>Install <a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> or <a href="https://www.jetbrains.com/clion/">CLion</a></li>
+<li>Install the <a href="https://plugins.jetbrains.com/plugin/8182-rust">Rust plugin</a></li>
+<li>Configure the toolchain in Settings/Preferences → Languages &amp; Frameworks → Rust</li>
+</ol>
+<h3 id="other-editors"><a class="header" href="#other-editors">Other Editors</a></h3>
+<ul>
+<li><strong>Vim/Neovim</strong>: Use <a href="https://github.com/neoclide/coc.nvim">coc.nvim</a> with the rust-analyzer extension</li>
+<li><strong>Emacs</strong>: Use <a href="https://github.com/rustic-rs/rustic">rustic</a> for a complete environment</li>
+<li><strong>Sublime Text</strong>: Install the <a href="https://packagecontrol.io/packages/Rust%20Enhanced">Rust Enhanced</a> package</li>
+</ul>
+<h3 id="features-to-look-for-in-your-ide"><a class="header" href="#features-to-look-for-in-your-ide">Features to Look For in Your IDE</a></h3>
+<p>A good Rust development environment should provide:</p>
+<ul>
+<li>Code completion and intelligent suggestions</li>
+<li>Go to definition and find references</li>
+<li>Inline error messages with suggestions</li>
+<li>Automatic formatting with rustfmt</li>
+<li>Linting with clippy</li>
+<li>Debugging support</li>
+<li>Cargo integration for building and testing</li>
+</ul>
+<h2 id="understanding-cargo-and-project-structure"><a class="header" href="#understanding-cargo-and-project-structure">Understanding Cargo and Project Structure</a></h2>
+<p>Cargo is Rust’s build system and package manager, designed to make Rust development as smooth as possible.</p>
+<h3 id="basic-cargo-commands"><a class="header" href="#basic-cargo-commands">Basic Cargo Commands</a></h3>
+<pre><code class="language-bash"># Create a new binary application
+cargo new my_app
+
+# Create a new library
+cargo new --lib my_library
+
+# Build your project in development mode
+cargo build
+
+# Run your project
+cargo run
+
+# Build with optimizations for release
+cargo build --release
+
+# Check for errors without building
+cargo check
+
+# Run tests
+cargo test
+
+# Format your code
+cargo fmt
+
+# Run the linter
+cargo clippy
+
+# Generate documentation
+cargo doc --open
+</code></pre>
+<h3 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h3>
+<p>A typical Rust project created with <code>cargo new</code> has the following structure:</p>
+<pre><code>my_project/
+├── Cargo.toml      # Project configuration and dependencies
+├── Cargo.lock      # Exact dependency versions (generated)
+├── .gitignore      # Default Git ignore file
+└── src/
+    └── main.rs     # Entry point for binaries
+    # OR
+    └── lib.rs      # Entry point for libraries
+</code></pre>
+<p>As your project grows, you might expand to this structure:</p>
+<pre><code>my_project/
+├── Cargo.toml
+├── Cargo.lock
+├── src/
+│   ├── main.rs     # Binary entry point
+│   ├── lib.rs      # Library code
+│   ├── bin/        # Additional binaries
+│   │   └── tool.rs # Creates executable 'tool'
+│   └── module1/    # Code organization using modules
+│       ├── mod.rs
+│       └── submodule.rs
+├── tests/          # Integration tests
+│   └── integration_test.rs
+├── examples/       # Example code
+│   └── example1.rs
+├── benches/        # Benchmarks
+│   └── benchmark.rs
+└── build.rs        # Build script (optional)
+</code></pre>
+<h3 id="understanding-cargotoml"><a class="header" href="#understanding-cargotoml">Understanding Cargo.toml</a></h3>
+<p>The <code>Cargo.toml</code> file defines your project and its dependencies:</p>
+<pre><code class="language-toml">[package]
+name = "my_project"          # Project name
+version = "0.1.0"            # Version using semantic versioning
+edition = "2021"             # Rust edition
+authors = ["Your Name &lt;your.email@example.com&gt;"]
+description = "A brief description of the project"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/yourusername/my_project"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }  # With features
+tokio = "1.28"                                      # Simple dependency
+log = "0.4"                                         # Simple dependency
+
+[dev-dependencies]        # Only used for tests and examples
+criterion = "0.5"
+mockall = "0.11"
+
+[build-dependencies]      # Only used during build
+cc = "1.0"
+
+[profile.release]         # Customize the release build
+opt-level = 3             # Maximum optimization
+lto = true                # Link-time optimization
+codegen-units = 1         # Prioritize optimization over compile time
+panic = "abort"           # Smaller binaries by removing unwind code
+</code></pre>
+<h3 id="cargolock-file"><a class="header" href="#cargolock-file">Cargo.lock File</a></h3>
+<p>The <code>Cargo.lock</code> file ensures reproducible builds by locking exact dependency versions:</p>
+<ul>
+<li>For applications: Commit this file to version control</li>
+<li>For libraries: Don’t commit it (let consumers choose compatible versions)</li>
+</ul>
+<h2 id="creating-a-new-project-from-scratch"><a class="header" href="#creating-a-new-project-from-scratch">Creating a New Project from Scratch</a></h2>
+<p>Let’s walk through creating a simple Rust project from the beginning:</p>
+<pre><code class="language-bash"># Create a new project
+cargo new hello_rust
+cd hello_rust
+</code></pre>
+<p>This generates:</p>
+<pre><code>hello_rust/
+├── Cargo.toml
+├── .git/
+├── .gitignore
+└── src/
+    └── main.rs
+</code></pre>
+<p>The generated <code>main.rs</code> contains:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    println!("Hello, world!");
+}</code></pre></pre>
+<p>Let’s modify it to try out the toolchain:</p>
+<pre><pre class="playground"><code class="language-rust">// src/main.rs
+fn main() {
+    println!("Hello, Rust Universe!");
+
+    // A vector of programming languages
+    let languages = vec!["Rust", "C++", "Python", "JavaScript"];
+
+    // Basic iteration
+    for lang in languages.iter() {
+        println!("I know {}", lang);
+    }
+
+    // Using functional programming features
+    let favorite_langs: Vec&lt;_&gt; = languages
+        .iter()
+        .filter(|&amp;lang| *lang == "Rust" || *lang == "Python")
+        .collect();
+
+    println!("My favorite languages are:");
+    for lang in favorite_langs {
+        println!("- {}", lang);
+    }
+}</code></pre></pre>
+<p>Build and run the project:</p>
+<pre><code class="language-bash">cargo run
+</code></pre>
+<p>You should see output like:</p>
+<pre><code>Hello, Rust Universe!
+I know Rust
+I know C++
+I know Python
+I know JavaScript
+My favorite languages are:
+- Rust
+- Python
+</code></pre>
+<h2 id="tour-of-the-standard-library-documentation"><a class="header" href="#tour-of-the-standard-library-documentation">Tour of the Standard Library Documentation</a></h2>
+<p>The Rust documentation is exceptional and should be one of your primary learning resources.</p>
+<h3 id="accessing-documentation"><a class="header" href="#accessing-documentation">Accessing Documentation</a></h3>
+<pre><code class="language-bash"># Open local documentation for all installed crates
+rustup doc
+
+# Open standard library documentation
+rustup doc --std
+
+# Generate and open documentation for your project and dependencies
+cargo doc --open
+</code></pre>
+<h3 id="documentation-structure"><a class="header" href="#documentation-structure">Documentation Structure</a></h3>
+<p>The standard library (<code>std</code>) is organized into modules:</p>
+<ul>
+<li><code>std::collections</code>: Data structures like Vec, HashMap, etc.</li>
+<li><code>std::fs</code>: File system operations</li>
+<li><code>std::io</code>: Input/output functionality</li>
+<li><code>std::net</code>: Networking</li>
+<li><code>std::path</code>: File path manipulation</li>
+<li><code>std::sync</code>: Synchronization primitives</li>
+<li><code>std::thread</code>: Threading support</li>
+<li><code>std::time</code>: Time-related functions</li>
+</ul>
+<h3 id="what-makes-rust-documentation-special"><a class="header" href="#what-makes-rust-documentation-special">What Makes Rust Documentation Special</a></h3>
+<p>Rust documentation includes:</p>
+<ol>
+<li><strong>Detailed explanations</strong> of types and functions</li>
+<li><strong>Runnable examples</strong> that double as tests</li>
+<li><strong>Cross-references</strong> to related items</li>
+<li><strong>Implementation notes</strong> explaining design decisions</li>
+<li><strong>Version information</strong> showing when features were added</li>
+</ol>
+<p>Example from the <code>Vec</code> documentation:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Creating a vector
+let mut vec = Vec::new();
+vec.push(1);
+vec.push(2);
+
+// Indexing
+assert_eq!(vec[0], 1);
+
+// Iterating
+for x in &amp;vec {
+    println!("{}", x);
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-documentation-effectively"><a class="header" href="#using-documentation-effectively">Using Documentation Effectively</a></h3>
+<ol>
+<li>Use the search function to find types and functions</li>
+<li>Look at the examples for practical usage</li>
+<li>Check the “Trait Implementations” section to see available methods</li>
+<li>Use module documentation to understand how components relate</li>
+</ol>
+<h2 id="managing-dependencies-and-cratesio"><a class="header" href="#managing-dependencies-and-cratesio">Managing Dependencies and crates.io</a></h2>
+<p>Rust’s package ecosystem centers around crates.io, the community’s package registry.</p>
+<h3 id="finding-packages"><a class="header" href="#finding-packages">Finding Packages</a></h3>
+<p>Browse <a href="https://crates.io">crates.io</a> to find packages, or use:</p>
+<ul>
+<li><a href="https://lib.rs">lib.rs</a>: Alternative crate index with more metadata</li>
+<li>Search from the command line: <code>cargo search keywords</code></li>
+</ul>
+<pre><code class="language-bash">cargo search http client
+</code></pre>
+<h3 id="adding-dependencies"><a class="header" href="#adding-dependencies">Adding Dependencies</a></h3>
+<p>Add dependencies in two ways:</p>
+<pre><code class="language-bash"># Using Cargo command
+cargo add serde --features derive
+cargo add tokio --features full
+cargo add rand@0.8.5  # Specific version
+</code></pre>
+<p>Or manually edit <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+rand = "0.8.5"
+</code></pre>
+<h3 id="dependency-version-syntax"><a class="header" href="#dependency-version-syntax">Dependency Version Syntax</a></h3>
+<p>Cargo uses semantic versioning with smart defaults:</p>
+<ul>
+<li><code>1.0.0</code>: Exactly version 1.0.0</li>
+<li><code>"1"</code> or <code>"1.0"</code> or <code>"^1.0.0"</code>: Compatible with 1.0.0 up to 2.0.0</li>
+<li><code>"~1.0.0"</code>: Minor updates only (1.0.0 up to 1.1.0)</li>
+<li><code>"&gt;=1.0.0, &lt;2.0.0"</code>: Explicit version range</li>
+<li><code>"*"</code>: Latest version (not recommended)</li>
+</ul>
+<h3 id="updating-dependencies"><a class="header" href="#updating-dependencies">Updating Dependencies</a></h3>
+<pre><code class="language-bash"># Update all dependencies within version constraints
+cargo update
+
+# Update a specific dependency
+cargo update -p rand
+
+# Check outdated dependencies
+cargo outdated  # Requires cargo-outdated: cargo install cargo-outdated
+</code></pre>
+<h2 id="common-development-workflow-in-rust"><a class="header" href="#common-development-workflow-in-rust">Common Development Workflow in Rust</a></h2>
+<p>A typical Rust development workflow involves these steps:</p>
+<h3 id="1-setup-and-planning"><a class="header" href="#1-setup-and-planning">1. Setup and Planning</a></h3>
+<pre><code class="language-bash"># Create new project
+cargo new my_project
+cd my_project
+
+# Add initial dependencies
+cargo add serde --features derive
+</code></pre>
+<h3 id="2-development-cycle"><a class="header" href="#2-development-cycle">2. Development Cycle</a></h3>
+<pre><code class="language-bash"># Quick error check (faster than building)
+cargo check
+
+# Format your code
+cargo fmt
+
+# Run the linter for best practices
+cargo clippy
+
+# Run tests
+cargo test
+
+# Run your application
+cargo run
+</code></pre>
+<h3 id="3-optimization"><a class="header" href="#3-optimization">3. Optimization</a></h3>
+<pre><code class="language-bash"># Build with optimizations
+cargo build --release
+
+# Run benchmarks (if you have them)
+cargo bench
+</code></pre>
+<h3 id="4-documentation"><a class="header" href="#4-documentation">4. Documentation</a></h3>
+<pre><code class="language-bash"># Generate documentation
+cargo doc --open
+
+# Test documentation examples
+cargo test --doc
+</code></pre>
+<h3 id="5-publishing-for-libraries"><a class="header" href="#5-publishing-for-libraries">5. Publishing (for libraries)</a></h3>
+<pre><code class="language-bash"># Verify package can be published
+cargo publish --dry-run
+
+# Publish to crates.io
+cargo publish
+</code></pre>
+<h3 id="continuous-integration-practices"><a class="header" href="#continuous-integration-practices">Continuous Integration Practices</a></h3>
+<p>A common CI workflow for Rust might include:</p>
+<pre><code class="language-yaml"># Example CI workflow
+steps:
+  - uses: actions/checkout@v3
+  - uses: dtolnay/rust-toolchain@stable
+    with:
+      components: rustfmt, clippy
+  - run: cargo fmt --all -- --check
+  - run: cargo clippy -- -D warnings
+  - run: cargo test
+  - run: cargo build --release
+</code></pre>
+<h2 id="-project-command-line-calculator"><a class="header" href="#-project-command-line-calculator">🔨 Project: Command-line Calculator</a></h2>
+<p>Let’s build a simple command-line calculator to apply what we’ve learned about the Rust toolchain.</p>
+<h3 id="project-requirements"><a class="header" href="#project-requirements">Project Requirements</a></h3>
+<ol>
+<li>Accept mathematical expressions from the command line</li>
+<li>Support basic operations: +, -, *, /, and parentheses</li>
+<li>Print results with proper formatting</li>
+<li>Handle errors gracefully</li>
+</ol>
+<h3 id="step-1-create-the-project"><a class="header" href="#step-1-create-the-project">Step 1: Create the Project</a></h3>
+<pre><code class="language-bash">cargo new rust_calculator
+cd rust_calculator
+</code></pre>
+<h3 id="step-2-add-dependencies"><a class="header" href="#step-2-add-dependencies">Step 2: Add Dependencies</a></h3>
+<p>We’ll use a parsing library to handle the expressions:</p>
+<pre><code class="language-bash">cargo add rust_decimal  # For precise decimal arithmetic
+cargo add logos         # For lexical analysis
+</code></pre>
+<h3 id="step-3-implement-the-calculator"><a class="header" href="#step-3-implement-the-calculator">Step 3: Implement the Calculator</a></h3>
+<p>Edit <code>src/main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use logos::Logos;
+use rust_decimal::Decimal;
+use std::env;
+use std::io::{self, Write};
+use std::collections::HashMap;
+use std::str::FromStr;
+
+#[derive(Logos, Debug, PartialEq)]
+enum Token {
+    #[regex(r"[0-9]+(\.[0-9]+)?", |lex| Decimal::from_str(lex.slice()).ok())]
+    Number(Decimal),
+
+    #[token("+")]
+    Plus,
+
+    #[token("-")]
+    Minus,
+
+    #[token("*")]
+    Multiply,
+
+    #[token("/")]
+    Divide,
+
+    #[token("(")]
+    LeftParen,
+
+    #[token(")")]
+    RightParen,
+
+    #[regex(r"[a-zA-Z][a-zA-Z0-9_]*", |lex| lex.slice().to_string())]
+    Identifier(String),
+
+    #[regex(r"[ \t\n\f]+", logos::skip)]
+    Whitespace,
+}
+
+struct Calculator {
+    variables: HashMap&lt;String, Decimal&gt;,
+}
+
+impl Calculator {
+    fn new() -&gt; Self {
+        let mut calc = Calculator {
+            variables: HashMap::new(),
+        };
+
+        // Add some constants
+        calc.variables.insert("pi".to_string(), Decimal::from_str("3.14159265359").unwrap());
+        calc.variables.insert("e".to_string(), Decimal::from_str("2.71828182846").unwrap());
+
+        calc
+    }
+
+    fn evaluate(&amp;mut self, expr: &amp;str) -&gt; Result&lt;Decimal, String&gt; {
+        let mut lexer = Token::lexer(expr);
+        let mut tokens = Vec::new();
+
+        while let Some(token) = lexer.next() {
+            match token {
+                Ok(token) =&gt; tokens.push(token),
+                Err(_) =&gt; return Err(format!("Invalid token at position {}", lexer.span().start)),
+            }
+        }
+
+        self.parse_expression(&amp;tokens)
+    }
+
+    fn parse_expression(&amp;self, tokens: &amp;[Token]) -&gt; Result&lt;Decimal, String&gt; {
+        // This is a simplified parser for demonstration
+        // A real calculator would implement a proper parser
+
+        if tokens.is_empty() {
+            return Err("Empty expression".to_string());
+        }
+
+        // Handle simple number case
+        if tokens.len() == 1 {
+            match &amp;tokens[0] {
+                Token::Number(n) =&gt; return Ok(*n),
+                Token::Identifier(name) =&gt; {
+                    return self.variables.get(name)
+                        .copied()
+                        .ok_or_else(|| format!("Unknown variable: {}", name));
+                }
+                _ =&gt; return Err("Invalid expression".to_string()),
+            }
+        }
+
+        // Handle basic operations (very simplified)
+        if tokens.len() == 3 {
+            let left = match &amp;tokens[0] {
+                Token::Number(n) =&gt; *n,
+                Token::Identifier(name) =&gt; {
+                    self.variables.get(name)
+                        .copied()
+                        .ok_or_else(|| format!("Unknown variable: {}", name))?
+                }
+                _ =&gt; return Err("Expected number or variable".to_string()),
+            };
+
+            let right = match &amp;tokens[2] {
+                Token::Number(n) =&gt; *n,
+                Token::Identifier(name) =&gt; {
+                    self.variables.get(name)
+                        .copied()
+                        .ok_or_else(|| format!("Unknown variable: {}", name))?
+                }
+                _ =&gt; return Err("Expected number or variable".to_string()),
+            };
+
+            match &amp;tokens[1] {
+                Token::Plus =&gt; Ok(left + right),
+                Token::Minus =&gt; Ok(left - right),
+                Token::Multiply =&gt; Ok(left * right),
+                Token::Divide =&gt; {
+                    if right.is_zero() {
+                        Err("Division by zero".to_string())
+                    } else {
+                        Ok(left / right)
+                    }
+                }
+                _ =&gt; Err("Expected operator".to_string()),
+            }
+        } else {
+            Err("Complex expressions not yet supported".to_string())
+        }
+    }
+}
+
+fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+    let mut calculator = Calculator::new();
+
+    // Interactive mode or command-line mode
+    if args.len() &lt;= 1 {
+        println!("Rust Calculator");
+        println!("Type 'exit' to quit");
+        println!("Available variables: pi, e");
+
+        loop {
+            print!("&gt; ");
+            io::stdout().flush().unwrap();
+
+            let mut input = String::new();
+            io::stdin().read_line(&amp;mut input).unwrap();
+
+            let input = input.trim();
+            if input == "exit" {
+                break;
+            }
+
+            match calculator.evaluate(input) {
+                Ok(result) =&gt; println!("{}", result),
+                Err(err) =&gt; println!("Error: {}", err),
+            }
+        }
+    } else {
+        // Use the expression from command line
+        let expression = &amp;args[1];
+        match calculator.evaluate(expression) {
+            Ok(result) =&gt; println!("{}", result),
+            Err(err) =&gt; {
+                eprintln!("Error: {}", err);
+                std::process::exit(1);
+            }
+        }
+    }
+}</code></pre></pre>
+<h3 id="step-4-build-and-run-the-calculator"><a class="header" href="#step-4-build-and-run-the-calculator">Step 4: Build and Run the Calculator</a></h3>
+<pre><code class="language-bash"># Interactive mode
+cargo run
+
+# Command line mode
+cargo run "5 + 3"     # Output: 8
+cargo run "pi * 2"    # Output: 6.2831853072
+</code></pre>
+<h3 id="step-5-analyze-what-weve-learned"><a class="header" href="#step-5-analyze-what-weve-learned">Step 5: Analyze What We’ve Learned</a></h3>
+<p>Through this project, we’ve applied several concepts:</p>
+<ol>
+<li>Creating a new Rust project with Cargo</li>
+<li>Adding and using external dependencies</li>
+<li>Implementing a lexer and basic parser</li>
+<li>Using Rust’s Result type for error handling</li>
+<li>Building both an interactive and command-line interface</li>
+<li>Using Rust’s type system for safety and clarity</li>
+</ol>
+<h3 id="step-6-extending-the-project"><a class="header" href="#step-6-extending-the-project">Step 6: Extending the Project</a></h3>
+<p>This simple calculator can be extended in several ways:</p>
+<ol>
+<li>Add support for more complex expressions and operator precedence</li>
+<li>Implement functions like sin, cos, sqrt, etc.</li>
+<li>Allow defining custom variables and functions</li>
+<li>Add a history feature to recall previous calculations</li>
+<li>Support different number formats (binary, hex, scientific notation)</li>
+</ol>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored the Rust toolchain and set up a professional development environment. We’ve covered:</p>
+<ul>
+<li>Installing Rust with rustup and managing Rust versions</li>
+<li>Setting up integrated development environments for Rust</li>
+<li>Understanding Cargo and project organization</li>
+<li>Essential Cargo commands for common development tasks</li>
+<li>Creating and structuring new Rust projects</li>
+<li>Navigating Rust’s documentation system</li>
+<li>Managing dependencies with crates.io</li>
+<li>The typical Rust development workflow</li>
+<li>Building a practical command-line calculator</li>
+</ul>
+<p>With these tools and practices, you now have a solid foundation for Rust development. The toolchain is designed to help you write better code by providing immediate feedback, comprehensive documentation, and streamlined workflows.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p><strong>Environment Setup</strong>: Install Rust and configure an IDE with Rust support. Create a simple “Hello, World!” program and run it.</p>
+</li>
+<li>
+<p><strong>Cargo Exploration</strong>: Create a new project and experiment with different Cargo commands: <code>check</code>, <code>build</code>, <code>test</code>, <code>run</code>, <code>doc</code>, <code>clippy</code>, and <code>fmt</code>.</p>
+</li>
+<li>
+<p><strong>Documentation Practice</strong>: Navigate the standard library documentation to find three different collection types. Create examples of how to use each one.</p>
+</li>
+<li>
+<p><strong>Dependency Management</strong>: Create a project that uses at least two external dependencies. Try updating them and observe the changes in Cargo.lock.</p>
+</li>
+<li>
+<p><strong>Calculator Extensions</strong>: Extend the calculator project with at least two of the suggested improvements from Step 6.</p>
+</li>
+<li>
+<p><strong>CI/CD Setup</strong>: If you have a GitHub account, create a simple Rust project with a GitHub Actions workflow that builds and tests your code on each push.</p>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch01-00-getting-started.html">The Rust Programming Language: Getting Started</a></li>
+<li><a href="https://doc.rust-lang.org/cargo/">The Cargo Book</a></li>
+<li><a href="https://rust-lang.github.io/rustup/">Rustup Documentation</a></li>
+<li><a href="https://rust-analyzer.github.io/manual.html">rust-analyzer Manual</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/hello/print.html">Rust by Example: Hello Cargo</a></li>
+<li><a href="https://doc.rust-lang.org/rustdoc/">The rustdoc Book</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/02-introduction-to-rust.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/04-basic-syntax.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/02-introduction-to-rust.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/04-basic-syntax.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

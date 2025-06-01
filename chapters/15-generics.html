@@ -1,0 +1,1421 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction to Generics - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/15-generics.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-15-introduction-to-generics"><a class="header" href="#chapter-15-introduction-to-generics">Chapter 15: Introduction to Generics</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In programming, we often encounter situations where we need to write similar code for different types. For example, we might want to create a function that finds the largest element in a collection, regardless of whether that collection contains integers, floating-point numbers, or custom types. Without generics, we would need to write separate functions for each type, leading to code duplication and maintenance challenges.</p>
+<p>Rust’s generic programming features allow us to write flexible, reusable code that works with different types while maintaining type safety and performance. Unlike dynamic languages, Rust’s generics are resolved at compile time, which means there’s no runtime cost for using them.</p>
+<p>In this chapter, we’ll explore:</p>
+<ul>
+<li>What generics are and why we use them</li>
+<li>Generic data types in structs and enums</li>
+<li>Creating generic functions and methods</li>
+<li>Working with multiple generic parameters</li>
+<li>Adding constraints to generics</li>
+<li>Understanding how generics are compiled (monomorphization)</li>
+<li>Rust’s zero-cost abstractions</li>
+<li>Implementing traits for generic types</li>
+<li>Using type aliases with generics</li>
+<li>Working with generic constants (const generics)</li>
+<li>Specialization patterns</li>
+<li>How Rust’s generics compare to other languages</li>
+<li>Building a flexible generic data container</li>
+</ul>
+<p>By the end of this chapter, you’ll understand how to use generics to write code that is both flexible and efficient.</p>
+<h2 id="what-are-generics-and-why-use-them"><a class="header" href="#what-are-generics-and-why-use-them">What Are Generics and Why Use Them?</a></h2>
+<p>Generics are a way to write code that can work with multiple types. When we write generic code, we’re essentially creating a template that can be filled in with specific types when the code is used.</p>
+<h3 id="the-problem-code-duplication"><a class="header" href="#the-problem-code-duplication">The Problem: Code Duplication</a></h3>
+<p>Consider a function that finds the largest number in a list of integers:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now, what if we also need a function to find the largest character in a list of characters? Without generics, we would have to write another very similar function:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn largest_char(list: &amp;[char]) -&gt; &amp;char {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+<span class="boring">}</span></code></pre></pre>
+<p>These functions are almost identical, with the only difference being the type they operate on. This duplication makes our code harder to maintain and more prone to errors.</p>
+<h3 id="the-solution-generics"><a class="header" href="#the-solution-generics">The Solution: Generics</a></h3>
+<p>With generics, we can write a single function that works with different types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; &amp;T {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+<span class="boring">}</span></code></pre></pre>
+<p>In this function, <code>&lt;T: std::cmp::PartialOrd&gt;</code> declares a generic type parameter <code>T</code> that must implement the <code>PartialOrd</code> trait, which allows for comparison between values.</p>
+<p>Now we can use the same function for both integers and characters:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest(&amp;number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+    let result = largest(&amp;char_list);
+    println!("The largest char is {}", result);
+}</code></pre></pre>
+<h3 id="benefits-of-generics"><a class="header" href="#benefits-of-generics">Benefits of Generics</a></h3>
+<p>Using generics offers several advantages:</p>
+<ol>
+<li><strong>Code Reuse</strong>: Write code once that works with many types</li>
+<li><strong>Type Safety</strong>: Maintain strong type checking at compile time</li>
+<li><strong>Performance</strong>: No runtime cost since generics are resolved at compile time</li>
+<li><strong>Abstraction</strong>: Express algorithms in their most general form</li>
+<li><strong>API Design</strong>: Create flexible interfaces that work with many types</li>
+</ol>
+<h2 id="generic-data-types"><a class="header" href="#generic-data-types">Generic Data Types</a></h2>
+<p>Let’s explore how to use generics with structs, enums, and other data types.</p>
+<h3 id="generic-structs"><a class="header" href="#generic-structs">Generic Structs</a></h3>
+<p>We can define structs to use generic type parameters:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This definition says that the <code>Point</code> struct is generic over some type <code>T</code>, and both <code>x</code> and <code>y</code> are of type <code>T</code>. This means that when we create an instance of <code>Point</code>, both <code>x</code> and <code>y</code> must be of the same type:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let integer_point = Point { x: 5, y: 10 };
+    let float_point = Point { x: 1.0, y: 4.0 };
+
+    // This would not compile because x and y must be the same type
+    // let mixed_point = Point { x: 5, y: 4.0 };
+}</code></pre></pre>
+<p>If we want to allow different types for <code>x</code> and <code>y</code>, we can use multiple generic parameters:</p>
+<pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
+    x: T,
+    y: U,
+}
+
+fn main() {
+    let mixed_point = Point { x: 5, y: 4.0 };
+}</code></pre></pre>
+<h3 id="generic-enums"><a class="header" href="#generic-enums">Generic Enums</a></h3>
+<p>Enums can also be generic. In fact, two of the most common enums in the standard library, <code>Option&lt;T&gt;</code> and <code>Result&lt;T, E&gt;</code>, are generic:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+
+enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>These enums are so useful precisely because they can work with any type. <code>Option&lt;T&gt;</code> represents a value that might be present (<code>Some(T)</code>) or absent (<code>None</code>), while <code>Result&lt;T, E&gt;</code> represents an operation that might succeed with a value of type <code>T</code> or fail with an error of type <code>E</code>.</p>
+<p>Let’s see how we might use these in practice:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn find_user_by_id(id: u32) -&gt; Option&lt;User&gt; {
+    if id == 42 {
+        Some(User { name: "Alice".to_string(), age: 30 })
+    } else {
+        None
+    }
+}
+
+fn parse_age(s: &amp;str) -&gt; Result&lt;u32, String&gt; {
+    match s.parse() {
+        Ok(age) =&gt; Ok(age),
+        Err(_) =&gt; Err("Failed to parse age".to_string()),
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="custom-generic-types"><a class="header" href="#custom-generic-types">Custom Generic Types</a></h3>
+<p>We can create our own generic types for specific use cases. For example, let’s create a generic <code>Pair</code> type that holds two values of the same type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Pair&lt;T&gt; {
+    first: T,
+    second: T,
+}
+
+impl&lt;T&gt; Pair&lt;T&gt; {
+    fn new(first: T, second: T) -&gt; Self {
+        Pair { first, second }
+    }
+
+    fn swap(&amp;mut self) {
+        std::mem::swap(&amp;mut self.first, &amp;mut self.second);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This <code>Pair</code> type could be used with any type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let number_pair = Pair::new(42, 24);
+let string_pair = Pair::new("hello".to_string(), "world".to_string());
+<span class="boring">}</span></code></pre></pre>
+<h2 id="generic-functions-and-methods"><a class="header" href="#generic-functions-and-methods">Generic Functions and Methods</a></h2>
+<p>Let’s explore how to use generics with functions and methods.</p>
+<h3 id="generic-functions"><a class="header" href="#generic-functions">Generic Functions</a></h3>
+<p>We’ve already seen a simple example of a generic function that finds the largest value in a slice:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; &amp;T {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+<span class="boring">}</span></code></pre></pre>
+<p>We can define more complex generic functions as well. Here’s a function that takes two values of the same type and returns the second one:</p>
+<pre><pre class="playground"><code class="language-rust">fn return_second&lt;T&gt;(first: T, second: T) -&gt; T {
+    second
+}
+
+fn main() {
+    let result = return_second(5, 10); // result is 10
+    let result = return_second("hello", "world"); // result is "world"
+}</code></pre></pre>
+<h3 id="generic-methods"><a class="header" href="#generic-methods">Generic Methods</a></h3>
+<p>We can define methods on generic types:</p>
+<pre><pre class="playground"><code class="language-rust">struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Point { x, y }
+    }
+
+    fn get_x(&amp;self) -&gt; &amp;T {
+        &amp;self.x
+    }
+
+    fn get_y(&amp;self) -&gt; &amp;T {
+        &amp;self.y
+    }
+}
+
+fn main() {
+    let p = Point::new(5, 10);
+    println!("p.x = {}", p.get_x());
+    println!("p.y = {}", p.get_y());
+}</code></pre></pre>
+<h3 id="type-specific-method-implementations"><a class="header" href="#type-specific-method-implementations">Type-Specific Method Implementations</a></h3>
+<p>We can also implement methods that are specific to certain types:</p>
+<pre><pre class="playground"><code class="language-rust">impl Point&lt;f64&gt; {
+    fn distance_from_origin(&amp;self) -&gt; f64 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+
+fn main() {
+    let p = Point::new(3.0, 4.0);
+    println!("Distance from origin: {}", p.distance_from_origin()); // 5.0
+
+    // This would not compile because distance_from_origin is only available for Point&lt;f64&gt;
+    // let p = Point::new(3, 4);
+    // println!("Distance from origin: {}", p.distance_from_origin());
+}</code></pre></pre>
+<h3 id="generic-methods-with-different-types"><a class="header" href="#generic-methods-with-different-types">Generic Methods with Different Types</a></h3>
+<p>We can also define generic methods on generic types, where the method’s generic parameter might be different from the type’s generic parameter:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn mixup&lt;U&gt;(self, other: Point&lt;U&gt;) -&gt; Point&lt;T&gt; {
+        Point {
+            x: self.x,
+            y: other.y, // This wouldn't work because other.y is of type U, not T
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Oops, that won’t work! Let’s fix it by using a different return type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn mixup&lt;U&gt;(self, other: Point&lt;U&gt;) -&gt; Point&lt;U&gt; {
+        Point {
+            x: other.x,
+            y: self.y, // This still won't work because self.y is of type T, not U
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>That’s still not right. Let’s create a new type that can hold both T and U:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn mixup&lt;U&gt;(self, other: Point&lt;U&gt;) -&gt; Point&lt;(T, U)&gt; {
+        Point {
+            x: (self.x, other.x),
+            y: (self.y, other.y),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>No, that’s not ideal either. Let’s use a different type for the return value:</p>
+<pre><pre class="playground"><code class="language-rust">struct Point&lt;T, U&gt; {
+    x: T,
+    y: U,
+}
+
+impl&lt;T, U&gt; Point&lt;T, U&gt; {
+    fn mixup&lt;V, W&gt;(self, other: Point&lt;V, W&gt;) -&gt; Point&lt;T, W&gt; {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c' };
+
+    let p3 = p1.mixup(p2);
+
+    println!("p3.x = {}, p3.y = {}", p3.x, p3.y); // p3.x = 5, p3.y = c
+}</code></pre></pre>
+<p>This works because we’ve made both <code>Point</code> and the <code>mixup</code> method generic, allowing us to combine values of different types.</p>
+<h2 id="multiple-generic-parameters"><a class="header" href="#multiple-generic-parameters">Multiple Generic Parameters</a></h2>
+<p>As we’ve seen, we can use multiple generic parameters in our type and function definitions.</p>
+<h3 id="multiple-type-parameters"><a class="header" href="#multiple-type-parameters">Multiple Type Parameters</a></h3>
+<p>Here’s an example of a struct with multiple generic parameters:</p>
+<pre><pre class="playground"><code class="language-rust">struct KeyValue&lt;K, V&gt; {
+    key: K,
+    value: V,
+}
+
+impl&lt;K, V&gt; KeyValue&lt;K, V&gt; {
+    fn new(key: K, value: V) -&gt; Self {
+        KeyValue { key, value }
+    }
+
+    fn get_key(&amp;self) -&gt; &amp;K {
+        &amp;self.key
+    }
+
+    fn get_value(&amp;self) -&gt; &amp;V {
+        &amp;self.value
+    }
+}
+
+fn main() {
+    let kv = KeyValue::new("name", "Alice");
+    println!("Key: {}, Value: {}", kv.get_key(), kv.get_value());
+
+    let kv2 = KeyValue::new(1, true);
+    println!("Key: {}, Value: {}", kv2.get_key(), kv2.get_value());
+}</code></pre></pre>
+<h3 id="complex-generic-functions"><a class="header" href="#complex-generic-functions">Complex Generic Functions</a></h3>
+<p>We can create functions with multiple generic parameters as well:</p>
+<pre><pre class="playground"><code class="language-rust">fn print_pair&lt;T: std::fmt::Display, U: std::fmt::Display&gt;(first: T, second: U) {
+    println!("({}, {})", first, second);
+}
+
+fn main() {
+    print_pair(5, "hello"); // (5, hello)
+    print_pair(true, 3.14); // (true, 3.14)
+}</code></pre></pre>
+<h3 id="tuple-structs-with-multiple-generic-parameters"><a class="header" href="#tuple-structs-with-multiple-generic-parameters">Tuple Structs with Multiple Generic Parameters</a></h3>
+<p>We can also create tuple structs with multiple generic parameters:</p>
+<pre><pre class="playground"><code class="language-rust">struct Pair&lt;T, U&gt;(T, U);
+
+fn main() {
+    let pair = Pair(5, "hello");
+    println!("({}, {})", pair.0, pair.1); // (5, hello)
+}</code></pre></pre>
+<h2 id="constraints-on-generics"><a class="header" href="#constraints-on-generics">Constraints on Generics</a></h2>
+<p>When using generics, we often need to specify what capabilities a type must have. This is where trait bounds come into play.</p>
+<h3 id="basic-trait-bounds"><a class="header" href="#basic-trait-bounds">Basic Trait Bounds</a></h3>
+<p>We can constrain generic types to those that implement specific traits:</p>
+<pre><pre class="playground"><code class="language-rust">fn print_item&lt;T: std::fmt::Display&gt;(item: T) {
+    println!("Item: {}", item);
+}
+
+fn main() {
+    print_item(5); // Works: i32 implements Display
+    print_item("hello"); // Works: &amp;str implements Display
+
+    // This would not compile because Vec&lt;i32&gt; does not implement Display
+    // print_item(vec![1, 2, 3]);
+}</code></pre></pre>
+<h3 id="multiple-trait-bounds"><a class="header" href="#multiple-trait-bounds">Multiple Trait Bounds</a></h3>
+<p>We can specify that a type must implement multiple traits using the <code>+</code> syntax:</p>
+<pre><pre class="playground"><code class="language-rust">use std::fmt::Display;
+use std::cmp::PartialOrd;
+
+fn print_and_compare&lt;T: Display + PartialOrd&gt;(a: T, b: T) {
+    println!("a = {}, b = {}", a, b);
+
+    if a &gt; b {
+        println!("{} is greater than {}", a, b);
+    } else if a &lt; b {
+        println!("{} is less than {}", a, b);
+    } else {
+        println!("{} is equal to {}", a, b);
+    }
+}
+
+fn main() {
+    print_and_compare(5, 10); // 5 is less than 10
+    print_and_compare("hello", "world"); // hello is less than world
+}</code></pre></pre>
+<h3 id="where-clauses"><a class="header" href="#where-clauses">Where Clauses</a></h3>
+<p>For more complex trait bounds, we can use <code>where</code> clauses for better readability:</p>
+<pre><pre class="playground"><code class="language-rust">use std::fmt::{Debug, Display};
+
+fn some_function&lt;T, U&gt;(t: T, u: U) -&gt; i32
+    where T: Display + Clone,
+          U: Clone + Debug
+{
+    println!("t = {}", t);
+    println!("u = {:?}", u);
+    42
+}
+
+fn main() {
+    let result = some_function("hello", vec![1, 2, 3]);
+    println!("Result: {}", result);
+}</code></pre></pre>
+<h3 id="conditional-method-implementations"><a class="header" href="#conditional-method-implementations">Conditional Method Implementations</a></h3>
+<p>We can use trait bounds to conditionally implement methods that are only available when a type satisfies certain constraints:</p>
+<pre><pre class="playground"><code class="language-rust">struct Pair&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Pair&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Pair { x, y }
+    }
+}
+
+// This method is only available for Pair&lt;T&gt; where T: Display + PartialOrd
+impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
+    fn cmp_display(&amp;self) {
+        if self.x &gt;= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+
+fn main() {
+    let pair = Pair::new(5, 10);
+    pair.cmp_display(); // The largest member is y = 10
+
+    // This would compile because String implements Display + PartialOrd
+    let pair = Pair::new("hello".to_string(), "world".to_string());
+    pair.cmp_display(); // The largest member is y = world
+
+    // This would not compile because Vec&lt;i32&gt; does not implement Display
+    // let pair = Pair::new(vec![1, 2], vec![3, 4]);
+    // pair.cmp_display();
+}</code></pre></pre>
+<h3 id="blanket-implementations"><a class="header" href="#blanket-implementations">Blanket Implementations</a></h3>
+<p>Rust also allows for “blanket implementations,” where we implement a trait for any type that satisfies certain constraints:</p>
+<pre><pre class="playground"><code class="language-rust">trait AsJson {
+    fn as_json(&amp;self) -&gt; String;
+}
+
+// Implement AsJson for any type that implements Display
+impl&lt;T: Display&gt; AsJson for T {
+    fn as_json(&amp;self) -&gt; String {
+        format!("\"{}\"", self)
+    }
+}
+
+fn main() {
+    let num = 42;
+    println!("{}", num.as_json()); // "42"
+
+    let message = "hello";
+    println!("{}", message.as_json()); // "hello"
+}</code></pre></pre>
+<p>This is a powerful feature that allows us to extend the functionality of any type that meets certain criteria.</p>
+<h2 id="monomorphization-and-performance"><a class="header" href="#monomorphization-and-performance">Monomorphization and Performance</a></h2>
+<p>One of the great things about Rust’s generics is that they have no runtime cost. This is achieved through a process called monomorphization.</p>
+<h3 id="what-is-monomorphization"><a class="header" href="#what-is-monomorphization">What is Monomorphization?</a></h3>
+<p>Monomorphization is the process of turning generic code into specific code by filling in the concrete types that are used when compiled. This means that when you use a generic function with specific types, Rust generates specialized versions of that function for those types.</p>
+<p>For example, if you call <code>largest</code> with <code>i32</code> and <code>char</code> slices:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let integer_list = vec![1, 2, 3];
+let largest_int = largest(&amp;integer_list);
+
+let char_list = vec!['a', 'b', 'c'];
+let largest_char = largest(&amp;char_list);
+<span class="boring">}</span></code></pre></pre>
+<p>The Rust compiler will generate two functions, equivalent to:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
+    let mut largest = &amp;list[0];
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn largest_char(list: &amp;[char]) -&gt; &amp;char {
+    let mut largest = &amp;list[0];
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+    largest
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is done at compile time, so there’s no runtime overhead for using generics.</p>
+<h3 id="performance-implications"><a class="header" href="#performance-implications">Performance Implications</a></h3>
+<p>This approach has several performance benefits:</p>
+<ol>
+<li>
+<p><strong>No Runtime Type Resolution</strong>: Unlike dynamic languages, Rust doesn’t need to determine types at runtime.</p>
+</li>
+<li>
+<p><strong>Optimized Code</strong>: Each monomorphized function can be optimized specifically for its concrete type.</p>
+</li>
+<li>
+<p><strong>Inlining</strong>: The compiler can inline specialized functions, further improving performance.</p>
+</li>
+</ol>
+<p>The trade-off is that monomorphization can lead to larger binary sizes, as the compiler generates multiple copies of the same function for different types. However, this is generally a worthwhile trade-off for the performance benefits.</p>
+<h2 id="zero-cost-abstractions"><a class="header" href="#zero-cost-abstractions">Zero-Cost Abstractions</a></h2>
+<p>Rust is built on the principle of “zero-cost abstractions,” which means that abstractions should not impose a runtime penalty. Generics are a prime example of this principle.</p>
+<h3 id="what-are-zero-cost-abstractions"><a class="header" href="#what-are-zero-cost-abstractions">What Are Zero-Cost Abstractions?</a></h3>
+<p>The concept of zero-cost abstractions was articulated by Bjarne Stroustrup, the creator of C++, as:</p>
+<blockquote>
+<p>What you don’t use, you don’t pay for. And further: What you do use, you couldn’t hand code any better.</p>
+</blockquote>
+<p>In other words, using an abstraction should not be slower than writing the equivalent specialized code by hand.</p>
+<h3 id="examples-in-rust"><a class="header" href="#examples-in-rust">Examples in Rust</a></h3>
+<p>Rust’s zero-cost abstractions include:</p>
+<ol>
+<li>
+<p><strong>Generics</strong>: As we’ve seen, generics are resolved at compile time through monomorphization.</p>
+</li>
+<li>
+<p><strong>Iterators</strong>: Rust’s iterators provide high-level abstractions that compile down to efficient code, often as fast as hand-written loops.</p>
+</li>
+<li>
+<p><strong>Traits</strong>: Trait implementations and dispatch mechanisms are designed to have minimal or no runtime cost.</p>
+</li>
+</ol>
+<p>Let’s see an example of how Rust’s iterators are zero-cost:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn sum_with_for_loop(numbers: &amp;[i32]) -&gt; i32 {
+    let mut sum = 0;
+    for &amp;n in numbers {
+        sum += n;
+    }
+    sum
+}
+
+fn sum_with_iterator(numbers: &amp;[i32]) -&gt; i32 {
+    numbers.iter().sum()
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Both of these functions will compile to essentially the same machine code, but the iterator version is more concise and expressive.</p>
+<h2 id="generic-implementations"><a class="header" href="#generic-implementations">Generic Implementations</a></h2>
+<p>We can implement traits generically for a range of types, allowing us to provide shared functionality efficiently.</p>
+<h3 id="implementing-traits-for-generic-types"><a class="header" href="#implementing-traits-for-generic-types">Implementing Traits for Generic Types</a></h3>
+<p>Here’s an example of implementing a trait for a generic type:</p>
+<pre><pre class="playground"><code class="language-rust">trait Printable {
+    fn print(&amp;self);
+}
+
+struct Wrapper&lt;T&gt; {
+    value: T,
+}
+
+impl&lt;T: Display&gt; Printable for Wrapper&lt;T&gt; {
+    fn print(&amp;self) {
+        println!("Wrapper containing: {}", self.value);
+    }
+}
+
+fn main() {
+    let w = Wrapper { value: 42 };
+    w.print(); // Wrapper containing: 42
+
+    let w = Wrapper { value: "hello" };
+    w.print(); // Wrapper containing: hello
+}</code></pre></pre>
+<h3 id="implementing-generic-traits-for-specific-types"><a class="header" href="#implementing-generic-traits-for-specific-types">Implementing Generic Traits for Specific Types</a></h3>
+<p>We can also implement generic traits for specific types:</p>
+<pre><pre class="playground"><code class="language-rust">trait Converter&lt;T&gt; {
+    fn convert(&amp;self) -&gt; T;
+}
+
+impl Converter&lt;String&gt; for i32 {
+    fn convert(&amp;self) -&gt; String {
+        self.to_string()
+    }
+}
+
+impl Converter&lt;i32&gt; for String {
+    fn convert(&amp;self) -&gt; i32 {
+        self.parse().unwrap_or(0)
+    }
+}
+
+fn main() {
+    let num = 42;
+    let str = num.convert();
+    println!("{}", str); // "42"
+
+    let str = String::from("123");
+    let num: i32 = str.convert();
+    println!("{}", num); // 123
+}</code></pre></pre>
+<h2 id="type-aliases-with-generics"><a class="header" href="#type-aliases-with-generics">Type Aliases with Generics</a></h2>
+<p>Type aliases allow us to create shorthand names for complex types, including generic types.</p>
+<h3 id="basic-type-aliases"><a class="header" href="#basic-type-aliases">Basic Type Aliases</a></h3>
+<p>Here’s a simple example of a type alias:</p>
+<pre><pre class="playground"><code class="language-rust">type IntResult = Result&lt;i32, String&gt;;
+
+fn parse_number(s: &amp;str) -&gt; IntResult {
+    match s.parse::&lt;i32&gt;() {
+        Ok(n) =&gt; Ok(n),
+        Err(_) =&gt; Err(format!("Failed to parse: {}", s)),
+    }
+}
+
+fn main() {
+    let result: IntResult = parse_number("42");
+    println!("{:?}", result); // Ok(42)
+}</code></pre></pre>
+<h3 id="generic-type-aliases"><a class="header" href="#generic-type-aliases">Generic Type Aliases</a></h3>
+<p>We can also create generic type aliases:</p>
+<pre><pre class="playground"><code class="language-rust">type Result&lt;T&gt; = std::result::Result&lt;T, String&gt;;
+
+fn parse&lt;T: std::str::FromStr&gt;(s: &amp;str) -&gt; Result&lt;T&gt; {
+    match s.parse::&lt;T&gt;() {
+        Ok(value) =&gt; Ok(value),
+        Err(_) =&gt; Err(format!("Failed to parse: {}", s)),
+    }
+}
+
+fn main() {
+    let int_result: Result&lt;i32&gt; = parse("42");
+    println!("{:?}", int_result); // Ok(42)
+
+    let float_result: Result&lt;f64&gt; = parse("3.14");
+    println!("{:?}", float_result); // Ok(3.14)
+}</code></pre></pre>
+<h3 id="type-aliases-for-complex-types"><a class="header" href="#type-aliases-for-complex-types">Type Aliases for Complex Types</a></h3>
+<p>Type aliases are particularly useful for complex generic types:</p>
+<pre><pre class="playground"><code class="language-rust">type Map&lt;K, V&gt; = std::collections::HashMap&lt;K, V&gt;;
+type StringMap&lt;V&gt; = Map&lt;String, V&gt;;
+type Cache = StringMap&lt;Vec&lt;u8&gt;&gt;;
+
+fn main() {
+    let mut cache: Cache = Cache::new();
+    cache.insert("key1".to_string(), vec![1, 2, 3]);
+    println!("{:?}", cache.get("key1")); // Some([1, 2, 3])
+}</code></pre></pre>
+<h2 id="generic-constants-const-generics"><a class="header" href="#generic-constants-const-generics">Generic Constants (Const Generics)</a></h2>
+<p>Const generics allow us to use constant values as generic parameters. This feature was stabilized in Rust 1.51 and provides a way to write code that is generic over constant values, not just types.</p>
+<h3 id="basic-const-generics"><a class="header" href="#basic-const-generics">Basic Const Generics</a></h3>
+<p>Here’s an example of using const generics with arrays:</p>
+<pre><pre class="playground"><code class="language-rust">fn print_array&lt;const N: usize&gt;(arr: [i32; N]) {
+    println!("Array of length {}: {:?}", N, arr);
+}
+
+fn main() {
+    let arr1 = [1, 2, 3];
+    let arr2 = [1, 2, 3, 4, 5];
+
+    print_array(arr1); // Array of length 3: [1, 2, 3]
+    print_array(arr2); // Array of length 5: [1, 2, 3, 4, 5]
+}</code></pre></pre>
+<h3 id="implementing-traits-for-arrays-of-any-size"><a class="header" href="#implementing-traits-for-arrays-of-any-size">Implementing Traits for Arrays of Any Size</a></h3>
+<p>One powerful use of const generics is implementing traits for arrays of any size:</p>
+<pre><pre class="playground"><code class="language-rust">trait TransposeMatrix {
+    type Output;
+    fn transpose(self) -&gt; Self::Output;
+}
+
+impl&lt;T: Copy, const R: usize, const C: usize&gt; TransposeMatrix for [[T; C]; R] {
+    type Output = [[T; R]; C];
+
+    fn transpose(self) -&gt; Self::Output {
+        let mut result: [[T; R]; C] = [[self[0][0]; R]; C];
+
+        for r in 0..R {
+            for c in 0..C {
+                result[c][r] = self[r][c];
+            }
+        }
+
+        result
+    }
+}
+
+fn main() {
+    let matrix = [
+        [1, 2, 3],
+        [4, 5, 6],
+    ];
+
+    let transposed = matrix.transpose();
+
+    // Print the transposed matrix
+    for row in &amp;transposed {
+        println!("{:?}", row);
+    }
+    // [1, 4]
+    // [2, 5]
+    // [3, 6]
+}</code></pre></pre>
+<h3 id="custom-types-with-const-generics"><a class="header" href="#custom-types-with-const-generics">Custom Types with Const Generics</a></h3>
+<p>We can also create our own types that use const generics:</p>
+<pre><pre class="playground"><code class="language-rust">struct Matrix&lt;T, const ROWS: usize, const COLS: usize&gt; {
+    data: [[T; COLS]; ROWS],
+}
+
+impl&lt;T: Copy + Default, const R: usize, const C: usize&gt; Matrix&lt;T, R, C&gt; {
+    fn new() -&gt; Self {
+        let default_value = T::default();
+        Matrix {
+            data: [[default_value; C]; R],
+        }
+    }
+
+    fn get(&amp;self, row: usize, col: usize) -&gt; Option&lt;&amp;T&gt; {
+        if row &lt; R &amp;&amp; col &lt; C {
+            Some(&amp;self.data[row][col])
+        } else {
+            None
+        }
+    }
+
+    fn set(&amp;mut self, row: usize, col: usize, value: T) -&gt; bool {
+        if row &lt; R &amp;&amp; col &lt; C {
+            self.data[row][col] = value;
+            true
+        } else {
+            false
+        }
+    }
+}
+
+fn main() {
+    let mut matrix: Matrix&lt;i32, 2, 3&gt; = Matrix::new();
+
+    matrix.set(0, 0, 1);
+    matrix.set(0, 1, 2);
+    matrix.set(0, 2, 3);
+    matrix.set(1, 0, 4);
+    matrix.set(1, 1, 5);
+    matrix.set(1, 2, 6);
+
+    // Print the matrix
+    for r in 0..2 {
+        for c in 0..3 {
+            print!("{} ", matrix.get(r, c).unwrap());
+        }
+        println!();
+    }
+    // 1 2 3
+    // 4 5 6
+}</code></pre></pre>
+<h2 id="specialization-patterns"><a class="header" href="#specialization-patterns">Specialization Patterns</a></h2>
+<p>While full specialization is still an unstable feature in Rust, there are several patterns we can use to achieve similar effects.</p>
+<h3 id="type-specific-implementations"><a class="header" href="#type-specific-implementations">Type-Specific Implementations</a></h3>
+<p>As we’ve seen, we can implement methods for specific types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Point { x, y }
+    }
+}
+
+impl Point&lt;f64&gt; {
+    fn distance_from_origin(&amp;self) -&gt; f64 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="trait-based-specialization"><a class="header" href="#trait-based-specialization">Trait-Based Specialization</a></h3>
+<p>We can use traits to achieve a form of specialization:</p>
+<pre><pre class="playground"><code class="language-rust">trait Numeric {
+    fn zero() -&gt; Self;
+}
+
+impl Numeric for i32 {
+    fn zero() -&gt; Self {
+        0
+    }
+}
+
+impl Numeric for f64 {
+    fn zero() -&gt; Self {
+        0.0
+    }
+}
+
+struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Point { x, y }
+    }
+}
+
+impl&lt;T: Numeric&gt; Point&lt;T&gt; {
+    fn origin() -&gt; Self {
+        Point {
+            x: T::zero(),
+            y: T::zero(),
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point::&lt;i32&gt;::origin(); // Point { x: 0, y: 0 }
+    let p2 = Point::&lt;f64&gt;::origin(); // Point { x: 0.0, y: 0.0 }
+}</code></pre></pre>
+<h3 id="marker-traits"><a class="header" href="#marker-traits">Marker Traits</a></h3>
+<p>We can use marker traits for more complex specialization:</p>
+<pre><pre class="playground"><code class="language-rust">trait Marker {}
+
+impl Marker for i32 {}
+impl Marker for f64 {}
+
+struct Data&lt;T&gt;(T);
+
+impl&lt;T&gt; Data&lt;T&gt; {
+    fn new(value: T) -&gt; Self {
+        Data(value)
+    }
+
+    fn get(&amp;self) -&gt; &amp;T {
+        &amp;self.0
+    }
+}
+
+impl&lt;T: Marker&gt; Data&lt;T&gt; {
+    fn special_method(&amp;self) -&gt; String {
+        format!("Special method for marked types: {}", self.0)
+    }
+}
+
+fn main() {
+    let d1 = Data::new(42);
+    let d2 = Data::new("hello");
+
+    println!("{}", d1.special_method()); // Works because i32 implements Marker
+    // d2.special_method() would not compile because &amp;str doesn't implement Marker
+}</code></pre></pre>
+<h2 id="comparing-to-other-languages-generic-systems"><a class="header" href="#comparing-to-other-languages-generic-systems">Comparing to Other Languages’ Generic Systems</a></h2>
+<p>Rust’s generics are similar to those in other languages, but they have some important differences. Let’s compare Rust’s approach to generics with other common programming languages.</p>
+<h3 id="rust-vs-c"><a class="header" href="#rust-vs-c">Rust vs. C++</a></h3>
+<ul>
+<li>
+<p><strong>Similarities</strong>:</p>
+<ul>
+<li>Both use templates/generics for compile-time polymorphism</li>
+<li>Both use monomorphization for generating specialized code</li>
+<li>Both have zero runtime cost for generics</li>
+</ul>
+</li>
+<li>
+<p><strong>Differences</strong>:</p>
+<ul>
+<li>Rust generics are more constrained through trait bounds</li>
+<li>Rust’s trait system provides more structured abstraction</li>
+<li>C++ templates are more flexible but can lead to less clear error messages</li>
+</ul>
+</li>
+</ul>
+<h3 id="rust-vs-javac"><a class="header" href="#rust-vs-javac">Rust vs. Java/C#</a></h3>
+<ul>
+<li>
+<p><strong>Similarities</strong>:</p>
+<ul>
+<li>Both provide type safety for generic code</li>
+<li>Both allow constraints on generic types</li>
+</ul>
+</li>
+<li>
+<p><strong>Differences</strong>:</p>
+<ul>
+<li>Java/C# use type erasure at runtime, while Rust uses monomorphization</li>
+<li>Rust generics have no runtime cost, while Java/C# generics can have boxing overhead</li>
+<li>Java/C# use inheritance for constraints, while Rust uses traits</li>
+</ul>
+</li>
+</ul>
+<h3 id="rust-vs-typescript"><a class="header" href="#rust-vs-typescript">Rust vs. TypeScript</a></h3>
+<ul>
+<li>
+<p><strong>Similarities</strong>:</p>
+<ul>
+<li>Both provide strong type checking for generic code</li>
+<li>Both allow multiple type parameters</li>
+</ul>
+</li>
+<li>
+<p><strong>Differences</strong>:</p>
+<ul>
+<li>TypeScript’s generics are erased at runtime, while Rust’s are monomorphized</li>
+<li>Rust’s trait bounds are more powerful than TypeScript’s interfaces</li>
+<li>TypeScript allows more dynamic patterns due to its JavaScript foundation</li>
+</ul>
+</li>
+</ul>
+<h3 id="rust-vs-haskell"><a class="header" href="#rust-vs-haskell">Rust vs. Haskell</a></h3>
+<ul>
+<li>
+<p><strong>Similarities</strong>:</p>
+<ul>
+<li>Both have powerful type systems for generics</li>
+<li>Both support type classes/traits for constraining types</li>
+</ul>
+</li>
+<li>
+<p><strong>Differences</strong>:</p>
+<ul>
+<li>Haskell uses type erasure, while Rust uses monomorphization</li>
+<li>Haskell’s higher-kinded types are more expressive than Rust’s generics</li>
+<li>Rust has more control over memory layout and performance</li>
+</ul>
+</li>
+</ul>
+<h2 id="project-generic-data-container"><a class="header" href="#project-generic-data-container">Project: Generic Data Container</a></h2>
+<p>Let’s put our knowledge of generics to use by building a flexible data container that works with any type. We’ll create a generic <code>Container</code> that can store elements of any type, with various operations like adding, removing, and transforming elements.</p>
+<pre><pre class="playground"><code class="language-rust">use std::fmt::Debug;
+
+// A generic container that can hold elements of any type
+struct Container&lt;T&gt; {
+    items: Vec&lt;T&gt;,
+}
+
+impl&lt;T&gt; Container&lt;T&gt; {
+    // Create a new, empty container
+    fn new() -&gt; Self {
+        Container { items: Vec::new() }
+    }
+
+    // Create a container with initial values
+    fn with_items(items: Vec&lt;T&gt;) -&gt; Self {
+        Container { items }
+    }
+
+    // Add an item to the container
+    fn add(&amp;mut self, item: T) {
+        self.items.push(item);
+    }
+
+    // Remove an item at a specific index
+    fn remove(&amp;mut self, index: usize) -&gt; Option&lt;T&gt; {
+        if index &lt; self.items.len() {
+            Some(self.items.remove(index))
+        } else {
+            None
+        }
+    }
+
+    // Get a reference to an item at a specific index
+    fn get(&amp;self, index: usize) -&gt; Option&lt;&amp;T&gt; {
+        self.items.get(index)
+    }
+
+    // Get the number of items in the container
+    fn len(&amp;self) -&gt; usize {
+        self.items.len()
+    }
+
+    // Check if the container is empty
+    fn is_empty(&amp;self) -&gt; bool {
+        self.items.is_empty()
+    }
+
+    // Iterate over the items (consuming the container)
+    fn into_iter(self) -&gt; std::vec::IntoIter&lt;T&gt; {
+        self.items.into_iter()
+    }
+
+    // Get an iterator over references to the items
+    fn iter(&amp;self) -&gt; std::slice::Iter&lt;'_, T&gt; {
+        self.items.iter()
+    }
+
+    // Get an iterator over mutable references to the items
+    fn iter_mut(&amp;mut self) -&gt; std::slice::IterMut&lt;'_, T&gt; {
+        self.items.iter_mut()
+    }
+
+    // Map the container to a new container with a different type
+    fn map&lt;U, F&gt;(&amp;self, f: F) -&gt; Container&lt;U&gt;
+    where
+        F: Fn(&amp;T) -&gt; U,
+    {
+        Container {
+            items: self.items.iter().map(f).collect(),
+        }
+    }
+}
+
+// Add some convenient trait implementations for containers with elements that implement specific traits
+impl&lt;T: Debug&gt; Debug for Container&lt;T&gt; {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        f.debug_list().entries(self.items.iter()).finish()
+    }
+}
+
+impl&lt;T: Clone&gt; Clone for Container&lt;T&gt; {
+    fn clone(&amp;self) -&gt; Self {
+        Container {
+            items: self.items.clone(),
+        }
+    }
+}
+
+impl&lt;T: PartialEq&gt; PartialEq for Container&lt;T&gt; {
+    fn eq(&amp;self, other: &amp;Self) -&gt; bool {
+        self.items == other.items
+    }
+}
+
+// An extension trait for containers with numeric elements
+trait NumericContainer&lt;T&gt; {
+    fn sum(&amp;self) -&gt; T;
+    fn product(&amp;self) -&gt; T;
+    fn average(&amp;self) -&gt; Option&lt;f64&gt;;
+}
+
+impl&lt;T&gt; NumericContainer&lt;T&gt; for Container&lt;T&gt;
+where
+    T: Copy + std::ops::Add&lt;Output = T&gt; + std::ops::Div&lt;Output = T&gt; + std::ops::Mul&lt;Output = T&gt; + Default + Into&lt;f64&gt;,
+{
+    fn sum(&amp;self) -&gt; T {
+        let mut sum = T::default();
+        for item in &amp;self.items {
+            sum = sum + *item;
+        }
+        sum
+    }
+
+    fn product(&amp;self) -&gt; T {
+        if self.items.is_empty() {
+            return T::default();
+        }
+
+        let mut product = self.items[0];
+        for item in &amp;self.items[1..] {
+            product = product * *item;
+        }
+        product
+    }
+
+    fn average(&amp;self) -&gt; Option&lt;f64&gt; {
+        if self.items.is_empty() {
+            return None;
+        }
+
+        let sum: f64 = self.sum().into();
+        Some(sum / self.len() as f64)
+    }
+}
+
+// Let's use our container!
+fn main() {
+    // Container with integers
+    let mut int_container = Container::new();
+    int_container.add(1);
+    int_container.add(2);
+    int_container.add(3);
+    int_container.add(4);
+    int_container.add(5);
+
+    println!("Integer container: {:?}", int_container); // [1, 2, 3, 4, 5]
+    println!("Sum: {}", int_container.sum()); // 15
+    println!("Product: {}", int_container.product()); // 120
+    println!("Average: {:.2}", int_container.average().unwrap()); // 3.00
+
+    // Container with strings
+    let mut string_container = Container::new();
+    string_container.add("hello".to_string());
+    string_container.add("world".to_string());
+
+    println!("String container: {:?}", string_container); // ["hello", "world"]
+
+    // Using map to transform the container
+    let uppercase_container = string_container.map(|s| s.to_uppercase());
+    println!("Uppercase container: {:?}", uppercase_container); // ["HELLO", "WORLD"]
+
+    // Container with custom types
+    #[derive(Debug, Clone)]
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    let mut point_container = Container::new();
+    point_container.add(Point { x: 1, y: 2 });
+    point_container.add(Point { x: 3, y: 4 });
+
+    println!("Point container: {:?}", point_container); // [Point { x: 1, y: 2 }, Point { x: 3, y: 4 }]
+
+    // Using map to extract a specific field
+    let x_values = point_container.map(|p| p.x);
+    println!("X values: {:?}", x_values); // [1, 3]
+}</code></pre></pre>
+<p>This project demonstrates many of the concepts we’ve covered in this chapter:</p>
+<ol>
+<li>Generic types with <code>Container&lt;T&gt;</code></li>
+<li>Generic methods like <code>map</code></li>
+<li>Trait bounds for conditional implementations</li>
+<li>Type-specific functionality through traits like <code>NumericContainer</code></li>
+<li>Working with iterators and ownership</li>
+<li>Generic trait implementations</li>
+</ol>
+<p>The <code>Container</code> type we’ve built is flexible enough to work with any type, while still providing specialized functionality for types that meet certain criteria.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored the world of generics in Rust:</p>
+<ul>
+<li>We’ve learned what generics are and why they’re useful for writing reusable, type-safe code</li>
+<li>We’ve seen how to define generic data types, including structs and enums</li>
+<li>We’ve created generic functions and methods that work with multiple types</li>
+<li>We’ve used multiple generic parameters to create more flexible abstractions</li>
+<li>We’ve constrained generics with trait bounds to ensure types have necessary capabilities</li>
+<li>We’ve explored how Rust’s monomorphization process works and why it leads to zero runtime cost</li>
+<li>We’ve seen how Rust provides zero-cost abstractions through its generic system</li>
+<li>We’ve implemented traits for generic types</li>
+<li>We’ve used type aliases to simplify complex generic types</li>
+<li>We’ve learned about const generics for working with values at the type level</li>
+<li>We’ve explored specialization patterns for providing type-specific functionality</li>
+<li>We’ve compared Rust’s generics to similar features in other languages</li>
+<li>We’ve built a flexible generic container that works with any type</li>
+</ul>
+<p>Generics are a cornerstone of Rust’s type system, allowing us to write code that is both flexible and efficient. By leveraging generics effectively, you can create powerful abstractions without sacrificing performance.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p>Implement a generic <code>Stack&lt;T&gt;</code> data structure with <code>push</code>, <code>pop</code>, and <code>peek</code> methods.</p>
+</li>
+<li>
+<p>Create a generic <code>Result&lt;T, E&gt;</code> type similar to Rust’s standard library type.</p>
+</li>
+<li>
+<p>Implement a generic <code>BinaryTree&lt;T&gt;</code> type with methods for inserting, finding, and traversing elements.</p>
+</li>
+<li>
+<p>Write a generic function that converts between different collection types (e.g., from <code>Vec&lt;T&gt;</code> to <code>HashSet&lt;T&gt;</code>).</p>
+</li>
+<li>
+<p>Create a generic <code>Either&lt;L, R&gt;</code> type that can hold either a value of type <code>L</code> or a value of type <code>R</code>.</p>
+</li>
+<li>
+<p>Implement a generic <code>Cache&lt;K, V&gt;</code> type that can store key-value pairs with a maximum size and eviction policy.</p>
+</li>
+<li>
+<p>Create a generic <code>Pipeline&lt;T&gt;</code> that can chain multiple transformations on a value.</p>
+</li>
+<li>
+<p>Use const generics to implement a generic <code>Matrix&lt;T, R, C&gt;</code> type with matrix operations.</p>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch10-00-generics.html">The Rust Book: Generic Types, Traits, and Lifetimes</a></li>
+<li><a href="https://doc.rust-lang.org/reference/generics.html">The Rust Reference: Generics</a></li>
+<li><a href="https://doc.rust-lang.org/reference/items/traits.html">The Rust Reference: Traits</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/generics.html">Rust By Example: Generics</a></li>
+<li><a href="https://doc.rust-lang.org/nomicon/subtyping.html">The Rustonomicon: Subtyping and Variance</a></li>
+<li><a href="https://blog.rust-lang.org/2021/02/26/const-generics-mvp-beta.html">Rust Blog: Const Generics MVP Hits Beta</a></li>
+<li><a href="https://boats.gitlab.io/blog/post/zero-cost-abstractions/">Zero Cost Abstractions</a></li>
+<li><a href="https://blog.rust-lang.org/2021/06/17/introducing-rustc_codegen_gcc.html">Comparing Rust and C++ Generics</a></li>
+<li><a href="https://blog.rust-lang.org/2021/08/03/GATs-stabilization-push.html">Generic Associated Types</a></li>
+<li><a href="https://gabriellavalentin.com/blog/type-erasure-in-rust/">Type Erasure in Rust</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/14-collections.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/16-traits.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/14-collections.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/16-traits.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,2364 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Asynchronous Programming - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/25-async.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-25-asynchronous-programming"><a class="header" href="#chapter-25-asynchronous-programming">Chapter 25: Asynchronous Programming</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In the previous chapter, we explored thread-based concurrency in Rust, which offers a powerful way to execute multiple tasks simultaneously. However, thread-based concurrency has inherent limitations: threads consume significant system resources, context switching between threads incurs overhead, and managing shared state across threads requires careful synchronization.</p>
+<p>Asynchronous programming provides an alternative approach to concurrency. Instead of relying on the operating system to manage multiple threads, asynchronous code allows a single thread to efficiently juggle multiple tasks by working on each task when it’s ready to make progress and pausing it when it would otherwise wait. This approach can dramatically improve the scalability of I/O-bound applications, allowing them to handle thousands or even millions of concurrent operations with minimal resource usage.</p>
+<p>Rust’s approach to asynchronous programming is both powerful and unique. Rather than building async functionality directly into the language’s runtime like JavaScript or Go, Rust takes a more explicit approach. The language provides core primitives like <code>async</code>/<code>await</code> syntax and the <code>Future</code> trait, while leaving the actual execution of asynchronous tasks to specialized libraries called async runtimes.</p>
+<p>This design offers remarkable flexibility and performance. Applications can choose the runtime that best fits their specific needs, and the zero-cost abstraction principle ensures that Rust’s async code compiles down to efficient state machines with minimal overhead.</p>
+<p>In this chapter, we’ll explore the world of asynchronous programming in Rust from the ground up. We’ll begin by understanding the core concepts, work through the <code>async</code>/<code>await</code> syntax, delve into the mechanics of futures, and examine how async runtimes like Tokio and async-std execute them. By the end, you’ll be equipped to write efficient, robust asynchronous code that can handle enormous concurrency demands while maintaining Rust’s guarantees of safety and reliability.</p>
+<h2 id="why-async-programming"><a class="header" href="#why-async-programming">Why Async Programming?</a></h2>
+<p>Before diving into the technical details, let’s understand why asynchronous programming has become so important in modern software development.</p>
+<h3 id="the-concurrency-challenge"><a class="header" href="#the-concurrency-challenge">The Concurrency Challenge</a></h3>
+<p>Modern applications frequently need to handle numerous concurrent operations:</p>
+<ul>
+<li>Web servers processing thousands of simultaneous requests</li>
+<li>Database systems maintaining many active connections</li>
+<li>Chat applications with countless users sending messages</li>
+<li>IoT platforms collecting data from thousands of devices</li>
+</ul>
+<p>Traditional thread-based approaches quickly hit scaling limitations:</p>
+<pre><pre class="playground"><code class="language-rust">// Thread-based approach to handle many connections
+fn main() -&gt; std::io::Result&lt;()&gt; {
+    let listener = std::net::TcpListener::bind("127.0.0.1:8080")?;
+
+    for stream in listener.incoming() {
+        let stream = stream?;
+
+        // Spawn a thread for each connection
+        std::thread::spawn(|| {
+            handle_connection(stream);
+        });
+    }
+
+    Ok(())
+}
+
+fn handle_connection(mut stream: std::net::TcpStream) {
+    // Read and process data, potentially blocking
+    // ...
+}</code></pre></pre>
+<p>While this code works for a moderate number of connections, it doesn’t scale well. Each thread:</p>
+<ol>
+<li><strong>Consumes memory</strong>: Typically 1-8 MB for the thread stack</li>
+<li><strong>Adds scheduling overhead</strong>: The OS must switch between threads</li>
+<li><strong>Increases contention</strong>: More threads means more lock contention</li>
+</ol>
+<h3 id="the-io-bottleneck"><a class="header" href="#the-io-bottleneck">The I/O Bottleneck</a></h3>
+<p>In many applications, tasks spend most of their time waiting for I/O operations:</p>
+<ul>
+<li>Waiting for network responses</li>
+<li>Reading from or writing to files</li>
+<li>Waiting for database queries to complete</li>
+</ul>
+<p>During this waiting time, the thread is blocked and cannot do useful work:</p>
+<pre><code>Thread 1: ████████░░░░░░░░░░████████░░░░░░░░░░░░░░████████
+          │        │         │        │              │
+          └──CPU   └──Wait   └──CPU   └──Wait        └──CPU
+</code></pre>
+<p>This inefficiency becomes critical at scale. If each connection requires a dedicated thread, and each thread spends 95% of its time waiting, we’re wasting significant resources.</p>
+<h3 id="the-async-solution"><a class="header" href="#the-async-solution">The Async Solution</a></h3>
+<p>Asynchronous programming addresses these challenges by:</p>
+<ol>
+<li><strong>Decoupling tasks from threads</strong>: Many tasks can run on a single thread</li>
+<li><strong>Eliminating blocking waits</strong>: When a task would block, it yields control</li>
+<li><strong>Utilizing wait time efficiently</strong>: The thread can work on other tasks while waiting</li>
+</ol>
+<pre><code>Single Thread: ████████████████████████████████████████████████
+               │      │      │      │      │      │      │
+               │      │      │      │      │      │      │
+Task 1:        ████░░░░░░░░░░████░░░░░░░░░░░░░░░░░░████░░░░░░
+Task 2:        ░░░░████░░░░░░░░░░████░░░░░░░░░░░░░░░░░░████░░
+Task 3:        ░░░░░░░░████░░░░░░░░░░████░░░░░░░░░░░░░░░░░░██
+</code></pre>
+<p>In this model, a single thread can efficiently handle thousands of concurrent tasks by working on each one precisely when it can make progress.</p>
+<h3 id="the-case-for-async-rust"><a class="header" href="#the-case-for-async-rust">The Case for Async Rust</a></h3>
+<p>Rust’s async model offers unique advantages:</p>
+<ol>
+<li><strong>Zero-cost abstraction</strong>: Async code compiles to efficient state machines</li>
+<li><strong>Type safety and ownership</strong>: Prevents data races and memory safety issues</li>
+<li><strong>No garbage collection</strong>: Predictable, low-latency performance</li>
+<li><strong>Fearless concurrency</strong>: The compiler prevents common concurrency bugs</li>
+<li><strong>Flexible runtime model</strong>: Choose the runtime that suits your needs</li>
+</ol>
+<p>Consider a simplified comparison between the thread-based and async approaches for handling 10,000 concurrent connections:</p>
+<pre><code>┌───────────────┬───────────────────┬───────────────────┐
+│ Approach      │ Memory Usage      │ Context Switches  │
+├───────────────┼───────────────────┼───────────────────┤
+│ Thread-based  │ ~10-80 GB         │ Thousands/second  │
+│ Async         │ ~10-100 MB        │ Near zero         │
+└───────────────┴───────────────────┴───────────────────┘
+</code></pre>
+<p>The async approach allows applications to efficiently utilize system resources, resulting in better scalability, responsiveness, and cost-effectiveness.</p>
+<h3 id="when-to-use-async"><a class="header" href="#when-to-use-async">When to Use Async</a></h3>
+<p>Despite its advantages, async programming isn’t always the right choice:</p>
+<p><strong>Use async when:</strong></p>
+<ul>
+<li>Handling many concurrent operations</li>
+<li>Most operations are I/O bound</li>
+<li>Scalability is a primary concern</li>
+<li>Latency requirements are strict</li>
+</ul>
+<p><strong>Consider threads when:</strong></p>
+<ul>
+<li>Tasks are CPU-intensive</li>
+<li>Tasks don’t need to coordinate much</li>
+<li>The number of concurrent tasks is small</li>
+<li>Simplicity is more important than maximum scalability</li>
+</ul>
+<p>In the next sections, we’ll explore how Rust implements asynchronous programming and how to effectively write async code.</p>
+<h2 id="understanding-asyncawait"><a class="header" href="#understanding-asyncawait">Understanding async/await</a></h2>
+<p>At the heart of Rust’s asynchronous programming model is the <code>async</code>/<code>await</code> syntax. This syntax provides an intuitive way to write asynchronous code that looks and feels like synchronous code, making it easier to reason about complex asynchronous operations.</p>
+<h3 id="fundamentals-of-asyncawait"><a class="header" href="#fundamentals-of-asyncawait">Fundamentals of async/await</a></h3>
+<p>The <code>async</code> keyword transforms a block of code or function into a state machine that implements the <code>Future</code> trait. A <code>Future</code> represents a computation that may not have completed yet.</p>
+<p>The <code>await</code> keyword suspends execution until the specified future completes, allowing other tasks to run in the meantime.</p>
+<p>Let’s see a basic example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn fetch_data(url: &amp;str) -&gt; Result&lt;String, reqwest::Error&gt; {
+    let response = reqwest::get(url).await?;
+    let text = response.text().await?;
+    Ok(text)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This function:</p>
+<ol>
+<li>Initiates an HTTP request to the specified URL</li>
+<li>Awaits the response without blocking the thread</li>
+<li>Extracts the text content, again without blocking</li>
+<li>Returns the result</li>
+</ol>
+<p>The key insight is that when we <code>await</code> a future, we’re telling the runtime, “I can’t proceed until this operation completes, so feel free to run something else in the meantime.”</p>
+<h3 id="async-functions"><a class="header" href="#async-functions">Async Functions</a></h3>
+<p>Rust allows you to create asynchronous functions using the <code>async fn</code> syntax:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Synchronous function
+fn regular_function() -&gt; String {
+    "Hello, world!".to_string()
+}
+
+// Asynchronous function
+async fn async_function() -&gt; String {
+    "Hello, async world!".to_string()
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The difference is crucial: <code>regular_function()</code> returns a <code>String</code> directly, while <code>async_function()</code> returns an implementation of <code>Future&lt;Output = String&gt;</code>. This future needs to be <code>await</code>ed or executed by a runtime to actually produce the string value.</p>
+<h3 id="async-blocks"><a class="header" href="#async-blocks">Async Blocks</a></h3>
+<p>In addition to async functions, Rust supports async blocks, which create anonymous futures:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let future = async {
+        println!("Hello from an async block!");
+        42
+    };
+
+    // The future hasn't run yet - it needs to be executed by a runtime
+    println!("Created a future");
+}</code></pre></pre>
+<p>Async blocks are useful when you need to create a future without defining a separate function, or when you need to capture variables from the surrounding scope.</p>
+<h3 id="using-await"><a class="header" href="#using-await">Using await</a></h3>
+<p>The <code>await</code> keyword is used inside async functions or blocks to suspend execution until a future completes:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn process_data() -&gt; Result&lt;(), reqwest::Error&gt; {
+    // Start multiple operations
+    let future1 = fetch_data("https://example.com/data1");
+    let future2 = fetch_data("https://example.com/data2");
+
+    // Wait for both to complete
+    let result1 = future1.await?;
+    let result2 = future2.await?;
+
+    // Process the results
+    println!("Got data: {} and {}", result1, result2);
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>When an <code>await</code> is encountered, the current async task is suspended, and control returns to the async runtime, which can execute other tasks. When the awaited future completes, the runtime resumes the task from where it left off.</p>
+<h3 id="executing-async-code"><a class="header" href="#executing-async-code">Executing Async Code</a></h3>
+<p>Importantly, simply calling an async function does not execute it:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // This only creates a future, it doesn't run it
+    let future = fetch_data("https://example.com");
+
+    // The future needs to be executed by a runtime
+    // ...
+}</code></pre></pre>
+<p>To actually run async code, you need an async runtime like Tokio:</p>
+<pre><pre class="playground"><code class="language-rust">#[tokio::main]
+async fn main() -&gt; Result&lt;(), reqwest::Error&gt; {
+    // Now we can use await
+    let data = fetch_data("https://example.com").await?;
+    println!("Received: {}", data);
+    Ok(())
+}</code></pre></pre>
+<p>The <code>#[tokio::main]</code> attribute transforms the <code>main</code> function into a regular function that initializes the Tokio runtime and executes our async code.</p>
+<h3 id="behind-the-scenes"><a class="header" href="#behind-the-scenes">Behind the Scenes</a></h3>
+<p>To better understand <code>async</code>/<code>await</code>, let’s peek under the hood. When the compiler sees an async function like this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn example(value: u32) -&gt; u32 {
+    println!("Processing: {}", value);
+    let intermediate = process_value(value).await;
+    intermediate + 1
+}
+<span class="boring">}</span></code></pre></pre>
+<p>It effectively transforms it into a state machine that looks conceptually like this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum ExampleStateMachine {
+    Start(u32),
+    WaitingOnProcessValue {
+        value: u32,
+        future: ProcessValueFuture,
+    },
+    Completed,
+}
+
+impl Future for ExampleStateMachine {
+    type Output = u32;
+
+    fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt; {
+        match self.as_mut().get_mut() {
+            ExampleStateMachine::Start(value) =&gt; {
+                println!("Processing: {}", value);
+                let future = process_value(*value);
+
+                // Update state
+                *self = ExampleStateMachine::WaitingOnProcessValue {
+                    value: *value,
+                    future,
+                };
+
+                // Try to make progress immediately
+                self.poll(cx)
+            }
+
+            ExampleStateMachine::WaitingOnProcessValue { future, value } =&gt; {
+                match Pin::new(future).poll(cx) {
+                    Poll::Ready(intermediate) =&gt; {
+                        let result = intermediate + 1;
+                        *self = ExampleStateMachine::Completed;
+                        Poll::Ready(result)
+                    }
+                    Poll::Pending =&gt; Poll::Pending,
+                }
+            }
+
+            ExampleStateMachine::Completed =&gt; {
+                panic!("Future polled after completion")
+            }
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This transformation:</p>
+<ol>
+<li>Tracks the state of execution (where in the function we are)</li>
+<li>Stores any variables needed across await points</li>
+<li>Implements the <code>poll</code> method to make progress when possible</li>
+<li>Returns <code>Poll::Pending</code> when it can’t proceed further</li>
+</ol>
+<p>This state machine approach is what makes Rust’s async programming so efficient. There’s no thread overhead, and the compiler can optimize the state representation.</p>
+<h3 id="async-lifetime-rules"><a class="header" href="#async-lifetime-rules">Async Lifetime Rules</a></h3>
+<p>Async functions have special lifetime rules because they return futures that may not complete immediately:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// This won't compile!
+async fn borrow_string(s: &amp;str) -&gt; &amp;str {
+    s
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The problem is that the returned future might be <code>await</code>ed after <code>s</code> is no longer valid. Instead, we need to ensure the returned reference lives as long as the input:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// This works
+async fn borrow_string&lt;'a&gt;(s: &amp;'a str) -&gt; &amp;'a str {
+    s
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Or more commonly, we might avoid the issue by returning an owned value:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn process_string(s: &amp;str) -&gt; String {
+    s.to_uppercase()
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Understanding these lifetime considerations is essential for writing correct async Rust code.</p>
+<h3 id="common-patterns-with-asyncawait"><a class="header" href="#common-patterns-with-asyncawait">Common Patterns with async/await</a></h3>
+<p>Here are some common patterns you’ll encounter when using <code>async</code>/<code>await</code>:</p>
+<h4 id="sequential-execution"><a class="header" href="#sequential-execution">Sequential Execution</a></h4>
+<p>When you await futures one after another, they execute sequentially:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn sequential() -&gt; Result&lt;(), Error&gt; {
+    let data1 = fetch_data("url1").await?;
+    let data2 = fetch_data("url2").await?;
+    let data3 = fetch_data("url3").await?;
+
+    process_results(data1, data2, data3);
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="concurrent-execution"><a class="header" href="#concurrent-execution">Concurrent Execution</a></h4>
+<p>To execute futures concurrently, create them first, then await them:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn concurrent() -&gt; Result&lt;(), Error&gt; {
+    let future1 = fetch_data("url1");
+    let future2 = fetch_data("url2");
+    let future3 = fetch_data("url3");
+
+    let (data1, data2, data3) = tokio::join!(future1, future2, future3);
+
+    process_results(data1?, data2?, data3?);
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>join!</code> macro awaits multiple futures concurrently and returns their results as a tuple.</p>
+<h4 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h4>
+<p>Async functions work seamlessly with Rust’s error handling mechanisms:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn with_error_handling() -&gt; Result&lt;(), Error&gt; {
+    let result = fetch_data("https://example.com").await?;
+
+    if result.is_empty() {
+        return Err(Error::EmptyResponse);
+    }
+
+    process_data(&amp;result).await?;
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>?</code> operator works as expected, propagating errors through the async function.</p>
+<p>In the next section, we’ll explore how async programming differs from thread-based concurrency and the trade-offs involved.</p>
+<h2 id="how-async-differs-from-threads"><a class="header" href="#how-async-differs-from-threads">How Async Differs from Threads</a></h2>
+<p>We’ve already seen that asynchronous programming provides an alternative to thread-based concurrency, but let’s examine the specific differences and trade-offs in more detail.</p>
+<h3 id="conceptual-differences"><a class="header" href="#conceptual-differences">Conceptual Differences</a></h3>
+<p>The fundamental conceptual difference is how the two approaches handle concurrent tasks:</p>
+<ol>
+<li>
+<p><strong>Thread-based concurrency</strong> uses multiple execution contexts managed by the operating system. Each thread has its own stack and runs independently, with the OS scheduler determining when each thread executes.</p>
+</li>
+<li>
+<p><strong>Async concurrency</strong> uses a single thread (or a small number of threads) to interleave the execution of multiple tasks. Tasks explicitly yield control at specific points (when they would otherwise block), allowing other tasks to run.</p>
+</li>
+</ol>
+<p>Let’s visualize this difference:</p>
+<pre><code>Thread-based concurrency:
+┌───────────────────┐  ┌───────────────────┐  ┌───────────────────┐
+│     Thread 1      │  │     Thread 2      │  │     Thread 3      │
+│  ┌─────────────┐  │  │  ┌─────────────┐  │  │  ┌─────────────┐  │
+│  │   Task A    │  │  │  │   Task B    │  │  │  │   Task C    │  │
+│  └─────────────┘  │  │  └─────────────┘  │  │  └─────────────┘  │
+└───────────────────┘  └───────────────────┘  └───────────────────┘
+      OS Scheduler controls switching between threads
+
+Async concurrency:
+┌───────────────────────────────────────────────────────────────┐
+│                          Thread                               │
+│  ┌─────────────┐      ┌─────────────┐      ┌─────────────┐   │
+│  │   Task A    │  →   │   Task B    │  →   │   Task C    │   │
+│  └─────────────┘      └─────────────┘      └─────────────┘   │
+└───────────────────────────────────────────────────────────────┘
+      Tasks yield control at await points
+</code></pre>
+<h3 id="resource-usage"><a class="header" href="#resource-usage">Resource Usage</a></h3>
+<p>The resource differences between the two approaches are significant:</p>
+<h4 id="memory-usage"><a class="header" href="#memory-usage">Memory Usage</a></h4>
+<ul>
+<li>
+<p><strong>Threads</strong>: Each thread requires its own stack (typically 1-8 MB) regardless of how much stack space is actually used. For thousands of threads, this quickly adds up.</p>
+</li>
+<li>
+<p><strong>Async Tasks</strong>: Tasks share the stack of the thread they run on, and only the state needed between yield points is stored on the heap. This allows a single thread to handle thousands or even millions of tasks with minimal memory overhead.</p>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Memory usage for 10,000 concurrent operations
+
+// Thread approach: ~10-80 GB (10,000 × 1-8 MB)
+for _ in 0..10_000 {
+    std::thread::spawn(|| {
+        // Each thread gets a 1-8 MB stack
+        process_request();
+    });
+}
+
+// Async approach: ~10-50 MB total
+for _ in 0..10_000 {
+    tokio::spawn(async {
+        // Each task might use only a few KB
+        process_request().await;
+    });
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="cpu-utilization"><a class="header" href="#cpu-utilization">CPU Utilization</a></h4>
+<ul>
+<li>
+<p><strong>Threads</strong>: Context switching between threads is expensive. The OS must save and restore CPU registers, update memory mappings, and flush caches. At scale, this overhead becomes significant.</p>
+</li>
+<li>
+<p><strong>Async Tasks</strong>: Switching between tasks is a simple function call with minimal overhead. The runtime has complete control over task scheduling and can make intelligent decisions about which tasks to run next.</p>
+</li>
+</ul>
+<h4 id="scaling-limits"><a class="header" href="#scaling-limits">Scaling Limits</a></h4>
+<ul>
+<li>
+<p><strong>Threads</strong>: Most systems have practical limits (a few thousand threads) before performance degrades significantly due to scheduling overhead and memory pressure.</p>
+</li>
+<li>
+<p><strong>Async Tasks</strong>: Practical limits are much higher—often hundreds of thousands or millions of tasks—because the overhead per task is so low.</p>
+</li>
+</ul>
+<h3 id="control-flow-differences"><a class="header" href="#control-flow-differences">Control Flow Differences</a></h3>
+<p>The control flow in threaded and async code is fundamentally different:</p>
+<h4 id="thread-control-flow"><a class="header" href="#thread-control-flow">Thread Control Flow</a></h4>
+<p>In threaded code, control flow is implicit. A thread continues executing until it’s preempted by the OS scheduler, blocks on I/O, or explicitly yields control:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn thread_function() {
+    // This runs start-to-finish unless preempted by the OS
+    let data = fetch_data_blocking();  // Thread blocks here
+    process_data(data);                // Continues when data arrives
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="async-control-flow"><a class="header" href="#async-control-flow">Async Control Flow</a></h4>
+<p>In async code, control flow is explicit. The programmer must mark points where the task can yield control using <code>await</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn async_function() {
+    // Control may yield to other tasks at await points
+    let data = fetch_data().await;  // Explicitly yields control
+    process_data(data).await;       // Yields again if processing is async
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This explicit control flow can make async code more predictable but requires more careful consideration by the programmer.</p>
+<h3 id="error-handling-and-cancellation"><a class="header" href="#error-handling-and-cancellation">Error Handling and Cancellation</a></h3>
+<p>The two approaches handle errors and cancellation differently:</p>
+<h4 id="thread-error-handling"><a class="header" href="#thread-error-handling">Thread Error Handling</a></h4>
+<p>In threaded code, errors can be propagated through normal return values, panic handling, or message passing:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn thread_function() -&gt; Result&lt;(), Error&gt; {
+    // Error handling within a thread
+    let result = risky_operation()?;
+
+    // If a thread panics, it typically affects only that thread
+    // unless you're using thread::join() or shared state
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="async-error-handling"><a class="header" href="#async-error-handling">Async Error Handling</a></h4>
+<p>Async code typically uses the same error handling mechanisms, but with some important differences:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn async_function() -&gt; Result&lt;(), Error&gt; {
+    // Propagating errors works with the ? operator
+    let result = risky_operation().await?;
+
+    // Panics in async code can be trickier to handle
+    // and may affect the entire runtime if not properly caught
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="cancellation"><a class="header" href="#cancellation">Cancellation</a></h4>
+<ul>
+<li>
+<p><strong>Threads</strong>: Canceling a thread safely is difficult. The typical approach is to use a shared flag that the thread checks periodically, or to use platform-specific thread cancellation mechanisms.</p>
+</li>
+<li>
+<p><strong>Async Tasks</strong>: Many async runtimes provide structured cancellation, allowing tasks to be cleanly canceled when they’re no longer needed. Dropped futures in Rust are typically not polled again.</p>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Cancellation in async code using drop and select
+async fn with_timeout&lt;T&gt;(
+    future: impl Future&lt;Output = T&gt;,
+    timeout: Duration,
+) -&gt; Option&lt;T&gt; {
+    tokio::select! {
+        result = future =&gt; Some(result),
+        _ = tokio::time::sleep(timeout) =&gt; None,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="cpu-bound-vs-io-bound-work"><a class="header" href="#cpu-bound-vs-io-bound-work">CPU-Bound vs. I/O-Bound Work</a></h3>
+<p>The two approaches have different strengths depending on the nature of the work:</p>
+<h4 id="cpu-bound-work"><a class="header" href="#cpu-bound-work">CPU-Bound Work</a></h4>
+<ul>
+<li>
+<p><strong>Threads</strong>: Excellent for CPU-bound tasks that need to run in parallel. Each thread can fully utilize a CPU core without yielding.</p>
+</li>
+<li>
+<p><strong>Async</strong>: Not ideal for CPU-bound tasks, as a CPU-intensive task will prevent other tasks on the same thread from making progress until it reaches an <code>await</code> point.</p>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// CPU-bound work is better with threads
+fn thread_approach() {
+    let cpus = num_cpus::get();
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(cpus)
+        .build()
+        .unwrap();
+
+    pool.install(|| {
+        // Each task gets its own thread and can use a full CPU
+        (0..1000).into_par_iter().for_each(|i| {
+            heavy_computation(i);
+        });
+    });
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="io-bound-work"><a class="header" href="#io-bound-work">I/O-Bound Work</a></h4>
+<ul>
+<li>
+<p><strong>Threads</strong>: Less efficient for I/O-bound work, as blocked threads waste resources.</p>
+</li>
+<li>
+<p><strong>Async</strong>: Ideal for I/O-bound tasks, as it can efficiently multiplex many I/O operations on a few threads.</p>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// I/O-bound work is better with async
+async fn async_approach() {
+    let mut handles = vec![];
+
+    for i in 0..1000 {
+        handles.push(tokio::spawn(async move {
+            // While waiting for I/O, other tasks can run
+            let result = fetch_data(i).await;
+            process_result(result).await;
+        }));
+    }
+
+    for handle in handles {
+        let _ = handle.await;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="debugging-and-profiling"><a class="header" href="#debugging-and-profiling">Debugging and Profiling</a></h3>
+<p>The two approaches present different challenges for debugging and profiling:</p>
+<ul>
+<li>
+<p><strong>Threads</strong>: Thread behavior can be non-deterministic due to OS scheduling, making some bugs hard to reproduce. However, thread-based code is often easier to step through in a debugger.</p>
+</li>
+<li>
+<p><strong>Async</strong>: Async code transforms into state machines, which can make debugging more difficult. Stack traces may not show the complete picture of how execution reached a particular point. However, async execution is often more deterministic.</p>
+</li>
+</ul>
+<h3 id="interoperability"><a class="header" href="#interoperability">Interoperability</a></h3>
+<p>The two approaches can be combined, but with some considerations:</p>
+<ul>
+<li><strong>Running async code in threads</strong>: Async runtimes typically provide ways to run async code from synchronous contexts:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn sync_function() -&gt; Result&lt;String, reqwest::Error&gt; {
+    // Run async code from a synchronous function
+    tokio::runtime::Runtime::new()
+        .unwrap()
+        .block_on(async {
+            fetch_data("https://example.com").await
+        })
+}
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li><strong>Running blocking code in async</strong>: Async runtimes provide ways to run blocking code without blocking the entire async thread:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn async_function() -&gt; Result&lt;(), std::io::Error&gt; {
+    // Run blocking code in a dedicated thread pool
+    let result = tokio::task::spawn_blocking(|| {
+        // This code runs in a thread pool dedicated to blocking operations
+        std::fs::read_to_string("large_file.txt")
+    }).await??;
+
+    println!("File contents: {}", result);
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="when-to-choose-each-approach"><a class="header" href="#when-to-choose-each-approach">When to Choose Each Approach</a></h3>
+<p>Based on these differences, here are some guidelines for choosing between threads and async:</p>
+<h4 id="choose-threads-when"><a class="header" href="#choose-threads-when">Choose Threads When:</a></h4>
+<ul>
+<li>You’re doing CPU-intensive work</li>
+<li>You need true parallelism</li>
+<li>You have a small number of tasks</li>
+<li>You want simpler debugging</li>
+<li>You need to integrate with blocking APIs</li>
+<li>Latency of individual operations is not critical</li>
+</ul>
+<h4 id="choose-async-when"><a class="header" href="#choose-async-when">Choose Async When:</a></h4>
+<ul>
+<li>You’re doing I/O-bound work</li>
+<li>You need to handle many concurrent operations</li>
+<li>Memory usage per task is a concern</li>
+<li>You want fine-grained control over scheduling</li>
+<li>Low latency is critical</li>
+<li>You’re working primarily with non-blocking APIs</li>
+</ul>
+<p>Often, the best approach is to combine both: use a small number of threads (typically one per CPU core) running async executors, which then manage a large number of lightweight async tasks.</p>
+<h2 id="futures-and-the-future-trait"><a class="header" href="#futures-and-the-future-trait">Futures and the Future Trait</a></h2>
+<p>At the core of Rust’s async programming model is the <code>Future</code> trait, which represents a computation that will complete at some point. Understanding futures is essential for effective async programming in Rust.</p>
+<h3 id="the-future-trait"><a class="header" href="#the-future-trait">The Future Trait</a></h3>
+<p>The <code>Future</code> trait is defined in the standard library as follows:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Future {
+    type Output;
+
+    fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Let’s break down the key components:</p>
+<ul>
+<li>
+<p><strong><code>Output</code></strong>: The type that the future will eventually produce when it completes.</p>
+</li>
+<li>
+<p><strong><code>poll</code></strong>: The method called to make progress on the future. It returns either:</p>
+<ul>
+<li><code>Poll::Pending</code> if the future is not yet complete</li>
+<li><code>Poll::Ready(result)</code> if the future has completed with <code>result</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>Pin&lt;&amp;mut Self&gt;</code></strong>: Ensures that the future can’t be moved in memory once it’s been polled. This is crucial for futures that contain self-references.</p>
+</li>
+<li>
+<p><strong><code>Context</code></strong>: Provides a way for the future to register a “waker” that will be notified when the future can make progress.</p>
+</li>
+</ul>
+<h3 id="creating-futures"><a class="header" href="#creating-futures">Creating Futures</a></h3>
+<p>There are several ways to create futures in Rust:</p>
+<h4 id="1-using-asyncawait"><a class="header" href="#1-using-asyncawait">1. Using async/await</a></h4>
+<p>The most common way is through <code>async</code> functions or blocks, which the compiler transforms into futures:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// This function returns an implementation of Future&lt;Output = u32&gt;
+async fn answer() -&gt; u32 {
+    42
+}
+
+// This creates a future using an async block
+let future = async {
+    let x = answer().await;
+    x + 1
+};
+<span class="boring">}</span></code></pre></pre>
+<h4 id="2-implementing-the-future-trait-manually"><a class="header" href="#2-implementing-the-future-trait-manually">2. Implementing the Future Trait Manually</a></h4>
+<p>For advanced cases, you can implement the <code>Future</code> trait directly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::future::Future;
+use std::pin::Pin;
+use std::task::{Context, Poll};
+
+struct MyFuture {
+    value: u32,
+}
+
+impl Future for MyFuture {
+    type Output = u32;
+
+    fn poll(self: Pin&lt;&amp;mut Self&gt;, _cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt; {
+        // This future completes immediately
+        Poll::Ready(self.value)
+    }
+}
+
+// Create and use our custom future
+let future = MyFuture { value: 42 };
+<span class="boring">}</span></code></pre></pre>
+<h4 id="3-using-combinators"><a class="header" href="#3-using-combinators">3. Using Combinators</a></h4>
+<p>Some libraries provide combinator functions that transform or combine futures:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::future::{self, FutureExt, TryFutureExt};
+
+async fn example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Create a future that returns Ok(42)
+    let future = future::ready(Ok(42));
+
+    // Transform the future's output using map
+    let mapped = future.map(|x| x * 2);
+
+    // Chain futures with and_then
+    let chained = future.and_then(|x| async move {
+        if x &gt; 0 {
+            Ok(x)
+        } else {
+            Err("Negative number".into())
+        }
+    });
+
+    // Await the result
+    let result = chained.await?;
+    println!("Result: {}", result);
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="understanding-poll-and-waking"><a class="header" href="#understanding-poll-and-waking">Understanding Poll and Waking</a></h3>
+<p>The key to understanding how futures work is the polling model. Unlike promises or callbacks in other languages, Rust futures are lazy and make progress only when polled.</p>
+<h4 id="the-polling-model"><a class="header" href="#the-polling-model">The Polling Model</a></h4>
+<ol>
+<li>When you <code>await</code> a future or a runtime executes it, the runtime calls <code>poll()</code> on the future.</li>
+<li>If the future can complete immediately, it returns <code>Poll::Ready(result)</code>.</li>
+<li>If the future can’t complete yet (e.g., waiting for I/O), it returns <code>Poll::Pending</code>.</li>
+<li>Before returning <code>Pending</code>, the future registers a “waker” in the provided <code>Context</code>.</li>
+<li>When the future can make progress (e.g., I/O is ready), it calls the waker.</li>
+<li>The runtime receives the wake notification and polls the future again.</li>
+</ol>
+<p>This “push-pull” model is efficient because futures are only polled when they can actually make progress.</p>
+<p>Here’s a simplified example of a future that waits for a value to be available:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::future::Future;
+use std::pin::Pin;
+use std::sync::{Arc, Mutex};
+use std::task::{Context, Poll, Waker};
+
+struct SharedState {
+    value: Option&lt;String&gt;,
+    waker: Option&lt;Waker&gt;,
+}
+
+struct ValueFuture {
+    state: Arc&lt;Mutex&lt;SharedState&gt;&gt;,
+}
+
+impl Future for ValueFuture {
+    type Output = String;
+
+    fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt; {
+        let mut state = self.state.lock().unwrap();
+
+        if let Some(value) = state.value.take() {
+            // Value is ready, return it
+            Poll::Ready(value)
+        } else {
+            // Value is not ready, register waker for later notification
+            state.waker = Some(cx.waker().clone());
+            Poll::Pending
+        }
+    }
+}
+
+// Function to set the value and wake the future
+fn set_value(state: Arc&lt;Mutex&lt;SharedState&gt;&gt;, value: String) {
+    let mut state = state.lock().unwrap();
+    state.value = Some(value);
+
+    // If there's a waker, notify it that the value is ready
+    if let Some(waker) = state.waker.take() {
+        waker.wake();
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="nested-polling"><a class="header" href="#nested-polling">Nested Polling</a></h4>
+<p>When futures are composed (e.g., one future awaits another), polling propagates through the future chain. When you <code>await</code> a future inside an async function, the compiler generates code that:</p>
+<ol>
+<li>Polls the inner future</li>
+<li>Returns <code>Poll::Pending</code> if the inner future returns <code>Pending</code></li>
+<li>Continues execution if the inner future returns <code>Ready</code></li>
+</ol>
+<h3 id="pin-and-self-referential-futures"><a class="header" href="#pin-and-self-referential-futures">Pin and Self-referential Futures</a></h3>
+<p>The <code>Pin</code> type plays a crucial role in Rust’s async system. It ensures that a future cannot be moved in memory once it’s been polled.</p>
+<h4 id="why-pin-is-necessary"><a class="header" href="#why-pin-is-necessary">Why Pin is Necessary</a></h4>
+<p>Futures generated by <code>async</code>/<code>await</code> often contain self-references—references to data within the same future. For example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn self_referential() {
+    let s = String::from("Hello");
+    let s_ref = &amp;s;  // This is a reference to `s`
+
+    // Between these two await points, the future's state includes
+    // both `s` and a reference to it
+    something_else().await;
+
+    println!("{}", s_ref);
+    another_thing().await;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>If this future could be moved in memory after being polled, the reference <code>s_ref</code> would become invalid because it points to the old location of <code>s</code>. <code>Pin</code> prevents this problem by ensuring the future stays in one place.</p>
+<h4 id="using-pin"><a class="header" href="#using-pin">Using Pin</a></h4>
+<p>Most of the time, you don’t need to work with <code>Pin</code> directly, as the async runtime handles it for you. However, when implementing custom futures or working with low-level async code, you’ll need to understand <code>Pin</code>.</p>
+<p>Here’s an example of creating a pinned future:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::pin::Pin;
+use futures::Future;
+
+async fn example() -&gt; i32 {
+    42
+}
+
+fn pin_example() {
+    // Create a future
+    let future = example();
+
+    // Pin it to the stack (unsafe because we must guarantee it won't move)
+    let mut pinned = unsafe { Pin::new_unchecked(&amp;mut future) };
+
+    // Now we can poll it
+    // (though we'd normally use a runtime instead of polling manually)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For safe pinning, you can use <code>Box::pin</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::pin::Pin;
+use futures::Future;
+
+async fn example() -&gt; i32 {
+    42
+}
+
+fn pin_example() {
+    // Create a future and pin it to the heap
+    let pinned: Pin&lt;Box&lt;dyn Future&lt;Output = i32&gt;&gt;&gt; = Box::pin(example());
+
+    // Now we can poll it safely
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="common-future-combinators"><a class="header" href="#common-future-combinators">Common Future Combinators</a></h3>
+<p>The <code>futures</code> crate provides many useful combinators for working with futures:</p>
+<h4 id="joining-futures"><a class="header" href="#joining-futures">Joining Futures</a></h4>
+<p>To run multiple futures concurrently and wait for all of them:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::future;
+
+async fn join_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Execute three futures concurrently
+    let (result1, result2, result3) = future::join3(
+        fetch_data("url1"),
+        fetch_data("url2"),
+        fetch_data("url3"),
+    ).await;
+
+    println!("Results: {}, {}, {}", result1?, result2?, result3?);
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="selecting-futures"><a class="header" href="#selecting-futures">Selecting Futures</a></h4>
+<p>To wait for the first of multiple futures to complete:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::future;
+use std::time::Duration;
+use tokio::time;
+
+async fn select_example() {
+    // Create two futures
+    let fast = async {
+        time::sleep(Duration::from_millis(100)).await;
+        "fast"
+    };
+
+    let slow = async {
+        time::sleep(Duration::from_millis(200)).await;
+        "slow"
+    };
+
+    // Wait for the first to complete
+    let winner = future::select(fast, slow).await;
+
+    match winner {
+        future::Either::Left((result, _remaining_future)) =&gt; {
+            println!("Fast future completed first with: {}", result);
+        }
+        future::Either::Right((result, _remaining_future)) =&gt; {
+            println!("Slow future completed first with: {}", result);
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="transforming-futures"><a class="header" href="#transforming-futures">Transforming Futures</a></h4>
+<p>To transform the output of a future:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::future::FutureExt;
+
+async fn transform_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let data = fetch_data("https://example.com")
+        .map(|result| {
+            result.map(|text| text.to_uppercase())
+        })
+        .await?;
+
+    println!("Transformed data: {}", data);
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="stream-asynchronous-iterators"><a class="header" href="#stream-asynchronous-iterators">Stream: Asynchronous Iterators</a></h3>
+<p>While <code>Future</code> represents a single asynchronous value, the <code>Stream</code> trait represents a sequence of asynchronous values—essentially an asynchronous iterator:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Stream {
+    type Item;
+
+    fn poll_next(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Option&lt;Self::Item&gt;&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Streams are useful for handling sequences of events or data chunks:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn stream_example() {
+    // Create a stream of numbers
+    let mut stream = stream::iter(vec![1, 2, 3, 4, 5]);
+
+    // Process items as they become available
+    while let Some(item) = stream.next().await {
+        println!("Got: {}", item);
+    }
+
+    // Or collect all items
+    let values: Vec&lt;i32&gt; = stream::iter(vec![1, 2, 3, 4, 5])
+        .collect()
+        .await;
+
+    println!("Collected: {:?}", values);
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="future-extensions-beyond-the-standard-library"><a class="header" href="#future-extensions-beyond-the-standard-library">Future Extensions Beyond the Standard Library</a></h3>
+<p>While the standard library provides the basic <code>Future</code> trait, most async Rust code relies on additional functionality from crates like <code>futures</code> and async runtimes:</p>
+<ul>
+<li><strong><code>futures</code> crate</strong>: Provides combinators, adapters, and utilities for working with futures</li>
+<li><strong><code>tokio</code></strong>: A popular async runtime with extensive I/O and scheduling capabilities</li>
+<li><strong><code>async-std</code></strong>: An async version of the standard library</li>
+<li><strong><code>smol</code></strong>: A small, simple async runtime</li>
+<li><strong><code>embassy</code></strong>: An async runtime for embedded systems</li>
+</ul>
+<p>Each of these extends the basic futures model with additional functionality.</p>
+<h3 id="performance-considerations"><a class="header" href="#performance-considerations">Performance Considerations</a></h3>
+<p>Futures in Rust are designed to be zero-cost abstractions, meaning they don’t add runtime overhead beyond what’s necessary:</p>
+<ol>
+<li><strong>No heap allocations required</strong>: Futures can be allocated on the stack</li>
+<li><strong>No virtual dispatch required</strong>: The compiler can monomorphize and inline future implementations</li>
+<li><strong>Efficient state machines</strong>: The compiler optimizes async functions into compact state machines</li>
+<li><strong>No thread overhead</strong>: Futures don’t require their own threads</li>
+</ol>
+<p>However, there are some performance considerations:</p>
+<ol>
+<li><strong>Task size</strong>: Large futures with many variables carried across await points use more memory</li>
+<li><strong>Polling frequency</strong>: Frequent waking with no progress can cause “thrashing”</li>
+<li><strong>Executor overhead</strong>: Different async runtimes have different scheduling characteristics</li>
+<li><strong>Blocking operations</strong>: Blocking inside async code can stall the entire executor thread</li>
+</ol>
+<p>In the next section, we’ll explore how async runtimes execute futures and the trade-offs between different runtime implementations.</p>
+<h2 id="async-runtimes-explained"><a class="header" href="#async-runtimes-explained">Async Runtimes Explained</a></h2>
+<p>While Rust’s language features provide the syntax for writing async code, an async runtime is required to actually execute futures. Understanding how runtimes work is crucial for writing effective and efficient async code.</p>
+<h3 id="what-is-an-async-runtime"><a class="header" href="#what-is-an-async-runtime">What is an Async Runtime?</a></h3>
+<p>An async runtime is a library that provides:</p>
+<ol>
+<li><strong>Task scheduling</strong>: Deciding which futures to poll and when</li>
+<li><strong>I/O event notification</strong>: Integrating with the operating system’s I/O facilities</li>
+<li><strong>Task spawning</strong>: Creating and managing concurrent tasks</li>
+<li><strong>Resource management</strong>: Handling thread pools, timers, and other resources</li>
+</ol>
+<p>The standard library intentionally does not include a runtime, allowing developers to choose the runtime that best suits their specific needs. This design decision provides flexibility but means you must explicitly include a runtime in your project.</p>
+<h3 id="core-components-of-an-async-runtime"><a class="header" href="#core-components-of-an-async-runtime">Core Components of an Async Runtime</a></h3>
+<p>Most async runtimes consist of several key components:</p>
+<h4 id="1-executor"><a class="header" href="#1-executor">1. Executor</a></h4>
+<p>The executor is responsible for polling futures when they’re ready to make progress. It maintains a queue of tasks and decides which ones to poll based on wake notifications and scheduling policies.</p>
+<h4 id="2-reactor"><a class="header" href="#2-reactor">2. Reactor</a></h4>
+<p>The reactor is responsible for waiting on I/O events and notifying the executor when futures can make progress. It typically uses platform-specific APIs like <code>epoll</code> (Linux), <code>kqueue</code> (BSD/macOS), or <code>IOCP</code> (Windows) to efficiently wait for multiple I/O events simultaneously.</p>
+<h4 id="3-task-system"><a class="header" href="#3-task-system">3. Task System</a></h4>
+<p>The task system manages the lifecycle of individual asynchronous tasks, including creation, scheduling, and cleanup.</p>
+<h4 id="4-timer-facilities"><a class="header" href="#4-timer-facilities">4. Timer Facilities</a></h4>
+<p>Timers allow futures to be woken after a specific duration or at a scheduled time.</p>
+<h4 id="5-synchronization-primitives"><a class="header" href="#5-synchronization-primitives">5. Synchronization Primitives</a></h4>
+<p>Async-aware synchronization primitives like mutexes, channels, and semaphores are often provided by the runtime.</p>
+<h3 id="popular-rust-async-runtimes"><a class="header" href="#popular-rust-async-runtimes">Popular Rust Async Runtimes</a></h3>
+<p>Several async runtimes are available in the Rust ecosystem:</p>
+<h4 id="tokio"><a class="header" href="#tokio">Tokio</a></h4>
+<p>Tokio is the most widely used async runtime in Rust. It provides a comprehensive set of features:</p>
+<pre><pre class="playground"><code class="language-rust">use tokio::net::TcpListener;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+#[tokio::main]
+async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let listener = TcpListener::bind("127.0.0.1:8080").await?;
+
+    println!("Server listening on port 8080");
+
+    loop {
+        let (mut socket, addr) = listener.accept().await?;
+
+        // Spawn a new task for each connection
+        tokio::spawn(async move {
+            println!("Accepted connection from: {}", addr);
+
+            let mut buf = [0; 1024];
+
+            loop {
+                let n = match socket.read(&amp;mut buf).await {
+                    Ok(0) =&gt; break, // Connection closed
+                    Ok(n) =&gt; n,
+                    Err(e) =&gt; {
+                        eprintln!("Failed to read from socket: {}", e);
+                        break;
+                    }
+                };
+
+                // Echo the data back
+                if let Err(e) = socket.write_all(&amp;buf[0..n]).await {
+                    eprintln!("Failed to write to socket: {}", e);
+                    break;
+                }
+            }
+
+            println!("Connection closed: {}", addr);
+        });
+    }
+}</code></pre></pre>
+<p>Key features of Tokio include:</p>
+<ul>
+<li>Multi-threaded scheduler for true parallelism</li>
+<li>Comprehensive I/O and networking support</li>
+<li>Highly optimized for performance</li>
+<li>Extensive ecosystem (tokio-util, tokio-stream, etc.)</li>
+<li>Provides both async and blocking versions of APIs</li>
+</ul>
+<h4 id="async-std"><a class="header" href="#async-std">async-std</a></h4>
+<p>async-std is designed to mirror the standard library API but with async versions of common functions:</p>
+<pre><pre class="playground"><code class="language-rust">use async_std::net::TcpListener;
+use async_std::prelude::*;
+use async_std::task;
+
+async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let listener = TcpListener::bind("127.0.0.1:8080").await?;
+
+    println!("Server listening on port 8080");
+
+    let mut incoming = listener.incoming();
+
+    while let Some(stream) = incoming.next().await {
+        let stream = stream?;
+
+        task::spawn(async move {
+            handle_connection(stream).await;
+        });
+    }
+
+    Ok(())
+}</code></pre></pre>
+<p>Key features of async-std include:</p>
+<ul>
+<li>API that closely resembles the standard library</li>
+<li>Simplified mental model</li>
+<li>Good performance</li>
+<li>Well-documented</li>
+</ul>
+<h4 id="smol"><a class="header" href="#smol">smol</a></h4>
+<p>smol is a small, simple async runtime focused on minimalism:</p>
+<pre><pre class="playground"><code class="language-rust">use smol::{net::TcpListener, prelude::*};
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    smol::block_on(async {
+        let listener = TcpListener::bind("127.0.0.1:8080").await?;
+
+        loop {
+            let (stream, addr) = listener.accept().await?;
+
+            smol::spawn(async move {
+                handle_connection(stream).await;
+            }).detach();
+        }
+    })
+}</code></pre></pre>
+<p>Key features of smol include:</p>
+<ul>
+<li>Minimalist API</li>
+<li>Small code size</li>
+<li>Low overhead</li>
+<li>Designed for simplicity</li>
+</ul>
+<h4 id="other-runtimes"><a class="header" href="#other-runtimes">Other Runtimes</a></h4>
+<ul>
+<li><strong>embassy</strong>: Designed for embedded systems with limited resources</li>
+<li><strong>glommio</strong>: Optimized for I/O-intensive workloads using io_uring</li>
+<li><strong>fuchsia-async</strong>: Used in the Fuchsia operating system</li>
+</ul>
+<h3 id="runtime-configuration"><a class="header" href="#runtime-configuration">Runtime Configuration</a></h3>
+<p>Most runtimes offer configuration options to tune their behavior:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Configuring a Tokio runtime
+let runtime = tokio::runtime::Builder::new_multi_thread()
+    .worker_threads(4)            // Number of worker threads
+    .enable_io()                  // Enable I/O driver
+    .enable_time()                // Enable time facilities
+    .thread_name("my-custom-name") // Set thread names
+    .thread_stack_size(3 * 1024 * 1024) // Set thread stack size
+    .build()
+    .unwrap();
+
+// Run async code on the configured runtime
+runtime.block_on(async {
+    // Your async code here
+});
+<span class="boring">}</span></code></pre></pre>
+<h3 id="building-a-simple-async-runtime"><a class="header" href="#building-a-simple-async-runtime">Building a Simple Async Runtime</a></h3>
+<p>To understand how async runtimes work, let’s build a simple one from scratch:</p>
+<pre><pre class="playground"><code class="language-rust">use std::collections::VecDeque;
+use std::future::Future;
+use std::pin::Pin;
+use std::sync::{Arc, Mutex};
+use std::task::{Context, Poll, Wake, Waker};
+
+// A simple executor that runs futures
+struct SimpleExecutor {
+    task_queue: VecDeque&lt;Task&gt;,
+}
+
+// A task is a future that can be polled
+struct Task {
+    future: Pin&lt;Box&lt;dyn Future&lt;Output = ()&gt; + Send&gt;&gt;,
+    waker: Waker,
+}
+
+// A waker implementation that pushes the task back into the queue
+struct TaskWaker {
+    task_queue: Arc&lt;Mutex&lt;VecDeque&lt;Task&gt;&gt;&gt;,
+    task_id: usize,
+}
+
+impl Wake for TaskWaker {
+    fn wake(self: Arc&lt;Self&gt;) {
+        println!("Waking task {}", self.task_id);
+        // In a real executor, we would recreate the task and add it to the queue
+    }
+}
+
+impl SimpleExecutor {
+    fn new() -&gt; Self {
+        SimpleExecutor {
+            task_queue: VecDeque::new(),
+        }
+    }
+
+    // Spawn a new future onto the executor
+    fn spawn&lt;F&gt;(&amp;mut self, future: F)
+    where
+        F: Future&lt;Output = ()&gt; + Send + 'static,
+    {
+        let task_id = self.task_queue.len();
+
+        // Create a task queue for the waker
+        let task_queue = Arc::new(Mutex::new(VecDeque::new()));
+
+        // Create a waker for the task
+        let waker = Arc::new(TaskWaker {
+            task_queue: task_queue.clone(),
+            task_id,
+        }).into_waker();
+
+        // Create a task with the future and waker
+        let task = Task {
+            future: Box::pin(future),
+            waker,
+        };
+
+        // Add the task to the queue
+        self.task_queue.push_back(task);
+    }
+
+    // Run the executor until all tasks complete
+    fn run(&amp;mut self) {
+        while let Some(mut task) = self.task_queue.pop_front() {
+            // Create a context with the waker
+            let mut context = Context::from_waker(&amp;task.waker);
+
+            // Poll the future
+            match task.future.as_mut().poll(&amp;mut context) {
+                Poll::Ready(()) =&gt; {
+                    // Task completed, nothing to do
+                    println!("Task completed");
+                }
+                Poll::Pending =&gt; {
+                    // Task not ready, put it back in the queue
+                    println!("Task pending, re-queueing");
+                    self.task_queue.push_back(task);
+                }
+            }
+        }
+    }
+}
+
+// Example usage
+fn main() {
+    let mut executor = SimpleExecutor::new();
+
+    // Spawn a simple task
+    executor.spawn(async {
+        println!("Hello from async task!");
+    });
+
+    // Run the executor
+    executor.run();
+}</code></pre></pre>
+<p>This simplified runtime demonstrates the core concepts, but a production-ready runtime would additionally need:</p>
+<ol>
+<li><strong>Efficient task scheduling</strong>: Using work-stealing algorithms for better CPU utilization</li>
+<li><strong>I/O event notification</strong>: Integration with OS-specific I/O polling mechanisms</li>
+<li><strong>Timer management</strong>: Efficient handling of timers and deadlines</li>
+<li><strong>Thread management</strong>: Distributing tasks across multiple threads</li>
+<li><strong>Cancellation support</strong>: Properly handling dropped futures</li>
+</ol>
+<h3 id="choosing-the-right-runtime"><a class="header" href="#choosing-the-right-runtime">Choosing the Right Runtime</a></h3>
+<p>When selecting an async runtime, consider these factors:</p>
+<ol>
+<li><strong>Application type</strong>: Server, client, embedded system, etc.</li>
+<li><strong>Performance requirements</strong>: Throughput, latency, memory usage</li>
+<li><strong>Feature needs</strong>: I/O types, timer precision, task priorities</li>
+<li><strong>Ecosystem compatibility</strong>: Integration with libraries and frameworks</li>
+<li><strong>Maturity and support</strong>: Community size, update frequency, documentation</li>
+</ol>
+<p>For most applications, Tokio is a safe choice due to its maturity, performance, and wide ecosystem support. However, specialized applications might benefit from alternative runtimes:</p>
+<ul>
+<li><strong>Resource-constrained environments</strong>: Consider <code>smol</code> or <code>embassy</code></li>
+<li><strong>Simple applications</strong>: <code>async-std</code> might be easier to learn and use</li>
+<li><strong>Specialized I/O patterns</strong>: <code>glommio</code> for io_uring-based workloads</li>
+</ul>
+<h3 id="common-runtime-patterns"><a class="header" href="#common-runtime-patterns">Common Runtime Patterns</a></h3>
+<p>Regardless of which runtime you choose, some patterns are universally helpful:</p>
+<h4 id="1-spawn-and-forget"><a class="header" href="#1-spawn-and-forget">1. Spawn and Forget</a></h4>
+<p>For background tasks that don’t need to report results:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>tokio::spawn(async {
+    process_background_task().await;
+});
+<span class="boring">}</span></code></pre></pre>
+<h4 id="2-spawn-and-join"><a class="header" href="#2-spawn-and-join">2. Spawn and Join</a></h4>
+<p>For tasks that need to return results:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let handle = tokio::spawn(async {
+    let result = process_task().await;
+    result
+});
+
+// Later, get the result
+let result = handle.await.unwrap();
+<span class="boring">}</span></code></pre></pre>
+<h4 id="3-graceful-shutdown"><a class="header" href="#3-graceful-shutdown">3. Graceful Shutdown</a></h4>
+<p>For cleanly shutting down when the application terminates:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create a shutdown signal
+let (shutdown_tx, shutdown_rx) = tokio::sync::oneshot::channel::&lt;()&gt;();
+
+// Spawn a task that can be shut down
+let task = tokio::spawn(async move {
+    tokio::select! {
+        _ = shutdown_rx =&gt; {
+            println!("Shutting down gracefully");
+        }
+        _ = async_operation() =&gt; {
+            println!("Operation completed");
+        }
+    }
+});
+
+// Trigger shutdown when needed
+shutdown_tx.send(()).unwrap();
+<span class="boring">}</span></code></pre></pre>
+<p>In the next section, we’ll explore Streams and async iterators, which build on futures to handle sequences of asynchronous values.</p>
+<h2 id="streams-and-async-iterators"><a class="header" href="#streams-and-async-iterators">Streams and Async Iterators</a></h2>
+<p>While futures represent a single asynchronous value, many real-world scenarios involve processing sequences of values that arrive over time. In Rust’s async ecosystem, these sequences are represented by the <code>Stream</code> trait.</p>
+<h3 id="understanding-streams"><a class="header" href="#understanding-streams">Understanding Streams</a></h3>
+<p>A <code>Stream</code> is to an asynchronous context what an <code>Iterator</code> is to a synchronous one. Just as you can think of an <code>Iterator</code> as a sequence of values, a <code>Stream</code> is a sequence of asynchronous values.</p>
+<p>Here’s the simplified definition of the <code>Stream</code> trait:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Stream {
+    type Item;
+
+    fn poll_next(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Option&lt;Self::Item&gt;&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The key points to understand:</p>
+<ol>
+<li><code>Item</code> is the type of values produced by the stream</li>
+<li><code>poll_next</code> returns:
+<ul>
+<li><code>Poll::Ready(Some(item))</code> when a new item is available</li>
+<li><code>Poll::Ready(None)</code> when the stream is exhausted</li>
+<li><code>Poll::Pending</code> when no item is ready yet, but more might arrive later</li>
+</ul>
+</li>
+</ol>
+<h3 id="creating-streams"><a class="header" href="#creating-streams">Creating Streams</a></h3>
+<p>There are several ways to create streams:</p>
+<h4 id="1-from-iterators"><a class="header" href="#1-from-iterators">1. From Iterators</a></h4>
+<p>The simplest way to create a stream is to convert an existing iterator:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn from_iterator() {
+    let iter = vec![1, 2, 3, 4, 5].into_iter();
+
+    // Convert the iterator into a stream
+    let mut stream = stream::iter(iter);
+
+    // Process each item as it becomes available
+    while let Some(item) = stream.next().await {
+        println!("Got: {}", item);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="2-stream-adapters"><a class="header" href="#2-stream-adapters">2. Stream Adapters</a></h4>
+<p>Just like iterators, streams can be created by transforming other streams:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn adapter_example() {
+    let stream = stream::iter(1..=10)
+        .filter(|x| futures::future::ready(*x % 2 == 0))
+        .map(|x| x * x);
+
+    tokio::pin!(stream);
+
+    while let Some(item) = stream.next().await {
+        println!("Got squared even number: {}", item);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="3-custom-streams"><a class="header" href="#3-custom-streams">3. Custom Streams</a></h4>
+<p>For more complex cases, you can implement the <code>Stream</code> trait directly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::Stream;
+use std::pin::Pin;
+use std::task::{Context, Poll};
+use std::time::{Duration, Instant};
+
+struct Countdown {
+    remaining: u32,
+}
+
+impl Stream for Countdown {
+    type Item = u32;
+
+    fn poll_next(mut self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Option&lt;Self::Item&gt;&gt; {
+        if self.remaining == 0 {
+            return Poll::Ready(None);
+        }
+
+        let value = self.remaining;
+        self.remaining -= 1;
+
+        Poll::Ready(Some(value))
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="4-channel-based-streams"><a class="header" href="#4-channel-based-streams">4. Channel-based Streams</a></h4>
+<p>Async channels can be used to create streams:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::StreamExt;
+use tokio::sync::mpsc;
+
+async fn channel_stream() {
+    let (tx, mut rx) = mpsc::channel(10);
+
+    // Producer task
+    let producer = tokio::spawn(async move {
+        for i in 1..=5 {
+            tx.send(i).await.unwrap();
+            tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+        }
+    });
+
+    // Convert the receiver into a stream
+    let mut stream = tokio_stream::wrappers::ReceiverStream::new(rx);
+
+    // Process each value as it arrives
+    while let Some(value) = stream.next().await {
+        println!("Received: {}", value);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="stream-combinators"><a class="header" href="#stream-combinators">Stream Combinators</a></h3>
+<p>Like iterators, streams support a rich set of combinators for transforming and processing sequences:</p>
+<h4 id="mapping-and-filtering"><a class="header" href="#mapping-and-filtering">Mapping and Filtering</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn map_filter_example() {
+    let stream = stream::iter(1..=10)
+        .map(|x| x * 2)              // Double each item
+        .filter(|x| async move { x % 3 == 0 }) // Keep only multiples of 3
+        .collect::&lt;Vec&lt;_&gt;&gt;()         // Collect into a vector
+        .await;
+
+    println!("Collected: {:?}", stream); // [6, 12, 18]
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="chaining-and-zipping"><a class="header" href="#chaining-and-zipping">Chaining and Zipping</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn chain_zip_example() {
+    // Chain two streams together
+    let stream1 = stream::iter(vec!["a", "b", "c"]);
+    let stream2 = stream::iter(vec!["x", "y", "z"]);
+
+    let mut chained = stream1.chain(stream2);
+    while let Some(item) = chained.next().await {
+        println!("Chained: {}", item);
+    }
+
+    // Zip two streams together
+    let numbers = stream::iter(1..=3);
+    let letters = stream::iter(vec!["a", "b", "c"]);
+
+    let mut zipped = numbers.zip(letters);
+    while let Some((num, letter)) = zipped.next().await {
+        println!("Zipped: {} - {}", num, letter);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="folding-and-reducing"><a class="header" href="#folding-and-reducing">Folding and Reducing</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn fold_reduce_example() {
+    let sum = stream::iter(1..=5)
+        .fold(0, |acc, x| async move { acc + x })
+        .await;
+
+    println!("Sum: {}", sum); // 15
+
+    // Reduce (like fold but uses the first item as the initial value)
+    let product = stream::iter(1..=5)
+        .reduce(|acc, x| async move { acc * x })
+        .await;
+
+    println!("Product: {:?}", product); // Some(120)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="buffering-and-windowing"><a class="header" href="#buffering-and-windowing">Buffering and Windowing</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn buffer_window_example() {
+    // Process items in chunks of 2
+    let stream = stream::iter(1..=5)
+        .chunks(2)
+        .map(|chunk| chunk.into_iter().sum::&lt;i32&gt;())
+        .collect::&lt;Vec&lt;_&gt;&gt;()
+        .await;
+
+    println!("Chunked sums: {:?}", stream); // [3, 7, 5]
+
+    // Sliding window
+    let stream = stream::iter(1..=5)
+        .ready_chunks(2) // Process items as soon as 2 are ready
+        .map(|chunk| chunk.into_iter().sum::&lt;i32&gt;())
+        .collect::&lt;Vec&lt;_&gt;&gt;()
+        .await;
+
+    println!("Ready chunks: {:?}", stream);
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="processing-streams"><a class="header" href="#processing-streams">Processing Streams</a></h3>
+<p>There are several ways to process streams:</p>
+<h4 id="1-using-next-with-while-let"><a class="header" href="#1-using-next-with-while-let">1. Using <code>next()</code> with <code>while let</code></a></h4>
+<p>The most basic approach is to use <code>next()</code> in a loop:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn process_with_next() {
+    let mut stream = stream::iter(1..=5);
+
+    while let Some(item) = stream.next().await {
+        println!("Processing: {}", item);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="2-using-for_each"><a class="header" href="#2-using-for_each">2. Using <code>for_each</code></a></h4>
+<p>For simple processing where you don’t need to accumulate a result:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn process_with_for_each() {
+    stream::iter(1..=5)
+        .for_each(|item| async move {
+            println!("Processing: {}", item);
+        })
+        .await;
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="3-using-try_for_each-for-error-handling"><a class="header" href="#3-using-try_for_each-for-error-handling">3. Using <code>try_for_each</code> for Error Handling</a></h4>
+<p>When processing can fail:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt, TryStreamExt};
+use std::io;
+
+async fn process_with_try_for_each() -&gt; io::Result&lt;()&gt; {
+    let results = vec![
+        Ok(1),
+        Ok(2),
+        Err(io::Error::new(io::ErrorKind::Other, "Something went wrong")),
+        Ok(4),
+        Ok(5),
+    ];
+
+    stream::iter(results)
+        .try_for_each(|item| async move {
+            println!("Successfully processed: {}", item);
+            Ok(())
+        })
+        .await
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="4-collecting-results"><a class="header" href="#4-collecting-results">4. Collecting Results</a></h4>
+<p>To accumulate all items into a collection:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn collect_example() {
+    let values: Vec&lt;i32&gt; = stream::iter(1..=5)
+        .map(|x| x * 2)
+        .collect()
+        .await;
+
+    println!("Collected values: {:?}", values);
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="backpressure-with-streams"><a class="header" href="#backpressure-with-streams">Backpressure with Streams</a></h3>
+<p>Backpressure is a mechanism to ensure that fast producers don’t overwhelm slow consumers. Streams in Rust naturally support backpressure because they’re pull-based—consumers request items at their own pace.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+use tokio::time::{sleep, Duration};
+
+async fn backpressure_example() {
+    let mut stream = stream::iter(1..=100);
+
+    while let Some(item) = stream.next().await {
+        println!("Processing item: {}", item);
+
+        // Simulate slow processing
+        sleep(Duration::from_millis(100)).await;
+
+        // The stream naturally waits until we request the next item
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For more complex scenarios, you can use bounded channels to enforce backpressure:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tokio::sync::mpsc;
+use tokio_stream::wrappers::ReceiverStream;
+use futures::stream::StreamExt;
+
+async fn bounded_channel_example() {
+    // Create a bounded channel with a capacity of 5
+    let (tx, rx) = mpsc::channel(5);
+
+    // Producer task
+    let producer = tokio::spawn(async move {
+        for i in 1..=100 {
+            println!("Producing item: {}", i);
+
+            // This will block if the channel is full,
+            // implementing backpressure
+            if tx.send(i).await.is_err() {
+                break;
+            }
+        }
+    });
+
+    // Consumer task
+    let consumer = tokio::spawn(async move {
+        let mut stream = ReceiverStream::new(rx);
+
+        while let Some(item) = stream.next().await {
+            println!("Consuming item: {}", item);
+
+            // Simulate slow consumption
+            tokio::time::sleep(tokio::time::Duration::from_millis(200)).await;
+        }
+    });
+
+    // Wait for both tasks to complete
+    let _ = tokio::join!(producer, consumer);
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="stream-utilities-and-extensions"><a class="header" href="#stream-utilities-and-extensions">Stream Utilities and Extensions</a></h3>
+<p>The <code>futures</code> and <code>tokio-stream</code> crates provide additional utilities for working with streams:</p>
+<h4 id="stream-buffering"><a class="header" href="#stream-buffering">Stream Buffering</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+
+async fn buffering_example() {
+    let mut stream = stream::iter(1..=10)
+        .map(|i| {
+            // Simulate variable-time processing
+            async move {
+                let delay = if i % 3 == 0 { 100 } else { 10 };
+                tokio::time::sleep(tokio::time::Duration::from_millis(delay)).await;
+                i
+            }
+        })
+        .buffer_unordered(3) // Process up to 3 items concurrently
+        .collect::&lt;Vec&lt;_&gt;&gt;()
+        .await;
+
+    // Note: the order may not be 1,2,3,... due to concurrent processing
+    println!("Results: {:?}", stream);
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="rate-limiting"><a class="header" href="#rate-limiting">Rate Limiting</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::{self, StreamExt};
+use tokio::time::Duration;
+
+async fn rate_limit_example() {
+    stream::iter(1..=10)
+        .then(|i| async move {
+            println!("Processing item {}", i);
+            i
+        })
+        .throttle(Duration::from_millis(200)) // Limit to 5 items per second
+        .for_each(|i| async move {
+            println!("Completed item {}", i);
+        })
+        .await;
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="async-iteration-syntax"><a class="header" href="#async-iteration-syntax">Async Iteration Syntax</a></h3>
+<p>Rust doesn’t yet have native syntax for async iteration (like <code>for await</code> in JavaScript), but there are proposals to add it. For now, we use <code>while let</code> with <code>next()</code> or the various combinators:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Current approach
+async fn process_stream() {
+    let mut stream = get_some_stream();
+
+    while let Some(item) = stream.next().await {
+        process_item(item).await;
+    }
+}
+
+// Possible future syntax (not yet implemented in Rust)
+// async fn process_stream() {
+//     let stream = get_some_stream();
+//
+//     for await item in stream {
+//         process_item(item).await;
+//     }
+// }
+<span class="boring">}</span></code></pre></pre>
+<h3 id="real-world-stream-examples"><a class="header" href="#real-world-stream-examples">Real-World Stream Examples</a></h3>
+<p>Let’s look at some practical examples of streams in real-world scenarios:</p>
+<h4 id="websocket-message-stream"><a class="header" href="#websocket-message-stream">WebSocket Message Stream</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::StreamExt;
+use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
+
+async fn websocket_stream_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Connect to a WebSocket server
+    let (ws_stream, _) = connect_async("wss://echo.websocket.org").await?;
+
+    // Split the stream into sender and receiver
+    let (mut write, read) = ws_stream.split();
+
+    // Send a message
+    write.send(Message::Text("Hello, WebSocket!".to_string())).await?;
+
+    // Process incoming messages as a stream
+    read.take(10) // Limit to 10 messages
+        .for_each(|message| async {
+            if let Ok(msg) = message {
+                match msg {
+                    Message::Text(text) =&gt; println!("Received text: {}", text),
+                    Message::Binary(data) =&gt; println!("Received binary: {} bytes", data.len()),
+                    _ =&gt; println!("Received other message type"),
+                }
+            }
+        })
+        .await;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="file-line-stream"><a class="header" href="#file-line-stream">File Line Stream</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tokio::fs::File;
+use tokio::io::{AsyncBufReadExt, BufReader};
+use tokio_stream::wrappers::LinesStream;
+use futures::stream::StreamExt;
+
+async fn process_file_as_stream() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Open a file
+    let file = File::open("large_log_file.txt").await?;
+    let reader = BufReader::new(file);
+
+    // Create a stream of lines
+    let mut lines = LinesStream::new(reader.lines());
+
+    // Process each line
+    let mut count = 0;
+    while let Some(line) = lines.next().await {
+        let line = line?;
+
+        // Look for error messages
+        if line.contains("ERROR") {
+            println!("Found error: {}", line);
+            count += 1;
+        }
+    }
+
+    println!("Found {} error lines", count);
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="database-query-stream"><a class="header" href="#database-query-stream">Database Query Stream</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::TryStreamExt;
+use tokio_postgres::{Client, NoTls};
+
+async fn query_stream_example() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Connect to PostgreSQL
+    let (client, connection) = tokio_postgres::connect(
+        "host=localhost user=postgres dbname=mydb",
+        NoTls,
+    ).await?;
+
+    // Spawn the connection handling
+    tokio::spawn(async move {
+        if let Err(e) = connection.await {
+            eprintln!("Connection error: {}", e);
+        }
+    });
+
+    // Create a query that returns a large result set
+    let stream = client
+        .query_raw("SELECT * FROM large_table WHERE value &gt; $1", &amp;[&amp;100])
+        .await?
+        .try_filter_map(|row| async move {
+            // Extract data from the row
+            let id: i32 = row.get(0);
+            let value: i64 = row.get(1);
+
+            // Filter out some rows
+            if value &gt; 1000 {
+                Ok(Some((id, value)))
+            } else {
+                Ok(None)
+            }
+        });
+
+    // Process the rows without loading everything into memory
+    tokio::pin!(stream);
+
+    let mut count = 0;
+    while let Some((id, value)) = stream.try_next().await? {
+        println!("Row {}: {}", id, value);
+        count += 1;
+    }
+
+    println!("Processed {} rows", count);
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Streams are a powerful abstraction for handling asynchronous sequences in Rust. They combine the flexibility of iterators with the efficiency of async programming, enabling scalable processing of data from network sources, files, and other asynchronous data producers.</p>
+<p>In the next section, we’ll explore how to choose and work with async runtimes in more detail.</p>
+<h2 id="practical-project-building-an-async-web-crawler"><a class="header" href="#practical-project-building-an-async-web-crawler">Practical Project: Building an Async Web Crawler</a></h2>
+<p>To consolidate our understanding of asynchronous programming, let’s build a practical project: a simple web crawler that concurrently fetches and processes web pages. This project will demonstrate many of the concepts we’ve covered in this chapter.</p>
+<h3 id="project-requirements"><a class="header" href="#project-requirements">Project Requirements</a></h3>
+<p>Our web crawler will:</p>
+<ol>
+<li>Start with a seed URL</li>
+<li>Fetch the page content asynchronously</li>
+<li>Parse the HTML to extract links</li>
+<li>Follow links within the same domain, up to a specified depth</li>
+<li>Limit concurrency to avoid overwhelming servers</li>
+<li>Track visited URLs to avoid cycles</li>
+</ol>
+<h3 id="setting-up-the-project"><a class="header" href="#setting-up-the-project">Setting Up the Project</a></h3>
+<p>First, let’s create a new Rust project and add the necessary dependencies:</p>
+<pre><code class="language-bash">cargo new async-crawler
+cd async-crawler
+</code></pre>
+<p>Add the following dependencies to your <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+tokio = { version = "1.28", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+futures = "0.3"
+scraper = "0.16"
+url = "2.3"
+thiserror = "1.0"
+async-recursion = "1.0"
+</code></pre>
+<h3 id="defining-the-core-structures"><a class="header" href="#defining-the-core-structures">Defining the Core Structures</a></h3>
+<p>Let’s start by defining our core data structures:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashSet;
+use std::sync::{Arc, Mutex};
+use url::Url;
+
+/// Configuration for the crawler
+struct CrawlerConfig {
+    max_depth: usize,
+    max_concurrent_requests: usize,
+    user_agent: String,
+}
+
+impl Default for CrawlerConfig {
+    fn default() -&gt; Self {
+        Self {
+            max_depth: 2,
+            max_concurrent_requests: 10,
+            user_agent: "Rust Async Crawler/0.1".to_string(),
+        }
+    }
+}
+
+/// A simple web crawler
+struct Crawler {
+    config: CrawlerConfig,
+    client: reqwest::Client,
+    visited: Arc&lt;Mutex&lt;HashSet&lt;String&gt;&gt;&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="implementing-the-crawler"><a class="header" href="#implementing-the-crawler">Implementing the Crawler</a></h3>
+<p>Now, let’s implement the crawler’s functionality:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use async_recursion::async_recursion;
+use futures::stream::{self, StreamExt};
+use scraper::{Html, Selector};
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+enum CrawlerError {
+    #[error("Request error: {0}")]
+    RequestError(#[from] reqwest::Error),
+
+    #[error("URL parse error: {0}")]
+    UrlParseError(#[from] url::ParseError),
+
+    #[error("Invalid URL: {0}")]
+    InvalidUrl(String),
+}
+
+impl Crawler {
+    /// Create a new crawler with the given configuration
+    fn new(config: CrawlerConfig) -&gt; Result&lt;Self, CrawlerError&gt; {
+        let client = reqwest::Client::builder()
+            .user_agent(&amp;config.user_agent)
+            .build()?;
+
+        Ok(Self {
+            config,
+            client,
+            visited: Arc::new(Mutex::new(HashSet::new())),
+        })
+    }
+
+    /// Start crawling from a seed URL
+    pub async fn crawl(&amp;self, seed_url: &amp;str) -&gt; Result&lt;(), CrawlerError&gt; {
+        let url = Url::parse(seed_url)?;
+        self.crawl_page(url, 0).await
+    }
+
+    /// Crawl a single page and follow links recursively
+    #[async_recursion]
+    async fn crawl_page(&amp;self, url: Url, depth: usize) -&gt; Result&lt;(), CrawlerError&gt; {
+        let url_str = url.to_string();
+
+        // Check if we've already visited this URL
+        {
+            let mut visited = self.visited.lock().unwrap();
+            if visited.contains(&amp;url_str) {
+                return Ok(());
+            }
+            visited.insert(url_str.clone());
+        }
+
+        println!("Crawling: {} (depth: {})", url_str, depth);
+
+        // Stop if we've reached the maximum depth
+        if depth &gt;= self.config.max_depth {
+            return Ok(());
+        }
+
+        // Fetch the page
+        let response = self.client.get(url.clone()).send().await?;
+        if !response.status().is_success() {
+            println!("  Failed: HTTP {}", response.status());
+            return Ok(());
+        }
+
+        let content_type = response
+            .headers()
+            .get(reqwest::header::CONTENT_TYPE)
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("");
+
+        // Only process HTML pages
+        if !content_type.contains("text/html") {
+            println!("  Skipping: Not HTML ({})", content_type);
+            return Ok(());
+        }
+
+        let html = response.text().await?;
+
+        // Parse the HTML
+        let document = Html::parse_document(&amp;html);
+
+        // Extract links
+        let selector = Selector::parse("a[href]").unwrap();
+        let links: Vec&lt;_&gt; = document
+            .select(&amp;selector)
+            .filter_map(|element| element.value().attr("href"))
+            .filter_map(|href| self.normalize_url(&amp;url, href).ok())
+            .filter(|link_url| link_url.domain() == url.domain())
+            .collect();
+
+        println!("  Found {} links", links.len());
+
+        // Process links concurrently, but limit concurrency
+        stream::iter(links)
+            .map(|link| self.crawl_page(link, depth + 1))
+            .buffer_unordered(self.config.max_concurrent_requests)
+            .collect::&lt;Vec&lt;_&gt;&gt;()
+            .await;
+
+        Ok(())
+    }
+
+    /// Convert a relative URL to an absolute URL
+    fn normalize_url(&amp;self, base: &amp;Url, href: &amp;str) -&gt; Result&lt;Url, CrawlerError&gt; {
+        match base.join(href) {
+            Ok(url) =&gt; Ok(url),
+            Err(e) =&gt; {
+                println!("  Invalid URL: {} - {}", href, e);
+                Err(CrawlerError::InvalidUrl(href.to_string()))
+            }
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="the-main-application"><a class="header" href="#the-main-application">The Main Application</a></h3>
+<p>Finally, let’s implement the main application:</p>
+<pre><pre class="playground"><code class="language-rust">#[tokio::main]
+async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Create a custom configuration
+    let config = CrawlerConfig {
+        max_depth: 2,
+        max_concurrent_requests: 5,
+        user_agent: "Rust Async Crawler Example/0.1".to_string(),
+    };
+
+    // Create the crawler
+    let crawler = Crawler::new(config)?;
+
+    // Start crawling from a seed URL
+    crawler.crawl("https://www.rust-lang.org").await?;
+
+    println!("Crawling completed!");
+    Ok(())
+}</code></pre></pre>
+<h3 id="running-the-crawler"><a class="header" href="#running-the-crawler">Running the Crawler</a></h3>
+<p>You can run the crawler with:</p>
+<pre><code class="language-bash">cargo run
+</code></pre>
+<p>This will start crawling from the Rust website, following links to a depth of 2, and limiting concurrency to 5 simultaneous requests.</p>
+<h3 id="analyzing-our-implementation"><a class="header" href="#analyzing-our-implementation">Analyzing Our Implementation</a></h3>
+<p>Our crawler demonstrates several important async concepts:</p>
+<ol>
+<li><strong>Async/await syntax</strong>: The <code>crawl</code> and <code>crawl_page</code> methods are asynchronous.</li>
+<li><strong>Concurrency control</strong>: We use <code>buffer_unordered</code> to limit the number of concurrent requests.</li>
+<li><strong>Error handling</strong>: We use <code>thiserror</code> to define custom error types and propagate errors with <code>?</code>.</li>
+<li><strong>Shared state</strong>: We use <code>Arc&lt;Mutex&lt;HashSet&gt;&gt;</code> to track visited URLs across async tasks.</li>
+<li><strong>HTTP client</strong>: We use <code>reqwest</code> for asynchronous HTTP requests.</li>
+<li><strong>Stream processing</strong>: We use <code>StreamExt</code> to process links as a stream.</li>
+</ol>
+<p>This example shows how async programming can efficiently handle I/O-bound tasks like web crawling, making many concurrent requests without the overhead of using one thread per request.</p>
+<h2 id="summary-and-best-practices"><a class="header" href="#summary-and-best-practices">Summary and Best Practices</a></h2>
+<p>In this chapter, we’ve explored Rust’s approach to asynchronous programming. Here’s a summary of the key concepts we’ve covered:</p>
+<h3 id="key-concepts"><a class="header" href="#key-concepts">Key Concepts</a></h3>
+<ol>
+<li><strong>Async/await syntax</strong>: Provides an intuitive way to write asynchronous code.</li>
+<li><strong>Futures</strong>: Represent computations that may not have completed yet.</li>
+<li><strong>Polling model</strong>: Futures make progress only when polled.</li>
+<li><strong>Async runtimes</strong>: Execute futures by managing tasks and I/O events.</li>
+<li><strong>Streams</strong>: Represent asynchronous sequences of values.</li>
+</ol>
+<h3 id="best-practices-for-async-rust"><a class="header" href="#best-practices-for-async-rust">Best Practices for Async Rust</a></h3>
+<ol>
+<li>
+<p><strong>Choose the right tool for the job</strong>:</p>
+<ul>
+<li>Use async for I/O-bound workloads with many concurrent operations.</li>
+<li>Use threads for CPU-bound tasks or when simplicity is more important than scalability.</li>
+</ul>
+</li>
+<li>
+<p><strong>Understand the costs</strong>:</p>
+<ul>
+<li>Async code has compilation and runtime overhead.</li>
+<li>Large futures with many variables across await points consume more memory.</li>
+<li>Debugging async code can be more challenging.</li>
+</ul>
+</li>
+<li>
+<p><strong>Avoid blocking in async contexts</strong>:</p>
+<ul>
+<li>Use <code>spawn_blocking</code> for unavoidable blocking operations.</li>
+<li>Prefer async versions of libraries when available.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use appropriate concurrency patterns</strong>:</p>
+<ul>
+<li>Create futures first, then await them for concurrent execution.</li>
+<li>Use <code>join!</code> or <code>try_join!</code> to await multiple futures concurrently.</li>
+<li>Use <code>select!</code> for racing futures or implementing timeouts.</li>
+</ul>
+</li>
+<li>
+<p><strong>Handle cancellation properly</strong>:</p>
+<ul>
+<li>Design futures to clean up resources when dropped.</li>
+<li>Use structured concurrency patterns like scoped tasks.</li>
+</ul>
+</li>
+<li>
+<p><strong>Manage backpressure</strong>:</p>
+<ul>
+<li>Use bounded channels and queues to prevent overwhelming consumers.</li>
+<li>Implement throttling where appropriate.</li>
+</ul>
+</li>
+<li>
+<p><strong>Test async code thoroughly</strong>:</p>
+<ul>
+<li>Test different interleaving of async operations.</li>
+<li>Use simulated delays to expose race conditions.</li>
+</ul>
+</li>
+</ol>
+<h3 id="common-async-pitfalls"><a class="header" href="#common-async-pitfalls">Common Async Pitfalls</a></h3>
+<ol>
+<li><strong>Block-on-block deadlock</strong>: Calling <code>block_on</code> from within an async context that’s already being driven by the same runtime.</li>
+<li><strong>Task starvation</strong>: Long-running CPU-bound tasks preventing other tasks from making progress.</li>
+<li><strong>Excessive spawning</strong>: Creating too many tasks, leading to scheduling overhead.</li>
+<li><strong>Forgetting to spawn</strong>: Creating a future but not spawning or awaiting it.</li>
+<li><strong>Over-synchronization</strong>: Using too many synchronization primitives, leading to contention.</li>
+</ol>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<p>To reinforce your understanding of asynchronous programming in Rust, try these exercises:</p>
+<ol>
+<li>
+<p><strong>Async File Processor</strong>:</p>
+<ul>
+<li>Create a program that asynchronously reads multiple files.</li>
+<li>Process the files concurrently and collect the results.</li>
+<li>Implement error handling for file operations.</li>
+</ul>
+</li>
+<li>
+<p><strong>Enhanced Web Crawler</strong>:</p>
+<ul>
+<li>Extend our web crawler to save page content to files.</li>
+<li>Add support for rate limiting (maximum requests per second).</li>
+<li>Implement retry logic for failed requests.</li>
+</ul>
+</li>
+<li>
+<p><strong>Async Chat Server</strong>:</p>
+<ul>
+<li>Build a simple chat server using async networking.</li>
+<li>Support multiple concurrent clients.</li>
+<li>Implement broadcast messaging to all connected clients.</li>
+</ul>
+</li>
+<li>
+<p><strong>Custom Stream Implementation</strong>:</p>
+<ul>
+<li>Create a custom <code>Stream</code> implementation that produces Fibonacci numbers.</li>
+<li>Add a timeout feature to limit how long you wait for the next item.</li>
+</ul>
+</li>
+<li>
+<p><strong>Async Runtime Comparison</strong>:</p>
+<ul>
+<li>Implement the same functionality using different async runtimes (Tokio, async-std, smol).</li>
+<li>Compare performance, memory usage, and code complexity.</li>
+</ul>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<p>To deepen your understanding of asynchronous programming in Rust:</p>
+<ol>
+<li><a href="https://rust-lang.github.io/async-book/">Asynchronous Programming in Rust</a> - The official Async Book</li>
+<li><a href="https://tokio.rs/tokio/tutorial">Tokio Documentation</a> - Comprehensive guide to the Tokio runtime</li>
+<li><a href="https://cfsamson.github.io/books-futures-explained/">Futures Explained in 200 Lines of Rust</a> - Deep dive into how futures work</li>
+<li><a href="https://book.async.rs/">async-std Book</a> - Guide to the async-std runtime</li>
+<li><a href="https://blog.rust-lang.org/inside-rust/2021/01/26/pin-overview.html">Pin and Unpin in Rust</a> - Detailed explanation of the Pin API</li>
+</ol>
+<hr />
+<p>Asynchronous programming in Rust provides a powerful way to handle concurrent operations efficiently. By leveraging futures, async/await syntax, and purpose-built runtimes, you can write code that scales to handle thousands or even millions of concurrent tasks while maintaining Rust’s guarantees of safety and performance. Whether you’re building web servers, database systems, or network utilities, the techniques you’ve learned in this chapter will help you write robust, efficient asynchronous code.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/24-concurrency.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/26-macros.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/24-concurrency.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/26-macros.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Debugging and Troubleshooting Guide - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/appendices/g-debugging.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="appendix-g-debugging-and-troubleshooting-guide"><a class="header" href="#appendix-g-debugging-and-troubleshooting-guide">Appendix G: Debugging and Troubleshooting Guide</a></h2>
+<p>This appendix provides techniques and tools for debugging Rust programs, understanding common errors, and solving problems efficiently.</p>
+<h3 id="compilation-errors"><a class="header" href="#compilation-errors">Compilation Errors</a></h3>
+<p>Rust’s compiler provides detailed error messages to help fix issues:</p>
+<h4 id="understanding-error-messages"><a class="header" href="#understanding-error-messages">Understanding Error Messages</a></h4>
+<pre><code>error[E0308]: mismatched types
+  --&gt; src/main.rs:4:8
+   |
+ 4 |     let x: i32 = "hello";
+   |            ^^^   ^^^^^^^ expected `i32`, found `&amp;str`
+   |            |
+   |            expected due to this
+</code></pre>
+<p>The key parts are:</p>
+<ul>
+<li>Error code (<code>E0308</code>)</li>
+<li>Location (file and line/column)</li>
+<li>Expected vs. found types</li>
+<li>Additional context</li>
+</ul>
+<h4 id="common-compilation-errors"><a class="header" href="#common-compilation-errors">Common Compilation Errors</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Error Code</th><th>Description</th><th>Common Causes</th></tr></thead><tbody>
+<tr><td>E0308</td><td>Type mismatch</td><td>Assigning incompatible types</td></tr>
+<tr><td>E0382</td><td>Use of moved value</td><td>Using a value after it’s been moved</td></tr>
+<tr><td>E0106</td><td>Missing lifetime specifier</td><td>Returning references without lifetimes</td></tr>
+<tr><td>E0507</td><td>Cannot move out of borrowed content</td><td>Trying to take ownership from a reference</td></tr>
+<tr><td>E0597</td><td>Borrowed value does not live long enough</td><td>Reference outlives the referenced value</td></tr>
+</tbody></table>
+</div>
+<h4 id="the-rustc---explain-command"><a class="header" href="#the-rustc---explain-command">The <code>rustc --explain</code> Command</a></h4>
+<p>For detailed explanations of error codes:</p>
+<pre><code>rustc --explain E0308
+</code></pre>
+<h3 id="runtime-debugging"><a class="header" href="#runtime-debugging">Runtime Debugging</a></h3>
+<h4 id="println-debugging"><a class="header" href="#println-debugging">Println Debugging</a></h4>
+<p>The simplest debugging technique:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_data(data: &amp;[i32]) -&gt; i32 {
+    println!("Processing data: {:?}", data);
+    let result = data.iter().sum();
+    println!("Result: {}", result);
+    result
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-dbg-macro"><a class="header" href="#using-dbg-macro">Using <code>dbg!</code> Macro</a></h4>
+<p>The <code>dbg!</code> macro is more powerful than <code>println!</code>:</p>
+<ul>
+<li>Prints file and line number</li>
+<li>Shows expression and its value</li>
+<li>Returns the value (unlike println!)</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn calculate(a: i32, b: i32) -&gt; i32 {
+    let intermediate = dbg!(a * 2);
+    dbg!(intermediate + b)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="debug-and-display-traits"><a class="header" href="#debug-and-display-traits">Debug and Display Traits</a></h4>
+<p>Implement these traits for better debug output:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+struct Person {
+    name: String,
+    age: u32,
+}
+
+impl std::fmt::Display for Person {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter) -&gt; std::fmt::Result {
+        write!(f, "{} ({})", self.name, self.age)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-a-debugger"><a class="header" href="#using-a-debugger">Using a Debugger</a></h4>
+<p>GDB and LLDB can be used with Rust:</p>
+<ol>
+<li>Compile with debug symbols: <code>cargo build</code></li>
+<li>Run the debugger: <code>gdb target/debug/my_program</code></li>
+<li>Common commands:
+<ul>
+<li><code>break src/main.rs:10</code> - Set breakpoint at line 10</li>
+<li><code>run</code> - Start execution</li>
+<li><code>print variable</code> - Show variable value</li>
+<li><code>next</code> - Execute next line</li>
+<li><code>step</code> - Step into function</li>
+<li><code>continue</code> - Continue execution</li>
+</ul>
+</li>
+</ol>
+<h4 id="rust-specific-debugger-extensions"><a class="header" href="#rust-specific-debugger-extensions">Rust-Specific Debugger Extensions</a></h4>
+<ul>
+<li>GDB with <a href="https://github.com/rust-lang/rust/blob/master/src/etc/rust-gdb">rust-gdb</a></li>
+<li>LLDB with <a href="https://github.com/rust-lang/rust/blob/master/src/etc/rust-lldb">rust-lldb</a></li>
+</ul>
+<h3 id="common-runtime-issues"><a class="header" href="#common-runtime-issues">Common Runtime Issues</a></h3>
+<h4 id="panics"><a class="header" href="#panics">Panics</a></h4>
+<p>When your program panics, you’ll see a message and backtrace:</p>
+<pre><code>thread 'main' panicked at 'index out of bounds: the len is 3 but the index is 5', src/main.rs:4:5
+stack backtrace:
+   0: std::panicking::begin_panic
+   ...
+</code></pre>
+<p>Common causes:</p>
+<ul>
+<li>Index out of bounds</li>
+<li>Division by zero</li>
+<li>Unwrapping <code>None</code> or <code>Err</code></li>
+<li>Explicit <code>panic!()</code> calls</li>
+</ul>
+<h4 id="stack-overflow"><a class="header" href="#stack-overflow">Stack Overflow</a></h4>
+<p>Typically caused by infinite recursion:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn recursive_function() {
+    recursive_function();  // Will cause stack overflow
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="memory-leaks"><a class="header" href="#memory-leaks">Memory Leaks</a></h4>
+<p>Find memory leaks with tools like <code>valgrind</code> or memory profilers.</p>
+<h4 id="deadlocks"><a class="header" href="#deadlocks">Deadlocks</a></h4>
+<p>When threads wait for each other indefinitely:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mutex1 = Arc::new(Mutex::new(()));
+let mutex2 = Arc::new(Mutex::new(()));
+
+// Thread 1
+let _lock1 = mutex1.lock().unwrap();
+let _lock2 = mutex2.lock().unwrap();
+
+// Thread 2
+let _lock2 = mutex2.lock().unwrap();
+let _lock1 = mutex1.lock().unwrap();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="advanced-debugging-techniques"><a class="header" href="#advanced-debugging-techniques">Advanced Debugging Techniques</a></h3>
+<h4 id="tracing"><a class="header" href="#tracing">Tracing</a></h4>
+<p>Use the <code>tracing</code> crate for structured logging:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tracing::{info, span, Level};
+
+fn process_request(user_id: u64) {
+    let span = span!(Level::INFO, "process_request", user_id = user_id);
+    let _enter = span.enter();
+
+    info!("Starting request processing");
+    // Process request
+    info!("Request processing completed");
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="assertions"><a class="header" href="#assertions">Assertions</a></h4>
+<p>Use assertions to catch logical errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn divide(a: i32, b: i32) -&gt; i32 {
+    assert!(b != 0, "Division by zero");
+    a / b
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="feature-flags-for-debugging"><a class="header" href="#feature-flags-for-debugging">Feature Flags for Debugging</a></h4>
+<p>Use Cargo features to enable debug code only when needed:</p>
+<pre><code class="language-toml"># Cargo.toml
+[features]
+debug_assertions = []
+</code></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn complex_calculation() -&gt; f64 {
+    let result = /* calculation */;
+
+    #[cfg(feature = "debug_assertions")]
+    {
+        println!("Calculation result: {}", result);
+        assert!(result &gt;= 0.0, "Expected non-negative result");
+    }
+
+    result
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="logging"><a class="header" href="#logging">Logging</a></h4>
+<p>Use the <code>log</code> crate for flexible logging:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use log::{info, warn, error};
+
+fn process_data(data: &amp;[u8]) -&gt; Result&lt;(), Error&gt; {
+    info!("Processing {} bytes of data", data.len());
+
+    if data.is_empty() {
+        warn!("Empty data provided");
+        return Ok(());
+    }
+
+    match process_chunk(data) {
+        Ok(result) =&gt; {
+            info!("Processing successful: {:?}", result);
+            Ok(())
+        }
+        Err(e) =&gt; {
+            error!("Processing failed: {}", e);
+            Err(e)
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="troubleshooting-tools"><a class="header" href="#troubleshooting-tools">Troubleshooting Tools</a></h3>
+<ul>
+<li><strong>Clippy</strong>: Catches common mistakes with <code>cargo clippy</code></li>
+<li><strong>MIRI</strong>: Interprets Rust MIR to find undefined behavior</li>
+<li><strong>Valgrind</strong>: Detects memory management issues</li>
+<li><strong>Flamegraph</strong>: Visualizes performance hotspots</li>
+<li><strong>Sanitizers</strong>: Address Sanitizer (ASan), Thread Sanitizer (TSan)</li>
+</ul>
+<h2 id="appendix-h-performance-optimization-cookbook"><a class="header" href="#appendix-h-performance-optimization-cookbook">Appendix H: Performance Optimization Cookbook</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendices/f-community-resources.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendices/h-optimization-cookbook.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendices/f-community-resources.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendices/h-optimization-cookbook.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

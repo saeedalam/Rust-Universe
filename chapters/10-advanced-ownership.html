@@ -1,0 +1,1862 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Advanced Ownership Patterns - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/10-advanced-ownership.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-10-advanced-ownership-patterns"><a class="header" href="#chapter-10-advanced-ownership-patterns">Chapter 10: Advanced Ownership Patterns</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In previous chapters, we explored Rust’s fundamental ownership model, borrowing, and references. These core concepts provide memory safety without a garbage collector, but they can sometimes feel restrictive when building complex applications. In this chapter, we’ll explore advanced ownership patterns that provide greater flexibility while maintaining Rust’s safety guarantees.</p>
+<p>Rust provides several mechanisms to handle situations where the basic ownership rules are too limiting, such as:</p>
+<ul>
+<li>Modifying data when multiple references exist</li>
+<li>Sharing data across thread boundaries</li>
+<li>Creating complex data structures with self-references</li>
+<li>Managing object lifetimes in sophisticated ways</li>
+<li>Implementing reference-counted or atomic resources</li>
+</ul>
+<p>By the end of this chapter, you’ll understand when and how to use these advanced patterns to build robust, safe, and flexible Rust applications.</p>
+<h2 id="interior-mutability-pattern"><a class="header" href="#interior-mutability-pattern">Interior Mutability Pattern</a></h2>
+<p>The interior mutability pattern allows you to mutate data even when there are immutable references to that data, which normally would violate Rust’s borrowing rules.</p>
+<h3 id="the-problem-interior-mutability-solves"><a class="header" href="#the-problem-interior-mutability-solves">The Problem Interior Mutability Solves</a></h3>
+<p>In standard Rust code, you can’t have both mutable and immutable references to the same data simultaneously:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = 5;
+
+    // This won't compile:
+    let y = &amp;x;
+    let z = &amp;mut x; // Error: cannot borrow `x` as mutable because it is also borrowed as immutable
+
+    println!("{}", y);
+}</code></pre></pre>
+<p>This restriction helps prevent data races, but sometimes you need more flexibility. For example:</p>
+<ul>
+<li>Implementing a cache that appears immutable from the outside but needs to update internal state</li>
+<li>Modifying specific fields of a struct when only an immutable reference is available</li>
+<li>Building self-referential data structures where a part of the structure needs to change while other parts remain referenced</li>
+</ul>
+<p>The interior mutability pattern solves these problems by moving the borrowing rules from compile-time to runtime, using safe abstractions.</p>
+<h2 id="cell-refcell-and-unsafecell"><a class="header" href="#cell-refcell-and-unsafecell">Cell, RefCell, and UnsafeCell</a></h2>
+<p>Rust provides several types in the standard library that implement interior mutability:</p>
+<h3 id="cell-simple-interior-mutability-for-copy-types"><a class="header" href="#cell-simple-interior-mutability-for-copy-types">Cell<T>: Simple Interior Mutability for Copy Types</a></h3>
+<p><code>Cell&lt;T&gt;</code> provides a way to mutate values through shared references, but only for types that implement the <code>Copy</code> trait:</p>
+<pre><pre class="playground"><code class="language-rust">use std::cell::Cell;
+
+fn main() {
+    let counter = Cell::new(0);
+
+    // Create multiple shared references
+    let counter_ref1 = &amp;counter;
+    let counter_ref2 = &amp;counter;
+
+    // Modify the value through these references
+    counter_ref1.set(counter_ref1.get() + 1);
+    counter_ref2.set(counter_ref2.get() + 10);
+
+    println!("Counter: {}", counter.get()); // Prints: Counter: 11
+}</code></pre></pre>
+<p><code>Cell&lt;T&gt;</code> works by copying values in and out, making it efficient for small types like integers, booleans, and other <code>Copy</code> types. It provides methods like:</p>
+<ul>
+<li><code>get()</code>: Returns a copy of the inner value (only for <code>Copy</code> types)</li>
+<li><code>set()</code>: Replaces the inner value</li>
+<li><code>replace()</code>: Replaces the inner value and returns the old value</li>
+<li><code>into_inner()</code>: Consumes the <code>Cell</code> and returns the inner value</li>
+</ul>
+<h3 id="refcell-dynamic-borrowing-for-any-type"><a class="header" href="#refcell-dynamic-borrowing-for-any-type">RefCell<T>: Dynamic Borrowing for Any Type</a></h3>
+<p><code>RefCell&lt;T&gt;</code> provides interior mutability for any type, not just <code>Copy</code> types, by checking borrowing rules at runtime:</p>
+<pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
+
+fn main() {
+    let data = RefCell::new(vec![1, 2, 3]);
+
+    // Borrow mutably to modify the vector
+    data.borrow_mut().push(4);
+
+    // Borrow immutably to read the vector
+    println!("Data: {:?}", data.borrow()); // Prints: Data: [1, 2, 3, 4]
+
+    // Multiple immutable borrows are allowed
+    let borrow1 = data.borrow();
+    let borrow2 = data.borrow();
+    println!("Length: {}, First element: {}", borrow1.len(), borrow2[0]);
+
+    // This would panic at runtime:
+    // let mut_borrow = data.borrow_mut(); // Error: already borrowed
+}</code></pre></pre>
+<p><code>RefCell&lt;T&gt;</code> enforces Rust’s borrowing rules at runtime:</p>
+<ul>
+<li>Multiple immutable borrows are allowed</li>
+<li>Only one mutable borrow is allowed</li>
+<li>No immutable borrows can exist when there’s a mutable borrow</li>
+</ul>
+<p>If these rules are violated, <code>RefCell</code> will panic.</p>
+<p>The key methods provided by <code>RefCell&lt;T&gt;</code> are:</p>
+<ul>
+<li><code>borrow()</code>: Returns an immutable reference (<code>Ref&lt;T&gt;</code>)</li>
+<li><code>borrow_mut()</code>: Returns a mutable reference (<code>RefMut&lt;T&gt;</code>)</li>
+<li><code>try_borrow()</code> and <code>try_borrow_mut()</code>: Non-panicking versions that return a <code>Result</code></li>
+</ul>
+<h3 id="unsafecell-the-foundation-of-interior-mutability"><a class="header" href="#unsafecell-the-foundation-of-interior-mutability">UnsafeCell<T>: The Foundation of Interior Mutability</a></h3>
+<p><code>UnsafeCell&lt;T&gt;</code> is the primitive type that powers all interior mutability in Rust. It’s the only way in safe Rust to disable the compiler’s compile-time borrowing checks:</p>
+<pre><pre class="playground"><code class="language-rust">use std::cell::UnsafeCell;
+
+fn main() {
+    let data = UnsafeCell::new(5);
+
+    // Safe API to interact with UnsafeCell
+    let value = unsafe { *data.get() };
+    println!("Value: {}", value);
+
+    // Modifying the value
+    unsafe {
+        *data.get() += 1;
+    }
+
+    let new_value = unsafe { *data.get() };
+    println!("New value: {}", new_value); // Prints: New value: 6
+}</code></pre></pre>
+<p><code>UnsafeCell</code> is rarely used directly and is primarily a building block for safer abstractions like <code>Cell</code> and <code>RefCell</code>. Using it requires <code>unsafe</code> code, as it provides no runtime checks for borrowing rules.</p>
+<h3 id="when-to-use-interior-mutability"><a class="header" href="#when-to-use-interior-mutability">When to Use Interior Mutability</a></h3>
+<p>Interior mutability should be used judiciously, as it moves checks from compile time to runtime. Good use cases include:</p>
+<ol>
+<li><strong>Implementing methods that logically don’t modify an object but need to update internal state:</strong></li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
+
+struct Logger {
+    logs: RefCell&lt;Vec&lt;String&gt;&gt;,
+}
+
+impl Logger {
+    fn new() -&gt; Self {
+        Logger {
+            logs: RefCell::new(Vec::new()),
+        }
+    }
+
+    // This method takes &amp;self, not &amp;mut self
+    fn log(&amp;self, message: &amp;str) {
+        self.logs.borrow_mut().push(message.to_string());
+    }
+
+    fn view_logs(&amp;self) -&gt; Vec&lt;String&gt; {
+        self.logs.borrow().clone()
+    }
+}
+
+fn main() {
+    let logger = Logger::new();
+
+    // Both references can modify the log
+    let logger_ref1 = &amp;logger;
+    let logger_ref2 = &amp;logger;
+
+    logger_ref1.log("System started");
+    logger_ref2.log("Processing data");
+
+    for (i, entry) in logger.view_logs().iter().enumerate() {
+        println!("{}: {}", i, entry);
+    }
+}</code></pre></pre>
+<ol start="2">
+<li><strong>Caching computation results:</strong></li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
+use std::collections::HashMap;
+
+struct Fibonacci {
+    cache: RefCell&lt;HashMap&lt;u64, u64&gt;&gt;,
+}
+
+impl Fibonacci {
+    fn new() -&gt; Self {
+        let mut cache = HashMap::new();
+        cache.insert(0, 0);
+        cache.insert(1, 1);
+
+        Fibonacci {
+            cache: RefCell::new(cache),
+        }
+    }
+
+    fn calculate(&amp;self, n: u64) -&gt; u64 {
+        // Check if we've already calculated this value
+        if let Some(&amp;result) = self.cache.borrow().get(&amp;n) {
+            return result;
+        }
+
+        // Calculate the new value
+        let result = self.calculate(n - 1) + self.calculate(n - 2);
+
+        // Cache the result
+        self.cache.borrow_mut().insert(n, result);
+
+        result
+    }
+}
+
+fn main() {
+    let fib = Fibonacci::new();
+    println!("Fibonacci(10) = {}", fib.calculate(10));
+    println!("Fibonacci(20) = {}", fib.calculate(20));
+}</code></pre></pre>
+<ol start="3">
+<li><strong>Observer patterns where callbacks need to modify state:</strong></li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">use std::cell::RefCell;
+
+struct Observer&lt;F&gt;
+where
+    F: FnMut(i32),
+{
+    callback: RefCell&lt;F&gt;,
+}
+
+impl&lt;F&gt; Observer&lt;F&gt;
+where
+    F: FnMut(i32),
+{
+    fn new(callback: F) -&gt; Self {
+        Observer {
+            callback: RefCell::new(callback),
+        }
+    }
+
+    fn notify(&amp;self, value: i32) {
+        let mut callback = self.callback.borrow_mut();
+        callback(value);
+    }
+}
+
+fn main() {
+    let mut sum = 0;
+
+    let observer = Observer::new(|value| {
+        sum += value;
+        println!("Received value: {}, Sum: {}", value, sum);
+    });
+
+    observer.notify(1);
+    observer.notify(2);
+    observer.notify(3);
+}</code></pre></pre>
+<h2 id="mutex-and-rwlock-for-thread-safety"><a class="header" href="#mutex-and-rwlock-for-thread-safety">Mutex and RwLock for Thread Safety</a></h2>
+<p>Interior mutability types like <code>Cell</code> and <code>RefCell</code> are not thread-safe. For concurrent code, Rust provides thread-safe alternatives:</p>
+<ol>
+<li><code>Mutex&lt;T&gt;</code>: Mutual exclusion with exclusive access</li>
+<li><code>RwLock&lt;T&gt;</code>: Reader-writer lock allowing multiple readers or one writer</li>
+</ol>
+<h3 id="understanding-thread-safety"><a class="header" href="#understanding-thread-safety">Understanding Thread Safety</a></h3>
+<p>Thread safety refers to the ability to safely access and modify data from multiple threads without causing data races or undefined behavior. A data race occurs when:</p>
+<ol>
+<li>Two or more threads access the same memory location concurrently</li>
+<li>At least one of the accesses is a write</li>
+<li>The threads are not using any synchronization mechanism</li>
+</ol>
+<p>Rust’s ownership system prevents these problems at compile time for most code, but interior mutability requires runtime checks. For thread-safe interior mutability, we need synchronization primitives.</p>
+<h3 id="mutex-mutual-exclusion"><a class="header" href="#mutex-mutual-exclusion">Mutex<T>: Mutual Exclusion</a></h3>
+<p><code>Mutex&lt;T&gt;</code> (mutual exclusion) ensures that only one thread can access the contained data at a time:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::Mutex;
+use std::thread;
+
+fn main() {
+    // Create a mutex containing a counter
+    let counter = Mutex::new(0);
+    let mut handles = vec![];
+
+    // Spawn 10 threads, each incrementing the counter 100 times
+    for _ in 0..10 {
+        let counter_ref = counter.clone();
+        let handle = thread::spawn(move || {
+            for _ in 0..100 {
+                // Lock the mutex to get exclusive access
+                let mut num = counter_ref.lock().unwrap();
+                *num += 1;
+                // The lock is automatically released when `num` goes out of scope
+            }
+        });
+        handles.push(handle);
+    }
+
+    // Wait for all threads to complete
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Final count: {}", *counter.lock().unwrap()); // Should print: Final count: 1000
+}</code></pre></pre>
+<p>Key aspects of <code>Mutex&lt;T&gt;</code>:</p>
+<ol>
+<li><strong>Locking Mechanism</strong>: To access the data, you must call <code>lock()</code>, which returns a <code>MutexGuard</code></li>
+<li><strong>RAII Guard</strong>: The <code>MutexGuard</code> implements the <code>Drop</code> trait, automatically releasing the lock when it goes out of scope</li>
+<li><strong>Poisoning</strong>: If a thread panics while holding the lock, the mutex becomes “poisoned” and future <code>lock()</code> calls return an error</li>
+<li><strong>Blocking</strong>: If a thread tries to lock an already locked mutex, it will block (wait) until the lock is available</li>
+</ol>
+<h3 id="rwlock-reader-writer-lock"><a class="header" href="#rwlock-reader-writer-lock">RwLock<T>: Reader-Writer Lock</a></h3>
+<p><code>RwLock&lt;T&gt;</code> (reader-writer lock) allows multiple readers or a single writer:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::RwLock;
+use std::thread;
+
+fn main() {
+    // Create a reader-writer lock containing data
+    let data = RwLock::new(vec![1, 2, 3]);
+    let mut handles = vec![];
+
+    // Spawn reader threads
+    for i in 0..3 {
+        let data_ref = data.clone();
+        let handle = thread::spawn(move || {
+            // Multiple read locks can exist simultaneously
+            let data_guard = data_ref.read().unwrap();
+            println!("Reader {} sees: {:?}", i, *data_guard);
+            // Lock is released when data_guard goes out of scope
+        });
+        handles.push(handle);
+    }
+
+    // Spawn a writer thread
+    let data_ref = data.clone();
+    let handle = thread::spawn(move || {
+        // Only one write lock can exist, and no read locks can exist during a write
+        let mut data_guard = data_ref.write().unwrap();
+        data_guard.push(4);
+        println!("Writer thread updated data: {:?}", *data_guard);
+        // Lock is released when data_guard goes out of scope
+    });
+    handles.push(handle);
+
+    // Wait for all threads to complete
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Final data: {:?}", *data.read().unwrap());
+}</code></pre></pre>
+<p>Key aspects of <code>RwLock&lt;T&gt;</code>:</p>
+<ol>
+<li><strong>Multiple Readers</strong>: Many threads can have read access simultaneously</li>
+<li><strong>Exclusive Writer</strong>: Only one thread can have write access, and no readers can exist during a write</li>
+<li><strong>Read/Write Methods</strong>: Use <code>read()</code> for shared access and <code>write()</code> for exclusive access</li>
+<li><strong>Performance Tradeoff</strong>: More efficient than <code>Mutex</code> for read-heavy workloads, but with slightly higher overhead</li>
+</ol>
+<h3 id="atomic-types-for-simple-cases"><a class="header" href="#atomic-types-for-simple-cases">Atomic Types for Simple Cases</a></h3>
+<p>For simple types like integers and booleans, Rust provides atomic types that offer thread-safe operations without the need for locks:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::atomic::{AtomicUsize, Ordering};
+use std::thread;
+
+fn main() {
+    let counter = AtomicUsize::new(0);
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter_ref = &amp;counter;
+        let handle = thread::spawn(move || {
+            for _ in 0..100 {
+                // No locks needed, atomic operation
+                counter_ref.fetch_add(1, Ordering::SeqCst);
+            }
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Final count: {}", counter.load(Ordering::SeqCst));
+}</code></pre></pre>
+<p>Atomic types are more efficient than mutex-based solutions for simple operations but have limited functionality compared to mutex-protected values.</p>
+<h3 id="deadlocks-and-how-to-prevent-them"><a class="header" href="#deadlocks-and-how-to-prevent-them">Deadlocks and How to Prevent Them</a></h3>
+<p>When using locks, there’s a risk of deadlock—a situation where two or more threads are blocked forever, each waiting for resources held by the others.</p>
+<p>Common deadlock scenario:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::{Mutex, MutexGuard};
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let resource_a = Mutex::new(1);
+    let resource_b = Mutex::new(2);
+
+    // Thread 1: Tries to lock A, then B
+    let thread1 = thread::spawn(move || {
+        let _a = resource_a.lock().unwrap();
+        println!("Thread 1: Locked resource A");
+
+        // Sleep to increase chances of a deadlock
+        thread::sleep(Duration::from_millis(100));
+
+        let _b = resource_b.lock().unwrap();
+        println!("Thread 1: Locked resource B");
+    });
+
+    // Thread 2: Tries to lock B, then A (opposite order)
+    let thread2 = thread::spawn(move || {
+        let _b = resource_b.lock().unwrap();
+        println!("Thread 2: Locked resource B");
+
+        // Sleep to increase chances of a deadlock
+        thread::sleep(Duration::from_millis(100));
+
+        let _a = resource_a.lock().unwrap();
+        println!("Thread 2: Locked resource A");
+    });
+
+    thread1.join().unwrap();
+    thread2.join().unwrap();
+}</code></pre></pre>
+<p>This code might deadlock because:</p>
+<ol>
+<li>Thread 1 locks A and waits for B</li>
+<li>Thread 2 locks B and waits for A</li>
+<li>Neither thread can proceed</li>
+</ol>
+<p>To prevent deadlocks:</p>
+<ol>
+<li><strong>Lock Ordering</strong>: Always acquire locks in a consistent order</li>
+<li><strong>Minimal Critical Sections</strong>: Hold locks for the shortest time possible</li>
+<li><strong>Try-Lock Methods</strong>: Use <code>try_lock()</code>, <code>try_read()</code>, and <code>try_write()</code> with timeout or retry logic</li>
+<li><strong>Avoid Nested Locks</strong>: Minimize the need to hold multiple locks simultaneously</li>
+</ol>
+<p>Corrected example:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::Mutex;
+use std::thread;
+
+fn main() {
+    let resource_a = Mutex::new(1);
+    let resource_b = Mutex::new(2);
+
+    // Both threads lock resources in the same order: A then B
+    let thread1 = thread::spawn(move || {
+        let _a = resource_a.lock().unwrap();
+        println!("Thread 1: Locked resource A");
+
+        let _b = resource_b.lock().unwrap();
+        println!("Thread 1: Locked resource B");
+    });
+
+    let thread2 = thread::spawn(move || {
+        let _a = resource_a.lock().unwrap();
+        println!("Thread 2: Locked resource A");
+
+        let _b = resource_b.lock().unwrap();
+        println!("Thread 2: Locked resource B");
+    });
+
+    thread1.join().unwrap();
+    thread2.join().unwrap();
+}</code></pre></pre>
+<h3 id="parking-and-condition-variables"><a class="header" href="#parking-and-condition-variables">Parking and Condition Variables</a></h3>
+<p>For more complex synchronization needs, Rust provides parking mechanisms and condition variables:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex, Condvar};
+use std::thread;
+
+fn main() {
+    // Create a shared state
+    let pair = Arc::new((Mutex::new(false), Condvar::new()));
+    let pair_clone = Arc::clone(&amp;pair);
+
+    // Spawn a worker thread
+    let handle = thread::spawn(move || {
+        let (lock, cvar) = &amp;*pair_clone;
+        let mut started = lock.lock().unwrap();
+
+        // Wait until the main thread signals us to start
+        while !*started {
+            started = cvar.wait(started).unwrap();
+        }
+
+        println!("Worker thread started!");
+        // Do work...
+    });
+
+    // Main thread does some preparation...
+    thread::sleep(std::time::Duration::from_secs(1));
+
+    // Signal the worker thread to start
+    let (lock, cvar) = &amp;*pair;
+    let mut started = lock.lock().unwrap();
+    *started = true;
+    cvar.notify_one();
+
+    // Wait for the worker to finish
+    handle.join().unwrap();
+}</code></pre></pre>
+<p>Condition variables are useful for thread coordination scenarios like producer-consumer patterns, thread pools, and synchronization barriers.</p>
+<h2 id="smart-pointers"><a class="header" href="#smart-pointers">Smart Pointers</a></h2>
+<p>Smart pointers are data structures that act like pointers but include additional metadata and capabilities. They implement the <code>Deref</code> and <code>Drop</code> traits to provide pointer-like behavior and automatic cleanup when they go out of scope.</p>
+<p>Unlike raw pointers in languages like C and C++, Rust’s smart pointers enforce memory safety rules while providing efficient memory management.</p>
+<h3 id="box-heap-allocation"><a class="header" href="#box-heap-allocation">Box<T>: Heap Allocation</a></h3>
+<p><code>Box&lt;T&gt;</code> is the simplest smart pointer, providing heap allocation for data:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Stack-allocated integer
+    let x = 5;
+    println!("x is stored on the stack: {}", x);
+
+    // Heap-allocated integer
+    let y = Box::new(5);
+    println!("y is stored on the heap: {}", *y);
+}</code></pre></pre>
+<p><code>Box&lt;T&gt;</code> is useful for:</p>
+<ol>
+<li><strong>Storing data on the heap</strong>: When you need to store large data or when the size is unknown at compile time</li>
+<li><strong>Transferring ownership</strong>: Moving a large data structure without copying its contents</li>
+<li><strong>Creating recursive types</strong>: Making self-referential data structures with a known size</li>
+<li><strong>Implementing trait objects</strong>: Enabling polymorphism through dynamic dispatch</li>
+</ol>
+<h4 id="using-box-for-recursive-types"><a class="header" href="#using-box-for-recursive-types">Using Box for Recursive Types</a></h4>
+<p>Rust needs to know the exact size of each type at compile time. This creates a challenge for recursive types like linked lists or trees. <code>Box</code> solves this by providing a fixed-size pointer to heap-allocated data:</p>
+<pre><pre class="playground"><code class="language-rust">// This won't compile without Box because Rust can't determine the size
+// enum List {
+//     Cons(i32, List),  // Error: recursive type has infinite size
+//     Nil,
+// }
+
+// This works because Box has a fixed size
+enum List {
+    Cons(i32, Box&lt;List&gt;),
+    Nil,
+}
+
+use List::{Cons, Nil};
+
+fn main() {
+    // Create a linked list: 1 -&gt; 2 -&gt; 3 -&gt; Nil
+    let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+
+    // Calculate the sum of all elements
+    fn sum_list(list: &amp;List) -&gt; i32 {
+        match list {
+            Cons(value, next) =&gt; value + sum_list(next),
+            Nil =&gt; 0,
+        }
+    }
+
+    println!("Sum: {}", sum_list(&amp;list)); // Prints: Sum: 6
+}</code></pre></pre>
+<h4 id="implementing-the-deref-trait"><a class="header" href="#implementing-the-deref-trait">Implementing the Deref Trait</a></h4>
+<p>The <code>Deref</code> trait allows a type to be treated like a reference, enabling the dereference operator (<code>*</code>):</p>
+<pre><pre class="playground"><code class="language-rust">use std::ops::Deref;
+
+struct MyBox&lt;T&gt;(T);
+
+impl&lt;T&gt; MyBox&lt;T&gt; {
+    fn new(x: T) -&gt; MyBox&lt;T&gt; {
+        MyBox(x)
+    }
+}
+
+impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
+    type Target = T;
+
+    fn deref(&amp;self) -&gt; &amp;Self::Target {
+        &amp;self.0
+    }
+}
+
+fn main() {
+    let x = 5;
+    let y = MyBox::new(5);
+
+    assert_eq!(5, x);
+    assert_eq!(5, *y); // This works because of Deref
+}</code></pre></pre>
+<h4 id="deref-coercion"><a class="header" href="#deref-coercion">Deref Coercion</a></h4>
+<p>Rust automatically applies the <code>deref</code> method when passing a reference to a smart pointer to a function that expects a reference to the inner type:</p>
+<pre><pre class="playground"><code class="language-rust">fn hello(name: &amp;str) {
+    println!("Hello, {}!", name);
+}
+
+fn main() {
+    let name = Box::new(String::from("Rust"));
+
+    // Deref coercion: &amp;Box&lt;String&gt; -&gt; &amp;String -&gt; &amp;str
+    hello(&amp;name);
+
+    // Without deref coercion, we would need:
+    // hello(&amp;(*name)[..]);
+}</code></pre></pre>
+<h3 id="rc-reference-counted-pointer"><a class="header" href="#rc-reference-counted-pointer">Rc<T>: Reference Counted Pointer</a></h3>
+<p>The <code>Rc&lt;T&gt;</code> (Reference Counted) smart pointer enables multiple ownership by keeping track of how many references exist to a value:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
+
+fn main() {
+    // Create a reference-counted string
+    let text = Rc::new(String::from("Hello, world!"));
+    println!("Initial reference count: {}", Rc::strong_count(&amp;text)); // 1
+
+    {
+        // Create a clone (increases the reference count)
+        let text2 = Rc::clone(&amp;text);
+        println!("Reference count after clone: {}", Rc::strong_count(&amp;text)); // 2
+
+        // Both can read the data
+        println!("text: {}", text);
+        println!("text2: {}", text2);
+    } // text2 goes out of scope, reference count decreases
+
+    println!("Reference count after scope: {}", Rc::strong_count(&amp;text)); // 1
+}</code></pre></pre>
+<p>Key features of <code>Rc&lt;T&gt;</code>:</p>
+<ol>
+<li><strong>Multiple Ownership</strong>: Multiple variables can own the same data</li>
+<li><strong>Reference Counting</strong>: Keeps track of how many references exist to the data</li>
+<li><strong>Immutable Access</strong>: Only provides shared (immutable) access to the data</li>
+<li><strong>Single-Threaded</strong>: Not thread-safe, only for use within a single thread</li>
+<li><strong>Clone is Cheap</strong>: Cloning an <code>Rc</code> just increments a counter, not copying data</li>
+</ol>
+<h4 id="common-use-cases-for-rc"><a class="header" href="#common-use-cases-for-rc">Common Use Cases for Rc</a></h4>
+<p><code>Rc&lt;T&gt;</code> is useful for scenarios like:</p>
+<ol>
+<li><strong>Graph-like data structures</strong>: Where multiple nodes need to point to the same node</li>
+<li><strong>Caches</strong>: Where multiple parts of the code need access to the same cached data</li>
+<li><strong>Object composition</strong>: Where components need to share data</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
+
+struct Node {
+    value: i32,
+    children: Vec&lt;Rc&lt;Node&gt;&gt;,
+}
+
+fn main() {
+    // Create shared nodes
+    let leaf1 = Rc::new(Node {
+        value: 3,
+        children: vec![],
+    });
+
+    let leaf2 = Rc::new(Node {
+        value: 5,
+        children: vec![],
+    });
+
+    // Root node has two children, both pointing to shared nodes
+    let root = Rc::new(Node {
+        value: 10,
+        children: vec![Rc::clone(&amp;leaf1), Rc::clone(&amp;leaf2)],
+    });
+
+    println!("Root value: {}", root.value);
+    println!("Children values: {} and {}",
+             root.children[0].value,
+             root.children[1].value);
+
+    println!("Leaf1 reference count: {}", Rc::strong_count(&amp;leaf1)); // 2
+    println!("Leaf2 reference count: {}", Rc::strong_count(&amp;leaf2)); // 2
+    println!("Root reference count: {}", Rc::strong_count(&amp;root));   // 1
+}</code></pre></pre>
+<h4 id="combining-rc-with-refcell-for-interior-mutability"><a class="header" href="#combining-rc-with-refcell-for-interior-mutability">Combining Rc with RefCell for Interior Mutability</a></h4>
+<p>Since <code>Rc&lt;T&gt;</code> only provides immutable access to its data, we often combine it with <code>RefCell&lt;T&gt;</code> for mutable access:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
+use std::cell::RefCell;
+
+fn main() {
+    // Create a reference-counted RefCell
+    let data = Rc::new(RefCell::new(vec![1, 2, 3]));
+
+    // Create a clone for shared ownership
+    let data_clone = Rc::clone(&amp;data);
+
+    // Modify the data through one reference
+    data.borrow_mut().push(4);
+
+    // Modify the data through another reference
+    data_clone.borrow_mut().push(5);
+
+    // Both see the changes
+    println!("Data: {:?}", data.borrow());         // [1, 2, 3, 4, 5]
+    println!("Data clone: {:?}", data_clone.borrow()); // [1, 2, 3, 4, 5]
+}</code></pre></pre>
+<h3 id="arc-atomic-reference-counted-pointer"><a class="header" href="#arc-atomic-reference-counted-pointer">Arc<T>: Atomic Reference Counted Pointer</a></h3>
+<p><code>Arc&lt;T&gt;</code> (Atomic Reference Counted) is the thread-safe version of <code>Rc&lt;T&gt;</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::Arc;
+use std::thread;
+
+fn main() {
+    // Create an atomic reference-counted vector
+    let numbers = Arc::new(vec![1, 2, 3, 4, 5]);
+    let mut handles = vec![];
+
+    for i in 0..3 {
+        // Clone the Arc for each thread
+        let numbers_clone = Arc::clone(&amp;numbers);
+
+        let handle = thread::spawn(move || {
+            println!("Thread {} sees: {:?}", i, *numbers_clone);
+        });
+
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Reference count at the end: {}", Arc::strong_count(&amp;numbers));
+}</code></pre></pre>
+<p>Key differences between <code>Arc&lt;T&gt;</code> and <code>Rc&lt;T&gt;</code>:</p>
+<ol>
+<li><strong>Thread Safety</strong>: <code>Arc&lt;T&gt;</code> is safe to share across threads</li>
+<li><strong>Performance</strong>: <code>Arc&lt;T&gt;</code> has slightly higher overhead due to atomic operations</li>
+<li><strong>Usage</strong>: Same API as <code>Rc&lt;T&gt;</code>, but works with threads</li>
+</ol>
+<h4 id="combining-arc-with-mutex-or-rwlock"><a class="header" href="#combining-arc-with-mutex-or-rwlock">Combining Arc with Mutex or RwLock</a></h4>
+<p>For mutable data shared across threads, combine <code>Arc&lt;T&gt;</code> with <code>Mutex&lt;T&gt;</code> or <code>RwLock&lt;T&gt;</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::{Arc, Mutex};
+use std::thread;
+
+fn main() {
+    // Create a thread-safe shared mutable vector
+    let data = Arc::new(Mutex::new(vec![1, 2, 3]));
+    let mut handles = vec![];
+
+    for i in 0..3 {
+        let data_clone = Arc::clone(&amp;data);
+
+        let handle = thread::spawn(move || {
+            // Lock the mutex to modify the data
+            let mut data_guard = data_clone.lock().unwrap();
+            data_guard.push(i + 10);
+            println!("Thread {} added {}", i, i + 10);
+        });
+
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    // Print the final data
+    println!("Final data: {:?}", *data.lock().unwrap());
+}</code></pre></pre>
+<h3 id="weak-references-and-cyclic-references"><a class="header" href="#weak-references-and-cyclic-references">Weak References and Cyclic References</a></h3>
+<p>Reference counting can lead to memory leaks if you create cycles. Weak references solve this problem:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::{Rc, Weak};
+use std::cell::RefCell;
+
+struct Node {
+    value: i32,
+    // Strong reference to child nodes
+    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+    // Weak reference to parent to avoid cycles
+    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,
+}
+
+fn main() {
+    // Create a parent node
+    let parent = Rc::new(Node {
+        value: 1,
+        children: RefCell::new(vec![]),
+        parent: RefCell::new(Weak::new()),
+    });
+
+    // Create a child node
+    let child = Rc::new(Node {
+        value: 2,
+        children: RefCell::new(vec![]),
+        parent: RefCell::new(Weak::new()),
+    });
+
+    // Add child to parent (strong reference)
+    parent.children.borrow_mut().push(Rc::clone(&amp;child));
+
+    // Set parent of child (weak reference)
+    *child.parent.borrow_mut() = Rc::downgrade(&amp;parent);
+
+    println!("Parent value: {}", parent.value);
+    println!("Child value: {}", child.value);
+
+    // Access parent from child using weak reference
+    println!("Child's parent: {}", child.parent.borrow().upgrade().unwrap().value);
+
+    // No memory leak: when parent is dropped, child will be dropped too,
+    // because the weak reference in child doesn't prevent parent from being deallocated
+}</code></pre></pre>
+<p>Key differences between strong and weak references:</p>
+<ol>
+<li>
+<p><strong>Strong References</strong> (<code>Rc</code>, <code>Arc</code>):</p>
+<ul>
+<li>Increase the reference count</li>
+<li>Prevent the data from being dropped while the reference exists</li>
+<li>Can cause memory leaks in cycles</li>
+</ul>
+</li>
+<li>
+<p><strong>Weak References</strong> (<code>Weak&lt;T&gt;</code>):</p>
+<ul>
+<li>Don’t increase the strong reference count</li>
+<li>Don’t prevent the data from being dropped</li>
+<li>Must be upgraded to an <code>Rc</code> or <code>Arc</code> to access the data</li>
+<li>Return <code>None</code> when upgraded if the data has been dropped</li>
+</ul>
+</li>
+</ol>
+<h3 id="custom-smart-pointers"><a class="header" href="#custom-smart-pointers">Custom Smart Pointers</a></h3>
+<p>You can create your own smart pointers by implementing the <code>Deref</code> and <code>Drop</code> traits:</p>
+<pre><pre class="playground"><code class="language-rust">use std::ops::{Deref, DerefMut};
+use std::fmt::Debug;
+
+// A smart pointer that logs when it's created and dropped
+struct LoggingBox&lt;T: Debug&gt; {
+    data: Box&lt;T&gt;,
+    name: String,
+}
+
+impl&lt;T: Debug&gt; LoggingBox&lt;T&gt; {
+    fn new(data: T, name: &amp;str) -&gt; Self {
+        println!("Creating LoggingBox '{}'", name);
+        LoggingBox {
+            data: Box::new(data),
+            name: name.to_string(),
+        }
+    }
+}
+
+// Implement Deref for pointer-like behavior
+impl&lt;T: Debug&gt; Deref for LoggingBox&lt;T&gt; {
+    type Target = T;
+
+    fn deref(&amp;self) -&gt; &amp;Self::Target {
+        &amp;self.data
+    }
+}
+
+// Implement DerefMut for mutable access
+impl&lt;T: Debug&gt; DerefMut for LoggingBox&lt;T&gt; {
+    fn deref_mut(&amp;mut self) -&gt; &amp;mut Self::Target {
+        &amp;mut self.data
+    }
+}
+
+// Implement Drop for cleanup
+impl&lt;T: Debug&gt; Drop for LoggingBox&lt;T&gt; {
+    fn drop(&amp;mut self) {
+        println!("Dropping LoggingBox '{}' containing: {:?}", self.name, self.data);
+    }
+}
+
+fn main() {
+    let mut x = LoggingBox::new(42, "answer");
+    println!("Value: {}", *x);
+
+    // Modify through DerefMut
+    *x += 1;
+    println!("New value: {}", *x);
+
+    // When main exits, the Drop implementation will be called
+}</code></pre></pre>
+<h3 id="when-to-use-each-smart-pointer-type"><a class="header" href="#when-to-use-each-smart-pointer-type">When to Use Each Smart Pointer Type</a></h3>
+<p>Choosing the right smart pointer depends on your specific needs:</p>
+<div class="table-wrapper"><table><thead><tr><th>Smart Pointer</th><th>Use Case</th><th>Thread Safe</th><th>Multiple Owners</th><th>Mutable</th></tr></thead><tbody>
+<tr><td><code>Box&lt;T&gt;</code></td><td>Heap allocation, recursion</td><td>No</td><td>No</td><td>Yes</td></tr>
+<tr><td><code>Rc&lt;T&gt;</code></td><td>Shared ownership</td><td>No</td><td>Yes</td><td>No</td></tr>
+<tr><td><code>Arc&lt;T&gt;</code></td><td>Shared ownership across threads</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+<tr><td><code>Cell&lt;T&gt;</code></td><td>Interior mutability for <code>Copy</code> types</td><td>No</td><td>No</td><td>Yes</td></tr>
+<tr><td><code>RefCell&lt;T&gt;</code></td><td>Interior mutability</td><td>No</td><td>No</td><td>Yes</td></tr>
+<tr><td><code>Mutex&lt;T&gt;</code></td><td>Thread-safe interior mutability</td><td>Yes</td><td>No</td><td>Yes</td></tr>
+<tr><td><code>RwLock&lt;T&gt;</code></td><td>Thread-safe interior mutability with reader/writer distinction</td><td>Yes</td><td>No</td><td>Yes</td></tr>
+</tbody></table>
+</div>
+<p>Guidelines for choosing:</p>
+<ol>
+<li>
+<p><strong>Use <code>Box&lt;T&gt;</code> when:</strong></p>
+<ul>
+<li>You need to store data on the heap</li>
+<li>You’re implementing a recursive type</li>
+<li>You need to transfer ownership of large data without copying</li>
+</ul>
+</li>
+<li>
+<p><strong>Use <code>Rc&lt;T&gt;</code> when:</strong></p>
+<ul>
+<li>You need multiple owners of the same data</li>
+<li>You’re working in a single-threaded context</li>
+<li>You need to share immutable data</li>
+</ul>
+</li>
+<li>
+<p><strong>Use <code>Arc&lt;T&gt;</code> when:</strong></p>
+<ul>
+<li>You need to share data between threads</li>
+<li>You need multiple owners across thread boundaries</li>
+</ul>
+</li>
+<li>
+<p><strong>Use <code>Cell&lt;T&gt;</code>/<code>RefCell&lt;T&gt;</code> when:</strong></p>
+<ul>
+<li>You need interior mutability</li>
+<li>You’re working in a single-threaded context</li>
+</ul>
+</li>
+<li>
+<p><strong>Use <code>Mutex&lt;T&gt;</code>/<code>RwLock&lt;T&gt;</code> when:</strong></p>
+<ul>
+<li>You need interior mutability across thread boundaries</li>
+</ul>
+</li>
+<li>
+<p><strong>Combine types when:</strong></p>
+<ul>
+<li>You need shared ownership with mutability: <code>Rc&lt;RefCell&lt;T&gt;&gt;</code> or <code>Arc&lt;Mutex&lt;T&gt;&gt;</code></li>
+<li>You need to avoid reference cycles: Use weak references with <code>Weak&lt;T&gt;</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="memory-leaks-and-how-to-prevent-them"><a class="header" href="#memory-leaks-and-how-to-prevent-them">Memory Leaks and How to Prevent Them</a></h2>
+<p>Even with Rust’s memory safety guarantees, memory leaks are still possible, especially when using reference counting and interior mutability patterns.</p>
+<h3 id="what-causes-memory-leaks-in-rust"><a class="header" href="#what-causes-memory-leaks-in-rust">What Causes Memory Leaks in Rust?</a></h3>
+<p>Memory leaks can occur in safe Rust code for several reasons:</p>
+<ol>
+<li><strong>Reference cycles</strong>: When objects reference each other using <code>Rc</code> or <code>Arc</code>, creating a cycle</li>
+<li><strong>Deliberately leaking memory</strong>: Using <code>std::mem::forget</code> or <code>Box::leak</code></li>
+<li><strong>Global allocations</strong>: Static collections that grow indefinitely</li>
+<li><strong>FFI boundaries</strong>: Leaks in C libraries that Rust calls</li>
+<li><strong>Forgotten resources</strong>: Not closing files, network connections, etc.</li>
+</ol>
+<h3 id="reference-cycles-the-most-common-cause"><a class="header" href="#reference-cycles-the-most-common-cause">Reference Cycles: The Most Common Cause</a></h3>
+<p>The most common cause of memory leaks in Rust is reference cycles with reference-counted types:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
+use std::cell::RefCell;
+
+struct Node {
+    value: i32,
+    next: Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,
+    prev: Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,
+}
+
+fn main() {
+    // Create two nodes
+    let node1 = Rc::new(RefCell::new(Node {
+        value: 1,
+        next: None,
+        prev: None,
+    }));
+
+    let node2 = Rc::new(RefCell::new(Node {
+        value: 2,
+        next: None,
+        prev: None,
+    }));
+
+    // Create a cycle: node1 -&gt; node2 -&gt; node1
+    node1.borrow_mut().next = Some(Rc::clone(&amp;node2));
+    node2.borrow_mut().prev = Some(Rc::clone(&amp;node1));
+
+    println!("node1 ref count: {}", Rc::strong_count(&amp;node1)); // 2
+    println!("node2 ref count: {}", Rc::strong_count(&amp;node2)); // 2
+
+    // Even when these variables go out of scope, the nodes won't be dropped
+    // because they still reference each other in a cycle
+}</code></pre></pre>
+<p>In this example, neither <code>node1</code> nor <code>node2</code> will ever be deallocated because they hold strong references to each other, even after the original variables go out of scope.</p>
+<h3 id="preventing-reference-cycles-with-weak-references"><a class="header" href="#preventing-reference-cycles-with-weak-references">Preventing Reference Cycles with Weak References</a></h3>
+<p>The solution to reference cycles is to use weak references for one direction of the relationship:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::{Rc, Weak};
+use std::cell::RefCell;
+
+struct Node {
+    value: i32,
+    next: Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,
+    prev: Option&lt;Weak&lt;RefCell&lt;Node&gt;&gt;&gt;, // Weak reference
+}
+
+fn main() {
+    // Create two nodes
+    let node1 = Rc::new(RefCell::new(Node {
+        value: 1,
+        next: None,
+        prev: None,
+    }));
+
+    let node2 = Rc::new(RefCell::new(Node {
+        value: 2,
+        next: None,
+        prev: None,
+    }));
+
+    // Create a relationship without a cycle: node1 -&gt; node2 (strong) and node2 -&gt; node1 (weak)
+    node1.borrow_mut().next = Some(Rc::clone(&amp;node2));
+    node2.borrow_mut().prev = Some(Rc::downgrade(&amp;node1)); // Weak reference
+
+    println!("node1 ref count: {}", Rc::strong_count(&amp;node1)); // 1
+    println!("node2 ref count: {}", Rc::strong_count(&amp;node2)); // 2
+
+    // When these variables go out of scope, both nodes will be properly deallocated
+}</code></pre></pre>
+<p>By using a weak reference for the “prev” pointer, we break the strong reference cycle, allowing the nodes to be properly dropped when they’re no longer needed.</p>
+<h3 id="deliberate-memory-leaks"><a class="header" href="#deliberate-memory-leaks">Deliberate Memory Leaks</a></h3>
+<p>Sometimes, you might intentionally leak memory using <code>std::mem::forget</code> or <code>Box::leak</code>:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Create a value
+    let data = Box::new(42);
+
+    // Leak it deliberately
+    std::mem::forget(data);
+
+    // Or use Box::leak to get a 'static reference
+    let static_ref: &amp;'static i32 = Box::leak(Box::new(100));
+    println!("Static reference: {}", static_ref);
+}</code></pre></pre>
+<p>Intentional leaks can be useful for:</p>
+<ul>
+<li>Creating data that needs to live for the entire program duration</li>
+<li>Implementing custom memory management schemes</li>
+<li>Situations where cleanup is handled by the OS (like at program exit)</li>
+</ul>
+<h3 id="unbounded-caches-and-collections"><a class="header" href="#unbounded-caches-and-collections">Unbounded Caches and Collections</a></h3>
+<p>Another common source of memory leaks is unbounded caches or collections that grow indefinitely:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
+
+struct UnboundedCache {
+    data: Arc&lt;Mutex&lt;HashMap&lt;String, Vec&lt;u8&gt;&gt;&gt;&gt;,
+}
+
+impl UnboundedCache {
+    fn new() -&gt; Self {
+        UnboundedCache {
+            data: Arc::new(Mutex::new(HashMap::new())),
+        }
+    }
+
+    fn insert(&amp;self, key: String, value: Vec&lt;u8&gt;) {
+        let mut cache = self.data.lock().unwrap();
+        cache.insert(key, value);
+        // No eviction policy - cache will grow indefinitely
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>To prevent these leaks, consider:</p>
+<ul>
+<li>Implementing size-based eviction policies</li>
+<li>Using time-based expiration</li>
+<li>Implementing least-recently-used (LRU) caches</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
+use std::time::{Duration, Instant};
+
+struct BoundedCache {
+    data: Arc&lt;Mutex&lt;HashMap&lt;String, (Vec&lt;u8&gt;, Instant)&gt;&gt;&gt;,
+    max_size: usize,
+    ttl: Duration,
+}
+
+impl BoundedCache {
+    fn new(max_size: usize, ttl_seconds: u64) -&gt; Self {
+        BoundedCache {
+            data: Arc::new(Mutex::new(HashMap::new())),
+            max_size,
+            ttl: Duration::from_secs(ttl_seconds),
+        }
+    }
+
+    fn insert(&amp;self, key: String, value: Vec&lt;u8&gt;) {
+        let mut cache = self.data.lock().unwrap();
+
+        // Insert with current timestamp
+        cache.insert(key, (value, Instant::now()));
+
+        // Enforce size limit if needed
+        if cache.len() &gt; self.max_size {
+            self.evict_oldest(&amp;mut cache);
+        }
+    }
+
+    fn evict_oldest(&amp;self, cache: &amp;mut HashMap&lt;String, (Vec&lt;u8&gt;, Instant)&gt;) {
+        // Find and remove the oldest entry
+        if let Some(oldest_key) = cache
+            .iter()
+            .min_by_key(|(_, (_, timestamp))| timestamp)
+            .map(|(key, _)| key.clone())
+        {
+            cache.remove(&amp;oldest_key);
+        }
+    }
+
+    fn get(&amp;self, key: &amp;str) -&gt; Option&lt;Vec&lt;u8&gt;&gt; {
+        let mut cache = self.data.lock().unwrap();
+
+        // Remove expired entries
+        let now = Instant::now();
+        let expired_keys: Vec&lt;_&gt; = cache
+            .iter()
+            .filter(|(_, (_, timestamp))| now.duration_since(*timestamp) &gt; self.ttl)
+            .map(|(key, _)| key.clone())
+            .collect();
+
+        for key in expired_keys {
+            cache.remove(&amp;key);
+        }
+
+        // Return the value if it exists
+        cache.get(key).map(|(value, _)| value.clone())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="tools-for-detecting-memory-leaks"><a class="header" href="#tools-for-detecting-memory-leaks">Tools for Detecting Memory Leaks</a></h3>
+<p>Several tools can help identify memory leaks in Rust programs:</p>
+<ol>
+<li><strong>LSAN (Leak Sanitizer)</strong>: Part of the Address Sanitizer suite</li>
+<li><strong>Valgrind</strong>: Specifically its Memcheck tool</li>
+<li><strong>Heaptrack</strong>: For detailed heap memory profiling</li>
+<li><strong>Custom instrumentation</strong>: Using <code>Drop</code> trait and counters</li>
+</ol>
+<h4 id="using-lsan-with-rust"><a class="header" href="#using-lsan-with-rust">Using LSAN with Rust</a></h4>
+<pre><pre class="playground"><code class="language-rust">// Enable leak detection with LSAN
+// Compile with: RUSTFLAGS="-Z sanitizer=leak" cargo run --target x86_64-unknown-linux-gnu
+
+fn main() {
+    // This will be detected as a leak
+    let leaked = Box::into_raw(Box::new(42));
+
+    // Use the value to prevent optimizations
+    println!("Leaked value: {}", unsafe { *leaked });
+
+    // No deallocation, this will be reported by LSAN
+}</code></pre></pre>
+<h4 id="custom-leak-detection"><a class="header" href="#custom-leak-detection">Custom Leak Detection</a></h4>
+<p>You can implement your own leak detection for specific types:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Arc;
+
+// Global counter for active instances
+static COUNTER: AtomicUsize = AtomicUsize::new(0);
+
+struct TrackedResource {
+    id: usize,
+    data: Vec&lt;u8&gt;,
+}
+
+impl TrackedResource {
+    fn new(data: Vec&lt;u8&gt;) -&gt; Self {
+        let id = COUNTER.fetch_add(1, Ordering::SeqCst);
+        println!("Creating resource #{}", id);
+        TrackedResource { id, data }
+    }
+}
+
+impl Drop for TrackedResource {
+    fn drop(&amp;mut self) {
+        println!("Dropping resource #{}", self.id);
+        COUNTER.fetch_sub(1, Ordering::SeqCst);
+    }
+}
+
+fn main() {
+    // Create resources
+    let _r1 = TrackedResource::new(vec![1, 2, 3]);
+
+    {
+        let _r2 = TrackedResource::new(vec![4, 5, 6]);
+        println!("Active resources: {}", COUNTER.load(Ordering::SeqCst));
+    }
+
+    // Leak a resource
+    let leaked = Box::new(TrackedResource::new(vec![7, 8, 9]));
+    let leaked_ptr = Box::into_raw(leaked);
+
+    println!("Active resources at end: {}", COUNTER.load(Ordering::SeqCst));
+
+    // If this doesn't match expectations, we have a leak
+    assert_eq!(COUNTER.load(Ordering::SeqCst), 2);
+}</code></pre></pre>
+<h2 id="debugging-complex-ownership-situations"><a class="header" href="#debugging-complex-ownership-situations">Debugging Complex Ownership Situations</a></h2>
+<p>Debugging ownership and borrowing issues can be challenging. Here are strategies to help understand and resolve complex ownership problems.</p>
+<h3 id="using-debug-print-statements"><a class="header" href="#using-debug-print-statements">Using Debug Print Statements</a></h3>
+<p>One of the simplest approaches is to add print statements that track reference counts:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
+use std::cell::RefCell;
+
+fn main() {
+    let data = Rc::new(RefCell::new(vec![1, 2, 3]));
+    println!("After creation: count = {}", Rc::strong_count(&amp;data));
+
+    {
+        let data2 = Rc::clone(&amp;data);
+        println!("After clone: count = {}", Rc::strong_count(&amp;data));
+
+        data2.borrow_mut().push(4);
+        println!("Current data: {:?}", data.borrow());
+    }
+
+    println!("After inner scope: count = {}", Rc::strong_count(&amp;data));
+}</code></pre></pre>
+<p>For more complex scenarios, consider creating a tracking wrapper:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::Rc;
+use std::cell::RefCell;
+use std::fmt::Debug;
+
+struct Tracked&lt;T: Debug&gt; {
+    name: String,
+    value: T,
+}
+
+impl&lt;T: Debug&gt; Tracked&lt;T&gt; {
+    fn new(name: &amp;str, value: T) -&gt; Self {
+        println!("Creating '{}' with value: {:?}", name, value);
+        Tracked {
+            name: name.to_string(),
+            value,
+        }
+    }
+}
+
+impl&lt;T: Debug&gt; Drop for Tracked&lt;T&gt; {
+    fn drop(&amp;mut self) {
+        println!("Dropping '{}' with final value: {:?}", self.name, self.value);
+    }
+}
+
+fn main() {
+    let a = Rc::new(RefCell::new(Tracked::new("resource_a", vec![1, 2, 3])));
+
+    {
+        let b = Rc::clone(&amp;a);
+        println!("Reference count: {}", Rc::strong_count(&amp;a));
+
+        // Modify through b
+        b.borrow_mut().value.push(4);
+    }
+
+    println!("After scope: count = {}", Rc::strong_count(&amp;a));
+}</code></pre></pre>
+<h3 id="visualizing-ownership-graphs"><a class="header" href="#visualizing-ownership-graphs">Visualizing Ownership Graphs</a></h3>
+<p>For complex ownership relationships, it can help to draw the ownership graph:</p>
+<pre><pre class="playground"><code class="language-rust">use std::rc::{Rc, Weak};
+use std::cell::RefCell;
+
+// Tree node with parent and children
+struct Node {
+    id: usize,
+    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,
+}
+
+impl Node {
+    fn new(id: usize) -&gt; Rc&lt;Node&gt; {
+        Rc::new(Node {
+            id,
+            children: RefCell::new(Vec::new()),
+            parent: RefCell::new(Weak::new()),
+        })
+    }
+
+    fn add_child(&amp;self, child: &amp;Rc&lt;Node&gt;) {
+        self.children.borrow_mut().push(Rc::clone(child));
+        *child.parent.borrow_mut() = Rc::downgrade(
+            // Get an Rc&lt;Node&gt; from &amp;self
+            // This is only for demonstration, in real code you'd have an Rc already
+            &amp;Rc::clone(&amp;child.parent.borrow().upgrade().unwrap_or(Node::new(999)))
+        );
+    }
+
+    fn print_ownership_info(&amp;self) {
+        println!("Node {}:", self.id);
+        println!("  Parent: {}",
+            self.parent.borrow().upgrade()
+                .map_or("None".to_string(), |p| p.id.to_string()));
+
+        println!("  Children: [{}]",
+            self.children.borrow().iter()
+                .map(|c| c.id.to_string())
+                .collect::&lt;Vec&lt;_&gt;&gt;()
+                .join(", "));
+
+        for child in self.children.borrow().iter() {
+            println!("  Child {} ref count: {}", child.id, Rc::strong_count(child));
+        }
+    }
+}
+
+fn main() {
+    let root = Node::new(1);
+    let child1 = Node::new(2);
+    let child2 = Node::new(3);
+
+    root.add_child(&amp;child1);
+    root.add_child(&amp;child2);
+
+    root.print_ownership_info();
+    child1.print_ownership_info();
+    child2.print_ownership_info();
+}</code></pre></pre>
+<h3 id="using-rust-analyzer-and-ide-tools"><a class="header" href="#using-rust-analyzer-and-ide-tools">Using Rust Analyzer and IDE Tools</a></h3>
+<p>Modern IDEs with Rust support (like VS Code with the Rust Analyzer extension) provide valuable insights:</p>
+<ol>
+<li><strong>Hover information</strong>: Showing types, reference kinds, and lifetimes</li>
+<li><strong>Go to definition</strong>: Following ownership chains</li>
+<li><strong>Find references</strong>: Seeing where values are used</li>
+<li><strong>Inlay hints</strong>: Displaying type information inline</li>
+</ol>
+<h3 id="common-debugging-patterns"><a class="header" href="#common-debugging-patterns">Common Debugging Patterns</a></h3>
+<p>When debugging ownership issues, look for these common patterns:</p>
+<ol>
+<li><strong>Multiple mutable borrows</strong>: Are you trying to borrow mutably more than once?</li>
+<li><strong>Borrowing after move</strong>: Has the value been moved before you’re trying to use it?</li>
+<li><strong>Lifetime mismatches</strong>: Are you returning a reference to a value that goes out of scope?</li>
+<li><strong>Self-referential structs</strong>: Are you trying to store a reference to a struct inside itself?</li>
+</ol>
+<h3 id="using-clippy-for-static-analysis"><a class="header" href="#using-clippy-for-static-analysis">Using Clippy for Static Analysis</a></h3>
+<p>Clippy can catch many common ownership issues:</p>
+<pre><code class="language-bash">cargo clippy --all-features -- -W clippy::all
+</code></pre>
+<p>It can identify issues like:</p>
+<ul>
+<li>Unnecessary clones</li>
+<li>Redundant borrows</li>
+<li>Missing implementations of <code>Copy</code> or <code>Clone</code></li>
+<li>Risky usage of <code>std::mem::forget</code></li>
+</ul>
+<h3 id="when-to-use-unsafe-code"><a class="header" href="#when-to-use-unsafe-code">When to Use Unsafe Code</a></h3>
+<p>If you’ve exhausted all safe options and understand the consequences, unsafe code might be necessary:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Create two mutable references to the same data (unsafe!)
+    let mut data = 10;
+
+    let r1 = &amp;mut data;
+
+    // This would normally be illegal:
+    // let r2 = &amp;mut data;
+
+    // Instead, we can use raw pointers (unsafe)
+    let r2 = unsafe { &amp;mut *(r1 as *mut _) };
+
+    // Now we have two mutable references
+    *r1 += 1;
+    *r2 += 1;
+
+    // This is a data race! Don't do this in real code!
+    println!("data: {}", data);
+}</code></pre></pre>
+<p>Always document why unsafe code is necessary and ensure its correctness with thorough testing.</p>
+<h2 id="-project-thread-safe-counter"><a class="header" href="#-project-thread-safe-counter">🔨 Project: Thread-Safe Counter</a></h2>
+<p>Let’s apply what we’ve learned to build a thread-safe counter that can be accessed and modified from multiple threads. This project will demonstrate the use of smart pointers, interior mutability, and thread synchronization.</p>
+<h3 id="requirements"><a class="header" href="#requirements">Requirements</a></h3>
+<ol>
+<li>Create a counter that can be safely accessed from multiple threads</li>
+<li>Support basic operations: increment, decrement, get, and reset</li>
+<li>Allow registering callbacks for threshold events (e.g., notify when count reaches 10)</li>
+<li>Implement proper cleanup when the counter is dropped</li>
+<li>Ensure thread safety without excessive locking</li>
+</ol>
+<h3 id="step-1-defining-the-counter-interface"><a class="header" href="#step-1-defining-the-counter-interface">Step 1: Defining the Counter Interface</a></h3>
+<p>Let’s start by defining the basic structure and interface of our thread-safe counter:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::sync::{Arc, Mutex, RwLock};
+use std::collections::HashMap;
+
+// A callback function type for threshold events
+type ThresholdCallback = Box&lt;dyn Fn(usize) + Send + Sync&gt;;
+
+pub struct ThreadSafeCounter {
+    // The current count, protected by a mutex for exclusive access during updates
+    count: Mutex&lt;usize&gt;,
+
+    // Threshold callbacks, protected by a read-write lock
+    // This allows multiple readers but exclusive writers
+    callbacks: RwLock&lt;HashMap&lt;usize, Vec&lt;ThresholdCallback&gt;&gt;&gt;,
+}
+
+impl ThreadSafeCounter {
+    pub fn new() -&gt; Arc&lt;Self&gt; {
+        Arc::new(Self {
+            count: Mutex::new(0),
+            callbacks: RwLock::new(HashMap::new()),
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>We’re using <code>Arc</code> to allow the counter to be shared across threads, <code>Mutex</code> to protect the count value, and <code>RwLock</code> for the callbacks map since we’ll have more reads than writes.</p>
+<h3 id="step-2-implementing-core-counter-operations"><a class="header" href="#step-2-implementing-core-counter-operations">Step 2: Implementing Core Counter Operations</a></h3>
+<p>Next, let’s implement the basic counter operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl ThreadSafeCounter {
+    // Previous code...
+
+    pub fn increment(&amp;self) -&gt; usize {
+        let mut count = self.count.lock().unwrap();
+        *count += 1;
+        let new_count = *count;
+
+        // Release the lock before checking callbacks to avoid deadlocks
+        drop(count);
+
+        // Check if we've hit any thresholds
+        self.check_thresholds(new_count);
+
+        new_count
+    }
+
+    pub fn decrement(&amp;self) -&gt; usize {
+        let mut count = self.count.lock().unwrap();
+        if *count &gt; 0 {
+            *count -= 1;
+        }
+        let new_count = *count;
+
+        // Release the lock before checking callbacks
+        drop(count);
+
+        // Check if we've hit any thresholds
+        self.check_thresholds(new_count);
+
+        new_count
+    }
+
+    pub fn get(&amp;self) -&gt; usize {
+        *self.count.lock().unwrap()
+    }
+
+    pub fn reset(&amp;self) -&gt; usize {
+        let mut count = self.count.lock().unwrap();
+        *count = 0;
+        0
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-3-implementing-threshold-callbacks"><a class="header" href="#step-3-implementing-threshold-callbacks">Step 3: Implementing Threshold Callbacks</a></h3>
+<p>Now, let’s add support for threshold callbacks:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl ThreadSafeCounter {
+    // Previous code...
+
+    pub fn on_threshold(&amp;self, threshold: usize, callback: impl Fn(usize) + Send + Sync + 'static) {
+        let mut callbacks = self.callbacks.write().unwrap();
+        let threshold_callbacks = callbacks.entry(threshold).or_insert_with(Vec::new);
+        threshold_callbacks.push(Box::new(callback));
+    }
+
+    fn check_thresholds(&amp;self, count: usize) {
+        // Get a read lock on the callbacks
+        let callbacks = self.callbacks.read().unwrap();
+
+        // Check if there are callbacks for this count
+        if let Some(threshold_callbacks) = callbacks.get(&amp;count) {
+            for callback in threshold_callbacks {
+                callback(count);
+            }
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-4-adding-tests"><a class="header" href="#step-4-adding-tests">Step 4: Adding Tests</a></h3>
+<p>Let’s add tests to verify that our counter works correctly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    use std::thread;
+
+    #[test]
+    fn test_basic_operations() {
+        let counter = ThreadSafeCounter::new();
+
+        assert_eq!(counter.get(), 0);
+        assert_eq!(counter.increment(), 1);
+        assert_eq!(counter.increment(), 2);
+        assert_eq!(counter.decrement(), 1);
+        assert_eq!(counter.reset(), 0);
+    }
+
+    #[test]
+    fn test_multithreaded_increment() {
+        let counter = ThreadSafeCounter::new();
+        let mut handles = vec![];
+
+        for _ in 0..10 {
+            let counter_clone = Arc::clone(&amp;counter);
+            let handle = thread::spawn(move || {
+                for _ in 0..100 {
+                    counter_clone.increment();
+                }
+            });
+            handles.push(handle);
+        }
+
+        for handle in handles {
+            handle.join().unwrap();
+        }
+
+        assert_eq!(counter.get(), 1000);
+    }
+
+    #[test]
+    fn test_threshold_callback() {
+        let counter = ThreadSafeCounter::new();
+        let callback_counter = Arc::new(AtomicUsize::new(0));
+
+        // Set up a callback for count = 5
+        let callback_counter_clone = Arc::clone(&amp;callback_counter);
+        counter.on_threshold(5, move |count| {
+            assert_eq!(count, 5);
+            callback_counter_clone.fetch_add(1, Ordering::SeqCst);
+        });
+
+        // Increment to trigger the callback
+        for _ in 0..5 {
+            counter.increment();
+        }
+
+        assert_eq!(callback_counter.load(Ordering::SeqCst), 1);
+
+        // Increment past 5, then decrement back to 5 to trigger again
+        counter.increment();
+        counter.decrement();
+
+        assert_eq!(callback_counter.load(Ordering::SeqCst), 2);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-5-creating-a-demo-application"><a class="header" href="#step-5-creating-a-demo-application">Step 5: Creating a Demo Application</a></h3>
+<p>Finally, let’s create a demo application that uses our thread-safe counter:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    use std::thread;
+    use std::time::Duration;
+
+    // Create a new thread-safe counter
+    let counter = ThreadSafeCounter::new();
+
+    // Set up threshold callbacks
+    counter.on_threshold(10, |count| {
+        println!("🎉 Threshold reached: {}", count);
+    });
+
+    counter.on_threshold(50, |count| {
+        println!("🚀 Halfway there! Count: {}", count);
+    });
+
+    counter.on_threshold(100, |count| {
+        println!("🏁 Finished! Final count: {}", count);
+    });
+
+    // Create worker threads that increment the counter
+    let mut handles = vec![];
+
+    for i in 0..5 {
+        let worker_counter = Arc::clone(&amp;counter);
+        let handle = thread::spawn(move || {
+            println!("Worker {} started", i);
+
+            for j in 0..25 {
+                let current = worker_counter.increment();
+                println!("Worker {} incremented counter to {}", i, current);
+
+                // Simulate some work
+                thread::sleep(Duration::from_millis(10 + (i as u64 * 5)));
+
+                if j % 10 == 0 {
+                    // Occasionally decrement
+                    let current = worker_counter.decrement();
+                    println!("Worker {} decremented counter to {}", i, current);
+                }
+            }
+
+            println!("Worker {} finished", i);
+        });
+
+        handles.push(handle);
+    }
+
+    // Wait for all workers to complete
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    // Final count
+    println!("All workers finished. Final count: {}", counter.get());
+}</code></pre></pre>
+<h3 id="running-the-project"><a class="header" href="#running-the-project">Running the Project</a></h3>
+<p>To create and run this project:</p>
+<pre><code class="language-bash">cargo new thread_safe_counter
+cd thread_safe_counter
+# Copy the code into src/lib.rs and src/main.rs
+cargo run
+</code></pre>
+<h3 id="project-breakdown"><a class="header" href="#project-breakdown">Project Breakdown</a></h3>
+<p>This project demonstrates several important concepts:</p>
+<ol>
+<li><strong>Thread Safety</strong>: Using <code>Arc</code>, <code>Mutex</code>, and <code>RwLock</code> to safely share data between threads</li>
+<li><strong>Smart Pointers</strong>: Using <code>Arc</code> for shared ownership across threads</li>
+<li><strong>Interior Mutability</strong>: Using <code>Mutex</code> and <code>RwLock</code> to allow mutation through shared references</li>
+<li><strong>Callback System</strong>: Storing and executing function pointers with trait objects</li>
+<li><strong>Proper Lock Management</strong>: Releasing locks before calling callbacks to avoid deadlocks</li>
+</ol>
+<h3 id="extending-the-project"><a class="header" href="#extending-the-project">Extending the Project</a></h3>
+<p>Here are some ways you could extend this project:</p>
+<ol>
+<li><strong>Named Counters</strong>: Support multiple named counters in a registry</li>
+<li><strong>Atomic Counter</strong>: Implement a version using atomic types instead of mutex</li>
+<li><strong>History Tracking</strong>: Keep a history of counter changes</li>
+<li><strong>Advanced Thresholds</strong>: Support more complex threshold conditions (e.g., reaching a value multiple times)</li>
+<li><strong>Performance Metrics</strong>: Track and report on counter usage statistics</li>
+</ol>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored advanced ownership patterns in Rust that extend the basic ownership model. These patterns provide more flexibility while maintaining Rust’s memory safety guarantees.</p>
+<p>We covered:</p>
+<ul>
+<li><strong>Interior Mutability Pattern</strong>: Using <code>Cell</code>, <code>RefCell</code>, and <code>UnsafeCell</code> to mutate data through shared references</li>
+<li><strong>Thread Synchronization</strong>: Using <code>Mutex</code> and <code>RwLock</code> for safe concurrent access to shared data</li>
+<li><strong>Smart Pointers</strong>: Working with <code>Box</code>, <code>Rc</code>, and <code>Arc</code> for heap allocation and reference counting</li>
+<li><strong>Weak References</strong>: Breaking reference cycles to prevent memory leaks</li>
+<li><strong>Custom Smart Pointers</strong>: Implementing your own smart pointers with <code>Deref</code> and <code>Drop</code></li>
+<li><strong>Memory Leak Prevention</strong>: Identifying and preventing memory leaks in Rust programs</li>
+<li><strong>Debugging Techniques</strong>: Strategies for debugging complex ownership situations</li>
+</ul>
+<p>We also applied these concepts to build a thread-safe counter that can be accessed from multiple threads, demonstrating how these patterns work together in a real-world application.</p>
+<p>These advanced ownership patterns are essential tools for building complex, robust Rust applications, especially those involving shared state or concurrency. By understanding when and how to use each pattern, you can write code that is both flexible and safe.</p>
+<p>In the next chapter, we’ll explore structs and custom types, which form the foundation of data modeling in Rust programs. We’ll learn how to define and use structs, implement methods, and create reusable abstractions.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>Implement a thread-safe cache with expiration using <code>Arc&lt;RwLock&lt;_&gt;&gt;</code>.</li>
+<li>Create a custom smart pointer that tracks allocation and deallocation statistics.</li>
+<li>Implement a tree structure with parent-child relationships using <code>Rc</code> and <code>Weak</code>.</li>
+<li>Build a resource pool that manages a fixed number of reusable resources.</li>
+<li>Extend the thread-safe counter project to include rate limiting functionality.</li>
+<li>Implement a simple actor system where actors communicate by passing messages.</li>
+<li>Create a custom reference-counted type similar to <code>Rc&lt;T&gt;</code> but with additional features.</li>
+<li>Build a thread-safe logging system that uses interior mutability.</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch15-00-smart-pointers.html">The Rust Programming Language: Smart Pointers</a></li>
+<li><a href="https://doc.rust-lang.org/reference/interior-mutability.html">The Rust Reference: Interior Mutability</a></li>
+<li><a href="https://doc.rust-lang.org/nomicon/ownership.html">Rust Nomicon: Ownership and Lifetimes</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/std/rc.html">Rust By Example: Smart Pointers</a></li>
+<li><a href="https://tokio.rs/tokio/tutorial/shared-state">Tokio Documentation: Shared State</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/09-strings-slices.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/11-structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/09-strings-slices.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/11-structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

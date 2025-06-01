@@ -1,0 +1,1506 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Modules and Organizing Code - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/13-modules.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-13-modules-and-organizing-code"><a class="header" href="#chapter-13-modules-and-organizing-code">Chapter 13: Modules and Organizing Code</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>As your Rust projects grow, organizing your code becomes increasingly important. Well-structured code enhances maintainability, readability, and collaboration. Rust provides a robust module system that allows you to organize code in a logical hierarchy, control access to implementation details, and create clear interfaces for others to use.</p>
+<p>In this chapter, we’ll explore:</p>
+<ul>
+<li>Why code organization matters</li>
+<li>Creating modules to group related code</li>
+<li>Building module hierarchies</li>
+<li>Controlling visibility with public and private interfaces</li>
+<li>The details of Rust’s module system</li>
+<li>Working with paths and imports</li>
+<li>Reexporting items with <code>pub use</code></li>
+<li>Managing external dependencies</li>
+<li>Organizing large projects</li>
+<li>Using workspaces for multi-package projects</li>
+<li>Publishing and versioning crates</li>
+</ul>
+<p>By the end of this chapter, you’ll understand how to structure Rust code effectively and create a library with a clean, user-friendly API.</p>
+<h2 id="why-code-organization-matters"><a class="header" href="#why-code-organization-matters">Why Code Organization Matters</a></h2>
+<p>Good code organization offers several key benefits:</p>
+<h3 id="maintainability"><a class="header" href="#maintainability">Maintainability</a></h3>
+<p>Well-organized code is easier to maintain. When related functionality is grouped together, you can make changes with confidence, understanding the scope and impact of your modifications.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Without organization - all functions in one file
+fn validate_user(user: &amp;User) -&gt; bool { /* ... */ }
+fn format_report(data: &amp;[ReportData]) -&gt; String { /* ... */ }
+fn calculate_statistics(values: &amp;[f64]) -&gt; Stats { /* ... */ }
+fn send_email(to: &amp;str, body: &amp;str) -&gt; Result&lt;(), Error&gt; { /* ... */ }
+
+// With organization - functions grouped by domain
+mod users {
+    pub fn validate_user(user: &amp;User) -&gt; bool { /* ... */ }
+}
+
+mod reporting {
+    pub fn format_report(data: &amp;[ReportData]) -&gt; String { /* ... */ }
+    pub fn calculate_statistics(values: &amp;[f64]) -&gt; Stats { /* ... */ }
+}
+
+mod communication {
+    pub fn send_email(to: &amp;str, body: &amp;str) -&gt; Result&lt;(), Error&gt; { /* ... */ }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="readability"><a class="header" href="#readability">Readability</a></h3>
+<p>Properly organized code is easier to understand. New team members can quickly grasp the project structure and find the components they need to work with.</p>
+<h3 id="reusability"><a class="header" href="#reusability">Reusability</a></h3>
+<p>Good organization facilitates code reuse. When functionality is properly encapsulated in modules, it becomes easier to reuse that code in different parts of your application or even in different projects.</p>
+<h3 id="encapsulation"><a class="header" href="#encapsulation">Encapsulation</a></h3>
+<p>The module system allows you to hide implementation details while exposing only the necessary interfaces. This reduces the surface area for bugs and makes your code more robust to changes.</p>
+<h3 id="scalability"><a class="header" href="#scalability">Scalability</a></h3>
+<p>As projects grow, organization becomes crucial. A well-structured project can scale smoothly from a small utility to a large application with multiple components.</p>
+<h2 id="creating-modules"><a class="header" href="#creating-modules">Creating Modules</a></h2>
+<p>Modules in Rust are containers for related items like functions, structs, enums, traits, and even other modules. They help organize code and control the privacy of items.</p>
+<h3 id="basic-module-syntax"><a class="header" href="#basic-module-syntax">Basic Module Syntax</a></h3>
+<p>You create a module using the <code>mod</code> keyword:</p>
+<pre><pre class="playground"><code class="language-rust">// Define a module named 'networking'
+mod networking {
+    // Functions, structs, etc. go here
+    pub fn connect(address: &amp;str) -&gt; Result&lt;Connection, Error&gt; {
+        // Implementation
+    }
+
+    fn internal_helper() {
+        // This function is private to the module
+    }
+}
+
+// Using an item from the module
+fn main() {
+    networking::connect("example.com:8080");
+}</code></pre></pre>
+<h3 id="module-privacy-rules"><a class="header" href="#module-privacy-rules">Module Privacy Rules</a></h3>
+<p>By default, everything in Rust is private. To make an item accessible outside its module, you must use the <code>pub</code> keyword:</p>
+<pre><pre class="playground"><code class="language-rust">mod math {
+    // Public function - can be called from outside the module
+    pub fn add(a: i32, b: i32) -&gt; i32 {
+        a + b
+    }
+
+    // Private function - only accessible within this module
+    fn complex_algorithm(x: i32) -&gt; i32 {
+        // Implementation
+        x * 2
+    }
+}
+
+fn main() {
+    // This works because add is public
+    let sum = math::add(5, 10);
+
+    // This would fail because complex_algorithm is private
+    // let result = math::complex_algorithm(5);
+}</code></pre></pre>
+<h3 id="module-files-and-directories"><a class="header" href="#module-files-and-directories">Module Files and Directories</a></h3>
+<p>Modules can be defined in three ways:</p>
+<ol>
+<li><strong>Inline in a file</strong>:</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/main.rs or src/lib.rs
+mod config {
+    pub struct Settings { /* ... */ }
+}
+<span class="boring">}</span></code></pre></pre>
+<ol start="2">
+<li><strong>In a separate file</strong>:</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/main.rs or src/lib.rs
+mod config; // Tells Rust to look for either src/config.rs or src/config/mod.rs
+
+// src/config.rs
+pub struct Settings { /* ... */ }
+<span class="boring">}</span></code></pre></pre>
+<ol start="3">
+<li><strong>In a directory with a mod.rs file</strong>:</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/main.rs or src/lib.rs
+mod config;
+
+// src/config/mod.rs
+pub struct Settings { /* ... */ }
+pub mod logging; // Nested module defined in src/config/logging.rs
+
+// src/config/logging.rs
+pub fn init() { /* ... */ }
+<span class="boring">}</span></code></pre></pre>
+<h2 id="module-hierarchies"><a class="header" href="#module-hierarchies">Module Hierarchies</a></h2>
+<p>Modules can be nested to create hierarchies, allowing for even better code organization.</p>
+<h3 id="nesting-modules"><a class="header" href="#nesting-modules">Nesting Modules</a></h3>
+<p>You can define modules inside other modules:</p>
+<pre><pre class="playground"><code class="language-rust">mod networking {
+    pub mod http {
+        pub fn get(url: &amp;str) -&gt; Result&lt;String, Error&gt; {
+            // Implementation
+        }
+
+        pub fn post(url: &amp;str, data: &amp;str) -&gt; Result&lt;String, Error&gt; {
+            // Implementation
+        }
+    }
+
+    pub mod tcp {
+        pub fn connect(address: &amp;str) -&gt; Result&lt;Connection, Error&gt; {
+            // Implementation
+        }
+    }
+
+    // Private module - only accessible within networking
+    mod internal {
+        pub fn log_connection(address: &amp;str) {
+            // Even though this function is public, the module is private
+            // so this function can only be accessed from within the networking module
+        }
+    }
+}
+
+fn main() {
+    // Using nested modules
+    networking::http::get("https://example.com");
+    networking::tcp::connect("example.com:8080");
+}</code></pre></pre>
+<h3 id="module-trees"><a class="header" href="#module-trees">Module Trees</a></h3>
+<p>The module structure creates a tree, similar to a filesystem. The crate root (usually <code>src/main.rs</code> or <code>src/lib.rs</code>) forms the base of this tree:</p>
+<pre><code>crate
+ ├── networking
+ │    ├── http
+ │    │    ├── get
+ │    │    └── post
+ │    ├── tcp
+ │    │    └── connect
+ │    └── internal
+ │         └── log_connection
+ └── other_module
+      └── ...
+</code></pre>
+<h3 id="organizing-by-feature"><a class="header" href="#organizing-by-feature">Organizing by Feature</a></h3>
+<p>A common approach is to organize code by feature or domain:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod users {
+    pub mod authentication {
+        pub fn login(username: &amp;str, password: &amp;str) -&gt; Result&lt;User, AuthError&gt; {
+            // Implementation
+        }
+
+        pub fn logout(user: &amp;User) {
+            // Implementation
+        }
+    }
+
+    pub mod profile {
+        pub fn update(user: &amp;mut User, data: ProfileData) -&gt; Result&lt;(), ProfileError&gt; {
+            // Implementation
+        }
+    }
+}
+
+mod products {
+    pub mod catalog {
+        pub fn search(query: &amp;str) -&gt; Vec&lt;Product&gt; {
+            // Implementation
+        }
+    }
+
+    pub mod inventory {
+        pub fn check_availability(product_id: u64) -&gt; u32 {
+            // Implementation
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This approach makes it easy to understand where to find specific functionality and helps maintain clear boundaries between different parts of your application.</p>
+<h2 id="public-vs-private-interfaces"><a class="header" href="#public-vs-private-interfaces">Public vs Private Interfaces</a></h2>
+<p>One of Rust’s key strengths is its ability to strictly control what is exposed to users of your code. This allows you to maintain a stable public API while keeping the freedom to change implementation details.</p>
+<h3 id="privacy-rules"><a class="header" href="#privacy-rules">Privacy Rules</a></h3>
+<p>Rust follows these privacy rules:</p>
+<ol>
+<li>All items (functions, types, modules, etc.) are <strong>private by default</strong></li>
+<li>Items can be made public with the <code>pub</code> keyword</li>
+<li>Public items in private modules are not accessible</li>
+<li>Child modules can access private items in parent modules</li>
+<li>Parent modules cannot access private items in child modules</li>
+</ol>
+<h3 id="controlling-access-to-structs-and-enums"><a class="header" href="#controlling-access-to-structs-and-enums">Controlling Access to Structs and Enums</a></h3>
+<p>For structs, both the struct itself and its fields have their own visibility:</p>
+<pre><pre class="playground"><code class="language-rust">// A public struct with both public and private fields
+pub struct User {
+    pub username: String,
+    pub email: String,
+    password_hash: String,  // Private field
+}
+
+impl User {
+    pub fn new(username: String, email: String, password: String) -&gt; User {
+        User {
+            username,
+            email,
+            password_hash: hash_password(password),
+        }
+    }
+
+    pub fn verify_password(&amp;self, password: &amp;str) -&gt; bool {
+        // Implementation can access private fields
+        self.password_hash == hash_password(password)
+    }
+}
+
+fn main() {
+    let user = User::new(
+        "alice".to_string(),
+        "alice@example.com".to_string(),
+        "secret123".to_string()
+    );
+
+    // Public fields are accessible
+    println!("Username: {}", user.username);
+
+    // This would fail because password_hash is private
+    // println!("Password hash: {}", user.password_hash);
+
+    // But we can use the public method that internally accesses it
+    if user.verify_password("secret123") {
+        println!("Password verified!");
+    }
+}</code></pre></pre>
+<p>For enums, making the enum public makes all its variants public:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum ConnectionState {
+    Connected,
+    Disconnected,
+    Connecting,
+    Failed(String),
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="advanced-visibility-modifiers"><a class="header" href="#advanced-visibility-modifiers">Advanced Visibility Modifiers</a></h3>
+<p>Rust also provides finer-grained control over visibility:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Visible only within the current crate
+pub(crate) fn crate_visible_function() { /* ... */ }
+
+// Visible only to a specific parent module and its descendants
+pub(in crate::parent_module) fn parent_visible_function() { /* ... */ }
+
+// Visible only to the immediate parent module
+pub(super) fn super_visible_function() { /* ... */ }
+
+// Visible only within the current module
+pub(self) fn self_visible_function() { /* ... */ } // Same as just omitting `pub`
+<span class="boring">}</span></code></pre></pre>
+<h3 id="designing-good-interfaces"><a class="header" href="#designing-good-interfaces">Designing Good Interfaces</a></h3>
+<p>When designing public interfaces, follow these principles:</p>
+<ol>
+<li><strong>Minimal API surface</strong>: Expose only what users need</li>
+<li><strong>Information hiding</strong>: Keep implementation details private</li>
+<li><strong>Invariant protection</strong>: Use privacy to enforce data constraints</li>
+<li><strong>Evolution flexibility</strong>: Private implementation can change without breaking users</li>
+<li><strong>Clear documentation</strong>: Document the public interface thoroughly</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// A well-designed module with minimal public interface
+pub mod database {
+    use std::collections::HashMap;
+
+    // Public types that form the interface
+    pub struct Database {
+        // Implementation details hidden
+        connections: ConnectionPool,
+        cache: Cache,
+    }
+
+    pub struct QueryResult {
+        pub rows: Vec&lt;Row&gt;,
+    }
+
+    pub struct Row {
+        data: HashMap&lt;String, Value&gt;,
+    }
+
+    pub enum Value {
+        Integer(i64),
+        Float(f64),
+        Text(String),
+        Boolean(bool),
+        Null,
+    }
+
+    // Public methods forming the API
+    impl Database {
+        pub fn connect(url: &amp;str) -&gt; Result&lt;Database, ConnectionError&gt; {
+            // Implementation
+        }
+
+        pub fn query(&amp;self, sql: &amp;str) -&gt; Result&lt;QueryResult, QueryError&gt; {
+            // Implementation using private helper functions
+        }
+    }
+
+    impl Row {
+        pub fn get(&amp;self, column: &amp;str) -&gt; Option&lt;&amp;Value&gt; {
+            self.data.get(column)
+        }
+    }
+
+    // Private implementation details
+    struct ConnectionPool {
+        // Details
+    }
+
+    struct Cache {
+        // Details
+    }
+
+    // Private helper functions
+    fn parse_query(sql: &amp;str) -&gt; Result&lt;ParsedQuery, ParseError&gt; {
+        // Implementation
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="the-module-system-in-detail"><a class="header" href="#the-module-system-in-detail">The Module System in Detail</a></h2>
+<p>Rust’s module system consists of several interconnected concepts that work together to organize code.</p>
+<h3 id="packages-and-crates"><a class="header" href="#packages-and-crates">Packages and Crates</a></h3>
+<p>A <strong>package</strong> is a bundle of one or more crates that provides a set of functionality. A package contains a <code>Cargo.toml</code> file that describes how to build those crates.</p>
+<p>A <strong>crate</strong> is a compilation unit in Rust. It can be a binary crate or a library crate:</p>
+<ul>
+<li><strong>Binary crate</strong>: Produces an executable (has a <code>main</code> function)</li>
+<li><strong>Library crate</strong>: Produces a library for others to use (has no <code>main</code> function)</li>
+</ul>
+<pre><code class="language-toml"># Cargo.toml defining a package
+[package]
+name = "my_package"
+version = "0.1.0"
+edition = "2021"
+
+# Optional dependencies
+[dependencies]
+serde = "1.0"
+</code></pre>
+<p>A package can contain:</p>
+<ul>
+<li>At most one library crate (<code>src/lib.rs</code>)</li>
+<li>Any number of binary crates (<code>src/main.rs</code> or files in <code>src/bin/</code>)</li>
+</ul>
+<h3 id="module-resolution"><a class="header" href="#module-resolution">Module Resolution</a></h3>
+<p>When you declare a module, Rust needs to know where to find the module’s code. It follows these rules:</p>
+<ol>
+<li>First, it looks for the code inline after the <code>mod</code> declaration</li>
+<li>If not found inline, it looks for a file named after the module</li>
+<li>For a module named <code>foo</code>, it checks:
+<ul>
+<li><code>src/foo.rs</code></li>
+<li><code>src/foo/mod.rs</code></li>
+</ul>
+</li>
+</ol>
+<p>For nested modules like <code>foo::bar</code>, it checks:</p>
+<ul>
+<li><code>src/foo/bar.rs</code></li>
+<li><code>src/foo/bar/mod.rs</code></li>
+</ul>
+<h3 id="the-use-keyword"><a class="header" href="#the-use-keyword">The <code>use</code> Keyword</a></h3>
+<p>The <code>use</code> keyword brings items into scope, allowing you to refer to them with shorter paths:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod deeply {
+    pub mod nested {
+        pub mod module {
+            pub fn function() {
+                // Implementation
+            }
+        }
+    }
+}
+
+// Without use
+fn function1() {
+    deeply::nested::module::function();
+}
+
+// With use
+use deeply::nested::module;
+
+fn function2() {
+    module::function();
+}
+
+// Or directly bring the function into scope
+use deeply::nested::module::function;
+
+fn function3() {
+    function();
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="paths-and-imports"><a class="header" href="#paths-and-imports">Paths and Imports</a></h2>
+<p>Paths allow you to refer to items within the module hierarchy, while imports (via the <code>use</code> keyword) bring those items into the current scope for easier access.</p>
+<h3 id="absolute-and-relative-paths"><a class="header" href="#absolute-and-relative-paths">Absolute and Relative Paths</a></h3>
+<p>Rust supports both absolute and relative paths:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Absolute path (starts from crate root)
+crate::module::function();
+
+// Relative path (starts from current module)
+module::function();
+
+// Relative path using super (parent module)
+super::module::function();
+
+// Relative path using self (current module)
+self::function();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="import-patterns-and-best-practices"><a class="header" href="#import-patterns-and-best-practices">Import Patterns and Best Practices</a></h3>
+<p>Rust has established conventions for how to import different types of items:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// For functions: import the parent module
+use std::io;
+io::Write::flush(&amp;mut file)?;
+
+// For types (structs, enums): import the type directly
+use std::collections::HashMap;
+let map = HashMap::new();
+
+// For traits: import the trait directly
+use std::io::Write;
+file.flush()?;
+
+// For macros in Rust 2018+: import the macro directly
+use std::vec;
+let v = vec![1, 2, 3];
+<span class="boring">}</span></code></pre></pre>
+<h3 id="import-grouping-and-nesting"><a class="header" href="#import-grouping-and-nesting">Import Grouping and Nesting</a></h3>
+<p>You can group imports to reduce repetition:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Instead of:
+use std::io;
+use std::io::Write;
+use std::collections::HashMap;
+use std::collections::HashSet;
+
+// You can write:
+use std::io::{self, Write};
+use std::collections::{HashMap, HashSet};
+<span class="boring">}</span></code></pre></pre>
+<h3 id="renaming-with-as"><a class="header" href="#renaming-with-as">Renaming with <code>as</code></a></h3>
+<p>If you need to import items with the same name from different modules, you can rename them:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::io::Result as IoResult;
+use std::fmt::Result as FmtResult;
+
+fn function1() -&gt; IoResult&lt;()&gt; {
+    // IO operation
+    Ok(())
+}
+
+fn function2() -&gt; FmtResult {
+    // Formatting operation
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="external-packages-and-dependencies"><a class="header" href="#external-packages-and-dependencies">External Packages and Dependencies</a></h2>
+<p>Rust’s ecosystem is rich with external packages (called “crates”) that you can use in your projects. To use an external crate, you need to:</p>
+<ol>
+<li>Add it to your <code>Cargo.toml</code> file</li>
+<li>Import it using the <code>use</code> keyword</li>
+</ol>
+<pre><code class="language-toml"># Cargo.toml
+[dependencies]
+serde = "1.0.130"
+serde_json = "1.0"
+tokio = { version = "1.12", features = ["full"] }
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">// In your code
+use serde::{Serialize, Deserialize};
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct User {
+    name: String,
+    email: String,
+    active: bool,
+}
+
+#[tokio::main]
+async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let user = User {
+        name: "Alice".to_string(),
+        email: "alice@example.com".to_string(),
+        active: true,
+    };
+
+    // Serialize the user to JSON
+    let json = serde_json::to_string(&amp;user)?;
+    println!("Serialized: {}", json);
+
+    // Deserialize the JSON back to a User
+    let deserialized: User = serde_json::from_str(&amp;json)?;
+    println!("Deserialized: {:?}", deserialized);
+
+    Ok(())
+}</code></pre></pre>
+<h3 id="managing-dependencies"><a class="header" href="#managing-dependencies">Managing Dependencies</a></h3>
+<p>Cargo, Rust’s package manager, handles dependencies for you. It downloads, compiles, and links them automatically.</p>
+<h4 id="dependency-versions"><a class="header" href="#dependency-versions">Dependency Versions</a></h4>
+<p>You can specify dependency versions in several ways:</p>
+<pre><code class="language-toml">[dependencies]
+# Exact version
+regex = "1.5.4"
+
+# Caret requirement (compatible with)
+serde = "^1.0.0"  # same as "1.0.0"
+
+# Compatible with at least version
+tokio = "&gt;= 1.0, &lt; 2.0"
+
+# Wildcard
+log = "0.4.*"
+
+# Git repository
+custom_lib = { git = "https://github.com/user/repo" }
+
+# Local path
+local_lib = { path = "../local_lib" }
+</code></pre>
+<h4 id="features"><a class="header" href="#features">Features</a></h4>
+<p>Many Rust crates use “features” to enable optional functionality:</p>
+<pre><code class="language-toml">[dependencies]
+tokio = { version = "1.12", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+</code></pre>
+<h2 id="reexporting-with-pub-use"><a class="header" href="#reexporting-with-pub-use">Reexporting with pub use</a></h2>
+<p>The <code>pub use</code> syntax allows you to re-export items from one module through another. This is powerful for creating clean, user-friendly interfaces that hide the internal structure of your crate.</p>
+<h3 id="why-use-pub-use"><a class="header" href="#why-use-pub-use">Why Use pub use?</a></h3>
+<ol>
+<li><strong>API design</strong>: Create a clean, logical API regardless of internal structure</li>
+<li><strong>Deprecation path</strong>: Move items internally while maintaining backward compatibility</li>
+<li><strong>Prelude pattern</strong>: Group commonly used items for easy importing</li>
+</ol>
+<h3 id="example-of-pub-use"><a class="header" href="#example-of-pub-use">Example of pub use</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Internal structure
+mod network {
+    pub mod ipv4 {
+        pub fn connect() { /* ... */ }
+    }
+
+    pub mod ipv6 {
+        pub fn connect() { /* ... */ }
+    }
+}
+
+// Re-exports for a cleaner API
+pub use network::ipv4::connect as connect_ipv4;
+pub use network::ipv6::connect as connect_ipv6;
+
+// Users can now do:
+// use my_crate::connect_ipv4;
+// Instead of:
+// use my_crate::network::ipv4::connect;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="the-prelude-pattern"><a class="header" href="#the-prelude-pattern">The Prelude Pattern</a></h3>
+<p>Many Rust crates define a prelude module that re-exports the most commonly used items:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// lib.rs
+pub mod parsing;
+pub mod validation;
+pub mod error;
+
+// Create a prelude module that re-exports common items
+pub mod prelude {
+    pub use crate::parsing::{Parser, ParseResult};
+    pub use crate::validation::Validator;
+    pub use crate::error::{Error, Result};
+}
+
+// Users can now do:
+// use my_crate::prelude::*;
+// And get all the common items at once
+<span class="boring">}</span></code></pre></pre>
+<h2 id="organizing-large-projects"><a class="header" href="#organizing-large-projects">Organizing Large Projects</a></h2>
+<p>As your Rust projects grow, good organization becomes increasingly important. Here are strategies for managing larger codebases:</p>
+<h3 id="directory-structure"><a class="header" href="#directory-structure">Directory Structure</a></h3>
+<p>A well-organized Rust project might have a structure like this:</p>
+<pre><code>my_project/
+├── Cargo.toml
+├── Cargo.lock
+├── src/
+│   ├── main.rs          # Binary crate entry point
+│   ├── lib.rs           # Library crate entry point
+│   ├── bin/             # Additional binaries
+│   │   ├── tool1.rs
+│   │   └── tool2.rs
+│   ├── models/          # Domain models
+│   │   ├── mod.rs
+│   │   ├── user.rs
+│   │   └── product.rs
+│   ├── services/        # Business logic
+│   │   ├── mod.rs
+│   │   ├── auth.rs
+│   │   └── billing.rs
+│   ├── utils/           # Utility functions
+│   │   ├── mod.rs
+│   │   └── helpers.rs
+│   └── config.rs        # Configuration
+├── tests/               # Integration tests
+│   ├── integration_test.rs
+│   └── api_test.rs
+├── benches/             # Benchmarks
+│   └── benchmark.rs
+├── examples/            # Example code
+│   └── example.rs
+└── docs/                # Documentation
+    └── api.md
+</code></pre>
+<h3 id="module-organization-patterns"><a class="header" href="#module-organization-patterns">Module Organization Patterns</a></h3>
+<p>There are several common patterns for organizing modules in large projects:</p>
+<h4 id="feature-based-organization"><a class="header" href="#feature-based-organization">Feature-Based Organization</a></h4>
+<p>Group code by features or domains:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+pub mod auth;
+pub mod users;
+pub mod products;
+pub mod orders;
+pub mod payments;
+<span class="boring">}</span></code></pre></pre>
+<h4 id="layer-based-organization"><a class="header" href="#layer-based-organization">Layer-Based Organization</a></h4>
+<p>Group code by architectural layers:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+pub mod models;      // Data structures
+pub mod repositories; // Data access
+pub mod services;    // Business logic
+pub mod controllers; // API endpoints
+pub mod utils;       // Helper functions
+<span class="boring">}</span></code></pre></pre>
+<h4 id="hybrid-approach"><a class="header" href="#hybrid-approach">Hybrid Approach</a></h4>
+<p>Combine both approaches for complex applications:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+pub mod users {
+    pub mod models;
+    pub mod repositories;
+    pub mod services;
+    pub mod controllers;
+}
+
+pub mod products {
+    pub mod models;
+    pub mod repositories;
+    pub mod services;
+    pub mod controllers;
+}
+
+pub mod common {
+    pub mod utils;
+    pub mod config;
+    pub mod errors;
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="documentation-and-tests"><a class="header" href="#documentation-and-tests">Documentation and Tests</a></h3>
+<p>Well-organized projects include comprehensive documentation and tests:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Represents a user in the system
+///
+/// # Examples
+///
+/// ```
+/// let user = User::new("alice", "password123");
+/// assert!(user.authenticate("password123"));
+/// ```
+pub struct User {
+    username: String,
+    password_hash: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_user_authentication() {
+        let user = User::new("alice", "password123");
+        assert!(user.authenticate("password123"));
+        assert!(!user.authenticate("wrong_password"));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="workspaces-and-multi-package-projects"><a class="header" href="#workspaces-and-multi-package-projects">Workspaces and Multi-Package Projects</a></h2>
+<p>For very large projects, Rust supports workspaces—a set of packages that share the same <code>Cargo.lock</code> and output directory.</p>
+<h3 id="creating-a-workspace"><a class="header" href="#creating-a-workspace">Creating a Workspace</a></h3>
+<p>Define a workspace in a <code>Cargo.toml</code> file at the root:</p>
+<pre><code class="language-toml"># Cargo.toml in the workspace root
+[workspace]
+members = [
+    "app",
+    "core",
+    "api",
+    "cli",
+    "utils",
+]
+</code></pre>
+<h3 id="workspace-structure"><a class="header" href="#workspace-structure">Workspace Structure</a></h3>
+<p>A typical workspace might look like this:</p>
+<pre><code>my_workspace/
+├── Cargo.toml       # Workspace definition
+├── Cargo.lock       # Shared lock file
+├── app/             # Package for the main application
+│   ├── Cargo.toml
+│   └── src/
+│       └── main.rs
+├── core/            # Package for core functionality
+│   ├── Cargo.toml
+│   └── src/
+│       └── lib.rs
+├── api/             # Package for API handlers
+│   ├── Cargo.toml
+│   └── src/
+│       └── lib.rs
+├── cli/             # Package for CLI tools
+│   ├── Cargo.toml
+│   └── src/
+│       └── main.rs
+└── utils/           # Package for shared utilities
+    ├── Cargo.toml
+    └── src/
+        └── lib.rs
+</code></pre>
+<h3 id="package-dependencies"><a class="header" href="#package-dependencies">Package Dependencies</a></h3>
+<p>In a workspace, packages can depend on each other:</p>
+<pre><code class="language-toml"># app/Cargo.toml
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+core = { path = "../core" }
+api = { path = "../api" }
+utils = { path = "../utils" }
+</code></pre>
+<h3 id="building-and-testing-workspaces"><a class="header" href="#building-and-testing-workspaces">Building and Testing Workspaces</a></h3>
+<p>Cargo can build or test all packages in a workspace:</p>
+<pre><code class="language-bash"># Build all packages
+cargo build --workspace
+
+# Test all packages
+cargo test --workspace
+
+# Build a specific package
+cargo build -p app
+</code></pre>
+<h2 id="publishing-crates"><a class="header" href="#publishing-crates">Publishing Crates</a></h2>
+<p>Once you’ve built a useful library, you might want to share it with the Rust community by publishing it to <a href="https://crates.io">crates.io</a>.</p>
+<h3 id="preparing-your-crate"><a class="header" href="#preparing-your-crate">Preparing Your Crate</a></h3>
+<p>Before publishing, ensure your crate:</p>
+<ol>
+<li>Has a unique name (check on crates.io)</li>
+<li>Includes a proper description, license, and documentation</li>
+<li>Has useful examples and tests</li>
+<li>Follows Rust API guidelines</li>
+</ol>
+<p>Update your <code>Cargo.toml</code> with metadata:</p>
+<pre><code class="language-toml">[package]
+name = "my_awesome_lib"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name &lt;your.email@example.com&gt;"]
+description = "A library that does awesome things"
+documentation = "https://docs.rs/my_awesome_lib"
+repository = "https://github.com/yourusername/my_awesome_lib"
+license = "MIT OR Apache-2.0"
+keywords = ["awesome", "library", "rust"]
+categories = ["development-tools"]
+readme = "README.md"
+</code></pre>
+<h3 id="publishing-process"><a class="header" href="#publishing-process">Publishing Process</a></h3>
+<p>To publish your crate:</p>
+<ol>
+<li>Create an account on crates.io</li>
+<li>Get an API token from crates.io</li>
+<li>Login with Cargo: <code>cargo login &lt;your-token&gt;</code></li>
+<li>Publish: <code>cargo publish</code></li>
+</ol>
+<h3 id="versioning"><a class="header" href="#versioning">Versioning</a></h3>
+<p>Rust crates follow Semantic Versioning (SemVer):</p>
+<ul>
+<li><strong>Major version</strong> (1.0.0): Incompatible API changes</li>
+<li><strong>Minor version</strong> (0.1.0): Add functionality in a backward-compatible manner</li>
+<li><strong>Patch version</strong> (0.0.1): Backward-compatible bug fixes</li>
+</ul>
+<pre><code class="language-toml"># Incrementing the version for a new release
+[package]
+name = "my_awesome_lib"
+version = "0.2.0"  # Bumped from 0.1.0 for new features
+</code></pre>
+<h2 id="project-mini-library-crate"><a class="header" href="#project-mini-library-crate">Project: Mini Library Crate</a></h2>
+<p>Let’s put our knowledge into practice by creating a small but useful library crate with a clear API. We’ll build a simple text analysis library that provides various statistics and operations on text.</p>
+<h3 id="step-1-create-a-new-library-crate"><a class="header" href="#step-1-create-a-new-library-crate">Step 1: Create a New Library Crate</a></h3>
+<pre><code class="language-bash">cargo new text_analysis --lib
+cd text_analysis
+</code></pre>
+<h3 id="step-2-define-the-project-structure"><a class="header" href="#step-2-define-the-project-structure">Step 2: Define the Project Structure</a></h3>
+<p>Our library will have the following structure:</p>
+<pre><code>text_analysis/
+├── Cargo.toml
+├── src/
+│   ├── lib.rs
+│   ├── stats.rs
+│   ├── tokenize.rs
+│   ├── sentiment.rs
+│   └── utils.rs
+├── tests/
+│   └── integration_tests.rs
+└── examples/
+    └── basic_usage.rs
+</code></pre>
+<h3 id="step-3-set-up-cargotoml"><a class="header" href="#step-3-set-up-cargotoml">Step 3: Set Up Cargo.toml</a></h3>
+<pre><code class="language-toml">[package]
+name = "text_analysis"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name &lt;your.email@example.com&gt;"]
+description = "A library for analyzing text"
+license = "MIT"
+
+[dependencies]
+unicode-segmentation = "1.8.0"  # For proper unicode handling
+</code></pre>
+<h3 id="step-4-implement-the-library"><a class="header" href="#step-4-implement-the-library">Step 4: Implement the Library</a></h3>
+<p>First, let’s set up the main library file:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+//! # Text Analysis
+//!
+//! `text_analysis` is a library for analyzing text content,
+//! providing statistics, tokenization, and basic sentiment analysis.
+
+// Define and re-export modules
+pub mod stats;
+pub mod tokenize;
+pub mod sentiment;
+mod utils;  // Private module
+
+// Re-export most commonly used items for a clean API
+pub use stats::{TextStats, count_words, count_sentences};
+pub use tokenize::{tokenize_words, tokenize_sentences};
+pub use sentiment::analyze_sentiment;
+
+// Create a prelude module
+pub mod prelude {
+    pub use crate::stats::{TextStats, count_words, count_sentences};
+    pub use crate::tokenize::{tokenize_words, tokenize_sentences};
+    pub use crate::sentiment::analyze_sentiment;
+}
+
+// Provide a simple API facade
+pub struct TextAnalyzer&lt;'a&gt; {
+    text: &amp;'a str,
+}
+
+impl&lt;'a&gt; TextAnalyzer&lt;'a&gt; {
+    pub fn new(text: &amp;'a str) -&gt; Self {
+        TextAnalyzer { text }
+    }
+
+    pub fn stats(&amp;self) -&gt; TextStats {
+        stats::analyze(self.text)
+    }
+
+    pub fn words(&amp;self) -&gt; Vec&lt;String&gt; {
+        tokenize::tokenize_words(self.text)
+    }
+
+    pub fn sentences(&amp;self) -&gt; Vec&lt;String&gt; {
+        tokenize::tokenize_sentences(self.text)
+    }
+
+    pub fn sentiment(&amp;self) -&gt; f64 {
+        sentiment::analyze_sentiment(self.text)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now, let’s implement each module:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/stats.rs
+//! Text statistics module
+//!
+//! Provides functions for calculating various statistics about text.
+
+use crate::tokenize::{tokenize_words, tokenize_sentences};
+use crate::utils::clean_text;
+
+/// Represents statistics about a text
+#[derive(Debug, Clone, PartialEq)]
+pub struct TextStats {
+    pub char_count: usize,
+    pub word_count: usize,
+    pub sentence_count: usize,
+    pub avg_word_length: f64,
+    pub avg_sentence_length: f64,
+}
+
+/// Analyzes text and returns comprehensive statistics
+pub fn analyze(text: &amp;str) -&gt; TextStats {
+    let clean = clean_text(text);
+    let words = tokenize_words(&amp;clean);
+    let sentences = tokenize_sentences(&amp;clean);
+
+    let char_count = clean.chars().count();
+    let word_count = words.len();
+    let sentence_count = sentences.len();
+
+    let total_word_length: usize = words.iter()
+        .map(|w| w.chars().count())
+        .sum();
+
+    let avg_word_length = if word_count &gt; 0 {
+        total_word_length as f64 / word_count as f64
+    } else {
+        0.0
+    };
+
+    let avg_sentence_length = if sentence_count &gt; 0 {
+        word_count as f64 / sentence_count as f64
+    } else {
+        0.0
+    };
+
+    TextStats {
+        char_count,
+        word_count,
+        sentence_count,
+        avg_word_length,
+        avg_sentence_length,
+    }
+}
+
+/// Counts the number of words in text
+pub fn count_words(text: &amp;str) -&gt; usize {
+    tokenize_words(text).len()
+}
+
+/// Counts the number of sentences in text
+pub fn count_sentences(text: &amp;str) -&gt; usize {
+    tokenize_sentences(text).len()
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/tokenize.rs
+//! Text tokenization module
+//!
+//! Provides functions for splitting text into words and sentences.
+
+use unicode_segmentation::UnicodeSegmentation;
+use crate::utils::clean_text;
+
+/// Splits text into words
+pub fn tokenize_words(text: &amp;str) -&gt; Vec&lt;String&gt; {
+    UnicodeSegmentation::unicode_words(text)
+        .map(String::from)
+        .collect()
+}
+
+/// Splits text into sentences
+pub fn tokenize_sentences(text: &amp;str) -&gt; Vec&lt;String&gt; {
+    // Simple sentence tokenization by splitting on .!?
+    // A production library would use more sophisticated methods
+    text.split(|c| c == '.' || c == '!' || c == '?')
+        .filter(|s| !s.trim().is_empty())
+        .map(|s| s.trim().to_string())
+        .collect()
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/sentiment.rs
+//! Sentiment analysis module
+//!
+//! Provides basic sentiment analysis functionality.
+
+use crate::tokenize::tokenize_words;
+
+/// Analyzes the sentiment of text
+/// Returns a value between -1.0 (negative) and 1.0 (positive)
+pub fn analyze_sentiment(text: &amp;str) -&gt; f64 {
+    let words = tokenize_words(text);
+
+    // Very simplified sentiment analysis
+    // In a real library, we would use a proper sentiment lexicon
+    let positive_words = ["good", "great", "excellent", "happy", "positive"];
+    let negative_words = ["bad", "terrible", "awful", "sad", "negative"];
+
+    let mut score = 0.0;
+    let mut count = 0;
+
+    for word in words {
+        let lowercase = word.to_lowercase();
+        if positive_words.contains(&amp;lowercase.as_str()) {
+            score += 1.0;
+            count += 1;
+        } else if negative_words.contains(&amp;lowercase.as_str()) {
+            score -= 1.0;
+            count += 1;
+        }
+    }
+
+    if count &gt; 0 {
+        score / count as f64
+    } else {
+        0.0
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/utils.rs
+// Private utility functions
+
+/// Cleans text by removing extra whitespace
+pub(crate) fn clean_text(text: &amp;str) -&gt; String {
+    let mut result = String::with_capacity(text.len());
+    let mut last_was_whitespace = false;
+
+    for c in text.chars() {
+        if c.is_whitespace() {
+            if !last_was_whitespace {
+                result.push(' ');
+                last_was_whitespace = true;
+            }
+        } else {
+            result.push(c);
+            last_was_whitespace = false;
+        }
+    }
+
+    result.trim().to_string()
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-5-add-tests-and-examples"><a class="header" href="#step-5-add-tests-and-examples">Step 5: Add Tests and Examples</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// tests/integration_tests.rs
+use text_analysis::prelude::*;
+use text_analysis::TextAnalyzer;
+
+#[test]
+fn test_word_counting() {
+    let text = "Hello world! This is a test.";
+    assert_eq!(count_words(text), 6);
+
+    let analyzer = TextAnalyzer::new(text);
+    assert_eq!(analyzer.words().len(), 6);
+}
+
+#[test]
+fn test_sentence_counting() {
+    let text = "Hello world! This is a test. How are you?";
+    assert_eq!(count_sentences(text), 3);
+
+    let analyzer = TextAnalyzer::new(text);
+    assert_eq!(analyzer.sentences().len(), 3);
+}
+
+#[test]
+fn test_sentiment_analysis() {
+    let positive = "This is good and excellent!";
+    let negative = "This is bad and terrible!";
+    let neutral = "This is a test.";
+
+    assert!(analyze_sentiment(positive) &gt; 0.0);
+    assert!(analyze_sentiment(negative) &lt; 0.0);
+    assert_eq!(analyze_sentiment(neutral), 0.0);
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// examples/basic_usage.rs
+use text_analysis::prelude::*;
+use text_analysis::TextAnalyzer;
+
+fn main() {
+    let text = "Hello world! This is a text analysis example. \
+                It demonstrates the capabilities of our library. \
+                The text is analyzed to extract various statistics. \
+                This is a good and excellent example!";
+
+    // Using the facade API
+    let analyzer = TextAnalyzer::new(text);
+    let stats = analyzer.stats();
+
+    println!("Text Analysis Results:");
+    println!("---------------------");
+    println!("Character count: {}", stats.char_count);
+    println!("Word count: {}", stats.word_count);
+    println!("Sentence count: {}", stats.sentence_count);
+    println!("Average word length: {:.2}", stats.avg_word_length);
+    println!("Average sentence length: {:.2}", stats.avg_sentence_length);
+    println!("Sentiment score: {:.2}", analyzer.sentiment());
+
+    // Using individual functions
+    println!("\nFirst 5 words:");
+    for (i, word) in tokenize_words(text).iter().take(5).enumerate() {
+        println!("  {}. {}", i + 1, word);
+    }
+
+    println!("\nSentences:");
+    for (i, sentence) in tokenize_sentences(text).iter().enumerate() {
+        println!("  {}. {}", i + 1, sentence);
+    }
+}</code></pre></pre>
+<h3 id="step-6-document-your-library"><a class="header" href="#step-6-document-your-library">Step 6: Document Your Library</a></h3>
+<p>Add documentation to help users understand how to use your library:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Add to the top of src/lib.rs
+//! # Text Analysis
+//!
+//! `text_analysis` is a library for analyzing text content.
+//!
+//! ## Features
+//!
+//! - Word and sentence tokenization
+//! - Text statistics (counts, averages)
+//! - Basic sentiment analysis
+//!
+//! ## Example
+//!
+//! ```
+//! use text_analysis::TextAnalyzer;
+//!
+//! let text = "Hello world! This is an example.";
+//! let analyzer = TextAnalyzer::new(text);
+//!
+//! println!("Word count: {}", analyzer.stats().word_count);
+//! println!("Sentiment: {:.2}", analyzer.sentiment());
+//! ```
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-7-create-a-readmemd"><a class="header" href="#step-7-create-a-readmemd">Step 7: Create a README.md</a></h3>
+<pre><code class="language-markdown"># Text Analysis
+
+A Rust library for analyzing text content.
+
+## Features
+
+- Word and sentence tokenization
+- Text statistics (counts, averages)
+- Basic sentiment analysis
+
+## Installation
+
+Add this to your `Cargo.toml`:
+
+```toml
+[dependencies]
+text_analysis = "0.1.0"
+```
+</code></pre>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<pre><pre class="playground"><code class="language-rust">use text_analysis::TextAnalyzer;
+
+fn main() {
+    let text = "Hello world! This is an example.";
+    let analyzer = TextAnalyzer::new(text);
+
+    // Get text statistics
+    let stats = analyzer.stats();
+    println!("Word count: {}", stats.word_count);
+    println!("Sentence count: {}", stats.sentence_count);
+
+    // Get sentiment analysis
+    println!("Sentiment: {:.2}", analyzer.sentiment());
+
+    // Get tokenized words and sentences
+    let words = analyzer.words();
+    let sentences = analyzer.sentences();
+}</code></pre></pre>
+<h2 id="license"><a class="header" href="#license">License</a></h2>
+<p>MIT</p>
+<pre><code>
+## Summary
+
+In this chapter, we've explored Rust's module system and how to organize your code effectively:
+
+- We learned why code organization matters for maintainability and collaboration
+- We saw how to create modules to group related code
+- We built hierarchical module structures
+- We learned how to control visibility with public and private interfaces
+- We explored the details of Rust's module system
+- We used paths and imports to reference code
+- We re-exported items with `pub use` to create clean APIs
+- We managed external dependencies in our projects
+- We discussed strategies for organizing large projects
+- We set up workspaces for multi-package projects
+- We learned how to publish and version crates
+- We built a mini library crate with a clear API
+
+The module system is one of Rust's most powerful features for creating well-structured, maintainable code. By applying the principles covered in this chapter, you'll be able to organize your Rust projects effectively, whether they're small utilities or large multi-crate applications.
+
+## Exercises
+
+1. Refactor an existing Rust program to use a better module structure.
+
+2. Create a library crate that implements a data structure (like a priority queue or graph) with a clean, well-documented API.
+
+3. Set up a workspace with at least three related crates that depend on each other.
+
+4. Take an existing flat module and reorganize it into a hierarchical structure.
+
+5. Design and implement a library with a prelude module that makes common operations available with a single import.
+
+## Further Reading
+
+- [Rust Book: Packages and Crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html)
+- [Rust Book: Defining Modules to Control Scope and Privacy](https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html)
+- [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/)
+- [Publishing on crates.io](https://doc.rust-lang.org/cargo/reference/publishing.html)
+- [Cargo Workspaces](https://doc.rust-lang.org/cargo/reference/workspaces.html)
+- [The Edition Guide: Path and Module System Changes](https://doc.rust-lang.org/edition-guide/rust-2018/module-system/path-clarity.html)
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/12-enums.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/14-collections.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/12-enums.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/14-collections.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,1344 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>WebAssembly and Frontend Development - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/49-wasm-frontend.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-49-webassembly-and-frontend-development-with-rust"><a class="header" href="#chapter-49-webassembly-and-frontend-development-with-rust">Chapter 49: WebAssembly and Frontend Development with Rust</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>WebAssembly (WASM) has revolutionized web development by enabling languages other than JavaScript to run in browsers at near-native speed. Rust has emerged as one of the premier languages for WebAssembly development due to its performance characteristics, memory safety guarantees, and excellent tooling support.</p>
+<p>In this chapter, we’ll explore how Rust and WebAssembly work together to create high-performance web applications. We’ll cover WebAssembly fundamentals, the Rust-to-WASM compilation process, popular frontend frameworks, and best practices for building production-ready web applications with Rust.</p>
+<p>By the end of this chapter, you’ll have the knowledge to build modern, efficient web applications using Rust that run in any modern browser.</p>
+<h2 id="webassembly-fundamentals-for-rust-developers"><a class="header" href="#webassembly-fundamentals-for-rust-developers">WebAssembly Fundamentals for Rust Developers</a></h2>
+<h3 id="what-is-webassembly"><a class="header" href="#what-is-webassembly">What is WebAssembly?</a></h3>
+<p>WebAssembly is a binary instruction format designed as a portable compilation target for high-level languages. It allows code written in languages like Rust to run in web browsers with performance comparable to native applications.</p>
+<p>Key characteristics of WebAssembly include:</p>
+<ul>
+<li><strong>Performance</strong>: WebAssembly code executes at near-native speed</li>
+<li><strong>Safety</strong>: Runs in a sandboxed environment with memory safety guarantees</li>
+<li><strong>Portability</strong>: Works across all major browsers and platforms</li>
+<li><strong>Compact binary format</strong>: Efficiently transfers over the network</li>
+<li><strong>Compatibility</strong>: Interoperates with JavaScript and the DOM</li>
+</ul>
+<p>WebAssembly is not a replacement for JavaScript but a complement to it. It excels at computationally intensive tasks where JavaScript might struggle, such as:</p>
+<ul>
+<li>Data processing and analytics</li>
+<li>Image and video manipulation</li>
+<li>Game engines and physics simulations</li>
+<li>Cryptography and compression</li>
+<li>Machine learning inference</li>
+</ul>
+<h3 id="webassembly-memory-model"><a class="header" href="#webassembly-memory-model">WebAssembly Memory Model</a></h3>
+<p>Understanding the WebAssembly memory model is crucial for Rust developers. WebAssembly uses a linear memory model, represented as a contiguous array of bytes:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// In Rust, WebAssembly memory is often represented as:
+let memory: &amp;mut [u8];
+<span class="boring">}</span></code></pre></pre>
+<p>Key points about WebAssembly memory:</p>
+<ol>
+<li><strong>Linear memory</strong>: A single, contiguous block of memory</li>
+<li><strong>Resizable</strong>: Can grow (but not shrink) during execution</li>
+<li><strong>Shared with JavaScript</strong>: Accessible from both Rust and JavaScript</li>
+<li><strong>Not garbage collected</strong>: Memory management is the responsibility of the Rust code (which is where Rust’s ownership system shines)</li>
+</ol>
+<p>Rust’s ownership system maps perfectly to this model, as it guarantees memory safety without a garbage collector.</p>
+<h3 id="the-rust-to-wasm-compilation-pipeline"><a class="header" href="#the-rust-to-wasm-compilation-pipeline">The Rust-to-WASM Compilation Pipeline</a></h3>
+<p>Compiling Rust to WebAssembly involves several steps and tools:</p>
+<ol>
+<li><strong>rustc</strong>: The Rust compiler with WebAssembly as a compilation target</li>
+<li><strong>wasm-bindgen</strong>: Facilitates high-level interactions between Rust and JavaScript</li>
+<li><strong>wasm-pack</strong>: Packages Rust crates for the web</li>
+<li><strong>wasm-opt</strong>: Optimizes WebAssembly binaries for size and performance</li>
+</ol>
+<p>Here’s a typical compilation flow:</p>
+<pre><code class="language-bash"># Initialize a new Rust project
+cargo new --lib wasm-example
+cd wasm-example
+
+# Configure as a WebAssembly library in Cargo.toml
+# [lib]
+# crate-type = ["cdylib", "rlib"]
+
+# Build with wasm-pack
+wasm-pack build --target web
+</code></pre>
+<p>The <code>Cargo.toml</code> file for a WebAssembly project typically looks like:</p>
+<pre><code class="language-toml">[package]
+name = "wasm-example"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasm-bindgen = "0.2.87"
+
+[profile.release]
+opt-level = 3
+lto = true
+</code></pre>
+<h3 id="wasm-bindgen-and-the-web-ecosystem"><a class="header" href="#wasm-bindgen-and-the-web-ecosystem">wasm-bindgen and the Web Ecosystem</a></h3>
+<p>The <code>wasm-bindgen</code> tool is a critical component in the Rust-WASM ecosystem. It provides the glue between Rust and JavaScript, allowing for seamless interoperability.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern "C" {
+    // Import JavaScript console.log
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &amp;str);
+}
+
+#[wasm_bindgen]
+pub fn greet(name: &amp;str) {
+    log(&amp;format!("Hello, {}!", name));
+}
+<span class="boring">}</span></code></pre></pre>
+<p>In addition to <code>wasm-bindgen</code>, several other crates enhance the Rust-WASM ecosystem:</p>
+<ul>
+<li><strong>web-sys</strong>: Provides bindings to Web APIs</li>
+<li><strong>js-sys</strong>: Provides bindings to JavaScript’s standard library</li>
+<li><strong>wasm-bindgen-futures</strong>: Bridges Rust’s async/await with JavaScript Promises</li>
+<li><strong>gloo</strong>: A toolkit for building Rust and WebAssembly applications</li>
+</ul>
+<p>Here’s an example using <code>web-sys</code> to interact with the DOM:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use web_sys::{Document, Element, HtmlElement, Window};
+
+#[wasm_bindgen]
+pub fn create_element() -&gt; Result&lt;(), JsValue&gt; {
+    // Get the window object
+    let window = web_sys::window().expect("no global window exists");
+
+    // Get the document object
+    let document = window.document().expect("no document on window");
+
+    // Create a new div element
+    let div = document.create_element("div")?;
+
+    // Set some properties
+    div.set_inner_html("Hello from Rust!");
+    div.set_class_name("rust-div");
+
+    // Append to the body
+    let body = document.body().expect("document should have a body");
+    body.append_child(&amp;div)?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="modern-frontend-frameworks-in-rust"><a class="header" href="#modern-frontend-frameworks-in-rust">Modern Frontend Frameworks in Rust</a></h2>
+<p>While you can use <code>wasm-bindgen</code> and <code>web-sys</code> directly to build web applications, several frameworks have emerged to make frontend development in Rust more productive and enjoyable.</p>
+<h3 id="yew-the-react-inspired-framework"><a class="header" href="#yew-the-react-inspired-framework">Yew: The React-inspired Framework</a></h3>
+<p><a href="https://yew.rs/">Yew</a> is a modern Rust framework for creating multi-threaded frontend applications with WebAssembly. It’s heavily inspired by React and uses a component-based architecture with a JSX-like syntax:</p>
+<pre><pre class="playground"><code class="language-rust">use yew::prelude::*;
+
+#[function_component(App)]
+fn app() -&gt; Html {
+    let counter = use_state(|| 0);
+    let onclick = {
+        let counter = counter.clone();
+        Callback::from(move |_| {
+            counter.set(*counter + 1);
+        })
+    };
+
+    html! {
+        &lt;div&gt;
+            &lt;h1&gt;{ "Counter: " }{ *counter }&lt;/h1&gt;
+            &lt;button {onclick}&gt;{ "Increment" }&lt;/button&gt;
+        &lt;/div&gt;
+    }
+}
+
+fn main() {
+    yew::Renderer::&lt;App&gt;::new().render();
+}</code></pre></pre>
+<p>Key features of Yew include:</p>
+<ul>
+<li><strong>Component-based architecture</strong>: Build reusable components</li>
+<li><strong>HTML macro</strong>: Write HTML-like code within Rust</li>
+<li><strong>State management</strong>: Built-in hooks for local state management</li>
+<li><strong>Agent system</strong>: For cross-component communication</li>
+<li><strong>Router</strong>: For single-page applications</li>
+<li><strong>Server-side rendering</strong>: Improve initial page load performance</li>
+</ul>
+<h3 id="leptos-the-signals-based-framework"><a class="header" href="#leptos-the-signals-based-framework">Leptos: The Signals-based Framework</a></h3>
+<p><a href="https://leptos.dev/">Leptos</a> is a newer full-stack framework that uses a signals-based reactive system, similar to SolidJS. It excels at fine-grained reactivity:</p>
+<pre><pre class="playground"><code class="language-rust">use leptos::*;
+
+#[component]
+fn Counter(cx: Scope) -&gt; impl IntoView {
+    let (count, set_count) = create_signal(cx, 0);
+
+    view! { cx,
+        &lt;div&gt;
+            &lt;h1&gt;"Counter: " {count}&lt;/h1&gt;
+            &lt;button on:click=move |_| set_count.update(|n| *n += 1)&gt;
+                "Increment"
+            &lt;/button&gt;
+        &lt;/div&gt;
+    }
+}
+
+fn main() {
+    mount_to_body(|cx| view! { cx, &lt;Counter/&gt; })
+}</code></pre></pre>
+<p>Key features of Leptos include:</p>
+<ul>
+<li><strong>Fine-grained reactivity</strong>: Only re-renders what changed</li>
+<li><strong>Server functions</strong>: Write backend code in the same file as frontend</li>
+<li><strong>Progressive enhancement</strong>: Works with or without JavaScript</li>
+<li><strong>Hydration</strong>: Seamless transition from server-rendered to interactive content</li>
+<li><strong>Island architecture</strong>: Independently hydrate components</li>
+<li><strong>Multi-backend</strong>: Supports both WebAssembly and server-side rendering</li>
+</ul>
+<h3 id="dioxus-the-universal-rust-ui-framework"><a class="header" href="#dioxus-the-universal-rust-ui-framework">Dioxus: The Universal Rust UI Framework</a></h3>
+<p><a href="https://dioxuslabs.com/">Dioxus</a> aims to be a universal UI framework, allowing Rust developers to target not just the web, but also desktop, mobile, and more from a single codebase:</p>
+<pre><pre class="playground"><code class="language-rust">use dioxus::prelude::*;
+
+fn main() {
+    dioxus_web::launch(App);
+}
+
+fn App(cx: Scope) -&gt; Element {
+    let mut count = use_state(cx, || 0);
+
+    cx.render(rsx! {
+        div {
+            h1 { "Counter: {count}" }
+            button {
+                onclick: move |_| count += 1,
+                "Increment"
+            }
+        }
+    })
+}</code></pre></pre>
+<p>Key features of Dioxus include:</p>
+<ul>
+<li><strong>Unified API</strong>: Write once, run anywhere</li>
+<li><strong>Desktop and mobile support</strong>: Beyond just the web</li>
+<li><strong>Hot reloading</strong>: For rapid development</li>
+<li><strong>Native rendering</strong>: Option to render using native OS widgets</li>
+<li><strong>Compatible syntax</strong>: Familiar to React/JSX developers</li>
+<li><strong>Suspense and async</strong>: First-class support for async components</li>
+</ul>
+<h3 id="component-design-patterns"><a class="header" href="#component-design-patterns">Component Design Patterns</a></h3>
+<p>When building applications with these frameworks, several design patterns emerge as particularly effective:</p>
+<h4 id="pure-components"><a class="header" href="#pure-components">Pure Components</a></h4>
+<p>Pure components depend only on their inputs and produce consistent outputs, making them easier to test and maintain:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// A pure component in Yew
+#[derive(Properties, PartialEq)]
+struct PriceProps {
+    amount: f64,
+    currency: String,
+}
+
+#[function_component(Price)]
+fn price(props: &amp;PriceProps) -&gt; Html {
+    html! {
+        &lt;span class="price"&gt;
+            { format!("{:.2} {}", props.amount, props.currency) }
+        &lt;/span&gt;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="container-and-presentation-components"><a class="header" href="#container-and-presentation-components">Container and Presentation Components</a></h4>
+<p>This pattern separates data fetching and state management (containers) from rendering (presentation):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Container component in Leptos
+#[component]
+fn UserContainer(cx: Scope, user_id: i32) -&gt; impl IntoView {
+    let user_data = create_resource(
+        cx,
+        move || user_id,
+        |id| async move { fetch_user(id).await }
+    );
+
+    view! { cx,
+        &lt;Suspense fallback=move || view! { cx, &lt;p&gt;"Loading..."&lt;/p&gt; }&gt;
+            {move || user_data.read().map(|user| view! { cx, &lt;UserProfile user=user /&gt; })}
+        &lt;/Suspense&gt;
+    }
+}
+
+// Presentation component
+#[component]
+fn UserProfile(cx: Scope, user: User) -&gt; impl IntoView {
+    view! { cx,
+        &lt;div class="profile"&gt;
+            &lt;h2&gt;{&amp;user.name}&lt;/h2&gt;
+            &lt;p&gt;{&amp;user.email}&lt;/p&gt;
+            // More UI elements
+        &lt;/div&gt;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="composition-over-inheritance"><a class="header" href="#composition-over-inheritance">Composition over Inheritance</a></h4>
+<p>Rust doesn’t have inheritance, which encourages better component composition:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Button component in Dioxus
+#[derive(Props, PartialEq)]
+struct ButtonProps {
+    onclick: EventHandler&lt;MouseEvent&gt;,
+    variant: Option&lt;String&gt;,
+    children: Element,
+}
+
+fn Button(cx: Scope&lt;ButtonProps&gt;) -&gt; Element {
+    let variant = cx.props.variant.clone().unwrap_or_else(|| "primary".to_string());
+    let class = format!("btn btn-{}", variant);
+
+    cx.render(rsx! {
+        button {
+            class: "{class}",
+            onclick: move |evt| cx.props.onclick.call(evt),
+            &amp;cx.props.children
+        }
+    })
+}
+
+// Usage
+fn App(cx: Scope) -&gt; Element {
+    cx.render(rsx! {
+        Button {
+            variant: "danger",
+            onclick: move |_| log::info!("Clicked!"),
+            "Delete Item"
+        }
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="state-management-approaches"><a class="header" href="#state-management-approaches">State Management Approaches</a></h2>
+<p>State management is a critical aspect of frontend applications. Rust WebAssembly frameworks offer several approaches:</p>
+<h3 id="local-component-state"><a class="header" href="#local-component-state">Local Component State</a></h3>
+<p>All frameworks provide mechanisms for local component state:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Yew local state
+#[function_component(Counter)]
+fn counter() -&gt; Html {
+    let state = use_state(|| 0);
+
+    let increment = {
+        let state = state.clone();
+        Callback::from(move |_| {
+            state.set(*state + 1);
+        })
+    };
+
+    html! {
+        &lt;div&gt;
+            &lt;p&gt;{ "Count: " }{ *state }&lt;/p&gt;
+            &lt;button onclick={increment}&gt;{ "Increment" }&lt;/button&gt;
+        &lt;/div&gt;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="context-for-shared-state"><a class="header" href="#context-for-shared-state">Context for Shared State</a></h3>
+<p>For state that needs to be shared across components, context APIs are available:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Leptos context example
+#[component]
+fn App(cx: Scope) -&gt; impl IntoView {
+    let theme = create_rw_signal(cx, "light");
+
+    provide_context(cx, theme);
+
+    view! { cx,
+        &lt;div class=move || format!("theme-{}", theme.get())&gt;
+            &lt;Header /&gt;
+            &lt;Main /&gt;
+            &lt;Footer /&gt;
+        &lt;/div&gt;
+    }
+}
+
+#[component]
+fn ThemeSwitcher(cx: Scope) -&gt; impl IntoView {
+    let theme = use_context::&lt;RwSignal&lt;&amp;str&gt;&gt;(cx).expect("theme context not found");
+
+    let toggle_theme = move |_| {
+        theme.update(|t| *t = if *t == "light" { "dark" } else { "light" });
+    };
+
+    view! { cx,
+        &lt;button on:click=toggle_theme&gt;
+            {move || format!("Switch to {} mode", if theme.get() == "light" { "dark" } else { "light" })}
+        &lt;/button&gt;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="global-state-management"><a class="header" href="#global-state-management">Global State Management</a></h3>
+<p>For more complex applications, dedicated state management solutions exist:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Yew global state with yewdux
+use yew::prelude::*;
+use yewdux::prelude::*;
+
+#[derive(Default, Clone, PartialEq, Eq, Store)]
+struct AppState {
+    count: i32,
+    user: Option&lt;String&gt;,
+}
+
+#[function_component(Counter)]
+fn counter() -&gt; Html {
+    let (state, dispatch) = use_store::&lt;AppState&gt;();
+
+    let increment = dispatch.reduce_callback(|state| {
+        state.count += 1;
+    });
+
+    html! {
+        &lt;div&gt;
+            &lt;p&gt;{ "Count: " }{ state.count }&lt;/p&gt;
+            &lt;button onclick={increment}&gt;{ "Increment" }&lt;/button&gt;
+        &lt;/div&gt;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="architectural-considerations"><a class="header" href="#architectural-considerations">Architectural Considerations</a></h3>
+<p>When choosing a state management approach, consider:</p>
+<ol>
+<li><strong>Complexity</strong>: Use the simplest approach that meets your needs</li>
+<li><strong>Performance</strong>: Global state can impact performance if not carefully designed</li>
+<li><strong>Data flow</strong>: Unidirectional data flow makes applications easier to reason about</li>
+<li><strong>Immutability</strong>: Prefer immutable updates for predictable behavior</li>
+<li><strong>Serialization</strong>: Consider if state needs to be saved/restored</li>
+</ol>
+<h2 id="interoperability-with-javascript"><a class="header" href="#interoperability-with-javascript">Interoperability with JavaScript</a></h2>
+<p>One of the greatest strengths of Rust WebAssembly is its ability to interoperate with existing JavaScript code and libraries.</p>
+<h3 id="calling-javascript-from-rust"><a class="header" href="#calling-javascript-from-rust">Calling JavaScript from Rust</a></h3>
+<p>Using <code>wasm-bindgen</code>, you can call JavaScript functions from Rust:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern "C" {
+    // Import individual functions
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &amp;str);
+
+    // Import a JavaScript class
+    type Date;
+
+    #[wasm_bindgen(constructor)]
+    fn new() -&gt; Date;
+
+    #[wasm_bindgen(method, js_name = toISOString)]
+    fn to_iso_string(this: &amp;Date) -&gt; String;
+}
+
+#[wasm_bindgen]
+pub fn log_current_date() {
+    let date = Date::new();
+    let date_string = date.to_iso_string();
+    log(&amp;format!("Current date: {}", date_string));
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="calling-rust-from-javascript"><a class="header" href="#calling-rust-from-javascript">Calling Rust from JavaScript</a></h3>
+<p>Conversely, JavaScript can call functions exposed from Rust:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub fn fibonacci(n: u32) -&gt; u32 {
+    match n {
+        0 =&gt; 0,
+        1 =&gt; 1,
+        _ =&gt; fibonacci(n - 1) + fibonacci(n - 2)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>In JavaScript:</p>
+<pre><code class="language-javascript">import { fibonacci } from "./pkg/my_wasm_lib.js";
+
+console.log(fibonacci(10)); // 55
+</code></pre>
+<h3 id="working-with-complex-data-types"><a class="header" href="#working-with-complex-data-types">Working with Complex Data Types</a></h3>
+<p>For complex data types, <code>serde</code> combined with <code>wasm-bindgen</code> enables seamless serialization:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use serde::{Serialize, Deserialize};
+use wasm_bindgen::prelude::*;
+
+#[derive(Serialize, Deserialize)]
+pub struct User {
+    id: u32,
+    name: String,
+    email: String,
+}
+
+#[wasm_bindgen]
+pub fn process_user(js_user: JsValue) -&gt; Result&lt;JsValue, JsValue&gt; {
+    // Convert JsValue to Rust struct
+    let user: User = serde_wasm_bindgen::from_value(js_user)?;
+
+    // Process the user...
+    let processed_user = User {
+        id: user.id,
+        name: user.name.to_uppercase(),
+        email: user.email,
+    };
+
+    // Convert back to JsValue
+    Ok(serde_wasm_bindgen::to_value(&amp;processed_user)?)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>In JavaScript:</p>
+<pre><code class="language-javascript">import { process_user } from "./pkg/my_wasm_lib.js";
+
+const user = {
+  id: 1,
+  name: "Alice",
+  email: "alice@example.com",
+};
+
+const processed = process_user(user);
+console.log(processed); // { id: 1, name: 'ALICE', email: 'alice@example.com' }
+</code></pre>
+<h3 id="using-javascript-libraries-from-rust"><a class="header" href="#using-javascript-libraries-from-rust">Using JavaScript Libraries from Rust</a></h3>
+<p>For complex JavaScript libraries, you might want to create proper typings:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern "C" {
+    #[derive(Debug)]
+    type Chart;
+
+    #[wasm_bindgen(constructor)]
+    fn new(canvas_id: &amp;str, config: &amp;JsValue) -&gt; Chart;
+
+    #[wasm_bindgen(method)]
+    fn update(this: &amp;Chart);
+
+    #[wasm_bindgen(method)]
+    fn destroy(this: &amp;Chart);
+}
+
+#[wasm_bindgen]
+pub fn create_chart() -&gt; Result&lt;(), JsValue&gt; {
+    let config = js_sys::Object::new();
+    let data = js_sys::Array::new();
+
+    // Configure chart...
+    js_sys::Reflect::set(&amp;config, &amp;"type".into(), &amp;"bar".into())?;
+    js_sys::Reflect::set(&amp;config, &amp;"data".into(), &amp;data)?;
+
+    let chart = Chart::new("myChart", &amp;config);
+
+    // Store chart reference for later use...
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="working-with-the-dom-and-web-apis"><a class="header" href="#working-with-the-dom-and-web-apis">Working with the DOM and Web APIs</a></h2>
+<p>Interacting with the DOM and other Web APIs is a common task in web development. While Rust frameworks abstract much of this away, understanding the low-level details is valuable.</p>
+<h3 id="direct-dom-manipulation"><a class="header" href="#direct-dom-manipulation">Direct DOM Manipulation</a></h3>
+<p>Using <code>web-sys</code>, you can manipulate the DOM directly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use web_sys::{Document, Element, HtmlElement, Window};
+
+#[wasm_bindgen]
+pub fn update_counter_display(count: u32) -&gt; Result&lt;(), JsValue&gt; {
+    let window = web_sys::window().expect("no global window exists");
+    let document = window.document().expect("no document on window");
+
+    match document.get_element_by_id("counter") {
+        Some(element) =&gt; {
+            element.set_text_content(Some(&amp;count.to_string()));
+            Ok(())
+        },
+        None =&gt; {
+            let counter = document.create_element("div")?;
+            counter.set_id("counter");
+            counter.set_text_content(Some(&amp;count.to_string()));
+
+            let body = document.body().expect("document should have a body");
+            body.append_child(&amp;counter)?;
+            Ok(())
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="event-handling"><a class="header" href="#event-handling">Event Handling</a></h3>
+<p>Handling DOM events with <code>web-sys</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use wasm_bindgen::JsCast;
+use web_sys::{EventTarget, HtmlInputElement};
+
+#[wasm_bindgen]
+pub fn setup_form() -&gt; Result&lt;(), JsValue&gt; {
+    let window = web_sys::window().expect("no global window exists");
+    let document = window.document().expect("no document on window");
+
+    let input = document.get_element_by_id("name-input")
+        .expect("should have input element")
+        .dyn_into::&lt;HtmlInputElement&gt;()?;
+
+    let output_div = document.get_element_by_id("output")
+        .expect("should have output element");
+
+    // Clone for closure
+    let input_clone = input.clone();
+    let output_clone = output_div.clone();
+
+    // Create closure
+    let closure = Closure::wrap(Box::new(move |_event: web_sys::Event| {
+        let value = input_clone.value();
+        output_clone.set_text_content(Some(&amp;format!("Hello, {}!", value)));
+    }) as Box&lt;dyn FnMut(_)&gt;);
+
+    // Set the event listener
+    input.set_oninput(Some(closure.as_ref().unchecked_ref()));
+
+    // Forget the closure to keep it alive
+    // This leaks memory if not managed properly!
+    closure.forget();
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="working-with-fetch-and-promises"><a class="header" href="#working-with-fetch-and-promises">Working with Fetch and Promises</a></h3>
+<p>For asynchronous operations like network requests, you can use <code>wasm-bindgen-futures</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use wasm_bindgen_futures::JsFuture;
+use web_sys::{Request, RequestInit, RequestMode, Response};
+
+#[wasm_bindgen]
+pub async fn fetch_data(url: String) -&gt; Result&lt;JsValue, JsValue&gt; {
+    let mut opts = RequestInit::new();
+    opts.method("GET");
+    opts.mode(RequestMode::Cors);
+
+    let request = Request::new_with_str_and_init(&amp;url, &amp;opts)?;
+
+    let window = web_sys::window().unwrap();
+    let resp_value = JsFuture::from(window.fetch_with_request(&amp;request)).await?;
+    let resp: Response = resp_value.dyn_into()?;
+
+    // Read response as JSON
+    let json = JsFuture::from(resp.json()?).await?;
+
+    Ok(json)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-webgl-and-canvas"><a class="header" href="#using-webgl-and-canvas">Using WebGL and Canvas</a></h3>
+<p>For graphics-intensive applications, WebGL provides hardware-accelerated rendering:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use web_sys::{HtmlCanvasElement, WebGlRenderingContext};
+
+#[wasm_bindgen]
+pub fn setup_webgl() -&gt; Result&lt;(), JsValue&gt; {
+    let window = web_sys::window().expect("no global window exists");
+    let document = window.document().expect("no document on window");
+
+    let canvas = document.get_element_by_id("canvas")
+        .expect("should have canvas element")
+        .dyn_into::&lt;HtmlCanvasElement&gt;()?;
+
+    let context = canvas
+        .get_context("webgl")?
+        .expect("browser should support webgl")
+        .dyn_into::&lt;WebGlRenderingContext&gt;()?;
+
+    // Set up WebGL rendering
+    context.clear_color(0.0, 0.0, 0.0, 1.0);
+    context.clear(WebGlRenderingContext::COLOR_BUFFER_BIT);
+
+    // More WebGL setup...
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>These examples demonstrate the power and flexibility of using Rust with WebAssembly for web development. In the next part of this chapter, we’ll explore more advanced topics including performance optimization, server-side rendering, and building production-ready applications.</p>
+<h2 id="performance-optimization-for-wasm-applications"><a class="header" href="#performance-optimization-for-wasm-applications">Performance Optimization for WASM Applications</a></h2>
+<p>One of the primary reasons to use Rust with WebAssembly is performance. However, achieving optimal performance requires careful consideration and specific optimization techniques.</p>
+<h3 id="binary-size-optimization"><a class="header" href="#binary-size-optimization">Binary Size Optimization</a></h3>
+<p>WebAssembly binaries need to be downloaded by the browser, so keeping them small is crucial:</p>
+<ol>
+<li>
+<p><strong>Use the release profile</strong>:</p>
+<pre><code class="language-toml">[profile.release]
+opt-level = 3        # Maximum optimization
+lto = true           # Link-time optimization
+codegen-units = 1    # Maximize optimizations
+panic = 'abort'      # Remove panic unwinding code
+strip = true         # Strip symbols from binary
+</code></pre>
+</li>
+<li>
+<p><strong>Tree shaking with wasm-bindgen</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Only export what's necessary
+#[wasm_bindgen]
+pub fn exposed_function() { /* ... */ }
+
+// Internal function not exported to JS
+fn internal_function() { /* ... */ }
+<span class="boring">}</span></code></pre></pre>
+</li>
+<li>
+<p><strong>Use wasm-opt</strong>:</p>
+<pre><code class="language-bash">wasm-opt -Oz -o output.wasm input.wasm
+</code></pre>
+</li>
+<li>
+<p><strong>Code splitting</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Feature flags to include only what's needed
+#[cfg(feature = "advanced")]
+pub fn advanced_functionality() { /* ... */ }
+<span class="boring">}</span></code></pre></pre>
+</li>
+</ol>
+<h3 id="computational-performance"><a class="header" href="#computational-performance">Computational Performance</a></h3>
+<p>For computation-heavy tasks, optimizing the core algorithms is essential:</p>
+<ol>
+<li>
+<p><strong>Minimize allocations</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Reuse buffers instead of allocating new ones
+pub struct ImageProcessor {
+    buffer: Vec&lt;u8&gt;,
+    width: usize,
+    height: usize,
+}
+
+impl ImageProcessor {
+    pub fn process(&amp;mut self, input: &amp;[u8]) {
+        // Reuse existing buffer if possible
+        if self.buffer.len() &lt; input.len() {
+            self.buffer.resize(input.len(), 0);
+        }
+
+        // Process input into buffer
+        for (i, pixel) in input.chunks(4).enumerate() {
+            // Process pixels...
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+</li>
+<li>
+<p><strong>Use SIMD when available</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(target_feature = "simd128")]
+pub fn sum_f32_simd(values: &amp;[f32]) -&gt; f32 {
+    use wasm_bindgen::JsValue;
+    use std::arch::wasm32::*;
+
+    let mut sum = f32x4_splat(0.0);
+    let chunks = values.chunks_exact(4);
+    let remainder = chunks.remainder();
+
+    for chunk in chunks {
+        let v = unsafe { f32x4_load(chunk.as_ptr() as *const f32) };
+        sum = f32x4_add(sum, v);
+    }
+
+    let mut result = f32x4_extract_lane::&lt;0&gt;(sum) +
+                     f32x4_extract_lane::&lt;1&gt;(sum) +
+                     f32x4_extract_lane::&lt;2&gt;(sum) +
+                     f32x4_extract_lane::&lt;3&gt;(sum);
+
+    for &amp;val in remainder {
+        result += val;
+    }
+
+    result
+}
+<span class="boring">}</span></code></pre></pre>
+</li>
+<li>
+<p><strong>Minimize JS/Rust boundary crossings</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Inefficient: Many boundary crossings
+#[wasm_bindgen]
+pub fn process_items_inefficient(items: &amp;[JsValue]) -&gt; Vec&lt;JsValue&gt; {
+    items.iter().map(|item| {
+        // Each iteration crosses the boundary
+        process_single_item(item)
+    }).collect()
+}
+
+// Efficient: Single boundary crossing
+#[wasm_bindgen]
+pub fn process_items_efficient(items: &amp;[JsValue]) -&gt; Vec&lt;JsValue&gt; {
+    // Process everything in Rust, then return
+    let mut results = Vec::with_capacity(items.len());
+    for item in items {
+        let processed = process_single_item_internal(item);
+        results.push(processed);
+    }
+    results
+}
+<span class="boring">}</span></code></pre></pre>
+</li>
+</ol>
+<h3 id="memory-management-optimization"><a class="header" href="#memory-management-optimization">Memory Management Optimization</a></h3>
+<p>Efficient memory management is critical for WebAssembly performance:</p>
+<ol>
+<li>
+<p><strong>Reuse memory</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct BufferPool {
+    buffers: Vec&lt;Vec&lt;u8&gt;&gt;,
+}
+
+impl BufferPool {
+    pub fn get_buffer(&amp;mut self, size: usize) -&gt; Vec&lt;u8&gt; {
+        // Find a buffer of appropriate size or create a new one
+        match self.buffers.iter().position(|buf| buf.capacity() &gt;= size) {
+            Some(idx) =&gt; self.buffers.swap_remove(idx),
+            None =&gt; Vec::with_capacity(size),
+        }
+    }
+
+    pub fn return_buffer(&amp;mut self, buffer: Vec&lt;u8&gt;) {
+        self.buffers.push(buffer);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+</li>
+<li>
+<p><strong>Optimize memory layout</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Cache-friendly layout: Group data accessed together
+#[repr(C)]
+struct Particle {
+    // Position and velocity are often accessed together
+    position_x: f32,
+    position_y: f32,
+    velocity_x: f32,
+    velocity_y: f32,
+    // Other properties...
+}
+
+// Array of Structs vs Struct of Arrays
+struct ParticleSystem {
+    // Array of Structs (AoS)
+    particles: Vec&lt;Particle&gt;,
+
+    // Struct of Arrays (SoA) - can be more efficient for SIMD
+    // positions_x: Vec&lt;f32&gt;,
+    // positions_y: Vec&lt;f32&gt;,
+    // velocities_x: Vec&lt;f32&gt;,
+    // velocities_y: Vec&lt;f32&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+</li>
+<li>
+<p><strong>Custom allocators</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use std::alloc::{GlobalAlloc, Layout};
+
+struct WebAssemblyAllocator;
+
+unsafe impl GlobalAlloc for WebAssemblyAllocator {
+    unsafe fn alloc(&amp;self, layout: Layout) -&gt; *mut u8 {
+        // Custom allocation strategy for WebAssembly
+        // ...
+    }
+
+    unsafe fn dealloc(&amp;self, ptr: *mut u8, layout: Layout) {
+        // Custom deallocation
+        // ...
+    }
+}
+
+#[global_allocator]
+static ALLOCATOR: WebAssemblyAllocator = WebAssemblyAllocator;
+<span class="boring">}</span></code></pre></pre>
+</li>
+</ol>
+<h3 id="loading-and-initialization-optimization"><a class="header" href="#loading-and-initialization-optimization">Loading and Initialization Optimization</a></h3>
+<p>Fast startup time is crucial for web applications:</p>
+<ol>
+<li>
+<p><strong>Lazy loading</strong>:</p>
+<pre><code class="language-javascript">// In JavaScript
+async function loadWasmModule() {
+  if (window.wasmModule) return window.wasmModule;
+
+  // Load only when needed
+  const module = await import("./pkg/my_wasm_lib.js");
+  await module.default();
+  window.wasmModule = module;
+  return module;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Streaming compilation</strong>:</p>
+<pre><code class="language-javascript">// In JavaScript
+async function loadWasm() {
+  // Compile while downloading
+  const { instance } = await WebAssembly.instantiateStreaming(
+    fetch("my_module.wasm"),
+    importObject
+  );
+  return instance.exports;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Progressive enhancement</strong>:</p>
+<pre><code class="language-html">&lt;!-- In HTML --&gt;
+&lt;div id="app"&gt;
+  &lt;!-- Initial server-rendered content --&gt;
+  &lt;div class="loading"&gt;Loading advanced features...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type="module"&gt;
+  // Load Rust WASM module for enhanced functionality
+  import { initialize } from "./pkg/my_wasm_lib.js";
+  initialize().then(() =&gt; {
+    document.querySelector(".loading").remove();
+    // Enable advanced features...
+  });
+&lt;/script&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="profiling-and-benchmarking"><a class="header" href="#profiling-and-benchmarking">Profiling and Benchmarking</a></h3>
+<p>Effective optimization requires measurement:</p>
+<ol>
+<li>
+<p><strong>Browser performance tools</strong>:</p>
+<ul>
+<li>Use Chrome DevTools Performance panel</li>
+<li>Use Firefox Profiler</li>
+<li>Analyze WebAssembly code with browser tools</li>
+</ul>
+</li>
+<li>
+<p><strong>Custom performance measurement</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use web_sys::Performance;
+
+#[wasm_bindgen]
+pub fn benchmark_function() -&gt; f64 {
+    let window = web_sys::window().expect("should have window");
+    let performance = window.performance().expect("should have performance");
+
+    let start = performance.now();
+
+    // Code to benchmark
+    for _ in 0..1000 {
+        expensive_operation();
+    }
+
+    let end = performance.now();
+    end - start
+}
+<span class="boring">}</span></code></pre></pre>
+</li>
+<li>
+<p><strong>Memory profiling</strong>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub fn memory_usage() -&gt; JsValue {
+    let mut usage = std::collections::HashMap::new();
+
+    // Get memory statistics
+    // This is simplified; actual implementation would require
+    // custom instrumentation
+    usage.insert("heap_size", js_sys::global().total_js_heap_size());
+    usage.insert("used_heap", js_sys::global().used_js_heap_size());
+
+    serde_wasm_bindgen::to_value(&amp;usage).unwrap()
+}
+<span class="boring">}</span></code></pre></pre>
+</li>
+</ol>
+<p>By applying these optimization techniques, you can ensure your Rust WebAssembly applications are both fast to load and execute efficiently once running.</p>
+<h2 id="building-and-bundling-wasm-applications"><a class="header" href="#building-and-bundling-wasm-applications">Building and Bundling WASM Applications</a></h2>
+<p>To deploy a production-ready WebAssembly application, you need proper building and bundling strategies.</p>
+<h3 id="using-wasm-pack"><a class="header" href="#using-wasm-pack">Using wasm-pack</a></h3>
+<p><a href="https://rustwasm.github.io/wasm-pack/">wasm-pack</a> is the standard tool for building Rust WebAssembly packages:</p>
+<pre><code class="language-bash"># Basic build
+wasm-pack build
+
+# Target different environments
+wasm-pack build --target web       # For direct use in browsers
+wasm-pack build --target bundler   # For bundlers like webpack
+wasm-pack build --target nodejs    # For Node.js
+wasm-pack build --target no-modules # For script tags
+
+# Include debug symbols for development
+wasm-pack build --dev
+</code></pre>
+<h3 id="integration-with-javascript-bundlers"><a class="header" href="#integration-with-javascript-bundlers">Integration with JavaScript Bundlers</a></h3>
+<p>Most projects use bundlers like webpack, Rollup, or Vite to manage dependencies:</p>
+<h4 id="webpack-configuration"><a class="header" href="#webpack-configuration">Webpack Configuration:</a></h4>
+<pre><code class="language-javascript">// webpack.config.js
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
+
+module.exports = {
+  entry: "./js/index.js",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "index.html",
+    }),
+    new WasmPackPlugin({
+      crateDirectory: path.resolve(__dirname, "."),
+    }),
+  ],
+  experiments: {
+    asyncWebAssembly: true,
+  },
+};
+</code></pre>
+<h4 id="vite-configuration"><a class="header" href="#vite-configuration">Vite Configuration:</a></h4>
+<pre><code class="language-javascript">// vite.config.js
+import { defineConfig } from "vite";
+import wasm from "vite-plugin-wasm";
+import topLevelAwait from "vite-plugin-top-level-await";
+
+export default defineConfig({
+  plugins: [wasm(), topLevelAwait()],
+  build: {
+    target: "esnext",
+  },
+});
+</code></pre>
+<h3 id="optimized-production-builds"><a class="header" href="#optimized-production-builds">Optimized Production Builds</a></h3>
+<p>For production, additional optimizations are recommended:</p>
+<pre><code class="language-bash"># Build with optimizations
+wasm-pack build --release -- --features production
+
+# Further optimize with wasm-opt
+wasm-opt -Oz -o optimized.wasm pkg/my_crate_bg.wasm
+</code></pre>
+<h3 id="serving-webassembly-files"><a class="header" href="#serving-webassembly-files">Serving WebAssembly Files</a></h3>
+<p>WebAssembly files need proper MIME types when served:</p>
+<pre><code class="language-nginx"># Nginx configuration
+server {
+    # ...
+    location ~ \.wasm$ {
+        types { application/wasm wasm; }
+    }
+}
+</code></pre>
+<h3 id="code-splitting-and-lazy-loading"><a class="header" href="#code-splitting-and-lazy-loading">Code Splitting and Lazy Loading</a></h3>
+<p>For larger applications, consider code splitting:</p>
+<pre><code class="language-javascript">// In JavaScript
+async function loadFeature() {
+  // Only load the feature when needed
+  const feature = await import("./features/advanced.js");
+  const wasmModule = await feature.initWasm();
+  return wasmModule;
+}
+
+// Use when required
+button.addEventListener("click", async () =&gt; {
+  const module = await loadFeature();
+  module.runAdvancedFeature();
+});
+</code></pre>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>WebAssembly and Rust together create a powerful platform for building high-performance web applications. The combination of Rust’s safety guarantees and WebAssembly’s near-native performance opens up new possibilities for web development.</p>
+<p>In this chapter, we’ve explored the fundamentals of WebAssembly from a Rust developer’s perspective, examined modern frontend frameworks like Yew, Leptos, and Dioxus, and covered essential topics like state management, JavaScript interoperability, and performance optimization.</p>
+<p>As the WebAssembly ecosystem continues to evolve, Rust remains at the forefront, with excellent tooling and framework support. By mastering the techniques covered in this chapter, you’re well-equipped to build sophisticated, performant web applications using Rust and WebAssembly.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p>Create a simple counter application using each of the three frameworks (Yew, Leptos, and Dioxus) and compare their code organization and performance.</p>
+</li>
+<li>
+<p>Build a web application that performs image processing (like grayscale conversion or blur effects) using Rust WebAssembly for the computationally intensive parts.</p>
+</li>
+<li>
+<p>Create a reusable component library with one of the frameworks, complete with proper documentation and examples.</p>
+</li>
+<li>
+<p>Implement a hybrid application that uses both Rust/WASM and JavaScript, leveraging the strengths of each technology.</p>
+</li>
+<li>
+<p>Profile a WebAssembly application and identify performance bottlenecks, then optimize them using the techniques covered in this chapter.</p>
+</li>
+<li>
+<p>Build a WebAssembly module that can be dynamically loaded and unloaded to implement a plugin system for a web application.</p>
+</li>
+<li>
+<p>Create a server-rendered application with hydration using Leptos or a similar framework that supports this pattern.</p>
+</li>
+<li>
+<p>Implement a custom allocator optimized for a specific WebAssembly use case, and benchmark it against the default allocator.</p>
+</li>
+</ol>
+<h2 id="project-interactive-web-application"><a class="header" href="#project-interactive-web-application">Project: Interactive Web Application</a></h2>
+<p>Let’s put everything together by building a feature-rich single-page application using Rust and WebAssembly. We’ll create a task management application with the following features:</p>
+<ul>
+<li>Task creation, editing, and deletion</li>
+<li>Task categorization and filtering</li>
+<li>Data persistence using localStorage</li>
+<li>Drag-and-drop for task reordering</li>
+<li>Performance optimizations for large task lists</li>
+</ul>
+<p>This project will demonstrate how to build a complete, production-ready web application using Rust and WebAssembly, incorporating the concepts covered in this chapter.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/48-data-processing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/50-advanced-memory.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/48-data-processing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/50-advanced-memory.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

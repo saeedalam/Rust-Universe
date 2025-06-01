@@ -1,0 +1,2415 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Result, Option, and Recoverable Errors - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/20-result-option.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-20-result-option-and-recoverable-errors"><a class="header" href="#chapter-20-result-option-and-recoverable-errors">Chapter 20: Result, Option, and Recoverable Errors</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In the previous chapter, we explored Rust’s panic mechanism for handling unrecoverable errors—situations where continuing execution would be unsafe or impossible. However, many error situations in real-world applications are recoverable. A file might not exist yet, a network connection might time out, or user input might be malformed. These are not programming errors but expected conditions that your program should handle gracefully.</p>
+<p>Rust’s approach to recoverable error handling centers around two core types: <code>Result&lt;T, E&gt;</code> and <code>Option&lt;T&gt;</code>. These types give you explicit, type-checked ways to handle errors and missing values without resorting to exceptions, null pointers, or other error-prone mechanisms found in many languages.</p>
+<p>By the end of this chapter, you’ll understand how to effectively use <code>Result</code> and <code>Option</code> to build robust, reliable software that gracefully handles failure conditions. You’ll learn powerful patterns for error propagation, transformation, and aggregation, and you’ll see how Rust’s error handling encourages you to think about and address potential failure modes upfront.</p>
+<h2 id="error-handling-patterns"><a class="header" href="#error-handling-patterns">Error Handling Patterns</a></h2>
+<p>Before diving into the specifics of <code>Result</code> and <code>Option</code>, let’s explore some common error handling patterns and philosophies that guide idiomatic Rust code.</p>
+<h3 id="types-of-errors"><a class="header" href="#types-of-errors">Types of Errors</a></h3>
+<p>In Rust, we typically categorize errors into several types:</p>
+<ol>
+<li><strong>Input Validation Errors</strong>: Errors that occur when user input doesn’t meet expected criteria.</li>
+<li><strong>Resource Access Errors</strong>: Errors when accessing files, networks, or other resources.</li>
+<li><strong>Business Logic Errors</strong>: Errors specific to your application’s domain.</li>
+<li><strong>Operational Errors</strong>: Errors from the environment, like out-of-memory conditions.</li>
+<li><strong>Programming Errors</strong>: Bugs in your code that should be fixed (often handled with panics).</li>
+</ol>
+<p>Each type might warrant different handling strategies, but all can be represented with Rust’s error types.</p>
+<h3 id="error-handling-strategies"><a class="header" href="#error-handling-strategies">Error Handling Strategies</a></h3>
+<p>Rust programs typically employ several strategies for handling errors:</p>
+<ol>
+<li><strong>Propagate</strong>: Pass the error up the call stack for the caller to handle.</li>
+<li><strong>Retry</strong>: Attempt the operation again, possibly with a delay or modified parameters.</li>
+<li><strong>Provide a Default</strong>: Continue with a reasonable default value when an operation fails.</li>
+<li><strong>Partial Success</strong>: Return what was accomplished before the error occurred.</li>
+<li><strong>Log and Continue</strong>: Record the error for later analysis but continue execution.</li>
+<li><strong>Transform</strong>: Convert one error type to another that’s more appropriate for your API.</li>
+</ol>
+<p>The strategy you choose depends on the specific requirements of your application and the nature of the error.</p>
+<h3 id="design-principles-for-error-handling"><a class="header" href="#design-principles-for-error-handling">Design Principles for Error Handling</a></h3>
+<p>When designing error handling in Rust, consider these principles:</p>
+<ol>
+<li><strong>Be Explicit</strong>: Make error cases visible in function signatures.</li>
+<li><strong>Provide Context</strong>: Include enough information to understand and potentially fix the error.</li>
+<li><strong>Layer Appropriately</strong>: Low-level libraries should return specific errors; high-level applications can provide more context.</li>
+<li><strong>Match the Audience</strong>: Design errors with the consumer of your API in mind.</li>
+<li><strong>Preserve Details</strong>: Don’t discard potentially useful error information.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Good: Explicit error type with context
+fn read_config(path: &amp;str) -&gt; Result&lt;Config, ConfigError&gt; {
+    let content = std::fs::read_to_string(path)
+        .map_err(|e| ConfigError::IoError { source: e, path: path.to_string() })?;
+
+    parse_config(&amp;content)
+        .map_err(|e| ConfigError::ParseError { source: e, content: content.clone() })
+}
+
+// Less good: Generic error type with less context
+fn read_config_simple(path: &amp;str) -&gt; Result&lt;Config, Box&lt;dyn std::error::Error&gt;&gt; {
+    let content = std::fs::read_to_string(path)?;
+    Ok(parse_config(&amp;content)?)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="error-handling-vs-exception-handling"><a class="header" href="#error-handling-vs-exception-handling">Error Handling vs. Exception Handling</a></h3>
+<p>If you’re coming from languages with exceptions, Rust’s approach might feel different. Key differences include:</p>
+<ol>
+<li><strong>Explicit vs. Implicit</strong>: Rust errors are part of function signatures, not hidden control flow.</li>
+<li><strong>Value-Based vs. Control-Flow</strong>: Errors are regular values to be processed, not special execution paths.</li>
+<li><strong>Compile-Time vs. Runtime</strong>: Rust checks error handling at compile time, not runtime.</li>
+<li><strong>Granular Control</strong>: You decide exactly how to handle each error, with no automatic unwinding.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// In a language with exceptions:
+try {
+    let config = readConfig("config.json");
+    processConfig(config);
+} catch (IOException e) {
+    logError("IO error: " + e.getMessage());
+} catch (ParseException e) {
+    logError("Parse error: " + e.getMessage());
+}
+
+// In Rust:
+match read_config("config.json") {
+    Ok(config) =&gt; process_config(config),
+    Err(ConfigError::IoError { source, path }) =&gt; {
+        log_error(&amp;format!("IO error for {}: {}", path, source));
+    },
+    Err(ConfigError::ParseError { source, content }) =&gt; {
+        log_error(&amp;format!("Parse error: {}\nContent: {}", source, content));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This explicit approach might be more verbose in simple cases but scales better to complex applications and leads to more reliable, maintainable code.</p>
+<h2 id="working-with-resultt-e"><a class="header" href="#working-with-resultt-e">Working with Result&lt;T, E&gt;</a></h2>
+<p>The <code>Result&lt;T, E&gt;</code> type is Rust’s primary mechanism for handling operations that can fail. It’s an enum with two variants:</p>
+<ul>
+<li><code>Ok(T)</code>: Contains the successful result of type <code>T</code></li>
+<li><code>Err(E)</code>: Contains the error of type <code>E</code></li>
+</ul>
+<h3 id="basic-usage"><a class="header" href="#basic-usage">Basic Usage</a></h3>
+<p>Here’s a simple example of returning and handling a <code>Result</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use std::fs::File;
+use std::io::{self, Read};
+
+fn read_file_contents(path: &amp;str) -&gt; Result&lt;String, io::Error&gt; {
+    let mut file = File::open(path)?;
+    let mut contents = String::new();
+    file.read_to_string(&amp;mut contents)?;
+    Ok(contents)
+}
+
+fn main() {
+    match read_file_contents("config.txt") {
+        Ok(contents) =&gt; println!("File contents: {}", contents),
+        Err(error) =&gt; println!("Error reading file: {}", error),
+    }
+}</code></pre></pre>
+<h3 id="pattern-matching-on-result"><a class="header" href="#pattern-matching-on-result">Pattern Matching on Result</a></h3>
+<p>The <code>match</code> expression provides complete control over handling both success and error cases:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_file(path: &amp;str) {
+    match read_file_contents(path) {
+        Ok(contents) if contents.is_empty() =&gt; {
+            println!("File is empty");
+        }
+        Ok(contents) =&gt; {
+            println!("File has {} bytes of content", contents.len());
+        }
+        Err(error) if error.kind() == io::ErrorKind::NotFound =&gt; {
+            println!("File not found: {}", path);
+        }
+        Err(error) =&gt; {
+            println!("Error reading file: {}", error);
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="working-with-multiple-results"><a class="header" href="#working-with-multiple-results">Working with Multiple Results</a></h3>
+<p>When you have multiple operations that return <code>Result</code>, you can handle them in several ways:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_multiple_files() -&gt; Result&lt;(), io::Error&gt; {
+    // Using ? to propagate errors
+    let config = read_file_contents("config.txt")?;
+    let data = read_file_contents("data.txt")?;
+
+    println!("Successfully read both files");
+    println!("Config: {}", config);
+    println!("Data: {}", data);
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For independent operations where you want to collect all errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_files(paths: &amp;[&amp;str]) -&gt; Vec&lt;Result&lt;String, io::Error&gt;&gt; {
+    paths.iter()
+         .map(|&amp;path| read_file_contents(path))
+         .collect()
+}
+
+// Or collect successful results only
+fn read_all_files(paths: &amp;[&amp;str]) -&gt; Result&lt;Vec&lt;String&gt;, io::Error&gt; {
+    paths.iter()
+         .map(|&amp;path| read_file_contents(path))
+         .collect() // This works because Result implements FromIterator!
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="useful-result-methods"><a class="header" href="#useful-result-methods">Useful Result Methods</a></h3>
+<p>The <code>Result</code> type provides many useful methods for handling different scenarios:</p>
+<h4 id="transforming-results"><a class="header" href="#transforming-results">Transforming Results</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Transform the success value
+let line_count = read_file_contents("data.txt")
+    .map(|content| content.lines().count());
+
+// Transform the error
+let result = read_file_contents("data.txt")
+    .map_err(|err| format!("Failed to read data.txt: {}", err));
+<span class="boring">}</span></code></pre></pre>
+<h4 id="early-returns"><a class="header" href="#early-returns">Early Returns</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Return early with a default value if there's an error
+let content = read_file_contents("config.txt").unwrap_or_else(|_| String::from("default=value"));
+
+// Return early with a computed value if there's an error
+let content = read_file_contents("config.txt").unwrap_or_else(|err| {
+    eprintln!("Warning: couldn't read config: {}", err);
+    String::from("default=value")
+});
+<span class="boring">}</span></code></pre></pre>
+<h4 id="combining-results"><a class="header" href="#combining-results">Combining Results</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// and_then (flatMap in some languages) for chaining operations that return Result
+fn process_content(content: String) -&gt; Result&lt;i32, String&gt; {
+    // Process the content...
+    Ok(42)
+}
+
+let result = read_file_contents("data.txt")
+    .map_err(|e| e.to_string()) // Convert io::Error to String
+    .and_then(process_content);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="other-useful-methods"><a class="header" href="#other-useful-methods">Other Useful Methods</a></h4>
+<ul>
+<li><code>is_ok()</code> and <code>is_err()</code>: Check if a Result is Ok or Err</li>
+<li><code>ok()</code>: Convert a Result&lt;T, E&gt; to Option<T>, discarding the error</li>
+<li><code>err()</code>: Convert a Result&lt;T, E&gt; to Option<E>, discarding the success value</li>
+<li><code>unwrap_or()</code>: Extract the value or use a default</li>
+<li><code>expect()</code>: Extract the value or panic with a custom message</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>if result.is_ok() {
+    println!("Operation succeeded");
+}
+
+// Get the success value as an Option (None if it was an Err)
+let success_value: Option&lt;String&gt; = result.ok();
+
+// Provide a default value if it's an error
+let content = result.unwrap_or(String::from("default content"));
+<span class="boring">}</span></code></pre></pre>
+<h2 id="working-with-option"><a class="header" href="#working-with-option">Working with Option<T></a></h2>
+<p>The <code>Option&lt;T&gt;</code> type represents a value that might be absent. It’s an enum with two variants:</p>
+<ul>
+<li><code>Some(T)</code>: Contains a value of type <code>T</code></li>
+<li><code>None</code>: Represents the absence of a value</li>
+</ul>
+<h3 id="when-to-use-option"><a class="header" href="#when-to-use-option">When to Use Option</a></h3>
+<p><code>Option</code> is ideal for situations where a value might not exist, such as:</p>
+<ol>
+<li>Functions that might not return a meaningful result</li>
+<li>Fields that might be uninitialized</li>
+<li>Looking up values in collections</li>
+<li>Representing nullable values from other languages or APIs</li>
+</ol>
+<p>Using <code>Option</code> instead of null pointers eliminates a whole class of bugs by forcing you to explicitly handle the case where a value is absent.</p>
+<h3 id="basic-usage-1"><a class="header" href="#basic-usage-1">Basic Usage</a></h3>
+<p>Here’s a simple example of using <code>Option</code>:</p>
+<pre><pre class="playground"><code class="language-rust">fn find_user(id: u64) -&gt; Option&lt;User&gt; {
+    if id == 0 {
+        return None; // No user with ID 0
+    }
+
+    // Look up user in database...
+    Some(User { id, name: "Example User".to_string() })
+}
+
+fn main() {
+    match find_user(42) {
+        Some(user) =&gt; println!("Found user: {}", user.name),
+        None =&gt; println!("User not found"),
+    }
+}</code></pre></pre>
+<h3 id="pattern-matching-on-option"><a class="header" href="#pattern-matching-on-option">Pattern Matching on Option</a></h3>
+<p>As with <code>Result</code>, you can use pattern matching for fine-grained control:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_user(user_id: u64) {
+    match find_user(user_id) {
+        Some(user) if user.is_admin =&gt; {
+            println!("Found admin user: {}", user.name);
+        }
+        Some(user) =&gt; {
+            println!("Found regular user: {}", user.name);
+        }
+        None =&gt; {
+            println!("No user with ID {}", user_id);
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="if-let-and-while-let"><a class="header" href="#if-let-and-while-let">If Let and While Let</a></h3>
+<p>For simpler cases where you only care about one pattern, you can use <code>if let</code> and <code>while let</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Using if let when you only care about the Some case
+if let Some(user) = find_user(42) {
+    println!("Found user: {}", user.name);
+}
+
+// Using while let for processing a series of Options
+let mut users = vec![find_user(1), find_user(2), find_user(0), find_user(3)];
+while let Some(Some(user)) = users.pop() {
+    println!("Processing user: {}", user.name);
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="useful-option-methods"><a class="header" href="#useful-option-methods">Useful Option Methods</a></h3>
+<p>Like <code>Result</code>, <code>Option</code> comes with many useful methods:</p>
+<h4 id="transforming-options"><a class="header" href="#transforming-options">Transforming Options</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Transform the inner value
+let user_name = find_user(42).map(|user| user.name);
+
+// Chain operations that return Option
+let manager_name = find_user(42)
+    .and_then(|user| user.manager_id)
+    .and_then(|manager_id| find_user(manager_id))
+    .map(|manager| manager.name);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="default-values"><a class="header" href="#default-values">Default Values</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Provide a default value if None
+let user = find_user(42).unwrap_or(User::default());
+
+// Compute a default value if None
+let user = find_user(42).unwrap_or_else(|| {
+    println!("Creating default user because ID 42 not found");
+    User::default()
+});
+<span class="boring">}</span></code></pre></pre>
+<h4 id="combining-options"><a class="header" href="#combining-options">Combining Options</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Combine two Options - result is Some only if both are Some
+let combined = Some(5).zip(Some("hello"));  // Some((5, "hello"))
+let combined = Some(5).zip(None::&lt;&amp;str&gt;);   // None
+
+// Filter an Option based on a predicate
+let adult_user = find_user(42).filter(|user| user.age &gt;= 18);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="other-useful-methods-1"><a class="header" href="#other-useful-methods-1">Other Useful Methods</a></h4>
+<ul>
+<li><code>is_some()</code> and <code>is_none()</code>: Check if an Option is Some or None</li>
+<li><code>as_ref()</code>: Convert an Option<T> to Option&lt;&amp;T&gt;</li>
+<li><code>as_mut()</code>: Convert an Option<T> to Option&lt;&amp;mut T&gt;</li>
+<li><code>take()</code>: Take the value from an Option, leaving None in its place</li>
+<li><code>replace()</code>: Replace the value in an Option, returning the old value</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>if user_option.is_some() {
+    println!("User exists");
+}
+
+// Using as_ref to avoid consuming the Option
+if let Some(name) = user_option.as_ref().map(|user| &amp;user.name) {
+    println!("User name: {}", name);
+}
+
+// Using take to extract the value
+let mut user_option = find_user(42);
+if let Some(user) = user_option.take() {
+    process_user(user);
+    // user_option is now None
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="map-and_then-unwrap_or-operations"><a class="header" href="#map-and_then-unwrap_or-operations">Map, and_then, unwrap_or Operations</a></h2>
+<p>Both <code>Result</code> and <code>Option</code> types provide a set of functional-style combinators that allow you to transform and chain operations without excessive nesting or pattern matching. Let’s explore these powerful methods in more detail.</p>
+<h3 id="map-operations"><a class="header" href="#map-operations">Map Operations</a></h3>
+<p>The <code>map</code> family of methods allows you to transform the success value inside a <code>Result</code> or <code>Option</code> without unwrapping it:</p>
+<h4 id="map"><a class="header" href="#map">map</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Transform an Option&lt;T&gt; into an Option&lt;U&gt;
+let maybe_name: Option&lt;String&gt; = Some("Alice".to_string());
+let name_length: Option&lt;usize&gt; = maybe_name.map(|name| name.len());  // Some(5)
+
+// Transform a Result&lt;T, E&gt; into a Result&lt;U, E&gt;
+let file_result: Result&lt;String, io::Error&gt; = read_file_contents("data.txt");
+let line_count: Result&lt;usize, io::Error&gt; = file_result.map(|content| content.lines().count());
+<span class="boring">}</span></code></pre></pre>
+<h4 id="map_err"><a class="header" href="#map_err">map_err</a></h4>
+<p>For <code>Result</code>, you can also transform the error value while leaving the success value unchanged:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Transform a Result&lt;T, E&gt; into a Result&lt;T, F&gt;
+let file_result: Result&lt;String, io::Error&gt; = read_file_contents("data.txt");
+let with_context: Result&lt;String, String&gt; = file_result.map_err(|err| {
+    format!("Failed to read data.txt: {}", err)
+});
+<span class="boring">}</span></code></pre></pre>
+<h4 id="map_or"><a class="header" href="#map_or">map_or</a></h4>
+<p>This method applies a function to the contained value if it exists, or returns a default:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let maybe_name: Option&lt;String&gt; = Some("Alice".to_string());
+let length: usize = maybe_name.map_or(0, |name| name.len());  // 5
+
+let empty: Option&lt;String&gt; = None;
+let length: usize = empty.map_or(0, |name| name.len());  // 0
+<span class="boring">}</span></code></pre></pre>
+<h4 id="map_or_else"><a class="header" href="#map_or_else">map_or_else</a></h4>
+<p>Similar to <code>map_or</code>, but the default value is computed by a closure:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let maybe_user = find_user(42);
+let greeting = maybe_user.map_or_else(
+    || String::from("Hello, guest"),
+    |user| format!("Hello, {}", user.name)
+);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="and_then-operations-monadic-binding"><a class="header" href="#and_then-operations-monadic-binding">And_then Operations (Monadic Binding)</a></h3>
+<p>The <code>and_then</code> family of methods allows you to chain operations that might fail:</p>
+<h4 id="and_then"><a class="header" href="#and_then">and_then</a></h4>
+<p>This method is also known as “flatMap” or “bind” in other languages:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Chain operations that return Option
+fn find_department(user: &amp;User) -&gt; Option&lt;Department&gt; {
+    // Implementation details...
+    Some(Department { name: "Engineering".to_string() })
+}
+
+let department = find_user(42)
+    .and_then(|user| find_department(&amp;user));
+
+// Chain operations that return Result
+fn validate_config(content: String) -&gt; Result&lt;Config, ConfigError&gt; {
+    // Validation logic...
+    Ok(Config { /* ... */ })
+}
+
+let config = read_file_contents("config.txt")
+    .map_err(|e| ConfigError::IoError(e))
+    .and_then(validate_config);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="or_else"><a class="header" href="#or_else">or_else</a></h4>
+<p>Provides an alternative if the value is <code>None</code> or <code>Err</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// For Option
+let user = find_user(42).or_else(|| find_user_by_email("default@example.com"));
+
+// For Result
+let content = read_file_contents("config.txt")
+    .or_else(|_| read_file_contents("config.default.txt"));
+<span class="boring">}</span></code></pre></pre>
+<h3 id="unwrap-operations"><a class="header" href="#unwrap-operations">Unwrap Operations</a></h3>
+<p>These methods extract the value from an <code>Option</code> or <code>Result</code>, with different behaviors when the value is absent:</p>
+<h4 id="unwrap"><a class="header" href="#unwrap">unwrap</a></h4>
+<p>Extracts the value, or panics if it’s <code>None</code> or <code>Err</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let user = find_user(42).unwrap();  // Panics if user not found
+<span class="boring">}</span></code></pre></pre>
+<p>This should generally be avoided in production code, as we discussed in the previous chapter on panics.</p>
+<h4 id="unwrap_or"><a class="header" href="#unwrap_or">unwrap_or</a></h4>
+<p>Returns the contained value or a default:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let user = find_user(42).unwrap_or(User::default());
+<span class="boring">}</span></code></pre></pre>
+<h4 id="unwrap_or_else"><a class="header" href="#unwrap_or_else">unwrap_or_else</a></h4>
+<p>Returns the contained value or computes a default with a closure:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let user = find_user(42).unwrap_or_else(|| {
+    log::warn!("User 42 not found, creating default user");
+    User::default()
+});
+<span class="boring">}</span></code></pre></pre>
+<h4 id="unwrap_or_default"><a class="header" href="#unwrap_or_default">unwrap_or_default</a></h4>
+<p>Returns the contained value or the default value for the type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let numbers: Option&lt;Vec&lt;i32&gt;&gt; = None;
+let empty_vec = numbers.unwrap_or_default();  // Empty Vec&lt;i32&gt;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="combining-results-and-options"><a class="header" href="#combining-results-and-options">Combining Results and Options</a></h3>
+<p>Sometimes you need to convert between <code>Result</code> and <code>Option</code> or combine them in various ways:</p>
+<h4 id="ok_or-and-ok_or_else"><a class="header" href="#ok_or-and-ok_or_else">ok_or and ok_or_else</a></h4>
+<p>Convert an <code>Option&lt;T&gt;</code> to a <code>Result&lt;T, E&gt;</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let user_option = find_user(42);
+let user_result = user_option.ok_or("User not found");
+
+// With a dynamic error message
+let user_result = user_option.ok_or_else(|| format!("User {} not found", 42));
+<span class="boring">}</span></code></pre></pre>
+<h4 id="transpose"><a class="header" href="#transpose">transpose</a></h4>
+<p>Flip a <code>Result&lt;Option&lt;T&gt;, E&gt;</code> to an <code>Option&lt;Result&lt;T, E&gt;&gt;</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let result_of_option: Result&lt;Option&lt;i32&gt;, Error&gt; = Ok(Some(42));
+let option_of_result: Option&lt;Result&lt;i32, Error&gt;&gt; = result_of_option.transpose();
+// option_of_result is Some(Ok(42))
+<span class="boring">}</span></code></pre></pre>
+<p>This is particularly useful when working with iterators that contain both <code>Option</code> and <code>Result</code> types.</p>
+<h3 id="real-world-examples"><a class="header" href="#real-world-examples">Real-World Examples</a></h3>
+<p>Let’s see some more complex, real-world examples combining these operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Processing a configuration file with fallbacks and validation
+fn load_configuration() -&gt; Result&lt;Config, ConfigError&gt; {
+    // Try the user config first, fall back to default if not found
+    let content = std::fs::read_to_string("user.config")
+        .or_else(|_| std::fs::read_to_string("default.config"))
+        .map_err(|e| ConfigError::IoError(e))?;
+
+    // Parse and validate the config
+    let raw_config = parse_config(&amp;content)
+        .map_err(|e| ConfigError::ParseError(e))?;
+
+    // Apply defaults for missing values
+    let config = Config {
+        server: raw_config.server.unwrap_or_else(|| "localhost".to_string()),
+        port: raw_config.port.unwrap_or(8080),
+        timeout: raw_config.timeout.unwrap_or(30),
+        debug: raw_config.debug.unwrap_or(false),
+    };
+
+    // Validate the config
+    if config.port &lt; 1024 &amp;&amp; !is_user_admin() {
+        return Err(ConfigError::ValidationError(
+            "Non-admin users cannot use privileged ports (&lt;1024)".to_string()
+        ));
+    }
+
+    Ok(config)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This example shows how these combinators allow you to express complex logic in a readable, functional style.</p>
+<h2 id="chaining-operations"><a class="header" href="#chaining-operations">Chaining Operations</a></h2>
+<p>One of the most powerful aspects of Rust’s error handling is the ability to chain operations together in a clean, readable way. Let’s explore some patterns for chaining operations with <code>Result</code> and <code>Option</code>.</p>
+<h3 id="method-chaining"><a class="header" href="#method-chaining">Method Chaining</a></h3>
+<p>You can chain methods directly to transform and combine results:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let user_data = find_user(42)
+    .map(|user| user.name)
+    .unwrap_or_else(|| "Unknown User".to_string());
+
+let line_count = std::fs::read_to_string("data.txt")
+    .map(|content| content.lines().count())
+    .unwrap_or(0);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="the--operator-for-early-returns"><a class="header" href="#the--operator-for-early-returns">The ? Operator for Early Returns</a></h3>
+<p>The <code>?</code> operator provides a concise way to propagate errors. When applied to a <code>Result</code>, it returns the success value if <code>Ok</code>, or returns from the function with the error if <code>Err</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_file(path: &amp;str) -&gt; Result&lt;Stats, io::Error&gt; {
+    let content = std::fs::read_to_string(path)?;
+    let stats = compute_stats(&amp;content)?;
+    Ok(stats)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is equivalent to:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_file(path: &amp;str) -&gt; Result&lt;Stats, io::Error&gt; {
+    let content = match std::fs::read_to_string(path) {
+        Ok(content) =&gt; content,
+        Err(e) =&gt; return Err(e),
+    };
+
+    let stats = match compute_stats(&amp;content) {
+        Ok(stats) =&gt; stats,
+        Err(e) =&gt; return Err(e),
+    };
+
+    Ok(stats)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>?</code> operator also works with <code>Option</code> types in functions that return <code>Option</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn find_user_department(user_id: u64) -&gt; Option&lt;Department&gt; {
+    let user = find_user(user_id)?;
+    let department_id = user.department_id?;
+    find_department(department_id)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="collecting-results"><a class="header" href="#collecting-results">Collecting Results</a></h3>
+<p>When working with iterators that produce <code>Result</code> or <code>Option</code> types, you can use <code>collect()</code> to combine them:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Collect into Result&lt;Vec&lt;T&gt;, E&gt; - succeeds only if all items succeed
+fn read_all_files(paths: &amp;[&amp;str]) -&gt; Result&lt;Vec&lt;String&gt;, io::Error&gt; {
+    paths.iter()
+         .map(|&amp;path| std::fs::read_to_string(path))
+         .collect()
+}
+
+// Collect into Vec&lt;Result&lt;T, E&gt;&gt; - keeps all results, successful or not
+fn try_read_files(paths: &amp;[&amp;str]) -&gt; Vec&lt;Result&lt;String, io::Error&gt;&gt; {
+    paths.iter()
+         .map(|&amp;path| std::fs::read_to_string(path))
+         .collect()
+}
+
+// Filter out errors, keeping only successes
+fn read_available_files(paths: &amp;[&amp;str]) -&gt; Vec&lt;String&gt; {
+    paths.iter()
+         .map(|&amp;path| std::fs::read_to_string(path))
+         .filter_map(Result::ok)
+         .collect()
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="the-try-trait-and-fromresidual"><a class="header" href="#the-try-trait-and-fromresidual">The Try Trait and FromResidual</a></h3>
+<p>For more advanced cases, Rust provides the <code>Try</code> trait which powers the <code>?</code> operator. This allows types like <code>Result</code> and <code>Option</code> to work with <code>?</code> and enables you to define your own types that work with it.</p>
+<p>The <code>Try</code> trait was stabilized in Rust 1.39 and has been evolving since. The modern version includes:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Try: FromResidual {
+    type Output;
+    type Residual;
+
+    fn from_output(output: Self::Output) -&gt; Self;
+    fn branch(self) -&gt; ControlFlow&lt;Self::Residual, Self::Output&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Most users won’t need to implement this trait directly, but understanding it helps you see how the <code>?</code> operator works under the hood.</p>
+<h3 id="nested-results-and-options"><a class="header" href="#nested-results-and-options">Nested Results and Options</a></h3>
+<p>Sometimes you’ll encounter nested <code>Result</code> or <code>Option</code> types. Here are patterns for working with them:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Result&lt;Result&lt;T, E1&gt;, E2&gt; -&gt; Result&lt;T, E&gt; where E can represent both E1 and E2
+let nested_result: Result&lt;Result&lt;i32, ParseIntError&gt;, io::Error&gt; = Ok(Ok(42));
+let flattened: Result&lt;i32, Error&gt; = nested_result
+    .map_err(Error::IoError)
+    .and_then(|inner| inner.map_err(Error::ParseError));
+
+// Option&lt;Option&lt;T&gt;&gt; -&gt; Option&lt;T&gt;
+let nested_option: Option&lt;Option&lt;i32&gt;&gt; = Some(Some(42));
+let flattened: Option&lt;i32&gt; = nested_option.flatten();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="building-operation-chains"><a class="header" href="#building-operation-chains">Building Operation Chains</a></h3>
+<p>Let’s put it all together with a more complex example that chains multiple operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_user_data(user_id: u64) -&gt; Result&lt;Report, AppError&gt; {
+    // Find the user (returns Option&lt;User&gt;)
+    let user = find_user(user_id)
+        .ok_or_else(|| AppError::UserNotFound(user_id))?;
+
+    // Check if user has necessary permissions
+    if !user.has_permission("read_reports") {
+        return Err(AppError::PermissionDenied {
+            user_id,
+            permission: "read_reports".to_string(),
+        });
+    }
+
+    // Get the user's report file path
+    let report_path = format!("reports/{}.json", user_id);
+
+    // Read and parse the report file
+    let report_data = std::fs::read_to_string(&amp;report_path)
+        .map_err(|e| AppError::IoError {
+            source: e,
+            path: report_path.clone(),
+        })?;
+
+    let report: Report = serde_json::from_str(&amp;report_data)
+        .map_err(|e| AppError::ParseError {
+            source: e,
+            content: report_data.clone(),
+        })?;
+
+    // Apply user-specific transformations
+    let report = if user.is_admin {
+        report.with_sensitive_data()
+    } else {
+        report.without_sensitive_data()
+    };
+
+    Ok(report)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This example demonstrates:</p>
+<ol>
+<li>Converting between <code>Option</code> and <code>Result</code></li>
+<li>Adding context to errors</li>
+<li>Using the <code>?</code> operator for clean error propagation</li>
+<li>Conditional logic based on successful results</li>
+<li>Building a chain of operations that might fail</li>
+</ol>
+<h2 id="propagating-errors-with-the--operator"><a class="header" href="#propagating-errors-with-the--operator">Propagating Errors with the ? Operator</a></h2>
+<p>We’ve seen the <code>?</code> operator briefly, but it deserves a deeper look as it’s one of Rust’s most powerful features for error handling.</p>
+<h3 id="basic-usage-2"><a class="header" href="#basic-usage-2">Basic Usage</a></h3>
+<p>The <code>?</code> operator can be used with both <code>Result</code> and <code>Option</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// With Result
+fn read_config() -&gt; Result&lt;Config, io::Error&gt; {
+    let content = std::fs::read_to_string("config.txt")?;
+    let config = parse_config(&amp;content)?;
+    Ok(config)
+}
+
+// With Option
+fn find_admin_user() -&gt; Option&lt;User&gt; {
+    let user_id = get_admin_id()?;
+    let user = find_user(user_id)?;
+    Some(user)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="how--works"><a class="header" href="#how--works">How ? Works</a></h3>
+<p>When you use <code>?</code> on a <code>Result</code> or <code>Option</code>:</p>
+<ol>
+<li>If it’s <code>Ok(value)</code> or <code>Some(value)</code>, the value is extracted and execution continues</li>
+<li>If it’s <code>Err(e)</code> or <code>None</code>, the function immediately returns with that error or <code>None</code></li>
+</ol>
+<h3 id="error-type-conversion"><a class="header" href="#error-type-conversion">Error Type Conversion</a></h3>
+<p>The <code>?</code> operator will automatically convert the error type if the destination type implements <code>From</code> for the source error type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn read_config() -&gt; Result&lt;Config, ConfigError&gt; {
+    // This works if ConfigError implements From&lt;io::Error&gt;
+    let content = std::fs::read_to_string("config.txt")?;
+
+    // This works if ConfigError implements From&lt;ParseError&gt;
+    let config = parse_config(&amp;content)?;
+
+    Ok(config)
+}
+
+// The necessary From implementations
+impl From&lt;io::Error&gt; for ConfigError {
+    fn from(error: io::Error) -&gt; Self {
+        ConfigError::IoError { source: error }
+    }
+}
+
+impl From&lt;ParseError&gt; for ConfigError {
+    fn from(error: ParseError) -&gt; Self {
+        ConfigError::ParseError { source: error }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This automatic conversion is what makes the <code>?</code> operator so powerful for building error handling chains.</p>
+<h3 id="where--can-be-used"><a class="header" href="#where--can-be-used">Where ? Can Be Used</a></h3>
+<p>The <code>?</code> operator can be used in:</p>
+<ol>
+<li>Functions that return <code>Result&lt;T, E&gt;</code> when used with a <code>Result</code></li>
+<li>Functions that return <code>Option&lt;T&gt;</code> when used with an <code>Option</code></li>
+<li>Functions that return a type implementing the <code>Try</code> trait when used with a compatible type</li>
+<li>The <code>main</code> function (which can return <code>Result&lt;(), E&gt;</code>)</li>
+<li>Closures that return appropriate types</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">// In main
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let config = std::fs::read_to_string("config.txt")?;
+    println!("Config: {}", config);
+    Ok(())
+}
+
+// In closures
+let reader = || -&gt; Result&lt;String, io::Error&gt; {
+    let content = std::fs::read_to_string("data.txt")?;
+    Ok(content)
+};</code></pre></pre>
+<h3 id="mixing-result-and-option-with-"><a class="header" href="#mixing-result-and-option-with-">Mixing Result and Option with ?</a></h3>
+<p>You can’t directly mix <code>Result</code> and <code>Option</code> with the <code>?</code> operator in the same function unless you convert between them:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_data() -&gt; Result&lt;i32, Error&gt; {
+    // Error: can't use ? on Option in a function that returns Result
+    // let value = some_option?;
+
+    // Instead, convert Option to Result first
+    let value = some_option.ok_or(Error::ValueMissing)?;
+
+    // Now continue with Result operations
+    process_value(value)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="error-context-with-"><a class="header" href="#error-context-with-">Error Context with ?</a></h3>
+<p>One limitation of the <code>?</code> operator is that it doesn’t provide context about where the error occurred. You can address this by adding context before propagating:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn read_config() -&gt; Result&lt;Config, ConfigError&gt; {
+    let content = std::fs::read_to_string("config.txt")
+        .map_err(|e| ConfigError::IoError {
+            source: e,
+            file: "config.txt".to_string(),
+            operation: "read".to_string(),
+        })?;
+
+    // Continue processing...
+    Ok(Config::default())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Libraries like <code>anyhow</code> and <code>eyre</code> provide convenient ways to add context to errors.</p>
+<h3 id="the-try-macro-historical"><a class="header" href="#the-try-macro-historical">The try! Macro (Historical)</a></h3>
+<p>Before the <code>?</code> operator was introduced, Rust used the <code>try!</code> macro:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Old way with try!
+fn read_file() -&gt; Result&lt;String, io::Error&gt; {
+    let mut file = try!(File::open("data.txt"));
+    let mut content = String::new();
+    try!(file.read_to_string(&amp;mut content));
+    Ok(content)
+}
+
+// New way with ?
+fn read_file() -&gt; Result&lt;String, io::Error&gt; {
+    let mut file = File::open("data.txt")?;
+    let mut content = String::new();
+    file.read_to_string(&amp;mut content)?;
+    Ok(content)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>?</code> operator is more concise and expressive, and has completely replaced <code>try!</code> in modern Rust code.</p>
+<h3 id="when-not-to-use-"><a class="header" href="#when-not-to-use-">When Not to Use ?</a></h3>
+<p>While the <code>?</code> operator is very convenient, it’s not always the best choice:</p>
+<ol>
+<li>When you need different handling for different error types</li>
+<li>When you want to provide specific context for each error</li>
+<li>When you need to perform cleanup before propagating an error</li>
+<li>When you’re in a function that doesn’t return a compatible type</li>
+</ol>
+<p>In these cases, explicit <code>match</code> or <code>if let</code> expressions might be clearer:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_file(path: &amp;str) -&gt; Result&lt;(), Error&gt; {
+    let file = match File::open(path) {
+        Ok(file) =&gt; file,
+        Err(e) if e.kind() == io::ErrorKind::NotFound =&gt; {
+            return Err(Error::FileNotFound { path: path.to_string() });
+        }
+        Err(e) if e.kind() == io::ErrorKind::PermissionDenied =&gt; {
+            return Err(Error::AccessDenied { path: path.to_string() });
+        }
+        Err(e) =&gt; {
+            return Err(Error::IoError { source: e });
+        }
+    };
+
+    // Continue processing the file...
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="combining-result-and-option"><a class="header" href="#combining-result-and-option">Combining Result and Option</a></h2>
+<p>Since <code>Result&lt;T, E&gt;</code> and <code>Option&lt;T&gt;</code> are both so common in Rust, you’ll often need to convert between them or work with both in the same function. Let’s explore some common patterns for this.</p>
+<h3 id="converting-between-result-and-option"><a class="header" href="#converting-between-result-and-option">Converting Between Result and Option</a></h3>
+<p>The standard library provides several methods for converting between these types:</p>
+<h4 id="from-option-to-result"><a class="header" href="#from-option-to-result">From Option to Result</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Converting Option&lt;T&gt; to Result&lt;T, E&gt;
+let opt: Option&lt;i32&gt; = Some(42);
+
+// With a fixed error
+let res: Result&lt;i32, &amp;str&gt; = opt.ok_or("Value not present");
+
+// With a computed error
+let res: Result&lt;i32, String&gt; = opt.ok_or_else(|| format!("Missing value at timestamp: {}", now()));
+<span class="boring">}</span></code></pre></pre>
+<h4 id="from-result-to-option"><a class="header" href="#from-result-to-option">From Result to Option</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Converting Result&lt;T, E&gt; to Option&lt;T&gt; (discarding the error)
+let res: Result&lt;i32, &amp;str&gt; = Ok(42);
+let opt: Option&lt;i32&gt; = res.ok();
+
+// Converting Result&lt;T, E&gt; to Option&lt;E&gt; (discarding the success value)
+let res: Result&lt;i32, &amp;str&gt; = Err("error");
+let opt: Option&lt;&amp;str&gt; = res.err();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="handling-option-inside-result-functions"><a class="header" href="#handling-option-inside-result-functions">Handling Option Inside Result Functions</a></h3>
+<p>When working with a function that returns <code>Result</code> but you need to handle an <code>Option</code> internally:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_item(id: u64) -&gt; Result&lt;ProcessedItem, ProcessError&gt; {
+    // find_item returns Option&lt;Item&gt;
+    let item = find_item(id).ok_or(ProcessError::ItemNotFound(id))?;
+
+    // Now we can work with the item, knowing it exists
+    process(item)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="handling-result-inside-option-functions"><a class="header" href="#handling-result-inside-option-functions">Handling Result Inside Option Functions</a></h3>
+<p>Similarly, when working with a function that returns <code>Option</code> but you need to handle a <code>Result</code> internally:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn find_config_value(key: &amp;str) -&gt; Option&lt;String&gt; {
+    // read_config returns Result&lt;Config, ConfigError&gt;
+    let config = read_config().ok()?;
+
+    // Get the value from the config if it exists
+    config.get_value(key)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="working-with-complex-combinations"><a class="header" href="#working-with-complex-combinations">Working with Complex Combinations</a></h3>
+<p>For more complex scenarios, you might encounter nested types like <code>Result&lt;Option&lt;T&gt;, E&gt;</code> or <code>Option&lt;Result&lt;T, E&gt;&gt;</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Working with Result&lt;Option&lt;T&gt;, E&gt;
+fn find_user_by_email(email: &amp;str) -&gt; Result&lt;Option&lt;User&gt;, DbError&gt; {
+    let connection = db_connect()?;
+
+    // This query might succeed but find no user (Ok(None))
+    // or it might fail (Err(DbError))
+    connection.query_optional("SELECT * FROM users WHERE email = $1", &amp;[&amp;email])
+}
+
+// Using such a function
+match find_user_by_email("alice@example.com") {
+    Ok(Some(user)) =&gt; println!("Found user: {}", user.name),
+    Ok(None) =&gt; println!("No user with that email"),
+    Err(e) =&gt; println!("Database error: {}", e),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>transpose</code> method can be useful for swapping the nesting order:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Converting between Result&lt;Option&lt;T&gt;, E&gt; and Option&lt;Result&lt;T, E&gt;&gt;
+let result_of_option: Result&lt;Option&lt;i32&gt;, Error&gt; = Ok(Some(42));
+let option_of_result: Option&lt;Result&lt;i32, Error&gt;&gt; = result_of_option.transpose();
+
+// Using transpose with iterators
+let results: Vec&lt;Result&lt;Option&lt;User&gt;, DbError&gt;&gt; = emails
+    .iter()
+    .map(|email| find_user_by_email(email))
+    .collect();
+
+// Convert to Option&lt;Result&lt;User, DbError&gt;&gt; for each item
+let options: Vec&lt;Option&lt;Result&lt;User, DbError&gt;&gt;&gt; = results
+    .into_iter()
+    .map(Result::transpose)
+    .collect();
+
+// Keep only the users that were found
+let found_users_or_errors: Vec&lt;Result&lt;User, DbError&gt;&gt; = options
+    .into_iter()
+    .filter_map(|opt| opt)
+    .collect();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-combinators-with-both-types"><a class="header" href="#using-combinators-with-both-types">Using Combinators with Both Types</a></h3>
+<p>You can chain combinators for both types to create concise, expressive code:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_data(input: &amp;str) -&gt; Result&lt;i32, ProcessError&gt; {
+    // Parse the input as JSON
+    let json = serde_json::from_str(input)
+        .map_err(ProcessError::ParseError)?;
+
+    // Extract the "user_id" field, which might not exist
+    let user_id = json.get("user_id")
+        .and_then(|v| v.as_u64())
+        .ok_or(ProcessError::MissingField("user_id"))?;
+
+    // Find the user, which might not exist
+    let user = find_user(user_id)
+        .ok_or(ProcessError::UserNotFound(user_id))?;
+
+    // Check if the user has permission
+    if !user.has_permission("process_data") {
+        return Err(ProcessError::PermissionDenied {
+            user_id,
+            permission: "process_data".to_string(),
+        });
+    }
+
+    // Process the data
+    process_user_data(&amp;user, &amp;json)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This example shows how you can seamlessly transition between <code>Result</code> and <code>Option</code> using appropriate conversions and combinators.</p>
+<h2 id="type-conversions-between-result-and-option"><a class="header" href="#type-conversions-between-result-and-option">Type Conversions between Result and Option</a></h2>
+<p>Let’s look more closely at the underlying mechanics of converting between <code>Result</code> and <code>Option</code>.</p>
+<h3 id="the-relationship-between-result-and-option"><a class="header" href="#the-relationship-between-result-and-option">The Relationship Between Result and Option</a></h3>
+<p>There’s a formal relationship between <code>Result</code> and <code>Option</code>:</p>
+<ul>
+<li><code>Option&lt;T&gt;</code> can be thought of as <code>Result&lt;T, ()&gt;</code> where the error type is unit (no additional information)</li>
+<li><code>Result&lt;T, E&gt;</code> can be thought of as <code>Option&lt;T&gt;</code> with additional error information of type <code>E</code></li>
+</ul>
+<p>This relationship is why many of the methods have similar names and behaviors.</p>
+<h3 id="implementation-details"><a class="header" href="#implementation-details">Implementation Details</a></h3>
+<p>The conversions between these types are straightforward:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Converting Option&lt;T&gt; to Result&lt;T, E&gt;
+impl&lt;T, E&gt; From&lt;Option&lt;T&gt;&gt; for Result&lt;T, E&gt; where E: Default {
+    fn from(option: Option&lt;T&gt;) -&gt; Self {
+        match option {
+            Some(value) =&gt; Ok(value),
+            None =&gt; Err(E::default()),
+        }
+    }
+}
+
+// There's no direct From implementation for Result -&gt; Option
+// because you would lose error information
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-from-trait-for-conversions"><a class="header" href="#using-from-trait-for-conversions">Using From Trait for Conversions</a></h3>
+<p>You can use the <code>From</code> trait for some conversions:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Convert Option&lt;T&gt; to Result&lt;T, E&gt; where E: Default
+let opt: Option&lt;i32&gt; = Some(42);
+let res: Result&lt;i32, String&gt; = Result::from(opt);  // Ok(42)
+
+let opt: Option&lt;i32&gt; = None;
+let res: Result&lt;i32, String&gt; = Result::from(opt);  // Err(String::default())
+<span class="boring">}</span></code></pre></pre>
+<h3 id="custom-conversion-functions"><a class="header" href="#custom-conversion-functions">Custom Conversion Functions</a></h3>
+<p>For more control, you can write your own conversion functions:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn option_to_result&lt;T, E&gt;(option: Option&lt;T&gt;, err: E) -&gt; Result&lt;T, E&gt; {
+    match option {
+        Some(value) =&gt; Ok(value),
+        None =&gt; Err(err),
+    }
+}
+
+fn result_to_option&lt;T, E&gt;(result: Result&lt;T, E&gt;, handle_err: impl FnOnce(E)) -&gt; Option&lt;T&gt; {
+    match result {
+        Ok(value) =&gt; Some(value),
+        Err(e) =&gt; {
+            handle_err(e);
+            None
+        }
+    }
+}
+
+// Usage
+let opt = Some(42);
+let res = option_to_result(opt, "No value".to_string());
+
+let res = Ok::&lt;i32, String&gt;(42);
+let opt = result_to_option(res, |e| eprintln!("Error: {}", e));
+<span class="boring">}</span></code></pre></pre>
+<h3 id="practical-examples"><a class="header" href="#practical-examples">Practical Examples</a></h3>
+<p>Here’s a real-world example combining both types in a web application context:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn handle_user_request(req: Request) -&gt; Response {
+    // Extract the user ID from the request query string
+    let user_id = req.query_param("user_id")
+        // Convert Option&lt;String&gt; to Result&lt;String, Error&gt;
+        .ok_or(Error::MissingParameter("user_id".to_string()))
+        // Try to parse as u64, returning appropriate error
+        .and_then(|id_str| id_str.parse::&lt;u64&gt;()
+            .map_err(|_| Error::InvalidParameter("user_id must be a number".to_string()))
+        );
+
+    // Early return with error response if any of the above failed
+    let user_id = match user_id {
+        Ok(id) =&gt; id,
+        Err(e) =&gt; return Response::error(e.to_string()),
+    };
+
+    // Try to find the user
+    match find_user(user_id) {
+        Some(user) =&gt; Response::json(user),
+        None =&gt; Response::not_found(format!("User {} not found", user_id)),
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This example shows:</p>
+<ol>
+<li>Converting from <code>Option</code> to <code>Result</code> to handle missing parameters</li>
+<li>Chaining operations with <code>and_then</code> to transform the result</li>
+<li>Converting back to explicit error handling with <code>match</code> to create responses</li>
+<li>Using <code>Option</code> for the database lookup where “not found” is a normal case</li>
+</ol>
+<h2 id="custom-error-types"><a class="header" href="#custom-error-types">Custom Error Types</a></h2>
+<p>While the standard library provides many useful error types like <code>std::io::Error</code> and <code>std::fmt::Error</code>, for many applications you’ll want to define your own custom error types. This allows you to provide rich, domain-specific error information.</p>
+<h3 id="defining-a-basic-error-type"><a class="header" href="#defining-a-basic-error-type">Defining a Basic Error Type</a></h3>
+<p>A common pattern is to define an enum with variants for different error categories:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+enum AppError {
+    IoError(std::io::Error),
+    ParseError(std::num::ParseIntError),
+    ValidationError(String),
+    NotFoundError { entity: String, id: String },
+    DatabaseError { query: String, source: sqlx::Error },
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="implementing-error-traits"><a class="header" href="#implementing-error-traits">Implementing Error Traits</a></h3>
+<p>To make your error type work well with Rust’s error handling ecosystem, implement the relevant traits:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt;
+use std::error::Error;
+
+impl fmt::Display for AppError {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            AppError::IoError(e) =&gt; write!(f, "I/O error: {}", e),
+            AppError::ParseError(e) =&gt; write!(f, "Parse error: {}", e),
+            AppError::ValidationError(msg) =&gt; write!(f, "Validation error: {}", msg),
+            AppError::NotFoundError { entity, id } =&gt;
+                write!(f, "{} with ID {} not found", entity, id),
+            AppError::DatabaseError { query, source } =&gt;
+                write!(f, "Database error in query '{}': {}", query, source),
+        }
+    }
+}
+
+impl Error for AppError {
+    fn source(&amp;self) -&gt; Option&lt;&amp;(dyn Error + 'static)&gt; {
+        match self {
+            AppError::IoError(e) =&gt; Some(e),
+            AppError::ParseError(e) =&gt; Some(e),
+            AppError::DatabaseError { source, .. } =&gt; Some(source),
+            _ =&gt; None,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="implementing-from-for-error-conversion"><a class="header" href="#implementing-from-for-error-conversion">Implementing From for Error Conversion</a></h3>
+<p>To make your error type work smoothly with the <code>?</code> operator, implement <code>From</code> for the error types you might need to convert:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl From&lt;std::io::Error&gt; for AppError {
+    fn from(error: std::io::Error) -&gt; Self {
+        AppError::IoError(error)
+    }
+}
+
+impl From&lt;std::num::ParseIntError&gt; for AppError {
+    fn from(error: std::num::ParseIntError) -&gt; Self {
+        AppError::ParseError(error)
+    }
+}
+
+impl From&lt;sqlx::Error&gt; for AppError {
+    fn from(error: sqlx::Error) -&gt; Self {
+        AppError::DatabaseError {
+            query: "unknown".to_string(),
+            source: error,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With these implementations, you can now use the <code>?</code> operator with different error types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_config(path: &amp;str) -&gt; Result&lt;Config, AppError&gt; {
+    let content = std::fs::read_to_string(path)?;  // IoError converts automatically
+    let version = content.lines().next().unwrap().parse::&lt;i32&gt;()?;  // ParseError converts automatically
+
+    if version &lt; MIN_SUPPORTED_VERSION {
+        return Err(AppError::ValidationError(format!(
+            "Config version {} is not supported (min: {})",
+            version, MIN_SUPPORTED_VERSION
+        )));
+    }
+
+    // More processing...
+    Ok(Config { /* ... */ })
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="contextual-errors"><a class="header" href="#contextual-errors">Contextual Errors</a></h3>
+<p>Sometimes you want to add context to errors without losing the original error information. A common pattern is to include both the context and the source error:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+enum AppError {
+    // Other variants...
+
+    FileReadError {
+        path: String,
+        source: std::io::Error,
+    },
+
+    ConfigParseError {
+        content: String,
+        source: serde_json::Error,
+    },
+}
+
+// Using contextual errors
+fn read_config(path: &amp;str) -&gt; Result&lt;Config, AppError&gt; {
+    let content = std::fs::read_to_string(path)
+        .map_err(|e| AppError::FileReadError {
+            path: path.to_string(),
+            source: e,
+        })?;
+
+    serde_json::from_str(&amp;content)
+        .map_err(|e| AppError::ConfigParseError {
+            content: content.clone(),
+            source: e,
+        })
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="error-enums-vs-trait-objects"><a class="header" href="#error-enums-vs-trait-objects">Error Enums vs. Trait Objects</a></h3>
+<p>For library crates where you don’t know all possible errors upfront, or for applications where you want to minimize code duplication, you might use trait objects instead of enums:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Using Box&lt;dyn Error&gt;
+fn process_data() -&gt; Result&lt;(), Box&lt;dyn Error + Send + Sync&gt;&gt; {
+    // Can return any error type that implements Error
+    let content = std::fs::read_to_string("data.txt")?;
+    let value: i32 = content.trim().parse()?;
+
+    if value &lt; 0 {
+        return Err(Box::new(ConfigError::new("Value cannot be negative")));
+    }
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is especially useful when you don’t know all possible error types at compile time or when returning errors from plugins or dynamic code.</p>
+<h3 id="error-conversion-with-the-try-trait"><a class="header" href="#error-conversion-with-the-try-trait">Error Conversion with the Try Trait</a></h3>
+<p>At a lower level, the <code>Try</code> trait governs how the <code>?</code> operator works with error conversions. When you use <code>?</code> on a <code>Result&lt;T, E1&gt;</code> in a function returning <code>Result&lt;U, E2&gt;</code>, the error is converted using <code>From&lt;E1&gt; for E2</code>.</p>
+<p>The implementation roughly looks like:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T, E, U, F&gt; Try for Result&lt;T, E&gt;
+where
+    E: From&lt;F&gt;,
+{
+    type Ok = T;
+    type Error = F;
+
+    fn into_result(self) -&gt; Result&lt;T, F&gt; {
+        self.map_err(Into::into)
+    }
+
+    fn from_error(e: F) -&gt; Self {
+        Err(e.into())
+    }
+
+    fn from_ok(v: T) -&gt; Self {
+        Ok(v)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is how the <code>?</code> operator seamlessly handles error type conversions.</p>
+<h2 id="error-trait-and-error-conversion"><a class="header" href="#error-trait-and-error-conversion">Error Trait and Error Conversion</a></h2>
+<p>The <code>std::error::Error</code> trait is the foundation of Rust’s error handling ecosystem. Understanding this trait and how to convert between error types is essential for effective error handling.</p>
+<h3 id="the-error-trait"><a class="header" href="#the-error-trait">The Error Trait</a></h3>
+<p>The <code>Error</code> trait is defined in the standard library as:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Error: Debug + Display {
+    fn source(&amp;self) -&gt; Option&lt;&amp;(dyn Error + 'static)&gt; { ... }
+    fn backtrace(&amp;self) -&gt; Option&lt;&amp;Backtrace&gt; { ... }
+    fn description(&amp;self) -&gt; &amp;str { ... } // Deprecated
+    fn cause(&amp;self) -&gt; Option&lt;&amp;dyn Error&gt; { ... } // Deprecated
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The main methods are:</p>
+<ol>
+<li><code>source()</code>: Returns the underlying cause of this error, if any</li>
+<li><code>backtrace()</code>: Returns a backtrace of where the error occurred (nightly feature)</li>
+</ol>
+<p>The trait also requires implementations of <code>Debug</code> and <code>Display</code>.</p>
+<h3 id="implementing-error-for-custom-types"><a class="header" href="#implementing-error-for-custom-types">Implementing Error for Custom Types</a></h3>
+<p>Here’s a complete implementation of the <code>Error</code> trait for a custom error type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::error::Error;
+use std::fmt::{self, Display, Formatter};
+
+#[derive(Debug)]
+struct ConfigError {
+    message: String,
+    source: Option&lt;Box&lt;dyn Error + 'static&gt;&gt;,
+}
+
+impl ConfigError {
+    fn new(message: &amp;str) -&gt; Self {
+        Self {
+            message: message.to_string(),
+            source: None,
+        }
+    }
+
+    fn with_source&lt;E: Error + 'static&gt;(message: &amp;str, source: E) -&gt; Self {
+        Self {
+            message: message.to_string(),
+            source: Some(Box::new(source)),
+        }
+    }
+}
+
+impl Display for ConfigError {
+    fn fmt(&amp;self, f: &amp;mut Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        write!(f, "Configuration error: {}", self.message)
+    }
+}
+
+impl Error for ConfigError {
+    fn source(&amp;self) -&gt; Option&lt;&amp;(dyn Error + 'static)&gt; {
+        self.source.as_ref().map(|s| s.as_ref())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="error-type-conversion-1"><a class="header" href="#error-type-conversion-1">Error Type Conversion</a></h3>
+<p>There are several ways to convert between error types:</p>
+<h4 id="using-the-from-trait"><a class="header" href="#using-the-from-trait">Using the From Trait</a></h4>
+<p>The most common approach is to implement the <code>From</code> trait:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl From&lt;std::io::Error&gt; for ConfigError {
+    fn from(error: std::io::Error) -&gt; Self {
+        ConfigError::with_source("I/O error while reading config", error)
+    }
+}
+
+impl From&lt;serde_json::Error&gt; for ConfigError {
+    fn from(error: serde_json::Error) -&gt; Self {
+        ConfigError::with_source("Failed to parse config JSON", error)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With these implementations, you can use the <code>?</code> operator to automatically convert errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn read_config(path: &amp;str) -&gt; Result&lt;Config, ConfigError&gt; {
+    let content = std::fs::read_to_string(path)?;
+    let config: Config = serde_json::from_str(&amp;content)?;
+    Ok(config)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-map_err"><a class="header" href="#using-map_err">Using map_err</a></h4>
+<p>For more control or when you can’t implement <code>From</code>, use <code>map_err</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn read_config(path: &amp;str) -&gt; Result&lt;Config, ConfigError&gt; {
+    let content = std::fs::read_to_string(path)
+        .map_err(|e| ConfigError::with_source(&amp;format!("Failed to read config from {}", path), e))?;
+
+    let config: Config = serde_json::from_str(&amp;content)
+        .map_err(|e| ConfigError::with_source("Failed to parse config JSON", e))?;
+
+    Ok(config)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="context-pattern-with-error-chains"><a class="header" href="#context-pattern-with-error-chains">Context Pattern with Error Chains</a></h4>
+<p>A common pattern is building chains of errors that add context at each level:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn load_user_config(user_id: u64) -&gt; Result&lt;UserConfig, ConfigError&gt; {
+    let path = format!("users/{}/config.json", user_id);
+
+    // Each step adds more context to errors
+    let content = std::fs::read_to_string(&amp;path)
+        .map_err(|e| ConfigError::with_source(
+            &amp;format!("Failed to read user {} config file", user_id), e
+        ))?;
+
+    let config: UserConfig = serde_json::from_str(&amp;content)
+        .map_err(|e| ConfigError::with_source(
+            &amp;format!("User {} has invalid config format", user_id), e
+        ))?;
+
+    if !config.is_valid() {
+        return Err(ConfigError::new(
+            &amp;format!("User {} config validation failed", user_id)
+        ));
+    }
+
+    Ok(config)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>When reporting these errors, you can traverse the chain to provide detailed information:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn report_error(err: &amp;dyn Error) {
+    // Print the main error
+    eprintln!("Error: {}", err);
+
+    // Print the chain of causes
+    let mut source = err.source();
+    while let Some(err) = source {
+        eprintln!("Caused by: {}", err);
+        source = err.source();
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="dynamic-error-types-with-box"><a class="header" href="#dynamic-error-types-with-box">Dynamic Error Types with Box<dyn Error></a></h3>
+<p>For flexibility, you can use trait objects with <code>Box&lt;dyn Error&gt;</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_data() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    // Can return any error type that implements Error
+    let content = std::fs::read_to_string("data.txt")?;
+    let value: i32 = content.trim().parse()?;
+
+    if value &lt; 0 {
+        return Err(Box::new(ConfigError::new("Value cannot be negative")));
+    }
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is especially useful when you don’t know all possible error types at compile time or when returning errors from plugins or dynamic code.</p>
+<h3 id="error-conversion-with-the-try-trait-1"><a class="header" href="#error-conversion-with-the-try-trait-1">Error Conversion with the Try Trait</a></h3>
+<p>At a lower level, the <code>Try</code> trait governs how the <code>?</code> operator works with error conversions. When you use <code>?</code> on a <code>Result&lt;T, E1&gt;</code> in a function returning <code>Result&lt;U, E2&gt;</code>, the error is converted using <code>From&lt;E1&gt; for E2</code>.</p>
+<p>The implementation roughly looks like:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T, E, U, F&gt; Try for Result&lt;T, E&gt;
+where
+    E: From&lt;F&gt;,
+{
+    type Ok = T;
+    type Error = F;
+
+    fn into_result(self) -&gt; Result&lt;T, F&gt; {
+        self.map_err(Into::into)
+    }
+
+    fn from_error(e: F) -&gt; Self {
+        Err(e.into())
+    }
+
+    fn from_ok(v: T) -&gt; Self {
+        Ok(v)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is how the <code>?</code> operator seamlessly handles error type conversions.</p>
+<h2 id="the-try-trait"><a class="header" href="#the-try-trait">The Try Trait</a></h2>
+<p>The <code>Try</code> trait is an advanced feature of Rust’s error handling system that powers the <code>?</code> operator. Understanding this trait helps you see how Rust’s error handling works under the hood and allows you to create your own types that work with <code>?</code>.</p>
+<h3 id="history-and-evolution"><a class="header" href="#history-and-evolution">History and Evolution</a></h3>
+<p>The <code>Try</code> trait has evolved significantly since its introduction:</p>
+<ul>
+<li>In Rust 1.13, the <code>?</code> operator was introduced as syntactic sugar for the <code>try!</code> macro</li>
+<li>In Rust 1.39, the initial <code>Try</code> trait was stabilized</li>
+<li>In Rust 1.53, the trait was redesigned to be more general</li>
+</ul>
+<p>The current version is designed to work not just with <code>Result</code> and <code>Option</code>, but with any type that represents a computation that might fail.</p>
+<h3 id="current-definition"><a class="header" href="#current-definition">Current Definition</a></h3>
+<p>As of Rust 1.53, the <code>Try</code> trait is defined as:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Try: FromResidual {
+    type Output;
+    type Residual;
+
+    fn from_output(output: Self::Output) -&gt; Self;
+    fn branch(self) -&gt; ControlFlow&lt;Self::Residual, Self::Output&gt;;
+}
+
+pub trait FromResidual&lt;R = &lt;Self as Try&gt;::Residual&gt; {
+    fn from_residual(residual: R) -&gt; Self;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Where:</p>
+<ul>
+<li><code>Output</code> is the success type</li>
+<li><code>Residual</code> is the error or “residual” type</li>
+<li><code>from_output</code> creates a success value</li>
+<li><code>branch</code> extracts either a success or failure</li>
+<li><code>from_residual</code> converts a failure from another type</li>
+</ul>
+<h3 id="how--uses-try"><a class="header" href="#how--uses-try">How ? Uses Try</a></h3>
+<p>When you use the <code>?</code> operator on an expression of type <code>T</code> where <code>T: Try</code>, the compiler expands it to something like:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>match Try::branch(expr) {
+    ControlFlow::Continue(val) =&gt; val,
+    ControlFlow::Break(residual) =&gt; return FromResidual::from_residual(residual),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is how <code>?</code> works with both <code>Result</code> and <code>Option</code>.</p>
+<h3 id="implementing-try-for-custom-types"><a class="header" href="#implementing-try-for-custom-types">Implementing Try for Custom Types</a></h3>
+<p>While most users won’t need to implement <code>Try</code> directly, here’s an example of how you might do it for a custom result type:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum MyResult&lt;T, E&gt; {
+    Success(T),
+    Failure(E),
+}
+
+impl&lt;T, E&gt; Try for MyResult&lt;T, E&gt; {
+    type Output = T;
+    type Residual = Result&lt;Infallible, E&gt;;
+
+    fn from_output(output: Self::Output) -&gt; Self {
+        MyResult::Success(output)
+    }
+
+    fn branch(self) -&gt; ControlFlow&lt;Self::Residual, Self::Output&gt; {
+        match self {
+            MyResult::Success(t) =&gt; ControlFlow::Continue(t),
+            MyResult::Failure(e) =&gt; ControlFlow::Break(Result::Err(e)),
+        }
+    }
+}
+
+impl&lt;T, E, F: From&lt;E&gt;&gt; FromResidual&lt;Result&lt;Infallible, E&gt;&gt; for MyResult&lt;T, F&gt; {
+    fn from_residual(residual: Result&lt;Infallible, E&gt;) -&gt; Self {
+        match residual {
+            Err(e) =&gt; MyResult::Failure(From::from(e)),
+            _ =&gt; unreachable!(),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With this implementation, you could use <code>?</code> with your custom result type.</p>
+<h2 id="error-reporting-best-practices"><a class="header" href="#error-reporting-best-practices">Error Reporting Best Practices</a></h2>
+<p>Effective error reporting is crucial for building maintainable applications. Here are some best practices for error handling and reporting in Rust.</p>
+<h3 id="designing-errors-for-users"><a class="header" href="#designing-errors-for-users">Designing Errors for Users</a></h3>
+<p>When designing error messages, consider who will be consuming them:</p>
+<ol>
+<li><strong>End Users</strong>: Need clear, actionable messages without technical details</li>
+<li><strong>Developers</strong>: Need detailed information to diagnose and fix issues</li>
+<li><strong>Operations/SRE</strong>: Need structured data for monitoring and alerting</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Display for AppError {
+    fn fmt(&amp;self, f: &amp;mut Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            AppError::FileNotFound { path } =&gt;
+                write!(f, "The file '{}' could not be found. Please check that the file exists and try again.", path),
+
+            AppError::PermissionDenied { path } =&gt;
+                write!(f, "You don't have permission to access '{}'. Please check your file permissions.", path),
+
+            // More variants...
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="contextual-errors-1"><a class="header" href="#contextual-errors-1">Contextual Errors</a></h3>
+<p>Always provide context in your errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_config(path: &amp;str) -&gt; Result&lt;Config, ConfigError&gt; {
+    let content = std::fs::read_to_string(path)
+        .map_err(|e| ConfigError::FileReadError {
+            path: path.to_string(),
+            operation: "read".to_string(),
+            source: e,
+        })?;
+
+    // More processing...
+    Ok(Config::default())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Libraries like <code>anyhow</code> provide convenient methods for this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use anyhow::{Context, Result};
+
+fn process_config(path: &amp;str) -&gt; Result&lt;Config&gt; {
+    let content = std::fs::read_to_string(path)
+        .with_context(|| format!("Failed to read config file: {}", path))?;
+
+    // More processing...
+    Ok(Config::default())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="structured-logging"><a class="header" href="#structured-logging">Structured Logging</a></h3>
+<p>For applications, combine error handling with structured logging:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use serde::Serialize;
+use log::{error, info, warn};
+
+#[derive(Serialize)]
+struct ErrorLog {
+    error_type: String,
+    message: String,
+    user_id: Option&lt;String&gt;,
+    request_id: String,
+    context: serde_json::Value,
+}
+
+fn log_error(err: &amp;AppError, request_id: &amp;str, user_id: Option&lt;&amp;str&gt;) {
+    let context = match err {
+        AppError::FileNotFound { path } =&gt;
+            serde_json::json!({ "path": path }),
+
+        AppError::DatabaseError { query, .. } =&gt;
+            serde_json::json!({ "query": query }),
+
+        // More variants...
+        _ =&gt; serde_json::json!({}),
+    };
+
+    let log = ErrorLog {
+        error_type: format!("{:?}", err),
+        message: err.to_string(),
+        user_id: user_id.map(String::from),
+        request_id: request_id.to_string(),
+        context,
+    };
+
+    error!("{}", serde_json::to_string(&amp;log).unwrap());
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="error-categorization"><a class="header" href="#error-categorization">Error Categorization</a></h3>
+<p>Categorize errors to help with handling them appropriately:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum ErrorCategory {
+    UserError,      // User did something wrong
+    TransientError, // Temporary failure, can retry
+    SystemError,    // System-level issue
+    ProgramError,   // Bug in the program
+}
+
+impl AppError {
+    fn category(&amp;self) -&gt; ErrorCategory {
+        match self {
+            AppError::InvalidInput { .. } =&gt; ErrorCategory::UserError,
+            AppError::NetworkTimeout { .. } =&gt; ErrorCategory::TransientError,
+            AppError::DiskFull { .. } =&gt; ErrorCategory::SystemError,
+            AppError::InternalError { .. } =&gt; ErrorCategory::ProgramError,
+            // More variants...
+        }
+    }
+
+    fn is_retryable(&amp;self) -&gt; bool {
+        matches!(self.category(), ErrorCategory::TransientError)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="api-design-for-errors"><a class="header" href="#api-design-for-errors">API Design for Errors</a></h3>
+<p>When designing APIs, make error handling easy for consumers:</p>
+<ol>
+<li>Return rich error types that can be easily inspected</li>
+<li>Document all possible error conditions</li>
+<li>Provide helper methods for common error handling patterns</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Good API design with helper methods
+impl Config {
+    pub fn load(path: &amp;str) -&gt; Result&lt;Self, ConfigError&gt; {
+        // Implementation...
+    }
+
+    // Helper that loads with defaults for missing fields
+    pub fn load_with_defaults(path: &amp;str) -&gt; Result&lt;Self, ConfigError&gt; {
+        Self::load(path).or_else(|e| {
+            if let ConfigError::FileNotFound { .. } = e {
+                Ok(Config::default())
+            } else {
+                Err(e)
+            }
+        })
+    }
+
+    // Helper for fallback configs
+    pub fn load_with_fallback(primary: &amp;str, fallback: &amp;str) -&gt; Result&lt;Self, ConfigError&gt; {
+        Self::load(primary).or_else(|_| Self::load(fallback))
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="error-documentation"><a class="header" href="#error-documentation">Error Documentation</a></h3>
+<p>Document your error types thoroughly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Errors that can occur when working with configurations.
+///
+/// # Examples
+///
+/// ```
+/// use myapp::ConfigError;
+/// use std::fmt;
+///
+/// fn print_error(e: &amp;ConfigError) {
+///     println!("Configuration error: {}", e);
+/// }
+/// ```
+#[derive(Debug)]
+pub enum ConfigError {
+    /// The configuration file could not be found.
+    ///
+    /// This error occurs when the specified path does not exist or is not accessible.
+    FileNotFound {
+        /// The path that was attempted to be read.
+        path: String,
+    },
+
+    /// The configuration file could not be parsed.
+    ///
+    /// This error occurs when the file exists but its format is invalid.
+    ParseError {
+        /// The error returned by the parser.
+        source: serde_json::Error,
+        /// The content that failed to parse.
+        content: String,
+    },
+
+    // More variants...
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="-project-file-processing-utility"><a class="header" href="#-project-file-processing-utility">🔨 Project: File Processing Utility</a></h2>
+<p>Let’s build a file processing utility that demonstrates comprehensive error handling using <code>Result</code> and <code>Option</code>. This project will process CSV files, performing various transformations and validations.</p>
+<h3 id="project-goals"><a class="header" href="#project-goals">Project Goals</a></h3>
+<ol>
+<li>Read and parse CSV files</li>
+<li>Validate data according to configurable rules</li>
+<li>Transform and process the data</li>
+<li>Output results in various formats</li>
+<li>Implement comprehensive error handling throughout</li>
+</ol>
+<h3 id="step-1-project-setup"><a class="header" href="#step-1-project-setup">Step 1: Project Setup</a></h3>
+<p>Create a new Rust project:</p>
+<pre><code class="language-bash">cargo new file_processor
+cd file_processor
+</code></pre>
+<p>Add dependencies to <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+csv = "1.1"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+anyhow = "1.0"
+chrono = "0.4"
+clap = { version = "3.0", features = ["derive"] }
+</code></pre>
+<h3 id="step-2-define-error-types"><a class="header" href="#step-2-define-error-types">Step 2: Define Error Types</a></h3>
+<p>First, let’s define our error types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/error.rs
+use std::path::PathBuf;
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum ProcessorError {
+    #[error("I/O error: {source}")]
+    IoError {
+        #[from]
+        source: std::io::Error,
+        #[source]
+        path: Option&lt;PathBuf&gt;,
+    },
+
+    #[error("CSV error: {source}")]
+    CsvError {
+        #[from]
+        source: csv::Error,
+    },
+
+    #[error("Parse error: Could not parse {field} as {target_type} in row {row}")]
+    ParseError {
+        field: String,
+        target_type: String,
+        row: usize,
+        value: String,
+    },
+
+    #[error("Validation error: {message} in row {row}")]
+    ValidationError {
+        message: String,
+        row: usize,
+    },
+
+    #[error("Missing field: {field} in row {row}")]
+    MissingField {
+        field: String,
+        row: usize,
+    },
+
+    #[error("No records found in the input file")]
+    EmptyInput,
+
+    #[error("Configuration error: {message}")]
+    ConfigError {
+        message: String,
+    },
+}
+
+// Add context to IO errors
+impl ProcessorError {
+    pub fn with_path(mut self, path: impl Into&lt;PathBuf&gt;) -&gt; Self {
+        if let ProcessorError::IoError { ref mut path, .. } = self {
+            *path = Some(path.into());
+        }
+        self
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-3-define-data-models"><a class="header" href="#step-3-define-data-models">Step 3: Define Data Models</a></h3>
+<p>Next, let’s define our data models:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/models.rs
+use serde::{Deserialize, Serialize};
+use std::str::FromStr;
+use crate::error::ProcessorError;
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Record {
+    pub id: String,
+    pub name: Option&lt;String&gt;,
+    pub value: Option&lt;String&gt;,
+    pub date: Option&lt;String&gt;,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum FieldType {
+    String,
+    Integer,
+    Float,
+    Date,
+}
+
+impl FromStr for FieldType {
+    type Err = String;
+
+    fn from_str(s: &amp;str) -&gt; Result&lt;Self, Self::Err&gt; {
+        match s.to_lowercase().as_str() {
+            "string" =&gt; Ok(FieldType::String),
+            "integer" | "int" =&gt; Ok(FieldType::Integer),
+            "float" | "decimal" | "number" =&gt; Ok(FieldType::Float),
+            "date" =&gt; Ok(FieldType::Date),
+            _ =&gt; Err(format!("Unknown field type: {}", s)),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct ValidationRule {
+    pub field: String,
+    pub field_type: FieldType,
+    pub required: bool,
+}
+
+impl ValidationRule {
+    pub fn new(field: &amp;str, field_type: FieldType, required: bool) -&gt; Self {
+        Self {
+            field: field.to_string(),
+            field_type,
+            required,
+        }
+    }
+
+    pub fn validate(&amp;self, record: &amp;Record, row: usize) -&gt; Result&lt;(), ProcessorError&gt; {
+        let value = match self.field.as_str() {
+            "id" =&gt; Some(&amp;record.id),
+            "name" =&gt; record.name.as_ref(),
+            "value" =&gt; record.value.as_ref(),
+            "date" =&gt; record.date.as_ref(),
+            _ =&gt; return Err(ProcessorError::ConfigError {
+                message: format!("Unknown field in validation rule: {}", self.field),
+            }),
+        };
+
+        // Check if required field is missing
+        if self.required &amp;&amp; (value.is_none() || value.unwrap().is_empty()) {
+            return Err(ProcessorError::MissingField {
+                field: self.field.clone(),
+                row,
+            });
+        }
+
+        // If field is present but empty and not required, it's valid
+        if let Some(value) = value {
+            if value.is_empty() {
+                return Ok(());
+            }
+
+            // Validate type
+            match self.field_type {
+                FieldType::String =&gt; Ok(()), // All strings are valid
+                FieldType::Integer =&gt; {
+                    value.parse::&lt;i64&gt;().map_err(|_| {
+                        ProcessorError::ParseError {
+                            field: self.field.clone(),
+                            target_type: "integer".to_string(),
+                            row,
+                            value: value.to_string(),
+                        }
+                    })?;
+                    Ok(())
+                },
+                FieldType::Float =&gt; {
+                    value.parse::&lt;f64&gt;().map_err(|_| {
+                        ProcessorError::ParseError {
+                            field: self.field.clone(),
+                            target_type: "float".to_string(),
+                            row,
+                            value: value.to_string(),
+                        }
+                    })?;
+                    Ok(())
+                },
+                FieldType::Date =&gt; {
+                    chrono::NaiveDate::parse_from_str(value, "%Y-%m-%d").map_err(|_| {
+                        ProcessorError::ParseError {
+                            field: self.field.clone(),
+                            target_type: "date (YYYY-MM-DD)".to_string(),
+                            row,
+                            value: value.to_string(),
+                        }
+                    })?;
+                    Ok(())
+                },
+            }
+        } else {
+            // Field is not present but not required
+            Ok(())
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-4-implement-the-processor"><a class="header" href="#step-4-implement-the-processor">Step 4: Implement the Processor</a></h3>
+<p>Now, let’s implement the core processor:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/processor.rs
+use std::path::Path;
+use std::fs::File;
+use crate::error::ProcessorError;
+use crate::models::{Record, ValidationRule};
+use anyhow::{Result, Context};
+use csv::{Reader, Writer};
+
+pub struct Processor {
+    validation_rules: Vec&lt;ValidationRule&gt;,
+}
+
+impl Processor {
+    pub fn new() -&gt; Self {
+        Self {
+            validation_rules: Vec::new(),
+        }
+    }
+
+    pub fn add_validation_rule(&amp;mut self, rule: ValidationRule) {
+        self.validation_rules.push(rule);
+    }
+
+    pub fn process_file&lt;P: AsRef&lt;Path&gt;&gt;(&amp;self, input_path: P, output_path: Option&lt;P&gt;) -&gt; Result&lt;ProcessStats, ProcessorError&gt; {
+        // Open the input file
+        let input_file = File::open(&amp;input_path)
+            .map_err(|e| ProcessorError::IoError { source: e, path: None })
+            .map_err(|e| e.with_path(input_path.as_ref()))?;
+
+        let mut reader = csv::Reader::from_reader(input_file);
+
+        // Process records
+        let mut processed_records = Vec::new();
+        let mut error_count = 0;
+        let mut success_count = 0;
+        let mut current_row = 0;
+
+        for result in reader.deserialize() {
+            current_row += 1;
+
+            // Parse record
+            let record: Record = result.map_err(|e| ProcessorError::CsvError { source: e })?;
+
+            // Validate record
+            match self.validate_record(&amp;record, current_row) {
+                Ok(()) =&gt; {
+                    // Process record (in a real application, we might transform it here)
+                    processed_records.push(record);
+                    success_count += 1;
+                },
+                Err(e) =&gt; {
+                    // Log the error but continue processing
+                    eprintln!("Error in row {}: {}", current_row, e);
+                    error_count += 1;
+                }
+            }
+        }
+
+        // Check if we processed any records
+        if processed_records.is_empty() {
+            return Err(ProcessorError::EmptyInput);
+        }
+
+        // Write output if requested
+        if let Some(output_path) = output_path {
+            let output_file = File::create(&amp;output_path)
+                .map_err(|e| ProcessorError::IoError { source: e, path: None })
+                .map_err(|e| e.with_path(output_path.as_ref()))?;
+
+            let mut writer = Writer::from_writer(output_file);
+
+            for record in &amp;processed_records {
+                writer.serialize(record)
+                    .map_err(|e| ProcessorError::CsvError { source: e })?;
+            }
+
+            writer.flush()
+                .map_err(|e| ProcessorError::IoError {
+                    source: e,
+                    path: Some(output_path.as_ref().to_path_buf())
+                })?;
+        }
+
+        Ok(ProcessStats {
+            total_records: current_row,
+            successful_records: success_count,
+            error_records: error_count,
+        })
+    }
+
+    fn validate_record(&amp;self, record: &amp;Record, row: usize) -&gt; Result&lt;(), ProcessorError&gt; {
+        for rule in &amp;self.validation_rules {
+            rule.validate(record, row)?;
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug)]
+pub struct ProcessStats {
+    pub total_records: usize,
+    pub successful_records: usize,
+    pub error_records: usize,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-5-create-the-cli-interface"><a class="header" href="#step-5-create-the-cli-interface">Step 5: Create the CLI Interface</a></h3>
+<p>Let’s create a command-line interface:</p>
+<pre><pre class="playground"><code class="language-rust">// src/main.rs
+mod error;
+mod models;
+mod processor;
+
+use clap::Parser;
+use std::path::PathBuf;
+use anyhow::{Result, Context};
+use models::{FieldType, ValidationRule};
+use processor::Processor;
+
+#[derive(Parser, Debug)]
+#[clap(name = "file_processor", about = "Process and validate CSV files")]
+struct Args {
+    /// Input CSV file to process
+    #[clap(short, long)]
+    input: PathBuf,
+
+    /// Output CSV file (optional)
+    #[clap(short, long)]
+    output: Option&lt;PathBuf&gt;,
+
+    /// Validate 'id' field as a string (required)
+    #[clap(long)]
+    validate_id: bool,
+
+    /// Validate 'name' field as a string
+    #[clap(long)]
+    validate_name: bool,
+
+    /// Validate 'value' field as a number
+    #[clap(long)]
+    validate_value: bool,
+
+    /// Validate 'date' field as a date (YYYY-MM-DD)
+    #[clap(long)]
+    validate_date: bool,
+}
+
+fn main() -&gt; Result&lt;()&gt; {
+    let args = Args::parse();
+
+    // Create processor with validation rules
+    let mut processor = Processor::new();
+
+    if args.validate_id {
+        processor.add_validation_rule(ValidationRule::new("id", FieldType::String, true));
+    }
+
+    if args.validate_name {
+        processor.add_validation_rule(ValidationRule::new("name", FieldType::String, false));
+    }
+
+    if args.validate_value {
+        processor.add_validation_rule(ValidationRule::new("value", FieldType::Float, false));
+    }
+
+    if args.validate_date {
+        processor.add_validation_rule(ValidationRule::new("date", FieldType::Date, false));
+    }
+
+    // Process the file
+    match processor.process_file(&amp;args.input, args.output.as_ref()) {
+        Ok(stats) =&gt; {
+            println!("Processing complete!");
+            println!("Total records: {}", stats.total_records);
+            println!("Successfully processed: {}", stats.successful_records);
+            println!("Records with errors: {}", stats.error_records);
+            Ok(())
+        },
+        Err(e) =&gt; {
+            // Use anyhow to add context to our custom errors
+            Err(e).context(format!("Failed to process file '{}'", args.input.display()))
+        }
+    }
+}</code></pre></pre>
+<h3 id="step-6-test-the-processor"><a class="header" href="#step-6-test-the-processor">Step 6: Test the Processor</a></h3>
+<p>To test our processor, let’s create a sample CSV file:</p>
+<pre><code class="language-bash">echo 'id,name,value,date
+1,Alice,42.5,2022-01-15
+2,Bob,invalid,2022-02-20
+3,Charlie,,not-a-date
+4,,100,2022-03-10
+,Missing ID,50,2022-04-01' &gt; sample.csv
+</code></pre>
+<p>Then run our processor:</p>
+<pre><code class="language-bash">cargo run -- --input sample.csv --output processed.csv --validate-id --validate-value --validate-date
+</code></pre>
+<p>You should see output like:</p>
+<pre><code>Error in row 2: Parse error: Could not parse value as float in row 2
+Error in row 3: Parse error: Could not parse date as date (YYYY-MM-DD) in row 3
+Error in row 5: Missing field: id in row 5
+Processing complete!
+Total records: 5
+Successfully processed: 2
+Records with errors: 3
+</code></pre>
+<h3 id="step-7-enhancing-error-reporting"><a class="header" href="#step-7-enhancing-error-reporting">Step 7: Enhancing Error Reporting</a></h3>
+<p>Let’s add more context to our errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Add to src/processor.rs
+pub fn process_file_with_context&lt;P: AsRef&lt;Path&gt;&gt;(&amp;self, input_path: P, output_path: Option&lt;P&gt;) -&gt; anyhow::Result&lt;ProcessStats&gt; {
+    self.process_file(&amp;input_path, output_path.as_ref())
+        .with_context(|| format!("Failed to process file '{}'", input_path.as_ref().display()))
+}
+<span class="boring">}</span></code></pre></pre>
+<p>And update the main function:</p>
+<pre><pre class="playground"><code class="language-rust">// In main.rs
+fn main() -&gt; anyhow::Result&lt;()&gt; {
+    // ...existing code...
+
+    // Process the file with additional context
+    match processor.process_file_with_context(&amp;args.input, args.output.as_ref()) {
+        Ok(stats) =&gt; {
+            println!("Processing complete!");
+            println!("Total records: {}", stats.total_records);
+            println!("Successfully processed: {}", stats.successful_records);
+            println!("Records with errors: {}", stats.error_records);
+            Ok(())
+        },
+        Err(e) =&gt; {
+            eprintln!("Error: {}", e);
+
+            // Print the error chain
+            let mut source = e.source();
+            while let Some(cause) = source {
+                eprintln!("Caused by: {}", cause);
+                source = cause.source();
+            }
+
+            Err(e)
+        }
+    }
+}</code></pre></pre>
+<p>This example demonstrates:</p>
+<ol>
+<li>Custom error types with <code>thiserror</code></li>
+<li>Adding context to errors</li>
+<li>Converting between error types</li>
+<li>Validation rules that return specific errors</li>
+<li>Handling errors without stopping processing</li>
+<li>Detailed error reporting with source chains</li>
+<li>Using <code>anyhow</code> for additional context</li>
+</ol>
+<p>The file processor showcases how Rust’s error handling can be used to build robust, reliable applications that gracefully handle various error conditions.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored Rust’s approach to recoverable error handling through the <code>Result&lt;T, E&gt;</code> and <code>Option&lt;T&gt;</code> types. We’ve learned:</p>
+<ul>
+<li>How to work with <code>Result</code> and <code>Option</code> to handle operations that might fail</li>
+<li>Functional-style combinators like <code>map</code>, <code>and_then</code>, and <code>unwrap_or</code> that transform and chain operations</li>
+<li>The powerful <code>?</code> operator for clean error propagation</li>
+<li>Techniques for converting between <code>Result</code> and <code>Option</code></li>
+<li>How to design and implement custom error types</li>
+<li>The <code>Error</code> trait and error conversion mechanisms</li>
+<li>The <code>Try</code> trait that powers the <code>?</code> operator</li>
+<li>Best practices for error reporting and handling</li>
+</ul>
+<p>By using these patterns, you can write code that gracefully handles errors, provides clear diagnostics, and maintains the reliability and safety guarantees that Rust is known for. Effective error handling is a critical aspect of robust software, and Rust’s approach encourages you to think about and handle potential failures explicitly, leading to more reliable applications.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p><strong>Enhanced File Processor</strong>: Extend the file processing utility to support different input and output formats (JSON, YAML, etc.).</p>
+</li>
+<li>
+<p><strong>Custom Result Type</strong>: Create your own <code>Result</code>-like type that includes additional context such as timestamps or call site information.</p>
+</li>
+<li>
+<p><strong>Error Context Library</strong>: Implement a small library for adding layered context to errors, similar to <code>anyhow</code> but with your own design.</p>
+</li>
+<li>
+<p><strong>Result Collector</strong>: Create a utility that collects results from multiple operations, categorizing them as successes or specific error types.</p>
+</li>
+<li>
+<p><strong>Error Handling Benchmark</strong>: Compare the performance of different error handling approaches (returning early, using combinators, using <code>?</code>, etc.).</p>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/rust-by-example/error.html">Rust By Example: Error Handling</a> - Practical examples of error handling in Rust</li>
+<li><a href="https://doc.rust-lang.org/book/ch09-00-error-handling.html">The Rust Programming Language: Error Handling</a> - Comprehensive guide to Rust’s error handling</li>
+<li><a href="https://rust-lang.github.io/rfcs/3058-try-trait-v2.html">Rust RFC 3058: Try Trait v2</a> - The RFC for the redesigned Try trait</li>
+<li><a href="https://blog.burntsushi.net/rust-error-handling/">Error Handling in Rust</a> - A deep dive by Andrew Gallant</li>
+<li><a href="https://docs.rs/anyhow/">anyhow crate</a> - Flexible error handling with context</li>
+<li><a href="https://docs.rs/thiserror/">thiserror crate</a> - Derive macros for custom error types</li>
+<li><a href="https://nick.groenen.me/posts/rust-error-handling/">Error Handling Patterns in Rust</a> - Common patterns and practices</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/19-panic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/21-error-patterns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/19-panic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/21-error-patterns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

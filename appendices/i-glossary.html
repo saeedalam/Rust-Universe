@@ -1,0 +1,344 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Comprehensive Glossary - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/appendices/i-glossary.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="appendix-i-comprehensive-glossary"><a class="header" href="#appendix-i-comprehensive-glossary">Appendix I: Comprehensive Glossary</a></h2>
+<p>This glossary provides definitions for Rust-specific terminology and concepts.</p>
+<h3 id="a"><a class="header" href="#a">A</a></h3>
+<p><strong>Abstract Syntax Tree (AST)</strong>: The data structure representing the syntactic structure of Rust code after parsing.</p>
+<p><strong>Allocator</strong>: A component responsible for managing memory allocation and deallocation. Rust allows using custom allocators.</p>
+<p><strong>Arc</strong>: Atomic Reference Counted pointer (<code>Arc&lt;T&gt;</code>), a thread-safe shared ownership smart pointer.</p>
+<p><strong>Associated Functions</strong>: Functions defined within an implementation block that don’t take <code>self</code> as a parameter.</p>
+<p><strong>Associated Types</strong>: Type placeholders defined in traits that implementing types must specify.</p>
+<p><strong>Async/Await</strong>: Syntax for writing asynchronous code that looks similar to synchronous code.</p>
+<h3 id="b"><a class="header" href="#b">B</a></h3>
+<p><strong>Binary Crate</strong>: A crate that compiles to an executable rather than a library.</p>
+<p><strong>Binding</strong>: Assigning a value to a name (variable).</p>
+<p><strong>Blanket Implementation</strong>: Implementing a trait for all types that satisfy certain constraints.</p>
+<p><strong>Block Expression</strong>: A sequence of statements enclosed by curly braces, which evaluates to a value.</p>
+<p><strong>Borrowing</strong>: Taking a reference to a value without taking ownership.</p>
+<p><strong>Borrow Checker</strong>: The part of the Rust compiler that enforces the borrowing rules.</p>
+<p><strong>Box</strong>: A smart pointer for heap allocation (<code>Box&lt;T&gt;</code>).</p>
+<h3 id="c"><a class="header" href="#c">C</a></h3>
+<p><strong>Cargo</strong>: Rust’s package manager and build system.</p>
+<p><strong>Channel</strong>: A communication mechanism between threads, typically provided by the <code>std::sync::mpsc</code> module.</p>
+<p><strong>Clone</strong>: Creating a duplicate of a value. Implemented via the <code>Clone</code> trait.</p>
+<p><strong>Closure</strong>: An anonymous function that can capture values from its environment.</p>
+<p><strong>Coherence</strong>: The property that there is at most one implementation of a trait for any given type.</p>
+<p><strong>Compile-time</strong>: Operations performed during compilation rather than when the program runs.</p>
+<p><strong>Const Generics</strong>: Generic parameters that represent constant values rather than types.</p>
+<p><strong>Crate</strong>: A Rust compilation unit, which can be a library or an executable binary.</p>
+<h3 id="d"><a class="header" href="#d">D</a></h3>
+<p><strong>Deref Coercion</strong>: Automatic conversion from a reference to a type that implements <code>Deref</code> to a reference to the target type.</p>
+<p><strong>Derive</strong>: Automatically implementing traits through the <code>#[derive]</code> attribute.</p>
+<p><strong>Discriminant</strong>: The value used to determine which variant of an enum is active.</p>
+<p><strong>Drop Check</strong>: The compiler mechanism that ensures values aren’t dropped while references to them still exist.</p>
+<p><strong>DST (Dynamically Sized Type)</strong>: A type whose size is not known at compile time, like slices (<code>[T]</code>) or trait objects.</p>
+<p><strong>Dynamic Dispatch</strong>: Late binding of method calls based on the actual type of an object, used with trait objects.</p>
+<h3 id="e"><a class="header" href="#e">E</a></h3>
+<p><strong>Edition</strong>: A version of the Rust language that may include backwards-incompatible changes. Current editions include 2015, 2018, and 2021.</p>
+<p><strong>Enum</strong>: A type representing a value that can be one of several variants.</p>
+<p><strong>Error Propagation</strong>: Passing errors up the call stack, often using the <code>?</code> operator.</p>
+<p><strong>Expression</strong>: A piece of code that evaluates to a value.</p>
+<p><strong>Extern Crate</strong>: A declaration that the current crate depends on an external crate.</p>
+<h3 id="f"><a class="header" href="#f">F</a></h3>
+<p><strong>Feature Flag</strong>: A conditional compilation option specified in Cargo.toml.</p>
+<p><strong>Foreign Function Interface (FFI)</strong>: The mechanism for calling functions written in other languages.</p>
+<p><strong>Future</strong>: A value representing an asynchronous computation that may not have completed yet.</p>
+<p><strong>Fn Traits</strong>: The family of traits (<code>Fn</code>, <code>FnMut</code>, <code>FnOnce</code>) that closures and functions implement.</p>
+<h3 id="g"><a class="header" href="#g">G</a></h3>
+<p><strong>Generics</strong>: Parameters in types, functions, and traits that allow code to operate on different types.</p>
+<p><strong>Guard Pattern</strong>: Using RAII to ensure cleanup code runs when a value goes out of scope.</p>
+<h3 id="h"><a class="header" href="#h">H</a></h3>
+<p><strong>Higher-Ranked Trait Bounds (HRTB)</strong>: A trait bound that uses the <code>for&lt;'a&gt;</code> syntax to specify a bound for all possible lifetimes.</p>
+<h3 id="i"><a class="header" href="#i">I</a></h3>
+<p><strong>Immutability</strong>: By default, variables in Rust cannot be changed after being assigned.</p>
+<p><strong>Implementation</strong>: Code that provides behavior for a struct, enum, or trait.</p>
+<p><strong>Interior Mutability</strong>: The ability to mutate data even through a shared reference using types like <code>RefCell</code> or <code>Mutex</code>.</p>
+<p><strong>Iterator</strong>: A type that produces a sequence of values, implementing the <code>Iterator</code> trait.</p>
+<h3 id="l"><a class="header" href="#l">L</a></h3>
+<p><strong>Lifetime</strong>: A compiler construct that ensures references are valid for a specific scope.</p>
+<p><strong>Lifetime Elision</strong>: Rules that allow omitting lifetime annotations in common patterns.</p>
+<p><strong>Library Crate</strong>: A crate that provides functionality to be used by other crates rather than being an executable.</p>
+<h3 id="m"><a class="header" href="#m">M</a></h3>
+<p><strong>Macro</strong>: A way to define code that generates other code at compile time.</p>
+<p><strong>Match</strong>: A control flow construct that compares a value against patterns and executes code based on which pattern matches.</p>
+<p><strong>Method</strong>: A function associated with a type that takes <code>self</code> as its first parameter.</p>
+<p><strong>MIRI</strong>: An interpreter for Rust’s mid-level IR (MIR) that can detect certain types of undefined behavior.</p>
+<p><strong>Module</strong>: A namespace that contains items such as functions, types, and other modules.</p>
+<p><strong>Move Semantics</strong>: When a value is assigned or passed to a function, ownership is transferred by default.</p>
+<p><strong>Mutability</strong>: The ability to change a value after its initial assignment.</p>
+<p><strong>Mutex</strong>: A synchronization primitive that protects shared data in concurrent contexts.</p>
+<h3 id="n"><a class="header" href="#n">N</a></h3>
+<p><strong>Never Type (<code>!</code>)</strong>: The type of computations that never complete normally (e.g., a function that always panics).</p>
+<p><strong>Newtype Pattern</strong>: Wrapping a type in a single-field tuple struct to create a new type.</p>
+<p><strong>Non-Lexical Lifetimes (NLL)</strong>: An improvement to the borrow checker that allows references to be valid for just the portions of code where they’re actually used.</p>
+<h3 id="o"><a class="header" href="#o">O</a></h3>
+<p><strong>Orphan Rule</strong>: The rule that implementations of a trait can only be defined in the crate where either the trait or the type is defined.</p>
+<p><strong>Owned Type</strong>: A type that has a single owner responsible for its cleanup.</p>
+<p><strong>Ownership</strong>: Rust’s core memory management concept where each value has a single owner.</p>
+<h3 id="p"><a class="header" href="#p">P</a></h3>
+<p><strong>Panic</strong>: An unrecoverable error that typically results in thread termination.</p>
+<p><strong>Pattern Matching</strong>: Checking a value against patterns and extracting parts of it.</p>
+<p><strong>Pin</strong>: A wrapper type that prevents the underlying value from being moved in memory, used with <code>Future</code>s.</p>
+<p><strong>Prelude</strong>: The set of items automatically imported into every Rust module.</p>
+<p><strong>Procedural Macro</strong>: A function that takes code as input and produces code as output, used for custom derive, attribute-like macros, and function-like macros.</p>
+<h3 id="r"><a class="header" href="#r">R</a></h3>
+<p><strong>Raw Pointer</strong>: An unsafe pointer type (<code>*const T</code> or <code>*mut T</code>) with no safety guarantees.</p>
+<p><strong>Rc</strong>: Reference Counted pointer (<code>Rc&lt;T&gt;</code>), a single-threaded shared ownership smart pointer.</p>
+<p><strong>Recursive Type</strong>: A type that can contain itself, like a tree structure.</p>
+<p><strong>Reference</strong>: A non-owning pointer to a value (<code>&amp;T</code> or <code>&amp;mut T</code>).</p>
+<p><strong>RefCell</strong>: A type that provides interior mutability in single-threaded contexts.</p>
+<p><strong>Rustdoc</strong>: Rust’s documentation generation tool.</p>
+<p><strong>Rustfmt</strong>: A tool for formatting Rust code according to style guidelines.</p>
+<h3 id="s"><a class="header" href="#s">S</a></h3>
+<p><strong>Send</strong>: A marker trait indicating a type can be safely transferred between threads.</p>
+<p><strong>Slice</strong>: A view into a contiguous sequence of elements (<code>[T]</code>).</p>
+<p><strong>Smart Pointer</strong>: A data structure that acts like a pointer but provides additional functionality.</p>
+<p><strong>Static Dispatch</strong>: Resolving function calls at compile time, used with generics and trait bounds.</p>
+<p><strong>Static Lifetime (<code>'static</code>)</strong>: The lifetime that lasts for the entire program.</p>
+<p><strong>String Literal</strong>: A fixed string in the source code, has type <code>&amp;'static str</code>.</p>
+<p><strong>String Type</strong>: The owned, growable string type (<code>String</code>).</p>
+<p><strong>Struct</strong>: A custom data type that groups related values.</p>
+<p><strong>Sync</strong>: A marker trait indicating a type can be safely shared between threads.</p>
+<h3 id="t"><a class="header" href="#t">T</a></h3>
+<p><strong>Trait</strong>: A feature similar to interfaces in other languages, defining shared behavior.</p>
+<p><strong>Trait Bound</strong>: A constraint on a generic type requiring it to implement certain traits.</p>
+<p><strong>Trait Object</strong>: A value that implements a specific trait, with type erased.</p>
+<p><strong>Type Alias</strong>: A new name for an existing type.</p>
+<p><strong>Type Inference</strong>: The compiler’s ability to deduce types without explicit annotations.</p>
+<h3 id="u"><a class="header" href="#u">U</a></h3>
+<p><strong>Unsafe</strong>: A keyword that marks code that bypasses some of Rust’s safety guarantees.</p>
+<p><strong>Unwrap</strong>: Extracting the value from an <code>Option</code> or <code>Result</code>, causing a panic if there isn’t one.</p>
+<h3 id="v"><a class="header" href="#v">V</a></h3>
+<p><strong>Variable Shadowing</strong>: Declaring a new variable with the same name as an existing one.</p>
+<p><strong>Variance</strong>: How the subtyping relationship of parameters affects the subtyping relationship of the parametrized type.</p>
+<p><strong>Vec</strong>: Rust’s dynamic array type (<code>Vec&lt;T&gt;</code>).</p>
+<h3 id="w"><a class="header" href="#w">W</a></h3>
+<p><strong>Wrapper Type</strong>: A type that contains another type to add behavior or meaning.</p>
+<h2 id="appendix-j-learning-paths-for-different-backgrounds"><a class="header" href="#appendix-j-learning-paths-for-different-backgrounds">Appendix J: Learning Paths for Different Backgrounds</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendices/h-optimization-cookbook.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendices/j-learning-paths.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendices/h-optimization-cookbook.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendices/j-learning-paths.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

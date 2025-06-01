@@ -1,0 +1,4274 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Command-Line Applications - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/29-cli.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-29-command-line-applications"><a class="header" href="#chapter-29-command-line-applications">Chapter 29: Command-Line Applications</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Command-line applications have been a fundamental part of computing since the earliest days of software development. Despite the rise of graphical user interfaces, command-line tools remain essential for developers, system administrators, and power users due to their efficiency, scriptability, and composability. Rust’s performance, reliability, and robust ecosystem make it an excellent choice for developing powerful command-line interfaces (CLIs).</p>
+<p>In this chapter, we’ll explore how to build sophisticated, user-friendly command-line applications in Rust. From parsing arguments and handling configuration to creating interactive interfaces with rich formatting, we’ll cover the complete lifecycle of CLI application development. We’ll also discuss how to package and distribute your applications effectively to reach your users.</p>
+<p>Rust’s ecosystem offers several high-quality libraries that make CLI development straightforward and enjoyable. We’ll focus on popular crates like <code>clap</code> for argument parsing, <code>crossterm</code> for terminal interaction, and others that help you create polished, professional command-line tools. By the end of this chapter, you’ll have the knowledge and skills to create CLI applications that are not only functional but also provide an excellent user experience.</p>
+<p>Whether you’re building developer tools, system utilities, or interactive applications, the principles and techniques in this chapter will help you leverage Rust’s strengths to create command-line applications that are fast, reliable, and easy to use.</p>
+<h2 id="cli-application-design"><a class="header" href="#cli-application-design">CLI Application Design</a></h2>
+<p>Before diving into code, it’s important to consider the design of your command-line application. Good CLI design focuses on user experience, just like any other software interface. Here are some key principles to guide your design process:</p>
+<h3 id="core-principles-of-cli-design"><a class="header" href="#core-principles-of-cli-design">Core Principles of CLI Design</a></h3>
+<ol>
+<li>
+<p><strong>Follow the Unix Philosophy</strong>:</p>
+<ul>
+<li>Do one thing and do it well</li>
+<li>Process text streams as a universal interface</li>
+<li>Make composition with other tools easy</li>
+<li>Value simplicity and clarity</li>
+</ul>
+</li>
+<li>
+<p><strong>Be Predictable</strong>:</p>
+<ul>
+<li>Follow established conventions for flags and arguments</li>
+<li>Use familiar patterns like <code>--help</code> for help text</li>
+<li>Maintain backward compatibility when updating</li>
+</ul>
+</li>
+<li>
+<p><strong>Provide Helpful Feedback</strong>:</p>
+<ul>
+<li>Clear error messages that explain what went wrong</li>
+<li>Suggestions for how to fix problems</li>
+<li>Progress indicators for long-running operations</li>
+</ul>
+</li>
+<li>
+<p><strong>Respect the Environment</strong>:</p>
+<ul>
+<li>Honor configuration files and environment variables</li>
+<li>Play well with pipes and redirections</li>
+<li>Return appropriate exit codes</li>
+</ul>
+</li>
+</ol>
+<h3 id="common-cli-patterns"><a class="header" href="#common-cli-patterns">Common CLI Patterns</a></h3>
+<p>Several patterns have emerged for organizing command-line applications:</p>
+<h4 id="single-purpose-tools"><a class="header" href="#single-purpose-tools">Single-Purpose Tools</a></h4>
+<p>Applications that do one thing, following the Unix philosophy:</p>
+<pre><code class="language-bash">$ grep "pattern" file.txt
+$ cat file.txt
+$ ls -la
+</code></pre>
+<p>These tools tend to have simple interfaces with flags and arguments.</p>
+<h4 id="command-suites"><a class="header" href="#command-suites">Command Suites</a></h4>
+<p>Applications that group related functionality under a single entry point:</p>
+<pre><code class="language-bash">$ git commit -m "Message"
+$ git push origin main
+$ cargo build --release
+$ cargo test
+</code></pre>
+<p>These tools organize functionality into subcommands, each with its own set of options.</p>
+<h4 id="interactive-applications"><a class="header" href="#interactive-applications">Interactive Applications</a></h4>
+<p>Applications that provide an interactive interface rather than processing arguments in a single run:</p>
+<pre><code class="language-bash">$ top
+$ vim file.txt
+$ htop
+</code></pre>
+<p>These tools often use the full terminal space and respond to keypresses.</p>
+<h3 id="designing-your-clis-interface"><a class="header" href="#designing-your-clis-interface">Designing Your CLI’s Interface</a></h3>
+<p>When planning your command-line interface, consider these aspects:</p>
+<ol>
+<li>
+<p><strong>Command Structure</strong>:</p>
+<ul>
+<li>Will your application use subcommands or a simpler flag-based interface?</li>
+<li>How will you organize related functionality?</li>
+</ul>
+</li>
+<li>
+<p><strong>Argument and Flag Conventions</strong>:</p>
+<ul>
+<li>Short flags (<code>-v</code>) for common options</li>
+<li>Long flags (<code>--verbose</code>) for clarity</li>
+<li>Positional arguments for required inputs</li>
+<li>Options that take values (<code>--output file.txt</code>)</li>
+</ul>
+</li>
+<li>
+<p><strong>Help and Documentation</strong>:</p>
+<ul>
+<li>Comprehensive <code>--help</code> output</li>
+<li>Man pages for more detailed documentation</li>
+<li>Examples showing common use cases</li>
+</ul>
+</li>
+<li>
+<p><strong>Error Handling</strong>:</p>
+<ul>
+<li>Clear error messages</li>
+<li>Appropriate exit codes</li>
+<li>Debug options for troubleshooting</li>
+</ul>
+</li>
+<li>
+<p><strong>Output Formatting</strong>:</p>
+<ul>
+<li>How will users consume the output?</li>
+<li>Will it be read by humans, parsed by scripts, or both?</li>
+<li>Consider supporting multiple output formats (text, JSON, etc.)</li>
+</ul>
+</li>
+</ol>
+<h3 id="example-planning-a-file-search-tool"><a class="header" href="#example-planning-a-file-search-tool">Example: Planning a File Search Tool</a></h3>
+<p>Let’s illustrate these principles by planning a simple file search tool. We want our tool to:</p>
+<ol>
+<li>Search for files matching a pattern</li>
+<li>Allow filtering by file type and size</li>
+<li>Support different output formats</li>
+<li>Provide progress indicators for large searches</li>
+</ol>
+<p>Our command structure might look like:</p>
+<pre><code>findit [OPTIONS] PATTERN [PATH]
+
+OPTIONS:
+  -t, --type TYPE      Filter by file type (file, dir, symlink)
+  -s, --size RANGE     Filter by file size (e.g., +1M, -500K)
+  -o, --output FORMAT  Output format (text, json, csv)
+  -r, --recursive      Search directories recursively
+  --progress           Show progress bar during search
+  -h, --help           Print help information
+  -V, --version        Print version information
+
+ARGS:
+  PATTERN              Pattern to search for
+  PATH                 Directory to search [default: current directory]
+</code></pre>
+<p>This design follows established conventions, making it intuitive for users familiar with command-line tools. We’ve included both short and long options, reasonable defaults, and clear help text.</p>
+<p>In the next section, we’ll see how to implement this kind of interface using Rust’s argument parsing libraries.</p>
+<h2 id="argument-parsing-with-clap"><a class="header" href="#argument-parsing-with-clap">Argument Parsing with clap</a></h2>
+<p>One of the most important aspects of a command-line application is handling user input. Rust’s ecosystem offers several libraries for parsing command-line arguments, but <a href="https://crates.io/crates/clap"><code>clap</code></a> (Command Line Argument Parser) stands out for its flexibility, powerful features, and developer-friendly API.</p>
+<h3 id="getting-started-with-clap"><a class="header" href="#getting-started-with-clap">Getting Started with clap</a></h3>
+<p>Let’s start by adding clap to your project’s dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+</code></pre>
+<p>The <code>derive</code> feature enables a declarative API using Rust’s attribute macros, which we’ll use in our examples.</p>
+<h3 id="basic-argument-parsing"><a class="header" href="#basic-argument-parsing">Basic Argument Parsing</a></h3>
+<p>Let’s implement a basic version of our file search tool using clap’s derive API:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::Parser;
+use std::path::PathBuf;
+
+/// A simple file finding tool
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    /// Pattern to search for
+    pattern: String,
+
+    /// Directory to search
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Filter by file type
+    #[arg(short, long, value_name = "TYPE")]
+    r#type: Option&lt;String&gt;,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: bool,
+
+    /// Output format
+    #[arg(short, long, value_name = "FORMAT", default_value = "text")]
+    output: String,
+
+    /// Show progress bar
+    #[arg(long)]
+    progress: bool,
+}
+
+fn main() {
+    let args = Args::parse();
+
+    println!("Searching for: {}", args.pattern);
+    println!("In directory: {}", args.path.display());
+
+    if let Some(file_type) = args.r#type {
+        println!("Filtering by type: {}", file_type);
+    }
+
+    println!("Recursive search: {}", args.recursive);
+    println!("Output format: {}", args.output);
+    println!("Show progress: {}", args.progress);
+
+    // Actual search implementation would go here
+}</code></pre></pre>
+<p>This code:</p>
+<ol>
+<li>Defines a struct <code>Args</code> that represents our command-line interface</li>
+<li>Uses doc comments to generate help text</li>
+<li>Configures default values, short and long flags, and more</li>
+<li>Automatically handles <code>--help</code> and <code>--version</code> flags</li>
+</ol>
+<p>When you run this program with <code>--help</code>, it will generate comprehensive help text:</p>
+<pre><code>A simple file finding tool
+
+Usage: myapp [OPTIONS] &lt;PATTERN&gt; [PATH]
+
+Arguments:
+  &lt;PATTERN&gt;  Pattern to search for
+  [PATH]     Directory to search [default: .]
+
+Options:
+  -t, --type &lt;TYPE&gt;      Filter by file type
+  -r, --recursive        Search recursively
+  -o, --output &lt;FORMAT&gt;  Output format [default: text]
+      --progress         Show progress bar
+  -h, --help             Print help
+  -V, --version          Print version
+</code></pre>
+<h3 id="command-validation"><a class="header" href="#command-validation">Command Validation</a></h3>
+<p>Clap handles basic argument parsing, but often you need to validate user input. Let’s add some validation logic:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::{Parser, ValueEnum};
+use std::path::PathBuf;
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, ValueEnum)]
+enum FileType {
+    File,
+    Directory,
+    Symlink,
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, ValueEnum)]
+enum OutputFormat {
+    Text,
+    Json,
+    Csv,
+}
+
+/// A simple file finding tool
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    /// Pattern to search for
+    pattern: String,
+
+    /// Directory to search
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Filter by file type
+    #[arg(short, long, value_enum)]
+    r#type: Option&lt;FileType&gt;,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: bool,
+
+    /// Output format
+    #[arg(short, long, value_enum, default_value_t = OutputFormat::Text)]
+    output: OutputFormat,
+
+    /// Show progress bar
+    #[arg(long)]
+    progress: bool,
+}
+
+fn main() {
+    let args = Args::parse();
+
+    // Validate that the path exists
+    if !args.path.exists() {
+        eprintln!("Error: Path '{}' does not exist", args.path.display());
+        std::process::exit(1);
+    }
+
+    // Proceed with search
+    println!("Searching for: {}", args.pattern);
+    println!("In directory: {}", args.path.display());
+
+    if let Some(file_type) = args.r#type {
+        println!("Filtering by type: {:?}", file_type);
+    }
+
+    println!("Recursive search: {}", args.recursive);
+    println!("Output format: {:?}", args.output);
+    println!("Show progress: {}", args.progress);
+
+    // Actual search implementation would go here
+}</code></pre></pre>
+<p>By using the <code>ValueEnum</code> derive macro, we:</p>
+<ol>
+<li>Restrict input to a predefined set of values</li>
+<li>Get automatic error messages for invalid inputs</li>
+<li>Convert string arguments to typed enum values</li>
+</ol>
+<h3 id="implementing-subcommands"><a class="header" href="#implementing-subcommands">Implementing Subcommands</a></h3>
+<p>For more complex applications, you might want to implement a command suite with subcommands. Let’s modify our example to use subcommands:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::{Parser, Subcommand, Args as ClapArgs, ValueEnum};
+use std::path::PathBuf;
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, ValueEnum)]
+enum FileType {
+    File,
+    Directory,
+    Symlink,
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, ValueEnum)]
+enum OutputFormat {
+    Text,
+    Json,
+    Csv,
+}
+
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands,
+}
+
+#[derive(Subcommand, Debug)]
+enum Commands {
+    /// Find files matching a pattern
+    Find(FindArgs),
+
+    /// Count files by type
+    Count(CountArgs),
+}
+
+#[derive(ClapArgs, Debug)]
+struct FindArgs {
+    /// Pattern to search for
+    pattern: String,
+
+    /// Directory to search
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Filter by file type
+    #[arg(short, long, value_enum)]
+    r#type: Option&lt;FileType&gt;,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: bool,
+
+    /// Output format
+    #[arg(short, long, value_enum, default_value_t = OutputFormat::Text)]
+    output: OutputFormat,
+
+    /// Show progress bar
+    #[arg(long)]
+    progress: bool,
+}
+
+#[derive(ClapArgs, Debug)]
+struct CountArgs {
+    /// Directory to analyze
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: bool,
+}
+
+fn main() {
+    let cli = Cli::parse();
+
+    match cli.command {
+        Commands::Find(args) =&gt; {
+            println!("Running find command");
+            if !args.path.exists() {
+                eprintln!("Error: Path '{}' does not exist", args.path.display());
+                std::process::exit(1);
+            }
+
+            // Implement find functionality
+            println!("Searching for: {}", args.pattern);
+        }
+        Commands::Count(args) =&gt; {
+            println!("Running count command");
+            if !args.path.exists() {
+                eprintln!("Error: Path '{}' does not exist", args.path.display());
+                std::process::exit(1);
+            }
+
+            // Implement count functionality
+            println!("Analyzing directory: {}", args.path.display());
+        }
+    }
+}</code></pre></pre>
+<p>This code:</p>
+<ol>
+<li>Defines a top-level <code>Cli</code> struct that contains subcommands</li>
+<li>Defines an enum <code>Commands</code> for the different subcommands</li>
+<li>Defines separate argument structs for each subcommand</li>
+<li>Matches on the subcommand to execute the appropriate code</li>
+</ol>
+<p>The help output will now include information about subcommands:</p>
+<pre><code>A simple file finding tool
+
+Usage: myapp &lt;COMMAND&gt;
+
+Commands:
+  find   Find files matching a pattern
+  count  Count files by type
+  help   Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
+</code></pre>
+<h3 id="advanced-clap-features"><a class="header" href="#advanced-clap-features">Advanced clap Features</a></h3>
+<p>Clap offers many advanced features for complex CLI applications:</p>
+<h4 id="groups-and-mutually-exclusive-options"><a class="header" href="#groups-and-mutually-exclusive-options">Groups and Mutually Exclusive Options</a></h4>
+<p>You can group options and make them mutually exclusive:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Parser, Debug)]
+struct Args {
+    // These options can't be used together
+    #[arg(short, long, group = "mode")]
+    interactive: bool,
+
+    #[arg(short, long, group = "mode")]
+    batch: bool,
+
+    // Other arguments...
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="custom-validation"><a class="header" href="#custom-validation">Custom Validation</a></h4>
+<p>You can implement custom validation logic:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Parser, Debug)]
+struct Args {
+    #[arg(short, long, value_parser = validate_size_range)]
+    size: Option&lt;String&gt;,
+
+    // Other arguments...
+}
+
+fn validate_size_range(s: &amp;str) -&gt; Result&lt;String, String&gt; {
+    if s.starts_with('+') || s.starts_with('-') {
+        if s[1..].ends_with('K') || s[1..].ends_with('M') || s[1..].ends_with('G') {
+            return Ok(s.to_string());
+        }
+    }
+    Err(format!("Invalid size range: {}. Expected format: +1M, -500K, etc.", s))
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="shell-completions"><a class="header" href="#shell-completions">Shell Completions</a></h4>
+<p>Clap can generate shell completion scripts for various shells:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::{Command, CommandFactory, Parser};
+use clap_complete::{generate, shells::Bash};
+use std::io;
+
+#[derive(Parser, Debug)]
+struct Args {
+    // ... your arguments ...
+
+    /// Generate shell completions
+    #[arg(long = "generate-completions", value_name = "SHELL")]
+    generate_completions: Option&lt;String&gt;,
+}
+
+fn main() {
+    let args = Args::parse();
+
+    if let Some(shell) = args.generate_completions {
+        if shell == "bash" {
+            let mut cmd = Args::command();
+            generate(Bash, &amp;mut cmd, "myapp", &amp;mut io::stdout());
+            return;
+        }
+        // Handle other shells...
+    }
+
+    // Normal application logic...
+}</code></pre></pre>
+<h3 id="best-practices-for-argument-parsing"><a class="header" href="#best-practices-for-argument-parsing">Best Practices for Argument Parsing</a></h3>
+<p>When using clap (or any argument parsing library), follow these best practices:</p>
+<ol>
+<li><strong>Be descriptive</strong>: Use clear names for arguments and options</li>
+<li><strong>Provide helpful documentation</strong>: Use doc comments to explain what each option does</li>
+<li><strong>Use sensible defaults</strong>: Make common operations easy by choosing good defaults</li>
+<li><strong>Validate early</strong>: Check user input as soon as possible</li>
+<li><strong>Follow conventions</strong>: Use standard flag names (<code>-v</code> for verbose, <code>-h</code> for help)</li>
+<li><strong>Consider ergonomics</strong>: Balance power and simplicity in your interface</li>
+</ol>
+<h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
+<p>Let’s create a more complete implementation of our file search tool that incorporates these best practices:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::{Parser, ValueEnum};
+use std::path::PathBuf;
+use std::process;
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, ValueEnum)]
+enum FileType {
+    File,
+    Directory,
+    Symlink,
+    Any,
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, ValueEnum)]
+enum OutputFormat {
+    Text,
+    Json,
+    Csv,
+}
+
+/// A tool for finding files in a directory
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    /// Pattern to search for (supports glob patterns)
+    pattern: String,
+
+    /// Directory to search
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Filter by file type
+    #[arg(short, long, value_enum, default_value_t = FileType::Any)]
+    r#type: FileType,
+
+    /// Filter by file size (format: +1M, -500K, etc.)
+    #[arg(short, long, value_parser = validate_size_range)]
+    size: Option&lt;String&gt;,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: bool,
+
+    /// Maximum depth for recursive search
+    #[arg(long, default_value = "100")]
+    max_depth: usize,
+
+    /// Output format
+    #[arg(short, long, value_enum, default_value_t = OutputFormat::Text)]
+    output: OutputFormat,
+
+    /// Show progress bar
+    #[arg(long)]
+    progress: bool,
+
+    /// Verbose output
+    #[arg(short, long)]
+    verbose: bool,
+}
+
+fn validate_size_range(s: &amp;str) -&gt; Result&lt;String, String&gt; {
+    if s.is_empty() {
+        return Err("Size range cannot be empty".to_string());
+    }
+
+    if !s.starts_with('+') &amp;&amp; !s.starts_with('-') {
+        return Err("Size range must start with + or -".to_string());
+    }
+
+    let size_str = &amp;s[1..];
+    let (number, unit) = size_str.split_at(
+        size_str.find(|c: char| !c.is_ascii_digit())
+            .unwrap_or(size_str.len())
+    );
+
+    if number.is_empty() {
+        return Err("Size range must include a number".to_string());
+    }
+
+    if !number.parse::&lt;u64&gt;().is_ok() {
+        return Err(format!("Invalid number in size range: {}", number));
+    }
+
+    match unit {
+        "" | "B" | "K" | "KB" | "M" | "MB" | "G" | "GB" =&gt; Ok(s.to_string()),
+        _ =&gt; Err(format!("Invalid unit in size range: {}. Expected B, K, M, or G.", unit)),
+    }
+}
+
+fn main() {
+    let args = Args::parse();
+
+    // Validate path
+    if !args.path.exists() {
+        eprintln!("Error: Path '{}' does not exist", args.path.display());
+        process::exit(1);
+    }
+
+    if args.verbose {
+        println!("Search configuration:");
+        println!("  Pattern: {}", args.pattern);
+        println!("  Path: {}", args.path.display());
+        println!("  Type: {:?}", args.r#type);
+        if let Some(size) = &amp;args.size {
+            println!("  Size: {}", size);
+        }
+        println!("  Recursive: {}", args.recursive);
+        println!("  Max depth: {}", args.max_depth);
+        println!("  Output format: {:?}", args.output);
+        println!("  Show progress: {}", args.progress);
+    }
+
+    // The actual file search implementation would go here
+    println!("Searching for files matching '{}'...", args.pattern);
+
+    // For demonstration purposes, let's simulate finding some files
+    let results = vec![
+        args.path.join("file1.txt"),
+        args.path.join("subdir").join("file2.txt"),
+    ];
+
+    match args.output {
+        OutputFormat::Text =&gt; {
+            for file in results {
+                println!("{}", file.display());
+            }
+        }
+        OutputFormat::Json =&gt; {
+            println!("[");
+            for (i, file) in results.iter().enumerate() {
+                if i &gt; 0 {
+                    print!(",");
+                }
+                println!("  \"{}\"", file.display());
+            }
+            println!("]");
+        }
+        OutputFormat::Csv =&gt; {
+            println!("path");
+            for file in results {
+                println!("\"{}\"", file.display());
+            }
+        }
+    }
+
+    println!("Found {} matching files", results.len());
+}</code></pre></pre>
+<p>This implementation:</p>
+<ol>
+<li>Uses strongly typed enums for file types and output formats</li>
+<li>Provides custom validation for the size range</li>
+<li>Includes verbose mode for debugging</li>
+<li>Handles different output formats</li>
+<li>Provides helpful error messages</li>
+</ol>
+<p>With clap, you can build sophisticated command-line interfaces that are both powerful and user-friendly. In the next section, we’ll explore how to make your CLI applications interactive using terminal libraries.</p>
+<h2 id="terminal-interaction-with-crossterm"><a class="header" href="#terminal-interaction-with-crossterm">Terminal Interaction with crossterm</a></h2>
+<p>While argument parsing is crucial for non-interactive command-line applications, many CLI tools benefit from interactive features. These can range from simple progress indicators to full-screen terminal user interfaces (TUIs). In this section, we’ll explore how to create interactive CLI applications using the <code>crossterm</code> crate.</p>
+<h3 id="introduction-to-terminal-libraries"><a class="header" href="#introduction-to-terminal-libraries">Introduction to Terminal Libraries</a></h3>
+<p>Rust offers several libraries for terminal interaction:</p>
+<ul>
+<li><strong><code>crossterm</code></strong>: A cross-platform terminal manipulation library</li>
+<li><strong><code>termion</code></strong>: A pure Rust terminal manipulation library (Unix-only)</li>
+<li><strong><code>termios</code></strong>: Low-level terminal control (Unix-only)</li>
+<li><strong><code>console</code></strong>: High-level terminal utilities</li>
+<li><strong><code>dialoguer</code></strong>: User dialog prompts</li>
+</ul>
+<p>We’ll focus on <code>crossterm</code> because it works across platforms (Windows, macOS, and Linux) and provides a good balance of functionality and ease of use.</p>
+<h3 id="getting-started-with-crossterm"><a class="header" href="#getting-started-with-crossterm">Getting Started with crossterm</a></h3>
+<p>First, add crossterm to your dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+crossterm = "0.27"
+</code></pre>
+<p>Let’s create a simple example that demonstrates some basic terminal operations:</p>
+<pre><pre class="playground"><code class="language-rust">use crossterm::{
+    cursor,
+    style::{self, Color, Stylize},
+    terminal::{self, Clear, ClearType},
+    ExecutableCommand,
+    Result,
+};
+use std::io::{stdout, Write};
+
+fn main() -&gt; Result&lt;()&gt; {
+    // Get terminal size
+    let (cols, rows) = terminal::size()?;
+    println!("Terminal size: {}x{}", cols, rows);
+
+    // Clear the screen
+    stdout().execute(Clear(ClearType::All))?;
+
+    // Move cursor and print colored text
+    stdout()
+        .execute(cursor::MoveTo(10, 5))?
+        .execute(style::SetForegroundColor(Color::Green))?;
+
+    println!("Hello from crossterm!");
+
+    // Reset styles
+    stdout().execute(style::ResetColor)?;
+
+    // Move cursor to bottom
+    stdout().execute(cursor::MoveTo(0, rows - 1))?;
+
+    Ok(())
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Gets the terminal size</li>
+<li>Clears the screen</li>
+<li>Moves the cursor to a specific position</li>
+<li>Changes the text color</li>
+<li>Prints a message</li>
+<li>Resets the color</li>
+<li>Moves the cursor to the bottom of the screen</li>
+</ol>
+<h3 id="key-crossterm-features"><a class="header" href="#key-crossterm-features">Key Crossterm Features</a></h3>
+<p>Let’s explore the main features of crossterm that you’ll use in CLI applications:</p>
+<h4 id="cursor-manipulation"><a class="header" href="#cursor-manipulation">Cursor Manipulation</a></h4>
+<p>You can control the cursor’s position and visibility:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crossterm::{cursor, ExecutableCommand};
+use std::io::stdout;
+
+fn cursor_example() -&gt; crossterm::Result&lt;()&gt; {
+    // Hide the cursor
+    stdout().execute(cursor::Hide)?;
+
+    // Move the cursor
+    stdout().execute(cursor::MoveTo(10, 5))?;
+    println!("Text at position (10, 5)");
+
+    // Move cursor relatively
+    stdout().execute(cursor::MoveUp(1))?;
+    stdout().execute(cursor::MoveRight(5))?;
+    println!("Text moved up 1 and right 5");
+
+    // Save and restore cursor position
+    stdout().execute(cursor::SavePosition)?;
+    stdout().execute(cursor::MoveTo(0, 0))?;
+    println!("At top-left corner");
+    stdout().execute(cursor::RestorePosition)?;
+    println!("Back to saved position");
+
+    // Show the cursor again
+    stdout().execute(cursor::Show)?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="text-styling"><a class="header" href="#text-styling">Text Styling</a></h4>
+<p>You can style text with colors and attributes:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crossterm::{
+    style::{self, Attribute, Color, Stylize},
+    ExecutableCommand,
+};
+use std::io::stdout;
+
+fn styling_example() -&gt; crossterm::Result&lt;()&gt; {
+    // Set foreground and background colors
+    stdout()
+        .execute(style::SetForegroundColor(Color::Red))?
+        .execute(style::SetBackgroundColor(Color::Blue))?;
+
+    println!("Red text on blue background");
+
+    // Reset colors
+    stdout().execute(style::ResetColor)?;
+
+    // Using the Stylize trait
+    println!("{}", "Bold green text".green().bold());
+    println!("{}", "Underlined blue text".blue().underlined());
+    println!("{}", "Yellow on magenta".yellow().on_magenta());
+
+    // Attributes
+    stdout().execute(style::SetAttribute(Attribute::Bold))?;
+    println!("Bold text");
+    stdout().execute(style::SetAttribute(Attribute::Reset))?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="terminal-control"><a class="header" href="#terminal-control">Terminal Control</a></h4>
+<p>You can control terminal properties and behavior:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crossterm::{
+    terminal::{self, Clear, ClearType, EnterAlternateScreen, LeaveAlternateScreen},
+    ExecutableCommand,
+};
+use std::io::stdout;
+use std::thread::sleep;
+use std::time::Duration;
+
+fn terminal_example() -&gt; crossterm::Result&lt;()&gt; {
+    // Get terminal size
+    let (cols, rows) = terminal::size()?;
+    println!("Terminal size: {}x{}", cols, rows);
+
+    // Clear the screen
+    stdout().execute(Clear(ClearType::All))?;
+
+    // Enter raw mode (disables line buffering)
+    terminal::enable_raw_mode()?;
+
+    // Enter alternate screen (doesn't disturb the main terminal content)
+    stdout().execute(EnterAlternateScreen)?;
+
+    // Do something in the alternate screen
+    for i in 0..5 {
+        stdout().execute(Clear(ClearType::All))?;
+        println!("In alternate screen: {}", i);
+        sleep(Duration::from_millis(500));
+    }
+
+    // Leave alternate screen
+    stdout().execute(LeaveAlternateScreen)?;
+
+    // Disable raw mode
+    terminal::disable_raw_mode()?;
+
+    println!("Back to normal terminal");
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="event-handling"><a class="header" href="#event-handling">Event Handling</a></h4>
+<p>You can read keyboard, mouse, and terminal resize events:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crossterm::{
+    event::{self, Event, KeyCode, KeyEventKind},
+    terminal::{disable_raw_mode, enable_raw_mode},
+    Result,
+};
+
+fn event_example() -&gt; Result&lt;()&gt; {
+    println!("Press keys (press 'q' to quit)");
+
+    // Enable raw mode to read single keypresses
+    enable_raw_mode()?;
+
+    loop {
+        // Wait for an event
+        if event::poll(std::time::Duration::from_millis(100))? {
+            // Read the event
+            if let Event::Key(key_event) = event::read()? {
+                if key_event.kind == KeyEventKind::Press {
+                    match key_event.code {
+                        KeyCode::Char('q') =&gt; break,
+                        KeyCode::Char(c) =&gt; println!("You pressed: {}", c),
+                        KeyCode::Up =&gt; println!("Up arrow"),
+                        KeyCode::Down =&gt; println!("Down arrow"),
+                        KeyCode::Left =&gt; println!("Left arrow"),
+                        KeyCode::Right =&gt; println!("Right arrow"),
+                        KeyCode::Enter =&gt; println!("Enter"),
+                        KeyCode::Esc =&gt; println!("Escape"),
+                        _ =&gt; println!("Other key: {:?}", key_event.code),
+                    }
+                }
+            }
+        }
+
+        // Do some work while waiting for input
+        // ...
+    }
+
+    // Disable raw mode
+    disable_raw_mode()?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="building-interactive-elements"><a class="header" href="#building-interactive-elements">Building Interactive Elements</a></h3>
+<p>Now let’s build some common interactive elements for CLI applications:</p>
+<h4 id="progress-bars"><a class="header" href="#progress-bars">Progress Bars</a></h4>
+<p>A simple progress bar can improve the user experience for long-running operations:</p>
+<pre><pre class="playground"><code class="language-rust">use crossterm::{
+    cursor, style::{self, Color}, terminal, ExecutableCommand, Result,
+};
+use std::io::{stdout, Write};
+use std::thread::sleep;
+use std::time::Duration;
+
+fn progress_bar(total: usize) -&gt; Result&lt;()&gt; {
+    let width = 40; // Width of the progress bar
+
+    // Hide cursor during progress
+    stdout().execute(cursor::Hide)?;
+
+    for i in 0..=total {
+        let percentage = (i as f64 / total as f64) * 100.0;
+        let filled = ((i as f64 / total as f64) * width as f64) as usize;
+        let empty = width - filled;
+
+        // Move to beginning of line and clear it
+        stdout()
+            .execute(cursor::MoveToColumn(0))?
+            .execute(terminal::Clear(terminal::ClearType::CurrentLine))?;
+
+        // Print progress bar
+        print!("[");
+        stdout().execute(style::SetForegroundColor(Color::Green))?;
+        for _ in 0..filled {
+            print!("█");
+        }
+        stdout().execute(style::SetForegroundColor(Color::DarkGrey))?;
+        for _ in 0..empty {
+            print!("█");
+        }
+        stdout().execute(style::ResetColor)?;
+        print!("] {:.1}% ({}/{})", percentage, i, total);
+
+        stdout().flush()?;
+
+        // Simulate work
+        sleep(Duration::from_millis(50));
+    }
+
+    println!();
+
+    // Show cursor again
+    stdout().execute(cursor::Show)?;
+
+    Ok(())
+}
+
+fn main() -&gt; Result&lt;()&gt; {
+    println!("Processing files...");
+    progress_bar(100)?;
+    println!("Done!");
+
+    Ok(())
+}</code></pre></pre>
+<h4 id="spinners"><a class="header" href="#spinners">Spinners</a></h4>
+<p>For operations where the exact progress can’t be determined, a spinner can indicate ongoing activity:</p>
+<pre><pre class="playground"><code class="language-rust">use crossterm::{
+    cursor, terminal, ExecutableCommand, Result,
+};
+use std::io::{stdout, Write};
+use std::thread::sleep;
+use std::time::Duration;
+
+fn spinner(duration_secs: u64) -&gt; Result&lt;()&gt; {
+    let spinner_chars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+    let message = "Working...";
+    let interval = Duration::from_millis(100);
+    let end_time = std::time::Instant::now() + Duration::from_secs(duration_secs);
+
+    // Hide cursor during spinner
+    stdout().execute(cursor::Hide)?;
+
+    while std::time::Instant::now() &lt; end_time {
+        for &amp;spinner_char in &amp;spinner_chars {
+            // Move to beginning of line and clear it
+            stdout()
+                .execute(cursor::MoveToColumn(0))?
+                .execute(terminal::Clear(terminal::ClearType::CurrentLine))?;
+
+            // Print spinner and message
+            print!("{} {}", spinner_char, message);
+            stdout().flush()?;
+
+            sleep(interval);
+        }
+    }
+
+    // Clear the line after completion
+    stdout()
+        .execute(cursor::MoveToColumn(0))?
+        .execute(terminal::Clear(terminal::ClearType::CurrentLine))?;
+
+    println!("✓ Done!");
+
+    // Show cursor again
+    stdout().execute(cursor::Show)?;
+
+    Ok(())
+}
+
+fn main() -&gt; Result&lt;()&gt; {
+    println!("Starting task...");
+    spinner(5)?;
+    println!("Task completed.");
+
+    Ok(())
+}</code></pre></pre>
+<h4 id="simple-menu"><a class="header" href="#simple-menu">Simple Menu</a></h4>
+<p>A menu allows users to select from a list of options:</p>
+<pre><pre class="playground"><code class="language-rust">use crossterm::{
+    cursor, event::{self, Event, KeyCode, KeyEventKind},
+    style::{self, Color}, terminal, ExecutableCommand, Result,
+};
+use std::io::{stdout, Write};
+
+fn show_menu(options: &amp;[&amp;str]) -&gt; Result&lt;usize&gt; {
+    let mut selected = 0;
+
+    // Hide cursor and enter raw mode
+    stdout().execute(cursor::Hide)?;
+    terminal::enable_raw_mode()?;
+
+    loop {
+        // Clear screen and render menu
+        stdout()
+            .execute(terminal::Clear(terminal::ClearType::All))?
+            .execute(cursor::MoveTo(0, 0))?;
+
+        println!("Select an option:\n");
+
+        for (i, option) in options.iter().enumerate() {
+            if i == selected {
+                stdout()
+                    .execute(style::SetBackgroundColor(Color::Blue))?
+                    .execute(style::SetForegroundColor(Color::White))?;
+                println!(" &gt; {} ", option);
+                stdout()
+                    .execute(style::ResetColor)?;
+            } else {
+                println!("   {} ", option);
+            }
+        }
+
+        stdout().flush()?;
+
+        // Handle keyboard input
+        if let Event::Key(key_event) = event::read()? {
+            if key_event.kind == KeyEventKind::Press {
+                match key_event.code {
+                    KeyCode::Up =&gt; {
+                        if selected &gt; 0 {
+                            selected -= 1;
+                        }
+                    }
+                    KeyCode::Down =&gt; {
+                        if selected &lt; options.len() - 1 {
+                            selected += 1;
+                        }
+                    }
+                    KeyCode::Enter =&gt; break,
+                    KeyCode::Esc =&gt; {
+                        selected = options.len(); // Return a value outside of range to indicate cancel
+                        break;
+                    }
+                    _ =&gt; {}
+                }
+            }
+        }
+    }
+
+    // Restore terminal state
+    terminal::disable_raw_mode()?;
+    stdout().execute(cursor::Show)?;
+
+    Ok(selected)
+}
+
+fn main() -&gt; Result&lt;()&gt; {
+    let options = ["Option 1", "Option 2", "Option 3", "Exit"];
+
+    let selected = show_menu(&amp;options)?;
+
+    if selected &lt; options.len() {
+        println!("You selected: {}", options[selected]);
+    } else {
+        println!("Selection cancelled");
+    }
+
+    Ok(())
+}</code></pre></pre>
+<h3 id="advanced-terminal-applications"><a class="header" href="#advanced-terminal-applications">Advanced Terminal Applications</a></h3>
+<p>For more complex interactive applications, you might want to use a higher-level TUI (Text User Interface) library built on top of crossterm, like:</p>
+<ul>
+<li><strong><code>tui</code></strong> (or its successor <strong><code>ratatui</code></strong>): For creating complex terminal layouts with widgets</li>
+<li><strong><code>cursive</code></strong>: For creating interactive TUI applications</li>
+</ul>
+<p>Here’s a brief example using ratatui:</p>
+<pre><pre class="playground"><code class="language-rust">use crossterm::{
+    event::{self, Event, KeyCode},
+    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+    ExecutableCommand,
+};
+use ratatui::{
+    backend::CrosstermBackend,
+    layout::{Constraint, Direction, Layout},
+    style::{Color, Style},
+    text::{Span, Spans},
+    widgets::{Block, Borders, List, ListItem, Paragraph},
+    Terminal,
+};
+use std::io::{stdout, Result};
+
+fn main() -&gt; Result&lt;()&gt; {
+    // Setup terminal
+    enable_raw_mode()?;
+    stdout().execute(EnterAlternateScreen)?;
+    let backend = CrosstermBackend::new(stdout());
+    let mut terminal = Terminal::new(backend)?;
+
+    // App state
+    let mut current_selection = 0;
+    let items = vec!["Item 1", "Item 2", "Item 3", "Item 4"];
+
+    // Main loop
+    loop {
+        // Draw UI
+        terminal.draw(|f| {
+            // Create layout
+            let chunks = Layout::default()
+                .direction(Direction::Vertical)
+                .margin(1)
+                .constraints([
+                    Constraint::Length(3),
+                    Constraint::Min(0),
+                    Constraint::Length(3),
+                ].as_ref())
+                .split(f.size());
+
+            // Title
+            let title = Paragraph::new("My TUI Application")
+                .block(Block::default().borders(Borders::ALL));
+            f.render_widget(title, chunks[0]);
+
+            // List
+            let list_items: Vec&lt;ListItem&gt; = items
+                .iter()
+                .enumerate()
+                .map(|(i, &amp;item)| {
+                    let style = if i == current_selection {
+                        Style::default().fg(Color::Yellow)
+                    } else {
+                        Style::default()
+                    };
+                    ListItem::new(Spans::from(vec![
+                        Span::styled(format!("{}", item), style)
+                    ]))
+                })
+                .collect();
+
+            let list = List::new(list_items)
+                .block(Block::default().title("Items").borders(Borders::ALL));
+
+            f.render_widget(list, chunks[1]);
+
+            // Footer
+            let footer = Paragraph::new("Press q to quit, up/down to navigate")
+                .block(Block::default().borders(Borders::ALL));
+            f.render_widget(footer, chunks[2]);
+        })?;
+
+        // Handle input
+        if event::poll(std::time::Duration::from_millis(100))? {
+            if let Event::Key(key) = event::read()? {
+                match key.code {
+                    KeyCode::Char('q') =&gt; break,
+                    KeyCode::Up =&gt; {
+                        if current_selection &gt; 0 {
+                            current_selection -= 1;
+                        }
+                    }
+                    KeyCode::Down =&gt; {
+                        if current_selection &lt; items.len() - 1 {
+                            current_selection += 1;
+                        }
+                    }
+                    KeyCode::Enter =&gt; {
+                        // Do something with the selected item
+                    }
+                    _ =&gt; {}
+                }
+            }
+        }
+    }
+
+    // Restore terminal
+    disable_raw_mode()?;
+    stdout().execute(LeaveAlternateScreen)?;
+
+    Ok(())
+}</code></pre></pre>
+<p>This example creates a simple TUI application with a title, a selectable list, and a footer.</p>
+<h3 id="best-practices-for-terminal-interaction"><a class="header" href="#best-practices-for-terminal-interaction">Best Practices for Terminal Interaction</a></h3>
+<p>When building interactive terminal applications, follow these best practices:</p>
+<ol>
+<li>
+<p><strong>Graceful Degradation</strong>: Check terminal capabilities and fall back gracefully if advanced features aren’t available.</p>
+</li>
+<li>
+<p><strong>Clean Up After Yourself</strong>: Always restore the terminal state when your application exits, even if it crashes:</p>
+</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">fn run_app() -&gt; Result&lt;()&gt; {
+    // Set up terminal
+    enable_raw_mode()?;
+    stdout().execute(EnterAlternateScreen)?;
+
+    // Run your application...
+
+    // Clean up
+    disable_raw_mode()?;
+    stdout().execute(LeaveAlternateScreen)?;
+
+    Ok(())
+}
+
+fn main() {
+    // Use a closure with a finally-like pattern
+    let result = (|| -&gt; Result&lt;()&gt; {
+        run_app()
+    })();
+
+    // Always restore terminal state
+    let _ = disable_raw_mode();
+    let _ = stdout().execute(LeaveAlternateScreen);
+
+    // Report any errors
+    if let Err(err) = result {
+        eprintln!("Error: {:?}", err);
+    }
+}</code></pre></pre>
+<ol start="3">
+<li>
+<p><strong>Responsive Design</strong>: Adapt your UI based on the terminal size.</p>
+</li>
+<li>
+<p><strong>Keyboard Navigation</strong>: Provide intuitive keyboard shortcuts and navigation.</p>
+</li>
+<li>
+<p><strong>Accessibility</strong>: Consider users who may be using screen readers or other assistive technologies.</p>
+</li>
+</ol>
+<p>In the next section, we’ll explore how to build fully interactive command-line interfaces that respond to user input in real-time.</p>
+<h2 id="progress-indicators-and-spinners"><a class="header" href="#progress-indicators-and-spinners">Progress Indicators and Spinners</a></h2>
+<p>Long-running operations are common in CLI applications, whether you’re processing files, making network requests, or performing complex calculations. Without proper feedback, users might wonder if your application has frozen or crashed. Progress indicators help keep users informed and engaged during these operations.</p>
+<h3 id="types-of-progress-indicators"><a class="header" href="#types-of-progress-indicators">Types of Progress Indicators</a></h3>
+<p>There are several types of progress indicators, each suited to different scenarios:</p>
+<ol>
+<li><strong>Progress Bars</strong>: Show completion percentage for operations with known total work</li>
+<li><strong>Spinners</strong>: Indicate activity for operations with unknown duration</li>
+<li><strong>Counters</strong>: Display the number of completed items out of a total</li>
+<li><strong>ETA Displays</strong>: Estimate time remaining to completion</li>
+<li><strong>Throughput Indicators</strong>: Show processing speed (items/second, bytes/second)</li>
+</ol>
+<h3 id="using-the-indicatif-crate"><a class="header" href="#using-the-indicatif-crate">Using the indicatif Crate</a></h3>
+<p>While we could build progress indicators from scratch using crossterm (as shown in the previous section), the <a href="https://crates.io/crates/indicatif"><code>indicatif</code></a> crate provides a more comprehensive and polished solution. Let’s add it to our dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+indicatif = "0.17"
+</code></pre>
+<h4 id="basic-progress-bar"><a class="header" href="#basic-progress-bar">Basic Progress Bar</a></h4>
+<p>Here’s a simple progress bar example:</p>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{ProgressBar, ProgressStyle};
+use std::thread::sleep;
+use std::time::Duration;
+
+fn main() {
+    let total = 100;
+    let pb = ProgressBar::new(total);
+
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}/{len} ({eta})")
+            .unwrap()
+            .progress_chars("#&gt;-")
+    );
+
+    for i in 0..total {
+        pb.inc(1);
+
+        // Simulate some work
+        sleep(Duration::from_millis(50));
+    }
+
+    pb.finish_with_message("Done!");
+}</code></pre></pre>
+<p>This creates a progress bar with:</p>
+<ul>
+<li>A spinner</li>
+<li>Elapsed time</li>
+<li>A colored bar showing progress</li>
+<li>Current position and total</li>
+<li>Estimated time remaining</li>
+</ul>
+<h4 id="multi-progress-bars"><a class="header" href="#multi-progress-bars">Multi-Progress Bars</a></h4>
+<p>For more complex operations, you might need multiple progress bars:</p>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let m = MultiProgress::new();
+
+    let style = ProgressStyle::default_bar()
+        .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}/{len} {msg}")
+        .unwrap()
+        .progress_chars("#&gt;-");
+
+    let pb1 = m.add(ProgressBar::new(100));
+    pb1.set_style(style.clone());
+    pb1.set_message("Processing files");
+
+    let pb2 = m.add(ProgressBar::new(50));
+    pb2.set_style(style.clone());
+    pb2.set_message("Uploading data");
+
+    let pb3 = m.add(ProgressBar::new(75));
+    pb3.set_style(style);
+    pb3.set_message("Analyzing results");
+
+    let handle1 = thread::spawn(move || {
+        for i in 0..100 {
+            pb1.inc(1);
+            thread::sleep(Duration::from_millis(25));
+        }
+        pb1.finish_with_message("Files processed");
+    });
+
+    let handle2 = thread::spawn(move || {
+        for i in 0..50 {
+            pb2.inc(1);
+            thread::sleep(Duration::from_millis(100));
+        }
+        pb2.finish_with_message("Data uploaded");
+    });
+
+    let handle3 = thread::spawn(move || {
+        for i in 0..75 {
+            pb3.inc(1);
+            thread::sleep(Duration::from_millis(50));
+        }
+        pb3.finish_with_message("Analysis complete");
+    });
+
+    // Wait for all progress bars to finish
+    let _ = handle1.join();
+    let _ = handle2.join();
+    let _ = handle3.join();
+}</code></pre></pre>
+<p>This example shows three concurrent progress bars, each running in its own thread.</p>
+<h4 id="spinners-1"><a class="header" href="#spinners-1">Spinners</a></h4>
+<p>For operations where you can’t measure progress, use a spinner:</p>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{ProgressBar, ProgressStyle};
+use std::thread::sleep;
+use std::time::Duration;
+
+fn main() {
+    let spinner = ProgressBar::new_spinner();
+
+    spinner.set_style(
+        ProgressStyle::default_spinner()
+            .template("{spinner:.green} {msg}")
+            .unwrap()
+            .tick_strings(&amp;[
+                "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"
+            ])
+    );
+
+    spinner.set_message("Processing...");
+
+    for i in 0..50 {
+        spinner.tick();
+        sleep(Duration::from_millis(100));
+    }
+
+    spinner.finish_with_message("Done!");
+}</code></pre></pre>
+<h4 id="progress-bars-with-iterators"><a class="header" href="#progress-bars-with-iterators">Progress Bars with Iterators</a></h4>
+<p>One of the most convenient features of indicatif is its ability to wrap iterators:</p>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{ProgressBar, ProgressStyle};
+use std::thread::sleep;
+use std::time::Duration;
+
+fn main() {
+    let data = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    let pb = ProgressBar::new(data.len() as u64);
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("{bar:40.cyan/blue} {pos:&gt;7}/{len:7} {msg}")
+            .unwrap()
+            .progress_chars("##-")
+    );
+
+    // Process the data with a progress bar
+    let result: Vec&lt;_&gt; = pb
+        .wrap_iter(data.iter())
+        .map(|item| {
+            // Simulate processing
+            sleep(Duration::from_millis(200));
+            item * 2
+        })
+        .collect();
+
+    pb.finish_with_message("Processing complete");
+
+    println!("Result: {:?}", result);
+}</code></pre></pre>
+<p>This wraps an iterator with a progress bar, automatically incrementing it for each item processed.</p>
+<h4 id="progress-bars-for-file-operations"><a class="header" href="#progress-bars-for-file-operations">Progress Bars for File Operations</a></h4>
+<p>A common use case is showing progress for file operations:</p>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{ProgressBar, ProgressStyle, ByteUnit};
+use std::fs::File;
+use std::io::{Read, BufReader, BufRead};
+use std::path::Path;
+
+fn process_large_file(path: &amp;Path) -&gt; std::io::Result&lt;()&gt; {
+    let file = File::open(path)?;
+    let file_size = file.metadata()?.len();
+
+    let pb = ProgressBar::new(file_size);
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})")
+            .unwrap()
+            .progress_chars("#&gt;-")
+    );
+
+    let mut reader = BufReader::new(file);
+    let mut buffer = [0; 8192]; // 8KB buffer
+    let mut bytes_read = 0;
+
+    while let Ok(n) = reader.read(&amp;mut buffer) {
+        if n == 0 {
+            break; // End of file
+        }
+
+        bytes_read += n as u64;
+        pb.set_position(bytes_read);
+
+        // Process the data...
+
+        // Simulate some work
+        std::thread::sleep(std::time::Duration::from_millis(10));
+    }
+
+    pb.finish_with_message("File processed");
+
+    Ok(())
+}
+
+fn main() -&gt; std::io::Result&lt;()&gt; {
+    let path = Path::new("path/to/large/file.dat");
+    process_large_file(path)?;
+    Ok(())
+}</code></pre></pre>
+<p>This example shows a progress bar for processing a large file, displaying:</p>
+<ul>
+<li>The number of bytes processed</li>
+<li>The total file size</li>
+<li>Elapsed time</li>
+<li>Estimated time remaining</li>
+</ul>
+<h3 id="custom-progress-reporting"><a class="header" href="#custom-progress-reporting">Custom Progress Reporting</a></h3>
+<p>Sometimes you need more control over how progress is reported. Let’s create a custom progress reporter:</p>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{ProgressBar, ProgressStyle, HumanDuration};
+use std::time::{Duration, Instant};
+
+struct ProgressReporter {
+    progress_bar: ProgressBar,
+    start_time: Instant,
+    last_update: Instant,
+    update_interval: Duration,
+    items_processed: u64,
+    bytes_processed: u64,
+}
+
+impl ProgressReporter {
+    fn new(total: u64) -&gt; Self {
+        let pb = ProgressBar::new(total);
+        pb.set_style(
+            ProgressStyle::default_bar()
+                .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}/{len} | {msg}")
+                .unwrap()
+                .progress_chars("#&gt;-")
+        );
+
+        let now = Instant::now();
+
+        ProgressReporter {
+            progress_bar: pb,
+            start_time: now,
+            last_update: now,
+            update_interval: Duration::from_millis(100),
+            items_processed: 0,
+            bytes_processed: 0,
+        }
+    }
+
+    fn update(&amp;mut self, items: u64, bytes: u64, message: Option&lt;String&gt;) {
+        self.items_processed += items;
+        self.bytes_processed += bytes;
+
+        let now = Instant::now();
+        if now.duration_since(self.last_update) &gt;= self.update_interval {
+            self.last_update = now;
+
+            let elapsed = now.duration_since(self.start_time);
+            let items_per_sec = if elapsed.as_secs_f64() &gt; 0.0 {
+                self.items_processed as f64 / elapsed.as_secs_f64()
+            } else {
+                0.0
+            };
+
+            let bytes_per_sec = if elapsed.as_secs_f64() &gt; 0.0 {
+                self.bytes_processed as f64 / elapsed.as_secs_f64()
+            } else {
+                0.0
+            };
+
+            let msg = message.unwrap_or_else(|| {
+                format!(
+                    "{:.2} items/s | {}/s",
+                    items_per_sec,
+                    indicatif::HumanBytes(bytes_per_sec as u64)
+                )
+            });
+
+            self.progress_bar.set_message(msg);
+            self.progress_bar.set_position(self.items_processed);
+        }
+    }
+
+    fn finish(&amp;self) {
+        let elapsed = self.start_time.elapsed();
+        self.progress_bar.finish_with_message(format!(
+            "Done in {}. Processed {} items ({}).",
+            HumanDuration(elapsed),
+            self.items_processed,
+            indicatif::HumanBytes(self.bytes_processed)
+        ));
+    }
+}
+
+fn main() {
+    let total_items = 1000;
+    let mut reporter = ProgressReporter::new(total_items);
+
+    for i in 0..total_items {
+        // Simulate processing an item
+        std::thread::sleep(std::time::Duration::from_millis(5));
+
+        // Update progress (1 item, random number of bytes)
+        let bytes = (i % 10 + 1) * 1024; // Between 1KB and 10KB
+        reporter.update(1, bytes, None);
+    }
+
+    reporter.finish();
+}</code></pre></pre>
+<p>This custom reporter provides:</p>
+<ul>
+<li>Items processed per second</li>
+<li>Bytes processed per second</li>
+<li>Customizable messages</li>
+<li>A summary at completion</li>
+</ul>
+<h3 id="progress-indicators-in-real-world-applications"><a class="header" href="#progress-indicators-in-real-world-applications">Progress Indicators in Real-World Applications</a></h3>
+<p>Let’s look at a more realistic example: downloading files with progress reporting:</p>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{ProgressBar, ProgressStyle, MultiProgress};
+use std::cmp::min;
+use std::fs::File;
+use std::io::Write;
+use std::path::Path;
+use std::thread;
+
+struct Download {
+    url: String,
+    destination: String,
+    size: u64,
+}
+
+fn download_file(download: &amp;Download, progress_bar: ProgressBar) -&gt; std::io::Result&lt;()&gt; {
+    let path = Path::new(&amp;download.destination);
+    let mut file = File::create(path)?;
+
+    // In a real application, this would use reqwest or another HTTP client
+    // Here we simulate the download
+    let mut downloaded = 0;
+    let chunk_size = 16384; // 16KB chunks
+
+    while downloaded &lt; download.size {
+        // Simulate network delay
+        thread::sleep(std::time::Duration::from_millis(
+            50 + (rand::random::&lt;u64&gt;() % 50)
+        ));
+
+        // Calculate how much to download in this chunk
+        let to_download = min(chunk_size, download.size - downloaded);
+
+        // Simulate writing data
+        let data = vec![0u8; to_download as usize];
+        file.write_all(&amp;data)?;
+
+        downloaded += to_download;
+        progress_bar.set_position(downloaded);
+    }
+
+    progress_bar.finish_with_message("Downloaded");
+    Ok(())
+}
+
+fn main() -&gt; std::io::Result&lt;()&gt; {
+    let downloads = vec![
+        Download {
+            url: "https://example.com/file1.zip".to_string(),
+            destination: "file1.zip".to_string(),
+            size: 5_000_000, // 5MB
+        },
+        Download {
+            url: "https://example.com/file2.iso".to_string(),
+            destination: "file2.iso".to_string(),
+            size: 20_000_000, // 20MB
+        },
+        Download {
+            url: "https://example.com/file3.tar.gz".to_string(),
+            destination: "file3.tar.gz".to_string(),
+            size: 10_000_000, // 10MB
+        },
+    ];
+
+    let multi_progress = MultiProgress::new();
+
+    let style = ProgressStyle::default_bar()
+        .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta}) {msg}")
+        .unwrap()
+        .progress_chars("#&gt;-");
+
+    // Create a progress bar for the overall download
+    let total_size: u64 = downloads.iter().map(|d| d.size).sum();
+    let overall_pb = multi_progress.add(ProgressBar::new(total_size));
+    overall_pb.set_style(style.clone());
+    overall_pb.set_message("Total progress");
+
+    // Create a progress bar for each individual download
+    let mut handles = Vec::new();
+    for download in &amp;downloads {
+        let pb = multi_progress.add(ProgressBar::new(download.size));
+        pb.set_style(style.clone());
+        pb.set_message(format!("Downloading {}", download.destination));
+
+        let download_clone = download.clone();
+        let overall_pb_clone = overall_pb.clone();
+
+        let handle = thread::spawn(move || {
+            download_file(&amp;download_clone, pb).unwrap();
+            overall_pb_clone.inc(download_clone.size);
+        });
+
+        handles.push(handle);
+    }
+
+    // Wait for all downloads to complete
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    overall_pb.finish_with_message("All downloads complete");
+
+    Ok(())
+}</code></pre></pre>
+<h3 id="best-practices-for-progress-indicators"><a class="header" href="#best-practices-for-progress-indicators">Best Practices for Progress Indicators</a></h3>
+<p>When using progress indicators, follow these best practices:</p>
+<ol>
+<li>
+<p><strong>Be Accurate</strong>: Ensure your progress reflects the actual state of the operation.</p>
+</li>
+<li>
+<p><strong>Be Responsive</strong>: Update progress frequently enough to feel smooth but not so often that it impacts performance.</p>
+</li>
+<li>
+<p><strong>Show Useful Information</strong>: Include:</p>
+<ul>
+<li>Percentage or fraction complete</li>
+<li>Elapsed time</li>
+<li>Estimated time remaining</li>
+<li>Processing rate (items/second, bytes/second)</li>
+</ul>
+</li>
+<li>
+<p><strong>Handle Edge Cases</strong>:</p>
+<ul>
+<li>Very fast operations (consider skipping the progress bar)</li>
+<li>Very slow operations (provide more detailed feedback)</li>
+<li>Operations that might fail midway</li>
+</ul>
+</li>
+<li>
+<p><strong>Test on Different Terminals</strong>: Ensure your progress indicators work correctly on various terminal types and sizes.</p>
+</li>
+<li>
+<p><strong>Consider Non-Interactive Environments</strong>: Detect when your program is not connected to a TTY and adjust output accordingly:</p>
+</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">use indicatif::{ProgressBar, ProgressStyle};
+
+fn main() {
+    let total = 100;
+
+    // Create a progress bar that shows nothing if not connected to a TTY
+    let pb = if atty::is(atty::Stream::Stdout) {
+        ProgressBar::new(total)
+    } else {
+        ProgressBar::hidden()
+    };
+
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}/{len} ({eta})")
+            .unwrap()
+    );
+
+    for i in 0..total {
+        pb.inc(1);
+
+        // Simulate work
+        std::thread::sleep(std::time::Duration::from_millis(50));
+    }
+
+    pb.finish_with_message("Done!");
+}</code></pre></pre>
+<p>In the next section, we’ll explore how to build fully interactive command-line interfaces that respond to user input in real-time.</p>
+<h2 id="building-interactive-clis"><a class="header" href="#building-interactive-clis">Building Interactive CLIs</a></h2>
+<p>So far, we’ve explored command-line applications that process arguments, provide feedback with progress indicators, and execute operations. Now, let’s take a step further and build fully interactive CLI applications that engage users in a dialog.</p>
+<p>Interactive CLIs can range from simple prompts that ask for input to sophisticated applications with menus, wizards, and rich interfaces. These interfaces can make your tools more approachable, especially for users who aren’t comfortable with complex command-line arguments.</p>
+<h3 id="the-dialoguer-crate"><a class="header" href="#the-dialoguer-crate">The dialoguer Crate</a></h3>
+<p>The <a href="https://crates.io/crates/dialoguer"><code>dialoguer</code></a> crate provides a high-level API for creating interactive command-line prompts. It’s developed by the same team behind indicatif and builds on similar principles.</p>
+<p>Let’s add it to our dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+dialoguer = "0.10"
+</code></pre>
+<h4 id="basic-input-prompts"><a class="header" href="#basic-input-prompts">Basic Input Prompts</a></h4>
+<p>Let’s start with basic input prompts:</p>
+<pre><pre class="playground"><code class="language-rust">use dialoguer::{Input, Password, Confirm};
+
+fn main() {
+    // Simple text input
+    let name: String = Input::new()
+        .with_prompt("What is your name?")
+        .default("User".into())
+        .interact_text()
+        .unwrap();
+
+    println!("Hello, {}!", name);
+
+    // Password input (hidden)
+    let password: String = Password::new()
+        .with_prompt("Enter your password")
+        .with_confirmation("Confirm password", "Passwords don't match")
+        .interact()
+        .unwrap();
+
+    println!("Password entered successfully");
+
+    // Confirmation (yes/no)
+    let confirmed = Confirm::new()
+        .with_prompt("Do you want to continue?")
+        .default(true)
+        .interact()
+        .unwrap();
+
+    if confirmed {
+        println!("Continuing...");
+    } else {
+        println!("Operation cancelled");
+    }
+}</code></pre></pre>
+<p>This example shows:</p>
+<ul>
+<li>A text input with a default value</li>
+<li>A password input with confirmation</li>
+<li>A yes/no confirmation prompt</li>
+</ul>
+<h4 id="selection-menus"><a class="header" href="#selection-menus">Selection Menus</a></h4>
+<p>Selection menus allow users to choose from a list of options:</p>
+<pre><pre class="playground"><code class="language-rust">use dialoguer::{Select, MultiSelect, FuzzySelect, theme::ColorfulTheme};
+
+fn main() {
+    // Set up a colorful theme
+    let theme = ColorfulTheme::default();
+
+    // Single selection
+    let options = vec!["Option 1", "Option 2", "Option 3"];
+    let selection = Select::with_theme(&amp;theme)
+        .with_prompt("Select an option")
+        .default(0)
+        .items(&amp;options)
+        .interact()
+        .unwrap();
+
+    println!("You selected: {}", options[selection]);
+
+    // Multiple selection
+    let selections = MultiSelect::with_theme(&amp;theme)
+        .with_prompt("Select one or more options")
+        .items(&amp;options)
+        .interact()
+        .unwrap();
+
+    println!("You selected:");
+    for selection in selections {
+        println!("  - {}", options[selection]);
+    }
+
+    // Fuzzy selection (with search)
+    let items = vec![
+        "apple", "banana", "cherry", "date", "elderberry",
+        "fig", "grape", "honeydew", "kiwi", "lemon",
+    ];
+
+    let selection = FuzzySelect::with_theme(&amp;theme)
+        .with_prompt("Select a fruit (type to search)")
+        .default(0)
+        .items(&amp;items)
+        .interact()
+        .unwrap();
+
+    println!("You selected: {}", items[selection]);
+}</code></pre></pre>
+<p>This example demonstrates:</p>
+<ul>
+<li>Single-item selection</li>
+<li>Multiple-item selection</li>
+<li>Fuzzy selection with search functionality</li>
+</ul>
+<h4 id="progress-for-complex-operations"><a class="header" href="#progress-for-complex-operations">Progress for Complex Operations</a></h4>
+<p>We can combine dialoguer with indicatif to create interactive workflows with progress reporting:</p>
+<pre><pre class="playground"><code class="language-rust">use dialoguer::{Input, Select, theme::ColorfulTheme};
+use indicatif::{ProgressBar, ProgressStyle};
+use std::thread::sleep;
+use std::time::Duration;
+
+fn main() {
+    let theme = ColorfulTheme::default();
+
+    // Get input from the user
+    let filename: String = Input::with_theme(&amp;theme)
+        .with_prompt("Enter filename to process")
+        .default("data.txt".into())
+        .interact_text()
+        .unwrap();
+
+    // Choose an operation
+    let operations = vec!["Analyze", "Convert", "Compress"];
+    let operation = Select::with_theme(&amp;theme)
+        .with_prompt("What operation would you like to perform?")
+        .default(0)
+        .items(&amp;operations)
+        .interact()
+        .unwrap();
+
+    println!("Processing '{}' with operation: {}", filename, operations[operation]);
+
+    // Show progress for the selected operation
+    let pb = ProgressBar::new(100);
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}% ({eta})")
+            .unwrap()
+            .progress_chars("#&gt;-")
+    );
+
+    for i in 0..100 {
+        pb.inc(1);
+
+        // Simulate work based on the selected operation
+        let delay = match operation {
+            0 =&gt; 20,  // Analyze is fast
+            1 =&gt; 50,  // Convert is medium
+            2 =&gt; 100, // Compress is slow
+            _ =&gt; 50,
+        };
+
+        sleep(Duration::from_millis(delay));
+    }
+
+    pb.finish_with_message(format!("{} completed successfully", operations[operation]));
+}</code></pre></pre>
+<p>This example creates a simple workflow where the user:</p>
+<ol>
+<li>Enters a filename</li>
+<li>Selects an operation</li>
+<li>Sees progress as the operation executes</li>
+</ol>
+<h3 id="form-based-input"><a class="header" href="#form-based-input">Form-Based Input</a></h3>
+<p>For collecting multiple fields of data, we can create a form-like interface:</p>
+<pre><pre class="playground"><code class="language-rust">use dialoguer::{Input, theme::ColorfulTheme};
+use std::path::PathBuf;
+
+#[derive(Debug)]
+struct UserConfig {
+    name: String,
+    email: String,
+    backup_dir: PathBuf,
+    auto_save: bool,
+}
+
+fn main() {
+    let theme = ColorfulTheme::default();
+
+    println!("User Configuration");
+    println!("=================");
+
+    // Collect multiple fields
+    let name: String = Input::with_theme(&amp;theme)
+        .with_prompt("Name")
+        .interact_text()
+        .unwrap();
+
+    let email: String = Input::with_theme(&amp;theme)
+        .with_prompt("Email")
+        .validate_with(|input: &amp;String| -&gt; Result&lt;(), &amp;str&gt; {
+            if input.contains('@') {
+                Ok(())
+            } else {
+                Err("Email must contain an @ symbol")
+            }
+        })
+        .interact_text()
+        .unwrap();
+
+    let backup_dir: String = Input::with_theme(&amp;theme)
+        .with_prompt("Backup directory")
+        .default("./backup".into())
+        .interact_text()
+        .unwrap();
+
+    let auto_save: bool = dialoguer::Confirm::with_theme(&amp;theme)
+        .with_prompt("Enable auto-save?")
+        .default(true)
+        .interact()
+        .unwrap();
+
+    // Create a config object
+    let config = UserConfig {
+        name,
+        email,
+        backup_dir: PathBuf::from(backup_dir),
+        auto_save,
+    };
+
+    println!("\nConfiguration complete:");
+    println!("  Name: {}", config.name);
+    println!("  Email: {}", config.email);
+    println!("  Backup directory: {}", config.backup_dir.display());
+    println!("  Auto-save: {}", if config.auto_save { "Enabled" } else { "Disabled" });
+
+    // In a real application, you would save this config to a file
+}</code></pre></pre>
+<p>This example:</p>
+<ul>
+<li>Collects multiple fields in a form-like interface</li>
+<li>Validates the email input</li>
+<li>Creates a configuration object with the collected data</li>
+</ul>
+<h3 id="wizard-style-interfaces"><a class="header" href="#wizard-style-interfaces">Wizard-Style Interfaces</a></h3>
+<p>For complex setups, a wizard-style interface can guide users through multiple steps:</p>
+<pre><pre class="playground"><code class="language-rust">use dialoguer::{theme::ColorfulTheme, Confirm, Input, Select};
+use std::path::PathBuf;
+
+#[derive(Debug)]
+struct ProjectConfig {
+    name: String,
+    language: String,
+    path: PathBuf,
+    create_git_repo: bool,
+    initialize_dependencies: bool,
+}
+
+fn main() {
+    let theme = ColorfulTheme::default();
+
+    println!("Project Setup Wizard");
+    println!("===================");
+
+    // Step 1: Project Name
+    let name: String = Input::with_theme(&amp;theme)
+        .with_prompt("Project name")
+        .interact_text()
+        .unwrap();
+
+    // Step 2: Programming Language
+    let languages = vec!["Rust", "JavaScript", "Python", "Go", "Java"];
+    let language_idx = Select::with_theme(&amp;theme)
+        .with_prompt("Select programming language")
+        .default(0)
+        .items(&amp;languages)
+        .interact()
+        .unwrap();
+    let language = languages[language_idx].to_string();
+
+    // Step 3: Project Location
+    let default_path = format!("./{}", name.to_lowercase().replace(' ', "_"));
+    let path_str: String = Input::with_theme(&amp;theme)
+        .with_prompt("Project location")
+        .default(default_path)
+        .interact_text()
+        .unwrap();
+    let path = PathBuf::from(path_str);
+
+    // Step 4: Git Repository
+    let create_git_repo = Confirm::with_theme(&amp;theme)
+        .with_prompt("Initialize Git repository?")
+        .default(true)
+        .interact()
+        .unwrap();
+
+    // Step 5: Dependencies (conditional based on language)
+    let initialize_dependencies = match language.as_str() {
+        "Rust" =&gt; {
+            Confirm::with_theme(&amp;theme)
+                .with_prompt("Run 'cargo init'?")
+                .default(true)
+                .interact()
+                .unwrap()
+        }
+        "JavaScript" =&gt; {
+            Confirm::with_theme(&amp;theme)
+                .with_prompt("Run 'npm init'?")
+                .default(true)
+                .interact()
+                .unwrap()
+        }
+        "Python" =&gt; {
+            Confirm::with_theme(&amp;theme)
+                .with_prompt("Create virtual environment?")
+                .default(true)
+                .interact()
+                .unwrap()
+        }
+        _ =&gt; {
+            Confirm::with_theme(&amp;theme)
+                .with_prompt("Initialize default project structure?")
+                .default(true)
+                .interact()
+                .unwrap()
+        }
+    };
+
+    // Summary
+    let config = ProjectConfig {
+        name,
+        language,
+        path,
+        create_git_repo,
+        initialize_dependencies,
+    };
+
+    println!("\nProject Configuration:");
+    println!("  Name: {}", config.name);
+    println!("  Language: {}", config.language);
+    println!("  Path: {}", config.path.display());
+    println!("  Git: {}", if config.create_git_repo { "Yes" } else { "No" });
+    println!("  Initialize Dependencies: {}", if config.initialize_dependencies { "Yes" } else { "No" });
+
+    // Confirmation before proceeding
+    let proceed = Confirm::with_theme(&amp;theme)
+        .with_prompt("Proceed with project creation?")
+        .default(true)
+        .interact()
+        .unwrap();
+
+    if proceed {
+        println!("Creating project...");
+        // In a real application, you would create the project here
+    } else {
+        println!("Project creation cancelled.");
+    }
+}</code></pre></pre>
+<p>This wizard:</p>
+<ol>
+<li>Collects basic project information</li>
+<li>Adapts questions based on previous answers</li>
+<li>Shows a summary before proceeding</li>
+<li>Gets final confirmation</li>
+</ol>
+<h3 id="advanced-interactive-features"><a class="header" href="#advanced-interactive-features">Advanced Interactive Features</a></h3>
+<p>For more advanced interactive features, you might want to combine dialoguer with other crates:</p>
+<h4 id="interactive-editor"><a class="header" href="#interactive-editor">Interactive Editor</a></h4>
+<p>For editing longer text:</p>
+<pre><pre class="playground"><code class="language-rust">use dialoguer::{Editor, theme::ColorfulTheme};
+
+fn main() {
+    let theme = ColorfulTheme::default();
+
+    // Launch the user's default editor
+    let content = Editor::new()
+        .with_theme(&amp;theme)
+        .extension(".md")  // Use Markdown extension
+        .require_save(true)
+        .trim_newlines(true)
+        .edit("# Initial content\n\nEdit this text and save the file.")
+        .unwrap();
+
+    if let Some(content) = content {
+        println!("You entered:\n{}", content);
+    } else {
+        println!("Editor was cancelled or no changes were made.");
+    }
+}</code></pre></pre>
+<p>This launches the user’s default editor (determined by the <code>EDITOR</code> environment variable) with some initial content.</p>
+<h4 id="interactive-file-selection"><a class="header" href="#interactive-file-selection">Interactive File Selection</a></h4>
+<p>You can create an interactive file browser:</p>
+<pre><pre class="playground"><code class="language-rust">use dialoguer::{theme::ColorfulTheme, Select};
+use std::fs;
+use std::path::{Path, PathBuf};
+
+fn browse_directory(path: &amp;Path) -&gt; Option&lt;PathBuf&gt; {
+    let theme = ColorfulTheme::default();
+
+    // Read directory contents
+    let entries = match fs::read_dir(path) {
+        Ok(entries) =&gt; entries,
+        Err(e) =&gt; {
+            eprintln!("Error reading directory: {}", e);
+            return None;
+        }
+    };
+
+    // Collect directory entries
+    let mut paths = vec![PathBuf::from("..")]; // Add parent directory
+    for entry in entries {
+        if let Ok(entry) = entry {
+            paths.push(entry.path());
+        }
+    }
+
+    // Sort: directories first, then files
+    paths.sort_by(|a, b| {
+        let a_is_dir = a.is_dir();
+        let b_is_dir = b.is_dir();
+
+        if a_is_dir &amp;&amp; !b_is_dir {
+            std::cmp::Ordering::Less
+        } else if !a_is_dir &amp;&amp; b_is_dir {
+            std::cmp::Ordering::Greater
+        } else {
+            a.file_name().cmp(&amp;b.file_name())
+        }
+    });
+
+    // Create display names
+    let display_names: Vec&lt;String&gt; = paths
+        .iter()
+        .map(|p| {
+            let name = if p == &amp;PathBuf::from("..") {
+                "[Parent Directory]".to_string()
+            } else {
+                p.file_name()
+                    .unwrap_or_default()
+                    .to_string_lossy()
+                    .to_string()
+            };
+
+            if p.is_dir() {
+                format!("📁 {}/", name)
+            } else {
+                format!("📄 {}", name)
+            }
+        })
+        .collect();
+
+    // Show selection menu
+    let selection = Select::with_theme(&amp;theme)
+        .with_prompt(format!("Browse: {}", path.display()))
+        .default(0)
+        .items(&amp;display_names)
+        .interact()
+        .unwrap();
+
+    let selected_path = path.join(&amp;paths[selection]);
+
+    // If directory, browse recursively
+    if selected_path.is_dir() {
+        browse_directory(&amp;selected_path)
+    } else {
+        Some(selected_path)
+    }
+}
+
+fn main() {
+    let current_dir = std::env::current_dir().unwrap();
+
+    println!("File Browser");
+    println!("============");
+
+    if let Some(selected_file) = browse_directory(&amp;current_dir) {
+        println!("You selected: {}", selected_file.display());
+    } else {
+        println!("No file selected.");
+    }
+}</code></pre></pre>
+<p>This example creates a simple file browser that:</p>
+<ul>
+<li>Lists files and directories</li>
+<li>Allows navigation through directories</li>
+<li>Returns the selected file</li>
+</ul>
+<h3 id="best-practices-for-interactive-clis"><a class="header" href="#best-practices-for-interactive-clis">Best Practices for Interactive CLIs</a></h3>
+<p>When building interactive CLI applications, follow these best practices:</p>
+<ol>
+<li>
+<p><strong>Progressive Disclosure</strong>: Start simple and gradually reveal complexity as needed.</p>
+</li>
+<li>
+<p><strong>Sensible Defaults</strong>: Provide smart defaults to reduce the effort required from users.</p>
+</li>
+<li>
+<p><strong>Error Tolerance</strong>: Handle input errors gracefully and provide clear feedback.</p>
+</li>
+<li>
+<p><strong>Visual Hierarchy</strong>: Use spacing, colors, and formatting to organize information.</p>
+</li>
+<li>
+<p><strong>Keyboard Navigation</strong>: Ensure your interface works well with keyboard input.</p>
+</li>
+<li>
+<p><strong>Escape Hatches</strong>: Allow users to cancel operations or go back to previous steps.</p>
+</li>
+<li>
+<p><strong>Respect Terminal Settings</strong>: Honor the user’s terminal preferences (colors, width, etc.).</p>
+</li>
+<li>
+<p><strong>Test on Different Terminals</strong>: Ensure your interface works across different terminal emulators.</p>
+</li>
+<li>
+<p><strong>Performance</strong>: Keep the interface responsive, especially during long-running operations.</p>
+</li>
+<li>
+<p><strong>Accessibility</strong>: Consider users with different abilities and needs.</p>
+</li>
+</ol>
+<p>In the next section, we’ll explore configuration management in CLI applications, which complements interactive interfaces by providing a way to persist user preferences and settings.</p>
+<h2 id="configuration-management"><a class="header" href="#configuration-management">Configuration Management</a></h2>
+<p>Command-line applications often need to persist settings and preferences across runs. While simple tools might use command-line arguments for all configuration, more complex applications benefit from dedicated configuration management. This allows users to set defaults, store credentials, and customize behavior without specifying the same options each time.</p>
+<h3 id="configuration-sources"><a class="header" href="#configuration-sources">Configuration Sources</a></h3>
+<p>Most CLI applications use a combination of these configuration sources, in order of precedence:</p>
+<ol>
+<li><strong>Command-line arguments</strong>: Highest precedence, overrides all other sources</li>
+<li><strong>Environment variables</strong>: For system-wide or session-specific settings</li>
+<li><strong>Configuration files</strong>: For user-specific or project-specific settings</li>
+<li><strong>Default values</strong>: Hardcoded in the application</li>
+</ol>
+<p>This hierarchy allows users to customize behavior at different levels of permanence.</p>
+<h3 id="configuration-file-formats"><a class="header" href="#configuration-file-formats">Configuration File Formats</a></h3>
+<p>Common configuration file formats include:</p>
+<ul>
+<li><strong>TOML</strong>: Human-readable, well-structured, and the default for Rust projects (Cargo.toml)</li>
+<li><strong>YAML</strong>: Human-readable with good support for complex data structures</li>
+<li><strong>JSON</strong>: Widely supported but less human-friendly</li>
+<li><strong>INI</strong>: Simple key-value format, often used for basic settings</li>
+</ul>
+<p>Let’s focus on TOML, which has become the standard for Rust applications.</p>
+<h3 id="using-the-config-crate"><a class="header" href="#using-the-config-crate">Using the config Crate</a></h3>
+<p>The <a href="https://crates.io/crates/config"><code>config</code></a> crate provides a flexible, layered approach to configuration management. Let’s add it to our dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+config = "0.13"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.7"
+</code></pre>
+<p>We also include <code>serde</code> for serialization/deserialization and <code>toml</code> for TOML support.</p>
+<h4 id="basic-configuration-setup"><a class="header" href="#basic-configuration-setup">Basic Configuration Setup</a></h4>
+<p>Let’s create a basic configuration setup for our file search tool:</p>
+<pre><pre class="playground"><code class="language-rust">use config::{Config, ConfigError, File};
+use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SearchSettings {
+    recursive: bool,
+    max_depth: Option&lt;usize&gt;,
+    follow_symlinks: bool,
+    #[serde(default)]
+    ignored_patterns: Vec&lt;String&gt;,
+    output_format: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct AppConfig {
+    search: SearchSettings,
+    #[serde(default)]
+    ui: UISettings,
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+struct UISettings {
+    show_progress: bool,
+    color_output: bool,
+    verbose: bool,
+}
+
+fn load_config() -&gt; Result&lt;AppConfig, ConfigError&gt; {
+    let config_dir = dirs::config_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("findit");
+
+    let config_path = config_dir.join("config.toml");
+
+    // Start with default config
+    let mut builder = Config::builder()
+        // Set defaults
+        .set_default("search.recursive", false)?
+        .set_default("search.follow_symlinks", false)?
+        .set_default("search.output_format", "text")?
+        .set_default("ui.show_progress", true)?
+        .set_default("ui.color_output", true)?
+        .set_default("ui.verbose", false)?;
+
+    // Layer user config if it exists
+    if config_path.exists() {
+        builder = builder.add_source(File::from(config_path));
+    }
+
+    // Build and deserialize
+    let config = builder.build()?;
+    let app_config: AppConfig = config.try_deserialize()?;
+
+    Ok(app_config)
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let config = load_config()?;
+
+    println!("Configuration loaded:");
+    println!("  Recursive search: {}", config.search.recursive);
+    println!("  Follow symlinks: {}", config.search.follow_symlinks);
+    println!("  Output format: {}", config.search.output_format);
+
+    if let Some(max_depth) = config.search.max_depth {
+        println!("  Max depth: {}", max_depth);
+    }
+
+    println!("  Ignored patterns: {:?}", config.search.ignored_patterns);
+    println!("  Show progress: {}", config.ui.show_progress);
+    println!("  Color output: {}", config.ui.color_output);
+    println!("  Verbose: {}", config.ui.verbose);
+
+    Ok(())
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Defines configuration structures with Serde for serialization/deserialization</li>
+<li>Sets up default values for all settings</li>
+<li>Loads the configuration file if it exists</li>
+<li>Merges the default and user configurations</li>
+</ol>
+<p>A sample <code>config.toml</code> file might look like:</p>
+<pre><code class="language-toml">[search]
+recursive = true
+max_depth = 10
+follow_symlinks = false
+ignored_patterns = [".git", "node_modules", "target"]
+output_format = "json"
+
+[ui]
+show_progress = true
+color_output = true
+verbose = false
+</code></pre>
+<h4 id="adding-environment-variables"><a class="header" href="#adding-environment-variables">Adding Environment Variables</a></h4>
+<p>Let’s enhance our configuration to include environment variables:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use config::{Config, ConfigError, Environment, File};
+use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
+
+// Configuration structs same as before...
+
+fn load_config() -&gt; Result&lt;AppConfig, ConfigError&gt; {
+    let config_dir = dirs::config_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("findit");
+
+    let config_path = config_dir.join("config.toml");
+
+    // Start with default config
+    let mut builder = Config::builder()
+        // Set defaults (same as before)...
+        .set_default("search.recursive", false)?
+        .set_default("search.follow_symlinks", false)?
+        .set_default("search.output_format", "text")?
+        .set_default("ui.show_progress", true)?
+        .set_default("ui.color_output", true)?
+        .set_default("ui.verbose", false)?;
+
+    // Layer user config if it exists
+    if config_path.exists() {
+        builder = builder.add_source(File::from(config_path));
+    }
+
+    // Add environment variables with prefix FINDIT_
+    builder = builder.add_source(
+        Environment::with_prefix("FINDIT")
+            .separator("_")
+            .try_parsing(true)
+    );
+
+    // Build and deserialize
+    let config = builder.build()?;
+    let app_config: AppConfig = config.try_deserialize()?;
+
+    Ok(app_config)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With this change, users can override configuration using environment variables:</p>
+<pre><code class="language-bash"># Override the output format
+export FINDIT_SEARCH_OUTPUT_FORMAT=csv
+
+# Disable progress bar
+export FINDIT_UI_SHOW_PROGRESS=false
+</code></pre>
+<h4 id="combining-with-command-line-arguments"><a class="header" href="#combining-with-command-line-arguments">Combining with Command-Line Arguments</a></h4>
+<p>Now let’s integrate our configuration with clap command-line arguments:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::Parser;
+use config::{Config, ConfigError, Environment, File};
+use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SearchSettings {
+    recursive: bool,
+    max_depth: Option&lt;usize&gt;,
+    follow_symlinks: bool,
+    #[serde(default)]
+    ignored_patterns: Vec&lt;String&gt;,
+    output_format: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+struct UISettings {
+    show_progress: bool,
+    color_output: bool,
+    verbose: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct AppConfig {
+    search: SearchSettings,
+    #[serde(default)]
+    ui: UISettings,
+}
+
+#[derive(Parser, Debug)]
+struct Args {
+    /// Pattern to search for
+    pattern: String,
+
+    /// Directory to search
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: Option&lt;bool&gt;,
+
+    /// Maximum depth for recursive search
+    #[arg(long)]
+    max_depth: Option&lt;usize&gt;,
+
+    /// Follow symbolic links
+    #[arg(long)]
+    follow_symlinks: Option&lt;bool&gt;,
+
+    /// Output format (text, json, csv)
+    #[arg(short, long)]
+    output: Option&lt;String&gt;,
+
+    /// Show progress bar
+    #[arg(long)]
+    progress: Option&lt;bool&gt;,
+
+    /// Disable colored output
+    #[arg(long)]
+    no_color: bool,
+
+    /// Verbose output
+    #[arg(short, long)]
+    verbose: bool,
+}
+
+fn load_config() -&gt; Result&lt;AppConfig, ConfigError&gt; {
+    // Same as before...
+    let config_dir = dirs::config_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("findit");
+
+    let config_path = config_dir.join("config.toml");
+
+    let mut builder = Config::builder()
+        .set_default("search.recursive", false)?
+        .set_default("search.follow_symlinks", false)?
+        .set_default("search.output_format", "text")?
+        .set_default("ui.show_progress", true)?
+        .set_default("ui.color_output", true)?
+        .set_default("ui.verbose", false)?;
+
+    if config_path.exists() {
+        builder = builder.add_source(File::from(config_path));
+    }
+
+    builder = builder.add_source(
+        Environment::with_prefix("FINDIT")
+            .separator("_")
+            .try_parsing(true)
+    );
+
+    let config = builder.build()?;
+    let app_config: AppConfig = config.try_deserialize()?;
+
+    Ok(app_config)
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Parse command-line arguments
+    let args = Args::parse();
+
+    // Load configuration
+    let mut config = load_config()?;
+
+    // Override config with command-line arguments
+    if let Some(recursive) = args.recursive {
+        config.search.recursive = recursive;
+    }
+
+    if let Some(max_depth) = args.max_depth {
+        config.search.max_depth = Some(max_depth);
+    }
+
+    if let Some(follow_symlinks) = args.follow_symlinks {
+        config.search.follow_symlinks = follow_symlinks;
+    }
+
+    if let Some(output) = args.output {
+        config.search.output_format = output;
+    }
+
+    if let Some(progress) = args.progress {
+        config.ui.show_progress = progress;
+    }
+
+    if args.no_color {
+        config.ui.color_output = false;
+    }
+
+    config.ui.verbose = args.verbose;
+
+    // Now use the final configuration for the application
+    if config.ui.verbose {
+        println!("Search pattern: {}", args.pattern);
+        println!("Search path: {}", args.path.display());
+        println!("Configuration:");
+        println!("  Recursive: {}", config.search.recursive);
+        println!("  Max depth: {}", config.search.max_depth);
+        println!("  Follow symlinks: {}", config.search.follow_symlinks);
+        println!("  Output format: {}", config.search.output_format);
+        println!("  Show progress: {}", config.ui.show_progress);
+    }
+
+    // Actual search implementation would go here
+
+    Ok(())
+}</code></pre></pre>
+<p>This implementation follows the precedence hierarchy:</p>
+<ol>
+<li>Command-line arguments override everything</li>
+<li>Environment variables override the configuration file</li>
+<li>Configuration file overrides defaults</li>
+<li>Defaults are used when no other source provides a value</li>
+</ol>
+<h3 id="creating-and-managing-configuration-files"><a class="header" href="#creating-and-managing-configuration-files">Creating and Managing Configuration Files</a></h3>
+<p>Let’s add functionality to create or update the configuration file:</p>
+<pre><pre class="playground"><code class="language-rust">use config::{Config, ConfigError, Environment, File};
+use serde::{Deserialize, Serialize};
+use std::fs;
+use std::io::Write;
+use std::path::PathBuf;
+
+// Configuration structs same as before...
+
+fn get_config_path() -&gt; PathBuf {
+    let config_dir = dirs::config_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("findit");
+
+    config_dir.join("config.toml")
+}
+
+fn load_config() -&gt; Result&lt;AppConfig, ConfigError&gt; {
+    let config_path = get_config_path();
+
+    // Same as before...
+    let mut builder = Config::builder()
+        .set_default("search.recursive", false)?
+        .set_default("search.follow_symlinks", false)?
+        .set_default("search.output_format", "text")?
+        .set_default("ui.show_progress", true)?
+        .set_default("ui.color_output", true)?
+        .set_default("ui.verbose", false)?;
+
+    if config_path.exists() {
+        builder = builder.add_source(File::from(config_path));
+    }
+
+    builder = builder.add_source(
+        Environment::with_prefix("FINDIT")
+            .separator("_")
+            .try_parsing(true)
+    );
+
+    let config = builder.build()?;
+    let app_config: AppConfig = config.try_deserialize()?;
+
+    Ok(app_config)
+}
+
+fn save_config(config: &amp;AppConfig) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let config_path = get_config_path();
+
+    // Create config directory if it doesn't exist
+    if let Some(parent) = config_path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+
+    // Serialize config to TOML
+    let toml_string = toml::to_string_pretty(config)?;
+
+    // Write to file
+    let mut file = fs::File::create(config_path)?;
+    file.write_all(toml_string.as_bytes())?;
+
+    Ok(())
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Add a new subcommand to handle configuration
+    let app = clap::Command::new("findit")
+        .about("A file finding tool")
+        .subcommand_required(true)
+        .subcommand(
+            clap::Command::new("search")
+                .about("Search for files")
+                .arg(clap::Arg::new("pattern").required(true))
+                .arg(clap::Arg::new("path").default_value("."))
+                .arg(clap::Arg::new("recursive").long("recursive").short('r'))
+                // Other search args...
+        )
+        .subcommand(
+            clap::Command::new("config")
+                .about("Manage configuration")
+                .subcommand(
+                    clap::Command::new("init")
+                        .about("Create default configuration file")
+                )
+                .subcommand(
+                    clap::Command::new("set")
+                        .about("Set a configuration value")
+                        .arg(clap::Arg::new("key").required(true))
+                        .arg(clap::Arg::new("value").required(true))
+                )
+                .subcommand(
+                    clap::Command::new("get")
+                        .about("Get a configuration value")
+                        .arg(clap::Arg::new("key").required(true))
+                )
+                .subcommand(
+                    clap::Command::new("list")
+                        .about("List all configuration values")
+                )
+        );
+
+    let matches = app.get_matches();
+
+    match matches.subcommand() {
+        Some(("search", search_matches)) =&gt; {
+            // Handle search command (similar to previous example)
+            // ...
+        }
+        Some(("config", config_matches)) =&gt; {
+            match config_matches.subcommand() {
+                Some(("init", _)) =&gt; {
+                    // Create default config
+                    let default_config = AppConfig {
+                        search: SearchSettings {
+                            recursive: false,
+                            max_depth: Some(100),
+                            follow_symlinks: false,
+                            ignored_patterns: vec![".git".to_string(), "node_modules".to_string()],
+                            output_format: "text".to_string(),
+                        },
+                        ui: UISettings {
+                            show_progress: true,
+                            color_output: true,
+                            verbose: false,
+                        },
+                    };
+
+                    save_config(&amp;default_config)?;
+                    println!("Created default configuration at {}", get_config_path().display());
+                }
+                Some(("set", set_matches)) =&gt; {
+                    let key = set_matches.get_one::&lt;String&gt;("key").unwrap();
+                    let value = set_matches.get_one::&lt;String&gt;("value").unwrap();
+
+                    // Load current config
+                    let mut config = load_config()?;
+
+                    // Update config based on key
+                    match key.as_str() {
+                        "search.recursive" =&gt; {
+                            config.search.recursive = value.parse().map_err(|_| "Invalid boolean value")?;
+                        }
+                        "search.max_depth" =&gt; {
+                            config.search.max_depth = Some(value.parse().map_err(|_| "Invalid number")?);
+                        }
+                        "search.follow_symlinks" =&gt; {
+                            config.search.follow_symlinks = value.parse().map_err(|_| "Invalid boolean value")?;
+                        }
+                        "search.output_format" =&gt; {
+                            config.search.output_format = value.to_string();
+                        }
+                        "ui.show_progress" =&gt; {
+                            config.ui.show_progress = value.parse().map_err(|_| "Invalid boolean value")?;
+                        }
+                        "ui.color_output" =&gt; {
+                            config.ui.color_output = value.parse().map_err(|_| "Invalid boolean value")?;
+                        }
+                        "ui.verbose" =&gt; {
+                            config.ui.verbose = value.parse().map_err(|_| "Invalid boolean value")?;
+                        }
+                        _ =&gt; {
+                            return Err(format!("Unknown configuration key: {}", key).into());
+                        }
+                    }
+
+                    // Save updated config
+                    save_config(&amp;config)?;
+                    println!("Updated configuration: {} = {}", key, value);
+                }
+                Some(("get", get_matches)) =&gt; {
+                    let key = get_matches.get_one::&lt;String&gt;("key").unwrap();
+                    let config = load_config()?;
+
+                    // Get config value based on key
+                    let value = match key.as_str() {
+                        "search.recursive" =&gt; config.search.recursive.to_string(),
+                        "search.max_depth" =&gt; config.search.max_depth.map_or("None".to_string(), |d| d.to_string()),
+                        "search.follow_symlinks" =&gt; config.search.follow_symlinks.to_string(),
+                        "search.output_format" =&gt; config.search.output_format,
+                        "ui.show_progress" =&gt; config.ui.show_progress.to_string(),
+                        "ui.color_output" =&gt; config.ui.color_output.to_string(),
+                        "ui.verbose" =&gt; config.ui.verbose.to_string(),
+                        _ =&gt; return Err(format!("Unknown configuration key: {}", key).into()),
+                    };
+
+                    println!("{} = {}", key, value);
+                }
+                Some(("list", _)) =&gt; {
+                    let config = load_config()?;
+
+                    println!("Current configuration:");
+                    println!("[search]");
+                    println!("recursive = {}", config.search.recursive);
+                    println!("max_depth = {:?}", config.search.max_depth);
+                    println!("follow_symlinks = {}", config.search.follow_symlinks);
+                    println!("ignored_patterns = {:?}", config.search.ignored_patterns);
+                    println!("output_format = {}", config.search.output_format);
+                    println!();
+                    println!("[ui]");
+                    println!("show_progress = {}", config.ui.show_progress);
+                    println!("color_output = {}", config.ui.color_output);
+                    println!("verbose = {}", config.ui.verbose);
+                }
+                _ =&gt; unreachable!(),
+            }
+        }
+        _ =&gt; unreachable!(),
+    }
+
+    Ok(())
+}</code></pre></pre>
+<p>This enhanced version adds commands to:</p>
+<ul>
+<li>Initialize a default configuration file</li>
+<li>Set specific configuration values</li>
+<li>Get specific configuration values</li>
+<li>List all configuration values</li>
+</ul>
+<h3 id="project-specific-configuration"><a class="header" href="#project-specific-configuration">Project-Specific Configuration</a></h3>
+<p>For tools that operate within a project context (like build tools or linters), it’s common to support project-specific configuration files:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn load_config(working_dir: &amp;Path) -&gt; Result&lt;AppConfig, ConfigError&gt; {
+    // Start with default config
+    let mut builder = Config::builder()
+        // Default settings...
+        .set_default("search.recursive", false)?;
+
+    // Load global user config
+    let user_config_path = dirs::config_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("findit")
+        .join("config.toml");
+
+    if user_config_path.exists() {
+        builder = builder.add_source(File::from(user_config_path));
+    }
+
+    // Look for project config in current directory and parent directories
+    let mut current_dir = working_dir.to_path_buf();
+
+    while current_dir.exists() {
+        let project_config_path = current_dir.join(".findit.toml");
+
+        if project_config_path.exists() {
+            builder = builder.add_source(File::from(project_config_path));
+            break; // Stop at the first project config found
+        }
+
+        // Move to parent directory
+        if !current_dir.pop() {
+            break; // We've reached the root
+        }
+    }
+
+    // Add environment variables
+    builder = builder.add_source(
+        Environment::with_prefix("FINDIT")
+            .separator("_")
+            .try_parsing(true)
+    );
+
+    // Build and deserialize
+    let config = builder.build()?;
+    let app_config: AppConfig = config.try_deserialize()?;
+
+    Ok(app_config)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This approach:</p>
+<ol>
+<li>Starts with default values</li>
+<li>Loads the global user configuration</li>
+<li>Searches for a project-specific configuration file in the current directory and its parents</li>
+<li>Applies environment variables</li>
+</ol>
+<h3 id="best-practices-for-configuration-management"><a class="header" href="#best-practices-for-configuration-management">Best Practices for Configuration Management</a></h3>
+<p>When implementing configuration management in your CLI applications:</p>
+<ol>
+<li>
+<p><strong>Follow the Principle of Least Surprise</strong>:</p>
+<ul>
+<li>Use standard file locations</li>
+<li>Follow conventional naming patterns</li>
+<li>Maintain consistent precedence rules</li>
+</ul>
+</li>
+<li>
+<p><strong>Document Configuration Options</strong>:</p>
+<ul>
+<li>Include examples in documentation</li>
+<li>Provide comments in default configuration files</li>
+<li>Make configuration self-discoverable</li>
+</ul>
+</li>
+<li>
+<p><strong>Validate Configuration</strong>:</p>
+<ul>
+<li>Check for invalid or incompatible settings</li>
+<li>Provide helpful error messages</li>
+<li>Fall back gracefully when possible</li>
+</ul>
+</li>
+<li>
+<p><strong>Make Configuration Accessible</strong>:</p>
+<ul>
+<li>Include commands to view and modify configuration</li>
+<li>Allow exporting configuration to different formats</li>
+<li>Support showing the effective configuration with all layers applied</li>
+</ul>
+</li>
+<li>
+<p><strong>Handle Migration</strong>:</p>
+<ul>
+<li>Provide upgrade paths for configuration files</li>
+<li>Support deprecated options with warnings</li>
+<li>Document breaking changes</li>
+</ul>
+</li>
+<li>
+<p><strong>Consider Security</strong>:</p>
+<ul>
+<li>Store sensitive values like API keys in a secure manner</li>
+<li>Support integration with credential managers</li>
+<li>Be cautious about permissions on configuration files</li>
+</ul>
+</li>
+</ol>
+<p>In the next section, we’ll explore logging and tracing in CLI applications, which complements configuration management by providing visibility into application behavior.</p>
+<h2 id="logging-and-tracing"><a class="header" href="#logging-and-tracing">Logging and Tracing</a></h2>
+<p>As CLI applications grow in complexity, proper logging becomes essential for diagnosing issues and understanding application behavior. Logging serves several purposes:</p>
+<ol>
+<li><strong>Debugging</strong>: Recording detailed information about what the application is doing</li>
+<li><strong>Monitoring</strong>: Tracking application health and performance</li>
+<li><strong>Auditing</strong>: Maintaining a record of important actions for security or compliance</li>
+<li><strong>User Feedback</strong>: Providing appropriate information to users based on verbosity level</li>
+</ol>
+<p>Rust has several mature logging frameworks that make it easy to add comprehensive logging to your applications.</p>
+<h3 id="the-log-crate"><a class="header" href="#the-log-crate">The log Crate</a></h3>
+<p>The foundation of Rust’s logging ecosystem is the <a href="https://crates.io/crates/log"><code>log</code></a> crate, which provides a facade for logging that separates the logging API from the implementation. Let’s add it to our dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+log = "0.4"
+</code></pre>
+<h4 id="basic-logging-macros"><a class="header" href="#basic-logging-macros">Basic Logging Macros</a></h4>
+<p>The <code>log</code> crate provides several macros for different log levels:</p>
+<pre><pre class="playground"><code class="language-rust">use log::{debug, error, info, trace, warn};
+
+fn main() {
+    trace!("This is a trace message");  // Most verbose
+    debug!("This is a debug message");
+    info!("This is an info message");   // Default level
+    warn!("This is a warning message");
+    error!("This is an error message"); // Least verbose
+}</code></pre></pre>
+<p>These macros are similar to <code>println!</code> but include:</p>
+<ul>
+<li>A log level indicating severity</li>
+<li>Optional formatting with arguments</li>
+<li>Additional context like file and line number</li>
+</ul>
+<h4 id="log-implementations"><a class="header" href="#log-implementations">Log Implementations</a></h4>
+<p>The <code>log</code> crate only provides the API; you need to add a logging implementation to actually process and output the log messages. Common implementations include:</p>
+<ul>
+<li><a href="https://crates.io/crates/env_logger"><code>env_logger</code></a>: Simple logger controlled by environment variables</li>
+<li><a href="https://crates.io/crates/simple_logger"><code>simple_logger</code></a>: Easy-to-configure stdout logger</li>
+<li><a href="https://crates.io/crates/fern"><code>fern</code></a>: Configurable multi-output logger</li>
+<li><a href="https://crates.io/crates/slog"><code>slog</code></a>: Structured, composable logging</li>
+</ul>
+<p>Let’s use <code>env_logger</code> for our examples:</p>
+<pre><code class="language-toml">[dependencies]
+log = "0.4"
+env_logger = "0.10"
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">use log::{debug, error, info, trace, warn};
+
+fn main() {
+    // Initialize the logger
+    env_logger::init();
+
+    trace!("This is a trace message");
+    debug!("This is a debug message");
+    info!("This is an info message");
+    warn!("This is a warning message");
+    error!("This is an error message");
+
+    // Log with variables
+    let name = "Alice";
+    let count = 42;
+    info!("User {} performed {} operations", name, count);
+}</code></pre></pre>
+<p>By default, <code>env_logger</code> only shows messages at the <code>error</code>, <code>warn</code>, and <code>info</code> levels. To see <code>debug</code> and <code>trace</code> messages, set the <code>RUST_LOG</code> environment variable:</p>
+<pre><code class="language-bash"># Show all log levels
+export RUST_LOG=trace
+
+# Show only warnings and errors
+export RUST_LOG=warn
+
+# Show debug level and above for your crate, info for others
+export RUST_LOG=myapp=debug,info
+</code></pre>
+<h3 id="structured-logging-with-slog"><a class="header" href="#structured-logging-with-slog">Structured Logging with slog</a></h3>
+<p>For more complex applications, structured logging provides better organization and filtering capabilities. The <a href="https://crates.io/crates/slog"><code>slog</code></a> crate is a popular choice:</p>
+<pre><code class="language-toml">[dependencies]
+slog = "2.7"
+slog-term = "2.9"
+slog-async = "2.7"
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">use slog::{debug, error, info, o, trace, warn, Drain, Logger};
+use std::sync::Mutex;
+
+fn main() {
+    // Create a logger
+    let decorator = slog_term::TermDecorator::new().build();
+    let drain = slog_term::FullFormat::new(decorator).build().fuse();
+    let drain = slog_async::Async::new(drain).build().fuse();
+
+    let root_logger = slog::Logger::root(drain, o!("version" =&gt; env!("CARGO_PKG_VERSION")));
+
+    // Create a scoped logger
+    let module_logger = root_logger.new(o!("module" =&gt; "example"));
+
+    // Log some messages
+    trace!(module_logger, "This is a trace message");
+    debug!(module_logger, "This is a debug message");
+    info!(module_logger, "This is an info message");
+    warn!(module_logger, "This is a warning message");
+    error!(module_logger, "This is an error message");
+
+    // Structured logging with additional context
+    let user_id = 12345;
+    info!(
+        module_logger,
+        "User logged in";
+        "user_id" =&gt; user_id,
+        "ip_address" =&gt; "192.168.1.1",
+        "login_time" =&gt; chrono::Utc::now().to_rfc3339(),
+    );
+}</code></pre></pre>
+<p>The key advantages of <code>slog</code> include:</p>
+<ul>
+<li>Hierarchical loggers with inherited context</li>
+<li>Structured key-value pairs for better filtering and analysis</li>
+<li>Composable “drains” (log backends) for flexible output</li>
+<li>High performance through async logging</li>
+</ul>
+<h3 id="integrating-logging-with-cli-arguments"><a class="header" href="#integrating-logging-with-cli-arguments">Integrating Logging with CLI Arguments</a></h3>
+<p>Let’s integrate logging with our command-line arguments to control verbosity:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::Parser;
+use env_logger::{Builder, Env};
+use log::{debug, error, info, trace, warn};
+
+#[derive(Parser, Debug)]
+struct Args {
+    // ... other arguments ...
+
+    /// Verbose mode (-v, -vv, -vvv)
+    #[arg(short, long, action = clap::ArgAction::Count)]
+    verbose: u8,
+
+    /// Quiet mode (less output)
+    #[arg(short, long)]
+    quiet: bool,
+}
+
+fn setup_logger(verbosity: u8, quiet: bool) {
+    let env = Env::default();
+
+    let mut builder = Builder::from_env(env);
+
+    let log_level = if quiet {
+        "error"
+    } else {
+        match verbosity {
+            0 =&gt; "warn",   // Default: warnings and errors
+            1 =&gt; "info",   // -v: info and above
+            2 =&gt; "debug",  // -vv: debug and above
+            _ =&gt; "trace",  // -vvv: trace and above
+        }
+    };
+
+    builder.filter_level(log_level.parse().unwrap());
+    builder.init();
+}
+
+fn main() {
+    let args = Args::parse();
+
+    // Set up logging based on command-line arguments
+    setup_logger(args.verbose, args.quiet);
+
+    trace!("Trace message");
+    debug!("Debug message");
+    info!("Info message");
+    warn!("Warning message");
+    error!("Error message");
+
+    // Rest of application...
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Adds a count argument for verbosity (each <code>-v</code> increases verbosity)</li>
+<li>Adds a quiet flag to reduce output</li>
+<li>Configures the logger based on these arguments</li>
+</ol>
+<h3 id="logging-to-multiple-destinations"><a class="header" href="#logging-to-multiple-destinations">Logging to Multiple Destinations</a></h3>
+<p>For more complex applications, you might want to log to multiple destinations:</p>
+<ul>
+<li>Console for immediate feedback</li>
+<li>File for persistent logs</li>
+<li>System log for integration with logging infrastructure</li>
+<li>Network service for centralized logging</li>
+</ul>
+<p>The <code>fern</code> crate makes this easy:</p>
+<pre><code class="language-toml">[dependencies]
+log = "0.4"
+fern = { version = "0.6", features = ["colored"] }
+chrono = "0.4"
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">use log::{debug, error, info, trace, warn};
+use std::path::PathBuf;
+
+fn setup_logger(log_file: Option&lt;PathBuf&gt;, verbose: bool) -&gt; Result&lt;(), fern::InitError&gt; {
+    let log_level = if verbose {
+        log::LevelFilter::Debug
+    } else {
+        log::LevelFilter::Info
+    };
+
+    // Base configuration
+    let mut config = fern::Dispatch::new()
+        .format(|out, message, record| {
+            out.finish(format_args!(
+                "{} [{}] [{}] {}",
+                chrono::Local::now().format("%Y-%m-%d %H:%M:%S"),
+                record.level(),
+                record.target(),
+                message
+            ))
+        })
+        .level(log_level);
+
+    // Console logger with colors
+    let console_config = fern::Dispatch::new()
+        .format(|out, message, record| {
+            out.finish(format_args!(
+                "{} [{}] {}",
+                chrono::Local::now().format("%H:%M:%S"),
+                match record.level() {
+                    log::Level::Error =&gt; "ERROR".bright_red(),
+                    log::Level::Warn =&gt; "WARN ".bright_yellow(),
+                    log::Level::Info =&gt; "INFO ".bright_green(),
+                    log::Level::Debug =&gt; "DEBUG".bright_blue(),
+                    log::Level::Trace =&gt; "TRACE".bright_magenta(),
+                },
+                message
+            ))
+        })
+        .chain(std::io::stdout());
+
+    // Add console logger
+    config = config.chain(console_config);
+
+    // Add file logger if requested
+    if let Some(log_file) = log_file {
+        // Create directory if it doesn't exist
+        if let Some(parent) = log_file.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+
+        let file_config = fern::Dispatch::new()
+            .chain(fern::log_file(log_file)?);
+
+        config = config.chain(file_config);
+    }
+
+    // Apply configuration
+    config.apply()?;
+
+    Ok(())
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Set up logging based on command-line arguments
+    let log_file = Some(PathBuf::from("logs/app.log"));
+    let verbose = true;
+
+    setup_logger(log_file, verbose)?;
+
+    trace!("Trace message");
+    debug!("Debug message");
+    info!("Info message");
+    warn!("Warning message");
+    error!("Error message");
+
+    Ok(())
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Creates a base logger configuration</li>
+<li>Adds a colored console logger</li>
+<li>Optionally adds a file logger</li>
+<li>Applies the configuration to both destinations</li>
+</ol>
+<h3 id="tracing-with-the-tracing-crate"><a class="header" href="#tracing-with-the-tracing-crate">Tracing with the tracing Crate</a></h3>
+<p>While logging is useful for recording events, tracing provides a more structured approach for following the flow of execution through your application. The <a href="https://crates.io/crates/tracing"><code>tracing</code></a> crate extends the logging concepts with spans (representing periods of time) and structured data:</p>
+<pre><code class="language-toml">[dependencies]
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">use tracing::{debug, error, info, instrument, span, trace, warn, Level};
+use tracing_subscriber::{EnvFilter, FmtSubscriber};
+
+#[instrument]
+fn process_item(id: u64, name: &amp;str) {
+    debug!("Processing item");
+
+    // Create a span for a sub-operation
+    let span = span!(Level::TRACE, "validate", item_id = id);
+    let _enter = span.enter();
+
+    trace!("Validating item name");
+
+    if name.len() &lt; 3 {
+        warn!("Item name too short");
+    }
+
+    info!("Item processed successfully");
+}
+
+fn main() {
+    // Set up the subscriber with filtering
+    let subscriber = FmtSubscriber::builder()
+        .with_env_filter(EnvFilter::from_default_env())
+        .finish();
+
+    tracing::subscriber::set_global_default(subscriber)
+        .expect("Failed to set tracing subscriber");
+
+    info!("Application starting");
+
+    process_item(42, "test");
+
+    error!("Something went wrong");
+
+    info!("Application finished");
+}</code></pre></pre>
+<p>Key features of <code>tracing</code>:</p>
+<ol>
+<li><strong>Spans</strong>: Track operations over time with enter/exit events</li>
+<li><strong>Hierarchical Context</strong>: Spans can be nested to show parent-child relationships</li>
+<li><strong>Structured Data</strong>: Attach key-value pairs to spans and events</li>
+<li><strong>Instrumentation</strong>: Automatically create spans for functions</li>
+<li><strong>Compatibility</strong>: Works with existing <code>log</code> macros</li>
+</ol>
+<p>The <code>#[instrument]</code> attribute automatically creates a span for the function, including function name and parameters.</p>
+<h3 id="best-practices-for-logging"><a class="header" href="#best-practices-for-logging">Best Practices for Logging</a></h3>
+<p>When implementing logging in your CLI applications:</p>
+<ol>
+<li>
+<p><strong>Use Appropriate Log Levels</strong>:</p>
+<ul>
+<li><code>ERROR</code>: Serious failures that prevent normal operation</li>
+<li><code>WARN</code>: Concerning but non-fatal issues</li>
+<li><code>INFO</code>: Important events in normal operation</li>
+<li><code>DEBUG</code>: Detailed information for troubleshooting</li>
+<li><code>TRACE</code>: Very detailed diagnostic information</li>
+</ul>
+</li>
+<li>
+<p><strong>Include Contextual Information</strong>:</p>
+<ul>
+<li>Timestamps for when events occurred</li>
+<li>Component/module names for where events occurred</li>
+<li>Relevant data values for understanding the event</li>
+<li>User or request IDs to correlate related events</li>
+</ul>
+</li>
+<li>
+<p><strong>Consider Performance</strong>:</p>
+<ul>
+<li>Use async logging for high-volume applications</li>
+<li>Use conditional compilation for trace-level logging</li>
+<li>Avoid expensive operations in log statements</li>
+<li>Be mindful of string formatting overhead</li>
+</ul>
+</li>
+<li>
+<p><strong>Log for Different Audiences</strong>:</p>
+<ul>
+<li>Users need clear, actionable information</li>
+<li>Developers need detailed diagnostic data</li>
+<li>Operators need performance and health metrics</li>
+</ul>
+</li>
+<li>
+<p><strong>Secure Sensitive Information</strong>:</p>
+<ul>
+<li>Avoid logging passwords, API keys, or personal data</li>
+<li>Implement redaction for sensitive fields</li>
+<li>Be aware of logging destination security</li>
+</ul>
+</li>
+<li>
+<p><strong>Make Logs Useful</strong>:</p>
+<ul>
+<li>Include enough context to understand the event</li>
+<li>Use consistent formatting for easier parsing</li>
+<li>Consider machine readability for automated analysis</li>
+<li>Include error codes or references to documentation</li>
+</ul>
+</li>
+</ol>
+<h3 id="integrating-logging-with-signal-handling"><a class="header" href="#integrating-logging-with-signal-handling">Integrating Logging with Signal Handling</a></h3>
+<p>For CLI applications that run for extended periods, it’s common to use signals to control behavior, including logging:</p>
+<pre><pre class="playground"><code class="language-rust">use log::{debug, error, info, trace, warn, LevelFilter};
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+
+static VERBOSE_LOGGING: AtomicBool = AtomicBool::new(false);
+
+fn toggle_verbose_logging() {
+    let current = VERBOSE_LOGGING.load(Ordering::Relaxed);
+    VERBOSE_LOGGING.store(!current, Ordering::Relaxed);
+
+    let new_level = if VERBOSE_LOGGING.load(Ordering::Relaxed) {
+        LevelFilter::Debug
+    } else {
+        LevelFilter::Info
+    };
+
+    log::set_max_level(new_level);
+
+    info!("Logging level changed to {}", new_level);
+}
+
+fn setup_signal_handlers() {
+    #[cfg(unix)]
+    {
+        use signal_hook::{consts::SIGUSR1, iterator::Signals};
+        use std::thread;
+
+        let mut signals = Signals::new(&amp;[SIGUSR1]).unwrap();
+
+        thread::spawn(move || {
+            for sig in signals.forever() {
+                match sig {
+                    SIGUSR1 =&gt; {
+                        // Toggle verbose logging on SIGUSR1
+                        toggle_verbose_logging();
+                    }
+                    _ =&gt; unreachable!(),
+                }
+            }
+        });
+    }
+}
+
+fn main() {
+    // Initialize logger with default level
+    env_logger::Builder::new()
+        .filter_level(LevelFilter::Info)
+        .init();
+
+    // Set up signal handlers
+    setup_signal_handlers();
+
+    info!("Application started");
+
+    // Main application loop
+    loop {
+        // Do some work
+
+        // Log at different levels
+        trace!("Trace message");
+        debug!("Debug message");
+        info!("Info message");
+
+        // Sleep for a bit
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    }
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Sets up a signal handler for SIGUSR1 (on Unix systems)</li>
+<li>Toggles between normal and verbose logging when the signal is received</li>
+<li>Continues logging at the new level</li>
+</ol>
+<p>To toggle logging level in a running application:</p>
+<pre><code class="language-bash"># Find the process ID
+ps aux | grep myapp
+
+# Send SIGUSR1 to toggle verbose logging
+kill -SIGUSR1 &lt;pid&gt;
+</code></pre>
+<h3 id="putting-it-all-together-1"><a class="header" href="#putting-it-all-together-1">Putting It All Together</a></h3>
+<p>Let’s integrate advanced logging into our file search tool:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::Parser;
+use log::{debug, error, info, trace, warn};
+use std::path::PathBuf;
+
+#[derive(Parser, Debug)]
+struct Args {
+    /// Pattern to search for
+    pattern: String,
+
+    /// Directory to search
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: bool,
+
+    /// Verbose mode (-v, -vv, -vvv)
+    #[arg(short, long, action = clap::ArgAction::Count)]
+    verbose: u8,
+
+    /// Log to file
+    #[arg(long)]
+    log_file: Option&lt;PathBuf&gt;,
+}
+
+fn setup_logger(verbosity: u8, log_file: Option&lt;PathBuf&gt;) -&gt; Result&lt;(), fern::InitError&gt; {
+    let log_level = match verbosity {
+        0 =&gt; log::LevelFilter::Warn,
+        1 =&gt; log::LevelFilter::Info,
+        2 =&gt; log::LevelFilter::Debug,
+        _ =&gt; log::LevelFilter::Trace,
+    };
+
+    // Base configuration
+    let mut config = fern::Dispatch::new()
+        .format(|out, message, record| {
+            out.finish(format_args!(
+                "{} [{}] [{}] {}",
+                chrono::Local::now().format("%Y-%m-%d %H:%M:%S"),
+                record.level(),
+                record.target(),
+                message
+            ))
+        })
+        .level(log_level);
+
+    // Console logger (stdout for info and below, stderr for warn and above)
+    let stdout_config = fern::Dispatch::new()
+        .level(log::LevelFilter::Info)
+        .level_for("findit", log_level)
+        .chain(std::io::stdout());
+
+    let stderr_config = fern::Dispatch::new()
+        .level(log::LevelFilter::Warn)
+        .chain(std::io::stderr());
+
+    config = config.chain(stdout_config).chain(stderr_config);
+
+    // Add file logger if requested
+    if let Some(log_file) = log_file {
+        // Create directory if it doesn't exist
+        if let Some(parent) = log_file.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+
+        let file_config = fern::Dispatch::new()
+            .level(log_level)
+            .chain(fern::log_file(log_file)?);
+
+        config = config.chain(file_config);
+    }
+
+    // Apply configuration
+    config.apply()?;
+
+    Ok(())
+}
+
+fn search_files(pattern: &amp;str, path: &amp;PathBuf, recursive: bool) -&gt; Vec&lt;PathBuf&gt; {
+    debug!("Searching for '{}' in {}", pattern, path.display());
+    trace!("Search parameters: recursive={}", recursive);
+
+    // Simulate file search
+    let mut results = Vec::new();
+
+    if let Ok(entries) = std::fs::read_dir(path) {
+        for entry in entries.filter_map(Result::ok) {
+            let entry_path = entry.path();
+
+            if entry_path.is_file() {
+                if let Some(filename) = entry_path.file_name() {
+                    let filename_str = filename.to_string_lossy();
+
+                    if filename_str.contains(pattern) {
+                        info!("Found matching file: {}", entry_path.display());
+                        results.push(entry_path.clone());
+                    } else {
+                        trace!("File did not match: {}", entry_path.display());
+                    }
+                }
+            } else if entry_path.is_dir() &amp;&amp; recursive {
+                debug!("Recursing into directory: {}", entry_path.display());
+                let subdirectory_results = search_files(pattern, &amp;entry_path, recursive);
+                results.extend(subdirectory_results);
+            }
+        }
+    } else {
+        error!("Failed to read directory: {}", path.display());
+    }
+
+    debug!("Found {} matching files in {}", results.len(), path.display());
+    results
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let args = Args::parse();
+
+    // Set up logging
+    setup_logger(args.verbose, args.log_file.clone())?;
+
+    info!("Starting file search for pattern '{}'", args.pattern);
+    debug!("Search path: {}", args.path.display());
+    debug!("Recursive search: {}", args.recursive);
+
+    let start_time = std::time::Instant::now();
+
+    let results = search_files(&amp;args.pattern, &amp;args.path, args.recursive);
+
+    let elapsed = start_time.elapsed();
+    info!("Search completed in {:.2} seconds", elapsed.as_secs_f64());
+
+    println!("Found {} matching files:", results.len());
+    for file in &amp;results {
+        println!("  {}", file.display());
+    }
+
+    Ok(())
+}</code></pre></pre>
+<p>This implementation:</p>
+<ol>
+<li>Configures logging based on verbosity level</li>
+<li>Logs to both console and optionally to a file</li>
+<li>Uses appropriate log levels for different types of information</li>
+<li>Includes context like filenames and timing information</li>
+<li>Separates user output (via <code>println!</code>) from diagnostic information (via logging)</li>
+</ol>
+<p>In the next section, we’ll explore signal handling in more depth, allowing our CLI applications to respond gracefully to external events.</p>
+<h2 id="signal-handling"><a class="header" href="#signal-handling">Signal Handling</a></h2>
+<p>CLI applications often need to respond to external signals, such as user interrupts (Ctrl+C), termination requests, or custom signals for operations like reloading configuration. Proper signal handling makes your application more robust and user-friendly, especially for long-running processes.</p>
+<h3 id="understanding-signals"><a class="header" href="#understanding-signals">Understanding Signals</a></h3>
+<p>Signals are software interrupts sent to a process to notify it of important events. Common signals include:</p>
+<ul>
+<li><strong>SIGINT</strong>: Interrupt from keyboard (Ctrl+C)</li>
+<li><strong>SIGTERM</strong>: Termination request</li>
+<li><strong>SIGHUP</strong>: Terminal disconnect or daemon reconfiguration</li>
+<li><strong>SIGUSR1/SIGUSR2</strong>: User-defined signals</li>
+<li><strong>SIGWINCH</strong>: Terminal window size change</li>
+</ul>
+<p>On Unix-like systems, signals are part of the standard process model. Windows has a more limited signal concept, but some common signals like SIGINT are emulated.</p>
+<h3 id="basic-signal-handling-in-rust"><a class="header" href="#basic-signal-handling-in-rust">Basic Signal Handling in Rust</a></h3>
+<p>Let’s explore how to handle signals in Rust using the <code>signal_hook</code> crate:</p>
+<pre><code class="language-toml">[dependencies]
+signal_hook = "0.3"
+</code></pre>
+<h4 id="handling-ctrlc-sigint"><a class="header" href="#handling-ctrlc-sigint">Handling Ctrl+C (SIGINT)</a></h4>
+<p>The simplest signal to handle is SIGINT (Ctrl+C), which users send to interrupt a program:</p>
+<pre><pre class="playground"><code class="language-rust">use signal_hook::{consts::SIGINT, iterator::Signals};
+use std::error::Error;
+use std::thread;
+use std::time::Duration;
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    // Set up signal handling
+    let mut signals = Signals::new(&amp;[SIGINT])?;
+
+    // Handle signals in a separate thread
+    let handle = thread::spawn(move || {
+        for sig in signals.forever() {
+            println!("\nReceived signal: {:?}", sig);
+            println!("Cleaning up and exiting...");
+
+            // Perform cleanup here
+
+            std::process::exit(0);
+        }
+    });
+
+    // Main program loop
+    println!("Running... Press Ctrl+C to exit");
+    loop {
+        // Do some work
+        println!("Working...");
+        thread::sleep(Duration::from_secs(1));
+    }
+
+    // This is never reached in this example
+    handle.join().unwrap();
+    Ok(())
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Registers a handler for SIGINT</li>
+<li>Runs the handler in a separate thread</li>
+<li>Performs cleanup operations before exiting</li>
+</ol>
+<h4 id="handling-multiple-signals"><a class="header" href="#handling-multiple-signals">Handling Multiple Signals</a></h4>
+<p>Most applications need to handle multiple signals:</p>
+<pre><pre class="playground"><code class="language-rust">use signal_hook::{consts::{SIGINT, SIGTERM, SIGHUP}, iterator::Signals};
+use std::error::Error;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+use std::thread;
+use std::time::Duration;
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    // Shared flags for signal handling
+    let term = Arc::new(AtomicBool::new(false));
+    let reload = Arc::new(AtomicBool::new(false));
+
+    // Set up signal handling
+    let mut signals = Signals::new(&amp;[SIGINT, SIGTERM, SIGHUP])?;
+    let term_clone = term.clone();
+    let reload_clone = reload.clone();
+
+    // Handle signals in a separate thread
+    let handle = thread::spawn(move || {
+        for sig in signals.forever() {
+            match sig {
+                SIGINT | SIGTERM =&gt; {
+                    println!("\nReceived termination signal");
+                    term_clone.store(true, Ordering::Relaxed);
+                }
+                SIGHUP =&gt; {
+                    println!("\nReceived reload signal");
+                    reload_clone.store(true, Ordering::Relaxed);
+                }
+                _ =&gt; unreachable!(),
+            }
+        }
+    });
+
+    // Main program loop
+    println!("Running... Press Ctrl+C to exit");
+    while !term.load(Ordering::Relaxed) {
+        // Check if we need to reload
+        if reload.load(Ordering::Relaxed) {
+            println!("Reloading configuration...");
+            // Reload configuration here
+            reload.store(false, Ordering::Relaxed);
+        }
+
+        // Do some work
+        println!("Working...");
+        thread::sleep(Duration::from_secs(1));
+    }
+
+    println!("Cleaning up and exiting...");
+    // Perform cleanup here
+
+    // Clean up signal handling
+    drop(handle);
+
+    Ok(())
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Registers handlers for termination (SIGINT, SIGTERM) and reload (SIGHUP) signals</li>
+<li>Uses atomic flags to communicate between the signal handler and main thread</li>
+<li>Performs different actions based on the signal received</li>
+</ol>
+<h4 id="graceful-shutdown"><a class="header" href="#graceful-shutdown">Graceful Shutdown</a></h4>
+<p>For long-running applications, graceful shutdown is important to ensure proper cleanup:</p>
+<pre><pre class="playground"><code class="language-rust">use signal_hook::{consts::{SIGINT, SIGTERM}, iterator::Signals};
+use std::error::Error;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+use std::thread;
+use std::time::Duration;
+
+struct AppState {
+    // Application state here
+    running: Arc&lt;AtomicBool&gt;,
+    // Other state...
+}
+
+impl AppState {
+    fn new() -&gt; Self {
+        AppState {
+            running: Arc::new(AtomicBool::new(true)),
+            // Initialize other state...
+        }
+    }
+
+    fn shutdown(&amp;self) {
+        println!("Shutting down gracefully...");
+
+        // Set running flag to false
+        self.running.store(false, Ordering::Relaxed);
+
+        // Give in-progress operations time to complete
+        println!("Waiting for operations to complete...");
+        thread::sleep(Duration::from_millis(500));
+
+        // Close resources
+        println!("Closing resources...");
+        // Close database connections, file handles, etc.
+
+        println!("Shutdown complete");
+    }
+}
+
+fn setup_signal_handling(state: Arc&lt;AppState&gt;) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let mut signals = Signals::new(&amp;[SIGINT, SIGTERM])?;
+    let state_clone = state.clone();
+
+    thread::spawn(move || {
+        for sig in signals.forever() {
+            println!("\nReceived signal: {:?}", sig);
+            state_clone.shutdown();
+            std::process::exit(0);
+        }
+    });
+
+    Ok(())
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let state = Arc::new(AppState::new());
+
+    // Set up signal handling
+    setup_signal_handling(state.clone())?;
+
+    println!("Application started. Press Ctrl+C to exit.");
+
+    // Main application loop
+    while state.running.load(Ordering::Relaxed) {
+        // Do some work
+        println!("Working...");
+        thread::sleep(Duration::from_secs(1));
+    }
+
+    Ok(())
+}</code></pre></pre>
+<p>This example:</p>
+<ol>
+<li>Encapsulates application state in a struct</li>
+<li>Implements a graceful shutdown method</li>
+<li>Uses a shared flag to communicate shutdown intent</li>
+<li>Performs cleanup operations in a controlled manner</li>
+</ol>
+<h3 id="signal-handling-in-cli-applications"><a class="header" href="#signal-handling-in-cli-applications">Signal Handling in CLI Applications</a></h3>
+<p>Let’s integrate signal handling into our file search tool to support graceful interruption:</p>
+<pre><pre class="playground"><code class="language-rust">use clap::Parser;
+use signal_hook::{consts::SIGINT, iterator::Signals};
+use std::error::Error;
+use std::path::PathBuf;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+use std::thread;
+
+#[derive(Parser, Debug)]
+struct Args {
+    /// Pattern to search for
+    pattern: String,
+
+    /// Directory to search
+    #[arg(default_value = ".")]
+    path: PathBuf,
+
+    /// Search recursively
+    #[arg(short, long)]
+    recursive: bool,
+}
+
+struct SearchState {
+    interrupted: Arc&lt;AtomicBool&gt;,
+    files_processed: Arc&lt;AtomicUsize&gt;,
+    matches_found: Arc&lt;AtomicUsize&gt;,
+}
+
+impl SearchState {
+    fn new() -&gt; Self {
+        SearchState {
+            interrupted: Arc::new(AtomicBool::new(false)),
+            files_processed: Arc::new(AtomicUsize::new(0)),
+            matches_found: Arc::new(AtomicUsize::new(0)),
+        }
+    }
+
+    fn setup_signal_handling(&amp;self) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+        let mut signals = Signals::new(&amp;[SIGINT])?;
+        let interrupted = self.interrupted.clone();
+
+        thread::spawn(move || {
+            for _ in signals.forever() {
+                eprintln!("\nSearch interrupted. Finishing current operation...");
+                interrupted.store(true, Ordering::Relaxed);
+            }
+        });
+
+        Ok(())
+    }
+}
+
+fn search_files(pattern: &amp;str, path: &amp;PathBuf, recursive: bool, state: &amp;SearchState) -&gt; Vec&lt;PathBuf&gt; {
+    let mut results = Vec::new();
+
+    // Check if we've been interrupted
+    if state.interrupted.load(Ordering::Relaxed) {
+        return results;
+    }
+
+    // Process the current directory
+    if let Ok(entries) = std::fs::read_dir(path) {
+        for entry in entries.filter_map(Result::ok) {
+            // Check for interruption frequently
+            if state.interrupted.load(Ordering::Relaxed) {
+                break;
+            }
+
+            let entry_path = entry.path();
+
+            if entry_path.is_file() {
+                state.files_processed.fetch_add(1, Ordering::Relaxed);
+
+                if let Some(filename) = entry_path.file_name() {
+                    let filename_str = filename.to_string_lossy();
+
+                    if filename_str.contains(pattern) {
+                        state.matches_found.fetch_add(1, Ordering::Relaxed);
+                        results.push(entry_path.clone());
+                    }
+                }
+            } else if entry_path.is_dir() &amp;&amp; recursive {
+                let subdirectory_results = search_files(pattern, &amp;entry_path, recursive, state);
+                results.extend(subdirectory_results);
+            }
+        }
+    }
+
+    results
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let args = Args::parse();
+    let state = SearchState::new();
+
+    // Set up signal handling
+    state.setup_signal_handling()?;
+
+    println!("Searching for '{}' in {}{}...",
+        args.pattern,
+        args.path.display(),
+        if args.recursive { " (recursively)" } else { "" }
+    );
+
+    let start_time = std::time::Instant::now();
+
+    // Start a progress reporting thread
+    let files_processed = state.files_processed.clone();
+    let matches_found = state.matches_found.clone();
+    let interrupted = state.interrupted.clone();
+
+    let progress_handle = thread::spawn(move || {
+        while !interrupted.load(Ordering::Relaxed) {
+            let processed = files_processed.load(Ordering::Relaxed);
+            let matches = matches_found.load(Ordering::Relaxed);
+
+            eprint!("\rProcessed {} files, found {} matches", processed, matches);
+
+            thread::sleep(std::time::Duration::from_millis(100));
+        }
+    });
+
+    // Perform the search
+    let results = search_files(&amp;args.pattern, &amp;args.path, args.recursive, &amp;state);
+
+    // Signal the progress thread to stop
+    state.interrupted.store(true, Ordering::Relaxed);
+    let _ = progress_handle.join();
+
+    let elapsed = start_time.elapsed();
+
+    // Clear the progress line
+    eprint!("\r                                            \r");
+
+    if state.interrupted.load(Ordering::Relaxed) {
+        println!("Search interrupted after {:.2} seconds.", elapsed.as_secs_f64());
+        println!("Processed {} files, found {} matches (partial results):",
+            state.files_processed.load(Ordering::Relaxed),
+            results.len()
+        );
+    } else {
+        println!("Search completed in {:.2} seconds.", elapsed.as_secs_f64());
+        println!("Processed {} files, found {} matches:",
+            state.files_processed.load(Ordering::Relaxed),
+            results.len()
+        );
+    }
+
+    // Print results
+    for file in &amp;results {
+        println!("  {}", file.display());
+    }
+
+    Ok(())
+}</code></pre></pre>
+<p>This implementation:</p>
+<ol>
+<li>Creates a shared state to track search progress</li>
+<li>Sets up signal handling for SIGINT (Ctrl+C)</li>
+<li>Gracefully handles interruptions during the search</li>
+<li>Provides real-time progress updates</li>
+<li>Reports partial results if interrupted</li>
+</ol>
+<h3 id="cross-platform-signal-handling"><a class="header" href="#cross-platform-signal-handling">Cross-Platform Signal Handling</a></h3>
+<p>Signal handling is primarily a Unix concept, but we can create cross-platform solutions:</p>
+<pre><pre class="playground"><code class="language-rust">use std::error::Error;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+use std::thread;
+use std::time::Duration;
+
+#[cfg(unix)]
+use signal_hook::{consts::SIGINT, iterator::Signals};
+
+struct Application {
+    running: Arc&lt;AtomicBool&gt;,
+}
+
+impl Application {
+    fn new() -&gt; Self {
+        Application {
+            running: Arc::new(AtomicBool::new(true)),
+        }
+    }
+
+    fn setup_signal_handling(&amp;self) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+        #[cfg(unix)]
+        {
+            let mut signals = Signals::new(&amp;[SIGINT])?;
+            let running = self.running.clone();
+
+            thread::spawn(move || {
+                for _ in signals.forever() {
+                    println!("\nReceived interrupt signal");
+                    running.store(false, Ordering::Relaxed);
+                }
+            });
+        }
+
+        #[cfg(windows)]
+        {
+            // On Windows, use ctrlc crate
+            let running = self.running.clone();
+            ctrlc::set_handler(move || {
+                println!("\nReceived interrupt signal");
+                running.store(false, Ordering::Relaxed);
+            })?;
+        }
+
+        Ok(())
+    }
+
+    fn run(&amp;self) {
+        println!("Application running. Press Ctrl+C to exit.");
+
+        while self.running.load(Ordering::Relaxed) {
+            // Do work
+            println!("Working...");
+            thread::sleep(Duration::from_secs(1));
+        }
+
+        println!("Application shutting down...");
+    }
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let app = Application::new();
+    app.setup_signal_handling()?;
+    app.run();
+
+    Ok(())
+}</code></pre></pre>
+<p>For Windows support, add the <code>ctrlc</code> crate:</p>
+<pre><code class="language-toml">[dependencies]
+signal_hook = "0.3"
+ctrlc = "3.2"
+</code></pre>
+<h3 id="best-practices-for-signal-handling"><a class="header" href="#best-practices-for-signal-handling">Best Practices for Signal Handling</a></h3>
+<p>When implementing signal handling in your CLI applications:</p>
+<ol>
+<li>
+<p><strong>Respond to Common Signals</strong>:</p>
+<ul>
+<li>SIGINT (Ctrl+C) for user interruption</li>
+<li>SIGTERM for graceful shutdown</li>
+<li>SIGHUP for configuration reload (for daemons)</li>
+</ul>
+</li>
+<li>
+<p><strong>Handle Signals Safely</strong>:</p>
+<ul>
+<li>Avoid complex operations in signal handlers</li>
+<li>Use atomic flags to communicate between threads</li>
+<li>Be aware of async signal safety concerns</li>
+</ul>
+</li>
+<li>
+<p><strong>Implement Graceful Shutdown</strong>:</p>
+<ul>
+<li>Clean up resources properly</li>
+<li>Save state if appropriate</li>
+<li>Report progress/status before exiting</li>
+</ul>
+</li>
+<li>
+<p><strong>Be Responsive</strong>:</p>
+<ul>
+<li>Check interrupt flags frequently in long operations</li>
+<li>Provide feedback when shutting down</li>
+<li>Don’t block in signal handlers</li>
+</ul>
+</li>
+<li>
+<p><strong>Consider Cross-Platform Behavior</strong>:</p>
+<ul>
+<li>Use appropriate libraries for different platforms</li>
+<li>Fall back gracefully if signals aren’t available</li>
+<li>Test on all target platforms</li>
+</ul>
+</li>
+</ol>
+<p>In the next section, we’ll explore output formatting and colors, which help make your CLI applications more user-friendly and informative.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Command-line applications remain vital tools in a developer’s arsenal, offering efficiency, scriptability, and automation capabilities. Throughout this chapter, we’ve explored how to build sophisticated CLI applications in Rust that are both powerful and user-friendly.</p>
+<p>We began with the fundamentals of CLI application design, discussing the principles of good command-line interfaces and the Rust ecosystem for CLI development. We then explored argument parsing with the <code>clap</code> crate, learning how to define, parse, and validate command-line arguments.</p>
+<p>For applications that require user interaction, we examined terminal manipulation with the <code>crossterm</code> crate, showing how to control the terminal, handle keyboard input, and create interactive interfaces. We also explored progress indicators and spinners with the <code>indicatif</code> crate, providing visual feedback during long-running operations.</p>
+<p>Building on these foundations, we developed interactive CLI applications using the <code>dialoguer</code> crate, implementing prompts, menus, and form-based input. We also addressed configuration management, exploring how to manage settings across different sources with the <code>config</code> crate.</p>
+<p>For robustness, we implemented logging and tracing with the <code>log</code> and <code>tracing</code> crates, enabling detailed visibility into application behavior. We also added signal handling, allowing our applications to respond gracefully to interruptions and termination requests.</p>
+<p>Rust’s combination of performance, safety, and expressive abstractions makes it an excellent choice for CLI applications. The rich ecosystem of crates we’ve explored provides high-level abstractions while still allowing fine-grained control when needed.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<h3 id="exercise-1-file-utility"><a class="header" href="#exercise-1-file-utility">Exercise 1: File Utility</a></h3>
+<p>Build a file utility that can perform operations like copying, moving, and deleting files. Implement:</p>
+<ul>
+<li>Command-line arguments with <code>clap</code></li>
+<li>Progress bars for large file operations</li>
+<li>Graceful handling of interruptions</li>
+<li>Logging with different verbosity levels</li>
+</ul>
+<h3 id="exercise-2-interactive-todo-application"><a class="header" href="#exercise-2-interactive-todo-application">Exercise 2: Interactive Todo Application</a></h3>
+<p>Create a simple todo list manager with:</p>
+<ul>
+<li>Add, complete, and delete tasks</li>
+<li>Interactive menu navigation</li>
+<li>Persistent storage using a configuration file</li>
+<li>Color-coded output for different task states</li>
+</ul>
+<h3 id="exercise-3-system-monitor"><a class="header" href="#exercise-3-system-monitor">Exercise 3: System Monitor</a></h3>
+<p>Develop a system monitoring tool that displays:</p>
+<ul>
+<li>CPU and memory usage</li>
+<li>Disk space and I/O statistics</li>
+<li>Network activity</li>
+<li>Implement live updating with <code>crossterm</code></li>
+<li>Allow the user to sort and filter the information</li>
+</ul>
+<h3 id="exercise-4-configuration-manager"><a class="header" href="#exercise-4-configuration-manager">Exercise 4: Configuration Manager</a></h3>
+<p>Build a tool to manage configuration files across multiple applications:</p>
+<ul>
+<li>List all configuration files in standard locations</li>
+<li>Edit configuration values interactively</li>
+<li>Validate configuration formats</li>
+<li>Create backups before modifications</li>
+</ul>
+<h3 id="exercise-5-log-analyzer"><a class="header" href="#exercise-5-log-analyzer">Exercise 5: Log Analyzer</a></h3>
+<p>Create a log file analysis tool that:</p>
+<ul>
+<li>Parses log files in common formats</li>
+<li>Filters logs by level, timestamp, or content</li>
+<li>Highlights errors and warnings</li>
+<li>Generates statistics about log entries</li>
+<li>Implements signal handling for interruption during processing of large files</li>
+</ul>
+<p>By completing these exercises, you’ll gain practical experience with the techniques and libraries covered in this chapter, reinforcing your understanding of CLI application development in Rust.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/28-testing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/30-web.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/28-testing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/30-web.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,3292 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Building a Database - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/38-database-building.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-38-building-a-database"><a class="header" href="#chapter-38-building-a-database">Chapter 38: Building a Database</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Database systems form the backbone of modern computing, providing reliable, efficient storage and retrieval mechanisms for applications ranging from simple mobile apps to complex distributed systems. While most developers use existing database solutions, understanding how databases work internally provides invaluable insights that can improve database usage, guide system architecture decisions, and reveal opportunities for performance optimization.</p>
+<p>In this chapter, we’ll explore the art and science of building a database from first principles using Rust. We’ll examine key database components—storage engines, query processors, transaction managers, and more—while applying clean code practices, SOLID principles, and effective design patterns. Rust’s focus on safety, performance, and fine-grained control makes it particularly well-suited for database implementation, where reliability and efficiency are paramount.</p>
+<p>Our exploration will progress from fundamental database concepts to the implementation of a complete embedded key-value store with persistence, ACID compliance, and concurrent access capabilities. Along the way, we’ll address the challenges that database developers face and demonstrate how Rust’s features help overcome them.</p>
+<p>By the end of this chapter, you’ll have a deeper understanding of database internals and the skills to implement specialized storage solutions tailored to specific application needs. Whether you’re building performance-critical systems, specialized embedded databases, or simply want to understand how the databases you use every day actually work, this chapter will provide the foundation you need.</p>
+<h2 id="database-system-concepts"><a class="header" href="#database-system-concepts">Database System Concepts</a></h2>
+<p>Before diving into implementation, let’s explore the core concepts that underpin all database systems. Understanding these principles will guide our design decisions and help us build a robust database.</p>
+<h3 id="types-of-database-systems"><a class="header" href="#types-of-database-systems">Types of Database Systems</a></h3>
+<p>Database systems can be categorized in various ways:</p>
+<ol>
+<li><strong>Relational Databases</strong>: Store data in tables with relationships between them (PostgreSQL, MySQL)</li>
+<li><strong>Key-Value Stores</strong>: Simple mapping from keys to values (Redis, LevelDB)</li>
+<li><strong>Document Databases</strong>: Store semi-structured documents, typically in JSON-like formats (MongoDB, CouchDB)</li>
+<li><strong>Column-Family Stores</strong>: Store data in column families optimized for analytics (Cassandra, HBase)</li>
+<li><strong>Graph Databases</strong>: Specialize in representing and querying graph structures (Neo4j, ArangoDB)</li>
+<li><strong>Time-Series Databases</strong>: Optimized for time-stamped or time-series data (InfluxDB, TimescaleDB)</li>
+<li><strong>Object Databases</strong>: Store data as objects, similar to their representation in object-oriented programming</li>
+</ol>
+<p>For our implementation, we’ll focus on a key-value store, which provides a solid foundation for understanding database internals while remaining manageable in scope.</p>
+<h3 id="core-database-components"><a class="header" href="#core-database-components">Core Database Components</a></h3>
+<p>Regardless of type, most databases share these fundamental components:</p>
+<ol>
+<li><strong>Storage Engine</strong>: Responsible for persisting data to disk and managing how data is organized in memory and on storage devices</li>
+<li><strong>Query Processor</strong>: Parses and executes queries, often involving optimization to improve execution efficiency</li>
+<li><strong>Transaction Manager</strong>: Ensures that operations maintain database consistency, even during failures</li>
+<li><strong>Buffer Manager</strong>: Manages memory used for caching data pages to reduce disk I/O</li>
+<li><strong>Recovery Manager</strong>: Handles database recovery after crashes or failures</li>
+<li><strong>Concurrency Control</strong>: Manages concurrent access to ensure consistency when multiple clients interact with the database</li>
+</ol>
+<h3 id="the-acid-properties"><a class="header" href="#the-acid-properties">The ACID Properties</a></h3>
+<p>ACID properties are a set of guarantees that ensure database transactions are processed reliably:</p>
+<ul>
+<li><strong>Atomicity</strong>: A transaction is treated as a single, indivisible unit that either succeeds completely or fails completely</li>
+<li><strong>Consistency</strong>: A transaction can only bring the database from one valid state to another, maintaining all defined rules and constraints</li>
+<li><strong>Isolation</strong>: Concurrent transactions execute as if they were running sequentially, preventing interference between them</li>
+<li><strong>Durability</strong>: Once a transaction is committed, its changes persist even in the event of system failures</li>
+</ul>
+<p>Implementing these properties involves careful design of transaction processing, logging, and recovery mechanisms.</p>
+<h3 id="database-storage-structures"><a class="header" href="#database-storage-structures">Database Storage Structures</a></h3>
+<p>Different database systems employ various data structures to organize and index data:</p>
+<ol>
+<li><strong>B-Trees and B+Trees</strong>: Balanced tree structures that maintain sorted data and allow efficient searches, insertions, and deletions</li>
+<li><strong>LSM Trees (Log-Structured Merge Trees)</strong>: Optimize write operations by batching them together, commonly used in key-value stores</li>
+<li><strong>Hash Tables</strong>: Provide O(1) lookup times for exact-match queries but don’t support range queries efficiently</li>
+<li><strong>Skip Lists</strong>: Probabilistic data structures that offer balanced tree-like performance with simpler implementation</li>
+<li><strong>Inverted Indexes</strong>: Map content to locations, essential for text search functionality</li>
+</ol>
+<p>The choice of storage structure significantly impacts database performance characteristics and supported operations.</p>
+<h3 id="design-principles-for-our-database"><a class="header" href="#design-principles-for-our-database">Design Principles for Our Database</a></h3>
+<p>In building our database, we’ll adhere to these principles:</p>
+<ol>
+<li><strong>Single Responsibility Principle</strong>: Each component should have a single responsibility, making the system easier to maintain and extend</li>
+<li><strong>Open/Closed Principle</strong>: Components should be open for extension but closed for modification, allowing us to add features without changing existing code</li>
+<li><strong>Liskov Substitution Principle</strong>: Subtypes should be substitutable for their base types, ensuring that our abstractions are sound</li>
+<li><strong>Interface Segregation Principle</strong>: Clients should not depend on interfaces they don’t use, leading to more focused and cohesive components</li>
+<li><strong>Dependency Inversion Principle</strong>: High-level modules should not depend on low-level modules; both should depend on abstractions</li>
+</ol>
+<p>These SOLID principles will guide our architecture, resulting in a more maintainable and adaptable codebase.</p>
+<h3 id="applying-design-patterns"><a class="header" href="#applying-design-patterns">Applying Design Patterns</a></h3>
+<p>Throughout our implementation, we’ll apply relevant design patterns:</p>
+<ol>
+<li><strong>Repository Pattern</strong>: To abstract data access and provide a collection-like interface</li>
+<li><strong>Strategy Pattern</strong>: For pluggable components like storage engines or concurrency control mechanisms</li>
+<li><strong>Factory Pattern</strong>: To create complex objects like transaction contexts</li>
+<li><strong>Observer Pattern</strong>: For event notification when data changes</li>
+<li><strong>Command Pattern</strong>: To encapsulate operations that can be logged and replayed for recovery</li>
+<li><strong>Decorator Pattern</strong>: To add features like caching or compression to storage engines</li>
+</ol>
+<p>By explicitly identifying and applying these patterns, we’ll create a codebase that’s not only functional but also exemplifies good design practices.</p>
+<p>Let’s now explore each major component of our database system in detail before bringing them together in our project.</p>
+<h2 id="storage-engines-and-data-structures"><a class="header" href="#storage-engines-and-data-structures">Storage Engines and Data Structures</a></h2>
+<p>The storage engine is the heart of any database system. It determines how data is organized, stored, and retrieved, directly affecting performance, reliability, and functionality. Let’s explore the design and implementation of a storage engine for our key-value database.</p>
+<h3 id="storage-engine-architecture"><a class="header" href="#storage-engine-architecture">Storage Engine Architecture</a></h3>
+<p>A well-designed storage engine separates concerns into distinct layers:</p>
+<ol>
+<li><strong>Interface Layer</strong>: Defines the contract for storage operations through traits</li>
+<li><strong>Implementation Layer</strong>: Provides concrete implementations of storage strategies</li>
+<li><strong>Persistence Layer</strong>: Handles the actual reading and writing of data to persistent storage</li>
+<li><strong>Cache Layer</strong>: Manages in-memory caching to reduce disk I/O</li>
+</ol>
+<p>Following the Single Responsibility Principle, we’ll design each layer to have a clear, focused purpose.</p>
+<h3 id="designing-a-storage-engine-interface"><a class="header" href="#designing-a-storage-engine-interface">Designing a Storage Engine Interface</a></h3>
+<p>Let’s start by defining the interface for our storage engine using Rust traits:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::error::Error;
+use std::fmt::Debug;
+
+/// Key type for our key-value store
+pub type Key = Vec&lt;u8&gt;;
+
+/// Value type for our key-value store
+pub type Value = Vec&lt;u8&gt;;
+
+/// Result type for storage operations
+pub type StorageResult&lt;T&gt; = Result&lt;T, Box&lt;dyn Error + Send + Sync&gt;&gt;;
+
+/// Core trait defining the operations supported by all storage engines
+pub trait StorageEngine: Send + Sync + Debug {
+    /// Retrieve a value by key
+    fn get(&amp;self, key: &amp;Key) -&gt; StorageResult&lt;Option&lt;Value&gt;&gt;;
+
+    /// Store a key-value pair
+    fn put(&amp;mut self, key: Key, value: Value) -&gt; StorageResult&lt;()&gt;;
+
+    /// Remove a key-value pair
+    fn delete(&amp;mut self, key: &amp;Key) -&gt; StorageResult&lt;()&gt;;
+
+    /// Check if a key exists
+    fn contains(&amp;self, key: &amp;Key) -&gt; StorageResult&lt;bool&gt;;
+
+    /// Iterate over all key-value pairs
+    fn scan(&amp;self) -&gt; StorageResult&lt;Box&lt;dyn Iterator&lt;Item = (Key, Value)&gt; + '_&gt;&gt;;
+
+    /// Flush any pending changes to persistent storage
+    fn flush(&amp;mut self) -&gt; StorageResult&lt;()&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This interface follows the Interface Segregation Principle by including only essential methods that all storage engines must implement. It’s also generic enough to accommodate different storage strategies.</p>
+<h3 id="memory-based-storage-implementation"><a class="header" href="#memory-based-storage-implementation">Memory-Based Storage Implementation</a></h3>
+<p>Let’s implement an in-memory storage engine using a <code>BTreeMap</code>. This will serve as a simple starting point:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::BTreeMap;
+use std::fmt;
+
+/// A simple in-memory storage engine using BTreeMap
+#[derive(Default)]
+pub struct MemoryStorage {
+    data: BTreeMap&lt;Key, Value&gt;,
+}
+
+impl MemoryStorage {
+    /// Create a new empty memory storage
+    pub fn new() -&gt; Self {
+        Self {
+            data: BTreeMap::new(),
+        }
+    }
+}
+
+impl fmt::Debug for MemoryStorage {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        f.debug_struct("MemoryStorage")
+            .field("entries", &amp;self.data.len())
+            .finish()
+    }
+}
+
+impl StorageEngine for MemoryStorage {
+    fn get(&amp;self, key: &amp;Key) -&gt; StorageResult&lt;Option&lt;Value&gt;&gt; {
+        Ok(self.data.get(key).cloned())
+    }
+
+    fn put(&amp;mut self, key: Key, value: Value) -&gt; StorageResult&lt;()&gt; {
+        self.data.insert(key, value);
+        Ok(())
+    }
+
+    fn delete(&amp;mut self, key: &amp;Key) -&gt; StorageResult&lt;()&gt; {
+        self.data.remove(key);
+        Ok(())
+    }
+
+    fn contains(&amp;self, key: &amp;Key) -&gt; StorageResult&lt;bool&gt; {
+        Ok(self.data.contains_key(key))
+    }
+
+    fn scan(&amp;self) -&gt; StorageResult&lt;Box&lt;dyn Iterator&lt;Item = (Key, Value)&gt; + '_&gt;&gt; {
+        let iter = self.data.clone().into_iter();
+        Ok(Box::new(iter))
+    }
+
+    fn flush(&amp;mut self) -&gt; StorageResult&lt;()&gt; {
+        // No-op for memory storage
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This implementation follows the Strategy Pattern, providing a concrete strategy for in-memory storage.</p>
+<h3 id="persistent-storage-with-log-structured-merge-trees"><a class="header" href="#persistent-storage-with-log-structured-merge-trees">Persistent Storage with Log-Structured Merge Trees</a></h3>
+<p>For persistent storage, we’ll implement a Log-Structured Merge (LSM) Tree, a data structure optimized for write-heavy workloads. LSM trees batch writes in memory and periodically merge them to disk, providing a good balance of read and write performance.</p>
+<p>The key components of our LSM-based storage engine will include:</p>
+<ol>
+<li><strong>MemTable</strong>: An in-memory sorted structure (like a B-Tree) for recent writes</li>
+<li><strong>Write-Ahead Log (WAL)</strong>: A sequential log recording all operations for durability</li>
+<li><strong>SSTable (Sorted String Table)</strong>: Immutable files storing sorted key-value pairs on disk</li>
+<li><strong>Compaction Process</strong>: Background merging of SSTables to reclaim space and improve read performance</li>
+</ol>
+<p>Here’s a simplified implementation of an LSM storage engine:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::{File, OpenOptions};
+use std::io::{self, BufReader, BufWriter, Read, Seek, SeekFrom, Write};
+use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex, RwLock};
+use std::time::{SystemTime, UNIX_EPOCH};
+use std::fmt;
+
+/// Entry in the write-ahead log
+#[derive(Debug, Clone)]
+enum LogEntry {
+    Put(Key, Value),
+    Delete(Key),
+}
+
+/// LSM-based persistent storage engine
+pub struct LsmStorage {
+    // In-memory table for recent writes
+    memtable: RwLock&lt;BTreeMap&lt;Key, Option&lt;Value&gt;&gt;&gt;,
+
+    // Path for persistent storage
+    data_path: PathBuf,
+
+    // Write-ahead log file
+    wal: Arc&lt;Mutex&lt;BufWriter&lt;File&gt;&gt;&gt;,
+
+    // Immutable disk tables
+    sstables: RwLock&lt;Vec&lt;SSTable&gt;&gt;,
+}
+
+/// Sorted String Table - immutable sorted key-value pairs on disk
+struct SSTable {
+    file_path: PathBuf,
+    // Index mapping keys to file positions (would be a more sophisticated structure in practice)
+    index: BTreeMap&lt;Key, u64&gt;,
+}
+
+impl LsmStorage {
+    /// Create a new LSM storage at the specified path
+    pub fn new&lt;P: AsRef&lt;Path&gt;&gt;(path: P) -&gt; StorageResult&lt;Self&gt; {
+        let data_path = path.as_ref().to_path_buf();
+
+        // Create directory if it doesn't exist
+        std::fs::create_dir_all(&amp;data_path)?;
+
+        // Create or open write-ahead log
+        let wal_path = data_path.join("wal.log");
+        let wal_file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&amp;wal_path)?;
+
+        let wal = Arc::new(Mutex::new(BufWriter::new(wal_file)));
+
+        // Initialize empty memtable and sstables
+        let storage = Self {
+            memtable: RwLock::new(BTreeMap::new()),
+            data_path,
+            wal,
+            sstables: RwLock::new(Vec::new()),
+        };
+
+        // Recover from existing WAL if any
+        storage.recover_from_wal()?;
+
+        Ok(storage)
+    }
+
+    /// Recover the memtable state from the write-ahead log
+    fn recover_from_wal(&amp;self) -&gt; StorageResult&lt;()&gt; {
+        let wal_path = self.data_path.join("wal.log");
+
+        if !wal_path.exists() {
+            return Ok(());
+        }
+
+        let file = File::open(&amp;wal_path)?;
+        let mut reader = BufReader::new(file);
+        let mut buffer = Vec::new();
+
+        // Read the entire WAL file
+        reader.read_to_end(&amp;mut buffer)?;
+
+        // If empty, nothing to recover
+        if buffer.is_empty() {
+            return Ok(());
+        }
+
+        // Parse entries and apply to memtable
+        // This is a simplified version; a real implementation would use a proper serialization format
+        let mut memtable = self.memtable.write().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire write lock on memtable",
+        ))?;
+
+        // In a real implementation, we would deserialize the log entries here
+        // and apply them to the memtable
+
+        Ok(())
+    }
+
+    /// Flush the memtable to disk as a new SSTable
+    fn flush_memtable_to_disk(&amp;self) -&gt; StorageResult&lt;()&gt; {
+        let mut memtable = self.memtable.write().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire write lock on memtable",
+        ))?;
+
+        if memtable.is_empty() {
+            return Ok(());
+        }
+
+        // Create a new SSTable file
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)?
+            .as_secs();
+
+        let sstable_path = self.data_path.join(format!("sstable_{}.db", timestamp));
+        let mut sstable_file = BufWriter::new(File::create(&amp;sstable_path)?);
+
+        // Build index while writing data
+        let mut index = BTreeMap::new();
+
+        for (key, value_opt) in memtable.iter() {
+            if let Some(value) = value_opt {
+                // Record position in file
+                let pos = sstable_file.seek(SeekFrom::Current(0))?;
+                index.insert(key.clone(), pos);
+
+                // Write key length, key, value length, value
+                // This is a simplified format; real implementations would use more efficient encodings
+                sstable_file.write_all(&amp;(key.len() as u32).to_le_bytes())?;
+                sstable_file.write_all(key)?;
+                sstable_file.write_all(&amp;(value.len() as u32).to_le_bytes())?;
+                sstable_file.write_all(value)?;
+            }
+        }
+
+        sstable_file.flush()?;
+
+        // Add the new SSTable to our list
+        let sstable = SSTable {
+            file_path: sstable_path,
+            index,
+        };
+
+        let mut sstables = self.sstables.write().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire write lock on sstables",
+        ))?;
+
+        sstables.push(sstable);
+
+        // Clear the memtable and WAL
+        memtable.clear();
+
+        // Truncate WAL file
+        let wal_path = self.data_path.join("wal.log");
+        let wal_file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .truncate(true)
+            .open(&amp;wal_path)?;
+
+        *self.wal.lock().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire lock on WAL",
+        ))? = BufWriter::new(wal_file);
+
+        Ok(())
+    }
+
+    /// Write an entry to the WAL
+    fn write_to_wal(&amp;self, entry: &amp;LogEntry) -&gt; StorageResult&lt;()&gt; {
+        let mut wal = self.wal.lock().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire lock on WAL",
+        ))?;
+
+        // In a real implementation, we would serialize the entry properly
+        // This is a simplified placeholder
+        match entry {
+            LogEntry::Put(key, value) =&gt; {
+                wal.write_all(b"PUT")?;
+                wal.write_all(&amp;(key.len() as u32).to_le_bytes())?;
+                wal.write_all(key)?;
+                wal.write_all(&amp;(value.len() as u32).to_le_bytes())?;
+                wal.write_all(value)?;
+            }
+            LogEntry::Delete(key) =&gt; {
+                wal.write_all(b"DEL")?;
+                wal.write_all(&amp;(key.len() as u32).to_le_bytes())?;
+                wal.write_all(key)?;
+            }
+        }
+
+        wal.flush()?;
+        Ok(())
+    }
+}
+
+impl fmt::Debug for LsmStorage {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        f.debug_struct("LsmStorage")
+            .field("data_path", &amp;self.data_path)
+            .finish()
+    }
+}
+
+impl StorageEngine for LsmStorage {
+    fn get(&amp;self, key: &amp;Key) -&gt; StorageResult&lt;Option&lt;Value&gt;&gt; {
+        // First check the memtable
+        let memtable = self.memtable.read().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire read lock on memtable",
+        ))?;
+
+        if let Some(value_opt) = memtable.get(key) {
+            return Ok(value_opt.clone());
+        }
+
+        // Then check SSTables in reverse chronological order (newest first)
+        let sstables = self.sstables.read().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire read lock on sstables",
+        ))?;
+
+        for sstable in sstables.iter().rev() {
+            if let Some(&amp;pos) = sstable.index.get(key) {
+                let mut file = BufReader::new(File::open(&amp;sstable.file_path)?);
+                file.seek(SeekFrom::Start(pos))?;
+
+                // Read key length and skip the key
+                let mut len_buf = [0u8; 4];
+                file.read_exact(&amp;mut len_buf)?;
+                let key_len = u32::from_le_bytes(len_buf) as usize;
+                file.seek(SeekFrom::Current(key_len as i64))?;
+
+                // Read value length and value
+                file.read_exact(&amp;mut len_buf)?;
+                let value_len = u32::from_le_bytes(len_buf) as usize;
+
+                let mut value = vec![0; value_len];
+                file.read_exact(&amp;mut value)?;
+
+                return Ok(Some(value));
+            }
+        }
+
+        // Key not found
+        Ok(None)
+    }
+
+    fn put(&amp;mut self, key: Key, value: Value) -&gt; StorageResult&lt;()&gt; {
+        // Log the operation
+        self.write_to_wal(&amp;LogEntry::Put(key.clone(), value.clone()))?;
+
+        // Update memtable
+        let mut memtable = self.memtable.write().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire write lock on memtable",
+        ))?;
+
+        memtable.insert(key, Some(value));
+
+        // Check if memtable size exceeds threshold and flush if needed
+        // This is a simplified check; real implementations would use byte size
+        if memtable.len() &gt; 1000 {
+            drop(memtable); // Release lock before flushing
+            self.flush_memtable_to_disk()?;
+        }
+
+        Ok(())
+    }
+
+    fn delete(&amp;mut self, key: &amp;Key) -&gt; StorageResult&lt;()&gt; {
+        // Log the operation
+        self.write_to_wal(&amp;LogEntry::Delete(key.clone()))?;
+
+        // Update memtable with a tombstone (None value)
+        let mut memtable = self.memtable.write().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire write lock on memtable",
+        ))?;
+
+        memtable.insert(key.clone(), None);
+
+        Ok(())
+    }
+
+    fn contains(&amp;self, key: &amp;Key) -&gt; StorageResult&lt;bool&gt; {
+        Ok(self.get(key)?.is_some())
+    }
+
+    fn scan(&amp;self) -&gt; StorageResult&lt;Box&lt;dyn Iterator&lt;Item = (Key, Value)&gt; + '_&gt;&gt; {
+        // This is a simplified implementation that only scans the memtable
+        // A real implementation would merge iterators from memtable and SSTables
+        let memtable = self.memtable.read().map_err(|_| io::Error::new(
+            io::ErrorKind::Other,
+            "Failed to acquire read lock on memtable",
+        ))?;
+
+        let iter = memtable
+            .clone()
+            .into_iter()
+            .filter_map(|(k, v_opt)| v_opt.map(|v| (k, v)));
+
+        Ok(Box::new(iter))
+    }
+
+    fn flush(&amp;mut self) -&gt; StorageResult&lt;()&gt; {
+        self.flush_memtable_to_disk()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This implementation applies several design patterns:</p>
+<ol>
+<li><strong>Strategy Pattern</strong>: Different storage engine implementations (memory vs. LSM) can be used interchangeably</li>
+<li><strong>Repository Pattern</strong>: The storage engine provides a collection-like interface for key-value pairs</li>
+<li><strong>Decorator Pattern</strong>: Could be extended with decorators for features like compression or encryption</li>
+</ol>
+<h3 id="b-tree-based-storage"><a class="header" href="#b-tree-based-storage">B-Tree Based Storage</a></h3>
+<p>Another common approach is to use B-Trees or B+Trees for storage. These balanced tree structures maintain sorted data and support efficient searches, insertions, and deletions.</p>
+<p>The key difference from LSM trees is that B-Trees update data in-place rather than using the log-structured approach. This can provide faster reads but potentially slower writes, especially in write-heavy workloads.</p>
+<p>A simplified B-Tree storage engine would include:</p>
+<ol>
+<li><strong>B-Tree Structure</strong>: A balanced tree where each node contains multiple keys and values</li>
+<li><strong>Paging System</strong>: Managing fixed-size pages on disk</li>
+<li><strong>Cache Manager</strong>: Keeping frequently accessed pages in memory</li>
+<li><strong>Transaction Log</strong>: Ensuring durability of operations</li>
+</ol>
+<p>The Factory Pattern would be ideal for creating different storage engines based on configuration:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Factory for creating storage engines
+pub struct StorageEngineFactory;
+
+impl StorageEngineFactory {
+    /// Create a storage engine based on type and configuration
+    pub fn create(engine_type: &amp;str, config: &amp;StorageConfig) -&gt; StorageResult&lt;Box&lt;dyn StorageEngine&gt;&gt; {
+        match engine_type {
+            "memory" =&gt; Ok(Box::new(MemoryStorage::new())),
+            "lsm" =&gt; Ok(Box::new(LsmStorage::new(&amp;config.data_path)?)),
+            "btree" =&gt; Ok(Box::new(BTreeStorage::new(&amp;config.data_path)?)),
+            _ =&gt; Err(format!("Unknown storage engine type: {}", engine_type).into()),
+        }
+    }
+}
+
+/// Configuration for storage engines
+pub struct StorageConfig {
+    pub data_path: PathBuf,
+    pub cache_size_mb: usize,
+    pub flush_threshold: usize,
+    // Other configuration options...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This factory adheres to the Open/Closed Principle by allowing new storage engine types to be added without modifying client code.</p>
+<h3 id="comparing-storage-strategies"><a class="header" href="#comparing-storage-strategies">Comparing Storage Strategies</a></h3>
+<p>Different storage strategies offer different performance characteristics:</p>
+<div class="table-wrapper"><table><thead><tr><th>Strategy</th><th>Read Performance</th><th>Write Performance</th><th>Space Efficiency</th><th>Implementation Complexity</th></tr></thead><tbody>
+<tr><td>Hash Table</td><td>O(1) average</td><td>O(1) average</td><td>Medium</td><td>Low</td></tr>
+<tr><td>B-Tree</td><td>O(log n)</td><td>O(log n)</td><td>High for reads</td><td>Medium</td></tr>
+<tr><td>LSM Tree</td><td>O(log n)</td><td>O(1) amortized</td><td>High for writes</td><td>High</td></tr>
+<tr><td>Skip List</td><td>O(log n) average</td><td>O(log n) average</td><td>Medium</td><td>Low</td></tr>
+</tbody></table>
+</div>
+<p>The choice depends on your specific requirements:</p>
+<ul>
+<li>For read-heavy workloads, B-Trees often perform better</li>
+<li>For write-heavy workloads, LSM trees typically excel</li>
+<li>For simplicity and moderate performance, skip lists are worth considering</li>
+<li>For in-memory databases with exact-match queries, hash tables are often optimal</li>
+</ul>
+<p>By implementing our storage engine as a trait, we gain the flexibility to swap implementations based on workload characteristics—an excellent example of the Strategy Pattern in action.</p>
+<h2 id="query-processing-and-optimization"><a class="header" href="#query-processing-and-optimization">Query Processing and Optimization</a></h2>
+<p>In a database system, query processing transforms user requests into efficient execution plans that retrieve or manipulate data. For our key-value database, query processing is relatively straightforward compared to relational databases, but we still need to design a clean, extensible system that can efficiently handle different types of operations.</p>
+<h3 id="query-interface-design"><a class="header" href="#query-interface-design">Query Interface Design</a></h3>
+<p>Let’s define a query interface that abstracts operations on our key-value store. We’ll use the Command Pattern to encapsulate different query types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Represents a query result
+pub type QueryResult = Result&lt;QueryResponse, QueryError&gt;;
+
+/// Possible query responses
+#[derive(Debug, Clone)]
+pub enum QueryResponse {
+    /// Response to a Get query
+    Value(Option&lt;Value&gt;),
+
+    /// Response to a Put query
+    Inserted,
+
+    /// Response to a Delete query
+    Deleted,
+
+    /// Response to a Scan query
+    KeyValues(Vec&lt;(Key, Value)&gt;),
+
+    /// Generic success response
+    Success,
+}
+
+/// Query error types
+#[derive(Debug, thiserror::Error)]
+pub enum QueryError {
+    #[error("Storage error: {0}")]
+    Storage(String),
+
+    #[error("Invalid query: {0}")]
+    InvalidQuery(String),
+
+    #[error("Query execution error: {0}")]
+    Execution(String),
+
+    #[error("Transaction error: {0}")]
+    Transaction(String),
+}
+
+impl From&lt;Box&lt;dyn Error + Send + Sync&gt;&gt; for QueryError {
+    fn from(err: Box&lt;dyn Error + Send + Sync&gt;) -&gt; Self {
+        QueryError::Storage(err.to_string())
+    }
+}
+
+/// Trait representing a database query
+pub trait Query: Send + Sync + Debug {
+    /// Execute the query against a storage engine
+    fn execute(&amp;self, storage: &amp;mut dyn StorageEngine) -&gt; QueryResult;
+
+    /// Get a query identifier for logging and monitoring
+    fn id(&amp;self) -&gt; &amp;str;
+
+    /// Estimate the cost of executing this query (for optimization)
+    fn estimate_cost(&amp;self) -&gt; usize {
+        // Default implementation returns a high cost
+        1000
+    }
+}
+
+/// Get query
+#[derive(Debug)]
+pub struct GetQuery {
+    id: String,
+    key: Key,
+}
+
+impl GetQuery {
+    pub fn new(key: Key) -&gt; Self {
+        Self {
+            id: format!("get-{}", uuid::Uuid::new_v4()),
+            key,
+        }
+    }
+}
+
+impl Query for GetQuery {
+    fn execute(&amp;self, storage: &amp;mut dyn StorageEngine) -&gt; QueryResult {
+        let result = storage.get(&amp;self.key)?;
+        Ok(QueryResponse::Value(result))
+    }
+
+    fn id(&amp;self) -&gt; &amp;str {
+        &amp;self.id
+    }
+
+    fn estimate_cost(&amp;self) -&gt; usize {
+        // Get queries are usually fast
+        10
+    }
+}
+
+/// Put query
+#[derive(Debug)]
+pub struct PutQuery {
+    id: String,
+    key: Key,
+    value: Value,
+}
+
+impl PutQuery {
+    pub fn new(key: Key, value: Value) -&gt; Self {
+        Self {
+            id: format!("put-{}", uuid::Uuid::new_v4()),
+            key,
+            value,
+        }
+    }
+}
+
+impl Query for PutQuery {
+    fn execute(&amp;self, storage: &amp;mut dyn StorageEngine) -&gt; QueryResult {
+        storage.put(self.key.clone(), self.value.clone())?;
+        Ok(QueryResponse::Inserted)
+    }
+
+    fn id(&amp;self) -&gt; &amp;str {
+        &amp;self.id
+    }
+
+    fn estimate_cost(&amp;self) -&gt; usize {
+        // Put operations typically involve disk I/O
+        50
+    }
+}
+
+/// Delete query
+#[derive(Debug)]
+pub struct DeleteQuery {
+    id: String,
+    key: Key,
+}
+
+impl DeleteQuery {
+    pub fn new(key: Key) -&gt; Self {
+        Self {
+            id: format!("delete-{}", uuid::Uuid::new_v4()),
+            key,
+        }
+    }
+}
+
+impl Query for DeleteQuery {
+    fn execute(&amp;self, storage: &amp;mut dyn StorageEngine) -&gt; QueryResult {
+        storage.delete(&amp;self.key)?;
+        Ok(QueryResponse::Deleted)
+    }
+
+    fn id(&amp;self) -&gt; &amp;str {
+        &amp;self.id
+    }
+
+    fn estimate_cost(&amp;self) -&gt; usize {
+        // Delete operations are similar to puts
+        50
+    }
+}
+
+/// Scan query with optional range
+#[derive(Debug)]
+pub struct ScanQuery {
+    id: String,
+    start_key: Option&lt;Key&gt;,
+    end_key: Option&lt;Key&gt;,
+    limit: Option&lt;usize&gt;,
+}
+
+impl ScanQuery {
+    pub fn new() -&gt; Self {
+        Self {
+            id: format!("scan-{}", uuid::Uuid::new_v4()),
+            start_key: None,
+            end_key: None,
+            limit: None,
+        }
+    }
+
+    pub fn with_start(mut self, start_key: Key) -&gt; Self {
+        self.start_key = Some(start_key);
+        self
+    }
+
+    pub fn with_end(mut self, end_key: Key) -&gt; Self {
+        self.end_key = Some(end_key);
+        self
+    }
+
+    pub fn with_limit(mut self, limit: usize) -&gt; Self {
+        self.limit = Some(limit);
+        self
+    }
+}
+
+impl Query for ScanQuery {
+    fn execute(&amp;self, storage: &amp;mut dyn StorageEngine) -&gt; QueryResult {
+        let mut results = Vec::new();
+        let mut iter = storage.scan()?;
+
+        // Apply start key filter if provided
+        if let Some(ref start_key) = self.start_key {
+            iter = Box::new(iter.filter(move |(k, _)| k &gt;= start_key));
+        }
+
+        // Apply end key filter if provided
+        if let Some(ref end_key) = self.end_key {
+            iter = Box::new(iter.filter(move |(k, _)| k &lt;= end_key));
+        }
+
+        // Collect results, applying limit if needed
+        if let Some(limit) = self.limit {
+            for (k, v) in iter.take(limit) {
+                results.push((k, v));
+            }
+        } else {
+            for (k, v) in iter {
+                results.push((k, v));
+            }
+        }
+
+        Ok(QueryResponse::KeyValues(results))
+    }
+
+    fn id(&amp;self) -&gt; &amp;str {
+        &amp;self.id
+    }
+
+    fn estimate_cost(&amp;self) -&gt; usize {
+        // Scans can be expensive, especially without limits
+        match self.limit {
+            Some(limit) if limit &lt; 100 =&gt; 100,
+            Some(_) =&gt; 500,
+            None =&gt; 1000,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The Command Pattern used here provides several benefits:</p>
+<ol>
+<li><strong>Encapsulation</strong>: Each query type encapsulates its execution logic</li>
+<li><strong>Extensibility</strong>: New query types can be added without modifying existing code</li>
+<li><strong>Logging and Metrics</strong>: Query execution can be easily traced and measured</li>
+<li><strong>Transaction Support</strong>: Queries can be batched and executed as part of a transaction</li>
+</ol>
+<h3 id="query-processor"><a class="header" href="#query-processor">Query Processor</a></h3>
+<p>The query processor orchestrates query execution, applying optimizations, handling errors, and managing resources. It serves as a facade for the storage engine:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Processes database queries
+pub struct QueryProcessor {
+    storage_engine: Box&lt;dyn StorageEngine&gt;,
+    stats: QueryStats,
+}
+
+/// Statistics for query execution
+#[derive(Debug, Default)]
+struct QueryStats {
+    queries_executed: AtomicUsize,
+    query_errors: AtomicUsize,
+    total_execution_time: AtomicU64,
+}
+
+impl QueryProcessor {
+    /// Create a new query processor with the given storage engine
+    pub fn new(storage_engine: Box&lt;dyn StorageEngine&gt;) -&gt; Self {
+        Self {
+            storage_engine,
+            stats: QueryStats::default(),
+        }
+    }
+
+    /// Execute a single query
+    pub fn execute_query(&amp;mut self, query: &amp;dyn Query) -&gt; QueryResult {
+        let start = Instant::now();
+        self.stats.queries_executed.fetch_add(1, Ordering::Relaxed);
+
+        // Log query start
+        log::debug!("Executing query: {}", query.id());
+
+        // Execute the query
+        let result = match query.execute(&amp;mut *self.storage_engine) {
+            Ok(response) =&gt; {
+                let duration = start.elapsed();
+                log::debug!("Query {} completed in {:?}", query.id(), duration);
+                self.stats.total_execution_time.fetch_add(
+                    duration.as_micros() as u64,
+                    Ordering::Relaxed
+                );
+                Ok(response)
+            }
+            Err(err) =&gt; {
+                log::error!("Query {} failed: {:?}", query.id(), err);
+                self.stats.query_errors.fetch_add(1, Ordering::Relaxed);
+                Err(err)
+            }
+        };
+
+        result
+    }
+
+    /// Execute multiple queries in a batch
+    pub fn execute_batch(&amp;mut self, queries: Vec&lt;Box&lt;dyn Query&gt;&gt;) -&gt; Vec&lt;QueryResult&gt; {
+        queries.iter().map(|q| self.execute_query(q.as_ref())).collect()
+    }
+
+    /// Get query execution statistics
+    pub fn get_stats(&amp;self) -&gt; QueryProcessorStats {
+        QueryProcessorStats {
+            queries_executed: self.stats.queries_executed.load(Ordering::Relaxed),
+            query_errors: self.stats.query_errors.load(Ordering::Relaxed),
+            avg_execution_time_micros: if self.stats.queries_executed.load(Ordering::Relaxed) &gt; 0 {
+                self.stats.total_execution_time.load(Ordering::Relaxed) /
+                self.stats.queries_executed.load(Ordering::Relaxed) as u64
+            } else {
+                0
+            },
+        }
+    }
+}
+
+/// Public stats for query processor
+#[derive(Debug, Clone, Copy)]
+pub struct QueryProcessorStats {
+    pub queries_executed: usize,
+    pub query_errors: usize,
+    pub avg_execution_time_micros: u64,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This implementation adheres to the Single Responsibility Principle by focusing solely on query execution and monitoring.</p>
+<h3 id="query-optimization"><a class="header" href="#query-optimization">Query Optimization</a></h3>
+<p>Although our key-value store has simpler queries than a relational database, we can still apply optimization techniques:</p>
+<ol>
+<li><strong>Read Amplification Reduction</strong>: Minimize the number of disk reads needed</li>
+<li><strong>Write Batching</strong>: Group multiple writes together for better throughput</li>
+<li><strong>Caching</strong>: Keep frequently accessed data in memory</li>
+<li><strong>Query Reordering</strong>: Execute independent queries in an optimal order</li>
+</ol>
+<p>Let’s implement a simple query optimizer:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Optimizes query execution
+pub struct QueryOptimizer;
+
+impl QueryOptimizer {
+    /// Optimize a batch of queries
+    pub fn optimize_batch(queries: Vec&lt;Box&lt;dyn Query&gt;&gt;) -&gt; Vec&lt;Box&lt;dyn Query&gt;&gt; {
+        // Group queries by type
+        let mut gets = Vec::new();
+        let mut puts = Vec::new();
+        let mut deletes = Vec::new();
+        let mut scans = Vec::new();
+
+        for query in queries {
+            match query.as_ref() {
+                q if q.id().starts_with("get-") =&gt; gets.push(query),
+                q if q.id().starts_with("put-") =&gt; puts.push(query),
+                q if q.id().starts_with("delete-") =&gt; deletes.push(query),
+                q if q.id().starts_with("scan-") =&gt; scans.push(query),
+                _ =&gt; scans.push(query), // Default case
+            }
+        }
+
+        // Prioritize gets (usually fastest)
+        let mut optimized = Vec::new();
+        optimized.extend(gets);
+
+        // Then execute scans (potentially expensive but read-only)
+        optimized.extend(scans);
+
+        // Finally, execute writes
+        optimized.extend(puts);
+        optimized.extend(deletes);
+
+        optimized
+    }
+
+    /// Optimize a single query (could add index recommendations, etc.)
+    pub fn optimize_query(query: Box&lt;dyn Query&gt;) -&gt; Box&lt;dyn Query&gt; {
+        // For now, just return the original query
+        // In a more advanced implementation, we might transform the query
+        query
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This simple optimizer focuses on query reordering. In a more sophisticated implementation, we might also:</p>
+<ol>
+<li><strong>Range Optimization</strong>: If scanning a range, use index statistics to estimate selectivity</li>
+<li><strong>Bloom Filter Checks</strong>: For LSM storage, check Bloom filters before disk access</li>
+<li><strong>Adaptive Execution</strong>: Adjust query plans based on runtime statistics</li>
+</ol>
+<h3 id="query-parser"><a class="header" href="#query-parser">Query Parser</a></h3>
+<p>To make our database more user-friendly, let’s implement a simple query parser that converts text commands into query objects:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Parses textual queries into query objects
+pub struct QueryParser;
+
+impl QueryParser {
+    /// Parse a query string into a Query object
+    pub fn parse(query_str: &amp;str) -&gt; Result&lt;Box&lt;dyn Query&gt;, QueryError&gt; {
+        let parts: Vec&lt;&amp;str&gt; = query_str.trim().split_whitespace().collect();
+
+        if parts.is_empty() {
+            return Err(QueryError::InvalidQuery("Empty query".to_string()));
+        }
+
+        match parts[0].to_uppercase().as_str() {
+            "GET" =&gt; {
+                if parts.len() &lt; 2 {
+                    return Err(QueryError::InvalidQuery("GET requires a key".to_string()));
+                }
+
+                Ok(Box::new(GetQuery::new(parts[1].as_bytes().to_vec())))
+            }
+            "PUT" =&gt; {
+                if parts.len() &lt; 3 {
+                    return Err(QueryError::InvalidQuery("PUT requires a key and value".to_string()));
+                }
+
+                Ok(Box::new(PutQuery::new(
+                    parts[1].as_bytes().to_vec(),
+                    parts[2..].join(" ").as_bytes().to_vec()
+                )))
+            }
+            "DELETE" =&gt; {
+                if parts.len() &lt; 2 {
+                    return Err(QueryError::InvalidQuery("DELETE requires a key".to_string()));
+                }
+
+                Ok(Box::new(DeleteQuery::new(parts[1].as_bytes().to_vec())))
+            }
+            "SCAN" =&gt; {
+                let mut scan = ScanQuery::new();
+
+                let mut i = 1;
+                while i &lt; parts.len() {
+                    match parts[i].to_uppercase().as_str() {
+                        "START" =&gt; {
+                            if i + 1 &lt; parts.len() {
+                                scan = scan.with_start(parts[i + 1].as_bytes().to_vec());
+                                i += 2;
+                            } else {
+                                return Err(QueryError::InvalidQuery("START requires a key".to_string()));
+                            }
+                        }
+                        "END" =&gt; {
+                            if i + 1 &lt; parts.len() {
+                                scan = scan.with_end(parts[i + 1].as_bytes().to_vec());
+                                i += 2;
+                            } else {
+                                return Err(QueryError::InvalidQuery("END requires a key".to_string()));
+                            }
+                        }
+                        "LIMIT" =&gt; {
+                            if i + 1 &lt; parts.len() {
+                                if let Ok(limit) = parts[i + 1].parse::&lt;usize&gt;() {
+                                    scan = scan.with_limit(limit);
+                                    i += 2;
+                                } else {
+                                    return Err(QueryError::InvalidQuery("LIMIT requires a number".to_string()));
+                                }
+                            } else {
+                                return Err(QueryError::InvalidQuery("LIMIT requires a value".to_string()));
+                            }
+                        }
+                        _ =&gt; {
+                            i += 1;
+                        }
+                    }
+                }
+
+                Ok(Box::new(scan))
+            }
+            _ =&gt; Err(QueryError::InvalidQuery(format!("Unknown command: {}", parts[0])))
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This parser implements a simple command language for our key-value store, demonstrating the Interpreter Pattern for handling user queries.</p>
+<h3 id="query-execution-pipeline"><a class="header" href="#query-execution-pipeline">Query Execution Pipeline</a></h3>
+<p>Putting it all together, we can create a query execution pipeline that processes queries from parsing to execution:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Manages the complete query pipeline from parsing to execution
+pub struct QueryEngine {
+    processor: QueryProcessor,
+}
+
+impl QueryEngine {
+    /// Create a new query engine with the given storage engine
+    pub fn new(storage_engine: Box&lt;dyn StorageEngine&gt;) -&gt; Self {
+        Self {
+            processor: QueryProcessor::new(storage_engine),
+        }
+    }
+
+    /// Execute a query from a string
+    pub fn execute(&amp;mut self, query_str: &amp;str) -&gt; QueryResult {
+        // Parse the query
+        let query = QueryParser::parse(query_str)?;
+
+        // Optimize the query
+        let optimized_query = QueryOptimizer::optimize_query(query);
+
+        // Execute the optimized query
+        self.processor.execute_query(optimized_query.as_ref())
+    }
+
+    /// Execute multiple queries
+    pub fn execute_batch(&amp;mut self, query_strings: &amp;[&amp;str]) -&gt; Vec&lt;QueryResult&gt; {
+        // Parse all queries
+        let queries: Result&lt;Vec&lt;_&gt;, _&gt; = query_strings
+            .iter()
+            .map(|q| QueryParser::parse(q))
+            .collect();
+
+        match queries {
+            Ok(queries) =&gt; {
+                // Optimize the batch
+                let optimized = QueryOptimizer::optimize_batch(queries);
+
+                // Execute the optimized batch
+                self.processor.execute_batch(optimized)
+            }
+            Err(err) =&gt; vec![Err(err)],
+        }
+    }
+
+    /// Get statistics about query execution
+    pub fn get_stats(&amp;self) -&gt; QueryProcessorStats {
+        self.processor.get_stats()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This query engine demonstrates several design patterns:</p>
+<ol>
+<li><strong>Facade Pattern</strong>: Provides a simplified interface to the complex subsystems</li>
+<li><strong>Chain of Responsibility</strong>: Queries flow through multiple processing stages</li>
+<li><strong>Strategy Pattern</strong>: Different components handle different aspects of query processing</li>
+<li><strong>Interpreter Pattern</strong>: The query parser interprets text commands into executable objects</li>
+<li><strong>Facade Pattern</strong>: The query engine provides a simplified interface to the complex subsystems</li>
+</ol>
+<p>These patterns help create a clean, maintainable architecture that separates concerns and can be extended with new query types and optimizations as needed.</p>
+<p>By designing our query system with SOLID principles in mind, we’ve created a foundation that can evolve to support more complex query types and optimization strategies in the future.</p>
+<h3 id="testing-the-query-system"><a class="header" href="#testing-the-query-system">Testing the Query System</a></h3>
+<p>Let’s create tests for our query system to ensure it works correctly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Helper function to create a test database
+    fn create_test_db() -&gt; QueryEngine {
+        let storage = Box::new(MemoryStorage::new());
+        QueryEngine::new(storage)
+    }
+
+    #[test]
+    fn test_basic_operations() {
+        let mut db = create_test_db();
+
+        // Put a value
+        let result = db.execute("PUT test-key test-value");
+        assert!(matches!(result, Ok(QueryResponse::Inserted)));
+
+        // Get the value back
+        let result = db.execute("GET test-key");
+        assert!(matches!(result, Ok(QueryResponse::Value(Some(_)))));
+
+        if let Ok(QueryResponse::Value(Some(value))) = result {
+            assert_eq!(value, "test-value".as_bytes().to_vec());
+        }
+
+        // Delete the value
+        let result = db.execute("DELETE test-key");
+        assert!(matches!(result, Ok(QueryResponse::Deleted)));
+
+        // Verify it's gone
+        let result = db.execute("GET test-key");
+        assert!(matches!(result, Ok(QueryResponse::Value(None))));
+    }
+
+    #[test]
+    fn test_scan_operations() {
+        let mut db = create_test_db();
+
+        // Insert some test data
+        let batch = vec![
+            "PUT key1 value1",
+            "PUT key2 value2",
+            "PUT key3 value3",
+            "PUT key4 value4",
+            "PUT key5 value5",
+        ];
+
+        let results = db.execute_batch(&amp;batch);
+        for result in &amp;results {
+            assert!(matches!(result, Ok(QueryResponse::Inserted)));
+        }
+
+        // Test full scan
+        let result = db.execute("SCAN");
+        assert!(matches!(result, Ok(QueryResponse::KeyValues(_))));
+
+        if let Ok(QueryResponse::KeyValues(items)) = result {
+            assert_eq!(items.len(), 5);
+        }
+
+        // Test limited scan
+        let result = db.execute("SCAN LIMIT 2");
+        if let Ok(QueryResponse::KeyValues(items)) = result {
+            assert_eq!(items.len(), 2);
+        }
+
+        // Test range scan
+        let result = db.execute("SCAN START key2 END key4");
+        if let Ok(QueryResponse::KeyValues(items)) = result {
+            assert_eq!(items.len(), 3);
+
+            // Verify the keys are in the correct range
+            for (key, _) in &amp;items {
+                let key_str = String::from_utf8_lossy(key);
+                assert!(key_str &gt;= "key2" &amp;&amp; key_str &lt;= "key4");
+            }
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>These tests verify the basic functionality of our query system while demonstrating how clients would interact with it.</p>
+<h3 id="query-system-design-patterns"><a class="header" href="#query-system-design-patterns">Query System Design Patterns</a></h3>
+<p>Our query system implementation demonstrates several important design patterns:</p>
+<ol>
+<li><strong>Command Pattern</strong>: Each query type encapsulates an operation on the database</li>
+<li><strong>Chain of Responsibility</strong>: Queries flow through multiple processing stages</li>
+<li><strong>Strategy Pattern</strong>: Different query types implement different execution strategies</li>
+<li><strong>Interpreter Pattern</strong>: The query parser interprets text commands into executable objects</li>
+<li><strong>Facade Pattern</strong>: The query engine provides a simplified interface to the complex subsystems</li>
+</ol>
+<p>These patterns help create a clean, maintainable architecture that separates concerns and can be extended with new query types and optimizations as needed.</p>
+<p>By designing our query system with SOLID principles in mind, we’ve created a foundation that can evolve to support more complex query types and optimization strategies in the future.</p>
+<h2 id="implementing-acid-properties"><a class="header" href="#implementing-acid-properties">Implementing ACID Properties</a></h2>
+<p>ACID properties—Atomicity, Consistency, Isolation, and Durability—are fundamental guarantees that database transactions must provide. In this section, we’ll explore how to implement these properties in our key-value database.</p>
+<h3 id="atomicity-all-or-nothing"><a class="header" href="#atomicity-all-or-nothing">Atomicity: All or Nothing</a></h3>
+<p>Atomicity ensures that each transaction is treated as a single, indivisible unit that either completes entirely or has no effect at all. If any part of a transaction fails, the entire transaction fails, and the database state is left unchanged.</p>
+<p>Let’s implement a transaction log that enables atomic operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::{File, OpenOptions};
+use std::io::{self, BufReader, BufWriter, Read, Seek, SeekFrom, Write};
+use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex};
+
+/// Entry in the transaction log
+#[derive(Debug, Clone, Serialize, Deserialize)]
+enum TransactionLogEntry {
+    Begin { tx_id: u64 },
+    Write { tx_id: u64, key: Key, value: Option&lt;Value&gt; },
+    Commit { tx_id: u64 },
+    Abort { tx_id: u64 },
+}
+
+/// Transaction log for ensuring atomicity and durability
+pub struct TransactionLog {
+    // Path to the log file
+    log_path: PathBuf,
+
+    // Current log file writer
+    writer: Mutex&lt;BufWriter&lt;File&gt;&gt;,
+
+    // Current log file position
+    position: AtomicU64,
+}
+
+impl TransactionLog {
+    /// Create a new transaction log
+    pub fn new&lt;P: AsRef&lt;Path&gt;&gt;(path: P) -&gt; io::Result&lt;Self&gt; {
+        let log_path = path.as_ref().to_path_buf();
+
+        // Create directory if it doesn't exist
+        if let Some(parent) = log_path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+
+        // Open or create the log file
+        let file = OpenOptions::new()
+            .create(true)
+            .read(true)
+            .write(true)
+            .append(true)
+            .open(&amp;log_path)?;
+
+        // Get current file length
+        let position = file.metadata()?.len();
+
+        Ok(Self {
+            log_path,
+            writer: Mutex::new(BufWriter::new(file)),
+            position: AtomicU64::new(position),
+        })
+    }
+
+    /// Append an entry to the log
+    pub fn append(&amp;self, entry: TransactionLogEntry) -&gt; io::Result&lt;u64&gt; {
+        let serialized = bincode::serialize(&amp;entry)
+            .map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
+
+        let entry_len = serialized.len() as u32;
+
+        let mut writer = self.writer.lock().unwrap();
+
+        // Write entry length first
+        writer.write_all(&amp;entry_len.to_le_bytes())?;
+
+        // Write serialized entry
+        writer.write_all(&amp;serialized)?;
+
+        // Flush to ensure durability
+        writer.flush()?;
+
+        // Update position and return the entry's position
+        let pos = self.position.fetch_add((4 + entry_len as u64), Ordering::SeqCst);
+
+        Ok(pos)
+    }
+
+    /// Log a transaction begin
+    pub fn log_begin(&amp;self, tx_id: u64) -&gt; io::Result&lt;u64&gt; {
+        self.append(TransactionLogEntry::Begin { tx_id })
+    }
+
+    /// Log a write operation
+    pub fn log_write(&amp;self, tx_id: u64, key: Key, value: Option&lt;Value&gt;) -&gt; io::Result&lt;u64&gt; {
+        self.append(TransactionLogEntry::Write { tx_id, key, value })
+    }
+
+    /// Log a transaction commit
+    pub fn log_commit(&amp;self, tx_id: u64) -&gt; io::Result&lt;u64&gt; {
+        self.append(TransactionLogEntry::Commit { tx_id })
+    }
+
+    /// Log a transaction abort
+    pub fn log_abort(&amp;self, tx_id: u64) -&gt; io::Result&lt;u64&gt; {
+        self.append(TransactionLogEntry::Abort { tx_id })
+    }
+
+    /// Iterate through log entries
+    pub fn iter(&amp;self) -&gt; io::Result&lt;TransactionLogIterator&gt; {
+        let file = File::open(&amp;self.log_path)?;
+        let reader = BufReader::new(file);
+
+        Ok(TransactionLogIterator {
+            reader,
+            position: 0,
+        })
+    }
+}
+
+/// Iterator over transaction log entries
+pub struct TransactionLogIterator {
+    reader: BufReader&lt;File&gt;,
+    position: u64,
+}
+
+impl Iterator for TransactionLogIterator {
+    type Item = io::Result&lt;(u64, TransactionLogEntry)&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        // Read entry length
+        let mut len_buf = [0u8; 4];
+        match self.reader.read_exact(&amp;mut len_buf) {
+            Ok(()) =&gt; {},
+            Err(e) if e.kind() == io::ErrorKind::UnexpectedEof =&gt; return None,
+            Err(e) =&gt; return Some(Err(e)),
+        }
+
+        let entry_len = u32::from_le_bytes(len_buf) as usize;
+        let entry_pos = self.position;
+
+        // Read entry data
+        let mut entry_data = vec![0u8; entry_len];
+        if let Err(e) = self.reader.read_exact(&amp;mut entry_data) {
+            return Some(Err(e));
+        }
+
+        // Deserialize entry
+        let entry = match bincode::deserialize(&amp;entry_data) {
+            Ok(entry) =&gt; entry,
+            Err(e) =&gt; return Some(Err(io::Error::new(io::ErrorKind::InvalidData, e))),
+        };
+
+        // Update position
+        self.position += 4 + entry_len as u64;
+
+        Some(Ok((entry_pos, entry)))
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With this transaction log, we can ensure atomicity by:</p>
+<ol>
+<li>Logging the beginning of a transaction</li>
+<li>Logging each write operation before applying it</li>
+<li>Logging a commit or abort marker</li>
+<li>During recovery, rolling back any incomplete transactions</li>
+</ol>
+<h3 id="consistency-valid-state-transitions"><a class="header" href="#consistency-valid-state-transitions">Consistency: Valid State Transitions</a></h3>
+<p>Consistency ensures that a transaction can only bring the database from one valid state to another. In our key-value database, we can implement consistency through:</p>
+<ol>
+<li><strong>Schema Validation</strong>: Ensuring keys and values conform to expected formats</li>
+<li><strong>Constraints</strong>: Enforcing rules on data values</li>
+<li><strong>Invariants</strong>: Maintaining relationships between data items</li>
+</ol>
+<p>Let’s implement a constraint system:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Types of constraints in our database
+pub enum Constraint {
+    KeyFormat(Regex),
+    ValueFormat(Regex),
+    ValueLength { min: Option&lt;usize&gt;, max: Option&lt;usize&gt; },
+    Custom(Arc&lt;dyn Fn(&amp;Key, &amp;Option&lt;Value&gt;) -&gt; bool + Send + Sync&gt;),
+}
+
+/// Constraint validator
+pub struct ConstraintValidator {
+    constraints: Vec&lt;(String, Constraint)&gt;,
+}
+
+impl ConstraintValidator {
+    /// Create a new constraint validator
+    pub fn new() -&gt; Self {
+        Self {
+            constraints: Vec::new(),
+        }
+    }
+
+    /// Add a constraint
+    pub fn add_constraint(&amp;mut self, name: String, constraint: Constraint) {
+        self.constraints.push((name, constraint));
+    }
+
+    /// Validate a key-value pair against all constraints
+    pub fn validate(&amp;self, key: &amp;Key, value: &amp;Option&lt;Value&gt;) -&gt; Result&lt;(), String&gt; {
+        for (name, constraint) in &amp;self.constraints {
+            match constraint {
+                Constraint::KeyFormat(regex) =&gt; {
+                    let key_str = match std::str::from_utf8(key) {
+                        Ok(s) =&gt; s,
+                        Err(_) =&gt; return Err(format!("Key is not valid UTF-8 (constraint: {})", name)),
+                    };
+
+                    if !regex.is_match(key_str) {
+                        return Err(format!("Key format constraint violated: {}", name));
+                    }
+                },
+                Constraint::ValueFormat(regex) =&gt; {
+                    if let Some(value) = value {
+                        let value_str = match std::str::from_utf8(value) {
+                            Ok(s) =&gt; s,
+                            Err(_) =&gt; return Err(format!("Value is not valid UTF-8 (constraint: {})", name)),
+                        };
+
+                        if !regex.is_match(value_str) {
+                            return Err(format!("Value format constraint violated: {}", name));
+                        }
+                    }
+                },
+                Constraint::ValueLength { min, max } =&gt; {
+                    if let Some(value) = value {
+                        if let Some(min_len) = min {
+                            if value.len() &lt; *min_len {
+                                return Err(format!("Value length too short (constraint: {})", name));
+                            }
+                        }
+
+                        if let Some(max_len) = max {
+                            if value.len() &gt; *max_len {
+                                return Err(format!("Value length too long (constraint: {})", name));
+                            }
+                        }
+                    }
+                },
+                Constraint::Custom(func) =&gt; {
+                    if !func(key, value) {
+                        return Err(format!("Custom constraint violated: {}", name));
+                    }
+                },
+            }
+        }
+
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>To ensure consistency, we integrate constraint validation into our transaction system:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Extended transaction with constraint validation
+pub struct ValidatedTransaction {
+    inner: Transaction,
+    validator: Arc&lt;ConstraintValidator&gt;,
+}
+
+impl ValidatedTransaction {
+    /// Create a new validated transaction
+    pub fn new(
+        transaction: Transaction,
+        validator: Arc&lt;ConstraintValidator&gt;,
+    ) -&gt; Self {
+        Self {
+            inner: transaction,
+            validator,
+        }
+    }
+
+    /// Get a value with the same semantics as the inner transaction
+    pub fn get(&amp;mut self, key: &amp;Key) -&gt; Result&lt;Option&lt;Value&gt;, TransactionError&gt; {
+        self.inner.get(key)
+    }
+
+    /// Put a value, validating constraints first
+    pub fn put(&amp;mut self, key: Key, value: Value) -&gt; Result&lt;(), TransactionError&gt; {
+        // Validate constraints
+        if let Err(constraint_err) = self.validator.validate(&amp;key, &amp;Some(value.clone())) {
+            return Err(TransactionError::Constraint(constraint_err));
+        }
+
+        // If validation passes, delegate to inner transaction
+        self.inner.put(key, value)
+    }
+
+    /// Delete a value
+    pub fn delete(&amp;mut self, key: &amp;Key) -&gt; Result&lt;(), TransactionError&gt; {
+        // Validate deletion (some constraints might prevent deletion)
+        if let Err(constraint_err) = self.validator.validate(key, &amp;None) {
+            return Err(TransactionError::Constraint(constraint_err));
+        }
+
+        // If validation passes, delegate to inner transaction
+        self.inner.delete(key)
+    }
+
+    /// Commit the transaction
+    pub fn commit(self) -&gt; Result&lt;(), TransactionError&gt; {
+        self.inner.commit()
+    }
+
+    /// Abort the transaction
+    pub fn abort(self) {
+        self.inner.abort()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This approach uses the Decorator Pattern to add constraint validation to our transaction system, ensuring consistency.</p>
+<h3 id="isolation-concurrent-transaction-protection"><a class="header" href="#isolation-concurrent-transaction-protection">Isolation: Concurrent Transaction Protection</a></h3>
+<p>Isolation ensures that the execution of transactions concurrently produces the same results as if they were executed sequentially. We’ve already implemented several concurrency control mechanisms in the previous section, including lock-based, optimistic, and MVCC approaches.</p>
+<p>To complete our isolation implementation, let’s add support for different isolation levels in our MVCC system:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Implementation of concurrency control using MVCC
+pub struct MvccConcurrencyControl {
+    mvcc_manager: MvccManager,
+    transaction_log: Arc&lt;TransactionLog&gt;,
+}
+
+impl MvccConcurrencyControl {
+    /// Create a new MVCC-based concurrency control
+    pub fn new(
+        max_versions_per_key: usize,
+        cleanup_interval: Duration,
+        transaction_log: Arc&lt;TransactionLog&gt;,
+    ) -&gt; Self {
+        Self {
+            mvcc_manager: MvccManager::new(max_versions_per_key, cleanup_interval),
+            transaction_log,
+        }
+    }
+}
+
+impl ConcurrencyControl for MvccConcurrencyControl {
+    fn begin_transaction(&amp;self, isolation_level: IsolationLevel) -&gt; (u64, u64) {
+        // Start an MVCC transaction
+        let (tx_id, version) = self.mvcc_manager.begin_transaction();
+
+        // Log transaction start
+        if let Err(e) = self.transaction_log.log_begin(tx_id) {
+            log::error!("Failed to log transaction begin: {:?}", e);
+        }
+
+        (tx_id, version)
+    }
+
+    fn read(&amp;self, tx_id: u64, key: &amp;Key) -&gt; Result&lt;Option&lt;Value&gt;, TransactionError&gt; {
+        // Read using MVCC
+        Ok(self.mvcc_manager.read(key, tx_id))
+    }
+
+    fn write(&amp;self, tx_id: u64, key: &amp;Key, value: Option&lt;Value&gt;) -&gt; Result&lt;(), TransactionError&gt; {
+        // Log the write operation
+        if let Err(e) = self.transaction_log.log_write(tx_id, key.clone(), value.clone()) {
+            log::error!("Failed to log write: {:?}", e);
+            return Err(TransactionError::Storage(e.to_string()));
+        }
+
+        // Perform the write in MVCC
+        self.mvcc_manager.write(key, value, tx_id)
+            .map_err(|_| TransactionError::Conflict)
+    }
+
+    fn commit(&amp;self, tx_id: u64) -&gt; Result&lt;u64, TransactionError&gt; {
+        // Log the commit
+        if let Err(e) = self.transaction_log.log_commit(tx_id) {
+            log::error!("Failed to log commit: {:?}", e);
+            return Err(TransactionError::Storage(e.to_string()));
+        }
+
+        // Commit the MVCC transaction
+        Ok(self.mvcc_manager.commit_transaction(tx_id))
+    }
+
+    fn abort(&amp;self, tx_id: u64) {
+        // Log the abort
+        if let Err(e) = self.transaction_log.log_abort(tx_id) {
+            log::error!("Failed to log abort: {:?}", e);
+        }
+
+        // Abort the MVCC transaction
+        self.mvcc_manager.abort_transaction(tx_id);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This implementation combines MVCC with our transaction log to provide both isolation and durability.</p>
+<h3 id="durability-persisting-committed-changes"><a class="header" href="#durability-persisting-committed-changes">Durability: Persisting Committed Changes</a></h3>
+<p>Durability ensures that once a transaction is committed, its changes persist even in the event of system failures. We implement durability through a combination of transaction logging and careful write ordering:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Write-ahead logging for durability
+pub struct WALManager {
+    transaction_log: Arc&lt;TransactionLog&gt;,
+    storage: Arc&lt;dyn StorageEngine&gt;,
+}
+
+impl WALManager {
+    /// Create a new WAL manager
+    pub fn new(transaction_log: Arc&lt;TransactionLog&gt;, storage: Arc&lt;dyn StorageEngine&gt;) -&gt; Self {
+        Self {
+            transaction_log,
+            storage,
+        }
+    }
+
+    /// Recover the database from the transaction log
+    pub fn recover(&amp;self) -&gt; io::Result&lt;()&gt; {
+        // Track the state of each transaction
+        let mut tx_states = HashMap::new();
+
+        // Track pending writes for each transaction
+        let mut pending_writes = HashMap::new();
+
+        // Iterate through the log
+        for entry_result in self.transaction_log.iter()? {
+            let (_, entry) = entry_result?;
+
+            match entry {
+                TransactionLogEntry::Begin { tx_id } =&gt; {
+                    tx_states.insert(tx_id, false); // Not committed yet
+                    pending_writes.insert(tx_id, Vec::new());
+                },
+                TransactionLogEntry::Write { tx_id, key, value } =&gt; {
+                    if let Some(writes) = pending_writes.get_mut(&amp;tx_id) {
+                        writes.push((key, value));
+                    }
+                },
+                TransactionLogEntry::Commit { tx_id } =&gt; {
+                    tx_states.insert(tx_id, true); // Committed
+                },
+                TransactionLogEntry::Abort { tx_id } =&gt; {
+                    // Remove aborted transaction
+                    tx_states.remove(&amp;tx_id);
+                    pending_writes.remove(&amp;tx_id);
+                },
+            }
+        }
+
+        // Apply all writes from committed transactions
+        for (tx_id, committed) in tx_states {
+            if committed {
+                if let Some(writes) = pending_writes.get(&amp;tx_id) {
+                    for (key, value) in writes {
+                        match value {
+                            Some(value) =&gt; {
+                                if let Err(e) = self.storage.put(key.clone(), value.clone()) {
+                                    log::error!("Recovery error applying write: {:?}", e);
+                                }
+                            },
+                            None =&gt; {
+                                if let Err(e) = self.storage.delete(key) {
+                                    log::error!("Recovery error applying delete: {:?}", e);
+                                }
+                            },
+                        }
+                    }
+                }
+            }
+        }
+
+        Ok(())
+    }
+
+    /// Checkpoint the database
+    pub fn checkpoint(&amp;self) -&gt; io::Result&lt;()&gt; {
+        // Flush storage to ensure all data is persisted
+        self.storage.flush()?;
+
+        // Create a new transaction log file
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs();
+
+        let log_path = self.transaction_log.log_path.with_file_name(
+            format!("txn-{}.log", timestamp)
+        );
+
+        // Rename the current log file
+        std::fs::rename(&amp;self.transaction_log.log_path, log_path)?;
+
+        // Create a new empty log file
+        let file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .truncate(true)
+            .open(&amp;self.transaction_log.log_path)?;
+
+        // Update the transaction log writer
+        let mut writer = self.transaction_log.writer.lock().unwrap();
+        *writer = BufWriter::new(file);
+
+        // Reset position
+        self.transaction_log.position.store(0, Ordering::SeqCst);
+
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This WAL (Write-Ahead Logging) implementation ensures durability by:</p>
+<ol>
+<li>Writing all changes to the transaction log before modifying the actual data</li>
+<li>During recovery, replaying committed transactions</li>
+<li>Periodically checkpointing to reduce recovery time</li>
+</ol>
+<h3 id="bringing-acid-together"><a class="header" href="#bringing-acid-together">Bringing ACID Together</a></h3>
+<p>To integrate all ACID properties into our database, we need to combine our implementations into a cohesive system:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Database engine with ACID guarantees
+pub struct AcidDatabase {
+    storage: Arc&lt;dyn StorageEngine&gt;,
+    transaction_manager: Arc&lt;TransactionManager&gt;,
+    wal_manager: Arc&lt;WALManager&gt;,
+    constraint_validator: Arc&lt;ConstraintValidator&gt;,
+}
+
+impl AcidDatabase {
+    /// Create a new ACID-compliant database
+    pub fn new&lt;P: AsRef&lt;Path&gt;&gt;(
+        data_path: P,
+        engine_type: &amp;str,
+        config: StorageConfig,
+    ) -&gt; Result&lt;Self, Box&lt;dyn Error + Send + Sync&gt;&gt; {
+        // Create storage engine
+        let storage = Arc::new(
+            StorageEngineFactory::create(engine_type, &amp;config)?
+        );
+
+        // Create transaction log
+        let log_path = data_path.as_ref().join("transaction.log");
+        let transaction_log = Arc::new(TransactionLog::new(log_path)?);
+
+        // Create WAL manager
+        let wal_manager = Arc::new(WALManager::new(
+            Arc::clone(&amp;transaction_log),
+            Arc::clone(&amp;storage),
+        ));
+
+        // Create MVCC concurrency control
+        let concurrency_control = Arc::new(MvccConcurrencyControl::new(
+            10, // max versions per key
+            Duration::from_secs(60), // cleanup interval
+            Arc::clone(&amp;transaction_log),
+        ));
+
+        // Create transaction manager
+        let transaction_manager = Arc::new(TransactionManager::new(
+            Arc::clone(&amp;storage),
+            concurrency_control,
+        ));
+
+        // Create constraint validator
+        let constraint_validator = Arc::new(ConstraintValidator::new());
+
+        // Recover from any previous crash
+        wal_manager.recover()?;
+
+        Ok(Self {
+            storage,
+            transaction_manager,
+            wal_manager,
+            constraint_validator,
+        })
+    }
+
+    /// Begin a new transaction
+    pub fn begin_transaction(&amp;self, isolation_level: IsolationLevel) -&gt; ValidatedTransaction {
+        let tx = self.transaction_manager.begin_transaction(isolation_level);
+        ValidatedTransaction::new(tx, Arc::clone(&amp;self.constraint_validator))
+    }
+
+    /// Add a constraint to the database
+    pub fn add_constraint(&amp;self, name: String, constraint: Constraint) {
+        let mut validator = Arc::get_mut(&amp;mut Arc::clone(&amp;self.constraint_validator)).unwrap();
+        validator.add_constraint(name, constraint);
+    }
+
+    /// Checkpoint the database
+    pub fn checkpoint(&amp;self) -&gt; io::Result&lt;()&gt; {
+        self.wal_manager.checkpoint()
+    }
+
+    /// Get the number of active transactions
+    pub fn active_transaction_count(&amp;self) -&gt; usize {
+        self.transaction_manager.active_transaction_count()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This implementation uses several design patterns:</p>
+<ol>
+<li><strong>Facade Pattern</strong>: <code>AcidDatabase</code> provides a simplified interface to the complex ACID components</li>
+<li><strong>Decorator Pattern</strong>: <code>ValidatedTransaction</code> adds constraint validation to transactions</li>
+<li><strong>Strategy Pattern</strong>: Different storage engines and concurrency control mechanisms can be swapped</li>
+<li><strong>Observer Pattern</strong>: Transaction events are logged and can trigger recovery actions</li>
+</ol>
+<h3 id="testing-acid-properties"><a class="header" href="#testing-acid-properties">Testing ACID Properties</a></h3>
+<p>To ensure our ACID implementation works correctly, let’s create a comprehensive test suite:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::thread;
+
+    // Set up a test database
+    fn setup_test_db() -&gt; AcidDatabase {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let config = StorageConfig {
+            data_path: temp_dir.path().to_path_buf(),
+            cache_size_mb: 10,
+            flush_threshold: 100,
+        };
+
+        AcidDatabase::new(temp_dir.path(), "memory", config).unwrap()
+    }
+
+    #[test]
+    fn test_atomicity() {
+        let db = setup_test_db();
+
+        // Start a transaction
+        let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+
+        // Make multiple changes
+        tx.put(b"key1".to_vec(), b"value1".to_vec()).unwrap();
+        tx.put(b"key2".to_vec(), b"value2".to_vec()).unwrap();
+
+        // Commit the transaction
+        tx.commit().unwrap();
+
+        // Start another transaction but abort it
+        let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+        tx.put(b"key3".to_vec(), b"value3".to_vec()).unwrap();
+        tx.abort();
+
+        // Verify results
+        let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+        assert_eq!(tx.get(&amp;b"key1".to_vec()).unwrap(), Some(b"value1".to_vec()));
+        assert_eq!(tx.get(&amp;b"key2".to_vec()).unwrap(), Some(b"value2".to_vec()));
+        assert_eq!(tx.get(&amp;b"key3".to_vec()).unwrap(), None); // Aborted, shouldn't exist
+    }
+
+    #[test]
+    fn test_consistency() {
+        let db = setup_test_db();
+
+        // Add a constraint: keys must be alphanumeric
+        db.add_constraint(
+            "alphanumeric_keys".to_string(),
+            Constraint::KeyFormat(regex::Regex::new(r"^[a-zA-Z0-9]+$").unwrap()),
+        );
+
+        // Valid transaction
+        let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+        tx.put(b"validkey".to_vec(), b"value".to_vec()).unwrap();
+        tx.commit().unwrap();
+
+        // Invalid transaction
+        let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+        let result = tx.put(b"invalid-key".to_vec(), b"value".to_vec());
+
+        // Should fail due to constraint violation
+        assert!(matches!(result, Err(TransactionError::Constraint(_))));
+    }
+
+    #[test]
+    fn test_isolation() {
+        let db = Arc::new(setup_test_db());
+
+        // Initial data
+        let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+        tx.put(b"key".to_vec(), b"initial".to_vec()).unwrap();
+        tx.commit().unwrap();
+
+        // Start a long-running transaction
+        let db_clone = Arc::clone(&amp;db);
+        let t1 = thread::spawn(move || {
+            let mut tx = db_clone.begin_transaction(IsolationLevel::Serializable);
+
+            // Read initial value
+            let value1 = tx.get(&amp;b"key".to_vec()).unwrap();
+
+            // Sleep to simulate long transaction
+            thread::sleep(Duration::from_millis(100));
+
+            // Read again - should be the same in serializable isolation
+            let value2 = tx.get(&amp;b"key".to_vec()).unwrap();
+
+            // Commit
+            tx.commit().unwrap();
+
+            (value1, value2)
+        });
+
+        // Concurrent transaction
+        let db_clone = Arc::clone(&amp;db);
+        let t2 = thread::spawn(move || {
+            // Sleep briefly to ensure t1 starts first
+            thread::sleep(Duration::from_millis(10));
+
+            let mut tx = db_clone.begin_transaction(IsolationLevel::Serializable);
+            tx.put(b"key".to_vec(), b"updated".to_vec()).unwrap();
+            tx.commit().unwrap();
+        });
+
+        // Wait for both threads
+        let (value1, value2) = t1.join().unwrap();
+        t2.join().unwrap();
+
+        // Both reads should see the initial value due to serializable isolation
+        assert_eq!(value1, Some(b"initial".to_vec()));
+        assert_eq!(value2, Some(b"initial".to_vec()));
+
+        // After both transactions, value should be updated
+        let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+        assert_eq!(tx.get(&amp;b"key".to_vec()).unwrap(), Some(b"updated".to_vec()));
+    }
+
+    #[test]
+    fn test_durability() {
+        // Create database in a persistent location
+        let temp_dir = tempfile::tempdir().unwrap();
+        let db_path = temp_dir.path();
+
+        let config = StorageConfig {
+            data_path: db_path.to_path_buf(),
+            cache_size_mb: 10,
+            flush_threshold: 100,
+        };
+
+        // Write data
+        {
+            let db = AcidDatabase::new(db_path, "lsm", config.clone()).unwrap();
+
+            let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+            tx.put(b"durable".to_vec(), b"value".to_vec()).unwrap();
+            tx.commit().unwrap();
+
+            // Checkpoint to ensure durability
+            db.checkpoint().unwrap();
+        }
+
+        // Reopen database and verify data
+        {
+            let db = AcidDatabase::new(db_path, "lsm", config).unwrap();
+
+            let mut tx = db.begin_transaction(IsolationLevel::Serializable);
+            assert_eq!(tx.get(&amp;b"durable".to_vec()).unwrap(), Some(b"value".to_vec()));
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>These tests verify that our database correctly implements all ACID properties.</p>
+<h3 id="acid-tradeoffs-and-configuration"><a class="header" href="#acid-tradeoffs-and-configuration">ACID Tradeoffs and Configuration</a></h3>
+<p>Different applications have different ACID requirements. Some need strict consistency guarantees, while others prioritize performance. Our implementation allows for configuration of these tradeoffs:</p>
+<ol>
+<li><strong>Isolation Level</strong>: Configurable from Read Uncommitted to Serializable</li>
+<li><strong>Durability Settings</strong>: Control when data is synced to disk</li>
+<li><strong>Consistency Constraints</strong>: Add or remove constraints based on application needs</li>
+<li><strong>Concurrency Control Mechanism</strong>: Choose between locking, OCC, or MVCC</li>
+</ol>
+<p>By applying design patterns like Strategy and Factory, our database can be adapted to different workload requirements without changing its core structure.</p>
+<p>Our ACID implementation demonstrates several key principles:</p>
+<ol>
+<li><strong>Separation of Concerns</strong>: Each ACID property is handled by specialized components</li>
+<li><strong>Defense in Depth</strong>: Multiple mechanisms work together to ensure data integrity</li>
+<li><strong>Clear Interfaces</strong>: Well-defined boundaries between components</li>
+<li><strong>Configurability</strong>: Tunable parameters for different requirements</li>
+</ol>
+<p>These principles align with SOLID design, creating a database system that is both robust and flexible.</p>
+<h2 id="buffer-management"><a class="header" href="#buffer-management">Buffer Management</a></h2>
+<p>In database systems, buffer management is responsible for efficiently handling the transfer of data between disk and memory. A well-designed buffer manager minimizes disk I/O, which is typically the most significant performance bottleneck in database operations.</p>
+<h3 id="the-buffer-pool"><a class="header" href="#the-buffer-pool">The Buffer Pool</a></h3>
+<p>The core component of buffer management is the buffer pool, which caches recently accessed data pages in memory:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::{HashMap, VecDeque};
+use std::sync::{Arc, Mutex, RwLock};
+
+/// A page identifier, consisting of file ID and page number
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct PageId {
+    file_id: u32,
+    page_num: u32,
+}
+
+/// A fixed-size page of data
+#[derive(Debug, Clone)]
+pub struct Page {
+    id: PageId,
+    data: Vec&lt;u8&gt;,
+    dirty: bool,
+}
+
+/// Buffer pool for caching pages in memory
+pub struct BufferPool {
+    // Fixed size of each page in bytes
+    page_size: usize,
+
+    // Maximum number of pages in the pool
+    capacity: usize,
+
+    // Current pages in the pool, keyed by PageId
+    pages: RwLock&lt;HashMap&lt;PageId, Arc&lt;RwLock&lt;Page&gt;&gt;&gt;&gt;,
+
+    // LRU queue for eviction policy
+    lru_queue: Mutex&lt;VecDeque&lt;PageId&gt;&gt;,
+
+    // Storage backend for reading/writing pages
+    storage: Arc&lt;dyn Storage&gt;,
+}
+
+/// Storage interface for reading and writing pages
+pub trait Storage: Send + Sync {
+    fn read_page(&amp;self, page_id: PageId) -&gt; io::Result&lt;Vec&lt;u8&gt;&gt;;
+    fn write_page(&amp;self, page_id: PageId, data: &amp;[u8]) -&gt; io::Result&lt;()&gt;;
+    fn sync(&amp;self) -&gt; io::Result&lt;()&gt;;
+}
+
+impl BufferPool {
+    /// Create a new buffer pool
+    pub fn new(
+        capacity: usize,
+        page_size: usize,
+        storage: Arc&lt;dyn Storage&gt;,
+    ) -&gt; Self {
+        Self {
+            page_size,
+            capacity,
+            pages: RwLock::new(HashMap::with_capacity(capacity)),
+            lru_queue: Mutex::new(VecDeque::with_capacity(capacity)),
+            storage,
+        }
+    }
+
+    /// Get a page from the buffer pool, loading it from disk if necessary
+    pub fn get_page(&amp;self, page_id: PageId) -&gt; io::Result&lt;Arc&lt;RwLock&lt;Page&gt;&gt;&gt; {
+        // First check if page is in memory
+        {
+            let pages = self.pages.read().unwrap();
+            if let Some(page) = pages.get(&amp;page_id) {
+                // Update LRU queue
+                let mut lru = self.lru_queue.lock().unwrap();
+                if let Some(pos) = lru.iter().position(|&amp;id| id == page_id) {
+                    lru.remove(pos);
+                }
+                lru.push_back(page_id);
+
+                return Ok(Arc::clone(page));
+            }
+        }
+
+        // Page not in memory, load it from disk
+        let page_data = self.storage.read_page(page_id)?;
+
+        // Create new page
+        let page = Arc::new(RwLock::new(Page {
+            id: page_id,
+            data: page_data,
+            dirty: false,
+        }));
+
+        // Add to buffer pool and LRU queue
+        {
+            let mut pages = self.pages.write().unwrap();
+            let mut lru = self.lru_queue.lock().unwrap();
+
+            // If at capacity, evict a page
+            if pages.len() &gt;= self.capacity {
+                if let Some(evict_id) = lru.pop_front() {
+                    if let Some(evict_page) = pages.remove(&amp;evict_id) {
+                        // If dirty, write back to disk
+                        let evict_page = evict_page.read().unwrap();
+                        if evict_page.dirty {
+                            self.storage.write_page(evict_id, &amp;evict_page.data)?;
+                        }
+                    }
+                }
+            }
+
+            // Add new page
+            pages.insert(page_id, Arc::clone(&amp;page));
+            lru.push_back(page_id);
+        }
+
+        Ok(page)
+    }
+
+    /// Mark a page as dirty, indicating it needs to be written back to disk
+    pub fn mark_dirty(&amp;self, page_id: PageId) -&gt; io::Result&lt;()&gt; {
+        let pages = self.pages.read().unwrap();
+        if let Some(page) = pages.get(&amp;page_id) {
+            let mut page = page.write().unwrap();
+            page.dirty = true;
+        }
+        Ok(())
+    }
+
+    /// Flush all dirty pages to disk
+    pub fn flush_all(&amp;self) -&gt; io::Result&lt;()&gt; {
+        let pages = self.pages.read().unwrap();
+
+        for (_, page) in pages.iter() {
+            let page_guard = page.read().unwrap();
+            if page_guard.dirty {
+                self.storage.write_page(page_guard.id, &amp;page_guard.data)?;
+
+                // Mark as clean
+                drop(page_guard);
+                let mut page = page.write().unwrap();
+                page.dirty = false;
+            }
+        }
+
+        // Sync storage to ensure durability
+        self.storage.sync()?;
+
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This buffer pool implementation demonstrates several important design patterns:</p>
+<ol>
+<li><strong>LRU Replacement Policy</strong>: Evicts the least recently used pages when the pool is full</li>
+<li><strong>Write-Back Caching</strong>: Marks pages as dirty and only writes them to disk when necessary</li>
+<li><strong>Double-Buffering</strong>: Uses RwLock to allow concurrent reads but exclusive writes</li>
+</ol>
+<h3 id="page-management"><a class="header" href="#page-management">Page Management</a></h3>
+<p>On top of the buffer pool, we need a page manager that handles the allocation and tracking of pages:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Manages pages and their allocation
+pub struct PageManager {
+    buffer_pool: Arc&lt;BufferPool&gt;,
+    free_list: Mutex&lt;Vec&lt;PageId&gt;&gt;,
+    metadata_page_id: PageId,
+}
+
+impl PageManager {
+    /// Create a new page manager
+    pub fn new(buffer_pool: Arc&lt;BufferPool&gt;) -&gt; io::Result&lt;Self&gt; {
+        // Special page ID for metadata
+        let metadata_page_id = PageId {
+            file_id: 0,
+            page_num: 0,
+        };
+
+        // Create or load metadata page
+        let metadata_page = buffer_pool.get_page(metadata_page_id)?;
+
+        // Read free list from metadata
+        let free_list = {
+            let page = metadata_page.read().unwrap();
+            if page.data.is_empty() {
+                // New database, initialize metadata
+                Vec::new()
+            } else {
+                // Parse free list from metadata page
+                deserialize_free_list(&amp;page.data)
+            }
+        };
+
+        Ok(Self {
+            buffer_pool,
+            free_list: Mutex::new(free_list),
+            metadata_page_id,
+        })
+    }
+
+    /// Allocate a new page
+    pub fn allocate_page(&amp;self) -&gt; io::Result&lt;PageId&gt; {
+        let mut free_list = self.free_list.lock().unwrap();
+
+        if let Some(page_id) = free_list.pop() {
+            // Reuse a page from the free list
+            Ok(page_id)
+        } else {
+            // Allocate a new page
+            // In a real implementation, we would need to track the next available page ID
+            let page_id = PageId {
+                file_id: 0,
+                page_num: generate_next_page_num(),
+            };
+
+            // Initialize the page
+            let page = self.buffer_pool.get_page(page_id)?;
+            {
+                let mut page = page.write().unwrap();
+                page.data.clear();
+                page.data.resize(self.buffer_pool.page_size, 0);
+                page.dirty = true;
+            }
+
+            // Update metadata
+            self.update_metadata()?;
+
+            Ok(page_id)
+        }
+    }
+
+    /// Free a page, returning it to the free list
+    pub fn free_page(&amp;self, page_id: PageId) -&gt; io::Result&lt;()&gt; {
+        let mut free_list = self.free_list.lock().unwrap();
+
+        // Add to free list
+        free_list.push(page_id);
+
+        // Update metadata
+        self.update_metadata()?;
+
+        Ok(())
+    }
+
+    /// Update metadata page with current free list
+    fn update_metadata(&amp;self) -&gt; io::Result&lt;()&gt; {
+        let free_list = self.free_list.lock().unwrap();
+
+        let metadata_page = self.buffer_pool.get_page(self.metadata_page_id)?;
+        {
+            let mut page = metadata_page.write().unwrap();
+
+            // Serialize free list to page data
+            page.data = serialize_free_list(&amp;free_list);
+            page.dirty = true;
+        }
+
+        Ok(())
+    }
+}
+
+// Helper functions for serialization/deserialization
+fn serialize_free_list(free_list: &amp;[PageId]) -&gt; Vec&lt;u8&gt; {
+    // Implementation details omitted for brevity
+    vec![]
+}
+
+fn deserialize_free_list(data: &amp;[u8]) -&gt; Vec&lt;PageId&gt; {
+    // Implementation details omitted for brevity
+    vec![]
+}
+
+fn generate_next_page_num() -&gt; u32 {
+    // Implementation details omitted for brevity
+    0
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This page manager implements the Factory Pattern, creating and tracking pages as needed.</p>
+<h3 id="buffer-management-design-patterns"><a class="header" href="#buffer-management-design-patterns">Buffer Management Design Patterns</a></h3>
+<p>Our buffer management system demonstrates several important design patterns:</p>
+<ol>
+<li><strong>Cache Pattern</strong>: The buffer pool caches frequently accessed pages to improve performance</li>
+<li><strong>Factory Pattern</strong>: The page manager creates and manages page objects</li>
+<li><strong>Proxy Pattern</strong>: The buffer pool acts as a proxy for the underlying storage</li>
+<li><strong>Resource Pool Pattern</strong>: Managing a limited set of resources (memory buffers)</li>
+</ol>
+<p>These patterns help create an efficient buffer management system that balances memory usage and disk I/O.</p>
+<p>By carefully designing our buffer management system with these patterns, we create a foundation for efficient database operations, minimizing the performance impact of disk access while maintaining data integrity.</p>
+<h2 id="next-sections"><a class="header" href="#next-sections">Next Sections</a></h2>
+<p>In the next sections, we’ll explore index structures for efficient data retrieval, transaction management for ensuring consistency, and recovery mechanisms for handling failures. Finally, we’ll build a complete key-value store that integrates all these components.</p>
+<p>For now, let’s move on to implementing index structures, which are crucial for efficient data access.</p>
+<h2 id="-project-key-value-store---build-a-persistent-key-value-database"><a class="header" href="#-project-key-value-store---build-a-persistent-key-value-database">🔨 Project: Key-value Store - Build a Persistent Key-value Database</a></h2>
+<p>In this project, we’ll bring together all the concepts we’ve explored to build RustKV, a persistent key-value database with ACID properties, concurrent access capabilities, and a clean, modular architecture. Our database will follow SOLID principles and use design patterns to create a maintainable, extensible system.</p>
+<h3 id="project-goals"><a class="header" href="#project-goals">Project Goals</a></h3>
+<p>We aim to build a key-value store with the following features:</p>
+<ol>
+<li><strong>Persistence</strong>: Data survives system restarts</li>
+<li><strong>ACID Transactions</strong>: Guarantees for atomicity, consistency, isolation, and durability</li>
+<li><strong>Concurrent Access</strong>: Multiple clients can use the database simultaneously</li>
+<li><strong>Simple API</strong>: Clean, intuitive interface for database operations</li>
+<li><strong>Configurability</strong>: Different storage engines and configuration options</li>
+<li><strong>Clean Architecture</strong>: Well-structured code following SOLID principles</li>
+</ol>
+<h3 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h3>
+<p>Our project will be organized into modules, each with a clear responsibility:</p>
+<pre><code>rustkv/
+├── Cargo.toml
+├── src/
+│   ├── main.rs            # Command-line interface
+│   ├── lib.rs             # Public API
+│   ├── storage/           # Storage engines
+│   │   ├── mod.rs
+│   │   ├── memory.rs      # In-memory storage
+│   │   ├── lsm.rs         # Log-structured merge tree
+│   │   └── btree.rs       # B-tree storage
+│   ├── buffer/            # Buffer management
+│   │   ├── mod.rs
+│   │   ├── buffer_pool.rs
+│   │   └── page.rs
+│   ├── concurrency/       # Concurrency control
+│   │   ├── mod.rs
+│   │   ├── lock.rs        # Lock-based concurrency
+│   │   ├── mvcc.rs        # Multi-version concurrency
+│   │   └── transaction.rs # Transaction management
+│   ├── query/             # Query processing
+│   │   ├── mod.rs
+│   │   ├── parser.rs      # Query parsing
+│   │   ├── optimizer.rs   # Query optimization
+│   │   └── executor.rs    # Query execution
+│   ├── recovery/          # Recovery mechanisms
+│   │   ├── mod.rs
+│   │   └── wal.rs         # Write-ahead logging
+│   └── config.rs          # Configuration
+</code></pre>
+<h3 id="step-1-setting-up-the-project"><a class="header" href="#step-1-setting-up-the-project">Step 1: Setting Up the Project</a></h3>
+<p>First, let’s set up our project with the necessary dependencies:</p>
+<pre><code class="language-bash">cargo new rustkv
+cd rustkv
+</code></pre>
+<p>Update <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = "rustkv"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Core functionality
+thiserror = "1.0"
+bincode = "1.3"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+env_logger = "0.9"
+
+# Concurrency
+parking_lot = "0.12"
+crossbeam = "0.8"
+tokio = { version = "1.19", features = ["full"] }
+
+# CLI interface
+clap = { version = "3.1", features = ["derive"] }
+
+# Utilities
+uuid = { version = "1.0", features = ["v4"] }
+regex = "1.5"
+rand = "0.8"
+
+[dev-dependencies]
+tempfile = "3.3"
+criterion = "0.3"
+</code></pre>
+<h3 id="step-2-defining-core-types-and-interfaces"><a class="header" href="#step-2-defining-core-types-and-interfaces">Step 2: Defining Core Types and Interfaces</a></h3>
+<p>Let’s define our core types and interfaces in <code>lib.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! RustKV: A persistent key-value database with ACID properties.
+
+use std::error::Error;
+use std::fmt::Debug;
+use std::path::Path;
+use std::sync::Arc;
+
+pub mod storage;
+pub mod buffer;
+pub mod concurrency;
+pub mod query;
+pub mod recovery;
+pub mod config;
+
+/// Key type for the key-value store
+pub type Key = Vec&lt;u8&gt;;
+
+/// Value type for the key-value store
+pub type Value = Vec&lt;u8&gt;;
+
+/// Result type for database operations
+pub type Result&lt;T&gt; = std::result::Result&lt;T, DatabaseError&gt;;
+
+/// Database error types
+#[derive(Debug, thiserror::Error)]
+pub enum DatabaseError {
+    #[error("Storage error: {0}")]
+    Storage(String),
+
+    #[error("Transaction error: {0}")]
+    Transaction(String),
+
+    #[error("Query error: {0}")]
+    Query(String),
+
+    #[error("Constraint violation: {0}")]
+    Constraint(String),
+
+    #[error("Concurrency error: {0}")]
+    Concurrency(String),
+
+    #[error("IO error: {0}")]
+    Io(#[from] std::io::Error),
+
+    #[error("Configuration error: {0}")]
+    Config(String),
+}
+
+/// Database configuration
+#[derive(Debug, Clone)]
+pub struct DatabaseConfig {
+    /// Path to database files
+    pub data_path: String,
+
+    /// Storage engine type
+    pub storage_engine: String,
+
+    /// Maximum cache size in MB
+    pub cache_size_mb: usize,
+
+    /// Default isolation level
+    pub default_isolation_level: concurrency::IsolationLevel,
+}
+
+impl Default for DatabaseConfig {
+    fn default() -&gt; Self {
+        Self {
+            data_path: "data".to_string(),
+            storage_engine: "lsm".to_string(),
+            cache_size_mb: 64,
+            default_isolation_level: concurrency::IsolationLevel::Serializable,
+        }
+    }
+}
+
+/// Primary database interface
+pub struct Database {
+    engine: Arc&lt;dyn storage::StorageEngine&gt;,
+    transaction_manager: Arc&lt;concurrency::TransactionManager&gt;,
+    buffer_pool: Arc&lt;buffer::BufferPool&gt;,
+    wal_manager: Arc&lt;recovery::WALManager&gt;,
+    config: DatabaseConfig,
+}
+
+impl Database {
+    /// Open a database with the given configuration
+    pub fn open(config: DatabaseConfig) -&gt; Result&lt;Self&gt; {
+        // Create data directory if it doesn't exist
+        std::fs::create_dir_all(&amp;config.data_path)
+            .map_err(|e| DatabaseError::Io(e))?;
+
+        // Create buffer pool
+        let buffer_pool = Arc::new(buffer::BufferPool::new(
+            config.cache_size_mb * 1024 * 1024 / buffer::PAGE_SIZE,
+            buffer::PAGE_SIZE,
+            Arc::new(storage::FileStorage::new(&amp;config.data_path)?),
+        ));
+
+        // Create WAL manager
+        let wal_path = Path::new(&amp;config.data_path).join("wal");
+        let wal_manager = Arc::new(recovery::WALManager::new(&amp;wal_path)?);
+
+        // Create storage engine based on configuration
+        let engine = match config.storage_engine.as_str() {
+            "memory" =&gt; Arc::new(storage::MemoryStorage::new()) as Arc&lt;dyn storage::StorageEngine&gt;,
+            "lsm" =&gt; {
+                let lsm_path = Path::new(&amp;config.data_path).join("lsm");
+                Arc::new(storage::LsmStorage::new(lsm_path, wal_manager.clone())?) as Arc&lt;dyn storage::StorageEngine&gt;
+            },
+            "btree" =&gt; {
+                let btree_path = Path::new(&amp;config.data_path).join("btree");
+                Arc::new(storage::BTreeStorage::new(
+                    btree_path,
+                    buffer_pool.clone(),
+                )?) as Arc&lt;dyn storage::StorageEngine&gt;
+            },
+            _ =&gt; return Err(DatabaseError::Config(format!("Unknown storage engine: {}", config.storage_engine))),
+        };
+
+        // Create transaction manager
+        let transaction_manager = Arc::new(concurrency::TransactionManager::new(
+            engine.clone(),
+            wal_manager.clone(),
+        ));
+
+        // Recover database from WAL if needed
+        wal_manager.recover(engine.clone())?;
+
+        Ok(Self {
+            engine,
+            transaction_manager,
+            buffer_pool,
+            wal_manager,
+            config,
+        })
+    }
+
+    /// Begin a new transaction
+    pub fn begin_transaction(&amp;self) -&gt; Result&lt;Transaction&gt; {
+        self.begin_transaction_with_isolation(self.config.default_isolation_level)
+    }
+
+    /// Begin a new transaction with the specified isolation level
+    pub fn begin_transaction_with_isolation(
+        &amp;self,
+        isolation_level: concurrency::IsolationLevel,
+    ) -&gt; Result&lt;Transaction&gt; {
+        let tx_id = self.transaction_manager.begin_transaction(isolation_level)
+            .map_err(|e| DatabaseError::Transaction(e.to_string()))?;
+
+        Ok(Transaction {
+            id: tx_id,
+            isolation_level,
+            transaction_manager: self.transaction_manager.clone(),
+            committed: false,
+        })
+    }
+
+    /// Flush all pending changes to disk
+    pub fn flush(&amp;self) -&gt; Result&lt;()&gt; {
+        self.engine.flush().map_err(|e| DatabaseError::Storage(e.to_string()))?;
+        self.buffer_pool.flush_all().map_err(DatabaseError::Io)?;
+        Ok(())
+    }
+
+    /// Close the database
+    pub fn close(self) -&gt; Result&lt;()&gt; {
+        // Flush any pending changes
+        self.flush()?;
+
+        // Create a checkpoint for faster recovery
+        self.wal_manager.checkpoint()?;
+
+        Ok(())
+    }
+}
+
+/// A database transaction
+pub struct Transaction {
+    id: u64,
+    isolation_level: concurrency::IsolationLevel,
+    transaction_manager: Arc&lt;concurrency::TransactionManager&gt;,
+    committed: bool,
+}
+
+impl Transaction {
+    /// Get a value by key
+    pub fn get(&amp;self, key: &amp;[u8]) -&gt; Result&lt;Option&lt;Value&gt;&gt; {
+        self.transaction_manager
+            .get(self.id, key)
+            .map_err(|e| DatabaseError::Transaction(e.to_string()))
+    }
+
+    /// Put a key-value pair
+    pub fn put(&amp;self, key: &amp;[u8], value: &amp;[u8]) -&gt; Result&lt;()&gt; {
+        self.transaction_manager
+            .put(self.id, key, value)
+            .map_err(|e| DatabaseError::Transaction(e.to_string()))
+    }
+
+    /// Delete a key-value pair
+    pub fn delete(&amp;self, key: &amp;[u8]) -&gt; Result&lt;()&gt; {
+        self.transaction_manager
+            .delete(self.id, key)
+            .map_err(|e| DatabaseError::Transaction(e.to_string()))
+    }
+
+    /// Commit the transaction
+    pub fn commit(mut self) -&gt; Result&lt;()&gt; {
+        if self.committed {
+            return Err(DatabaseError::Transaction("Transaction already committed".to_string()));
+        }
+
+        self.transaction_manager
+            .commit(self.id)
+            .map_err(|e| DatabaseError::Transaction(e.to_string()))?;
+
+        self.committed = true;
+        Ok(())
+    }
+}
+
+impl Drop for Transaction {
+    fn drop(&amp;mut self) {
+        if !self.committed {
+            // Abort transaction if not committed
+            if let Err(e) = self.transaction_manager.abort(self.id) {
+                log::error!("Error aborting transaction {}: {}", self.id, e);
+            }
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-3-implementing-the-storage-module"><a class="header" href="#step-3-implementing-the-storage-module">Step 3: Implementing the Storage Module</a></h3>
+<p>Next, let’s implement the storage module in <code>storage/mod.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! Storage engines for the database.
+
+use crate::{Key, Value, Result, DatabaseError};
+use std::path::Path;
+use std::sync::Arc;
+
+mod memory;
+mod lsm;
+mod btree;
+
+pub use memory::MemoryStorage;
+pub use lsm::LsmStorage;
+pub use btree::BTreeStorage;
+
+/// File storage for reading and writing pages
+pub struct FileStorage {
+    base_path: std::path::PathBuf,
+}
+
+impl FileStorage {
+    /// Create a new file storage
+    pub fn new&lt;P: AsRef&lt;Path&gt;&gt;(base_path: P) -&gt; std::io::Result&lt;Self&gt; {
+        let path = base_path.as_ref().to_path_buf();
+        std::fs::create_dir_all(&amp;path)?;
+        Ok(Self { base_path: path })
+    }
+
+    // Implementation details omitted for brevity
+}
+
+/// Core interface for storage engines
+pub trait StorageEngine: Send + Sync + std::fmt::Debug {
+    /// Get a value by key
+    fn get(&amp;self, key: &amp;[u8]) -&gt; Result&lt;Option&lt;Value&gt;&gt;;
+
+    /// Put a key-value pair
+    fn put(&amp;self, key: &amp;[u8], value: &amp;[u8]) -&gt; Result&lt;()&gt;;
+
+    /// Delete a key-value pair
+    fn delete(&amp;self, key: &amp;[u8]) -&gt; Result&lt;()&gt;;
+
+    /// Check if a key exists
+    fn contains(&amp;self, key: &amp;[u8]) -&gt; Result&lt;bool&gt;;
+
+    /// Scan all key-value pairs
+    fn scan(&amp;self, start: Option&lt;&amp;[u8]&gt;, end: Option&lt;&amp;[u8]&gt;) -&gt; Result&lt;ScanIterator&gt;;
+
+    /// Flush pending changes to disk
+    fn flush(&amp;self) -&gt; Result&lt;()&gt;;
+}
+
+/// Iterator over key-value pairs
+pub struct ScanIterator {
+    inner: Box&lt;dyn Iterator&lt;Item = Result&lt;(Key, Value)&gt;&gt; + Send&gt;,
+}
+
+impl Iterator for ScanIterator {
+    type Item = Result&lt;(Key, Value)&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.inner.next()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-4-implementing-the-command-line-interface"><a class="header" href="#step-4-implementing-the-command-line-interface">Step 4: Implementing the Command-Line Interface</a></h3>
+<p>Finally, let’s implement a simple command-line interface in <code>main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">//! Command-line interface for RustKV.
+
+use rustkv::{Database, DatabaseConfig, DatabaseError, Result};
+use clap::{Parser, Subcommand};
+use std::io::{self, Write};
+use std::path::PathBuf;
+
+#[derive(Parser)]
+#[clap(author, version, about)]
+struct Cli {
+    /// Path to database files
+    #[clap(short, long, default_value = "data")]
+    path: String,
+
+    /// Storage engine to use
+    #[clap(short, long, default_value = "lsm")]
+    engine: String,
+
+    /// Subcommand to execute
+    #[clap(subcommand)]
+    command: Option&lt;Command&gt;,
+}
+
+#[derive(Subcommand)]
+enum Command {
+    /// Start an interactive shell
+    Shell,
+
+    /// Get a value by key
+    Get {
+        /// Key to retrieve
+        key: String,
+    },
+
+    /// Put a key-value pair
+    Put {
+        /// Key to store
+        key: String,
+
+        /// Value to store
+        value: String,
+    },
+
+    /// Delete a key-value pair
+    Delete {
+        /// Key to delete
+        key: String,
+    },
+}
+
+fn main() -&gt; Result&lt;()&gt; {
+    // Initialize logger
+    env_logger::init();
+
+    // Parse command-line arguments
+    let cli = Cli::parse();
+
+    // Configure the database
+    let config = DatabaseConfig {
+        data_path: cli.path.clone(),
+        storage_engine: cli.engine.clone(),
+        ..Default::default()
+    };
+
+    // Open the database
+    let db = Database::open(config)?;
+
+    // Process command
+    match cli.command {
+        Some(Command::Shell) =&gt; run_shell(db),
+        Some(Command::Get { key }) =&gt; {
+            let tx = db.begin_transaction()?;
+            match tx.get(key.as_bytes())? {
+                Some(value) =&gt; println!("{}", String::from_utf8_lossy(&amp;value)),
+                None =&gt; println!("Key not found"),
+            }
+            tx.commit()?;
+            Ok(())
+        },
+        Some(Command::Put { key, value }) =&gt; {
+            let tx = db.begin_transaction()?;
+            tx.put(key.as_bytes(), value.as_bytes())?;
+            tx.commit()?;
+            println!("Value stored");
+            Ok(())
+        },
+        Some(Command::Delete { key }) =&gt; {
+            let tx = db.begin_transaction()?;
+            tx.delete(key.as_bytes())?;
+            tx.commit()?;
+            println!("Key deleted");
+            Ok(())
+        },
+        None =&gt; run_shell(db),
+    }
+}
+
+/// Run an interactive shell
+fn run_shell(db: Database) -&gt; Result&lt;()&gt; {
+    println!("RustKV shell. Type 'help' for commands, 'exit' to quit.");
+
+    let mut buffer = String::new();
+    let stdin = io::stdin();
+    let mut stdout = io::stdout();
+
+    loop {
+        buffer.clear();
+
+        print!("rustkv&gt; ");
+        stdout.flush()?;
+
+        stdin.read_line(&amp;mut buffer)?;
+        let input = buffer.trim();
+
+        if input.is_empty() {
+            continue;
+        }
+
+        let parts: Vec&lt;&amp;str&gt; = input.split_whitespace().collect();
+        let command = parts[0].to_lowercase();
+
+        match command.as_str() {
+            "exit" | "quit" =&gt; break,
+            "help" =&gt; {
+                println!("Commands:");
+                println!("  get &lt;key&gt; - Get value for key");
+                println!("  put &lt;key&gt; &lt;value&gt; - Store key-value pair");
+                println!("  delete &lt;key&gt; - Delete key-value pair");
+                println!("  exit - Exit the shell");
+                println!("  help - Show this help");
+            },
+            "get" =&gt; {
+                if parts.len() &lt; 2 {
+                    println!("Usage: get &lt;key&gt;");
+                    continue;
+                }
+
+                let key = parts[1];
+                let tx = db.begin_transaction()?;
+
+                match tx.get(key.as_bytes())? {
+                    Some(value) =&gt; println!("{}", String::from_utf8_lossy(&amp;value)),
+                    None =&gt; println!("Key not found"),
+                }
+
+                tx.commit()?;
+            },
+            "put" =&gt; {
+                if parts.len() &lt; 3 {
+                    println!("Usage: put &lt;key&gt; &lt;value&gt;");
+                    continue;
+                }
+
+                let key = parts[1];
+                let value = parts[2..].join(" ");
+
+                let tx = db.begin_transaction()?;
+                tx.put(key.as_bytes(), value.as_bytes())?;
+                tx.commit()?;
+
+                println!("Value stored");
+            },
+            "delete" =&gt; {
+                if parts.len() &lt; 2 {
+                    println!("Usage: delete &lt;key&gt;");
+                    continue;
+                }
+
+                let key = parts[1];
+                let tx = db.begin_transaction()?;
+                tx.delete(key.as_bytes())?;
+                tx.commit()?;
+
+                println!("Key deleted");
+            },
+            _ =&gt; println!("Unknown command: {}. Type 'help' for available commands.", command),
+        }
+    }
+
+    // Close the database
+    db.close()?;
+
+    Ok(())
+}</code></pre></pre>
+<h3 id="step-5-testing-the-key-value-store"><a class="header" href="#step-5-testing-the-key-value-store">Step 5: Testing the Key-Value Store</a></h3>
+<p>Let’s create comprehensive tests for our key-value store:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    use super::*;
+    use tempfile::tempdir;
+
+    // Helper function to create a test database
+    fn create_test_db() -&gt; Database {
+        let temp_dir = tempdir().unwrap();
+        let config = DatabaseConfig {
+            data_path: temp_dir.path().to_str().unwrap().to_string(),
+            storage_engine: "memory".to_string(),
+            ..Default::default()
+        };
+
+        Database::open(config).unwrap()
+    }
+
+    #[test]
+    fn test_basic_operations() {
+        let db = create_test_db();
+
+        // Put
+        let tx = db.begin_transaction().unwrap();
+        tx.put(b"key1", b"value1").unwrap();
+        tx.commit().unwrap();
+
+        // Get
+        let tx = db.begin_transaction().unwrap();
+        let value = tx.get(b"key1").unwrap();
+        assert_eq!(value, Some(b"value1".to_vec()));
+        tx.commit().unwrap();
+
+        // Delete
+        let tx = db.begin_transaction().unwrap();
+        tx.delete(b"key1").unwrap();
+        tx.commit().unwrap();
+
+        // Verify deletion
+        let tx = db.begin_transaction().unwrap();
+        let value = tx.get(b"key1").unwrap();
+        assert_eq!(value, None);
+        tx.commit().unwrap();
+    }
+
+    #[test]
+    fn test_transaction_isolation() {
+        let db = create_test_db();
+
+        // Initialize data
+        let tx = db.begin_transaction().unwrap();
+        tx.put(b"key", b"initial").unwrap();
+        tx.commit().unwrap();
+
+        // Start two transactions
+        let tx1 = db.begin_transaction().unwrap();
+        let tx2 = db.begin_transaction().unwrap();
+
+        // T1 reads key
+        let v1 = tx1.get(b"key").unwrap();
+        assert_eq!(v1, Some(b"initial".to_vec()));
+
+        // T2 updates key
+        tx2.put(b"key", b"updated").unwrap();
+        tx2.commit().unwrap();
+
+        // T1 reads key again (should see initial value due to snapshot isolation)
+        let v1_again = tx1.get(b"key").unwrap();
+        assert_eq!(v1_again, Some(b"initial".to_vec()));
+
+        // T1 commits
+        tx1.commit().unwrap();
+
+        // New transaction should see updated value
+        let tx3 = db.begin_transaction().unwrap();
+        let v3 = tx3.get(b"key").unwrap();
+        assert_eq!(v3, Some(b"updated".to_vec()));
+        tx3.commit().unwrap();
+    }
+
+    #[test]
+    fn test_transaction_abort() {
+        let db = create_test_db();
+
+        // Put initial value
+        let tx = db.begin_transaction().unwrap();
+        tx.put(b"key", b"initial").unwrap();
+        tx.commit().unwrap();
+
+        // Start a transaction and make changes
+        let tx = db.begin_transaction().unwrap();
+        tx.put(b"key", b"updated").unwrap();
+        tx.put(b"new_key", b"new_value").unwrap();
+
+        // Abort the transaction (explicitly drop without commit)
+        drop(tx);
+
+        // Verify changes were not applied
+        let tx = db.begin_transaction().unwrap();
+        assert_eq!(tx.get(b"key").unwrap(), Some(b"initial".to_vec()));
+        assert_eq!(tx.get(b"new_key").unwrap(), None);
+        tx.commit().unwrap();
+    }
+
+    #[test]
+    fn test_persistence() {
+        let temp_dir = tempdir().unwrap();
+        let db_path = temp_dir.path().to_str().unwrap().to_string();
+
+        // Create and populate database
+        {
+            let config = DatabaseConfig {
+                data_path: db_path.clone(),
+                storage_engine: "lsm".to_string(),
+                ..Default::default()
+            };
+
+            let db = Database::open(config).unwrap();
+            let tx = db.begin_transaction().unwrap();
+            tx.put(b"persistent", b"value").unwrap();
+            tx.commit().unwrap();
+
+            db.close().unwrap();
+        }
+
+        // Reopen database and verify data
+        {
+            let config = DatabaseConfig {
+                data_path: db_path,
+                storage_engine: "lsm".to_string(),
+                ..Default::default()
+            };
+
+            let db = Database::open(config).unwrap();
+            let tx = db.begin_transaction().unwrap();
+            let value = tx.get(b"persistent").unwrap();
+            assert_eq!(value, Some(b"value".to_vec()));
+            tx.commit().unwrap();
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="design-patterns-in-our-key-value-store"><a class="header" href="#design-patterns-in-our-key-value-store">Design Patterns in Our Key-Value Store</a></h3>
+<p>Our key-value store implementation demonstrates several important design patterns:</p>
+<ol>
+<li><strong>Factory Method</strong>: Creating different storage engines based on configuration</li>
+<li><strong>Builder Pattern</strong>: Configuring the database with DatabaseConfig</li>
+<li><strong>Facade Pattern</strong>: Database class providing a simplified interface</li>
+<li><strong>Strategy Pattern</strong>: Swappable storage engines and concurrency control mechanisms</li>
+<li><strong>Command Pattern</strong>: Transactions encapsulating operations</li>
+<li><strong>Repository Pattern</strong>: Storage engine providing a collection-like interface</li>
+<li><strong>Proxy Pattern</strong>: Transaction managing access to the storage engine</li>
+<li><strong>Singleton Pattern</strong>: Single instance of components like buffer pool and WAL manager</li>
+<li><strong>Decorator Pattern</strong>: Adding validation, logging, and metrics to core components</li>
+</ol>
+<p>These patterns help create a clean, maintainable architecture that follows SOLID principles.</p>
+<h3 id="solid-principles-in-our-implementation"><a class="header" href="#solid-principles-in-our-implementation">SOLID Principles in Our Implementation</a></h3>
+<p>Our implementation follows SOLID principles:</p>
+<ol>
+<li><strong>Single Responsibility</strong>: Each module has a clear, focused responsibility</li>
+<li><strong>Open/Closed</strong>: New storage engines can be added without modifying existing code</li>
+<li><strong>Liskov Substitution</strong>: Storage engines are interchangeable</li>
+<li><strong>Interface Segregation</strong>: Clean, focused interfaces for each component</li>
+<li><strong>Dependency Inversion</strong>: High-level modules depend on abstractions</li>
+</ol>
+<h3 id="extending-the-key-value-store"><a class="header" href="#extending-the-key-value-store">Extending the Key-Value Store</a></h3>
+<p>Our key-value store can be extended in several ways:</p>
+<ol>
+<li><strong>Performance Optimizations</strong>: Bloom filters, compression, and caching</li>
+<li><strong>Additional Features</strong>: TTL (time-to-live), versioning, and replication</li>
+<li><strong>Monitoring and Metrics</strong>: Performance monitoring and troubleshooting tools</li>
+<li><strong>Client Libraries</strong>: Language-specific client libraries</li>
+<li><strong>Distribution</strong>: Distributed consensus and sharding</li>
+</ol>
+<p>By following clean architecture principles, we’ve created a solid foundation that can evolve to meet changing requirements.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored the fundamental concepts and components of database systems, focusing on key-value stores. We’ve learned about storage engines, query processing, concurrency control, ACID properties, buffer management, and more. We’ve implemented a complete key-value database that demonstrates these concepts while following SOLID principles and using appropriate design patterns.</p>
+<p>Key takeaways from this chapter include:</p>
+<ol>
+<li><strong>Storage Engine Design</strong>: Different approaches to data storage, including in-memory, LSM trees, and B-trees</li>
+<li><strong>Query Processing</strong>: Transforming user requests into efficient execution plans</li>
+<li><strong>Concurrency Control</strong>: Ensuring data consistency with multiple clients</li>
+<li><strong>ACID Properties</strong>: Implementing atomicity, consistency, isolation, and durability</li>
+<li><strong>Buffer Management</strong>: Efficiently managing memory and disk I/O</li>
+<li><strong>Clean Architecture</strong>: Applying SOLID principles and design patterns</li>
+</ol>
+<p>Building a database from scratch provides deep insights into how these systems work and the tradeoffs involved in their design. The knowledge gained from this exercise can help you make better decisions when using existing databases and potentially implement specialized storage solutions for specific application needs.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li><strong>Extended Queries</strong>: Add support for range queries and aggregations (count, sum, etc.)</li>
+<li><strong>Secondary Indexes</strong>: Implement secondary indexes to speed up queries on non-key fields</li>
+<li><strong>Replication</strong>: Add primary-replica replication for high availability</li>
+<li><strong>Benchmarking</strong>: Create a benchmark suite to measure performance under different workloads</li>
+<li><strong>Client Library</strong>: Implement a client library for a language of your choice (Python, JavaScript, etc.)</li>
+<li><strong>Monitoring</strong>: Add monitoring capabilities for tracking performance and resource usage</li>
+<li><strong>Compression</strong>: Implement data compression to reduce storage requirements</li>
+<li><strong>TTL Support</strong>: Add time-to-live functionality for automatic key expiration</li>
+<li><strong>Schema Support</strong>: Extend the key-value store to support simple schemas and validation</li>
+<li><strong>CLI Improvements</strong>: Enhance the command-line interface with additional features</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://dataintensive.net/">Designing Data-Intensive Applications</a> by Martin Kleppmann</li>
+<li><a href="https://www.databass.dev/">Database Internals</a> by Alex Petrov</li>
+<li><a href="https://theartofpostgresql.com/">The Art of PostgreSQL</a> by Dimitri Fontaine</li>
+<li><a href="http://www.redbook.io/">Readings in Database Systems</a> (the “Red Book”)</li>
+<li><a href="https://github.com/rust-unofficial/awesome-rust#database-1">Rust-Based Database Libraries and Projects</a></li>
+<li><a href="https://github.com/google/leveldb/blob/main/doc/index.md">LevelDB Documentation</a> (a popular LSM-based key-value store)</li>
+<li><a href="https://github.com/facebook/rocksdb/wiki">RocksDB Wiki</a> (Facebook’s enhancement of LevelDB)</li>
+<li><a href="https://www.sqlite.org/docs.html">SQLite Documentation</a> (an embedded relational database)</li>
+</ul>
+<p>By applying the principles and patterns learned in this chapter, you can build robust, efficient database systems that meet the needs of modern applications while maintaining clean, maintainable code.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/37-interoperability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/39-game-development.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/37-interoperability.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/39-game-development.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

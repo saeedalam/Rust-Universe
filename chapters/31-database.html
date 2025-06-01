@@ -1,0 +1,3202 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Database Interaction - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/31-database.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-31-database-interaction"><a class="header" href="#chapter-31-database-interaction">Chapter 31: Database Interaction</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Data persistence is a fundamental requirement for most applications. Whether you’re building a web service, a desktop application, or an embedded system, the ability to store and retrieve data efficiently is crucial. Rust’s emphasis on performance, safety, and correctness makes it an excellent language for database interaction, where these qualities are particularly valuable.</p>
+<p>In this chapter, we’ll explore how to interact with databases in Rust. We’ll cover both relational databases (like PostgreSQL, MySQL, and SQLite) and NoSQL databases (like MongoDB and Redis). We’ll examine various approaches to database interaction, from raw clients to ORMs, and discuss the trade-offs between them.</p>
+<p>Rust’s type system provides unique advantages for database interaction. It allows for compile-time validation of SQL queries, type-safe data mapping, and elimination of common database-related errors. However, working with databases in Rust also presents challenges, particularly around handling dynamic queries and managing connections in an async environment.</p>
+<p>We’ll start with core database concepts and then dive into specific Rust crates like Diesel, SeaORM, and SQLx for relational databases, as well as options for NoSQL databases. We’ll explore connection pooling, transactions, migrations, and other essential topics for building robust data-driven applications.</p>
+<p>By the end of this chapter, you’ll have a comprehensive understanding of database interaction in Rust and the tools to build efficient, type-safe, and reliable data access layers for your applications.</p>
+<h2 id="database-concepts"><a class="header" href="#database-concepts">Database Concepts</a></h2>
+<p>Before diving into specific Rust database libraries, let’s review some core concepts that apply across different database systems and interaction approaches.</p>
+<h3 id="relational-vs-nosql-databases"><a class="header" href="#relational-vs-nosql-databases">Relational vs. NoSQL Databases</a></h3>
+<p><strong>Relational Databases</strong> organize data into tables with rows and columns, enforcing relationships between tables through foreign keys. They use SQL (Structured Query Language) for querying and manipulation. Examples include:</p>
+<ul>
+<li>PostgreSQL: Feature-rich, standards-compliant, and extensible</li>
+<li>MySQL/MariaDB: Popular for web applications</li>
+<li>SQLite: Embedded database that stores data in a single file</li>
+</ul>
+<p><strong>NoSQL Databases</strong> use various data models beyond the tabular relations of relational databases. They typically offer more flexibility, scalability, and performance for specific use cases. Major types include:</p>
+<ul>
+<li>Document databases (MongoDB): Store data in JSON-like documents</li>
+<li>Key-value stores (Redis): Simple storage of values indexed by keys</li>
+<li>Column-family stores (Cassandra): Optimized for queries over large datasets</li>
+<li>Graph databases (Neo4j): Specialized for representing network relationships</li>
+</ul>
+<p>The choice between relational and NoSQL databases depends on your application’s requirements:</p>
+<div class="table-wrapper"><table><thead><tr><th>Factor</th><th>Relational</th><th>NoSQL</th></tr></thead><tbody>
+<tr><td>Data structure</td><td>Well-defined schema</td><td>Flexible schema</td></tr>
+<tr><td>Consistency</td><td>Strong (ACID)</td><td>Often eventual (BASE)</td></tr>
+<tr><td>Query capabilities</td><td>Rich (SQL)</td><td>Varies by database</td></tr>
+<tr><td>Scaling</td><td>Vertical (with some horizontal)</td><td>Horizontal</td></tr>
+<tr><td>Use cases</td><td>Business transactions, complex queries</td><td>Large volumes, rapid changes, specific data models</td></tr>
+</tbody></table>
+</div>
+<h3 id="database-connection-management"><a class="header" href="#database-connection-management">Database Connection Management</a></h3>
+<p>Regardless of the database type, managing connections is a critical aspect of database interaction:</p>
+<ol>
+<li>
+<p><strong>Connection Establishment</strong>: Creating a connection to a database server involves network I/O and authentication, making it relatively expensive.</p>
+</li>
+<li>
+<p><strong>Connection Pooling</strong>: Reusing connections instead of creating new ones for each operation. This improves performance by:</p>
+<ul>
+<li>Reducing connection establishment overhead</li>
+<li>Limiting the number of concurrent connections</li>
+<li>Managing connection lifecycle</li>
+</ul>
+</li>
+<li>
+<p><strong>Connection Lifecycle</strong>: Properly opening, using, and closing connections to prevent resource leaks.</p>
+</li>
+</ol>
+<h3 id="transactions"><a class="header" href="#transactions">Transactions</a></h3>
+<p>Transactions group multiple database operations into a single logical unit, providing ACID properties:</p>
+<ul>
+<li><strong>Atomicity</strong>: All operations in a transaction succeed or all fail</li>
+<li><strong>Consistency</strong>: The database remains in a valid state before and after the transaction</li>
+<li><strong>Isolation</strong>: Concurrent transactions don’t interfere with each other</li>
+<li><strong>Durability</strong>: Completed transactions survive system failures</li>
+</ul>
+<p>In Rust, transactions are typically represented as objects that can be committed or rolled back.</p>
+<h3 id="query-building-and-execution"><a class="header" href="#query-building-and-execution">Query Building and Execution</a></h3>
+<p>Different approaches to building and executing database queries include:</p>
+<ol>
+<li>
+<p><strong>Raw Queries</strong>: Writing SQL strings directly</p>
+<ul>
+<li>Pros: Full control, no abstraction overhead</li>
+<li>Cons: No compile-time safety, manual parameter binding</li>
+</ul>
+</li>
+<li>
+<p><strong>Query Builders</strong>: Using code to construct queries</p>
+<ul>
+<li>Pros: Type safety, composability</li>
+<li>Cons: May not support all SQL features</li>
+</ul>
+</li>
+<li>
+<p><strong>Object-Relational Mapping (ORM)</strong>: Mapping database tables to Rust structs</p>
+<ul>
+<li>Pros: High-level abstractions, code-first approach</li>
+<li>Cons: Potential performance overhead, learning curve</li>
+</ul>
+</li>
+</ol>
+<h3 id="database-migrations"><a class="header" href="#database-migrations">Database Migrations</a></h3>
+<p>As applications evolve, their database schema must evolve too. Migrations are a way to manage schema changes:</p>
+<ol>
+<li><strong>Schema Versioning</strong>: Tracking the current state of the database schema</li>
+<li><strong>Migration Scripts</strong>: SQL or code that transforms the schema from one version to another</li>
+<li><strong>Migration Execution</strong>: Applying pending migrations to bring the database up to date</li>
+<li><strong>Rollback</strong>: Reverting to a previous schema version if needed</li>
+</ol>
+<h3 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h3>
+<p>Database operations can fail for various reasons:</p>
+<ul>
+<li>Connection issues</li>
+<li>Constraint violations</li>
+<li>Syntax errors</li>
+<li>Deadlocks</li>
+<li>Permission errors</li>
+</ul>
+<p>Effective error handling for database operations should:</p>
+<ul>
+<li>Distinguish between different error types</li>
+<li>Provide meaningful error messages</li>
+<li>Handle transient errors with appropriate retry strategies</li>
+<li>Properly clean up resources in error cases</li>
+</ul>
+<p>With these concepts in mind, let’s explore how Rust’s ecosystem addresses database interaction, starting with the popular Diesel ORM.</p>
+<h2 id="sql-with-diesel-orm"><a class="header" href="#sql-with-diesel-orm">SQL with Diesel ORM</a></h2>
+<p>Diesel is one of the most mature and widely used ORMs in the Rust ecosystem. It provides a type-safe interface for SQL databases, with compile-time checked queries and an emphasis on safety and performance.</p>
+<h3 id="key-features-of-diesel"><a class="header" href="#key-features-of-diesel">Key Features of Diesel</a></h3>
+<ol>
+<li><strong>Type Safety</strong>: Diesel leverages Rust’s type system to catch query errors at compile time.</li>
+<li><strong>Schema Management</strong>: Automatic generation of Rust code from database schema.</li>
+<li><strong>Query Builder</strong>: A DSL (Domain-Specific Language) for building SQL queries in a type-safe manner.</li>
+<li><strong>Migration Support</strong>: Tools for managing database schema changes.</li>
+<li><strong>Multiple Database Support</strong>: Works with PostgreSQL, MySQL, and SQLite.</li>
+</ol>
+<h3 id="setting-up-diesel"><a class="header" href="#setting-up-diesel">Setting Up Diesel</a></h3>
+<p>Let’s start by setting up Diesel in a new project:</p>
+<pre><code class="language-bash"># Install the Diesel CLI (with PostgreSQL support)
+cargo install diesel_cli --no-default-features --features postgres
+
+# Create a new project
+cargo new diesel_demo
+cd diesel_demo
+
+# Set up the database URL (replace with your actual credentials)
+echo DATABASE_URL=postgres://username:password@localhost/diesel_demo &gt; .env
+
+# Set up Diesel in the project
+diesel setup
+</code></pre>
+<p>This creates a <code>migrations</code> directory and a <code>diesel.toml</code> configuration file. It also creates a database if it doesn’t exist.</p>
+<h3 id="defining-the-schema"><a class="header" href="#defining-the-schema">Defining the Schema</a></h3>
+<p>Diesel uses a <code>schema.rs</code> file to represent your database schema. Let’s create a simple schema for a blog application:</p>
+<pre><code class="language-bash"># Create a new migration
+diesel migration generate create_posts
+</code></pre>
+<p>This creates two files in the <code>migrations</code> directory: <code>up.sql</code> and <code>down.sql</code>. Edit these files:</p>
+<pre><code class="language-sql">-- up.sql
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR NOT NULL,
+  body TEXT NOT NULL,
+  published BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- down.sql
+DROP TABLE posts;
+</code></pre>
+<p>Now run the migration:</p>
+<pre><code class="language-bash">diesel migration run
+</code></pre>
+<p>This creates the <code>posts</code> table and generates a <code>schema.rs</code> file:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/schema.rs (generated by Diesel)
+table! {
+    posts (id) {
+        id -&gt; Int4,
+        title -&gt; Varchar,
+        body -&gt; Text,
+        published -&gt; Bool,
+        created_at -&gt; Timestamp,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="defining-models"><a class="header" href="#defining-models">Defining Models</a></h3>
+<p>Next, let’s define models that correspond to our database tables:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/models.rs
+use crate::schema::posts;
+use diesel::prelude::*;
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = posts)]
+pub struct Post {
+    pub id: i32,
+    pub title: String,
+    pub body: String,
+    pub published: bool,
+    pub created_at: chrono::NaiveDateTime,
+}
+
+#[derive(Insertable)]
+#[diesel(table_name = posts)]
+pub struct NewPost&lt;'a&gt; {
+    pub title: &amp;'a str,
+    pub body: &amp;'a str,
+    pub published: bool,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>Queryable</code> trait indicates that this struct can be created from a database query result, while <code>Insertable</code> allows it to be inserted into the database.</p>
+<h3 id="establishing-database-connections"><a class="header" href="#establishing-database-connections">Establishing Database Connections</a></h3>
+<p>Diesel provides a <code>PgConnection</code> type for connecting to PostgreSQL:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+use diesel::pg::PgConnection;
+use diesel::prelude::*;
+use dotenvy::dotenv;
+use std::env;
+
+pub fn establish_connection() -&gt; PgConnection {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL")
+        .expect("DATABASE_URL must be set");
+
+    PgConnection::establish(&amp;database_url)
+        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="basic-crud-operations"><a class="header" href="#basic-crud-operations">Basic CRUD Operations</a></h3>
+<p>Now let’s implement basic CRUD (Create, Read, Update, Delete) operations:</p>
+<h4 id="creating-records"><a class="header" href="#creating-records">Creating Records</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+use self::models::{NewPost, Post};
+use diesel::prelude::*;
+
+pub fn create_post&lt;'a&gt;(
+    conn: &amp;mut PgConnection,
+    title: &amp;'a str,
+    body: &amp;'a str,
+    published: bool,
+) -&gt; Post {
+    use crate::schema::posts;
+
+    let new_post = NewPost {
+        title,
+        body,
+        published,
+    };
+
+    diesel::insert_into(posts::table)
+        .values(&amp;new_post)
+        .returning(Post::as_returning())
+        .get_result(conn)
+        .expect("Error saving new post")
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="reading-records"><a class="header" href="#reading-records">Reading Records</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+pub fn get_all_posts(conn: &amp;mut PgConnection) -&gt; Vec&lt;Post&gt; {
+    use crate::schema::posts::dsl::*;
+
+    posts
+        .filter(published.eq(true))
+        .order(created_at.desc())
+        .load::&lt;Post&gt;(conn)
+        .expect("Error loading posts")
+}
+
+pub fn get_post_by_id(conn: &amp;mut PgConnection, post_id: i32) -&gt; Option&lt;Post&gt; {
+    use crate::schema::posts::dsl::*;
+
+    posts
+        .find(post_id)
+        .first::&lt;Post&gt;(conn)
+        .optional()
+        .expect("Error loading post")
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="updating-records"><a class="header" href="#updating-records">Updating Records</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+pub fn publish_post(conn: &amp;mut PgConnection, post_id: i32) -&gt; Post {
+    use crate::schema::posts::dsl::{posts, published};
+
+    diesel::update(posts.find(post_id))
+        .set(published.eq(true))
+        .returning(Post::as_returning())
+        .get_result(conn)
+        .expect("Error publishing post")
+}
+
+pub fn update_post_title(
+    conn: &amp;mut PgConnection,
+    post_id: i32,
+    new_title: &amp;str,
+) -&gt; Post {
+    use crate::schema::posts::dsl::{posts, title};
+
+    diesel::update(posts.find(post_id))
+        .set(title.eq(new_title))
+        .returning(Post::as_returning())
+        .get_result(conn)
+        .expect("Error updating post title")
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="deleting-records"><a class="header" href="#deleting-records">Deleting Records</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+pub fn delete_post(conn: &amp;mut PgConnection, post_id: i32) -&gt; usize {
+    use crate::schema::posts::dsl::*;
+
+    diesel::delete(posts.find(post_id))
+        .execute(conn)
+        .expect("Error deleting post")
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="advanced-query-operations"><a class="header" href="#advanced-query-operations">Advanced Query Operations</a></h3>
+<p>Diesel provides a rich DSL for building complex queries:</p>
+<h4 id="filtering"><a class="header" href="#filtering">Filtering</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Filter with multiple conditions
+posts
+    .filter(published.eq(true))
+    .filter(title.like("%Rust%"))
+    .load::&lt;Post&gt;(conn)
+<span class="boring">}</span></code></pre></pre>
+<h4 id="joining-tables"><a class="header" href="#joining-tables">Joining Tables</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Assuming we have users and posts tables with a relationship
+use schema::{users, posts};
+
+// Join users and posts
+users::table
+    .inner_join(posts::table)
+    .filter(posts::published.eq(true))
+    .select((users::name, posts::title))
+    .load::&lt;(String, String)&gt;(conn)
+<span class="boring">}</span></code></pre></pre>
+<h4 id="aggregation"><a class="header" href="#aggregation">Aggregation</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Count posts by user
+use diesel::dsl::count;
+
+posts::table
+    .group_by(posts::user_id)
+    .select((posts::user_id, count(posts::id)))
+    .load::&lt;(i32, i64)&gt;(conn)
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-transactions"><a class="header" href="#using-transactions">Using Transactions</a></h3>
+<p>Diesel supports database transactions for grouping operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+pub fn transfer_post_ownership(
+    conn: &amp;mut PgConnection,
+    post_id: i32,
+    new_user_id: i32,
+) -&gt; Result&lt;(), diesel::result::Error&gt; {
+    conn.transaction(|conn| {
+        // Update the post's user_id
+        diesel::update(posts::table.find(post_id))
+            .set(posts::user_id.eq(new_user_id))
+            .execute(conn)?;
+
+        // Update the post count for the new user
+        diesel::update(users::table.find(new_user_id))
+            .set(users::post_count.eq(users::post_count + 1))
+            .execute(conn)?;
+
+        Ok(())
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="migrations-with-diesel"><a class="header" href="#migrations-with-diesel">Migrations with Diesel</a></h3>
+<p>Diesel provides a robust migration system for evolving your database schema:</p>
+<pre><code class="language-bash"># Create a new migration
+diesel migration generate add_user_id_to_posts
+
+# Edit the migration files
+</code></pre>
+<pre><code class="language-sql">-- up.sql
+ALTER TABLE posts ADD COLUMN user_id INTEGER REFERENCES users(id);
+
+-- down.sql
+ALTER TABLE posts DROP COLUMN user_id;
+</code></pre>
+<pre><code class="language-bash"># Run the migration
+diesel migration run
+
+# Revert the migration if needed
+diesel migration revert
+</code></pre>
+<h3 id="diesel-with-connection-pooling"><a class="header" href="#diesel-with-connection-pooling">Diesel with Connection Pooling</a></h3>
+<p>For applications that handle multiple concurrent requests, connection pooling is essential:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lib.rs
+use diesel::r2d2::{self, ConnectionManager};
+use diesel::PgConnection;
+
+// Define a type alias for the connection pool
+pub type Pool = r2d2::Pool&lt;ConnectionManager&lt;PgConnection&gt;&gt;;
+
+pub fn create_pool(database_url: &amp;str) -&gt; Pool {
+    let manager = ConnectionManager::&lt;PgConnection&gt;::new(database_url);
+    r2d2::Pool::builder()
+        .max_size(15)
+        .build(manager)
+        .expect("Failed to create pool")
+}
+
+// Using the pool
+pub fn get_all_posts_with_pool(pool: &amp;Pool) -&gt; Vec&lt;Post&gt; {
+    use crate::schema::posts::dsl::*;
+
+    let mut conn = pool.get().expect("Couldn't get connection from pool");
+
+    posts
+        .filter(published.eq(true))
+        .order(created_at.desc())
+        .load::&lt;Post&gt;(&amp;mut conn)
+        .expect("Error loading posts")
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="async-diesel"><a class="header" href="#async-diesel">Async Diesel</a></h3>
+<p>The main Diesel crate is synchronous, but there’s <code>diesel-async</code> for asynchronous database operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Cargo.toml
+[dependencies]
+diesel-async = { version = "0.3", features = ["postgres", "bb8"] }
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use diesel_async::{
+    AsyncPgConnection,
+    AsyncConnection,
+    RunQueryDsl,
+    pooled_connection::bb8::{Pool, ConnectionManager},
+};
+
+// Create an async connection
+let mut conn = AsyncPgConnection::establish(&amp;database_url).await?;
+
+// Or create an async connection pool
+let config = ConnectionManager::new(database_url);
+let pool = Pool::builder().build(config).await?;
+
+// Use the connection
+let results = posts::table
+    .limit(5)
+    .load::&lt;Post&gt;(&amp;mut conn)
+    .await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="best-practices-with-diesel"><a class="header" href="#best-practices-with-diesel">Best Practices with Diesel</a></h3>
+<ol>
+<li><strong>Use the Repository Pattern</strong>: Encapsulate database operations in repository structs.</li>
+<li><strong>Leverage Diesel’s Type System</strong>: Use Diesel’s types for database operations rather than raw strings.</li>
+<li><strong>Handle Errors Properly</strong>: Use Result types and propagate errors up the call stack.</li>
+<li><strong>Write Database Tests</strong>: Test your database code with a test database.</li>
+<li><strong>Keep Migrations Simple</strong>: Each migration should make a small, focused change.</li>
+<li><strong>Use Connection Pooling</strong>: Reuse connections for better performance.</li>
+<li><strong>Be Careful with N+1 Queries</strong>: Use eager loading with <code>joins</code> to avoid multiple queries.</li>
+</ol>
+<h3 id="limitations-of-diesel"><a class="header" href="#limitations-of-diesel">Limitations of Diesel</a></h3>
+<p>While Diesel is powerful, it has some limitations:</p>
+<ol>
+<li><strong>Learning Curve</strong>: Diesel’s DSL can be complex to learn.</li>
+<li><strong>Limited Database Support</strong>: Currently only supports PostgreSQL, MySQL, and SQLite.</li>
+<li><strong>Compile Times</strong>: Can increase compile times due to macro expansion.</li>
+<li><strong>Dynamic Queries</strong>: Building truly dynamic queries can be challenging.</li>
+<li><strong>Async Support</strong>: Native async support requires a separate crate.</li>
+</ol>
+<p>Despite these limitations, Diesel remains one of the most robust ORMs for Rust, providing excellent compile-time safety and performance.</p>
+<h2 id="seaorm-and-sqlx"><a class="header" href="#seaorm-and-sqlx">SeaORM and SQLx</a></h2>
+<p>While Diesel offers a comprehensive ORM experience with a focus on compile-time safety, it may not fit all use cases, particularly those requiring async support or more flexibility. Let’s explore two alternatives: SeaORM and SQLx.</p>
+<h3 id="sqlx-a-rust-sql-toolkit"><a class="header" href="#sqlx-a-rust-sql-toolkit">SQLx: A Rust SQL Toolkit</a></h3>
+<p>SQLx is a pure Rust SQL crate designed from the ground up for async Rust with compile-time checked queries. Unlike traditional ORMs, SQLx focuses on being a lightweight toolkit that lets you write SQL directly while still providing type safety.</p>
+<h4 id="key-features-of-sqlx"><a class="header" href="#key-features-of-sqlx">Key Features of SQLx</a></h4>
+<ol>
+<li><strong>Compile-Time Checked Queries</strong>: Verifies SQL queries against your database schema at compile time.</li>
+<li><strong>Native Async Support</strong>: Built for async Rust from the beginning.</li>
+<li><strong>Minimal Runtime Overhead</strong>: Direct SQL queries with minimal abstraction.</li>
+<li><strong>Multiple Database Support</strong>: Works with PostgreSQL, MySQL, SQLite, and Microsoft SQL Server.</li>
+<li><strong>Macro-Based Approach</strong>: Uses macros like <code>query!</code> and <code>query_as!</code> for type-safe queries.</li>
+</ol>
+<h4 id="setting-up-sqlx"><a class="header" href="#setting-up-sqlx">Setting Up SQLx</a></h4>
+<p>Let’s set up a project with SQLx:</p>
+<pre><code class="language-bash"># Create a new project
+cargo new sqlx_demo
+cd sqlx_demo
+
+# Install the SQLx CLI
+cargo install sqlx-cli
+
+# Create a .env file with the database URL
+echo DATABASE_URL=postgres://username:password@localhost/sqlx_demo &gt; .env
+
+# Create the database
+sqlx database create
+</code></pre>
+<p>Update <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid", "json"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+</code></pre>
+<h4 id="executing-queries-with-sqlx"><a class="header" href="#executing-queries-with-sqlx">Executing Queries with SQLx</a></h4>
+<p>SQLx offers several ways to execute queries, from raw SQL to compile-time checked queries:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sqlx::{postgres::PgPoolOptions, PgPool};
+use anyhow::Result;
+
+// Create a connection pool
+async fn create_pool() -&gt; Result&lt;PgPool&gt; {
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&amp;std::env::var("DATABASE_URL")?)
+        .await?;
+
+    Ok(pool)
+}
+
+// Execute a simple query
+async fn create_posts_table(pool: &amp;PgPool) -&gt; Result&lt;()&gt; {
+    sqlx::query(
+        r#"
+        CREATE TABLE IF NOT EXISTS posts (
+            id SERIAL PRIMARY KEY,
+            title TEXT NOT NULL,
+            body TEXT NOT NULL,
+            published BOOLEAN NOT NULL DEFAULT FALSE,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+        "#,
+    )
+    .execute(pool)
+    .await?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="using-sqlxs-compile-time-checked-queries"><a class="header" href="#using-sqlxs-compile-time-checked-queries">Using SQLx’s Compile-Time Checked Queries</a></h4>
+<p>One of SQLx’s standout features is its ability to check queries against your database schema at compile time:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sqlx::{PgPool, FromRow};
+use anyhow::Result;
+
+#[derive(Debug, FromRow)]
+struct Post {
+    id: i32,
+    title: String,
+    body: String,
+    published: bool,
+    created_at: chrono::DateTime&lt;chrono::Utc&gt;,
+}
+
+async fn create_post(
+    pool: &amp;PgPool,
+    title: &amp;str,
+    body: &amp;str,
+) -&gt; Result&lt;Post&gt; {
+    // This query is checked against the database at compile time
+    let post = sqlx::query_as!(
+        Post,
+        r#"
+        INSERT INTO posts (title, body)
+        VALUES ($1, $2)
+        RETURNING *
+        "#,
+        title,
+        body
+    )
+    .fetch_one(pool)
+    .await?;
+
+    Ok(post)
+}
+
+async fn get_post_by_id(pool: &amp;PgPool, id: i32) -&gt; Result&lt;Option&lt;Post&gt;&gt; {
+    let post = sqlx::query_as!(
+        Post,
+        "SELECT * FROM posts WHERE id = $1",
+        id
+    )
+    .fetch_optional(pool)
+    .await?;
+
+    Ok(post)
+}
+
+async fn get_published_posts(pool: &amp;PgPool) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
+    let posts = sqlx::query_as!(
+        Post,
+        r#"
+        SELECT * FROM posts
+        WHERE published = true
+        ORDER BY created_at DESC
+        "#
+    )
+    .fetch_all(pool)
+    .await?;
+
+    Ok(posts)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For these compile-time checks to work, SQLx needs access to your database during compilation. You can set this up by running:</p>
+<pre><code class="language-bash"># Generate a sqlx-data.json file with query metadata
+cargo sqlx prepare -- --lib
+</code></pre>
+<p>This creates a <code>sqlx-data.json</code> file that caches the database schema, allowing compile-time checks without a database connection during builds.</p>
+<h4 id="working-with-transactions"><a class="header" href="#working-with-transactions">Working with Transactions</a></h4>
+<p>SQLx provides a simple API for working with transactions:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn transfer_post_ownership(
+    pool: &amp;PgPool,
+    post_id: i32,
+    new_user_id: i32,
+) -&gt; Result&lt;()&gt; {
+    // Begin a transaction
+    let mut tx = pool.begin().await?;
+
+    // Update the post's user_id
+    sqlx::query!(
+        "UPDATE posts SET user_id = $1 WHERE id = $2",
+        new_user_id,
+        post_id
+    )
+    .execute(&amp;mut *tx)
+    .await?;
+
+    // Update the post count for the new user
+    sqlx::query!(
+        "UPDATE users SET post_count = post_count + 1 WHERE id = $1",
+        new_user_id
+    )
+    .execute(&amp;mut *tx)
+    .await?;
+
+    // Commit the transaction
+    tx.commit().await?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="migrations-with-sqlx"><a class="header" href="#migrations-with-sqlx">Migrations with SQLx</a></h4>
+<p>SQLx provides a built-in migration system:</p>
+<pre><code class="language-bash"># Create a new migration
+sqlx migrate add create_users_table
+
+# Edit the migration file in migrations/[timestamp]_create_users_table.sql
+</code></pre>
+<pre><code class="language-sql">-- Create users table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    post_count INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+</code></pre>
+<pre><code class="language-bash"># Run migrations
+sqlx migrate run
+</code></pre>
+<h4 id="advanced-sqlx-features"><a class="header" href="#advanced-sqlx-features">Advanced SQLx Features</a></h4>
+<p>SQLx provides several advanced features for working with databases:</p>
+<h5 id="json-support"><a class="header" href="#json-support">JSON Support</a></h5>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use serde::{Serialize, Deserialize};
+use sqlx::{types::Json, PgPool};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Metadata {
+    tags: Vec&lt;String&gt;,
+    views: i32,
+    likes: i32,
+}
+
+async fn create_post_with_metadata(
+    pool: &amp;PgPool,
+    title: &amp;str,
+    body: &amp;str,
+    metadata: Metadata,
+) -&gt; Result&lt;i32&gt; {
+    let id = sqlx::query!(
+        r#"
+        INSERT INTO posts (title, body, metadata)
+        VALUES ($1, $2, $3)
+        RETURNING id
+        "#,
+        title,
+        body,
+        Json(metadata) as _
+    )
+    .fetch_one(pool)
+    .await?
+    .id;
+
+    Ok(id)
+}
+<span class="boring">}</span></code></pre></pre>
+<h5 id="batch-operations"><a class="header" href="#batch-operations">Batch Operations</a></h5>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::TryStreamExt;
+
+async fn publish_multiple_posts(
+    pool: &amp;PgPool,
+    post_ids: &amp;[i32],
+) -&gt; Result&lt;()&gt; {
+    // Prepare the query
+    let query = sqlx::query!(
+        "UPDATE posts SET published = true WHERE id = $1",
+    );
+
+    // Execute for each post ID
+    for id in post_ids {
+        query.bind(id).execute(pool).await?;
+    }
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="seaorm-an-async-orm-for-rust"><a class="header" href="#seaorm-an-async-orm-for-rust">SeaORM: An Async ORM for Rust</a></h3>
+<p>SeaORM is a relatively new async ORM designed specifically for Rust. It provides a more traditional ORM experience compared to SQLx, with entity definitions, relations, and a query builder.</p>
+<h4 id="key-features-of-seaorm"><a class="header" href="#key-features-of-seaorm">Key Features of SeaORM</a></h4>
+<ol>
+<li><strong>Async First</strong>: Built from the ground up for async Rust.</li>
+<li><strong>Entity Generation</strong>: Automatically generate Rust code from database schema.</li>
+<li><strong>Relationship Support</strong>: Define and query relationships between entities.</li>
+<li><strong>Migration Support</strong>: Schema migration system.</li>
+<li><strong>Multiple Database Support</strong>: Works with PostgreSQL, MySQL, and SQLite.</li>
+</ol>
+<h4 id="setting-up-seaorm"><a class="header" href="#setting-up-seaorm">Setting Up SeaORM</a></h4>
+<p>Let’s set up a project with SeaORM:</p>
+<pre><code class="language-bash"># Create a new project
+cargo new seaorm_demo
+cd seaorm_demo
+
+# Create a .env file with the database URL
+echo DATABASE_URL=postgres://username:password@localhost/seaorm_demo &gt; .env
+</code></pre>
+<p>Update <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+sea-orm = { version = "0.12", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+dotenv = "0.15"
+async-std = { version = "1", features = ["attributes", "tokio1"] }
+</code></pre>
+<h4 id="using-seaorms-entity-generator"><a class="header" href="#using-seaorms-entity-generator">Using SeaORM’s Entity Generator</a></h4>
+<p>SeaORM provides a CLI tool to generate entity files from an existing database:</p>
+<pre><code class="language-bash"># Install the SeaORM CLI
+cargo install sea-orm-cli
+
+# Generate entity files
+sea-orm-cli generate entity -o src/entities
+</code></pre>
+<p>This generates Rust code for each table in your database, with entity definitions, column information, and relationship metadata.</p>
+<h4 id="basic-crud-operations-with-seaorm"><a class="header" href="#basic-crud-operations-with-seaorm">Basic CRUD Operations with SeaORM</a></h4>
+<p>Using the generated entities, you can perform CRUD operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sea_orm::{Database, DatabaseConnection, EntityTrait, Set, ActiveModelTrait};
+use crate::entities::{posts, posts::Entity as Posts};
+use dotenv::dotenv;
+
+async fn establish_connection() -&gt; Result&lt;DatabaseConnection, sea_orm::DbErr&gt; {
+    dotenv().ok();
+    let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let db = Database::connect(database_url).await?;
+    Ok(db)
+}
+
+// Create a new post
+async fn create_post(
+    db: &amp;DatabaseConnection,
+    title: &amp;str,
+    body: &amp;str,
+) -&gt; Result&lt;posts::Model, sea_orm::DbErr&gt; {
+    // Create an active model
+    let new_post = posts::ActiveModel {
+        title: Set(title.to_owned()),
+        body: Set(body.to_owned()),
+        published: Set(false),
+        ..Default::default()
+    };
+
+    // Insert the post
+    let post = new_post.insert(db).await?;
+
+    Ok(post)
+}
+
+// Read posts
+async fn get_all_posts(db: &amp;DatabaseConnection) -&gt; Result&lt;Vec&lt;posts::Model&gt;, sea_orm::DbErr&gt; {
+    Posts::find().all(db).await
+}
+
+async fn get_post_by_id(
+    db: &amp;DatabaseConnection,
+    id: i32,
+) -&gt; Result&lt;Option&lt;posts::Model&gt;, sea_orm::DbErr&gt; {
+    Posts::find_by_id(id).one(db).await
+}
+
+// Update a post
+async fn publish_post(
+    db: &amp;DatabaseConnection,
+    id: i32,
+) -&gt; Result&lt;posts::Model, sea_orm::DbErr&gt; {
+    // Find the post
+    let post = Posts::find_by_id(id)
+        .one(db)
+        .await?
+        .ok_or_else(|| sea_orm::DbErr::Custom("Post not found".to_owned()))?;
+
+    // Convert to active model
+    let mut post: posts::ActiveModel = post.into();
+
+    // Update the published field
+    post.published = Set(true);
+
+    // Save changes
+    let updated_post = post.update(db).await?;
+
+    Ok(updated_post)
+}
+
+// Delete a post
+async fn delete_post(
+    db: &amp;DatabaseConnection,
+    id: i32,
+) -&gt; Result&lt;(), sea_orm::DbErr&gt; {
+    let post = posts::ActiveModel {
+        id: Set(id),
+        ..Default::default()
+    };
+
+    post.delete(db).await?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="working-with-relationships"><a class="header" href="#working-with-relationships">Working with Relationships</a></h4>
+<p>SeaORM supports defining and querying relationships between entities:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sea_orm::{EntityTrait, ModelTrait, RelationTrait};
+use crate::entities::{posts, users, prelude::*};
+
+// Find all posts by a user
+async fn find_posts_by_user(
+    db: &amp;DatabaseConnection,
+    user_id: i32,
+) -&gt; Result&lt;Vec&lt;posts::Model&gt;, sea_orm::DbErr&gt; {
+    // Find the user
+    let user = Users::find_by_id(user_id).one(db).await?;
+
+    if let Some(user) = user {
+        // Find related posts
+        let posts = user.find_related(Posts).all(db).await?;
+        Ok(posts)
+    } else {
+        Ok(vec![])
+    }
+}
+
+// Find users with their posts
+async fn find_users_with_posts(
+    db: &amp;DatabaseConnection,
+) -&gt; Result&lt;Vec&lt;(users::Model, Vec&lt;posts::Model&gt;)&gt;, sea_orm::DbErr&gt; {
+    // Find all users with related posts
+    Users::find()
+        .find_with_related(Posts)
+        .all(db)
+        .await
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="advanced-queries-with-seaorm"><a class="header" href="#advanced-queries-with-seaorm">Advanced Queries with SeaORM</a></h4>
+<p>SeaORM provides a query builder for complex queries:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sea_orm::{
+    EntityTrait, QueryFilter, QueryOrder, ColumnTrait, Condition,
+    query::*,
+};
+use crate::entities::{posts, posts::Column};
+
+async fn find_posts_with_filters(
+    db: &amp;DatabaseConnection,
+    search_term: Option&lt;&amp;str&gt;,
+    published_only: bool,
+    sort_by: &amp;str,
+    limit: u64,
+    offset: u64,
+) -&gt; Result&lt;Vec&lt;posts::Model&gt;, sea_orm::DbErr&gt; {
+    // Start building the query
+    let mut query = Posts::find();
+
+    // Add filters
+    let mut condition = Condition::all();
+
+    if let Some(term) = search_term {
+        condition = condition.add(
+            Column::Title.contains(term).or(Column::Body.contains(term))
+        );
+    }
+
+    if published_only {
+        condition = condition.add(Column::Published.eq(true));
+    }
+
+    query = query.filter(condition);
+
+    // Add sorting
+    match sort_by {
+        "title" =&gt; query = query.order_by_asc(Column::Title),
+        "created_at_desc" =&gt; query = query.order_by_desc(Column::CreatedAt),
+        _ =&gt; query = query.order_by_desc(Column::CreatedAt),
+    }
+
+    // Add pagination
+    query = query.limit(limit).offset(offset);
+
+    // Execute the query
+    query.all(db).await
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="transactions-in-seaorm"><a class="header" href="#transactions-in-seaorm">Transactions in SeaORM</a></h4>
+<p>SeaORM supports transactions for grouping operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sea_orm::{DatabaseConnection, DbErr, TransactionTrait};
+use crate::entities::{posts, users, prelude::*};
+
+async fn transfer_post_ownership(
+    db: &amp;DatabaseConnection,
+    post_id: i32,
+    new_user_id: i32,
+) -&gt; Result&lt;(), DbErr&gt; {
+    // Start a transaction
+    let txn = db.begin().await?;
+
+    // Update the post's user_id
+    let post = Posts::find_by_id(post_id)
+        .one(&amp;txn)
+        .await?
+        .ok_or_else(|| DbErr::Custom("Post not found".to_owned()))?;
+
+    let mut post: posts::ActiveModel = post.into();
+    post.user_id = Set(Some(new_user_id));
+    post.update(&amp;txn).await?;
+
+    // Update the user's post count
+    let user = Users::find_by_id(new_user_id)
+        .one(&amp;txn)
+        .await?
+        .ok_or_else(|| DbErr::Custom("User not found".to_owned()))?;
+
+    let mut user: users::ActiveModel = user.into();
+    user.post_count = Set(user.post_count.unwrap_or(0) + 1);
+    user.update(&amp;txn).await?;
+
+    // Commit the transaction
+    txn.commit().await?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="migrations-with-seaorm"><a class="header" href="#migrations-with-seaorm">Migrations with SeaORM</a></h4>
+<p>SeaORM provides a migration system through the <code>sea-orm-migration</code> crate:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sea_orm_migration::prelude::*;
+
+#[derive(DeriveMigrationName)]
+pub struct Migration;
+
+#[async_trait::async_trait]
+impl MigrationTrait for Migration {
+    async fn up(&amp;self, manager: &amp;SchemaManager) -&gt; Result&lt;(), DbErr&gt; {
+        manager
+            .create_table(
+                Table::create()
+                    .table(Users::Table)
+                    .if_not_exists()
+                    .col(
+                        ColumnDef::new(Users::Id)
+                            .integer()
+                            .not_null()
+                            .auto_increment()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Users::Username).string().not_null())
+                    .col(ColumnDef::new(Users::Email).string().not_null())
+                    .col(ColumnDef::new(Users::PostCount).integer().not_null().default(0))
+                    .col(ColumnDef::new(Users::CreatedAt).timestamp().not_null())
+                    .to_owned(),
+            )
+            .await
+    }
+
+    async fn down(&amp;self, manager: &amp;SchemaManager) -&gt; Result&lt;(), DbErr&gt; {
+        manager
+            .drop_table(Table::drop().table(Users::Table).to_owned())
+            .await
+    }
+}
+
+/// Learn more at https://docs.rs/sea-query#iden
+#[derive(Iden)]
+enum Users {
+    Table,
+    Id,
+    Username,
+    Email,
+    PostCount,
+    CreatedAt,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="comparing-sqlx-and-seaorm"><a class="header" href="#comparing-sqlx-and-seaorm">Comparing SQLx and SeaORM</a></h3>
+<p>Both SQLx and SeaORM offer async-first approaches to database interaction in Rust, but they serve different needs:</p>
+<div class="table-wrapper"><table><thead><tr><th>Feature</th><th>SQLx</th><th>SeaORM</th></tr></thead><tbody>
+<tr><td>Approach</td><td>SQL-first toolkit</td><td>Traditional ORM</td></tr>
+<tr><td>Abstraction Level</td><td>Low (direct SQL)</td><td>High (entities, relations)</td></tr>
+<tr><td>Query Building</td><td>SQL strings with macros</td><td>Rust API query builder</td></tr>
+<tr><td>Type Safety</td><td>Compile-time checked SQL</td><td>Type-safe entity APIs</td></tr>
+<tr><td>Learning Curve</td><td>Lower (if familiar with SQL)</td><td>Higher (ORM concepts)</td></tr>
+<tr><td>Best For</td><td>Direct SQL control, performance-critical code</td><td>Complex object models, relationships</td></tr>
+</tbody></table>
+</div>
+<p>Choose SQLx when:</p>
+<ul>
+<li>You want direct control over SQL queries</li>
+<li>Performance is critical</li>
+<li>Your application has simple data access patterns</li>
+<li>You’re comfortable writing raw SQL</li>
+</ul>
+<p>Choose SeaORM when:</p>
+<ul>
+<li>You want higher-level abstractions</li>
+<li>Your application has complex object relationships</li>
+<li>You prefer a code-first approach to database access</li>
+<li>You want automatic entity generation from your schema</li>
+</ul>
+<h3 id="best-practices-for-sqlx-and-seaorm"><a class="header" href="#best-practices-for-sqlx-and-seaorm">Best Practices for SQLx and SeaORM</a></h3>
+<h4 id="sqlx-best-practices"><a class="header" href="#sqlx-best-practices">SQLx Best Practices</a></h4>
+<ol>
+<li><strong>Use <code>query!</code> and <code>query_as!</code> Macros</strong>: These provide compile-time query checking.</li>
+<li><strong>Separate SQL Logic</strong>: Keep complex SQL queries in dedicated modules.</li>
+<li><strong>Handle Errors Properly</strong>: Use <code>anyhow</code> or custom error types for better error handling.</li>
+<li><strong>Connection Pooling</strong>: Always use connection pools for web applications.</li>
+<li><strong>Parameter Binding</strong>: Never build queries through string concatenation.</li>
+<li><strong>Use Prepared Statements</strong>: They offer better performance and security.</li>
+</ol>
+<h4 id="seaorm-best-practices"><a class="header" href="#seaorm-best-practices">SeaORM Best Practices</a></h4>
+<ol>
+<li><strong>Define Relationships Properly</strong>: Use the correct relation types (has one, has many, etc.).</li>
+<li><strong>Use Transactions</strong>: Group related operations in transactions.</li>
+<li><strong>Lazy Loading vs. Eager Loading</strong>: Choose the appropriate loading strategy for relationships.</li>
+<li><strong>Batch Operations</strong>: Use batch insert/update for multiple records.</li>
+<li><strong>Follow Repository Pattern</strong>: Encapsulate database access in repository structs.</li>
+<li><strong>Entity Versioning</strong>: Track schema changes with migrations.</li>
+</ol>
+<h2 id="nosql-options-in-rust"><a class="header" href="#nosql-options-in-rust">NoSQL Options in Rust</a></h2>
+<p>While relational databases are widely used for structured data, NoSQL databases offer alternatives optimized for specific use cases. In this section, we’ll explore two popular NoSQL options in Rust: MongoDB for document storage and Redis for key-value storage.</p>
+<h3 id="mongodb-with-rust"><a class="header" href="#mongodb-with-rust">MongoDB with Rust</a></h3>
+<p>MongoDB is a document-oriented database that stores data in flexible, JSON-like documents. It’s well-suited for applications with evolving data requirements and complex hierarchical data structures.</p>
+<h4 id="key-features-of-mongodb"><a class="header" href="#key-features-of-mongodb">Key Features of MongoDB</a></h4>
+<ol>
+<li><strong>Document Model</strong>: Flexible schema with nested data structures</li>
+<li><strong>Horizontal Scalability</strong>: Built for distributed deployment</li>
+<li><strong>Rich Query Language</strong>: Supports complex queries, aggregations, and indexes</li>
+<li><strong>High Availability</strong>: Replication and automatic failover</li>
+<li><strong>ACID Transactions</strong>: Support for multi-document transactions</li>
+</ol>
+<h4 id="mongodb-rust-driver"><a class="header" href="#mongodb-rust-driver">MongoDB Rust Driver</a></h4>
+<p>The official MongoDB Rust driver provides an idiomatic Rust API for interacting with MongoDB:</p>
+<pre><code class="language-toml"># Cargo.toml
+[dependencies]
+mongodb = "2.6"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+futures = "0.3"
+bson = { version = "2.6", features = ["chrono-0_4"] }
+chrono = "0.4"
+</code></pre>
+<h4 id="setting-up-mongodb-connection"><a class="header" href="#setting-up-mongodb-connection">Setting Up MongoDB Connection</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use mongodb::{Client, options::ClientOptions};
+use anyhow::Result;
+
+async fn connect_to_mongodb() -&gt; Result&lt;Client&gt; {
+    // Parse a connection string into an options struct
+    let mut client_options = ClientOptions::parse("mongodb://localhost:27017").await?;
+
+    // Configure client options
+    client_options.app_name = Some("my-rust-app".to_string());
+
+    // Create a new client
+    let client = Client::with_options(client_options)?;
+
+    // Ping the server to check connection
+    client
+        .database("admin")
+        .run_command(bson::doc! {"ping": 1}, None)
+        .await?;
+
+    println!("Connected to MongoDB!");
+
+    Ok(client)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="defining-document-models"><a class="header" href="#defining-document-models">Defining Document Models</a></h4>
+<p>Use Serde for serializing and deserializing BSON documents:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use serde::{Serialize, Deserialize};
+use bson::{oid::ObjectId, DateTime};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Post {
+    #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
+    id: Option&lt;ObjectId&gt;,
+    title: String,
+    body: String,
+    published: bool,
+    #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
+    created_at: chrono::DateTime&lt;chrono::Utc&gt;,
+    tags: Vec&lt;String&gt;,
+    view_count: i32,
+    comments: Vec&lt;Comment&gt;,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Comment {
+    author: String,
+    content: String,
+    #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
+    created_at: chrono::DateTime&lt;chrono::Utc&gt;,
+}
+
+// Create a repository for posts
+struct PostRepository {
+    collection: mongodb::Collection&lt;Post&gt;,
+}
+
+impl PostRepository {
+    fn new(database: &amp;mongodb::Database) -&gt; Self {
+        Self {
+            collection: database.collection("posts"),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="basic-crud-operations-1"><a class="header" href="#basic-crud-operations-1">Basic CRUD Operations</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use mongodb::{
+    bson::{doc, oid::ObjectId},
+    options::{FindOneOptions, FindOptions},
+    Collection,
+};
+use futures::stream::TryStreamExt;
+
+impl PostRepository {
+    // Create a new post
+    async fn create_post(&amp;self, post: Post) -&gt; Result&lt;ObjectId&gt; {
+        let result = self.collection.insert_one(post, None).await?;
+        Ok(result.inserted_id.as_object_id().unwrap())
+    }
+
+    // Find post by ID
+    async fn find_by_id(&amp;self, id: &amp;ObjectId) -&gt; Result&lt;Option&lt;Post&gt;&gt; {
+        let post = self.collection
+            .find_one(doc! { "_id": id }, None)
+            .await?;
+
+        Ok(post)
+    }
+
+    // Find all posts, possibly filtered
+    async fn find_posts(
+        &amp;self,
+        filter: Option&lt;bson::Document&gt;,
+        limit: Option&lt;i64&gt;,
+    ) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
+        let options = FindOptions::builder()
+            .limit(limit)
+            .sort(doc! { "created_at": -1 })
+            .build();
+
+        let filter = filter.unwrap_or_else(|| doc! {});
+
+        let cursor = self.collection.find(filter, options).await?;
+        let posts = cursor.try_collect().await?;
+
+        Ok(posts)
+    }
+
+    // Update a post
+    async fn update_post(&amp;self, id: &amp;ObjectId, update: bson::Document) -&gt; Result&lt;bool&gt; {
+        let result = self.collection
+            .update_one(doc! { "_id": id }, update, None)
+            .await?;
+
+        Ok(result.modified_count &gt; 0)
+    }
+
+    // Delete a post
+    async fn delete_post(&amp;self, id: &amp;ObjectId) -&gt; Result&lt;bool&gt; {
+        let result = self.collection
+            .delete_one(doc! { "_id": id }, None)
+            .await?;
+
+        Ok(result.deleted_count &gt; 0)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="working-with-embedded-documents"><a class="header" href="#working-with-embedded-documents">Working with Embedded Documents</a></h4>
+<p>One of MongoDB’s strengths is handling nested document structures:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Add a comment to a post
+async fn add_comment(
+    &amp;self,
+    post_id: &amp;ObjectId,
+    author: String,
+    content: String,
+) -&gt; Result&lt;bool&gt; {
+    let comment = Comment {
+        author,
+        content,
+        created_at: chrono::Utc::now(),
+    };
+
+    let result = self.collection
+        .update_one(
+            doc! { "_id": post_id },
+            doc! { "$push": { "comments": bson::to_bson(&amp;comment)? } },
+            None,
+        )
+        .await?;
+
+    Ok(result.modified_count &gt; 0)
+}
+
+// Find posts with a comment by a specific author
+async fn find_posts_with_comment_by_author(
+    &amp;self,
+    author: &amp;str,
+) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
+    let filter = doc! {
+        "comments": {
+            "$elemMatch": {
+                "author": author
+            }
+        }
+    };
+
+    self.find_posts(Some(filter), None).await
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="complex-queries-and-aggregation"><a class="header" href="#complex-queries-and-aggregation">Complex Queries and Aggregation</a></h4>
+<p>MongoDB supports complex queries and powerful aggregation operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Find posts by tag with minimum views
+async fn find_posts_by_tag_with_min_views(
+    &amp;self,
+    tag: &amp;str,
+    min_views: i32,
+) -&gt; Result&lt;Vec&lt;Post&gt;&gt; {
+    let filter = doc! {
+        "tags": tag,
+        "view_count": { "$gte": min_views }
+    };
+
+    self.find_posts(Some(filter), None).await
+}
+
+// Get post counts by tag
+async fn get_post_counts_by_tag(&amp;self) -&gt; Result&lt;Vec&lt;bson::Document&gt;&gt; {
+    let pipeline = vec![
+        doc! {
+            "$unwind": "$tags"
+        },
+        doc! {
+            "$group": {
+                "_id": "$tags",
+                "count": { "$sum": 1 }
+            }
+        },
+        doc! {
+            "$sort": { "count": -1 }
+        }
+    ];
+
+    let cursor = self.collection.aggregate(pipeline, None).await?;
+    let results = cursor.try_collect().await?;
+
+    Ok(results)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="transactions-in-mongodb"><a class="header" href="#transactions-in-mongodb">Transactions in MongoDB</a></h4>
+<p>For operations that need to be atomic across multiple documents:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use mongodb::{bson::doc, options::TransactionOptions, Client};
+
+async fn transfer_post_ownership(
+    client: &amp;Client,
+    post_id: ObjectId,
+    from_user_id: ObjectId,
+    to_user_id: ObjectId,
+) -&gt; Result&lt;()&gt; {
+    // Start a session
+    let mut session = client.start_session(None).await?;
+
+    // Start a transaction
+    let options = TransactionOptions::builder()
+        .read_concern(mongodb::options::ReadConcern::majority())
+        .write_concern(mongodb::options::WriteConcern::majority())
+        .build();
+
+    let posts_coll = client.database("blog").collection::&lt;Post&gt;("posts");
+    let users_coll = client.database("blog").collection::&lt;User&gt;("users");
+
+    let result = session
+        .with_transaction(
+            |s| {
+                Box::pin(async move {
+                    // Update the post's owner
+                    posts_coll
+                        .update_one_with_session(
+                            doc! { "_id": post_id },
+                            doc! { "$set": { "owner_id": to_user_id } },
+                            None,
+                            s,
+                        )
+                        .await?;
+
+                    // Decrement post count for original owner
+                    users_coll
+                        .update_one_with_session(
+                            doc! { "_id": from_user_id },
+                            doc! { "$inc": { "post_count": -1 } },
+                            None,
+                            s,
+                        )
+                        .await?;
+
+                    // Increment post count for new owner
+                    users_coll
+                        .update_one_with_session(
+                            doc! { "_id": to_user_id },
+                            doc! { "$inc": { "post_count": 1 } },
+                            None,
+                            s,
+                        )
+                        .await?;
+
+                    Ok(())
+                }) as _
+            },
+            options,
+        )
+        .await?;
+
+    Ok(result)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="mongodb-change-streams"><a class="header" href="#mongodb-change-streams">MongoDB Change Streams</a></h4>
+<p>MongoDB supports change streams for real-time notifications of database changes:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use futures::stream::StreamExt;
+use mongodb::options::ChangeStreamOptions;
+
+async fn watch_posts_changes(repository: &amp;PostRepository) -&gt; Result&lt;()&gt; {
+    let options = ChangeStreamOptions::builder().build();
+    let mut change_stream = repository.collection.watch(None, options).await?;
+
+    println!("Watching for changes to posts collection...");
+
+    while let Some(result) = change_stream.next().await {
+        match result {
+            Ok(change) =&gt; {
+                println!("Change detected: {:?}", change);
+
+                // Process different operation types
+                if let Some(op_type) = change.operation_type {
+                    match op_type.as_str() {
+                        "insert" =&gt; {
+                            if let Some(doc) = change.full_document {
+                                println!("New post inserted: {:?}", doc);
+                            }
+                        },
+                        "update" =&gt; {
+                            println!("Post updated with ID: {:?}", change.document_key);
+                        },
+                        "delete" =&gt; {
+                            println!("Post deleted with ID: {:?}", change.document_key);
+                        },
+                        _ =&gt; println!("Other operation: {}", op_type),
+                    }
+                }
+            },
+            Err(e) =&gt; println!("Error from change stream: {}", e),
+        }
+    }
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="redis-with-rust"><a class="header" href="#redis-with-rust">Redis with Rust</a></h3>
+<p>Redis is an in-memory data structure store that can be used as a database, cache, and message broker. It’s known for its exceptional performance and versatility.</p>
+<h4 id="key-features-of-redis"><a class="header" href="#key-features-of-redis">Key Features of Redis</a></h4>
+<ol>
+<li><strong>In-Memory Storage</strong>: Extremely fast data access</li>
+<li><strong>Data Structures</strong>: Strings, lists, sets, sorted sets, hashes, streams, etc.</li>
+<li><strong>Pub/Sub Messaging</strong>: Built-in publish/subscribe functionality</li>
+<li><strong>Lua Scripting</strong>: Server-side scripting for complex operations</li>
+<li><strong>Persistence Options</strong>: RDB snapshots and AOF logs for durability</li>
+</ol>
+<h4 id="redis-rust-client"><a class="header" href="#redis-rust-client">Redis Rust Client</a></h4>
+<p>There are several Redis clients for Rust, with <code>redis-rs</code> being the most popular:</p>
+<pre><code class="language-toml"># Cargo.toml
+[dependencies]
+redis = { version = "0.23", features = ["tokio-comp", "connection-manager"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+</code></pre>
+<h4 id="setting-up-redis-connection"><a class="header" href="#setting-up-redis-connection">Setting Up Redis Connection</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use redis::{Client, ConnectionManager, RedisResult};
+
+// Create a connection manager (recommended for multi-threaded applications)
+async fn create_connection_manager() -&gt; RedisResult&lt;ConnectionManager&gt; {
+    let client = Client::open("redis://127.0.0.1/")?;
+    let manager = ConnectionManager::new(client).await?;
+
+    // Test the connection
+    let mut conn = manager.clone();
+    redis::cmd("PING").query_async::&lt;_, String&gt;(&amp;mut conn).await?;
+
+    println!("Connected to Redis!");
+
+    Ok(manager)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="basic-key-value-operations"><a class="header" href="#basic-key-value-operations">Basic Key-Value Operations</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use redis::{ConnectionManager, RedisResult, AsyncCommands};
+
+async fn set_key(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+    value: &amp;str,
+    expiry_seconds: Option&lt;usize&gt;,
+) -&gt; RedisResult&lt;()&gt; {
+    match expiry_seconds {
+        Some(secs) =&gt; {
+            conn.set_ex(key, value, secs).await?;
+        },
+        None =&gt; {
+            conn.set(key, value).await?;
+        }
+    }
+
+    Ok(())
+}
+
+async fn get_key(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+) -&gt; RedisResult&lt;Option&lt;String&gt;&gt; {
+    let value: Option&lt;String&gt; = conn.get(key).await?;
+    Ok(value)
+}
+
+async fn delete_key(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+) -&gt; RedisResult&lt;bool&gt; {
+    let deleted: i32 = conn.del(key).await?;
+    Ok(deleted &gt; 0)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="working-with-complex-data-types"><a class="header" href="#working-with-complex-data-types">Working with Complex Data Types</a></h4>
+<p>Redis supports various data structures beyond simple strings:</p>
+<h5 id="lists"><a class="header" href="#lists">Lists</a></h5>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn add_to_list(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+    value: &amp;str,
+) -&gt; RedisResult&lt;()&gt; {
+    conn.rpush(key, value).await?;
+    Ok(())
+}
+
+async fn get_list(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+) -&gt; RedisResult&lt;Vec&lt;String&gt;&gt; {
+    let items: Vec&lt;String&gt; = conn.lrange(key, 0, -1).await?;
+    Ok(items)
+}
+<span class="boring">}</span></code></pre></pre>
+<h5 id="hashes"><a class="header" href="#hashes">Hashes</a></h5>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn set_hash_field(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+    field: &amp;str,
+    value: &amp;str,
+) -&gt; RedisResult&lt;()&gt; {
+    conn.hset(key, field, value).await?;
+    Ok(())
+}
+
+async fn get_hash_field(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+    field: &amp;str,
+) -&gt; RedisResult&lt;Option&lt;String&gt;&gt; {
+    let value: Option&lt;String&gt; = conn.hget(key, field).await?;
+    Ok(value)
+}
+
+async fn get_all_hash_fields(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+) -&gt; RedisResult&lt;std::collections::HashMap&lt;String, String&gt;&gt; {
+    let hash: std::collections::HashMap&lt;String, String&gt; = conn.hgetall(key).await?;
+    Ok(hash)
+}
+<span class="boring">}</span></code></pre></pre>
+<h5 id="sets"><a class="header" href="#sets">Sets</a></h5>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn add_to_set(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+    values: &amp;[&amp;str],
+) -&gt; RedisResult&lt;()&gt; {
+    conn.sadd(key, values).await?;
+    Ok(())
+}
+
+async fn is_member(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+    value: &amp;str,
+) -&gt; RedisResult&lt;bool&gt; {
+    let is_member: bool = conn.sismember(key, value).await?;
+    Ok(is_member)
+}
+
+async fn get_set_members(
+    conn: &amp;mut ConnectionManager,
+    key: &amp;str,
+) -&gt; RedisResult&lt;Vec&lt;String&gt;&gt; {
+    let members: Vec&lt;String&gt; = conn.smembers(key).await?;
+    Ok(members)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="working-with-json-in-redis"><a class="header" href="#working-with-json-in-redis">Working with JSON in Redis</a></h4>
+<p>Redis doesn’t natively support JSON, but you can store serialized JSON as strings:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use serde::{Serialize, Deserialize};
+use redis::{ConnectionManager, RedisResult, AsyncCommands};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct User {
+    id: String,
+    username: String,
+    email: String,
+    created_at: chrono::DateTime&lt;chrono::Utc&gt;,
+}
+
+async fn save_user(
+    conn: &amp;mut ConnectionManager,
+    user: &amp;User,
+) -&gt; RedisResult&lt;()&gt; {
+    let json = serde_json::to_string(user)
+        .map_err(|e| redis::RedisError::from((redis::ErrorKind::ClientError, "JSON serialization error", e.to_string())))?;
+
+    let key = format!("user:{}", user.id);
+    conn.set(key, json).await?;
+
+    Ok(())
+}
+
+async fn get_user(
+    conn: &amp;mut ConnectionManager,
+    user_id: &amp;str,
+) -&gt; RedisResult&lt;Option&lt;User&gt;&gt; {
+    let key = format!("user:{}", user_id);
+    let json: Option&lt;String&gt; = conn.get(key).await?;
+
+    match json {
+        Some(json) =&gt; {
+            let user = serde_json::from_str(&amp;json)
+                .map_err(|e| redis::RedisError::from((redis::ErrorKind::ClientError, "JSON deserialization error", e.to_string())))?;
+            Ok(Some(user))
+        },
+        None =&gt; Ok(None),
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="pubsub-with-redis"><a class="header" href="#pubsub-with-redis">Pub/Sub with Redis</a></h4>
+<p>Redis provides publish/subscribe functionality for messaging:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use redis::{Client, PubSub, RedisResult, ConnectionManager};
+use tokio::sync::mpsc;
+
+// Publisher
+async fn publish_message(
+    conn: &amp;mut ConnectionManager,
+    channel: &amp;str,
+    message: &amp;str,
+) -&gt; RedisResult&lt;()&gt; {
+    conn.publish(channel, message).await?;
+    Ok(())
+}
+
+// Subscriber
+async fn subscribe_to_channel(
+    redis_url: &amp;str,
+    channel: &amp;str,
+) -&gt; RedisResult&lt;mpsc::Receiver&lt;String&gt;&gt; {
+    let client = Client::open(redis_url)?;
+    let mut pubsub = client.get_async_connection().await?.into_pubsub();
+
+    pubsub.subscribe(channel).await?;
+
+    let (tx, rx) = mpsc::channel(100);
+
+    tokio::spawn(async move {
+        let mut pubsub_stream = pubsub.on_message();
+
+        while let Some(msg) = pubsub_stream.next().await {
+            let payload: String = msg.get_payload().unwrap_or_default();
+            if tx.send(payload).await.is_err() {
+                break;
+            }
+        }
+    });
+
+    Ok(rx)
+}
+
+// Usage
+async fn handle_messages() -&gt; RedisResult&lt;()&gt; {
+    let mut rx = subscribe_to_channel("redis://127.0.0.1/", "notifications").await?;
+
+    while let Some(msg) = rx.recv().await {
+        println!("Received message: {}", msg);
+    }
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="redis-as-a-cache"><a class="header" href="#redis-as-a-cache">Redis as a Cache</a></h4>
+<p>One of Redis’s most common use cases is as a cache:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use redis::{ConnectionManager, RedisResult, AsyncCommands};
+use std::time::Duration;
+
+struct Cache {
+    conn: ConnectionManager,
+    default_expiry: usize,
+}
+
+impl Cache {
+    fn new(conn: ConnectionManager, default_expiry_seconds: usize) -&gt; Self {
+        Self {
+            conn,
+            default_expiry: default_expiry_seconds,
+        }
+    }
+
+    async fn get_or_compute&lt;F, T, E&gt;(
+        &amp;mut self,
+        key: &amp;str,
+        compute_fn: F,
+    ) -&gt; Result&lt;T, E&gt;
+    where
+        F: FnOnce() -&gt; Result&lt;T, E&gt;,
+        T: serde::Serialize + serde::de::DeserializeOwned,
+        E: From&lt;redis::RedisError&gt;,
+    {
+        // Try to get from cache
+        let cached: Option&lt;String&gt; = self.conn.get(key).await
+            .map_err(|e| E::from(e))?;
+
+        if let Some(cached) = cached {
+            // Deserialize and return if found
+            let value: T = serde_json::from_str(&amp;cached)
+                .map_err(|_| {
+                    let redis_err = redis::RedisError::from((
+                        redis::ErrorKind::ClientError,
+                        "Failed to deserialize cached value",
+                    ));
+                    E::from(redis_err)
+                })?;
+
+            return Ok(value);
+        }
+
+        // Not in cache, compute the value
+        let value = compute_fn()?;
+
+        // Cache the result
+        let json = serde_json::to_string(&amp;value)
+            .map_err(|_| {
+                let redis_err = redis::RedisError::from((
+                    redis::ErrorKind::ClientError,
+                    "Failed to serialize value for caching",
+                ));
+                E::from(redis_err)
+            })?;
+
+        self.conn.set_ex(key, json, self.default_expiry).await
+            .map_err(|e| E::from(e))?;
+
+        Ok(value)
+    }
+
+    async fn invalidate(&amp;mut self, key: &amp;str) -&gt; RedisResult&lt;()&gt; {
+        self.conn.del(key).await?;
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="comparing-mongodb-and-redis"><a class="header" href="#comparing-mongodb-and-redis">Comparing MongoDB and Redis</a></h3>
+<p>Both MongoDB and Redis are powerful NoSQL databases, but they serve different purposes:</p>
+<div class="table-wrapper"><table><thead><tr><th>Feature</th><th>MongoDB</th><th>Redis</th></tr></thead><tbody>
+<tr><td>Data Model</td><td>Document-oriented</td><td>Key-value and data structures</td></tr>
+<tr><td>Storage</td><td>Disk-based with memory caching</td><td>In-memory with optional persistence</td></tr>
+<tr><td>Query Capabilities</td><td>Rich query language</td><td>Limited, structure-specific commands</td></tr>
+<tr><td>Use Cases</td><td>Complex, structured data</td><td>Caching, real-time features, simple data</td></tr>
+<tr><td>Scaling</td><td>Horizontal (sharding)</td><td>Horizontal (clustering)</td></tr>
+<tr><td>Performance</td><td>Fast reads/writes</td><td>Extremely fast (in-memory)</td></tr>
+<tr><td>Durability</td><td>High (with proper configuration)</td><td>Configurable (from none to high)</td></tr>
+</tbody></table>
+</div>
+<p>Choose MongoDB when:</p>
+<ul>
+<li>You need a flexible schema for complex, hierarchical data</li>
+<li>You need rich querying capabilities</li>
+<li>Your data is too large to fit in memory</li>
+<li>You need ACID transactions across multiple documents</li>
+</ul>
+<p>Choose Redis when:</p>
+<ul>
+<li>Ultra-low latency is critical</li>
+<li>You’re implementing caching</li>
+<li>You need simple data structures with specialized operations</li>
+<li>You need pub/sub messaging capabilities</li>
+<li>Your dataset can fit in memory</li>
+</ul>
+<h3 id="best-practices-for-nosql-in-rust"><a class="header" href="#best-practices-for-nosql-in-rust">Best Practices for NoSQL in Rust</a></h3>
+<h4 id="mongodb-best-practices"><a class="header" href="#mongodb-best-practices">MongoDB Best Practices</a></h4>
+<ol>
+<li><strong>Use Appropriate Indexes</strong>: Create indexes for frequently queried fields.</li>
+<li><strong>Schema Design</strong>: Design documents with query patterns in mind.</li>
+<li><strong>Avoid Unbounded Arrays</strong>: Be cautious with arrays that can grow indefinitely.</li>
+<li><strong>Use Projections</strong>: Only request the fields you need.</li>
+<li><strong>Connection Pooling</strong>: Reuse connections via the client.</li>
+<li><strong>Error Handling</strong>: Implement proper error handling and retries.</li>
+<li><strong>Pagination</strong>: Use the cursor pattern for large result sets.</li>
+</ol>
+<h4 id="redis-best-practices"><a class="header" href="#redis-best-practices">Redis Best Practices</a></h4>
+<ol>
+<li><strong>Key Naming Conventions</strong>: Use descriptive, namespaced keys (e.g., <code>user:1001:profile</code>).</li>
+<li><strong>Set Appropriate TTL</strong>: Use expiration for cache entries.</li>
+<li><strong>Batch Operations</strong>: Use pipelining for multiple operations.</li>
+<li><strong>Connection Pooling</strong>: Use connection managers for concurrent access.</li>
+<li><strong>Memory Management</strong>: Monitor memory usage and implement eviction policies.</li>
+<li><strong>Use Redis Data Types</strong>: Leverage specialized data structures for your use case.</li>
+<li><strong>Consider Lua Scripts</strong>: Use Lua for atomic, complex operations.</li>
+</ol>
+<h2 id="connection-pooling"><a class="header" href="#connection-pooling">Connection Pooling</a></h2>
+<p>In most applications, database connections are expensive resources. Establishing a new connection involves network I/O, authentication, and initialization, all of which take time. For applications that handle multiple concurrent requests, creating a new connection for each request would be inefficient and could overwhelm the database server.</p>
+<p>Connection pooling solves this problem by maintaining a pool of reusable connections. When the application needs a connection, it borrows one from the pool and returns it when done, rather than creating and destroying connections for each operation.</p>
+<h3 id="benefits-of-connection-pooling"><a class="header" href="#benefits-of-connection-pooling">Benefits of Connection Pooling</a></h3>
+<ol>
+<li><strong>Improved Performance</strong>: Reusing connections eliminates the overhead of establishing new connections.</li>
+<li><strong>Resource Management</strong>: Limits the number of concurrent connections to the database.</li>
+<li><strong>Connection Validation</strong>: Pools can validate connections before providing them to the application.</li>
+<li><strong>Connection Lifecycle Management</strong>: Handles connection timeouts and reconnection.</li>
+</ol>
+<h3 id="connection-pooling-in-rust"><a class="header" href="#connection-pooling-in-rust">Connection Pooling in Rust</a></h3>
+<p>Rust has several libraries for connection pooling, with the most common being:</p>
+<ol>
+<li><strong>r2d2</strong>: A generic connection pool not tied to any specific database</li>
+<li><strong>deadpool</strong>: An async-focused connection pool</li>
+<li><strong>bb8</strong>: Another async connection pool</li>
+</ol>
+<p>Many database libraries provide built-in support for these pools or offer their own pool implementations.</p>
+<h3 id="connection-pooling-with-r2d2-synchronous"><a class="header" href="#connection-pooling-with-r2d2-synchronous">Connection Pooling with r2d2 (Synchronous)</a></h3>
+<p>r2d2 is a popular connection pooling library for synchronous applications:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use diesel::pg::PgConnection;
+use diesel::r2d2::{self, ConnectionManager};
+use dotenv::dotenv;
+use std::env;
+
+type Pool = r2d2::Pool&lt;ConnectionManager&lt;PgConnection&gt;&gt;;
+
+fn create_connection_pool() -&gt; Pool {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL")
+        .expect("DATABASE_URL must be set");
+
+    let manager = ConnectionManager::&lt;PgConnection&gt;::new(database_url);
+
+    r2d2::Pool::builder()
+        .max_size(15)              // Maximum number of connections in the pool
+        .min_idle(Some(5))         // Minimum idle connections to maintain
+        .idle_timeout(Some(std::time::Duration::from_secs(10 * 60))) // 10 minutes
+        .connection_timeout(std::time::Duration::from_secs(5))       // 5 seconds
+        .build(manager)
+        .expect("Failed to create pool")
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="connection-pooling-with-deadpool-asynchronous"><a class="header" href="#connection-pooling-with-deadpool-asynchronous">Connection Pooling with deadpool (Asynchronous)</a></h3>
+<p>deadpool is designed for async applications:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use deadpool_postgres::{Config, Pool, PoolConfig, Runtime};
+use tokio_postgres::NoTls;
+use std::env;
+
+async fn create_postgres_pool() -&gt; deadpool_postgres::Pool {
+    let mut config = Config::new();
+
+    config.host = Some(env::var("DB_HOST").unwrap_or_else(|_| "localhost".to_string()));
+    config.port = Some(env::var("DB_PORT").unwrap_or_else(|_| "5432".to_string()).parse::&lt;u16&gt;().unwrap());
+    config.dbname = Some(env::var("DB_NAME").unwrap_or_else(|_| "postgres".to_string()));
+    config.user = Some(env::var("DB_USER").unwrap_or_else(|_| "postgres".to_string()));
+    config.password = Some(env::var("DB_PASSWORD").unwrap_or_else(|_| "password".to_string()));
+
+    config.pool = Some(PoolConfig::new(15));
+
+    config.create_pool(Some(Runtime::Tokio1), NoTls)
+        .expect("Failed to create pool")
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="sqlx-pool"><a class="header" href="#sqlx-pool">SQLx Pool</a></h3>
+<p>SQLx includes its own connection pool designed for async applications:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sqlx::postgres::PgPoolOptions;
+use std::env;
+
+async fn create_sqlx_pool() -&gt; Result&lt;sqlx::PgPool, sqlx::Error&gt; {
+    let database_url = env::var("DATABASE_URL")
+        .expect("DATABASE_URL must be set");
+
+    let pool = PgPoolOptions::new()
+        .max_connections(15)
+        .min_connections(5)
+        .max_lifetime(std::time::Duration::from_secs(30 * 60)) // 30 minutes
+        .idle_timeout(std::time::Duration::from_secs(10 * 60)) // 10 minutes
+        .connect(&amp;database_url)
+        .await?;
+
+    Ok(pool)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-a-connection-pool"><a class="header" href="#using-a-connection-pool">Using a Connection Pool</a></h3>
+<p>Once you have a connection pool, you can use it in your application:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// With r2d2
+fn get_posts(pool: &amp;Pool) -&gt; Result&lt;Vec&lt;Post&gt;, diesel::result::Error&gt; {
+    use schema::posts::dsl::*;
+
+    let mut conn = pool.get()
+        .expect("Failed to get connection from pool");
+
+    posts.load::&lt;Post&gt;(&amp;mut conn)
+}
+
+// With SQLx
+async fn get_posts(pool: &amp;sqlx::PgPool) -&gt; Result&lt;Vec&lt;Post&gt;, sqlx::Error&gt; {
+    sqlx::query_as!(
+        Post,
+        "SELECT * FROM posts"
+    )
+    .fetch_all(pool)
+    .await
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="connection-pool-best-practices"><a class="header" href="#connection-pool-best-practices">Connection Pool Best Practices</a></h3>
+<ol>
+<li>
+<p><strong>Proper Sizing</strong>: Size your connection pool based on your application’s needs. Too small, and requests will queue; too large, and you may overwhelm the database.</p>
+</li>
+<li>
+<p><strong>Monitoring</strong>: Monitor pool metrics like usage, wait times, and timeouts to identify bottlenecks.</p>
+</li>
+<li>
+<p><strong>Connection Validation</strong>: Configure the pool to validate connections before providing them to the application.</p>
+</li>
+<li>
+<p><strong>Error Handling</strong>: Handle connection errors and implement retries for transient failures.</p>
+</li>
+<li>
+<p><strong>Connection Lifecycle</strong>: Set appropriate timeouts for idle connections and maximum connection lifetimes.</p>
+</li>
+<li>
+<p><strong>Connection Cleanup</strong>: Ensure connections are properly returned to the pool after use.</p>
+</li>
+<li>
+<p><strong>Pool Shutdown</strong>: Properly shut down the pool when your application terminates.</p>
+</li>
+</ol>
+<h3 id="example-repository-pattern-with-connection-pooling"><a class="header" href="#example-repository-pattern-with-connection-pooling">Example: Repository Pattern with Connection Pooling</a></h3>
+<p>Here’s an example of how to use connection pooling with the repository pattern:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct PostRepository {
+    pool: Pool,
+}
+
+impl PostRepository {
+    fn new(pool: Pool) -&gt; Self {
+        Self { pool }
+    }
+
+    fn create_post(&amp;self, title: &amp;str, body: &amp;str) -&gt; Result&lt;Post, diesel::result::Error&gt; {
+        use schema::posts;
+        use diesel::prelude::*;
+
+        let new_post = NewPost {
+            title,
+            body,
+            published: false,
+        };
+
+        let mut conn = self.pool.get()
+            .expect("Failed to get connection from pool");
+
+        diesel::insert_into(posts::table)
+            .values(&amp;new_post)
+            .returning(Post::as_returning())
+            .get_result(&amp;mut conn)
+    }
+
+    fn get_posts(&amp;self) -&gt; Result&lt;Vec&lt;Post&gt;, diesel::result::Error&gt; {
+        use schema::posts::dsl::*;
+
+        let mut conn = self.pool.get()
+            .expect("Failed to get connection from pool");
+
+        posts.load::&lt;Post&gt;(&amp;mut conn)
+    }
+
+    // Additional repository methods...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>By properly implementing connection pooling, you can significantly improve the performance and reliability of your database-driven applications.</p>
+<h2 id="transaction-management"><a class="header" href="#transaction-management">Transaction Management</a></h2>
+<p>Transactions are a fundamental concept in database systems that allow you to group multiple operations into a single logical unit of work. They ensure that a series of database operations either all succeed or all fail, maintaining data integrity even in the face of errors or concurrent access.</p>
+<h3 id="acid-properties"><a class="header" href="#acid-properties">ACID Properties</a></h3>
+<p>Transactions provide ACID guarantees:</p>
+<ol>
+<li><strong>Atomicity</strong>: All operations in a transaction succeed or all fail. There are no partial completions.</li>
+<li><strong>Consistency</strong>: The database remains in a valid state before and after the transaction</li>
+<li><strong>Isolation</strong>: Concurrent transactions don’t interfere with each other.</li>
+<li><strong>Durability</strong>: Once a transaction is committed, it remains committed even in the case of system failure.</li>
+</ol>
+<h3 id="transaction-management-in-rust"><a class="header" href="#transaction-management-in-rust">Transaction Management in Rust</a></h3>
+<p>Different database libraries in Rust provide various APIs for transaction management. Let’s explore some common approaches:</p>
+<h3 id="transactions-with-diesel"><a class="header" href="#transactions-with-diesel">Transactions with Diesel</a></h3>
+<p>Diesel provides a transaction API that’s easy to use:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use diesel::prelude::*;
+use diesel::result::Error;
+
+fn transfer_funds(
+    conn: &amp;mut PgConnection,
+    from_account_id: i32,
+    to_account_id: i32,
+    amount: f64,
+) -&gt; Result&lt;(), Error&gt; {
+    conn.transaction(|conn| {
+        // Deduct from the source account
+        diesel::update(accounts::table.find(from_account_id))
+            .set(accounts::balance.eq(accounts::balance - amount))
+            .execute(conn)?;
+
+        // Add to the destination account
+        diesel::update(accounts::table.find(to_account_id))
+            .set(accounts::balance.eq(accounts::balance + amount))
+            .execute(conn)?;
+
+        // If both operations succeed, the transaction will be committed
+        // If any operation fails, the transaction will be rolled back
+        Ok(())
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="async-transactions-with-sqlx"><a class="header" href="#async-transactions-with-sqlx">Async Transactions with SQLx</a></h3>
+<p>SQLx provides transaction support for async applications:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sqlx::{PgPool, Postgres, Transaction};
+use anyhow::Result;
+
+async fn transfer_funds(
+    pool: &amp;PgPool,
+    from_account_id: i32,
+    to_account_id: i32,
+    amount: f64,
+) -&gt; Result&lt;()&gt; {
+    // Begin a transaction
+    let mut tx = pool.begin().await?;
+
+    // Deduct from the source account
+    sqlx::query!(
+        "UPDATE accounts SET balance = balance - $1 WHERE id = $2",
+        amount,
+        from_account_id
+    )
+    .execute(&amp;mut *tx)
+    .await?;
+
+    // Add to the destination account
+    sqlx::query!(
+        "UPDATE accounts SET balance = balance + $1 WHERE id = $2",
+        amount,
+        to_account_id
+    )
+    .execute(&amp;mut *tx)
+    .await?;
+
+    // Commit the transaction
+    tx.commit().await?;
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="nested-transactions"><a class="header" href="#nested-transactions">Nested Transactions</a></h3>
+<p>Some database systems support nested transactions. In Rust, you can implement nested transactions using savepoints:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use diesel::prelude::*;
+use diesel::result::Error;
+
+fn process_order(
+    conn: &amp;mut PgConnection,
+    order_id: i32,
+) -&gt; Result&lt;(), Error&gt; {
+    conn.transaction(|conn| {
+        // Process the order
+        diesel::update(orders::table.find(order_id))
+            .set(orders::status.eq("processing"))
+            .execute(conn)?;
+
+        // Try to process each item, but if one fails, continue with others
+        let items = order_items::table
+            .filter(order_items::order_id.eq(order_id))
+            .load::&lt;OrderItem&gt;(conn)?;
+
+        for item in items {
+            // Create a savepoint for each item
+            let savepoint_result = conn.transaction(|conn| {
+                // Process the item (may fail)
+                process_item(conn, item.id)?;
+                Ok(())
+            });
+
+            // If processing this item failed, log it but continue with others
+            if let Err(e) = savepoint_result {
+                log_error(order_id, item.id, &amp;e);
+            }
+        }
+
+        // Mark the order as processed
+        diesel::update(orders::table.find(order_id))
+            .set(orders::status.eq("processed"))
+            .execute(conn)?;
+
+        Ok(())
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="transaction-isolation-levels"><a class="header" href="#transaction-isolation-levels">Transaction Isolation Levels</a></h3>
+<p>Database systems typically support different transaction isolation levels, which determine how transactions interact with each other:</p>
+<ol>
+<li><strong>Read Uncommitted</strong>: Allows transactions to see uncommitted changes from other transactions.</li>
+<li><strong>Read Committed</strong>: Only allows transactions to see committed changes from other transactions.</li>
+<li><strong>Repeatable Read</strong>: Ensures that if a transaction reads a row, it will see the same data if it reads that row again.</li>
+<li><strong>Serializable</strong>: The highest isolation level, guaranteeing that transactions execute as if they were serialized one after another.</li>
+</ol>
+<p>In Rust, you can set the isolation level for transactions:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// With Diesel
+conn.transaction_with_behavior(|conn| {
+    // Transaction code
+    Ok(())
+}, diesel::connection::TransactionBehavior::RepeatableRead)
+
+// With SQLx
+let mut tx_opts = sqlx::postgres::PgConnectOptions::new()
+    .isolation_level(sqlx::postgres::IsolationLevel::RepeatableRead);
+let mut tx = pool.begin_with(tx_opts).await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="handling-transaction-errors"><a class="header" href="#handling-transaction-errors">Handling Transaction Errors</a></h3>
+<p>When working with transactions, proper error handling is crucial:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use diesel::prelude::*;
+use diesel::result::Error;
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+enum TransactionError {
+    #[error("Database error: {0}")]
+    Database(#[from] Error),
+
+    #[error("Insufficient funds in account {0}")]
+    InsufficientFunds(i32),
+
+    #[error("Account {0} not found")]
+    AccountNotFound(i32),
+}
+
+fn transfer_funds(
+    conn: &amp;mut PgConnection,
+    from_account_id: i32,
+    to_account_id: i32,
+    amount: f64,
+) -&gt; Result&lt;(), TransactionError&gt; {
+    conn.transaction(|conn| {
+        // Check if the source account exists
+        let from_account = accounts::table
+            .find(from_account_id)
+            .first::&lt;Account&gt;(conn)
+            .optional()?
+            .ok_or_else(|| TransactionError::AccountNotFound(from_account_id))?;
+
+        // Check if the destination account exists
+        let to_account = accounts::table
+            .find(to_account_id)
+            .first::&lt;Account&gt;(conn)
+            .optional()?
+            .ok_or_else(|| TransactionError::AccountNotFound(to_account_id))?;
+
+        // Check if the source account has sufficient funds
+        if from_account.balance &lt; amount {
+            return Err(TransactionError::InsufficientFunds(from_account_id));
+        }
+
+        // Deduct from the source account
+        diesel::update(accounts::table.find(from_account_id))
+            .set(accounts::balance.eq(accounts::balance - amount))
+            .execute(conn)?;
+
+        // Add to the destination account
+        diesel::update(accounts::table.find(to_account_id))
+            .set(accounts::balance.eq(accounts::balance + amount))
+            .execute(conn)?;
+
+        Ok(())
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="transaction-patterns"><a class="header" href="#transaction-patterns">Transaction Patterns</a></h3>
+<p>Here are some common patterns for working with transactions in Rust:</p>
+<h4 id="repository-pattern-with-transactions"><a class="header" href="#repository-pattern-with-transactions">Repository Pattern with Transactions</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct OrderRepository {
+    pool: Pool,
+}
+
+impl OrderRepository {
+    fn new(pool: Pool) -&gt; Self {
+        Self { pool }
+    }
+
+    fn create_order_with_items(
+        &amp;self,
+        customer_id: i32,
+        items: Vec&lt;OrderItemData&gt;,
+    ) -&gt; Result&lt;Order, Error&gt; {
+        let mut conn = self.pool.get()
+            .expect("Failed to get connection from pool");
+
+        conn.transaction(|conn| {
+            // Create the order
+            let new_order = NewOrder {
+                customer_id,
+                status: "pending",
+                created_at: chrono::Utc::now().naive_utc(),
+            };
+
+            let order = diesel::insert_into(orders::table)
+                .values(&amp;new_order)
+                .returning(Order::as_returning())
+                .get_result(conn)?;
+
+            // Create order items
+            for item_data in items {
+                let new_item = NewOrderItem {
+                    order_id: order.id,
+                    product_id: item_data.product_id,
+                    quantity: item_data.quantity,
+                    price: item_data.price,
+                };
+
+                diesel::insert_into(order_items::table)
+                    .values(&amp;new_item)
+                    .execute(conn)?;
+            }
+
+            // Update order total
+            let total = diesel::dsl::sum(order_items::price * order_items::quantity)
+                .get_result::&lt;Option&lt;f64&gt;&gt;(conn)?
+                .unwrap_or(0.0);
+
+            let order = diesel::update(orders::table.find(order.id))
+                .set(orders::total.eq(total))
+                .returning(Order::as_returning())
+                .get_result(conn)?;
+
+            Ok(order)
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="service-layer-with-transactions"><a class="header" href="#service-layer-with-transactions">Service Layer with Transactions</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct OrderService {
+    order_repo: OrderRepository,
+    product_repo: ProductRepository,
+}
+
+impl OrderService {
+    fn new(pool: Pool) -&gt; Self {
+        Self {
+            order_repo: OrderRepository::new(pool.clone()),
+            product_repo: ProductRepository::new(pool),
+        }
+    }
+
+    fn place_order(
+        &amp;self,
+        customer_id: i32,
+        items: Vec&lt;OrderItemData&gt;,
+    ) -&gt; Result&lt;Order, ServiceError&gt; {
+        let mut conn = self.order_repo.pool.get()
+            .expect("Failed to get connection from pool");
+
+        conn.transaction(|conn| {
+            // Check inventory for each product
+            for item in &amp;items {
+                let product = self.product_repo.find_by_id_with_conn(conn, item.product_id)?;
+
+                if product.inventory &lt; item.quantity {
+                    return Err(ServiceError::InsufficientInventory(product.id));
+                }
+
+                // Reduce inventory
+                self.product_repo.update_inventory_with_conn(
+                    conn,
+                    product.id,
+                    product.inventory - item.quantity,
+                )?;
+            }
+
+            // Create the order with items
+            let order = self.order_repo.create_order_with_items_with_conn(
+                conn,
+                customer_id,
+                items,
+            )?;
+
+            Ok(order)
+        })
+        .map_err(|e| ServiceError::from(e))
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="transaction-best-practices"><a class="header" href="#transaction-best-practices">Transaction Best Practices</a></h3>
+<ol>
+<li>
+<p><strong>Keep Transactions Short</strong>: Long-running transactions can cause contention and block other operations.</p>
+</li>
+<li>
+<p><strong>Minimize Work in Transactions</strong>: Do as much work as possible outside the transaction.</p>
+</li>
+<li>
+<p><strong>Proper Error Handling</strong>: Design your error handling to ensure transactions are rolled back when necessary.</p>
+</li>
+<li>
+<p><strong>Avoid External Calls</strong>: Don’t make HTTP requests or other external calls within a transaction.</p>
+</li>
+<li>
+<p><strong>Choose Appropriate Isolation Levels</strong>: Use the minimum isolation level needed for your use case.</p>
+</li>
+<li>
+<p><strong>Use Optimistic Concurrency Control</strong>: For high-contention scenarios, consider optimistic concurrency control.</p>
+</li>
+<li>
+<p><strong>Handle Deadlocks</strong>: Implement retry logic for deadlock situations.</p>
+</li>
+<li>
+<p><strong>Log Transaction Failures</strong>: Log transaction failures to help diagnose issues.</p>
+</li>
+</ol>
+<p>By following these best practices and understanding transaction management in Rust, you can build robust and reliable database applications.</p>
+<h2 id="migration-strategies"><a class="header" href="#migration-strategies">Migration Strategies</a></h2>
+<p>As applications evolve, so must their database schemas. Database migrations are a way to manage changes to the database schema over time. They provide a structured approach to versioning and applying schema changes, allowing for reproducible deployments and easier collaboration among team members.</p>
+<h3 id="core-concepts-of-database-migrations"><a class="header" href="#core-concepts-of-database-migrations">Core Concepts of Database Migrations</a></h3>
+<ol>
+<li><strong>Schema Versioning</strong>: Tracking the current version of the database schema.</li>
+<li><strong>Migration Scripts</strong>: Files containing SQL or code that transform the schema from one version to another.</li>
+<li><strong>Migration History</strong>: A record of which migrations have been applied to the database.</li>
+<li><strong>Rollback Capabilities</strong>: The ability to revert to a previous schema version if needed.</li>
+</ol>
+<h3 id="migration-tools-in-rust"><a class="header" href="#migration-tools-in-rust">Migration Tools in Rust</a></h3>
+<p>Rust offers several libraries for managing database migrations:</p>
+<h4 id="diesel-migrations"><a class="header" href="#diesel-migrations">Diesel Migrations</a></h4>
+<p>Diesel provides a robust migration system through its CLI tool:</p>
+<pre><code class="language-bash"># Create a new migration
+diesel migration generate add_users_table
+
+# Run all pending migrations
+diesel migration run
+
+# Revert the last migration
+diesel migration revert
+</code></pre>
+<p>Migration files are created in the <code>migrations</code> directory with an up.sql and down.sql file:</p>
+<pre><code class="language-sql">-- migrations/TIMESTAMP_add_users_table/up.sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR NOT NULL UNIQUE,
+    email VARCHAR NOT NULL UNIQUE,
+    password_hash VARCHAR NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- migrations/TIMESTAMP_add_users_table/down.sql
+DROP TABLE users;
+</code></pre>
+<p>You can also run migrations programmatically:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use diesel::prelude::*;
+use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+
+pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
+
+fn run_migrations(conn: &amp;mut impl MigrationHarness&lt;diesel::pg::Pg&gt;) {
+    conn.run_pending_migrations(MIGRATIONS)
+        .expect("Failed to run database migrations");
+}
+
+// In your application startup
+let mut conn = establish_connection();
+run_migrations(&amp;mut conn);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="sqlx-migrations"><a class="header" href="#sqlx-migrations">SQLx Migrations</a></h4>
+<p>SQLx provides its own migration system:</p>
+<pre><code class="language-bash"># Create a new migration
+sqlx migrate add create_users_table
+
+# Run migrations
+sqlx migrate run
+
+# Revert the last migration
+sqlx migrate revert
+</code></pre>
+<p>Migration files are created in the <code>migrations</code> directory with SQL files:</p>
+<pre><code class="language-sql">-- migrations/TIMESTAMP_create_users_table.sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+</code></pre>
+<p>You can also run migrations programmatically:</p>
+<pre><pre class="playground"><code class="language-rust">use sqlx::migrate::Migrator;
+use std::path::Path;
+
+#[tokio::main]
+async fn main() -&gt; Result&lt;(), sqlx::Error&gt; {
+    let pool = establish_connection().await?;
+
+    let migrator = Migrator::new(Path::new("./migrations")).await?;
+    migrator.run(&amp;pool).await?;
+
+    Ok(())
+}</code></pre></pre>
+<h4 id="seaorm-migrations"><a class="header" href="#seaorm-migrations">SeaORM Migrations</a></h4>
+<p>SeaORM offers a migration system through the <code>sea-orm-migration</code> crate:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use sea_orm_migration::prelude::*;
+
+#[derive(DeriveMigrationName)]
+pub struct Migration;
+
+#[async_trait::async_trait]
+impl MigrationTrait for Migration {
+    async fn up(&amp;self, manager: &amp;SchemaManager) -&gt; Result&lt;(), DbErr&gt; {
+        manager
+            .create_table(
+                Table::create()
+                    .table(Users::Table)
+                    .if_not_exists()
+                    .col(
+                        ColumnDef::new(Users::Id)
+                            .integer()
+                            .not_null()
+                            .auto_increment()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Users::Username).string().not_null())
+                    .col(ColumnDef::new(Users::Email).string().not_null())
+                    .col(ColumnDef::new(Users::PasswordHash).string().not_null())
+                    .col(ColumnDef::new(Users::CreatedAt).timestamp().not_null())
+                    .to_owned(),
+            )
+            .await
+    }
+
+    async fn down(&amp;self, manager: &amp;SchemaManager) -&gt; Result&lt;(), DbErr&gt; {
+        manager
+            .drop_table(Table::drop().table(Users::Table).to_owned())
+            .await
+    }
+}
+
+#[derive(Iden)]
+enum Users {
+    Table,
+    Id,
+    Username,
+    Email,
+    PasswordHash,
+    CreatedAt,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="common-migration-patterns"><a class="header" href="#common-migration-patterns">Common Migration Patterns</a></h3>
+<h4 id="additive-changes"><a class="header" href="#additive-changes">Additive Changes</a></h4>
+<p>Additive changes are generally safe and can be applied without downtime:</p>
+<pre><code class="language-sql">-- Adding a new table
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER NOT NULL REFERENCES posts(id),
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    content TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Adding a new column
+ALTER TABLE users ADD COLUMN bio TEXT;
+
+-- Adding an index
+CREATE INDEX idx_posts_user_id ON posts(user_id);
+</code></pre>
+<h4 id="potentially-destructive-changes"><a class="header" href="#potentially-destructive-changes">Potentially Destructive Changes</a></h4>
+<p>Some changes require careful planning to avoid data loss or downtime:</p>
+<pre><code class="language-sql">-- Renaming a column (two-phase approach)
+-- Phase 1: Add new column, copy data
+ALTER TABLE users ADD COLUMN email_address VARCHAR;
+UPDATE users SET email_address = email;
+
+-- Phase 2: In a later migration, drop old column
+ALTER TABLE users DROP COLUMN email;
+
+-- Changing column type (two-phase approach)
+-- Phase 1: Add new column, copy data
+ALTER TABLE products ADD COLUMN price_decimal DECIMAL(10, 2);
+UPDATE products SET price_decimal = price::DECIMAL(10, 2);
+
+-- Phase 2: In a later migration, replace old column
+ALTER TABLE products DROP COLUMN price;
+ALTER TABLE products RENAME COLUMN price_decimal TO price;
+</code></pre>
+<h3 id="migration-strategies-for-different-environments"><a class="header" href="#migration-strategies-for-different-environments">Migration Strategies for Different Environments</a></h3>
+<h4 id="development-environment"><a class="header" href="#development-environment">Development Environment</a></h4>
+<p>In development, you typically want to:</p>
+<ul>
+<li>Apply migrations automatically</li>
+<li>Allow easy resets of the database</li>
+<li>Have quick feedback on schema changes</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Development setup
+if cfg!(debug_assertions) {
+    // Apply all migrations and optionally reset the database
+    let _ = sqlx::query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
+        .execute(&amp;pool)
+        .await;
+    sqlx::migrate!("./migrations")
+        .run(&amp;pool)
+        .await
+        .expect("Failed to run migrations");
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="staging-environment"><a class="header" href="#staging-environment">Staging Environment</a></h4>
+<p>In staging, you want to:</p>
+<ul>
+<li>Test migrations in a production-like environment</li>
+<li>Verify migration scripts work correctly</li>
+<li>Measure migration performance</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Staging setup with timing
+use std::time::Instant;
+
+let start = Instant::now();
+sqlx::migrate!("./migrations")
+    .run(&amp;pool)
+    .await
+    .expect("Failed to run migrations");
+let duration = start.elapsed();
+println!("Migrations completed in {}ms", duration.as_millis());
+<span class="boring">}</span></code></pre></pre>
+<h4 id="production-environment"><a class="header" href="#production-environment">Production Environment</a></h4>
+<p>In production, you need to:</p>
+<ul>
+<li>Apply migrations with minimal downtime</li>
+<li>Have rollback capabilities</li>
+<li>Log all migration activities</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Production migration with logging
+use log::{info, error};
+
+info!("Starting database migrations");
+match sqlx::migrate!("./migrations").run(&amp;pool).await {
+    Ok(_) =&gt; info!("Migrations completed successfully"),
+    Err(e) =&gt; {
+        error!("Migration failed: {}", e);
+        // Implement rollback or alerting logic
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="zero-downtime-migrations"><a class="header" href="#zero-downtime-migrations">Zero-Downtime Migrations</a></h3>
+<p>For production systems, zero-downtime migrations are essential. Here are some strategies:</p>
+<ol>
+<li><strong>Backward Compatibility</strong>: Ensure old code works with new schema and new code works with old schema.</li>
+<li><strong>Multiple Phases</strong>: Break complex migrations into smaller, safer steps.</li>
+<li><strong>Feature Flags</strong>: Use feature flags to control when new schema is used.</li>
+<li><strong>Read/Write Splitting</strong>: Apply different strategies for read and write operations during migration.</li>
+</ol>
+<p>Example of a multi-phase migration:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Phase 1: Add new column (can be done without downtime)
+sqlx::query!("ALTER TABLE users ADD COLUMN email_address TEXT")
+    .execute(&amp;pool)
+    .await?;
+
+// Phase 2: Copy data (can be done in the background)
+sqlx::query!("UPDATE users SET email_address = email WHERE email_address IS NULL")
+    .execute(&amp;pool)
+    .await?;
+
+// Phase 3: Update application to write to both columns
+
+// Phase 4: Update application to read from new column
+
+// Phase 5: Remove old column (after all instances are updated)
+sqlx::query!("ALTER TABLE users DROP COLUMN email")
+    .execute(&amp;pool)
+    .await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="testing-migrations"><a class="header" href="#testing-migrations">Testing Migrations</a></h3>
+<p>Testing migrations is crucial to ensure they work correctly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[tokio::test]
+async fn test_migrations() {
+    // Create a test database
+    let test_db_url = "postgres://postgres:password@localhost/test_db";
+    sqlx::postgres::PgPoolOptions::new()
+        .connect(test_db_url)
+        .await
+        .expect("Failed to connect to test database");
+
+    // Run migrations
+    sqlx::migrate!("./migrations")
+        .run(&amp;pool)
+        .await
+        .expect("Failed to run migrations");
+
+    // Verify schema
+    let tables = sqlx::query!(
+        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+    )
+    .fetch_all(&amp;pool)
+    .await
+    .expect("Failed to fetch tables");
+
+    assert!(tables.iter().any(|t| t.table_name == "users"));
+
+    // Verify column definitions
+    let columns = sqlx::query!(
+        "SELECT column_name, data_type FROM information_schema.columns
+         WHERE table_name = 'users' AND table_schema = 'public'"
+    )
+    .fetch_all(&amp;pool)
+    .await
+    .expect("Failed to fetch columns");
+
+    assert!(columns.iter().any(|c| c.column_name == "id" &amp;&amp; c.data_type == "integer"));
+    assert!(columns.iter().any(|c| c.column_name == "email" &amp;&amp; c.data_type == "text"));
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="migration-best-practices"><a class="header" href="#migration-best-practices">Migration Best Practices</a></h3>
+<ol>
+<li><strong>Keep Migrations Small</strong>: Small, focused migrations are easier to review and less likely to cause issues.</li>
+<li><strong>Version Control</strong>: Store migrations in version control alongside your application code.</li>
+<li><strong>Test Migrations</strong>: Write tests to verify migrations work correctly.</li>
+<li><strong>Include Rollback Logic</strong>: Ensure each migration has corresponding rollback logic.</li>
+<li><strong>Document Complex Migrations</strong>: Add comments explaining the purpose and impact of complex migrations.</li>
+<li><strong>Automate Deployment</strong>: Use CI/CD pipelines to automate migration deployment.</li>
+<li><strong>Monitor Performance</strong>: Measure the time it takes to run migrations, especially in production.</li>
+<li><strong>Backup Before Migrating</strong>: Always back up your database before running migrations in production.</li>
+<li><strong>Use Transactions</strong>: Wrap migrations in transactions when possible to ensure atomicity.</li>
+<li><strong>Plan for Failures</strong>: Have a clear plan for what to do if a migration fails.</li>
+</ol>
+<h2 id="query-building-and-type-safety"><a class="header" href="#query-building-and-type-safety">Query Building and Type Safety</a></h2>
+<p>One of Rust’s core strengths is its powerful type system, which can be leveraged to create type-safe database queries. This section explores approaches to building queries that are checked at compile time.</p>
+<h3 id="type-safe-query-building"><a class="header" href="#type-safe-query-building">Type-Safe Query Building</a></h3>
+<h4 id="diesels-query-dsl"><a class="header" href="#diesels-query-dsl">Diesel’s Query DSL</a></h4>
+<p>Diesel provides a type-safe query DSL that ensures queries are valid at compile time:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use diesel::prelude::*;
+use schema::users::dsl::*;
+
+fn find_active_users(conn: &amp;mut PgConnection) -&gt; QueryResult&lt;Vec&lt;User&gt;&gt; {
+    users
+        .filter(active.eq(true))
+        .order(created_at.desc())
+        .limit(10)
+        .load::&lt;User&gt;(conn)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The compiler will catch errors like:</p>
+<ul>
+<li>Referencing non-existent columns</li>
+<li>Type mismatches in comparisons</li>
+<li>Invalid joins between tables</li>
+</ul>
+<h4 id="sqlxs-query-macros"><a class="header" href="#sqlxs-query-macros">SQLx’s Query Macros</a></h4>
+<p>SQLx provides compile-time checked SQL queries through its macros:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn find_active_users(pool: &amp;PgPool) -&gt; Result&lt;Vec&lt;User&gt;, sqlx::Error&gt; {
+    sqlx::query_as!(
+        User,
+        "SELECT * FROM users WHERE active = $1 ORDER BY created_at DESC LIMIT $2",
+        true,
+        10
+    )
+    .fetch_all(pool)
+    .await
+}
+<span class="boring">}</span></code></pre></pre>
+<p>During compilation, SQLx connects to your database and verifies:</p>
+<ul>
+<li>The SQL syntax is valid</li>
+<li>The columns referenced exist</li>
+<li>The parameter types match</li>
+<li>The return type matches the query result</li>
+</ul>
+<h3 id="query-composition-and-reuse"><a class="header" href="#query-composition-and-reuse">Query Composition and Reuse</a></h3>
+<p>Building complex queries often requires composing smaller query parts:</p>
+<h4 id="diesel-query-composition"><a class="header" href="#diesel-query-composition">Diesel Query Composition</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn build_user_query() -&gt; impl diesel::expression::BoxableExpression&lt;
+    users::table,
+    diesel::pg::Pg,
+    SqlType = diesel::sql_types::Bool,
+&gt; {
+    use schema::users::dsl::*;
+
+    // Base condition
+    let mut query = active.eq(true);
+
+    // Add optional conditions
+    if should_filter_by_role() {
+        query = query.and(role.eq("admin"));
+    }
+
+    if should_filter_by_date() {
+        query = query.and(created_at.gt(some_date));
+    }
+
+    query
+}
+
+fn find_users(conn: &amp;mut PgConnection) -&gt; QueryResult&lt;Vec&lt;User&gt;&gt; {
+    use schema::users::dsl::*;
+
+    users
+        .filter(build_user_query())
+        .order(created_at.desc())
+        .load::&lt;User&gt;(conn)
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="sqlx-query-building"><a class="header" href="#sqlx-query-building">SQLx Query Building</a></h4>
+<p>With SQLx, you might need to build dynamic SQL strings:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn find_users(pool: &amp;PgPool, role_filter: Option&lt;&amp;str&gt;, min_date: Option&lt;chrono::NaiveDate&gt;) -&gt; Result&lt;Vec&lt;User&gt;, sqlx::Error&gt; {
+    let mut sql = String::from("SELECT * FROM users WHERE active = $1");
+    let mut params = vec![sqlx::postgres::PgArguments::default()];
+
+    params.push(true);
+
+    if let Some(role) = role_filter {
+        sql.push_str(" AND role = $2");
+        params.push(role);
+    }
+
+    if let Some(date) = min_date {
+        let param_idx = params.len() + 1;
+        sql.push_str(&amp;format!(" AND created_at &gt; ${}", param_idx));
+        params.push(date);
+    }
+
+    sql.push_str(" ORDER BY created_at DESC");
+
+    // Note: This approach doesn't have compile-time checking for dynamic queries
+    sqlx::query_as_with::&lt;_, User, _&gt;(&amp;sql, params)
+        .fetch_all(pool)
+        .await
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="error-handling-with-database-queries"><a class="header" href="#error-handling-with-database-queries">Error Handling with Database Queries</a></h3>
+<p>Proper error handling is essential for robust database applications:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use thiserror::Error;
+
+#[derive(Debug, Error)]
+enum DatabaseError {
+    #[error("Database error: {0}")]
+    Connection(#[from] sqlx::Error),
+
+    #[error("Entity not found: {0}")]
+    NotFound(String),
+
+    #[error("Unique constraint violation: {0}")]
+    UniqueViolation(String),
+
+    #[error("Foreign key violation: {0}")]
+    ForeignKeyViolation(String),
+
+    #[error("Invalid input: {0}")]
+    InvalidInput(String),
+}
+
+async fn create_user(pool: &amp;PgPool, username: &amp;str, email: &amp;str) -&gt; Result&lt;User, DatabaseError&gt; {
+    // Validate input
+    if username.is_empty() {
+        return Err(DatabaseError::InvalidInput("Username cannot be empty".into()));
+    }
+
+    if !email.contains('@') {
+        return Err(DatabaseError::InvalidInput("Invalid email format".into()));
+    }
+
+    // Attempt to create the user
+    match sqlx::query_as!(
+        User,
+        "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *",
+        username,
+        email
+    )
+    .fetch_one(pool)
+    .await
+    {
+        Ok(user) =&gt; Ok(user),
+        Err(e) =&gt; match e {
+            sqlx::Error::Database(db_err) =&gt; {
+                // Check PostgreSQL error codes
+                if let Some(code) = db_err.code() {
+                    if code == "23505" { // unique_violation
+                        return Err(DatabaseError::UniqueViolation(
+                            "Username or email already exists".into()
+                        ));
+                    } else if code == "23503" { // foreign_key_violation
+                        return Err(DatabaseError::ForeignKeyViolation(
+                            "Referenced entity does not exist".into()
+                        ));
+                    }
+                }
+                Err(DatabaseError::Connection(sqlx::Error::Database(db_err)))
+            },
+            e =&gt; Err(DatabaseError::Connection(e)),
+        },
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="testing-database-code"><a class="header" href="#testing-database-code">Testing Database Code</a></h3>
+<p>Testing code that interacts with a database requires special consideration:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    use super::*;
+    use sqlx::PgPool;
+    use std::sync::Once;
+
+    static INIT: Once = Once::new();
+
+    async fn setup_test_db() -&gt; PgPool {
+        INIT.call_once(|| {
+            dotenv::from_filename(".env.test").ok();
+        });
+
+        let pool = PgPoolOptions::new()
+            .max_connections(5)
+            .connect(&amp;std::env::var("DATABASE_URL").unwrap())
+            .await
+            .expect("Failed to create pool");
+
+        // Run migrations
+        sqlx::migrate!("./migrations")
+            .run(&amp;pool)
+            .await
+            .expect("Failed to run migrations");
+
+        // Clean test data
+        sqlx::query!("TRUNCATE users, posts, comments RESTART IDENTITY CASCADE")
+            .execute(&amp;pool)
+            .await
+            .expect("Failed to clean test data");
+
+        pool
+    }
+
+    #[tokio::test]
+    async fn test_create_user() {
+        let pool = setup_test_db().await;
+        let repo = UserRepository::new(pool);
+
+        // Test creating a user
+        let user = repo.create("test_user", "test@example.com").await.unwrap();
+
+        assert_eq!(user.username, "test_user");
+        assert_eq!(user.email, "test@example.com");
+
+        // Test unique constraint
+        let result = repo.create("test_user", "another@example.com").await;
+        assert!(matches!(result, Err(DatabaseError::UniqueViolation(_))));
+    }
+
+    #[tokio::test]
+    async fn test_find_by_username() {
+        let pool = setup_test_db().await;
+        let repo = UserRepository::new(pool);
+
+        // Create test user
+        repo.create("find_me", "findme@example.com").await.unwrap();
+
+        // Test finding the user
+        let user = repo.find_by_username("find_me").await.unwrap();
+        assert_eq!(user.email, "findme@example.com");
+
+        // Test user not found
+        let result = repo.find_by_username("nonexistent").await;
+        assert!(matches!(result, Err(DatabaseError::NotFound(_))));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored the diverse landscape of database interaction in Rust. We’ve seen how Rust’s type system, ownership model, and performance characteristics make it an excellent language for building robust database applications.</p>
+<p>We started with core database concepts, understanding the trade-offs between relational and NoSQL databases, and the importance of connection management and transactions.</p>
+<p>We then examined several approaches to database interaction in Rust:</p>
+<ol>
+<li><strong>Diesel ORM</strong>: A type-safe, compile-time checked ORM with a rich query DSL.</li>
+<li><strong>SQLx</strong>: An async-first SQL toolkit with compile-time query validation.</li>
+<li><strong>SeaORM</strong>: An async ORM with a focus on entity relationships.</li>
+<li><strong>MongoDB</strong>: For document-oriented NoSQL storage.</li>
+<li><strong>Redis</strong>: For in-memory key-value storage and caching.</li>
+</ol>
+<p>We also explored critical aspects of database application development:</p>
+<ol>
+<li><strong>Connection Pooling</strong>: Managing database connections efficiently.</li>
+<li><strong>Transaction Management</strong>: Ensuring data integrity with ACID transactions.</li>
+<li><strong>Migration Strategies</strong>: Evolving database schemas safely.</li>
+<li><strong>Query Building</strong>: Creating type-safe, composable queries.</li>
+<li><strong>Error Handling</strong>: Dealing with database errors gracefully.</li>
+<li><strong>Testing</strong>: Verifying database code works correctly.</li>
+</ol>
+<p>Throughout the chapter, we’ve emphasized best practices and patterns for building maintainable, performant, and reliable database applications in Rust.</p>
+<p>The ecosystem for database interaction in Rust continues to evolve, with libraries becoming more mature and new options emerging. By understanding the principles and approaches covered in this chapter, you’ll be well-equipped to choose the right tools for your specific use cases and to adapt as the ecosystem grows.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p><strong>Basic CRUD Operations</strong>: Implement a simple CRUD (Create, Read, Update, Delete) application for a “tasks” entity using Diesel.</p>
+</li>
+<li>
+<p><strong>Async API with SQLx</strong>: Build a RESTful API using an async web framework like Axum or Actix Web, with SQLx for database access.</p>
+</li>
+<li>
+<p><strong>Entity Relationships</strong>: Model a blog application with users, posts, and comments using SeaORM, focusing on the relationships between entities.</p>
+</li>
+<li>
+<p><strong>Transaction Management</strong>: Implement a banking system with account transfers, ensuring that transfers maintain consistent account balances using transactions.</p>
+</li>
+<li>
+<p><strong>Migration Scripts</strong>: Create a series of migration scripts for an evolving schema, including both additive changes and schema modifications.</p>
+</li>
+<li>
+<p><strong>Connection Pool Testing</strong>: Benchmark the performance of your application with different connection pool settings to find the optimal configuration.</p>
+</li>
+<li>
+<p><strong>MongoDB Document Design</strong>: Design a flexible document structure for a product catalog in MongoDB, accounting for variations in product attributes.</p>
+</li>
+<li>
+<p><strong>Redis Caching</strong>: Implement a caching layer using Redis for a high-traffic API, focusing on cache invalidation strategies.</p>
+</li>
+<li>
+<p><strong>Error Handling</strong>: Create a comprehensive error handling system for database operations, with appropriate error types and recovery strategies.</p>
+</li>
+<li>
+<p><strong>Data-Driven Application</strong>: Build a complete application that combines multiple database concepts:</p>
+<ul>
+<li>Use a relational database for structured data</li>
+<li>Use Redis for caching and session management</li>
+<li>Implement proper connection pooling</li>
+<li>Use transactions for critical operations</li>
+<li>Include migration scripts for schema evolution</li>
+<li>Add comprehensive error handling</li>
+<li>Write tests for the database layer</li>
+</ul>
+</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/30-web.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/32-network.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/30-web.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/32-network.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Performance Optimization Cookbook - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/appendices/h-optimization-cookbook.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="appendix-h-performance-optimization-cookbook"><a class="header" href="#appendix-h-performance-optimization-cookbook">Appendix H: Performance Optimization Cookbook</a></h2>
+<p>This appendix provides practical techniques for optimizing Rust code performance, from simple adjustments to advanced strategies.</p>
+<h3 id="measuring-performance"><a class="header" href="#measuring-performance">Measuring Performance</a></h3>
+<p>Always measure before and after optimization to confirm improvements:</p>
+<h4 id="benchmarking-with-criterion"><a class="header" href="#benchmarking-with-criterion">Benchmarking with Criterion</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use criterion::{black_box, criterion_group, criterion_main, Criterion};
+
+fn fibonacci(n: u64) -&gt; u64 {
+    match n {
+        0 =&gt; 0,
+        1 =&gt; 1,
+        _ =&gt; fibonacci(n-1) + fibonacci(n-2),
+    }
+}
+
+fn criterion_benchmark(c: &amp;mut Criterion) {
+    c.bench_function("fib 20", |b| b.iter(|| fibonacci(black_box(20))));
+}
+
+criterion_group!(benches, criterion_benchmark);
+criterion_main!(benches);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="profiling"><a class="header" href="#profiling">Profiling</a></h4>
+<p>Use profilers to identify hotspots:</p>
+<ul>
+<li>Linux: <code>perf</code>, <code>valgrind --callgrind</code></li>
+<li>macOS: Instruments</li>
+<li>Windows: Visual Studio Profiler</li>
+</ul>
+<h3 id="common-optimization-techniques"><a class="header" href="#common-optimization-techniques">Common Optimization Techniques</a></h3>
+<h4 id="1-efficient-data-structures"><a class="header" href="#1-efficient-data-structures">1. Efficient Data Structures</a></h4>
+<p>Choose the right collection for the job:</p>
+<div class="table-wrapper"><table><thead><tr><th>Collection</th><th>Strengths</th><th>Use Cases</th></tr></thead><tbody>
+<tr><td><code>Vec&lt;T&gt;</code></td><td>Fast random access, contiguous memory</td><td>When you need indexing, appending</td></tr>
+<tr><td><code>HashMap&lt;K,V&gt;</code></td><td>Fast lookups by key</td><td>When you need key-based access</td></tr>
+<tr><td><code>BTreeMap&lt;K,V&gt;</code></td><td>Ordered keys, better for small sizes</td><td>When you need ordered iteration</td></tr>
+<tr><td><code>HashSet&lt;T&gt;</code></td><td>Fast membership testing</td><td>When you need unique items</td></tr>
+<tr><td><code>VecDeque&lt;T&gt;</code></td><td>Efficient at both ends</td><td>When you need a double-ended queue</td></tr>
+</tbody></table>
+</div>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Inefficient: O(n) lookups
+let items = vec![Item { id: 1, name: "first" }, Item { id: 2, name: "second" }];
+let item = items.iter().find(|i| i.id == search_id);
+
+// Efficient: O(1) lookups
+let mut item_map = HashMap::new();
+for item in items {
+    item_map.insert(item.id, item);
+}
+let item = item_map.get(&amp;search_id);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="2-avoiding-allocations"><a class="header" href="#2-avoiding-allocations">2. Avoiding Allocations</a></h4>
+<p>Minimize heap allocations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Inefficient: Allocates a new String for each call
+fn append_world(s: &amp;str) -&gt; String {
+    let mut result = s.to_string();
+    result.push_str(" world");
+    result
+}
+
+// Efficient: Reuses existing allocation
+fn append_world(s: &amp;mut String) {
+    s.push_str(" world");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Use stack allocation where possible:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Heap allocation
+let data = vec![0; 128];
+
+// Stack allocation (fixed size, no heap)
+let data = [0; 128];
+<span class="boring">}</span></code></pre></pre>
+<h4 id="3-inlining-and-code-generation"><a class="header" href="#3-inlining-and-code-generation">3. Inlining and Code Generation</a></h4>
+<p>Control inlining with attributes:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[inline]
+fn frequently_called_small_function() {
+    // This will likely be inlined
+}
+
+#[inline(never)]
+fn large_function_called_rarely() {
+    // This won't be inlined
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="4-simd-vectorization"><a class="header" href="#4-simd-vectorization">4. SIMD Vectorization</a></h4>
+<p>Use SIMD (Single Instruction, Multiple Data) for data-parallel operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::arch::x86_64::{__m256, _mm256_add_ps, _mm256_loadu_ps, _mm256_storeu_ps};
+
+// Process 8 f32 values in parallel
+unsafe fn add_f32_avx(a: &amp;[f32], b: &amp;[f32], c: &amp;mut [f32]) {
+    for i in (0..a.len()).step_by(8) {
+        let a_chunk = _mm256_loadu_ps(a[i..].as_ptr());
+        let b_chunk = _mm256_loadu_ps(b[i..].as_ptr());
+        let sum = _mm256_add_ps(a_chunk, b_chunk);
+        _mm256_storeu_ps(c[i..].as_mut_ptr(), sum);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="5-lazy-computation"><a class="header" href="#5-lazy-computation">5. Lazy Computation</a></h4>
+<p>Compute values only when needed:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::cell::OnceCell;
+
+struct ExpensiveData {
+    cached_value: OnceCell&lt;String&gt;,
+}
+
+impl ExpensiveData {
+    fn new() -&gt; Self {
+        Self {
+            cached_value: OnceCell::new(),
+        }
+    }
+
+    fn get_value(&amp;self) -&gt; &amp;str {
+        self.cached_value.get_or_init(|| {
+            // Expensive computation performed only once
+            "expensive computation result".to_string()
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="6-parallel-processing"><a class="header" href="#6-parallel-processing">6. Parallel Processing</a></h4>
+<p>Use Rayon for parallel iterations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use rayon::prelude::*;
+
+fn sum_of_squares(v: &amp;[i32]) -&gt; i32 {
+    v.par_iter()
+     .map(|&amp;x| x * x)
+     .sum()
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="7-custom-allocators"><a class="header" href="#7-custom-allocators">7. Custom Allocators</a></h4>
+<p>Implement domain-specific allocators:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::alloc::{GlobalAlloc, Layout, System};
+
+struct PoolAllocator;
+
+unsafe impl GlobalAlloc for PoolAllocator {
+    unsafe fn alloc(&amp;self, layout: Layout) -&gt; *mut u8 {
+        // Fast allocation for specific sizes
+        if layout.size() == 32 &amp;&amp; layout.align() &lt;= 8 {
+            // Use a pool for 32-byte allocations
+            // ...
+        } else {
+            // Fall back to system allocator
+            System.alloc(layout)
+        }
+    }
+
+    unsafe fn dealloc(&amp;self, ptr: *mut u8, layout: Layout) {
+        // Corresponding deallocation logic
+        // ...
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="domain-specific-optimizations"><a class="header" href="#domain-specific-optimizations">Domain-Specific Optimizations</a></h3>
+<h4 id="string-processing"><a class="header" href="#string-processing">String Processing</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Inefficient: Multiple allocations
+let combined = format!("{}{}{}", str1, str2, str3);
+
+// More efficient: Pre-allocate capacity
+let mut combined = String::with_capacity(
+    str1.len() + str2.len() + str3.len()
+);
+combined.push_str(str1);
+combined.push_str(str2);
+combined.push_str(str3);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="file-io"><a class="header" href="#file-io">File I/O</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Inefficient: Reading line by line
+let file = File::open("data.txt")?;
+let reader = BufReader::new(file);
+for line in reader.lines() {
+    let line = line?;
+    // Process line
+}
+
+// More efficient: Reading in larger chunks
+let file = File::open("data.txt")?;
+let mut reader = BufReader::with_capacity(128 * 1024, file);
+let mut buffer = String::with_capacity(256 * 1024);
+reader.read_to_string(&amp;mut buffer)?;
+for line in buffer.lines() {
+    // Process line
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="json-processing"><a class="header" href="#json-processing">JSON Processing</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Inefficient: Parsing to intermediate representation
+let data: Value = serde_json::from_str(&amp;json_string)?;
+let name = data["name"].as_str().unwrap_or_default();
+
+// More efficient: Direct deserialization
+#[derive(Deserialize)]
+struct Person {
+    name: String,
+    #[serde(skip_deserializing)]
+    ignored_field: Option&lt;String&gt;,
+}
+
+let person: Person = serde_json::from_str(&amp;json_string)?;
+let name = &amp;person.name;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="compiler-optimizations"><a class="header" href="#compiler-optimizations">Compiler Optimizations</a></h3>
+<h4 id="release-mode"><a class="header" href="#release-mode">Release Mode</a></h4>
+<p>Always build with <code>--release</code> for production:</p>
+<pre><code>cargo build --release
+</code></pre>
+<h4 id="optimization-levels"><a class="header" href="#optimization-levels">Optimization Levels</a></h4>
+<p>Fine-tune optimization level in <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[profile.release]
+opt-level = 3  # Maximum optimization
+</code></pre>
+<h4 id="link-time-optimization-lto"><a class="header" href="#link-time-optimization-lto">Link-Time Optimization (LTO)</a></h4>
+<p>Enable whole-program optimization:</p>
+<pre><code class="language-toml">[profile.release]
+lto = true
+</code></pre>
+<h4 id="profile-guided-optimization-pgo"><a class="header" href="#profile-guided-optimization-pgo">Profile-Guided Optimization (PGO)</a></h4>
+<p>Use runtime behavior to guide optimization:</p>
+<pre><code class="language-bash"># Step 1: Instrument the binary
+RUSTFLAGS="-Cprofile-generate=/tmp/pgo-data" cargo build --release
+
+# Step 2: Run the instrumented binary with typical workload
+./target/release/my_program typical_input.txt
+
+# Step 3: Use the profile data for optimization
+RUSTFLAGS="-Cprofile-use=/tmp/pgo-data" cargo build --release
+</code></pre>
+<h3 id="memory-and-cache-optimization"><a class="header" href="#memory-and-cache-optimization">Memory and Cache Optimization</a></h3>
+<h4 id="data-alignment"><a class="header" href="#data-alignment">Data Alignment</a></h4>
+<p>Align data for efficient access:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(align(64))]  // Align to cache line
+struct AlignedData {
+    values: [u8; 1024],
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="cache-friendly-iteration"><a class="header" href="#cache-friendly-iteration">Cache-Friendly Iteration</a></h4>
+<p>Iterate in a way that respects CPU cache:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Poor cache behavior: Strided access
+for i in 0..width {
+    for j in 0..height {
+        process_pixel(data[j * width + i]);
+    }
+}
+
+// Better cache behavior: Sequential access
+for j in 0..height {
+    for i in 0..width {
+        process_pixel(data[j * width + i]);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="structure-of-arrays-vs-array-of-structures"><a class="header" href="#structure-of-arrays-vs-array-of-structures">Structure of Arrays vs. Array of Structures</a></h4>
+<p>Choose the right data layout:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Array of Structures (AoS) - poor for SIMD
+struct Particle {
+    x: f32,
+    y: f32,
+    z: f32,
+    velocity_x: f32,
+    velocity_y: f32,
+    velocity_z: f32,
+}
+let particles = vec![Particle { /* ... */ }; 1000];
+
+// Structure of Arrays (SoA) - better for SIMD
+struct Particles {
+    x: Vec&lt;f32&gt;,
+    y: Vec&lt;f32&gt;,
+    z: Vec&lt;f32&gt;,
+    velocity_x: Vec&lt;f32&gt;,
+    velocity_y: Vec&lt;f32&gt;,
+    velocity_z: Vec&lt;f32&gt;,
+}
+
+let mut particles = Particles {
+    x: vec![0.0; 1000],
+    y: vec![0.0; 1000],
+    // ...
+};
+<span class="boring">}</span></code></pre></pre>
+<h3 id="case-studies-before-and-after-optimization"><a class="header" href="#case-studies-before-and-after-optimization">Case Studies: Before and After Optimization</a></h3>
+<h4 id="case-study-1-string-processing"><a class="header" href="#case-study-1-string-processing">Case Study 1: String Processing</a></h4>
+<p>Before:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_text(text: &amp;str) -&gt; String {
+    let words: Vec&lt;_&gt; = text.split_whitespace().collect();
+    let mut result = String::new();
+
+    for word in words {
+        if word.len() &gt; 3 {
+            result.push_str(word);
+            result.push(' ');
+        }
+    }
+
+    result.trim().to_string()
+}
+<span class="boring">}</span></code></pre></pre>
+<p>After:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process_text(text: &amp;str) -&gt; String {
+    // Estimate final size to avoid reallocations
+    let approx_result_len = text.len() / 2;
+    let mut result = String::with_capacity(approx_result_len);
+
+    for word in text.split_whitespace() {
+        if word.len() &gt; 3 {
+            if !result.is_empty() {
+                result.push(' ');
+            }
+            result.push_str(word);
+        }
+    }
+
+    // No need for trim and extra allocation
+    result
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="case-study-2-database-query"><a class="header" href="#case-study-2-database-query">Case Study 2: Database Query</a></h4>
+<p>Before:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn find_records(db: &amp;Database, criteria: &amp;SearchCriteria) -&gt; Vec&lt;Record&gt; {
+    let mut results = Vec::new();
+
+    for record in db.all_records() {
+        if record.matches(criteria) {
+            results.push(record.clone());
+        }
+    }
+
+    results
+}
+<span class="boring">}</span></code></pre></pre>
+<p>After:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn find_records&lt;'a&gt;(db: &amp;'a Database, criteria: &amp;SearchCriteria) -&gt; impl Iterator&lt;Item = &amp;'a Record&gt; + 'a {
+    db.all_records()
+        .filter(move |record| record.matches(criteria))
+}
+<span class="boring">}</span></code></pre></pre>
+<h1 id="appendices-final-part"><a class="header" href="#appendices-final-part">Appendices (Final Part)</a></h1>
+<h2 id="appendix-i-comprehensive-glossary"><a class="header" href="#appendix-i-comprehensive-glossary">Appendix I: Comprehensive Glossary</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendices/g-debugging.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendices/i-glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendices/g-debugging.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendices/i-glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

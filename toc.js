@@ -1,0 +1,70 @@
+// Populate the sidebar
+//
+// This is a script, and not included directly in the page, to control the total size of the book.
+// The TOC contains an entry for each page, so if each page includes a copy of the TOC,
+// the total size of the page becomes O(n**2).
+class MDBookSidebarScrollbox extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        this.innerHTML = '<ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 1: Fundamentals</li><li class="chapter-item expanded "><a href="chapters/01-about-this-book.html"><strong aria-hidden="true">1.</strong> About This Book</a></li><li class="chapter-item expanded "><a href="chapters/02-introduction-to-rust.html"><strong aria-hidden="true">2.</strong> Introduction to Rust</a></li><li class="chapter-item expanded "><a href="chapters/03-getting-started.html"><strong aria-hidden="true">3.</strong> Getting Started with the Rust Toolchain</a></li><li class="chapter-item expanded "><a href="chapters/04-basic-syntax.html"><strong aria-hidden="true">4.</strong> Basic Syntax and Data Types</a></li><li class="chapter-item expanded "><a href="chapters/05-control-flow.html"><strong aria-hidden="true">5.</strong> Control Flow in Rust</a></li><li class="chapter-item expanded "><a href="chapters/06-functions.html"><strong aria-hidden="true">6.</strong> Functions and Procedures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 2: Ownership - Rust&#39;s Secret Weapon</li><li class="chapter-item expanded "><a href="chapters/07-understanding-ownership.html"><strong aria-hidden="true">7.</strong> Understanding Ownership</a></li><li class="chapter-item expanded "><a href="chapters/08-borrowing-references.html"><strong aria-hidden="true">8.</strong> Borrowing and References</a></li><li class="chapter-item expanded "><a href="chapters/09-strings-slices.html"><strong aria-hidden="true">9.</strong> Working with Strings and Slices</a></li><li class="chapter-item expanded "><a href="chapters/10-advanced-ownership.html"><strong aria-hidden="true">10.</strong> Advanced Ownership Patterns</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 3: Organizing Code</li><li class="chapter-item expanded "><a href="chapters/11-structs.html"><strong aria-hidden="true">11.</strong> Structs and Custom Types</a></li><li class="chapter-item expanded "><a href="chapters/12-enums.html"><strong aria-hidden="true">12.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="chapters/13-modules.html"><strong aria-hidden="true">13.</strong> Modules and Organizing Code</a></li><li class="chapter-item expanded "><a href="chapters/14-collections.html"><strong aria-hidden="true">14.</strong> Collections and Data Structures</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 4: Generic Programming</li><li class="chapter-item expanded "><a href="chapters/15-generics.html"><strong aria-hidden="true">15.</strong> Introduction to Generics</a></li><li class="chapter-item expanded "><a href="chapters/16-traits.html"><strong aria-hidden="true">16.</strong> Traits and Polymorphism</a></li><li class="chapter-item expanded "><a href="chapters/17-advanced-traits.html"><strong aria-hidden="true">17.</strong> Advanced Trait Patterns</a></li><li class="chapter-item expanded "><a href="chapters/18-lifetimes.html"><strong aria-hidden="true">18.</strong> Understanding Lifetimes</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 5: Error Handling</li><li class="chapter-item expanded "><a href="chapters/19-panic.html"><strong aria-hidden="true">19.</strong> Panic and Unrecoverable Errors</a></li><li class="chapter-item expanded "><a href="chapters/20-result-option.html"><strong aria-hidden="true">20.</strong> Result, Option, and Recoverable Errors</a></li><li class="chapter-item expanded "><a href="chapters/21-error-patterns.html"><strong aria-hidden="true">21.</strong> Error Handling Patterns and Libraries</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 6: Advanced Rust</li><li class="chapter-item expanded "><a href="chapters/22-iterators.html"><strong aria-hidden="true">22.</strong> Iterators and Functional Programming</a></li><li class="chapter-item expanded "><a href="chapters/23-closures.html"><strong aria-hidden="true">23.</strong> Closures in Depth</a></li><li class="chapter-item expanded "><a href="chapters/24-concurrency.html"><strong aria-hidden="true">24.</strong> Concurrency Fundamentals</a></li><li class="chapter-item expanded "><a href="chapters/25-async.html"><strong aria-hidden="true">25.</strong> Asynchronous Programming</a></li><li class="chapter-item expanded "><a href="chapters/26-macros.html"><strong aria-hidden="true">26.</strong> Macros and Metaprogramming</a></li><li class="chapter-item expanded "><a href="chapters/27-unsafe.html"><strong aria-hidden="true">27.</strong> Unsafe Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 7: Practical Rust</li><li class="chapter-item expanded "><a href="chapters/28-testing.html"><strong aria-hidden="true">28.</strong> Writing Tests in Rust</a></li><li class="chapter-item expanded "><a href="chapters/29-cli.html"><strong aria-hidden="true">29.</strong> Command-Line Applications</a></li><li class="chapter-item expanded "><a href="chapters/30-web.html"><strong aria-hidden="true">30.</strong> Web Development with Rust</a></li><li class="chapter-item expanded "><a href="chapters/31-database.html"><strong aria-hidden="true">31.</strong> Database Interaction</a></li><li class="chapter-item expanded "><a href="chapters/32-network.html"><strong aria-hidden="true">32.</strong> Network Programming</a></li><li class="chapter-item expanded "><a href="chapters/33-systems.html"><strong aria-hidden="true">33.</strong> Systems Programming</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 8: The Rust Ecosystem</li><li class="chapter-item expanded "><a href="chapters/34-cargo.html"><strong aria-hidden="true">34.</strong> Package Management with Cargo</a></li><li class="chapter-item expanded "><a href="chapters/35-build-systems.html"><strong aria-hidden="true">35.</strong> Build Systems and Tooling</a></li><li class="chapter-item expanded "><a href="chapters/36-performance.html"><strong aria-hidden="true">36.</strong> Performance Optimization</a></li><li class="chapter-item expanded "><a href="chapters/37-interoperability.html"><strong aria-hidden="true">37.</strong> Interoperability with Other Languages</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 9: Modern Rust Applications</li><li class="chapter-item expanded "><a href="chapters/38-database-building.html"><strong aria-hidden="true">38.</strong> Building a Database</a></li><li class="chapter-item expanded "><a href="chapters/39-game-development.html"><strong aria-hidden="true">39.</strong> Game Development</a></li><li class="chapter-item expanded "><a href="chapters/40-cloud-native.html"><strong aria-hidden="true">40.</strong> Cloud Native Rust</a></li><li class="chapter-item expanded "><a href="chapters/41-distributed-systems.html"><strong aria-hidden="true">41.</strong> Distributed Systems</a></li><li class="chapter-item expanded "><a href="chapters/42-machine-learning.html"><strong aria-hidden="true">42.</strong> Machine Learning and Data Science</a></li><li class="chapter-item expanded "><a href="chapters/43-embedded.html"><strong aria-hidden="true">43.</strong> Embedded Systems and IoT</a></li><li class="chapter-item expanded "><a href="chapters/44-production-ready.html"><strong aria-hidden="true">44.</strong> Production-Ready Rust</a></li><li class="chapter-item expanded affix "><li class="part-title">Section 10: Capstone Projects</li><li class="chapter-item expanded "><a href="chapters/45-search-engine.html"><strong aria-hidden="true">45.</strong> Building a Search Engine</a></li><li class="chapter-item expanded "><a href="chapters/46-programming-language.html"><strong aria-hidden="true">46.</strong> Developing a Programming Language</a></li><li class="chapter-item expanded "><a href="chapters/47-blockchain.html"><strong aria-hidden="true">47.</strong> Creating a Blockchain Application</a></li><li class="chapter-item expanded "><a href="chapters/48-data-processing.html"><strong aria-hidden="true">48.</strong> Real-Time Data Processing System</a></li><li class="chapter-item expanded "><a href="chapters/49-wasm-frontend.html"><strong aria-hidden="true">49.</strong> WebAssembly and Frontend Development</a></li><li class="chapter-item expanded "><a href="chapters/50-advanced-memory.html"><strong aria-hidden="true">50.</strong> Advanced Memory Management</a></li><li class="chapter-item expanded "><a href="chapters/51-edge-computing.html"><strong aria-hidden="true">51.</strong> Rust for Edge Computing</a></li><li class="chapter-item expanded "><a href="chapters/52-security.html"><strong aria-hidden="true">52.</strong> Rust Security Patterns and Auditing</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="appendices/a-idioms-patterns.html"><strong aria-hidden="true">53.</strong> Common Rust Idioms and Patterns</a></li><li class="chapter-item expanded "><a href="appendices/b-rust-evolution.html"><strong aria-hidden="true">54.</strong> Rust&#39;s Evolution: Editions and Features</a></li><li class="chapter-item expanded "><a href="appendices/c-language-comparison.html"><strong aria-hidden="true">55.</strong> Comparison with Other Languages</a></li><li class="chapter-item expanded "><a href="appendices/d-recommended-libraries.html"><strong aria-hidden="true">56.</strong> Recommended Libraries and Crates</a></li><li class="chapter-item expanded "><a href="appendices/e-memory-model.html"><strong aria-hidden="true">57.</strong> Rust&#39;s Memory Model In-Depth</a></li><li class="chapter-item expanded "><a href="appendices/f-community-resources.html"><strong aria-hidden="true">58.</strong> Community Resources and Contribution Guide</a></li><li class="chapter-item expanded "><a href="appendices/g-debugging.html"><strong aria-hidden="true">59.</strong> Debugging and Troubleshooting Guide</a></li><li class="chapter-item expanded "><a href="appendices/h-optimization-cookbook.html"><strong aria-hidden="true">60.</strong> Performance Optimization Cookbook</a></li><li class="chapter-item expanded "><a href="appendices/i-glossary.html"><strong aria-hidden="true">61.</strong> Comprehensive Glossary</a></li><li class="chapter-item expanded "><a href="appendices/j-learning-paths.html"><strong aria-hidden="true">62.</strong> Learning Paths for Different Backgrounds</a></li><li class="chapter-item expanded "><a href="appendices/k-interview-questions.html"><strong aria-hidden="true">63.</strong> Interview Questions and Answers</a></li><li class="chapter-item expanded "><a href="appendices/l-resources.html"><strong aria-hidden="true">64.</strong> Recommended Reading and Resources</a></li></ol>';
+        // Set the current, active page, and reveal it if it's hidden
+        let current_page = document.location.href.toString().split("#")[0].split("?")[0];
+        if (current_page.endsWith("/")) {
+            current_page += "index.html";
+        }
+        var links = Array.prototype.slice.call(this.querySelectorAll("a"));
+        var l = links.length;
+        for (var i = 0; i < l; ++i) {
+            var link = links[i];
+            var href = link.getAttribute("href");
+            if (href && !href.startsWith("#") && !/^(?:[a-z+]+:)?\/\//.test(href)) {
+                link.href = path_to_root + href;
+            }
+            // The "index" page is supposed to alias the first chapter in the book.
+            if (link.href === current_page || (i === 0 && path_to_root === "" && current_page.endsWith("/index.html"))) {
+                link.classList.add("active");
+                var parent = link.parentElement;
+                if (parent && parent.classList.contains("chapter-item")) {
+                    parent.classList.add("expanded");
+                }
+                while (parent) {
+                    if (parent.tagName === "LI" && parent.previousElementSibling) {
+                        if (parent.previousElementSibling.classList.contains("chapter-item")) {
+                            parent.previousElementSibling.classList.add("expanded");
+                        }
+                    }
+                    parent = parent.parentElement;
+                }
+            }
+        }
+        // Track and set sidebar scroll position
+        this.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A') {
+                sessionStorage.setItem('sidebar-scroll', this.scrollTop);
+            }
+        }, { passive: true });
+        var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+        sessionStorage.removeItem('sidebar-scroll');
+        if (sidebarScrollTop) {
+            // preserve sidebar scroll position when navigating via links within sidebar
+            this.scrollTop = sidebarScrollTop;
+        } else {
+            // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+            var activeSection = document.querySelector('#sidebar .active');
+            if (activeSection) {
+                activeSection.scrollIntoView({ block: 'center' });
+            }
+        }
+        // Toggle buttons
+        var sidebarAnchorToggles = document.querySelectorAll('#sidebar a.toggle');
+        function toggleSection(ev) {
+            ev.currentTarget.parentElement.classList.toggle('expanded');
+        }
+        Array.from(sidebarAnchorToggles).forEach(function (el) {
+            el.addEventListener('click', toggleSection);
+        });
+    }
+}
+window.customElements.define("mdbook-sidebar-scrollbox", MDBookSidebarScrollbox);

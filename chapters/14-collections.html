@@ -1,0 +1,1734 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Collections and Data Structures - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/14-collections.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-14-collections-and-data-structures"><a class="header" href="#chapter-14-collections-and-data-structures">Chapter 14: Collections and Data Structures</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>While Rust’s built-in types like arrays and tuples are powerful, they have limitations when you need to store variable amounts of data or implement more complex data structures. This is where Rust’s standard library collections come in. Collections are data structures that can store multiple values, with each having different strengths and costs.</p>
+<p>In this chapter, we’ll explore:</p>
+<ul>
+<li>Vec<T> and dynamic arrays</li>
+<li>Iterating, growing, and shrinking vectors</li>
+<li>Common vector operations</li>
+<li>HashMaps, BTreeMaps, and key-value stores</li>
+<li>Working with hash maps efficiently</li>
+<li>HashSets and BTreeSets</li>
+<li>Performance characteristics of collections</li>
+<li>Specialized collections</li>
+<li>Choosing the right collection</li>
+<li>Custom data structures</li>
+<li>Common collection algorithms</li>
+<li>Building a data analysis tool</li>
+</ul>
+<p>By the end of this chapter, you’ll understand how to use Rust’s collection types effectively and how to choose the right collection for your specific needs.</p>
+<h2 id="vec-and-dynamic-arrays"><a class="header" href="#vec-and-dynamic-arrays">Vec<T> and Dynamic Arrays</a></h2>
+<p>The <code>Vec&lt;T&gt;</code> (vector) is one of the most versatile and commonly used collections in Rust. It’s a dynamic array that can grow or shrink in size and store elements of the same type contiguously in memory.</p>
+<h3 id="creating-vectors"><a class="header" href="#creating-vectors">Creating Vectors</a></h3>
+<p>There are several ways to create a vector in Rust:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Creating an empty vector with explicit type annotation
+let v1: Vec&lt;i32&gt; = Vec::new();
+
+// Using the vec! macro
+let v2 = vec![1, 2, 3, 4, 5];
+
+// Creating with initial capacity for efficiency
+let mut v3 = Vec::with_capacity(10);
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>with_capacity</code> method is an optimization that allocates memory for a specific number of elements upfront, reducing the number of allocations when you know approximately how many elements the vector will contain.</p>
+<h3 id="memory-layout"><a class="header" href="#memory-layout">Memory Layout</a></h3>
+<p>Understanding how vectors are stored in memory is important for performance considerations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Vec&lt;T&gt; {
+    ptr: *mut T,  // Pointer to the heap allocation
+    len: usize,   // Number of elements currently in the vector
+    capacity: usize,  // Total space allocated
+}
+<span class="boring">}</span></code></pre></pre>
+<p>A vector consists of three parts:</p>
+<ol>
+<li>A pointer to a heap allocation where the elements are stored</li>
+<li>The length (number of elements currently in the vector)</li>
+<li>The capacity (total space allocated on the heap)</li>
+</ol>
+<p>When you add elements to a vector and it exceeds its capacity, it will:</p>
+<ol>
+<li>Allocate a new, larger chunk of memory (typically 2x the current capacity)</li>
+<li>Copy all existing elements to the new allocation</li>
+<li>Update the pointer and capacity</li>
+<li>Deallocate the old memory</li>
+</ol>
+<p>This process is called “reallocation” and can be expensive, which is why using <code>with_capacity</code> can improve performance when you know approximately how many elements you’ll need.</p>
+<h2 id="iterating-growing-and-shrinking-vectors"><a class="header" href="#iterating-growing-and-shrinking-vectors">Iterating, Growing, and Shrinking Vectors</a></h2>
+<h3 id="adding-elements-to-vectors"><a class="header" href="#adding-elements-to-vectors">Adding Elements to Vectors</a></h3>
+<p>There are multiple ways to add elements to a vector:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = Vec::new();
+
+// Add a single element to the end
+v.push(1);
+v.push(2);
+v.push(3);
+
+// Add multiple elements using extend
+let more_numbers = vec![4, 5, 6];
+v.extend(more_numbers);
+
+// Insert an element at a specific position
+v.insert(2, 10);  // Inserts 10 at index 2, shifting elements right
+<span class="boring">}</span></code></pre></pre>
+<h3 id="removing-elements-from-vectors"><a class="header" href="#removing-elements-from-vectors">Removing Elements from Vectors</a></h3>
+<p>Similarly, there are several ways to remove elements:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = vec![1, 2, 3, 4, 5];
+
+// Remove and return the last element
+let last = v.pop();  // Returns Some(5)
+
+// Remove an element at a specific index
+let second = v.remove(1);  // Removes the element at index 1 (value 2)
+
+// Clear all elements but keep the allocated memory
+v.clear();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="iterating-over-vectors"><a class="header" href="#iterating-over-vectors">Iterating Over Vectors</a></h3>
+<p>Rust provides several ways to iterate over vectors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3, 4, 5];
+
+// Immutable iteration
+for element in &amp;v {
+    println!("{}", element);
+}
+
+// Mutable iteration
+let mut v = vec![1, 2, 3, 4, 5];
+for element in &amp;mut v {
+    *element *= 2;  // Double each element
+}
+
+// Consuming iteration (takes ownership)
+for element in v {
+    println!("{}", element);
+}
+// v is no longer usable here
+
+// Using iterators directly
+let v = vec![1, 2, 3, 4, 5];
+let doubled: Vec&lt;i32&gt; = v.iter().map(|x| x * 2).collect();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="slicing-vectors"><a class="header" href="#slicing-vectors">Slicing Vectors</a></h3>
+<p>You can create a slice of a vector to work with a portion of it:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3, 4, 5];
+
+// Create a slice of the vector
+let slice = &amp;v[1..4];  // [2, 3, 4]
+
+// Iterate over a slice
+for element in slice {
+    println!("{}", element);
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="common-vector-operations"><a class="header" href="#common-vector-operations">Common Vector Operations</a></h2>
+<h3 id="accessing-elements"><a class="header" href="#accessing-elements">Accessing Elements</a></h3>
+<p>There are two primary ways to access vector elements:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3, 4, 5];
+
+// Using indexing syntax (panics if out of bounds)
+let third = v[2];
+
+// Using the get method (returns Option&lt;&amp;T&gt;)
+match v.get(2) {
+    Some(element) =&gt; println!("The third element is {}", element),
+    None =&gt; println!("There is no third element"),
+}
+
+// For mutable access
+let mut v = vec![1, 2, 3, 4, 5];
+if let Some(element) = v.get_mut(2) {
+    *element = 10;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>get</code> method is safer because it returns an <code>Option</code> instead of panicking when accessing an out-of-bounds index.</p>
+<h3 id="searching-and-sorting"><a class="header" href="#searching-and-sorting">Searching and Sorting</a></h3>
+<p>Vectors provide methods for searching and sorting elements:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = vec![3, 1, 4, 1, 5, 9, 2, 6];
+
+// Sort the vector
+v.sort();
+assert_eq!(v, vec![1, 1, 2, 3, 4, 5, 6, 9]);
+
+// Sort with a custom comparator
+v.sort_by(|a, b| b.cmp(a));  // Sort in descending order
+assert_eq!(v, vec![9, 6, 5, 4, 3, 2, 1, 1]);
+
+// Find the position of an element
+let pos = v.iter().position(|&amp;x| x == 4);
+assert_eq!(pos, Some(3));
+
+// Check if the vector contains an element
+let contains = v.contains(&amp;5);
+assert_eq!(contains, true);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="filtering-and-transforming"><a class="header" href="#filtering-and-transforming">Filtering and Transforming</a></h3>
+<p>Using iterator methods, you can filter and transform vectors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3, 4, 5, 6];
+
+// Filter elements
+let evens: Vec&lt;_&gt; = v.iter().filter(|&amp;&amp;x| x % 2 == 0).collect();
+assert_eq!(evens, vec![&amp;2, &amp;4, &amp;6]);
+
+// Transform elements
+let squared: Vec&lt;_&gt; = v.iter().map(|&amp;x| x * x).collect();
+assert_eq!(squared, vec![1, 4, 9, 16, 25, 36]);
+
+// Both filter and transform
+let even_squared: Vec&lt;_&gt; = v.iter()
+    .filter(|&amp;&amp;x| x % 2 == 0)
+    .map(|&amp;x| x * x)
+    .collect();
+assert_eq!(even_squared, vec![4, 16, 36]);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="joining-and-splitting"><a class="header" href="#joining-and-splitting">Joining and Splitting</a></h3>
+<p>You can join vectors together or split them:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v1 = vec![1, 2, 3];
+let v2 = vec![4, 5, 6];
+
+// Combining vectors
+let v3 = [v1.clone(), v2.clone()].concat();
+assert_eq!(v3, vec![1, 2, 3, 4, 5, 6]);
+
+// Another way to combine
+let mut v4 = v1.clone();
+v4.extend(v2.clone());
+assert_eq!(v4, vec![1, 2, 3, 4, 5, 6]);
+
+// Splitting a vector
+let v = vec![1, 2, 3, 4, 5, 6];
+let (left, right) = v.split_at(3);
+assert_eq!(left, &amp;[1, 2, 3]);
+assert_eq!(right, &amp;[4, 5, 6]);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="capacity-management"><a class="header" href="#capacity-management">Capacity Management</a></h3>
+<p>You can manage a vector’s capacity for better performance:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = Vec::new();
+
+// Reserve space for elements
+v.reserve(10);  // Ensures capacity for at least 10 elements
+
+// Add elements
+for i in 0..5 {
+    v.push(i);
+}
+
+// Check capacity and length
+println!("Length: {}, Capacity: {}", v.len(), v.capacity());
+
+// Shrink capacity to fit the current elements
+v.shrink_to_fit();
+println!("After shrink_to_fit - Length: {}, Capacity: {}", v.len(), v.capacity());
+<span class="boring">}</span></code></pre></pre>
+<h3 id="performance-considerations"><a class="header" href="#performance-considerations">Performance Considerations</a></h3>
+<p>When working with vectors, keep these performance considerations in mind:</p>
+<ol>
+<li><strong>Preallocate capacity</strong> when you know the approximate size to avoid reallocations</li>
+<li><strong>Prefer <code>push</code> over <code>insert</code></strong> when possible, as inserting in the middle requires shifting elements</li>
+<li><strong>Use <code>with_capacity</code> and <code>reserve</code></strong> to minimize allocations</li>
+<li><strong>Consider using specialized methods</strong> like <code>extend</code> instead of multiple individual <code>push</code> calls</li>
+<li><strong>Be mindful of the cost of clone operations</strong> when working with vectors of complex types</li>
+</ol>
+<h2 id="hashmaps-btreemaps-and-key-value-stores"><a class="header" href="#hashmaps-btreemaps-and-key-value-stores">HashMaps, BTreeMaps, and Key-Value Stores</a></h2>
+<p>Key-value stores are collections that allow you to store and retrieve values based on keys. Rust provides several implementations with different performance characteristics.</p>
+<h3 id="hashmapk-v"><a class="header" href="#hashmapk-v">HashMap&lt;K, V&gt;</a></h3>
+<p><code>HashMap&lt;K, V&gt;</code> provides average-case O(1) lookups, insertions, and removals. It’s the go-to choice for most key-value storage needs.</p>
+<h4 id="creating-a-hashmap"><a class="header" href="#creating-a-hashmap">Creating a HashMap</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+
+// Create an empty HashMap
+let mut scores = HashMap::new();
+
+// Insert key-value pairs
+scores.insert("Blue", 10);
+scores.insert("Yellow", 50);
+
+// Create from iterators of keys and values
+let teams = vec!["Blue", "Yellow"];
+let initial_scores = vec![10, 50];
+let scores: HashMap&lt;_, _&gt; = teams.into_iter().zip(initial_scores.into_iter()).collect();
+
+// Create with initial capacity
+let mut map = HashMap::with_capacity(10);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="accessing-values"><a class="header" href="#accessing-values">Accessing Values</a></h4>
+<p>There are several ways to access values in a <code>HashMap</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut scores = HashMap::new();
+scores.insert("Blue", 10);
+scores.insert("Yellow", 50);
+
+// Using indexing (panics if key doesn't exist)
+let blue_score = scores["Blue"];
+
+// Using get (returns Option&lt;&amp;V&gt;)
+match scores.get("Blue") {
+    Some(score) =&gt; println!("Blue team's score: {}", score),
+    None =&gt; println!("Blue team not found"),
+}
+
+// Using get_mut for mutable access
+if let Some(score) = scores.get_mut("Blue") {
+    *score += 5;  // Increment Blue's score
+}
+
+// Check if a key exists
+if scores.contains_key("Red") {
+    println!("Red team exists");
+} else {
+    println!("Red team doesn't exist");
+}
+
+// Get or insert a default value
+let red_score = scores.entry("Red").or_insert(0);
+*red_score += 5;  // Red now has a score of 5
+<span class="boring">}</span></code></pre></pre>
+<h4 id="updating-hashmap-values"><a class="header" href="#updating-hashmap-values">Updating HashMap Values</a></h4>
+<p>Here are common patterns for updating values in a <code>HashMap</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut scores = HashMap::new();
+
+// Insert or overwrite
+scores.insert("Blue", 10);
+scores.insert("Blue", 25);  // Blue's score is now 25
+
+// Insert only if key doesn't exist
+scores.entry("Yellow").or_insert(50);
+scores.entry("Yellow").or_insert(100);  // Yellow's score is still 50
+
+// Update a value based on the old value
+let text = "hello world wonderful world";
+let mut word_count = HashMap::new();
+
+for word in text.split_whitespace() {
+    let count = word_count.entry(word).or_insert(0);
+    *count += 1;
+}
+// word_count contains {"hello": 1, "world": 2, "wonderful": 1}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="iterating-over-hashmaps"><a class="header" href="#iterating-over-hashmaps">Iterating Over HashMaps</a></h4>
+<p>You can iterate over all key-value pairs in a <code>HashMap</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut scores = HashMap::new();
+scores.insert("Blue", 10);
+scores.insert("Yellow", 50);
+scores.insert("Red", 30);
+
+// Iterate over key-value pairs (in arbitrary order)
+for (key, value) in &amp;scores {
+    println!("{}: {}", key, value);
+}
+
+// Iterate over just keys
+for key in scores.keys() {
+    println!("{}", key);
+}
+
+// Iterate over just values
+for value in scores.values() {
+    println!("{}", value);
+}
+
+// Iterate over key-value pairs and modify values
+for (_, value) in scores.iter_mut() {
+    *value += 5;  // Increment all scores by 5
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="removing-entries"><a class="header" href="#removing-entries">Removing Entries</a></h4>
+<p>You can remove entries from a <code>HashMap</code> in several ways:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut scores = HashMap::new();
+scores.insert("Blue", 10);
+scores.insert("Yellow", 50);
+scores.insert("Red", 30);
+
+// Remove a specific key and return its value
+let red_score = scores.remove("Red");  // Returns Some(30)
+
+// Remove a key only if it has a specific value
+let removed = scores.remove_entry("Blue");  // Returns Some(("Blue", 10))
+
+// Clear all entries
+scores.clear();
+<span class="boring">}</span></code></pre></pre>
+<h3 id="btreemapk-v"><a class="header" href="#btreemapk-v">BTreeMap&lt;K, V&gt;</a></h3>
+<p><code>BTreeMap&lt;K, V&gt;</code> is a map based on a B-Tree, which keeps its keys sorted and provides O(log n) operations.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::BTreeMap;
+
+let mut map = BTreeMap::new();
+map.insert(3, "three");
+map.insert(1, "one");
+map.insert(4, "four");
+map.insert(2, "two");
+
+// Keys are iterated in sorted order
+for (key, value) in &amp;map {
+    println!("{}: {}", key, value);  // Prints in order: 1, 2, 3, 4
+}
+
+// Range operations
+for (key, value) in map.range(2..4) {
+    println!("{}: {}", key, value);  // Prints: 2: two, 3: three
+}
+
+// Find the first key-value pair greater than or equal to a key
+if let Some((key, value)) = map.range(2..).next() {
+    println!("First entry &gt;= 2: {}: {}", key, value);  // Prints: 2: two
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="hashmap-vs-btreemap-when-to-use-each"><a class="header" href="#hashmap-vs-btreemap-when-to-use-each">HashMap vs. BTreeMap: When to Use Each</a></h3>
+<p>Choose between <code>HashMap</code> and <code>BTreeMap</code> based on your requirements:</p>
+<div class="table-wrapper"><table><thead><tr><th>Feature</th><th>HashMap</th><th>BTreeMap</th></tr></thead><tbody>
+<tr><td>Key order</td><td>Unordered</td><td>Ordered</td></tr>
+<tr><td>Lookup time</td><td>O(1) average</td><td>O(log n)</td></tr>
+<tr><td>Memory usage</td><td>More</td><td>Less</td></tr>
+<tr><td>Key requirements</td><td>Must implement <code>Hash</code> + <code>Eq</code></td><td>Must implement <code>Ord</code></td></tr>
+<tr><td>Range queries</td><td>Not supported</td><td>Supported</td></tr>
+<tr><td>Predictable iteration</td><td>No</td><td>Yes</td></tr>
+</tbody></table>
+</div>
+<p>Use <code>HashMap</code> when:</p>
+<ul>
+<li>You need the fastest possible lookups and don’t care about key order</li>
+<li>Your keys implement <code>Hash</code> and <code>Eq</code></li>
+<li>You don’t need range operations</li>
+</ul>
+<p>Use <code>BTreeMap</code> when:</p>
+<ul>
+<li>You need keys to be sorted</li>
+<li>You need range operations</li>
+<li>Memory usage is a concern</li>
+<li>You need predictable iteration order</li>
+<li>Your keys implement <code>Ord</code></li>
+</ul>
+<h2 id="working-with-hash-maps-efficiently"><a class="header" href="#working-with-hash-maps-efficiently">Working with Hash Maps Efficiently</a></h2>
+<h3 id="choosing-good-hash-keys"><a class="header" href="#choosing-good-hash-keys">Choosing Good Hash Keys</a></h3>
+<p>For efficient <code>HashMap</code> usage, keys should:</p>
+<ol>
+<li><strong>Implement <code>Hash</code> efficiently</strong>: A good hash function distributes keys evenly</li>
+<li><strong>Have cheap equality checks</strong>: Since lookups require equality comparisons</li>
+<li><strong>Be small or implement Copy</strong>: To avoid expensive cloning operations</li>
+</ol>
+<p>Common types that make good hash keys:</p>
+<ul>
+<li>Integers (<code>i32</code>, <code>u64</code>, etc.)</li>
+<li>Characters (<code>char</code>)</li>
+<li>Booleans (<code>bool</code>)</li>
+<li>Strings (<code>String</code>, <code>&amp;str</code>)</li>
+<li>Small fixed-size arrays of hashable types</li>
+<li>Tuples of hashable types</li>
+</ul>
+<h3 id="avoiding-common-hashmap-pitfalls"><a class="header" href="#avoiding-common-hashmap-pitfalls">Avoiding Common HashMap Pitfalls</a></h3>
+<h4 id="1-hashing-security-considerations"><a class="header" href="#1-hashing-security-considerations">1. Hashing Security Considerations</a></h4>
+<p>Rust’s default hasher (<code>SipHash</code>) is designed to be resistant to HashDoS attacks but is slower than non-cryptographic hashers.</p>
+<p>If you need better performance and control over the hashing algorithm, you can use a custom hasher:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+use std::hash::{BuildHasher, Hasher};
+use std::collections::hash_map::RandomState;
+
+let hash_builder = RandomState::new();
+let mut map: HashMap&lt;String, i32, _&gt; = HashMap::with_hasher(hash_builder);
+map.insert("hello".to_string(), 42);
+<span class="boring">}</span></code></pre></pre>
+<p>For performance-critical code, consider using the <code>ahash</code> or <code>fnv</code> crates for faster hashing.</p>
+<h4 id="2-managing-memory-with-capacity"><a class="header" href="#2-managing-memory-with-capacity">2. Managing Memory with Capacity</a></h4>
+<p>Like vectors, <code>HashMap</code>s can be pre-allocated to avoid rehashing:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create with capacity for at least 100 entries
+let mut map = HashMap::with_capacity(100);
+
+// Reserve space for more entries
+map.reserve(50);  // Ensure capacity for at least 50 more entries
+<span class="boring">}</span></code></pre></pre>
+<h4 id="3-handling-entry-api-patterns"><a class="header" href="#3-handling-entry-api-patterns">3. Handling Entry API Patterns</a></h4>
+<p>The Entry API is a powerful way to manipulate maps without redundant lookups:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+
+let mut player_stats = HashMap::new();
+
+// Update or insert based on existing value
+match player_stats.entry("Alice") {
+    std::collections::hash_map::Entry::Occupied(mut entry) =&gt; {
+        *entry.get_mut() += 1;  // Increment existing value
+    },
+    std::collections::hash_map::Entry::Vacant(entry) =&gt; {
+        entry.insert(1);  // Insert new value
+    },
+}
+
+// Or more concisely:
+*player_stats.entry("Bob").or_insert(0) += 1;
+
+// Insert with a calculated value that might be expensive
+let value = player_stats.entry("Charlie").or_insert_with(|| {
+    // This closure is only called if "Charlie" isn't in the map
+    expensive_computation()
+});
+<span class="boring">}</span></code></pre></pre>
+<h4 id="4-using-references-as-keys"><a class="header" href="#4-using-references-as-keys">4. Using References as Keys</a></h4>
+<p>When using references as keys, be mindful of lifetimes:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut map = HashMap::new();
+
+// Using string literals (which have 'static lifetime)
+map.insert("key1", 42);
+
+// Using string references with explicit lifetimes
+let owned_str = String::from("key2");
+map.insert(owned_str.as_str(), 24);
+
+// The HashMap now contains references to strings,
+// so it can't outlive the strings it references
+<span class="boring">}</span></code></pre></pre>
+<h4 id="5-customizing-hashmap-behavior"><a class="header" href="#5-customizing-hashmap-behavior">5. Customizing HashMap Behavior</a></h4>
+<p>You can customize the initial capacity and load factor (the point at which rehashing occurs):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+
+// Default load factor is 0.75
+// This means rehashing occurs when the map is 75% full
+let mut map = HashMap::with_capacity_and_hasher(
+    100,  // Initial capacity
+    std::collections::hash_map::RandomState::new(),  // Hasher
+);
+<span class="boring">}</span></code></pre></pre>
+<h2 id="hashsets-and-btreesets"><a class="header" href="#hashsets-and-btreesets">HashSets and BTreeSets</a></h2>
+<p>Sets are collections that store unique values without any associated values. Rust provides two main set implementations: <code>HashSet</code> and <code>BTreeSet</code>.</p>
+<h3 id="hashset"><a class="header" href="#hashset">HashSet<T></a></h3>
+<p><code>HashSet&lt;T&gt;</code> is based on <code>HashMap&lt;T, ()&gt;</code> and provides O(1) average-case operations for adding, removing, and checking if an element exists.</p>
+<h4 id="creating-a-hashset"><a class="header" href="#creating-a-hashset">Creating a HashSet</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashSet;
+
+// Create an empty HashSet
+let mut set = HashSet::new();
+
+// Insert elements
+set.insert(1);
+set.insert(2);
+set.insert(3);
+
+// Create from an iterator
+let set: HashSet&lt;_&gt; = [1, 2, 3, 4].iter().cloned().collect();
+
+// Create with initial capacity
+let mut set = HashSet::with_capacity(10);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="basic-operations"><a class="header" href="#basic-operations">Basic Operations</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut set = HashSet::new();
+set.insert("apple");
+set.insert("banana");
+set.insert("cherry");
+
+// Check if an element exists
+if set.contains("banana") {
+    println!("Set contains banana");
+}
+
+// Remove an element
+set.remove("apple");
+
+// Get the number of elements
+println!("Set size: {}", set.len());
+
+// Check if the set is empty
+if set.is_empty() {
+    println!("Set is empty");
+}
+
+// Iterate over the set (in arbitrary order)
+for item in &amp;set {
+    println!("{}", item);
+}
+
+// Clear the set
+set.clear();
+<span class="boring">}</span></code></pre></pre>
+<h4 id="set-operations"><a class="header" href="#set-operations">Set Operations</a></h4>
+<p><code>HashSet</code> provides methods for common set operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut a = HashSet::new();
+a.insert(1);
+a.insert(2);
+a.insert(3);
+
+let mut b = HashSet::new();
+b.insert(3);
+b.insert(4);
+b.insert(5);
+
+// Union: elements in either set
+let union: HashSet&lt;_&gt; = a.union(&amp;b).cloned().collect();
+// {1, 2, 3, 4, 5}
+
+// Intersection: elements in both sets
+let intersection: HashSet&lt;_&gt; = a.intersection(&amp;b).cloned().collect();
+// {3}
+
+// Difference: elements in a but not in b
+let difference: HashSet&lt;_&gt; = a.difference(&amp;b).cloned().collect();
+// {1, 2}
+
+// Symmetric difference: elements in either set but not both
+let sym_difference: HashSet&lt;_&gt; = a.symmetric_difference(&amp;b).cloned().collect();
+// {1, 2, 4, 5}
+
+// Check if a is a subset of b
+let is_subset = a.is_subset(&amp;b);  // false
+
+// Check if a is a superset of b
+let is_superset = a.is_superset(&amp;b);  // false
+
+// Check if sets are disjoint (have no elements in common)
+let is_disjoint = a.is_disjoint(&amp;b);  // false
+<span class="boring">}</span></code></pre></pre>
+<h3 id="btreeset"><a class="header" href="#btreeset">BTreeSet<T></a></h3>
+<p><code>BTreeSet&lt;T&gt;</code> is based on <code>BTreeMap&lt;T, ()&gt;</code> and keeps elements sorted. It provides O(log n) operations and supports range queries.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::BTreeSet;
+
+let mut set = BTreeSet::new();
+set.insert(3);
+set.insert(1);
+set.insert(4);
+set.insert(2);
+
+// Elements are iterated in sorted order
+for item in &amp;set {
+    println!("{}", item);  // Prints: 1, 2, 3, 4
+}
+
+// Range operations
+for item in set.range(2..4) {
+    println!("{}", item);  // Prints: 2, 3
+}
+
+// Find the first element greater than or equal to a value
+if let Some(item) = set.range(2..).next() {
+    println!("First item &gt;= 2: {}", item);  // Prints: 2
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="hashset-vs-btreeset-when-to-use-each"><a class="header" href="#hashset-vs-btreeset-when-to-use-each">HashSet vs. BTreeSet: When to Use Each</a></h3>
+<p>The choice between <code>HashSet</code> and <code>BTreeSet</code> is similar to the choice between <code>HashMap</code> and <code>BTreeMap</code>:</p>
+<div class="table-wrapper"><table><thead><tr><th>Feature</th><th>HashSet</th><th>BTreeSet</th></tr></thead><tbody>
+<tr><td>Element order</td><td>Unordered</td><td>Ordered</td></tr>
+<tr><td>Operation time</td><td>O(1) average</td><td>O(log n)</td></tr>
+<tr><td>Memory usage</td><td>More</td><td>Less</td></tr>
+<tr><td>Element requirements</td><td>Must implement <code>Hash</code> + <code>Eq</code></td><td>Must implement <code>Ord</code></td></tr>
+<tr><td>Range queries</td><td>Not supported</td><td>Supported</td></tr>
+<tr><td>Predictable iteration</td><td>No</td><td>Yes</td></tr>
+</tbody></table>
+</div>
+<p>Use <code>HashSet</code> when:</p>
+<ul>
+<li>You need the fastest possible operations and don’t care about element order</li>
+<li>Your elements implement <code>Hash</code> and <code>Eq</code></li>
+<li>You don’t need range operations</li>
+</ul>
+<p>Use <code>BTreeSet</code> when:</p>
+<ul>
+<li>You need elements to be sorted</li>
+<li>You need range operations</li>
+<li>Memory usage is a concern</li>
+<li>You need predictable iteration order</li>
+<li>Your elements implement <code>Ord</code></li>
+</ul>
+<h2 id="performance-characteristics-of-collections"><a class="header" href="#performance-characteristics-of-collections">Performance Characteristics of Collections</a></h2>
+<p>Understanding the performance characteristics of different collections is crucial for choosing the right one for your needs.</p>
+<h3 id="time-complexity"><a class="header" href="#time-complexity">Time Complexity</a></h3>
+<p>Here’s a comparison of the time complexity for common operations across different collections:</p>
+<div class="table-wrapper"><table><thead><tr><th>Operation</th><th>Vec</th><th>HashMap</th><th>BTreeMap</th><th>HashSet</th><th>BTreeSet</th></tr></thead><tbody>
+<tr><td>Access by index</td><td>O(1)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Access by key</td><td>-</td><td>O(1) avg</td><td>O(log n)</td><td>-</td><td>-</td></tr>
+<tr><td>Insert at end</td><td>O(1) amortized</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Insert at position</td><td>O(n)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Insert key-value</td><td>-</td><td>O(1) avg</td><td>O(log n)</td><td>-</td><td>-</td></tr>
+<tr><td>Insert element</td><td>-</td><td>-</td><td>-</td><td>O(1) avg</td><td>O(log n)</td></tr>
+<tr><td>Remove from end</td><td>O(1)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Remove from position</td><td>O(n)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Remove by key</td><td>-</td><td>O(1) avg</td><td>O(log n)</td><td>-</td><td>-</td></tr>
+<tr><td>Remove element</td><td>-</td><td>-</td><td>-</td><td>O(1) avg</td><td>O(log n)</td></tr>
+<tr><td>Iterate</td><td>O(n)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td></tr>
+<tr><td>Sort</td><td>O(n log n)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Search (unsorted)</td><td>O(n)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Search (sorted)</td><td>O(log n)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Contains</td><td>O(n)</td><td>O(1) avg</td><td>O(log n)</td><td>O(1) avg</td><td>O(log n)</td></tr>
+</tbody></table>
+</div>
+<h3 id="memory-overhead"><a class="header" href="#memory-overhead">Memory Overhead</a></h3>
+<p>Collections also differ in their memory overhead:</p>
+<ul>
+<li><strong>Vec<T></strong>: Low overhead, just a pointer, length, and capacity</li>
+<li><strong>HashMap&lt;K, V&gt;</strong>: Higher overhead due to hash buckets and load factor</li>
+<li><strong>BTreeMap&lt;K, V&gt;</strong>: Moderate overhead due to tree structure</li>
+<li><strong>HashSet<T></strong>: Similar to HashMap</li>
+<li><strong>BTreeSet<T></strong>: Similar to BTreeMap</li>
+</ul>
+<h3 id="allocation-patterns"><a class="header" href="#allocation-patterns">Allocation Patterns</a></h3>
+<p>Collections have different allocation patterns:</p>
+<ul>
+<li><strong>Vec<T></strong>: Single contiguous allocation, grows exponentially</li>
+<li><strong>HashMap&lt;K, V&gt;</strong>: Hash buckets with separate allocations for entries</li>
+<li><strong>BTreeMap&lt;K, V&gt;</strong>: Multiple node allocations forming a tree structure</li>
+<li><strong>HashSet<T></strong>: Similar to HashMap</li>
+<li><strong>BTreeSet<T></strong>: Similar to BTreeMap</li>
+</ul>
+<h3 id="cache-efficiency"><a class="header" href="#cache-efficiency">Cache Efficiency</a></h3>
+<p>The memory layout affects cache efficiency:</p>
+<ul>
+<li><strong>Vec<T></strong>: Excellent cache locality for iteration</li>
+<li><strong>HashMap&lt;K, V&gt;</strong>: Poor cache locality due to scattered entries</li>
+<li><strong>BTreeMap&lt;K, V&gt;</strong>: Moderate cache locality, better than HashMap</li>
+<li><strong>HashSet<T></strong>: Similar to HashMap</li>
+<li><strong>BTreeSet<T></strong>: Similar to BTreeMap</li>
+</ul>
+<h2 id="specialized-collections"><a class="header" href="#specialized-collections">Specialized Collections</a></h2>
+<p>Beyond the standard collections, Rust provides several specialized collections for specific use cases.</p>
+<h3 id="vecdeque"><a class="header" href="#vecdeque">VecDeque<T></a></h3>
+<p><code>VecDeque&lt;T&gt;</code> is a double-ended queue implemented as a ring buffer, allowing efficient insertion and removal at both ends:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::VecDeque;
+
+let mut queue = VecDeque::new();
+
+// Add elements at both ends
+queue.push_back(1);
+queue.push_back(2);
+queue.push_front(0);  // Now [0, 1, 2]
+
+// Remove elements from both ends
+let first = queue.pop_front();  // Some(0)
+let last = queue.pop_back();    // Some(2)
+
+// Other operations similar to Vec
+queue.insert(1, 5);  // Insert at index 1
+let element = queue.remove(0);  // Remove at index 0
+<span class="boring">}</span></code></pre></pre>
+<p>Use <code>VecDeque</code> when you need a queue (FIFO) or deque (double-ended queue) data structure.</p>
+<h3 id="binaryheap"><a class="header" href="#binaryheap">BinaryHeap<T></a></h3>
+<p><code>BinaryHeap&lt;T&gt;</code> is a priority queue implemented as a max-heap, where the largest element is always at the front:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::BinaryHeap;
+
+let mut heap = BinaryHeap::new();
+
+// Add elements
+heap.push(1);
+heap.push(5);
+heap.push(2);
+
+// Get the largest element (without removing)
+if let Some(largest) = heap.peek() {
+    println!("Largest element: {}", largest);  // 5
+}
+
+// Remove and return the largest element
+let largest = heap.pop();  // Some(5)
+
+// Convert to a sorted vector (in ascending order)
+let sorted: Vec&lt;_&gt; = heap.into_sorted_vec();  // [1, 2]
+<span class="boring">}</span></code></pre></pre>
+<p>Use <code>BinaryHeap</code> when you need to efficiently find and remove the largest element, such as in priority queues and certain graph algorithms.</p>
+<h3 id="linkedlist"><a class="header" href="#linkedlist">LinkedList<T></a></h3>
+<p><code>LinkedList&lt;T&gt;</code> is a doubly-linked list that allows O(1) insertion and removal at any position (given an iterator to that position):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::LinkedList;
+
+let mut list = LinkedList::new();
+
+// Add elements
+list.push_back(1);
+list.push_back(2);
+list.push_front(0);  // Now [0, 1, 2]
+
+// Get an iterator to the second element
+let mut cursor = list.cursor_front_mut();
+cursor.move_next();  // Move to the first element
+cursor.move_next();  // Move to the second element
+
+// Insert an element after the cursor
+cursor.insert_after(1.5);  // Now [0, 1, 1.5, 2]
+
+// Remove the element at the cursor
+cursor.remove_current();  // Now [0, 1, 2]
+<span class="boring">}</span></code></pre></pre>
+<p>Use <code>LinkedList</code> sparingly, as it has poor cache locality and is rarely the best choice in practice. Vector or VecDeque are often better alternatives.</p>
+<h3 id="indexmapk-v-and-indexset"><a class="header" href="#indexmapk-v-and-indexset">IndexMap&lt;K, V&gt; and IndexSet<T></a></h3>
+<p>The <code>indexmap</code> crate provides <code>IndexMap&lt;K, V&gt;</code> and <code>IndexSet&lt;T&gt;</code>, which maintain insertion order while offering near-HashMap performance:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use indexmap::IndexMap;
+
+let mut map = IndexMap::new();
+map.insert("a", 1);
+map.insert("b", 2);
+map.insert("c", 3);
+
+// Elements are iterated in insertion order
+for (key, value) in &amp;map {
+    println!("{}: {}", key, value);  // Prints: a: 1, b: 2, c: 3
+}
+
+// Access by index
+if let Some((key, value)) = map.get_index(1) {
+    println!("Second element: {}: {}", key, value);  // b: 2
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Use <code>IndexMap</code> when you need a hash map that maintains insertion order.</p>
+<h2 id="choosing-the-right-collection"><a class="header" href="#choosing-the-right-collection">Choosing the Right Collection</a></h2>
+<p>Selecting the appropriate collection for your specific use case is critical for both correctness and performance.</p>
+<h3 id="decision-factors"><a class="header" href="#decision-factors">Decision Factors</a></h3>
+<p>Consider these factors when choosing a collection:</p>
+<ol>
+<li><strong>Access Pattern</strong>: How will you access the data? By index, key, or iteration?</li>
+<li><strong>Insertion/Removal Pattern</strong>: Where and how often will you add or remove elements?</li>
+<li><strong>Ordering Requirements</strong>: Do you need elements to be sorted or maintain insertion order?</li>
+<li><strong>Memory Constraints</strong>: Is memory usage a concern?</li>
+<li><strong>Performance Requirements</strong>: Which operations need to be fast?</li>
+<li><strong>Element Uniqueness</strong>: Do you need to ensure elements are unique?</li>
+<li><strong>Special Operations</strong>: Do you need range queries, priority access, or other specialized operations?</li>
+</ol>
+<h3 id="common-use-cases"><a class="header" href="#common-use-cases">Common Use Cases</a></h3>
+<p>Here are some common use cases and recommended collections:</p>
+<div class="table-wrapper"><table><thead><tr><th>Use Case</th><th>Recommended Collections</th></tr></thead><tbody>
+<tr><td>Simple list of items</td><td><code>Vec&lt;T&gt;</code></td></tr>
+<tr><td>Queue (FIFO)</td><td><code>VecDeque&lt;T&gt;</code></td></tr>
+<tr><td>Stack (LIFO)</td><td><code>Vec&lt;T&gt;</code></td></tr>
+<tr><td>Priority queue</td><td><code>BinaryHeap&lt;T&gt;</code></td></tr>
+<tr><td>Lookup by key</td><td><code>HashMap&lt;K, V&gt;</code></td></tr>
+<tr><td>Sorted key-value store</td><td><code>BTreeMap&lt;K, V&gt;</code></td></tr>
+<tr><td>Unique elements</td><td><code>HashSet&lt;T&gt;</code></td></tr>
+<tr><td>Sorted unique elements</td><td><code>BTreeSet&lt;T&gt;</code></td></tr>
+<tr><td>Insertion-order map</td><td><code>IndexMap&lt;K, V&gt;</code> (from <code>indexmap</code> crate)</td></tr>
+<tr><td>Graph structure</td><td>Custom or use a graph library</td></tr>
+<tr><td>Sparse data</td><td>Custom or specialized collections</td></tr>
+</tbody></table>
+</div>
+<h3 id="collection-selection-flowchart"><a class="header" href="#collection-selection-flowchart">Collection Selection Flowchart</a></h3>
+<p>Here’s a simplified decision flowchart:</p>
+<ol>
+<li>
+<p>Do you need to associate values with keys?</p>
+<ul>
+<li>Yes: Go to 2</li>
+<li>No: Go to 5</li>
+</ul>
+</li>
+<li>
+<p>Do you need sorted keys or range operations?</p>
+<ul>
+<li>Yes: Use <code>BTreeMap&lt;K, V&gt;</code></li>
+<li>No: Go to 3</li>
+</ul>
+</li>
+<li>
+<p>Do you need to maintain insertion order?</p>
+<ul>
+<li>Yes: Use <code>IndexMap&lt;K, V&gt;</code> (from <code>indexmap</code> crate)</li>
+<li>No: Go to 4</li>
+</ul>
+</li>
+<li>
+<p>Do you need fast lookups?</p>
+<ul>
+<li>Yes: Use <code>HashMap&lt;K, V&gt;</code></li>
+<li>No: Consider if a map is actually needed</li>
+</ul>
+</li>
+<li>
+<p>Do you need unique elements?</p>
+<ul>
+<li>Yes: Go to 6</li>
+<li>No: Go to 8</li>
+</ul>
+</li>
+<li>
+<p>Do you need sorted elements or range operations?</p>
+<ul>
+<li>Yes: Use <code>BTreeSet&lt;T&gt;</code></li>
+<li>No: Go to 7</li>
+</ul>
+</li>
+<li>
+<p>Do you need fast lookups?</p>
+<ul>
+<li>Yes: Use <code>HashSet&lt;T&gt;</code></li>
+<li>No: Consider if a set is actually needed</li>
+</ul>
+</li>
+<li>
+<p>Do you need fast insertions/removals at both ends?</p>
+<ul>
+<li>Yes: Use <code>VecDeque&lt;T&gt;</code></li>
+<li>No: Go to 9</li>
+</ul>
+</li>
+<li>
+<p>Do you need to frequently find the largest element?</p>
+<ul>
+<li>Yes: Use <code>BinaryHeap&lt;T&gt;</code></li>
+<li>No: Go to 10</li>
+</ul>
+</li>
+<li>
+<p>Default choice: Use <code>Vec&lt;T&gt;</code> unless you have a specific reason not to</p>
+</li>
+</ol>
+<h2 id="custom-data-structures"><a class="header" href="#custom-data-structures">Custom Data Structures</a></h2>
+<p>While Rust’s standard library provides many useful collections, sometimes you need to create your own data structures to meet specific requirements.</p>
+<h3 id="implementing-a-custom-collection"><a class="header" href="#implementing-a-custom-collection">Implementing a Custom Collection</a></h3>
+<p>Let’s implement a simple fixed-size ring buffer as an example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct RingBuffer&lt;T&gt; {
+    buffer: Vec&lt;Option&lt;T&gt;&gt;,
+    capacity: usize,
+    start: usize,
+    size: usize,
+}
+
+impl&lt;T&gt; RingBuffer&lt;T&gt; {
+    pub fn new(capacity: usize) -&gt; Self {
+        let mut buffer = Vec::with_capacity(capacity);
+        for _ in 0..capacity {
+            buffer.push(None);
+        }
+        RingBuffer {
+            buffer,
+            capacity,
+            start: 0,
+            size: 0,
+        }
+    }
+
+    pub fn push(&amp;mut self, item: T) {
+        let index = (self.start + self.size) % self.capacity;
+        self.buffer[index] = Some(item);
+
+        if self.size &lt; self.capacity {
+            self.size += 1;
+        } else {
+            // Buffer is full, overwrite oldest item
+            self.start = (self.start + 1) % self.capacity;
+        }
+    }
+
+    pub fn pop(&amp;mut self) -&gt; Option&lt;T&gt; {
+        if self.size == 0 {
+            return None;
+        }
+
+        let item = self.buffer[self.start].take();
+        self.start = (self.start + 1) % self.capacity;
+        self.size -= 1;
+        item
+    }
+
+    pub fn is_empty(&amp;self) -&gt; bool {
+        self.size == 0
+    }
+
+    pub fn is_full(&amp;self) -&gt; bool {
+        self.size == self.capacity
+    }
+
+    pub fn len(&amp;self) -&gt; usize {
+        self.size
+    }
+
+    pub fn capacity(&amp;self) -&gt; usize {
+        self.capacity
+    }
+}
+
+// Optionally implement common traits
+impl&lt;T: std::fmt::Debug&gt; std::fmt::Debug for RingBuffer&lt;T&gt; {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        write!(f, "RingBuffer {{ ")?;
+        for i in 0..self.size {
+            let index = (self.start + i) % self.capacity;
+            write!(f, "{:?}, ", self.buffer[index])?;
+        }
+        write!(f, "}}")
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-type-based-design"><a class="header" href="#using-type-based-design">Using Type-Based Design</a></h3>
+<p>When designing custom data structures, consider Rust’s type system:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Using newtypes for type safety
+struct UserId(u64);
+struct UserName(String);
+
+// Using enums for state machines
+enum ConnectionState {
+    Disconnected,
+    Connecting { attempt: u32 },
+    Connected { since: std::time::Instant },
+    Failed { error: String },
+}
+
+// Using generics for flexibility
+struct Cache&lt;K, V, S = std::collections::hash_map::RandomState&gt; {
+    map: HashMap&lt;K, (V, std::time::Instant), S&gt;,
+    ttl: std::time::Duration,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="implementing-iterator-traits"><a class="header" href="#implementing-iterator-traits">Implementing Iterator Traits</a></h3>
+<p>Make your custom collections iterable by implementing the <code>Iterator</code> trait:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T&gt; RingBuffer&lt;T&gt; {
+    pub fn iter(&amp;self) -&gt; RingBufferIter&lt;'_, T&gt; {
+        RingBufferIter {
+            buffer: &amp;self.buffer,
+            start: self.start,
+            size: self.size,
+            capacity: self.capacity,
+            position: 0,
+        }
+    }
+}
+
+pub struct RingBufferIter&lt;'a, T&gt; {
+    buffer: &amp;'a Vec&lt;Option&lt;T&gt;&gt;,
+    start: usize,
+    size: usize,
+    capacity: usize,
+    position: usize,
+}
+
+impl&lt;'a, T&gt; Iterator for RingBufferIter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        if self.position &gt;= self.size {
+            return None;
+        }
+
+        let index = (self.start + self.position) % self.capacity;
+        self.position += 1;
+
+        // We know the element exists because we're iterating within size
+        if let Some(item) = &amp;self.buffer[index] {
+            Some(item)
+        } else {
+            unreachable!("Element should exist")
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="common-collection-algorithms"><a class="header" href="#common-collection-algorithms">Common Collection Algorithms</a></h2>
+<p>Rust’s standard library provides many algorithms for working with collections. Let’s explore some common patterns:</p>
+<h3 id="transforming-collections"><a class="header" href="#transforming-collections">Transforming Collections</a></h3>
+<p>Transforming one collection type into another:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Vec to HashSet (removing duplicates)
+let vec = vec![1, 2, 2, 3, 4, 4, 5];
+let set: HashSet&lt;_&gt; = vec.into_iter().collect();
+assert_eq!(set.len(), 5);
+
+// HashSet to Vec
+let set: HashSet&lt;_&gt; = [1, 2, 3, 4, 5].iter().cloned().collect();
+let vec: Vec&lt;_&gt; = set.into_iter().collect();
+assert_eq!(vec.len(), 5);
+
+// HashMap to Vec of tuples
+let mut map = HashMap::new();
+map.insert("a", 1);
+map.insert("b", 2);
+let vec: Vec&lt;_&gt; = map.into_iter().collect();
+assert_eq!(vec.len(), 2);
+
+// Vec of tuples to HashMap
+let vec = vec![("a", 1), ("b", 2)];
+let map: HashMap&lt;_, _&gt; = vec.into_iter().collect();
+assert_eq!(map.len(), 2);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="filtering-and-mapping"><a class="header" href="#filtering-and-mapping">Filtering and Mapping</a></h3>
+<p>Combining iterator operations for powerful transformations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Filter and map in one pass
+let even_squares: Vec&lt;_&gt; = numbers.iter()
+    .filter(|&amp;n| n % 2 == 0)
+    .map(|&amp;n| n * n)
+    .collect();
+assert_eq!(even_squares, vec![4, 16, 36, 64, 100]);
+
+// Using flat_map to combine results
+let nested = vec![vec![1, 2, 3], vec![4, 5], vec![6, 7, 8, 9]];
+let flattened: Vec&lt;_&gt; = nested.iter()
+    .flat_map(|v| v.iter())
+    .collect();
+assert_eq!(flattened.len(), 9);
+
+// Using partition to split a collection
+let (even, odd): (Vec&lt;_&gt;, Vec&lt;_&gt;) = numbers.iter()
+    .partition(|&amp;&amp;n| n % 2 == 0);
+assert_eq!(even, vec![&amp;2, &amp;4, &amp;6, &amp;8, &amp;10]);
+assert_eq!(odd, vec![&amp;1, &amp;3, &amp;5, &amp;7, &amp;9]);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="aggregating-and-folding"><a class="header" href="#aggregating-and-folding">Aggregating and Folding</a></h3>
+<p>Using reduction operations to compute aggregates:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let numbers = vec![1, 2, 3, 4, 5];
+
+// Sum
+let sum: i32 = numbers.iter().sum();
+assert_eq!(sum, 15);
+
+// Product
+let product: i32 = numbers.iter().product();
+assert_eq!(product, 120);
+
+// Custom aggregation with fold
+let sum_of_squares = numbers.iter()
+    .fold(0, |acc, &amp;x| acc + x * x);
+assert_eq!(sum_of_squares, 55);
+
+// Running total with scan
+let running_total: Vec&lt;_&gt; = numbers.iter()
+    .scan(0, |state, &amp;x| {
+        *state += x;
+        Some(*state)
+    })
+    .collect();
+assert_eq!(running_total, vec![1, 3, 6, 10, 15]);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="sorting-and-searching"><a class="header" href="#sorting-and-searching">Sorting and Searching</a></h3>
+<p>Advanced sorting and searching techniques:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut numbers = vec![3, 1, 4, 1, 5, 9, 2, 6];
+
+// Sorting with custom comparator
+numbers.sort_by(|a, b| b.cmp(a));  // Descending order
+assert_eq!(numbers, vec![9, 6, 5, 4, 3, 2, 1, 1]);
+
+// Partial sorting (k smallest elements)
+let mut numbers = vec![3, 1, 4, 1, 5, 9, 2, 6];
+numbers.sort_unstable();
+let k_smallest = &amp;numbers[0..3];
+assert_eq!(k_smallest, [1, 1, 2]);
+
+// Binary search on sorted data
+let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+match numbers.binary_search(&amp;5) {
+    Ok(index) =&gt; println!("Found at index {}", index),
+    Err(index) =&gt; println!("Not found, would be inserted at index {}", index),
+}
+
+// Finding min/max elements
+let min = numbers.iter().min();
+let max = numbers.iter().max();
+assert_eq!(min, Some(&amp;1));
+assert_eq!(max, Some(&amp;9));
+<span class="boring">}</span></code></pre></pre>
+<h2 id="project-data-analysis-tool"><a class="header" href="#project-data-analysis-tool">Project: Data Analysis Tool</a></h2>
+<p>Let’s build a simple data analysis tool that demonstrates how to use collections effectively. This tool will process and analyze a dataset of sales records.</p>
+<h3 id="step-1-define-data-structures"><a class="header" href="#step-1-define-data-structures">Step 1: Define Data Structures</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::{HashMap, HashSet, BTreeMap};
+use std::error::Error;
+use std::fs::File;
+use std::io::{self, BufRead, BufReader};
+use std::path::Path;
+
+// Represent a sales record
+#[derive(Debug, Clone)]
+struct SalesRecord {
+    id: u32,
+    product: String,
+    category: String,
+    price: f64,
+    quantity: u32,
+    date: String,
+    region: String,
+}
+
+// Represent aggregated sales statistics
+struct SalesSummary {
+    total_revenue: f64,
+    total_units: u32,
+    avg_price: f64,
+    top_products: Vec&lt;(String, f64)&gt;,
+    revenue_by_category: HashMap&lt;String, f64&gt;,
+    revenue_by_region: HashMap&lt;String, f64&gt;,
+    revenue_by_month: BTreeMap&lt;String, f64&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-2-implement-data-loading"><a class="header" href="#step-2-implement-data-loading">Step 2: Implement Data Loading</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl SalesRecord {
+    // Parse a CSV line into a SalesRecord
+    fn from_csv(line: &amp;str) -&gt; Result&lt;Self, Box&lt;dyn Error&gt;&gt; {
+        let fields: Vec&lt;&amp;str&gt; = line.split(',').collect();
+
+        if fields.len() != 7 {
+            return Err("Invalid number of fields".into());
+        }
+
+        Ok(SalesRecord {
+            id: fields[0].parse()?,
+            product: fields[1].to_string(),
+            category: fields[2].to_string(),
+            price: fields[3].parse()?,
+            quantity: fields[4].parse()?,
+            date: fields[5].to_string(),
+            region: fields[6].to_string(),
+        })
+    }
+}
+
+// Load sales data from a CSV file
+fn load_sales_data&lt;P: AsRef&lt;Path&gt;&gt;(path: P) -&gt; Result&lt;Vec&lt;SalesRecord&gt;, Box&lt;dyn Error&gt;&gt; {
+    let file = File::open(path)?;
+    let reader = BufReader::new(file);
+    let mut records = Vec::new();
+
+    // Skip header line
+    for line in reader.lines().skip(1) {
+        let line = line?;
+        match SalesRecord::from_csv(&amp;line) {
+            Ok(record) =&gt; records.push(record),
+            Err(e) =&gt; eprintln!("Error parsing record: {}", e),
+        }
+    }
+
+    Ok(records)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-3-analyze-data"><a class="header" href="#step-3-analyze-data">Step 3: Analyze Data</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Analyze sales data and generate summary
+fn analyze_sales(records: &amp;[SalesRecord]) -&gt; SalesSummary {
+    // Calculate total revenue and units
+    let total_revenue: f64 = records.iter()
+        .map(|r| r.price * r.quantity as f64)
+        .sum();
+
+    let total_units: u32 = records.iter()
+        .map(|r| r.quantity)
+        .sum();
+
+    // Calculate average price
+    let avg_price = if !records.is_empty() {
+        total_revenue / total_units as f64
+    } else {
+        0.0
+    };
+
+    // Group revenue by product
+    let mut product_revenue: HashMap&lt;String, f64&gt; = HashMap::new();
+    for record in records {
+        let revenue = record.price * record.quantity as f64;
+        *product_revenue.entry(record.product.clone()).or_insert(0.0) += revenue;
+    }
+
+    // Find top 5 products by revenue
+    let mut products: Vec&lt;(String, f64)&gt; = product_revenue.into_iter().collect();
+    products.sort_by(|a, b| b.1.partial_cmp(&amp;a.1).unwrap_or(std::cmp::Ordering::Equal));
+    let top_products = products.into_iter().take(5).collect();
+
+    // Group revenue by category
+    let mut revenue_by_category: HashMap&lt;String, f64&gt; = HashMap::new();
+    for record in records {
+        let revenue = record.price * record.quantity as f64;
+        *revenue_by_category.entry(record.category.clone()).or_insert(0.0) += revenue;
+    }
+
+    // Group revenue by region
+    let mut revenue_by_region: HashMap&lt;String, f64&gt; = HashMap::new();
+    for record in records {
+        let revenue = record.price * record.quantity as f64;
+        *revenue_by_region.entry(record.region.clone()).or_insert(0.0) += revenue;
+    }
+
+    // Extract month from date and group revenue by month
+    let mut revenue_by_month: BTreeMap&lt;String, f64&gt; = BTreeMap::new();
+    for record in records {
+        // Assuming date format is YYYY-MM-DD
+        if record.date.len() &gt;= 7 {
+            let month = record.date[0..7].to_string(); // YYYY-MM
+            let revenue = record.price * record.quantity as f64;
+            *revenue_by_month.entry(month).or_insert(0.0) += revenue;
+        }
+    }
+
+    SalesSummary {
+        total_revenue,
+        total_units,
+        avg_price,
+        top_products,
+        revenue_by_category,
+        revenue_by_region,
+        revenue_by_month,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-4-implement-analysis-features"><a class="header" href="#step-4-implement-analysis-features">Step 4: Implement Analysis Features</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl SalesSummary {
+    // Print summary statistics
+    fn print_summary(&amp;self) {
+        println!("=== Sales Summary ===");
+        println!("Total Revenue: ${:.2}", self.total_revenue);
+        println!("Total Units Sold: {}", self.total_units);
+        println!("Average Price: ${:.2}", self.avg_price);
+
+        println!("\n=== Top 5 Products by Revenue ===");
+        for (i, (product, revenue)) in self.top_products.iter().enumerate() {
+            println!("{}. {} - ${:.2}", i + 1, product, revenue);
+        }
+
+        println!("\n=== Revenue by Category ===");
+        let mut categories: Vec&lt;(&amp;String, &amp;f64)&gt; = self.revenue_by_category.iter().collect();
+        categories.sort_by(|a, b| b.1.partial_cmp(a.1).unwrap_or(std::cmp::Ordering::Equal));
+        for (category, revenue) in categories {
+            println!("{}: ${:.2}", category, revenue);
+        }
+
+        println!("\n=== Revenue by Region ===");
+        let mut regions: Vec&lt;(&amp;String, &amp;f64)&gt; = self.revenue_by_region.iter().collect();
+        regions.sort_by(|a, b| b.1.partial_cmp(a.1).unwrap_or(std::cmp::Ordering::Equal));
+        for (region, revenue) in regions {
+            println!("{}: ${:.2}", region, revenue);
+        }
+
+        println!("\n=== Monthly Revenue Trend ===");
+        for (month, revenue) in &amp;self.revenue_by_month {
+            println!("{}: ${:.2}", month, revenue);
+        }
+    }
+
+    // Find products that appear in multiple categories
+    fn find_cross_category_products(&amp;self, records: &amp;[SalesRecord]) -&gt; HashSet&lt;String&gt; {
+        let mut product_categories: HashMap&lt;String, HashSet&lt;String&gt;&gt; = HashMap::new();
+
+        for record in records {
+            product_categories
+                .entry(record.product.clone())
+                .or_insert_with(HashSet::new)
+                .insert(record.category.clone());
+        }
+
+        product_categories.into_iter()
+            .filter(|(_, categories)| categories.len() &gt; 1)
+            .map(|(product, _)| product)
+            .collect()
+    }
+
+    // Calculate month-over-month growth
+    fn calculate_monthly_growth(&amp;self) -&gt; BTreeMap&lt;String, f64&gt; {
+        let mut growth: BTreeMap&lt;String, f64&gt; = BTreeMap::new();
+        let mut prev_revenue = 0.0;
+        let mut prev_month = String::new();
+
+        for (month, &amp;revenue) in &amp;self.revenue_by_month {
+            if !prev_month.is_empty() {
+                let growth_rate = if prev_revenue &gt; 0.0 {
+                    (revenue - prev_revenue) / prev_revenue * 100.0
+                } else {
+                    0.0
+                };
+                growth.insert(month.clone(), growth_rate);
+            }
+            prev_month = month.clone();
+            prev_revenue = revenue;
+        }
+
+        growth
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="step-5-main-function"><a class="header" href="#step-5-main-function">Step 5: Main Function</a></h3>
+<pre><pre class="playground"><code class="language-rust">fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    // In a real application, you would read this path from arguments
+    let path = "sales_data.csv";
+
+    println!("Loading sales data from {}...", path);
+    let records = match load_sales_data(path) {
+        Ok(data) =&gt; data,
+        Err(e) =&gt; {
+            eprintln!("Error loading data: {}", e);
+            return Err(e);
+        }
+    };
+
+    println!("Loaded {} sales records", records.len());
+
+    // Analyze the data
+    let summary = analyze_sales(&amp;records);
+
+    // Print the summary
+    summary.print_summary();
+
+    // Find cross-category products
+    let cross_category = summary.find_cross_category_products(&amp;records);
+    println!("\n=== Products in Multiple Categories ===");
+    for product in cross_category {
+        println!("{}", product);
+    }
+
+    // Calculate and print monthly growth
+    let monthly_growth = summary.calculate_monthly_growth();
+    println!("\n=== Monthly Growth Rates ===");
+    for (month, growth) in monthly_growth {
+        println!("{}: {:.2}%", month, growth);
+    }
+
+    Ok(())
+}</code></pre></pre>
+<p>This project demonstrates:</p>
+<ol>
+<li>Using multiple collection types (<code>Vec</code>, <code>HashMap</code>, <code>HashSet</code>, <code>BTreeMap</code>) for different purposes</li>
+<li>Transforming and aggregating data using iterators</li>
+<li>Sorting and filtering collections</li>
+<li>Using collections to build relationships between data</li>
+<li>Implementing efficient data analysis algorithms</li>
+</ol>
+<p>In a real-world scenario, you might extend this to include more advanced features like:</p>
+<ul>
+<li>Reading and writing data in different formats</li>
+<li>Interactive queries and filtering</li>
+<li>Visualization of results</li>
+<li>Performance optimizations for large datasets</li>
+<li>Concurrent processing of data</li>
+</ul>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored Rust’s powerful collection types and how to use them effectively:</p>
+<ul>
+<li>We learned about <code>Vec&lt;T&gt;</code> and how to work with dynamic arrays</li>
+<li>We explored the various ways to iterate over, grow, and shrink vectors</li>
+<li>We covered common vector operations for manipulating data</li>
+<li>We studied <code>HashMap</code> and <code>BTreeMap</code> for key-value storage</li>
+<li>We learned how to work with hash maps efficiently</li>
+<li>We examined <code>HashSet</code> and <code>BTreeSet</code> for storing unique elements</li>
+<li>We compared the performance characteristics of different collections</li>
+<li>We investigated specialized collections for specific use cases</li>
+<li>We discussed how to choose the right collection for different scenarios</li>
+<li>We implemented custom data structures in Rust</li>
+<li>We applied common collection algorithms for data manipulation</li>
+<li>We built a data analysis tool that demonstrates these concepts in practice</li>
+</ul>
+<p>Understanding collections is essential for writing efficient Rust programs. The right collection can make your code cleaner, faster, and more maintainable. As you continue your Rust journey, you’ll discover that mastering collections and their algorithms is one of the most valuable skills you can develop.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p>Implement a <code>Stack&lt;T&gt;</code> data structure using <code>Vec&lt;T&gt;</code> as the underlying storage.</p>
+</li>
+<li>
+<p>Create a function that finds the frequency of each word in a text file and returns the top N most common words.</p>
+</li>
+<li>
+<p>Implement a simple cache with a least-recently-used (LRU) eviction policy using <code>HashMap</code> and <code>VecDeque</code>.</p>
+</li>
+<li>
+<p>Write a function that merges two sorted vectors into a single sorted vector in O(n) time.</p>
+</li>
+<li>
+<p>Implement a graph data structure using adjacency lists with <code>HashMap</code> and <code>Vec</code>.</p>
+</li>
+<li>
+<p>Create a function that groups a collection of items by a key function and returns a <code>HashMap</code> of the groups.</p>
+</li>
+<li>
+<p>Implement a simple in-memory database that supports indexing by multiple fields.</p>
+</li>
+<li>
+<p>Extend the data analysis project to include more advanced analytics like correlation between price and quantity.</p>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/collections/index.html">Rust Standard Library Documentation: Collections</a></li>
+<li><a href="https://nnethercote.github.io/perf-book/">The Rust Performance Book</a></li>
+<li><a href="https://www.oreilly.com/library/view/programming-rust-2nd/9781492052586/">Programming Rust: Fast, Safe Systems Development</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/std/vec.html">Rust By Example: Collections</a></li>
+<li><a href="https://crates.io/crates/indexmap">The <code>indexmap</code> crate</a></li>
+<li><a href="https://github.com/PacktPublishing/Hands-On-Data-Structures-and-Algorithms-with-Rust">Data Structures and Algorithms in Rust</a></li>
+<li><a href="https://crates.io/crates/itertools">The <code>itertools</code> crate</a> for advanced iterator operations</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/13-modules.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/15-generics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/13-modules.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/15-generics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

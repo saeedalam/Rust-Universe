@@ -1,0 +1,3884 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Developing a Programming Language - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/46-programming-language.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-46-developing-a-programming-language"><a class="header" href="#chapter-46-developing-a-programming-language">Chapter 46: Developing a Programming Language</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Creating a programming language is often viewed as an arcane art mastered by only the most skilled computer scientists. However, with Rust’s powerful features and the right guidance, this fascinating endeavor becomes accessible to determined programmers.</p>
+<p>In this chapter, we’ll embark on an exciting journey to build “Flux” - a clean, fast, and minimal programming language with modern features. Flux will combine the expressiveness of Python with the performance considerations of Go, while incorporating ideas from Rust’s ownership model in a simplified form.</p>
+<p>By implementing a complete programming language from scratch, you’ll gain deep insights into language design, compiler theory, and runtime systems. More importantly, you’ll develop a profound understanding of how programming languages work under the hood, making you more effective in any language you use.</p>
+<p>Our implementation will follow a step-by-step approach, building each component with clean, modular Rust code. We’ll start with the fundamentals of lexical analysis and parsing, then move on to type checking, code generation, and finally a simple but efficient runtime system.</p>
+<h3 id="what-youll-learn"><a class="header" href="#what-youll-learn">What You’ll Learn</a></h3>
+<p>By the end of this chapter, you’ll be able to:</p>
+<ul>
+<li>Design and implement a complete programming language</li>
+<li>Build each component of a compiler: lexer, parser, type checker, and code generator</li>
+<li>Create a virtual machine to execute compiled code</li>
+<li>Understand the tradeoffs in programming language design</li>
+<li>Extend your language with new features and optimizations</li>
+</ul>
+<h3 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h3>
+<p>This chapter builds upon concepts covered throughout this book, particularly:</p>
+<ul>
+<li>Advanced Rust patterns (Chapters 15-17)</li>
+<li>Error handling (Chapters 19-21)</li>
+<li>Traits and polymorphism (Chapter 16)</li>
+<li>Ownership and lifetimes (Chapters 7-10)</li>
+</ul>
+<p>You should also be comfortable with recursive data structures and algorithms.</p>
+<h2 id="language-design-overview"><a class="header" href="#language-design-overview">Language Design Overview</a></h2>
+<p>Before diving into implementation, let’s establish a clear vision for our language, Flux.</p>
+<h3 id="flux-a-modern-minimal-language"><a class="header" href="#flux-a-modern-minimal-language">Flux: A Modern, Minimal Language</a></h3>
+<p>Flux will be a statically typed, expression-oriented language with the following key features:</p>
+<ol>
+<li><strong>Clean, minimalist syntax</strong> inspired by Python and Rust</li>
+<li><strong>Strong, static typing</strong> with type inference</li>
+<li><strong>First-class functions</strong> with closures</li>
+<li><strong>Algebraic data types</strong> for safe and expressive data modeling</li>
+<li><strong>Pattern matching</strong> for elegant control flow</li>
+<li><strong>Memory safety</strong> through a simplified ownership model</li>
+<li><strong>Bytecode compilation</strong> targeting a custom virtual machine</li>
+</ol>
+<h3 id="sample-flux-code"><a class="header" href="#sample-flux-code">Sample Flux Code</a></h3>
+<p>Here’s a taste of what Flux code will look like:</p>
+<pre><code class="language-flux">// Define a function to calculate factorial
+fn factorial(n: int) -&gt; int {
+    if n &lt;= 1 {
+        1
+    } else {
+        n * factorial(n - 1)
+    }
+}
+
+// Define a simple data structure
+type Point = {
+    x: float,
+    y: float
+}
+
+// Methods on data structures
+fn Point.distance(self, other: Point) -&gt; float {
+    let dx = self.x - other.x;
+    let dy = self.y - other.y;
+    sqrt(dx * dx + dy * dy)
+}
+
+// Pattern matching with algebraic data types
+type Shape =
+    | Circle(float)  // radius
+    | Rectangle(float, float)  // width, height
+    | Triangle(float, float, float);  // sides
+
+fn area(shape: Shape) -&gt; float {
+    match shape {
+        Circle(r) =&gt; 3.14159 * r * r,
+        Rectangle(w, h) =&gt; w * h,
+        Triangle(a, b, c) =&gt; {
+            let s = (a + b + c) / 2.0;
+            sqrt(s * (s - a) * (s - b) * (s - c))
+        }
+    }
+}
+
+// Main function
+fn main() {
+    let fact5 = factorial(5);
+    print("Factorial of 5 is: " + to_string(fact5));
+
+    let p1 = Point{x: 1.0, y: 2.0};
+    let p2 = Point{x: 4.0, y: 6.0};
+    print("Distance between points: " + to_string(p1.distance(p2)));
+
+    let shapes = [
+        Circle(5.0),
+        Rectangle(4.0, 3.0),
+        Triangle(3.0, 4.0, 5.0)
+    ];
+
+    for shape in shapes {
+        print("Area: " + to_string(area(shape)));
+    }
+}
+</code></pre>
+<h3 id="compiler-architecture"><a class="header" href="#compiler-architecture">Compiler Architecture</a></h3>
+<p>Our compiler will follow a modern, multi-pass design:</p>
+<ol>
+<li><strong>Lexical Analysis</strong>: Convert source code into tokens</li>
+<li><strong>Parsing</strong>: Transform tokens into an Abstract Syntax Tree (AST)</li>
+<li><strong>Semantic Analysis</strong>: Perform type checking and validate the AST</li>
+<li><strong>IR Generation</strong>: Convert the AST to an Intermediate Representation</li>
+<li><strong>Optimization</strong>: Apply basic optimizations to the IR</li>
+<li><strong>Code Generation</strong>: Transform the IR into bytecode</li>
+<li><strong>Execution</strong>: Run the bytecode on our virtual machine</li>
+</ol>
+<p>This architecture allows for clean separation of concerns and enables gradual development and testing of each component.</p>
+<h2 id="project-setup"><a class="header" href="#project-setup">Project Setup</a></h2>
+<p>Let’s start by setting up our project structure:</p>
+<pre><code class="language-bash">cargo new flux --lib
+cd flux
+</code></pre>
+<p>We’ll organize our codebase as follows:</p>
+<pre><code>flux/
+├── Cargo.toml
+├── src/
+│   ├── lib.rs        # Library interface
+│   ├── main.rs       # CLI entry point
+│   ├── lexer.rs      # Lexical analysis
+│   ├── parser.rs     # Parsing
+│   ├── ast.rs        # Abstract Syntax Tree definitions
+│   ├── typechecker.rs # Type checking and semantic analysis
+│   ├── ir.rs         # Intermediate representation
+│   ├── optimizer.rs  # IR optimizations
+│   ├── codegen.rs    # Bytecode generation
+│   ├── vm.rs         # Virtual machine implementation
+│   └── error.rs      # Error handling utilities
+└── examples/         # Example Flux programs
+</code></pre>
+<p>Let’s update our <code>Cargo.toml</code> file with the necessary dependencies:</p>
+<pre><code class="language-toml">[package]
+name = "flux"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+logos = "0.12"       # For lexical analysis
+thiserror = "1.0"    # For error handling
+clap = { version = "3.1", features = ["derive"] } # For CLI
+rustyline = "9.1"    # For REPL interface
+</code></pre>
+<h2 id="lexical-analysis"><a class="header" href="#lexical-analysis">Lexical Analysis</a></h2>
+<p>The first phase of our compiler is lexical analysis (also known as tokenization or scanning). This process breaks down the source code into a sequence of tokens, which are the smallest meaningful units in our language.</p>
+<h3 id="what-is-a-token"><a class="header" href="#what-is-a-token">What is a Token?</a></h3>
+<p>A token represents a logical unit in the source code, such as a keyword, identifier, literal, or operator. For example, in the Flux expression <code>let x = 5 + 10;</code>, the tokens would be:</p>
+<ol>
+<li>Keyword: <code>let</code></li>
+<li>Identifier: <code>x</code></li>
+<li>Operator: <code>=</code></li>
+<li>Integer Literal: <code>5</code></li>
+<li>Operator: <code>+</code></li>
+<li>Integer Literal: <code>10</code></li>
+<li>Delimiter: <code>;</code></li>
+</ol>
+<h3 id="defining-our-tokens"><a class="header" href="#defining-our-tokens">Defining Our Tokens</a></h3>
+<p>Let’s start by defining all the token types our language will support:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lexer.rs
+use logos::Logos;
+use std::fmt;
+
+/// Token represents all possible token types in Flux
+#[derive(Logos, Debug, Clone, PartialEq)]
+pub enum Token {
+    // Keywords
+    #[token("let")]
+    Let,
+
+    #[token("fn")]
+    Fn,
+
+    #[token("if")]
+    If,
+
+    #[token("else")]
+    Else,
+
+    #[token("for")]
+    For,
+
+    #[token("in")]
+    In,
+
+    #[token("while")]
+    While,
+
+    #[token("return")]
+    Return,
+
+    #[token("match")]
+    Match,
+
+    #[token("type")]
+    Type,
+
+    // Literals
+    #[regex(r"[0-9]+", |lex| lex.slice().parse().ok())]
+    IntLiteral(i64),
+
+    #[regex(r"[0-9]+\.[0-9]+", |lex| lex.slice().parse().ok())]
+    FloatLiteral(f64),
+
+    #[regex(r#""([^"\\]|\\["\\nt])*""#, |lex| {
+        let slice = lex.slice();
+        // Remove the quotes and handle escape sequences
+        Some(slice[1..slice.len()-1].to_string())
+    })]
+    StringLiteral(String),
+
+    #[token("true", |_| true)]
+    #[token("false", |_| false)]
+    BoolLiteral(bool),
+
+    // Identifiers
+    #[regex(r"[a-zA-Z_][a-zA-Z0-9_]*", |lex| lex.slice().to_string())]
+    Identifier(String),
+
+    // Operators
+    #[token("+")]
+    Plus,
+
+    #[token("-")]
+    Minus,
+
+    #[token("*")]
+    Star,
+
+    #[token("/")]
+    Slash,
+
+    #[token("%")]
+    Percent,
+
+    #[token("=")]
+    Assign,
+
+    #[token("==")]
+    Equal,
+
+    #[token("!=")]
+    NotEqual,
+
+    #[token("&lt;")]
+    Less,
+
+    #[token("&lt;=")]
+    LessEqual,
+
+    #[token("&gt;")]
+    Greater,
+
+    #[token("&gt;=")]
+    GreaterEqual,
+
+    #[token("&amp;&amp;")]
+    And,
+
+    #[token("||")]
+    Or,
+
+    #[token("!")]
+    Not,
+
+    // Delimiters
+    #[token("(")]
+    LeftParen,
+
+    #[token(")")]
+    RightParen,
+
+    #[token("{")]
+    LeftBrace,
+
+    #[token("}")]
+    RightBrace,
+
+    #[token("[")]
+    LeftBracket,
+
+    #[token("]")]
+    RightBracket,
+
+    #[token(",")]
+    Comma,
+
+    #[token(".")]
+    Dot,
+
+    #[token(":")]
+    Colon,
+
+    #[token("::")]
+    DoubleColon,
+
+    #[token(";")]
+    Semicolon,
+
+    #[token("-&gt;")]
+    Arrow,
+
+    #[token("|")]
+    Pipe,
+
+    // Skip whitespace and comments
+    #[regex(r"[ \t\n\r]+", logos::skip)]
+    #[regex(r"//[^\n]*", logos::skip)]
+    #[error]
+    Error,
+}
+
+impl fmt::Display for Token {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            Token::IntLiteral(n) =&gt; write!(f, "{}", n),
+            Token::FloatLiteral(n) =&gt; write!(f, "{}", n),
+            Token::StringLiteral(s) =&gt; write!(f, "\"{}\"", s),
+            Token::BoolLiteral(b) =&gt; write!(f, "{}", b),
+            Token::Identifier(name) =&gt; write!(f, "{}", name),
+            _ =&gt; write!(f, "{:?}", self),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>We’re using the <code>logos</code> crate, which provides a powerful, regex-based lexer generator through procedural macros. This dramatically simplifies our tokenization process while maintaining high performance.</p>
+<h3 id="implementing-the-lexer"><a class="header" href="#implementing-the-lexer">Implementing the Lexer</a></h3>
+<p>Now, let’s implement a wrapper around the Logos lexer to provide additional functionality:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lexer.rs (continued)
+use logos::Lexer as LogosLexer;
+use std::ops::Range;
+
+/// A token with its source location
+#[derive(Debug, Clone, PartialEq)]
+pub struct Located&lt;T&gt; {
+    /// The token itself
+    pub item: T,
+    /// The span in the source code
+    pub span: Range&lt;usize&gt;,
+}
+
+/// The Flux lexer
+pub struct Lexer&lt;'source&gt; {
+    /// The underlying Logos lexer
+    inner: LogosLexer&lt;'source, Token&gt;,
+    /// Source code for error reporting
+    source: &amp;'source str,
+}
+
+impl&lt;'source&gt; Lexer&lt;'source&gt; {
+    /// Create a new lexer from source code
+    pub fn new(source: &amp;'source str) -&gt; Self {
+        Self {
+            inner: Token::lexer(source),
+            source,
+        }
+    }
+
+    /// Get the current token span
+    pub fn span(&amp;self) -&gt; Range&lt;usize&gt; {
+        self.inner.span()
+    }
+
+    /// Get the current line and column
+    pub fn location(&amp;self) -&gt; (usize, usize) {
+        let span_start = self.inner.span().start;
+        let mut line = 1;
+        let mut column = 1;
+
+        for (i, c) in self.source.char_indices() {
+            if i &gt;= span_start {
+                break;
+            }
+            if c == '\n' {
+                line += 1;
+                column = 1;
+            } else {
+                column += 1;
+            }
+        }
+
+        (line, column)
+    }
+
+    /// Get an error message with line and column information
+    pub fn error_message(&amp;self, message: &amp;str) -&gt; String {
+        let (line, column) = self.location();
+        let token_text = &amp;self.source[self.inner.span()];
+        format!("Error at line {}, column {}: {} (token: '{}')",
+            line, column, message, token_text)
+    }
+}
+
+impl&lt;'source&gt; Iterator for Lexer&lt;'source&gt; {
+    type Item = Result&lt;Located&lt;Token&gt;, String&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        let token = self.inner.next()?;
+        let span = self.inner.span();
+
+        match token {
+            Token::Error =&gt; {
+                let message = self.error_message("Invalid token");
+                Some(Err(message))
+            },
+            token =&gt; Some(Ok(Located { item: token, span })),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Our <code>Lexer</code> struct wraps the Logos-generated lexer and adds error reporting with line and column information. It also implements the <code>Iterator</code> trait, making it easy to process tokens sequentially.</p>
+<h3 id="testing-the-lexer"><a class="header" href="#testing-the-lexer">Testing the Lexer</a></h3>
+<p>Let’s write some tests to ensure our lexer works correctly:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/lexer.rs (continued)
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn collect_tokens(source: &amp;str) -&gt; Vec&lt;Token&gt; {
+        Lexer::new(source)
+            .filter_map(Result::ok)
+            .map(|located| located.item)
+            .collect()
+    }
+
+    #[test]
+    fn test_simple_tokens() {
+        let source = "let x = 5;";
+        let tokens = collect_tokens(source);
+
+        assert_eq!(tokens, vec![
+            Token::Let,
+            Token::Identifier("x".to_string()),
+            Token::Assign,
+            Token::IntLiteral(5),
+            Token::Semicolon,
+        ]);
+    }
+
+    #[test]
+    fn test_operators() {
+        let source = "a + b - c * d / e % f";
+        let tokens = collect_tokens(source);
+
+        assert_eq!(tokens, vec![
+            Token::Identifier("a".to_string()),
+            Token::Plus,
+            Token::Identifier("b".to_string()),
+            Token::Minus,
+            Token::Identifier("c".to_string()),
+            Token::Star,
+            Token::Identifier("d".to_string()),
+            Token::Slash,
+            Token::Identifier("e".to_string()),
+            Token::Percent,
+            Token::Identifier("f".to_string()),
+        ]);
+    }
+
+    #[test]
+    fn test_comments_and_whitespace() {
+        let source = "
+            // This is a comment
+            let x = 10; // End of line comment
+        ";
+        let tokens = collect_tokens(source);
+
+        assert_eq!(tokens, vec![
+            Token::Let,
+            Token::Identifier("x".to_string()),
+            Token::Assign,
+            Token::IntLiteral(10),
+            Token::Semicolon,
+        ]);
+    }
+
+    #[test]
+    fn test_complex_program() {
+        let source = "
+            fn factorial(n: int) -&gt; int {
+                if n &lt;= 1 {
+                    1
+                } else {
+                    n * factorial(n - 1)
+                }
+            }
+        ";
+
+        let tokens = collect_tokens(source);
+        assert!(tokens.len() &gt; 0);
+
+        // Check a few key tokens
+        assert!(tokens.contains(&amp;Token::Fn));
+        assert!(tokens.contains(&amp;Token::Identifier("factorial".to_string())));
+        assert!(tokens.contains(&amp;Token::Identifier("n".to_string())));
+        assert!(tokens.contains(&amp;Token::IntLiteral(1)));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>These tests verify that our lexer correctly tokenizes various Flux code examples, including handling comments and whitespace.</p>
+<h3 id="example-tokenizing-a-flux-program"><a class="header" href="#example-tokenizing-a-flux-program">Example: Tokenizing a Flux Program</a></h3>
+<p>Let’s see our lexer in action with a complete example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/main.rs (partial)
+use flux::lexer::Lexer;
+
+fn tokenize_file(path: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let source = std::fs::read_to_string(path)?;
+    let lexer = Lexer::new(&amp;source);
+
+    println!("Tokens for {}:", path);
+    println!("{:&lt;20} {:&lt;15} {:&lt;10}", "Token", "Line:Column", "Text");
+    println!("{}", "-".repeat(50));
+
+    for result in lexer {
+        match result {
+            Ok(located) =&gt; {
+                let (line, column) = lexer.location();
+                let text = &amp;source[located.span];
+                println!("{:&lt;20} {}:{:&lt;12} '{}'",
+                    format!("{:?}", located.item),
+                    line, column, text);
+            },
+            Err(error) =&gt; {
+                println!("Error: {}", error);
+                return Err(error.into());
+            }
+        }
+    }
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This function reads a Flux source file, tokenizes it, and prints each token along with its location in the source code.</p>
+<h3 id="integration-with-error-handling"><a class="header" href="#integration-with-error-handling">Integration with Error Handling</a></h3>
+<p>Let’s integrate our lexer with a proper error handling system:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/error.rs
+use thiserror::Error;
+use std::ops::Range;
+
+#[derive(Error, Debug)]
+pub enum CompileError {
+    #[error("Lexical error at line {line}, column {column}: {message}")]
+    LexicalError {
+        line: usize,
+        column: usize,
+        message: String,
+        span: Range&lt;usize&gt;,
+    },
+
+    // We'll add more error types as we develop the compiler
+}
+
+// src/lexer.rs (updated)
+use crate::error::CompileError;
+
+impl&lt;'source&gt; Iterator for Lexer&lt;'source&gt; {
+    type Item = Result&lt;Located&lt;Token&gt;, CompileError&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        let token = self.inner.next()?;
+        let span = self.inner.span();
+        let (line, column) = self.location();
+
+        match token {
+            Token::Error =&gt; {
+                Some(Err(CompileError::LexicalError {
+                    line,
+                    column,
+                    message: format!("Invalid token: '{}'",
+                        &amp;self.source[span.clone()]),
+                    span,
+                }))
+            },
+            token =&gt; Some(Ok(Located { item: token, span })),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This improves our error reporting by using a structured error type with Rust’s excellent error handling facilities.</p>
+<h3 id="summary"><a class="header" href="#summary">Summary</a></h3>
+<p>We’ve now completed the lexical analysis phase of our compiler. Our lexer can:</p>
+<ol>
+<li>Break down Flux source code into meaningful tokens</li>
+<li>Track the location of each token for error reporting</li>
+<li>Skip comments and whitespace</li>
+<li>Provide helpful error messages when invalid tokens are encountered</li>
+</ol>
+<p>With this foundation in place, we’re ready to move on to the next phase: parsing. In the parsing phase, we’ll transform our flat sequence of tokens into a structured Abstract Syntax Tree (AST) that represents the hierarchical structure of our program.</p>
+<h2 id="abstract-syntax-tree"><a class="header" href="#abstract-syntax-tree">Abstract Syntax Tree</a></h2>
+<p>After tokenizing the source code, the next step is to parse these tokens into a structured representation called an Abstract Syntax Tree (AST). The AST represents the hierarchical structure of the program, capturing the relationships between different language constructs.</p>
+<h3 id="what-is-an-ast"><a class="header" href="#what-is-an-ast">What is an AST?</a></h3>
+<p>An AST is a tree-like data structure where:</p>
+<ul>
+<li>Leaf nodes typically represent literals and identifiers</li>
+<li>Interior nodes represent operations, control structures, and other language constructs</li>
+<li>The structure of the tree captures the precedence and nesting of expressions and statements</li>
+</ul>
+<p>For example, the expression <code>5 + 10 * 2</code> would be represented as a tree where:</p>
+<ul>
+<li>The root is a “+” operation</li>
+<li>The left child is the integer literal 5</li>
+<li>The right child is a “*” operation
+<ul>
+<li>The left child of “*” is the integer literal 10</li>
+<li>The right child of “*” is the integer literal 2</li>
+</ul>
+</li>
+</ul>
+<p>This structure correctly captures that multiplication has higher precedence than addition.</p>
+<h3 id="defining-the-ast-types"><a class="header" href="#defining-the-ast-types">Defining the AST Types</a></h3>
+<p>Let’s define the core data structures for our AST:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/ast.rs
+use std::ops::Range;
+
+/// Source location for error reporting
+#[derive(Debug, Clone, PartialEq)]
+pub struct Location {
+    pub line: usize,
+    pub column: usize,
+    pub span: Range&lt;usize&gt;,
+}
+
+/// A node in the AST with location information
+#[derive(Debug, Clone, PartialEq)]
+pub struct Located&lt;T&gt; {
+    pub node: T,
+    pub location: Location,
+}
+
+impl&lt;T&gt; Located&lt;T&gt; {
+    pub fn new(node: T, location: Location) -&gt; Self {
+        Self { node, location }
+    }
+}
+
+/// Literal values
+#[derive(Debug, Clone, PartialEq)]
+pub enum Literal {
+    Integer(i64),
+    Float(f64),
+    String(String),
+    Boolean(bool),
+}
+
+/// Binary operators
+#[derive(Debug, Clone, PartialEq)]
+pub enum BinaryOp {
+    // Arithmetic
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
+    Modulo,
+
+    // Comparison
+    Equal,
+    NotEqual,
+    Less,
+    LessEqual,
+    Greater,
+    GreaterEqual,
+
+    // Logical
+    And,
+    Or,
+}
+
+/// Unary operators
+#[derive(Debug, Clone, PartialEq)]
+pub enum UnaryOp {
+    Negate,
+    Not,
+}
+
+/// Types in the language
+#[derive(Debug, Clone, PartialEq)]
+pub enum Type {
+    /// Built-in primitive types
+    Int,
+    Float,
+    Bool,
+    String,
+
+    /// User-defined type (by name)
+    Named(String),
+
+    /// Function type (parameters -&gt; return type)
+    Function {
+        params: Vec&lt;Type&gt;,
+        return_type: Box&lt;Type&gt;,
+    },
+
+    /// Array type
+    Array(Box&lt;Type&gt;),
+}
+
+/// Expressions
+#[derive(Debug, Clone, PartialEq)]
+pub enum Expression {
+    /// Literal value
+    Literal(Literal),
+
+    /// Variable reference
+    Variable(String),
+
+    /// Binary operation (e.g., a + b)
+    Binary {
+        op: BinaryOp,
+        left: Box&lt;Located&lt;Expression&gt;&gt;,
+        right: Box&lt;Located&lt;Expression&gt;&gt;,
+    },
+
+    /// Unary operation (e.g., -a, !b)
+    Unary {
+        op: UnaryOp,
+        expr: Box&lt;Located&lt;Expression&gt;&gt;,
+    },
+
+    /// Function call (e.g., foo(a, b))
+    Call {
+        callee: Box&lt;Located&lt;Expression&gt;&gt;,
+        args: Vec&lt;Located&lt;Expression&gt;&gt;,
+    },
+
+    /// If expression (e.g., if a { b } else { c })
+    If {
+        condition: Box&lt;Located&lt;Expression&gt;&gt;,
+        then_branch: Box&lt;Located&lt;Expression&gt;&gt;,
+        else_branch: Option&lt;Box&lt;Located&lt;Expression&gt;&gt;&gt;,
+    },
+
+    /// Block expression (e.g., { a; b; c })
+    Block {
+        statements: Vec&lt;Located&lt;Statement&gt;&gt;,
+        expr: Option&lt;Box&lt;Located&lt;Expression&gt;&gt;&gt;,
+    },
+
+    /// Assignment (e.g., a = b)
+    Assign {
+        target: Box&lt;Located&lt;Expression&gt;&gt;,
+        value: Box&lt;Located&lt;Expression&gt;&gt;,
+    },
+
+    /// Field access (e.g., a.b)
+    Field {
+        object: Box&lt;Located&lt;Expression&gt;&gt;,
+        name: String,
+    },
+
+    /// Array literal (e.g., [a, b, c])
+    Array(Vec&lt;Located&lt;Expression&gt;&gt;),
+
+    /// Index access (e.g., a[i])
+    Index {
+        array: Box&lt;Located&lt;Expression&gt;&gt;,
+        index: Box&lt;Located&lt;Expression&gt;&gt;,
+    },
+
+    /// Lambda expression (e.g., |a, b| a + b)
+    Lambda {
+        params: Vec&lt;Located&lt;Parameter&gt;&gt;,
+        body: Box&lt;Located&lt;Expression&gt;&gt;,
+    },
+}
+
+/// A function parameter
+#[derive(Debug, Clone, PartialEq)]
+pub struct Parameter {
+    pub name: String,
+    pub type_: Type,
+}
+
+/// Statements
+#[derive(Debug, Clone, PartialEq)]
+pub enum Statement {
+    /// Expression statement
+    Expression(Located&lt;Expression&gt;),
+
+    /// Variable declaration (e.g., let x: int = 5)
+    Let {
+        name: String,
+        type_: Option&lt;Type&gt;,
+        initializer: Option&lt;Located&lt;Expression&gt;&gt;,
+    },
+
+    /// Return statement
+    Return(Option&lt;Located&lt;Expression&gt;&gt;),
+
+    /// While loop
+    While {
+        condition: Located&lt;Expression&gt;,
+        body: Located&lt;Expression&gt;,
+    },
+
+    /// For loop
+    For {
+        name: String,
+        iterator: Located&lt;Expression&gt;,
+        body: Located&lt;Expression&gt;,
+    },
+}
+
+/// A variant in an enum type
+#[derive(Debug, Clone, PartialEq)]
+pub struct Variant {
+    pub name: String,
+    pub fields: Vec&lt;Type&gt;,
+}
+
+/// A field in a struct type
+#[derive(Debug, Clone, PartialEq)]
+pub struct Field {
+    pub name: String,
+    pub type_: Type,
+}
+
+/// Type definitions
+#[derive(Debug, Clone, PartialEq)]
+pub enum TypeDef {
+    /// Struct type (e.g., type Point = { x: float, y: float })
+    Struct {
+        name: String,
+        fields: Vec&lt;Field&gt;,
+    },
+
+    /// Enum type (e.g., type Option = Some(int) | None)
+    Enum {
+        name: String,
+        variants: Vec&lt;Variant&gt;,
+    },
+
+    /// Type alias (e.g., type IntFunction = fn(int) -&gt; int)
+    Alias {
+        name: String,
+        type_: Type,
+    },
+}
+
+/// A function definition
+#[derive(Debug, Clone, PartialEq)]
+pub struct Function {
+    pub name: String,
+    pub params: Vec&lt;Located&lt;Parameter&gt;&gt;,
+    pub return_type: Option&lt;Type&gt;,
+    pub body: Located&lt;Expression&gt;,
+}
+
+/// Top-level declarations in a program
+#[derive(Debug, Clone, PartialEq)]
+pub enum Declaration {
+    Function(Function),
+    TypeDef(TypeDef),
+}
+
+/// A complete program
+#[derive(Debug, Clone, PartialEq)]
+pub struct Program {
+    pub declarations: Vec&lt;Located&lt;Declaration&gt;&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This AST definition comprehensively captures the syntax of our Flux language, including:</p>
+<ul>
+<li>Expressions (literals, operations, function calls, etc.)</li>
+<li>Statements (variable declarations, control flow, etc.)</li>
+<li>Type definitions (structs, enums, aliases)</li>
+<li>Function declarations</li>
+<li>Source location tracking for error reporting</li>
+</ul>
+<p>With these structures in place, we can now move on to parsing our tokens into an AST.</p>
+<h2 id="parsing"><a class="header" href="#parsing">Parsing</a></h2>
+<p>With our AST defined, we can now implement a parser that transforms a stream of tokens into this structured representation. We’ll use a technique called recursive descent parsing, which is intuitive and straightforward to implement.</p>
+<h3 id="recursive-descent-parsing"><a class="header" href="#recursive-descent-parsing">Recursive Descent Parsing</a></h3>
+<p>Recursive descent parsing is a top-down parsing technique where we create a set of mutually recursive functions, each responsible for parsing a specific grammar rule. The parser follows the structure of the grammar directly, making it easy to understand and maintain.</p>
+<h3 id="parser-implementation"><a class="header" href="#parser-implementation">Parser Implementation</a></h3>
+<p>Let’s implement our parser:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/parser.rs
+use std::iter::Peekable;
+use std::vec::IntoIter;
+
+use crate::ast::*;
+use crate::error::CompileError;
+use crate::lexer::{Lexer, Token, Located as LexerLocated};
+
+/// A parser for Flux code
+pub struct Parser {
+    /// Source code for error reporting
+    source: String,
+    /// Iterator over tokens
+    tokens: Peekable&lt;IntoIter&lt;LexerLocated&lt;Token&gt;&gt;&gt;,
+    /// Current location for error reporting
+    current_location: Location,
+}
+
+impl Parser {
+    /// Create a new parser from source code
+    pub fn new(source: &amp;str) -&gt; Result&lt;Self, CompileError&gt; {
+        let lexer = Lexer::new(source);
+
+        // Collect all tokens
+        let mut tokens = Vec::new();
+        for result in lexer {
+            match result {
+                Ok(token) =&gt; tokens.push(token),
+                Err(err) =&gt; return Err(err),
+            }
+        }
+
+        let default_location = Location {
+            line: 1,
+            column: 1,
+            span: 0..0,
+        };
+
+        Ok(Self {
+            source: source.to_string(),
+            tokens: tokens.into_iter().peekable(),
+            current_location: default_location,
+        })
+    }
+
+    /// Parse a complete program
+    pub fn parse_program(&amp;mut self) -&gt; Result&lt;Program, CompileError&gt; {
+        let mut declarations = Vec::new();
+
+        while self.peek().is_some() {
+            declarations.push(self.parse_declaration()?);
+        }
+
+        Ok(Program { declarations })
+    }
+
+    /// Parse a top-level declaration
+    fn parse_declaration(&amp;mut self) -&gt; Result&lt;Located&lt;Declaration&gt;, CompileError&gt; {
+        let token = self.peek().ok_or_else(|| self.unexpected_eof())?;
+
+        match &amp;token.item {
+            Token::Fn =&gt; self.parse_function_declaration(),
+            Token::Type =&gt; self.parse_type_declaration(),
+            _ =&gt; Err(self.unexpected_token("Expected declaration")),
+        }
+    }
+
+    /// Parse a function declaration
+    fn parse_function_declaration(&amp;mut self) -&gt; Result&lt;Located&lt;Declaration&gt;, CompileError&gt; {
+        let start_loc = self.current_location.clone();
+
+        // Consume 'fn'
+        self.consume(Token::Fn)?;
+
+        // Parse function name
+        let name = match self.consume_identifier()? {
+            Located { node, .. } =&gt; node,
+        };
+
+        // Parse parameters
+        self.consume(Token::LeftParen)?;
+        let mut params = Vec::new();
+
+        if !self.check(Token::RightParen) {
+            loop {
+                params.push(self.parse_parameter()?);
+
+                if !self.match_token(Token::Comma) {
+                    break;
+                }
+            }
+        }
+
+        self.consume(Token::RightParen)?;
+
+        // Parse return type
+        let return_type = if self.match_token(Token::Arrow) {
+            Some(self.parse_type()?)
+        } else {
+            None
+        };
+
+        // Parse body
+        let body = self.parse_expression()?;
+
+        let end_loc = self.current_location.clone();
+        let location = self.merge_locations(start_loc, end_loc);
+
+        Ok(Located::new(
+            Declaration::Function(Function {
+                name,
+                params,
+                return_type,
+                body,
+            }),
+            location,
+        ))
+    }
+
+    /// Parse a parameter in a function declaration
+    fn parse_parameter(&amp;mut self) -&gt; Result&lt;Located&lt;Parameter&gt;, CompileError&gt; {
+        let start_loc = self.current_location.clone();
+
+        // Parse parameter name
+        let name = match self.consume_identifier()? {
+            Located { node, .. } =&gt; node,
+        };
+
+        // Parse parameter type
+        self.consume(Token::Colon)?;
+        let type_ = self.parse_type()?;
+
+        let end_loc = self.current_location.clone();
+        let location = self.merge_locations(start_loc, end_loc);
+
+        Ok(Located::new(
+            Parameter { name, type_ },
+            location,
+        ))
+    }
+
+    /// Parse a type declaration
+    fn parse_type_declaration(&amp;mut self) -&gt; Result&lt;Located&lt;Declaration&gt;, CompileError&gt; {
+        let start_loc = self.current_location.clone();
+
+        // Consume 'type'
+        self.consume(Token::Type)?;
+
+        // Parse type name
+        let name = match self.consume_identifier()? {
+            Located { node, .. } =&gt; node,
+        };
+
+        // Consume '='
+        self.consume(Token::Assign)?;
+
+        // Check what kind of type definition this is
+        let type_def = if self.check(Token::LeftBrace) {
+            // Struct type
+            self.parse_struct_type(name)?
+        } else if self.check(Token::Pipe) || self.check_identifier() {
+            // Enum type
+            self.parse_enum_type(name)?
+        } else {
+            // Type alias
+            let type_ = self.parse_type()?;
+            TypeDef::Alias { name, type_ }
+        };
+
+        let end_loc = self.current_location.clone();
+        let location = self.merge_locations(start_loc, end_loc);
+
+        Ok(Located::new(
+            Declaration::TypeDef(type_def),
+            location,
+        ))
+    }
+
+    /// Parse a struct type definition
+    fn parse_struct_type(&amp;mut self, name: String) -&gt; Result&lt;TypeDef, CompileError&gt; {
+        // Consume '{'
+        self.consume(Token::LeftBrace)?;
+
+        let mut fields = Vec::new();
+
+        if !self.check(Token::RightBrace) {
+            loop {
+                // Parse field name
+                let field_name = match self.consume_identifier()? {
+                    Located { node, .. } =&gt; node,
+                };
+
+                // Parse field type
+                self.consume(Token::Colon)?;
+                let field_type = self.parse_type()?;
+
+                fields.push(Field {
+                    name: field_name,
+                    type_: field_type,
+                });
+
+                if !self.match_token(Token::Comma) {
+                    break;
+                }
+            }
+        }
+
+        // Consume '}'
+        self.consume(Token::RightBrace)?;
+
+        Ok(TypeDef::Struct { name, fields })
+    }
+
+    /// Parse an enum type definition
+    fn parse_enum_type(&amp;mut self, name: String) -&gt; Result&lt;TypeDef, CompileError&gt; {
+        let mut variants = Vec::new();
+
+        // Check if we have a leading '|'
+        self.match_token(Token::Pipe);
+
+        loop {
+            // Parse variant name
+            let variant_name = match self.consume_identifier()? {
+                Located { node, .. } =&gt; node,
+            };
+
+            // Parse variant fields
+            let mut fields = Vec::new();
+
+            if self.match_token(Token::LeftParen) {
+                if !self.check(Token::RightParen) {
+                    loop {
+                        fields.push(self.parse_type()?);
+
+                        if !self.match_token(Token::Comma) {
+                            break;
+                        }
+                    }
+                }
+
+                self.consume(Token::RightParen)?;
+            }
+
+            variants.push(Variant {
+                name: variant_name,
+                fields,
+            });
+
+            // Check for another variant
+            if !self.match_token(Token::Pipe) {
+                break;
+            }
+        }
+
+        // Consume ';'
+        self.consume(Token::Semicolon)?;
+
+        Ok(TypeDef::Enum { name, variants })
+    }
+
+    /// Parse a type
+    fn parse_type(&amp;mut self) -&gt; Result&lt;Type, CompileError&gt; {
+        let token = self.peek().ok_or_else(|| self.unexpected_eof())?;
+
+        match &amp;token.item {
+            Token::Identifier(name) =&gt; {
+                self.advance();
+
+                match name.as_str() {
+                    "int" =&gt; Ok(Type::Int),
+                    "float" =&gt; Ok(Type::Float),
+                    "bool" =&gt; Ok(Type::Bool),
+                    "string" =&gt; Ok(Type::String),
+                    _ =&gt; Ok(Type::Named(name.clone())),
+                }
+            },
+            Token::LeftBracket =&gt; {
+                self.advance();
+                let element_type = self.parse_type()?;
+                self.consume(Token::RightBracket)?;
+
+                Ok(Type::Array(Box::new(element_type)))
+            },
+            Token::Fn =&gt; {
+                self.advance();
+
+                // Parse parameter types
+                self.consume(Token::LeftParen)?;
+                let mut params = Vec::new();
+
+                if !self.check(Token::RightParen) {
+                    loop {
+                        params.push(self.parse_type()?);
+
+                        if !self.match_token(Token::Comma) {
+                            break;
+                        }
+                    }
+                }
+
+                self.consume(Token::RightParen)?;
+
+                // Parse return type
+                self.consume(Token::Arrow)?;
+                let return_type = Box::new(self.parse_type()?);
+
+                Ok(Type::Function { params, return_type })
+            },
+            _ =&gt; Err(self.unexpected_token("Expected type")),
+        }
+    }
+
+    /// Parse an expression
+    fn parse_expression(&amp;mut self) -&gt; Result&lt;Located&lt;Expression&gt;, CompileError&gt; {
+        self.parse_assignment()
+    }
+
+    /// Parse an assignment expression
+    fn parse_assignment(&amp;mut self) -&gt; Result&lt;Located&lt;Expression&gt;, CompileError&gt; {
+        let expr = self.parse_logical_or()?;
+
+        if self.match_token(Token::Assign) {
+            let start_loc = expr.location.clone();
+            let value = self.parse_assignment()?;
+            let end_loc = value.location.clone();
+
+            let location = self.merge_locations(start_loc, end_loc);
+
+            Ok(Located::new(
+                Expression::Assign {
+                    target: Box::new(expr),
+                    value: Box::new(value),
+                },
+                location,
+            ))
+        } else {
+            Ok(expr)
+        }
+    }
+
+    /// Parse a logical OR expression
+    fn parse_logical_or(&amp;mut self) -&gt; Result&lt;Located&lt;Expression&gt;, CompileError&gt; {
+        let mut expr = self.parse_logical_and()?;
+
+        while self.match_token(Token::Or) {
+            let start_loc = expr.location.clone();
+            let right = self.parse_logical_and()?;
+            let end_loc = right.location.clone();
+
+            let location = self.merge_locations(start_loc.clone(), end_loc);
+
+            expr = Located::new(
+                Expression::Binary {
+                    op: BinaryOp::Or,
+                    left: Box::new(expr),
+                    right: Box::new(right),
+                },
+                location,
+            );
+        }
+
+        Ok(expr)
+    }
+
+    /// Parse a logical AND expression
+    fn parse_logical_and(&amp;mut self) -&gt; Result&lt;Located&lt;Expression&gt;, CompileError&gt; {
+        let mut expr = self.parse_equality()?;
+
+        while self.match_token(Token::And) {
+            let start_loc = expr.location.clone();
+            let right = self.parse_equality()?;
+            let end_loc = right.location.clone();
+
+            let location = self.merge_locations(start_loc.clone(), end_loc);
+
+            expr = Located::new(
+                Expression::Binary {
+                    op: BinaryOp::And,
+                    left: Box::new(expr),
+                    right: Box::new(right),
+                },
+                location,
+            );
+        }
+
+        Ok(expr)
+    }
+
+    // Rest of the parsing methods follow a similar pattern...
+    // For brevity, we'll skip ahead to the utility methods
+
+    /// Check if the next token matches the expected token
+    fn check(&amp;mut self, token: Token) -&gt; bool {
+        if let Some(next) = self.peek() {
+            std::mem::discriminant(&amp;next.item) == std::mem::discriminant(&amp;token)
+        } else {
+            false
+        }
+    }
+
+    /// Check if the next token is an identifier
+    fn check_identifier(&amp;mut self) -&gt; bool {
+        if let Some(next) = self.peek() {
+            matches!(next.item, Token::Identifier(_))
+        } else {
+            false
+        }
+    }
+
+    /// Consume the next token if it matches the expected token
+    fn match_token(&amp;mut self, token: Token) -&gt; bool {
+        if self.check(token) {
+            self.advance();
+            true
+        } else {
+            false
+        }
+    }
+
+    /// Consume the next token, which must match the expected token
+    fn consume(&amp;mut self, token: Token) -&gt; Result&lt;LexerLocated&lt;Token&gt;, CompileError&gt; {
+        if self.check(token.clone()) {
+            Ok(self.advance().unwrap())
+        } else {
+            Err(self.unexpected_token(&amp;format!("Expected {:?}", token)))
+        }
+    }
+
+    /// Consume the next token, which must be an identifier
+    fn consume_identifier(&amp;mut self) -&gt; Result&lt;Located&lt;String&gt;, CompileError&gt; {
+        let token = self.advance().ok_or_else(|| self.unexpected_eof())?;
+
+        match token.item {
+            Token::Identifier(name) =&gt; {
+                let location = Location {
+                    line: 0, // TODO: Get from token
+                    column: 0,
+                    span: token.span,
+                };
+
+                Ok(Located::new(name, location))
+            },
+            _ =&gt; Err(self.unexpected_token("Expected identifier")),
+        }
+    }
+
+    /// Get the next token without consuming it
+    fn peek(&amp;mut self) -&gt; Option&lt;&amp;LexerLocated&lt;Token&gt;&gt; {
+        self.tokens.peek()
+    }
+
+    /// Consume the next token
+    fn advance(&amp;mut self) -&gt; Option&lt;LexerLocated&lt;Token&gt;&gt; {
+        let token = self.tokens.next()?;
+
+        // Update current location
+        self.current_location = Location {
+            line: 0, // TODO: Get from token
+            column: 0,
+            span: token.span.clone(),
+        };
+
+        Some(token)
+    }
+
+    /// Create an unexpected token error
+    fn unexpected_token(&amp;self, message: &amp;str) -&gt; CompileError {
+        CompileError::SyntaxError {
+            line: self.current_location.line,
+            column: self.current_location.column,
+            message: format!("{}: expected token not found", message),
+            span: self.current_location.span.clone(),
+        }
+    }
+
+    /// Create an unexpected EOF error
+    fn unexpected_eof(&amp;self) -&gt; CompileError {
+        CompileError::SyntaxError {
+            line: self.current_location.line,
+            column: self.current_location.column,
+            message: "Unexpected end of file".to_string(),
+            span: self.current_location.span.clone(),
+        }
+    }
+
+    /// Merge two locations
+    fn merge_locations(&amp;self, start: Location, end: Location) -&gt; Location {
+        Location {
+            line: start.line,
+            column: start.column,
+            span: start.span.start..end.span.end,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For brevity, we’ve omitted some of the parsing methods, but the pattern should be clear: each method is responsible for parsing a specific language construct, following the grammar rules of our language.</p>
+<h3 id="example-parsing-a-flux-function"><a class="header" href="#example-parsing-a-flux-function">Example: Parsing a Flux Function</a></h3>
+<p>Let’s see our parser in action with a complete example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/main.rs (partial)
+use flux::parser::Parser;
+
+fn parse_file(path: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let source = std::fs::read_to_string(path)?;
+    let mut parser = Parser::new(&amp;source)?;
+
+    let program = parser.parse_program()?;
+    println!("Successfully parsed program with {} declarations", program.declarations.len());
+
+    // Print the AST in a readable format
+    println!("{:#?}", program);
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="extending-the-error-type"><a class="header" href="#extending-the-error-type">Extending the Error Type</a></h3>
+<p>Let’s update our error type to include syntax errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/error.rs
+#[derive(Error, Debug)]
+pub enum CompileError {
+    #[error("Lexical error at line {line}, column {column}: {message}")]
+    LexicalError {
+        line: usize,
+        column: usize,
+        message: String,
+        span: Range&lt;usize&gt;,
+    },
+
+    #[error("Syntax error at line {line}, column {column}: {message}")]
+    SyntaxError {
+        line: usize,
+        column: usize,
+        message: String,
+        span: Range&lt;usize&gt;,
+    },
+
+    // We'll add more error types as we develop the compiler
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="summary-1"><a class="header" href="#summary-1">Summary</a></h3>
+<p>We’ve now implemented a parser that transforms our tokens into an AST. Our parser:</p>
+<ol>
+<li>Uses recursive descent parsing, a clear and intuitive approach</li>
+<li>Follows the grammar of our language closely</li>
+<li>Provides detailed error messages with source location information</li>
+<li>Produces a structured representation of the program (the AST)</li>
+</ol>
+<p>The AST is a crucial intermediate representation that will be used in subsequent phases of compilation. It captures the syntactic structure of the program in a way that’s convenient for further analysis and transformation.</p>
+<p>In the next section, we’ll implement semantic analysis, where we’ll validate the program’s semantics and perform type checking.</p>
+<h2 id="type-checking-and-semantic-analysis"><a class="header" href="#type-checking-and-semantic-analysis">Type Checking and Semantic Analysis</a></h2>
+<p>Now that we have an AST, we need to validate the semantics of the program and perform type checking. This phase ensures that the program is not just syntactically correct, but also semantically meaningful.</p>
+<h3 id="what-is-type-checking"><a class="header" href="#what-is-type-checking">What is Type Checking?</a></h3>
+<p>Type checking verifies that expressions and operations in a program are used with the correct types. For example, it ensures that:</p>
+<ul>
+<li>You don’t add a string to an integer</li>
+<li>You don’t call a function with the wrong number or types of arguments</li>
+<li>You don’t use variables that haven’t been declared</li>
+<li>You don’t assign a value of the wrong type to a variable</li>
+</ul>
+<p>Type checking is crucial for catching errors before runtime and enabling compiler optimizations.</p>
+<h3 id="the-environment"><a class="header" href="#the-environment">The Environment</a></h3>
+<p>To perform type checking, we need to keep track of the types of variables, functions, and other symbols in the program. We’ll use an environment data structure for this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/typechecker.rs
+use std::collections::HashMap;
+use std::error::Error;
+
+use crate::ast::*;
+use crate::error::CompileError;
+
+/// Environment storing variable and function types
+#[derive(Debug, Clone)]
+pub struct Environment {
+    /// Variable and function types, keyed by name
+    symbols: HashMap&lt;String, Type&gt;,
+
+    /// Parent environment (for scoping)
+    parent: Option&lt;Box&lt;Environment&gt;&gt;,
+}
+
+impl Environment {
+    /// Create a new empty environment
+    pub fn new() -&gt; Self {
+        Self {
+            symbols: HashMap::new(),
+            parent: None,
+        }
+    }
+
+    /// Create a new environment with a parent
+    pub fn with_parent(parent: Environment) -&gt; Self {
+        Self {
+            symbols: HashMap::new(),
+            parent: Some(Box::new(parent)),
+        }
+    }
+
+    /// Define a symbol in the current scope
+    pub fn define(&amp;mut self, name: String, type_: Type) {
+        self.symbols.insert(name, type_);
+    }
+
+    /// Get the type of a symbol
+    pub fn get(&amp;self, name: &amp;str) -&gt; Option&lt;Type&gt; {
+        if let Some(type_) = self.symbols.get(name) {
+            Some(type_.clone())
+        } else if let Some(parent) = &amp;self.parent {
+            parent.get(name)
+        } else {
+            None
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="type-checker-implementation"><a class="header" href="#type-checker-implementation">Type Checker Implementation</a></h3>
+<p>Now, let’s implement the type checker:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/typechecker.rs (continued)
+/// Type checker for Flux programs
+pub struct TypeChecker {
+    /// Current environment
+    env: Environment,
+
+    /// User-defined types
+    types: HashMap&lt;String, TypeDef&gt;,
+}
+
+impl TypeChecker {
+    /// Create a new type checker
+    pub fn new() -&gt; Self {
+        let mut env = Environment::new();
+
+        // Add built-in functions to environment
+        env.define("print".to_string(), Type::Function {
+            params: vec![Type::String],
+            return_type: Box::new(Type::Named("void".to_string())),
+        });
+
+        env.define("to_string".to_string(), Type::Function {
+            params: vec![Type::Named("any".to_string())],
+            return_type: Box::new(Type::String),
+        });
+
+        Self {
+            env,
+            types: HashMap::new(),
+        }
+    }
+
+    /// Check the types in a program
+    pub fn check_program(&amp;mut self, program: &amp;Program) -&gt; Result&lt;(), CompileError&gt; {
+        // First pass: collect all type definitions
+        for decl in &amp;program.declarations {
+            if let Declaration::TypeDef(type_def) = &amp;decl.node {
+                self.register_type(type_def)?;
+            }
+        }
+
+        // Second pass: check declarations
+        for decl in &amp;program.declarations {
+            self.check_declaration(&amp;decl.node)?;
+        }
+
+        Ok(())
+    }
+
+    /// Register a type definition
+    fn register_type(&amp;mut self, type_def: &amp;TypeDef) -&gt; Result&lt;(), CompileError&gt; {
+        match type_def {
+            TypeDef::Struct { name, .. } |
+            TypeDef::Enum { name, .. } |
+            TypeDef::Alias { name, .. } =&gt; {
+                if self.types.contains_key(name) {
+                    return Err(CompileError::TypeError {
+                        message: format!("Type '{}' is already defined", name),
+                    });
+                }
+
+                self.types.insert(name.clone(), type_def.clone());
+            }
+        }
+
+        Ok(())
+    }
+
+    /// Check a declaration
+    fn check_declaration(&amp;mut self, decl: &amp;Declaration) -&gt; Result&lt;(), CompileError&gt; {
+        match decl {
+            Declaration::Function(func) =&gt; self.check_function(func),
+            Declaration::TypeDef(_) =&gt; Ok(()), // Already processed in first pass
+        }
+    }
+
+    /// Check a function declaration
+    fn check_function(&amp;mut self, func: &amp;Function) -&gt; Result&lt;(), CompileError&gt; {
+        // Register function in environment
+        let func_type = Type::Function {
+            params: func.params.iter().map(|p| p.node.type_.clone()).collect(),
+            return_type: Box::new(func.return_type.clone().unwrap_or_else(||
+                Type::Named("void".to_string()))),
+        };
+
+        self.env.define(func.name.clone(), func_type);
+
+        // Create a new environment for the function body
+        let mut func_env = Environment::with_parent(self.env.clone());
+
+        // Add parameters to the environment
+        for param in &amp;func.params {
+            func_env.define(param.node.name.clone(), param.node.type_.clone());
+        }
+
+        // Temporarily replace the environment
+        let old_env = std::mem::replace(&amp;mut self.env, func_env);
+
+        // Check the function body
+        let body_type = self.check_expression(&amp;func.body.node)?;
+
+        // Restore the old environment
+        self.env = old_env;
+
+        // Check return type
+        if let Some(return_type) = &amp;func.return_type {
+            if !self.is_assignable(&amp;body_type, return_type) {
+                return Err(CompileError::TypeError {
+                    message: format!(
+                        "Function '{}' has return type '{}' but returns '{}'",
+                        func.name, self.type_to_string(return_type), self.type_to_string(&amp;body_type)
+                    ),
+                });
+            }
+        }
+
+        Ok(())
+    }
+
+    /// Check an expression and return its type
+    fn check_expression(&amp;mut self, expr: &amp;Expression) -&gt; Result&lt;Type, CompileError&gt; {
+        match expr {
+            Expression::Literal(lit) =&gt; Ok(self.check_literal(lit)),
+
+            Expression::Variable(name) =&gt; {
+                self.env.get(name).ok_or_else(|| CompileError::TypeError {
+                    message: format!("Undefined variable: {}", name),
+                })
+            },
+
+            Expression::Binary { op, left, right } =&gt; {
+                self.check_binary_op(*op, &amp;left.node, &amp;right.node)
+            },
+
+            Expression::Unary { op, expr } =&gt; {
+                self.check_unary_op(*op, &amp;expr.node)
+            },
+
+            Expression::Call { callee, args } =&gt; {
+                self.check_call(&amp;callee.node, args)
+            },
+
+            Expression::If { condition, then_branch, else_branch } =&gt; {
+                self.check_if(&amp;condition.node, &amp;then_branch.node, else_branch.as_deref().map(|e| &amp;e.node))
+            },
+
+            Expression::Block { statements, expr } =&gt; {
+                self.check_block(statements, expr.as_deref().map(|e| &amp;e.node))
+            },
+
+            Expression::Assign { target, value } =&gt; {
+                self.check_assign(&amp;target.node, &amp;value.node)
+            },
+
+            Expression::Field { object, name } =&gt; {
+                self.check_field(&amp;object.node, name)
+            },
+
+            Expression::Array(elements) =&gt; {
+                self.check_array(elements)
+            },
+
+            Expression::Index { array, index } =&gt; {
+                self.check_index(&amp;array.node, &amp;index.node)
+            },
+
+            Expression::Lambda { params, body } =&gt; {
+                self.check_lambda(params, &amp;body.node)
+            },
+        }
+    }
+
+    /// Check a literal and return its type
+    fn check_literal(&amp;self, lit: &amp;Literal) -&gt; Type {
+        match lit {
+            Literal::Integer(_) =&gt; Type::Int,
+            Literal::Float(_) =&gt; Type::Float,
+            Literal::String(_) =&gt; Type::String,
+            Literal::Boolean(_) =&gt; Type::Bool,
+        }
+    }
+
+    /// Check a binary operation and return its type
+    fn check_binary_op(&amp;mut self, op: BinaryOp, left: &amp;Expression, right: &amp;Expression)
+        -&gt; Result&lt;Type, CompileError&gt;
+    {
+        let left_type = self.check_expression(left)?;
+        let right_type = self.check_expression(right)?;
+
+        match op {
+            // Arithmetic operations
+            BinaryOp::Add | BinaryOp::Subtract | BinaryOp::Multiply |
+            BinaryOp::Divide | BinaryOp::Modulo =&gt; {
+                if left_type == Type::Int &amp;&amp; right_type == Type::Int {
+                    Ok(Type::Int)
+                } else if (left_type == Type::Int || left_type == Type::Float) &amp;&amp;
+                          (right_type == Type::Int || right_type == Type::Float) {
+                    Ok(Type::Float)
+                } else if op == BinaryOp::Add &amp;&amp;
+                          (left_type == Type::String || right_type == Type::String) {
+                    Ok(Type::String)
+                } else {
+                    Err(CompileError::TypeError {
+                        message: format!(
+                            "Cannot apply operator {:?} to types '{}' and '{}'",
+                            op, self.type_to_string(&amp;left_type), self.type_to_string(&amp;right_type)
+                        ),
+                    })
+                }
+            },
+
+            // Comparison operations
+            BinaryOp::Equal | BinaryOp::NotEqual =&gt; {
+                if self.is_comparable(&amp;left_type, &amp;right_type) {
+                    Ok(Type::Bool)
+                } else {
+                    Err(CompileError::TypeError {
+                        message: format!(
+                            "Cannot compare types '{}' and '{}'",
+                            self.type_to_string(&amp;left_type), self.type_to_string(&amp;right_type)
+                        ),
+                    })
+                }
+            },
+
+            BinaryOp::Less | BinaryOp::LessEqual |
+            BinaryOp::Greater | BinaryOp::GreaterEqual =&gt; {
+                if (left_type == Type::Int || left_type == Type::Float) &amp;&amp;
+                   (right_type == Type::Int || right_type == Type::Float) {
+                    Ok(Type::Bool)
+                } else {
+                    Err(CompileError::TypeError {
+                        message: format!(
+                            "Cannot compare types '{}' and '{}' with operator {:?}",
+                            self.type_to_string(&amp;left_type), self.type_to_string(&amp;right_type), op
+                        ),
+                    })
+                }
+            },
+
+            // Logical operations
+            BinaryOp::And | BinaryOp::Or =&gt; {
+                if left_type == Type::Bool &amp;&amp; right_type == Type::Bool {
+                    Ok(Type::Bool)
+                } else {
+                    Err(CompileError::TypeError {
+                        message: format!(
+                            "Cannot apply logical operator {:?} to types '{}' and '{}'",
+                            op, self.type_to_string(&amp;left_type), self.type_to_string(&amp;right_type)
+                        ),
+                    })
+                }
+            },
+        }
+    }
+
+    // Additional methods for checking different expression types would go here...
+
+    /// Check if two types are comparable
+    fn is_comparable(&amp;self, type1: &amp;Type, type2: &amp;Type) -&gt; bool {
+        // Same types are always comparable
+        if type1 == type2 {
+            return true;
+        }
+
+        // Numeric types are comparable with each other
+        if (type1 == &amp;Type::Int || type1 == &amp;Type::Float) &amp;&amp;
+           (type2 == &amp;Type::Int || type2 == &amp;Type::Float) {
+            return true;
+        }
+
+        // Other types are not comparable
+        false
+    }
+
+    /// Check if a value of one type can be assigned to a variable of another type
+    fn is_assignable(&amp;self, from_type: &amp;Type, to_type: &amp;Type) -&gt; bool {
+        // Same types are always assignable
+        if from_type == to_type {
+            return true;
+        }
+
+        // Int can be assigned to Float
+        if from_type == &amp;Type::Int &amp;&amp; to_type == &amp;Type::Float {
+            return true;
+        }
+
+        // TODO: Handle user-defined types and inheritance
+
+        false
+    }
+
+    /// Convert a type to a string representation
+    fn type_to_string(&amp;self, type_: &amp;Type) -&gt; String {
+        match type_ {
+            Type::Int =&gt; "int".to_string(),
+            Type::Float =&gt; "float".to_string(),
+            Type::Bool =&gt; "bool".to_string(),
+            Type::String =&gt; "string".to_string(),
+            Type::Named(name) =&gt; name.clone(),
+            Type::Function { params, return_type } =&gt; {
+                let params_str = params.iter()
+                    .map(|p| self.type_to_string(p))
+                    .collect::&lt;Vec&lt;_&gt;&gt;()
+                    .join(", ");
+
+                format!("fn({}) -&gt; {}", params_str, self.type_to_string(return_type))
+            },
+            Type::Array(elem_type) =&gt; {
+                format!("[{}]", self.type_to_string(elem_type))
+            },
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For brevity, we’ve omitted some of the type checking methods, but the pattern should be clear. Each method is responsible for checking a specific type of expression and ensuring type correctness.</p>
+<h3 id="extending-the-error-type-1"><a class="header" href="#extending-the-error-type-1">Extending the Error Type</a></h3>
+<p>Let’s update our error type to include type errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/error.rs
+#[derive(Error, Debug)]
+pub enum CompileError {
+    // ... previous error types ...
+
+    #[error("Type error: {message}")]
+    TypeError {
+        message: String,
+    },
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="example-type-checking-a-flux-program"><a class="header" href="#example-type-checking-a-flux-program">Example: Type Checking a Flux Program</a></h3>
+<p>Let’s see the type checker in action:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/main.rs (partial)
+use flux::parser::Parser;
+use flux::typechecker::TypeChecker;
+
+fn check_file(path: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let source = std::fs::read_to_string(path)?;
+    let mut parser = Parser::new(&amp;source)?;
+
+    let program = parser.parse_program()?;
+    println!("Successfully parsed program with {} declarations", program.declarations.len());
+
+    let mut type_checker = TypeChecker::new();
+    type_checker.check_program(&amp;program)?;
+    println!("Program type checks successfully!");
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="type-inference"><a class="header" href="#type-inference">Type Inference</a></h3>
+<p>Our type system could be enhanced with type inference, allowing programmers to omit explicit type annotations in many cases. Here’s a sketch of how type inference might work:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/typechecker.rs (partial)
+impl TypeChecker {
+    // ... existing methods ...
+
+    /// Infer the type of a variable from its initializer
+    fn infer_type(&amp;mut self, expr: &amp;Expression) -&gt; Result&lt;Type, CompileError&gt; {
+        // This is similar to check_expression but with special handling for
+        // cases where we need to infer types
+        match expr {
+            // ... handle different expression types ...
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Type inference is a complex topic that often involves unification algorithms and constraint solving. For simplicity, our implementation focuses on local type inference rather than global inference.</p>
+<h3 id="summary-2"><a class="header" href="#summary-2">Summary</a></h3>
+<p>We’ve now implemented a type checker that:</p>
+<ol>
+<li>Validates the semantics of Flux programs</li>
+<li>Ensures type safety by checking all expressions and operations</li>
+<li>Maintains an environment of variable and function types</li>
+<li>Provides clear error messages for type errors</li>
+</ol>
+<p>This completes the front-end of our compiler. We now have a lexer, parser, and type checker that together can validate a Flux program and ensure it’s both syntactically and semantically correct.</p>
+<p>In the next section, we’ll move on to the code generation phase, where we’ll translate the AST into bytecode that can be executed by our virtual machine.</p>
+<h2 id="intermediate-representation-ir"><a class="header" href="#intermediate-representation-ir">Intermediate Representation (IR)</a></h2>
+<p>Before generating bytecode, it’s often helpful to transform the AST into an Intermediate Representation (IR). An IR is a simplified, normalized representation of the program that’s easier to optimize and translate to bytecode.</p>
+<h3 id="why-use-an-ir"><a class="header" href="#why-use-an-ir">Why Use an IR?</a></h3>
+<p>There are several advantages to using an IR:</p>
+<ol>
+<li><strong>Simplification</strong>: The IR is usually simpler than the AST, with fewer node types and a more uniform structure.</li>
+<li><strong>Normalization</strong>: Complex language constructs are broken down into simpler operations.</li>
+<li><strong>Optimization</strong>: It’s easier to apply optimizations to a normalized representation.</li>
+<li><strong>Code Generation</strong>: Translating from IR to bytecode is more straightforward than directly from AST.</li>
+</ol>
+<h3 id="ir-design"><a class="header" href="#ir-design">IR Design</a></h3>
+<p>For Flux, we’ll use a simple IR based on three-address code, where each instruction has at most three operands (typically two inputs and one output).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/ir.rs
+use std::fmt;
+
+/// A unique identifier for a variable in the IR
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct VarId(pub usize);
+
+impl fmt::Display for VarId {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        write!(f, "%{}", self.0)
+    }
+}
+
+/// A literal value in the IR
+#[derive(Debug, Clone, PartialEq)]
+pub enum IrLiteral {
+    Int(i64),
+    Float(f64),
+    Bool(bool),
+    String(String),
+}
+
+/// An operand in an IR instruction
+#[derive(Debug, Clone, PartialEq)]
+pub enum IrOperand {
+    Var(VarId),
+    Literal(IrLiteral),
+}
+
+impl fmt::Display for IrOperand {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            IrOperand::Var(var) =&gt; write!(f, "{}", var),
+            IrOperand::Literal(IrLiteral::Int(i)) =&gt; write!(f, "{}", i),
+            IrOperand::Literal(IrLiteral::Float(fl)) =&gt; write!(f, "{}", fl),
+            IrOperand::Literal(IrLiteral::Bool(b)) =&gt; write!(f, "{}", b),
+            IrOperand::Literal(IrLiteral::String(s)) =&gt; write!(f, "{:?}", s),
+        }
+    }
+}
+
+/// A binary operation in the IR
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum IrBinaryOp {
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
+    Modulo,
+    Equal,
+    NotEqual,
+    Less,
+    LessEqual,
+    Greater,
+    GreaterEqual,
+    And,
+    Or,
+}
+
+impl fmt::Display for IrBinaryOp {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            IrBinaryOp::Add =&gt; write!(f, "add"),
+            IrBinaryOp::Subtract =&gt; write!(f, "sub"),
+            IrBinaryOp::Multiply =&gt; write!(f, "mul"),
+            IrBinaryOp::Divide =&gt; write!(f, "div"),
+            IrBinaryOp::Modulo =&gt; write!(f, "mod"),
+            IrBinaryOp::Equal =&gt; write!(f, "eq"),
+            IrBinaryOp::NotEqual =&gt; write!(f, "ne"),
+            IrBinaryOp::Less =&gt; write!(f, "lt"),
+            IrBinaryOp::LessEqual =&gt; write!(f, "le"),
+            IrBinaryOp::Greater =&gt; write!(f, "gt"),
+            IrBinaryOp::GreaterEqual =&gt; write!(f, "ge"),
+            IrBinaryOp::And =&gt; write!(f, "and"),
+            IrBinaryOp::Or =&gt; write!(f, "or"),
+        }
+    }
+}
+
+/// A unary operation in the IR
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum IrUnaryOp {
+    Negate,
+    Not,
+}
+
+impl fmt::Display for IrUnaryOp {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            IrUnaryOp::Negate =&gt; write!(f, "neg"),
+            IrUnaryOp::Not =&gt; write!(f, "not"),
+        }
+    }
+}
+
+/// An instruction in the IR
+#[derive(Debug, Clone, PartialEq)]
+pub enum IrInstruction {
+    /// Assign a value to a variable
+    Assign {
+        target: VarId,
+        value: IrOperand,
+    },
+
+    /// Perform a binary operation
+    BinaryOp {
+        target: VarId,
+        op: IrBinaryOp,
+        left: IrOperand,
+        right: IrOperand,
+    },
+
+    /// Perform a unary operation
+    UnaryOp {
+        target: VarId,
+        op: IrUnaryOp,
+        operand: IrOperand,
+    },
+
+    /// Call a function
+    Call {
+        target: Option&lt;VarId&gt;,
+        function: String,
+        args: Vec&lt;IrOperand&gt;,
+    },
+
+    /// Return from a function
+    Return {
+        value: Option&lt;IrOperand&gt;,
+    },
+
+    /// Conditional jump
+    JumpIf {
+        condition: IrOperand,
+        then_label: String,
+        else_label: String,
+    },
+
+    /// Unconditional jump
+    Jump {
+        label: String,
+    },
+
+    /// Define a label
+    Label {
+        name: String,
+    },
+
+    /// Create an array
+    Array {
+        target: VarId,
+        elements: Vec&lt;IrOperand&gt;,
+    },
+
+    /// Get an element from an array
+    GetIndex {
+        target: VarId,
+        array: IrOperand,
+        index: IrOperand,
+    },
+
+    /// Set an element in an array
+    SetIndex {
+        array: IrOperand,
+        index: IrOperand,
+        value: IrOperand,
+    },
+
+    /// Get a field from a struct
+    GetField {
+        target: VarId,
+        object: IrOperand,
+        field: String,
+    },
+
+    /// Set a field in a struct
+    SetField {
+        object: IrOperand,
+        field: String,
+        value: IrOperand,
+    },
+}
+
+impl fmt::Display for IrInstruction {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            IrInstruction::Assign { target, value } =&gt;
+                write!(f, "{} = {}", target, value),
+
+            IrInstruction::BinaryOp { target, op, left, right } =&gt;
+                write!(f, "{} = {} {}, {}", target, op, left, right),
+
+            IrInstruction::UnaryOp { target, op, operand } =&gt;
+                write!(f, "{} = {} {}", target, op, operand),
+
+            IrInstruction::Call { target, function, args } =&gt; {
+                if let Some(t) = target {
+                    write!(f, "{} = call {}(", t, function)?;
+                } else {
+                    write!(f, "call {}(", function)?;
+                }
+
+                for (i, arg) in args.iter().enumerate() {
+                    if i &gt; 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}", arg)?;
+                }
+
+                write!(f, ")")
+            },
+
+            IrInstruction::Return { value } =&gt; {
+                if let Some(v) = value {
+                    write!(f, "ret {}", v)
+                } else {
+                    write!(f, "ret")
+                }
+            },
+
+            IrInstruction::JumpIf { condition, then_label, else_label } =&gt;
+                write!(f, "jmpif {}, {}, {}", condition, then_label, else_label),
+
+            IrInstruction::Jump { label } =&gt;
+                write!(f, "jmp {}", label),
+
+            IrInstruction::Label { name } =&gt;
+                write!(f, "{}:", name),
+
+            IrInstruction::Array { target, elements } =&gt; {
+                write!(f, "{} = array [", target)?;
+
+                for (i, elem) in elements.iter().enumerate() {
+                    if i &gt; 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}", elem)?;
+                }
+
+                write!(f, "]")
+            },
+
+            IrInstruction::GetIndex { target, array, index } =&gt;
+                write!(f, "{} = {}[{}]", target, array, index),
+
+            IrInstruction::SetIndex { array, index, value } =&gt;
+                write!(f, "{}[{}] = {}", array, index, value),
+
+            IrInstruction::GetField { target, object, field } =&gt;
+                write!(f, "{} = {}.{}", target, object, field),
+
+            IrInstruction::SetField { object, field, value } =&gt;
+                write!(f, "{}.{} = {}", object, field, value),
+        }
+    }
+}
+
+/// A function in the IR
+#[derive(Debug, Clone, PartialEq)]
+pub struct IrFunction {
+    /// Function name
+    pub name: String,
+
+    /// Parameter names
+    pub params: Vec&lt;VarId&gt;,
+
+    /// Function body
+    pub body: Vec&lt;IrInstruction&gt;,
+}
+
+/// A program in the IR
+#[derive(Debug, Clone, PartialEq)]
+pub struct IrProgram {
+    /// Functions in the program
+    pub functions: Vec&lt;IrFunction&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="ir-generation"><a class="header" href="#ir-generation">IR Generation</a></h3>
+<p>Now, let’s implement the translation from AST to IR:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/ir_gen.rs
+use std::collections::HashMap;
+
+use crate::ast::*;
+use crate::ir::*;
+use crate::error::CompileError;
+
+/// Generator for IR from AST
+pub struct IrGenerator {
+    /// Counter for generating unique variable IDs
+    var_counter: usize,
+
+    /// Counter for generating unique label names
+    label_counter: usize,
+
+    /// Map from AST variable names to IR variable IDs
+    variables: HashMap&lt;String, VarId&gt;,
+
+    /// Current function being processed
+    current_function: Option&lt;String&gt;,
+}
+
+impl IrGenerator {
+    /// Create a new IR generator
+    pub fn new() -&gt; Self {
+        Self {
+            var_counter: 0,
+            label_counter: 0,
+            variables: HashMap::new(),
+            current_function: None,
+        }
+    }
+
+    /// Generate a new variable ID
+    fn new_var(&amp;mut self) -&gt; VarId {
+        let id = self.var_counter;
+        self.var_counter += 1;
+        VarId(id)
+    }
+
+    /// Generate a new label name
+    fn new_label(&amp;mut self, prefix: &amp;str) -&gt; String {
+        let label = format!("{}.{}", prefix, self.label_counter);
+        self.label_counter += 1;
+        label
+    }
+
+    /// Lookup a variable by name
+    fn lookup_var(&amp;self, name: &amp;str) -&gt; Result&lt;VarId, CompileError&gt; {
+        self.variables.get(name).cloned().ok_or_else(|| {
+            CompileError::IrError {
+                message: format!("Undefined variable: {}", name),
+            }
+        })
+    }
+
+    /// Define a variable
+    fn define_var(&amp;mut self, name: &amp;str, var: VarId) {
+        self.variables.insert(name.to_string(), var);
+    }
+
+    /// Generate IR for a program
+    pub fn generate_program(&amp;mut self, program: &amp;Program) -&gt; Result&lt;IrProgram, CompileError&gt; {
+        let mut functions = Vec::new();
+
+        for decl in &amp;program.declarations {
+            match &amp;decl.node {
+                Declaration::Function(func) =&gt; {
+                    functions.push(self.generate_function(func)?);
+                },
+                Declaration::TypeDef(_) =&gt; {
+                    // Type definitions don't generate any IR
+                },
+            }
+        }
+
+        Ok(IrProgram { functions })
+    }
+
+    /// Generate IR for a function
+    fn generate_function(&amp;mut self, func: &amp;Function) -&gt; Result&lt;IrFunction, CompileError&gt; {
+        // Reset state for this function
+        self.var_counter = 0;
+        self.label_counter = 0;
+        self.variables.clear();
+        self.current_function = Some(func.name.clone());
+
+        // Create parameter variables
+        let mut param_vars = Vec::new();
+
+        for param in &amp;func.params {
+            let var = self.new_var();
+            self.define_var(&amp;param.node.name, var.clone());
+            param_vars.push(var);
+        }
+
+        // Generate IR for function body
+        let mut instructions = Vec::new();
+        let result = self.generate_expression(&amp;func.body.node, &amp;mut instructions)?;
+
+        // Add return instruction
+        instructions.push(IrInstruction::Return {
+            value: Some(result),
+        });
+
+        Ok(IrFunction {
+            name: func.name.clone(),
+            params: param_vars,
+            body: instructions,
+        })
+    }
+
+    /// Generate IR for an expression
+    fn generate_expression(
+        &amp;mut self,
+        expr: &amp;Expression,
+        instructions: &amp;mut Vec&lt;IrInstruction&gt;,
+    ) -&gt; Result&lt;IrOperand, CompileError&gt; {
+        match expr {
+            Expression::Literal(lit) =&gt; {
+                Ok(IrOperand::Literal(match lit {
+                    Literal::Integer(i) =&gt; IrLiteral::Int(*i),
+                    Literal::Float(f) =&gt; IrLiteral::Float(*f),
+                    Literal::String(s) =&gt; IrLiteral::String(s.clone()),
+                    Literal::Boolean(b) =&gt; IrLiteral::Bool(*b),
+                }))
+            },
+
+            Expression::Variable(name) =&gt; {
+                let var = self.lookup_var(name)?;
+                Ok(IrOperand::Var(var))
+            },
+
+            Expression::Binary { op, left, right } =&gt; {
+                let left_operand = self.generate_expression(&amp;left.node, instructions)?;
+                let right_operand = self.generate_expression(&amp;right.node, instructions)?;
+
+                let result_var = self.new_var();
+
+                let ir_op = match op {
+                    BinaryOp::Add =&gt; IrBinaryOp::Add,
+                    BinaryOp::Subtract =&gt; IrBinaryOp::Subtract,
+                    BinaryOp::Multiply =&gt; IrBinaryOp::Multiply,
+                    BinaryOp::Divide =&gt; IrBinaryOp::Divide,
+                    BinaryOp::Modulo =&gt; IrBinaryOp::Modulo,
+                    BinaryOp::Equal =&gt; IrBinaryOp::Equal,
+                    BinaryOp::NotEqual =&gt; IrBinaryOp::NotEqual,
+                    BinaryOp::Less =&gt; IrBinaryOp::Less,
+                    BinaryOp::LessEqual =&gt; IrBinaryOp::LessEqual,
+                    BinaryOp::Greater =&gt; IrBinaryOp::Greater,
+                    BinaryOp::GreaterEqual =&gt; IrBinaryOp::GreaterEqual,
+                    BinaryOp::And =&gt; IrBinaryOp::And,
+                    BinaryOp::Or =&gt; IrBinaryOp::Or,
+                };
+
+                instructions.push(IrInstruction::BinaryOp {
+                    target: result_var.clone(),
+                    op: ir_op,
+                    left: left_operand,
+                    right: right_operand,
+                });
+
+                Ok(IrOperand::Var(result_var))
+            },
+
+            // We'll skip other expression types for brevity
+            // The pattern is similar: generate IR for subexpressions,
+            // then combine them into a result
+
+            _ =&gt; Err(CompileError::IrError {
+                message: format!("Unsupported expression type: {:?}", expr),
+            }),
+        }
+    }
+
+    // Additional methods for generating IR for other expression types...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For brevity, we’ve omitted the IR generation for some expression types, but the pattern should be clear: recursively generate IR for subexpressions, then combine them into a result.</p>
+<h3 id="extending-the-error-type-2"><a class="header" href="#extending-the-error-type-2">Extending the Error Type</a></h3>
+<p>Let’s update our error type to include IR errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/error.rs
+#[derive(Error, Debug)]
+pub enum CompileError {
+    // ... previous error types ...
+
+    #[error("IR generation error: {message}")]
+    IrError {
+        message: String,
+    },
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="example-generating-ir-for-a-flux-program"><a class="header" href="#example-generating-ir-for-a-flux-program">Example: Generating IR for a Flux Program</a></h3>
+<p>Let’s see the IR generator in action:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/main.rs (partial)
+use flux::parser::Parser;
+use flux::typechecker::TypeChecker;
+use flux::ir_gen::IrGenerator;
+
+fn compile_file(path: &amp;str) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let source = std::fs::read_to_string(path)?;
+    let mut parser = Parser::new(&amp;source)?;
+
+    let program = parser.parse_program()?;
+    println!("Successfully parsed program with {} declarations", program.declarations.len());
+
+    let mut type_checker = TypeChecker::new();
+    type_checker.check_program(&amp;program)?;
+    println!("Program type checks successfully!");
+
+    let mut ir_generator = IrGenerator::new();
+    let ir_program = ir_generator.generate_program(&amp;program)?;
+
+    println!("Generated IR with {} functions", ir_program.functions.len());
+
+    // Print the IR
+    for func in &amp;ir_program.functions {
+        println!("Function {}:", func.name);
+
+        for instr in &amp;func.body {
+            println!("  {}", instr);
+        }
+
+        println!();
+    }
+
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="optimizing-the-ir"><a class="header" href="#optimizing-the-ir">Optimizing the IR</a></h3>
+<p>The IR is a good place to apply optimizations before generating bytecode. Here’s a simple constant folding optimization:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/optimizer.rs
+use crate::ir::*;
+
+/// Optimizer for IR programs
+pub struct Optimizer;
+
+impl Optimizer {
+    /// Create a new optimizer
+    pub fn new() -&gt; Self {
+        Self
+    }
+
+    /// Optimize an IR program
+    pub fn optimize_program(&amp;self, program: &amp;mut IrProgram) {
+        for function in &amp;mut program.functions {
+            self.optimize_function(function);
+        }
+    }
+
+    /// Optimize an IR function
+    fn optimize_function(&amp;self, function: &amp;mut IrFunction) {
+        // Apply constant folding
+        let mut i = 0;
+        while i &lt; function.body.len() {
+            if let Some(optimized) = self.fold_constants(&amp;function.body[i]) {
+                function.body[i] = optimized;
+            }
+            i += 1;
+        }
+    }
+
+    /// Fold constants in an instruction
+    fn fold_constants(&amp;self, instruction: &amp;IrInstruction) -&gt; Option&lt;IrInstruction&gt; {
+        match instruction {
+            IrInstruction::BinaryOp { target, op, left, right } =&gt; {
+                match (left, right) {
+                    (IrOperand::Literal(l), IrOperand::Literal(r)) =&gt; {
+                        // Fold constants for binary operations
+                        let result = match (op, l, r) {
+                            (IrBinaryOp::Add, IrLiteral::Int(a), IrLiteral::Int(b)) =&gt;
+                                IrLiteral::Int(a + b),
+
+                            (IrBinaryOp::Subtract, IrLiteral::Int(a), IrLiteral::Int(b)) =&gt;
+                                IrLiteral::Int(a - b),
+
+                            (IrBinaryOp::Multiply, IrLiteral::Int(a), IrLiteral::Int(b)) =&gt;
+                                IrLiteral::Int(a * b),
+
+                            (IrBinaryOp::Divide, IrLiteral::Int(a), IrLiteral::Int(b)) =&gt;
+                                if *b != 0 { IrLiteral::Int(a / b) } else { return None },
+
+                            // Add more constant folding rules for other operations...
+
+                            _ =&gt; return None,
+                        };
+
+                        Some(IrInstruction::Assign {
+                            target: target.clone(),
+                            value: IrOperand::Literal(result),
+                        })
+                    },
+                    _ =&gt; None,
+                }
+            },
+
+            // Add more optimization rules for other instructions...
+
+            _ =&gt; None,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is a simple example of IR optimization. In a production compiler, you would implement many more optimizations, such as:</p>
+<ul>
+<li>Dead code elimination</li>
+<li>Common subexpression elimination</li>
+<li>Loop invariant code motion</li>
+<li>Inlining</li>
+<li>Tail call optimization</li>
+<li>And more…</li>
+</ul>
+<h3 id="summary-3"><a class="header" href="#summary-3">Summary</a></h3>
+<p>We’ve now implemented an Intermediate Representation (IR) for our compiler. Our IR:</p>
+<ol>
+<li>Provides a simplified, normalized representation of the program</li>
+<li>Is easier to optimize and translate to bytecode than the AST</li>
+<li>Uses a three-address code format that’s close to machine instructions</li>
+<li>Can be optimized using standard compiler optimization techniques</li>
+</ol>
+<p>The IR acts as a bridge between the high-level AST and the low-level bytecode. It simplifies the code generation process and provides a convenient place to apply optimizations.</p>
+<p>In the next section, we’ll implement a bytecode generator and virtual machine to execute our compiled Flux programs.</p>
+<h2 id="bytecode-generation-and-virtual-machine"><a class="header" href="#bytecode-generation-and-virtual-machine">Bytecode Generation and Virtual Machine</a></h2>
+<p>The final step in our compiler pipeline is to generate bytecode from the IR and create a virtual machine (VM) to execute this bytecode. The VM provides a portable runtime for our language, allowing Flux programs to run on any platform that supports our VM.</p>
+<h3 id="bytecode-design"><a class="header" href="#bytecode-design">Bytecode Design</a></h3>
+<p>Let’s design a simple stack-based bytecode format for our VM:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/bytecode.rs
+use std::fmt;
+
+/// Bytecode instruction opcodes
+#[derive(Debug, Clone, Copy, PartialEq)]
+#[repr(u8)]
+pub enum OpCode {
+    // Stack operations
+    Const = 0,      // Push constant onto stack
+    Load = 1,       // Load local variable onto stack
+    Store = 2,      // Store top of stack to local variable
+    Pop = 3,        // Pop top value from stack
+
+    // Arithmetic operations
+    Add = 4,
+    Sub = 5,
+    Mul = 6,
+    Div = 7,
+    Mod = 8,
+    Neg = 9,
+
+    // Comparison operations
+    Eq = 10,
+    Ne = 11,
+    Lt = 12,
+    Le = 13,
+    Gt = 14,
+    Ge = 15,
+
+    // Logical operations
+    And = 16,
+    Or = 17,
+    Not = 18,
+
+    // Control flow
+    Jump = 19,      // Unconditional jump
+    JumpIf = 20,    // Jump if condition is true
+    JumpIfNot = 21, // Jump if condition is false
+
+    // Function operations
+    Call = 22,      // Call function
+    Return = 23,    // Return from function
+
+    // Array operations
+    Array = 24,     // Create array
+    GetIndex = 25,  // Get element from array
+    SetIndex = 26,  // Set element in array
+
+    // Struct operations
+    GetField = 27,  // Get field from struct
+    SetField = 28,  // Set field in struct
+
+    // Miscellaneous
+    Print = 29,     // Print value
+    Halt = 30,      // Halt execution
+}
+
+/// A constant value in the bytecode
+#[derive(Debug, Clone, PartialEq)]
+pub enum Constant {
+    Int(i64),
+    Float(f64),
+    Bool(bool),
+    String(String),
+    Function(String),
+}
+
+impl fmt::Display for Constant {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            Constant::Int(i) =&gt; write!(f, "{}", i),
+            Constant::Float(fl) =&gt; write!(f, "{}", fl),
+            Constant::Bool(b) =&gt; write!(f, "{}", b),
+            Constant::String(s) =&gt; write!(f, "{:?}", s),
+            Constant::Function(name) =&gt; write!(f, "function {}", name),
+        }
+    }
+}
+
+/// A bytecode instruction
+#[derive(Debug, Clone, PartialEq)]
+pub struct Instruction {
+    /// Opcode for the instruction
+    pub opcode: OpCode,
+
+    /// Operand for the instruction (if any)
+    pub operand: Option&lt;u16&gt;,
+}
+
+impl Instruction {
+    /// Create a new instruction with no operand
+    pub fn new(opcode: OpCode) -&gt; Self {
+        Self {
+            opcode,
+            operand: None,
+        }
+    }
+
+    /// Create a new instruction with an operand
+    pub fn with_operand(opcode: OpCode, operand: u16) -&gt; Self {
+        Self {
+            opcode,
+            operand: Some(operand),
+        }
+    }
+}
+
+impl fmt::Display for Instruction {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self.operand {
+            Some(operand) =&gt; write!(f, "{:?} {}", self.opcode, operand),
+            None =&gt; write!(f, "{:?}", self.opcode),
+        }
+    }
+}
+
+/// A function in the bytecode
+#[derive(Debug, Clone, PartialEq)]
+pub struct BytecodeFunction {
+    /// Function name
+    pub name: String,
+
+    /// Number of parameters
+    pub param_count: u8,
+
+    /// Number of local variables
+    pub local_count: u8,
+
+    /// Bytecode instructions
+    pub instructions: Vec&lt;Instruction&gt;,
+}
+
+/// A complete bytecode program
+#[derive(Debug, Clone, PartialEq)]
+pub struct BytecodeProgram {
+    /// Constants pool
+    pub constants: Vec&lt;Constant&gt;,
+
+    /// Functions in the program
+    pub functions: Vec&lt;BytecodeFunction&gt;,
+
+    /// Index of the main function
+    pub main_function_index: usize,
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="bytecode-generation"><a class="header" href="#bytecode-generation">Bytecode Generation</a></h3>
+<p>Now, let’s implement the code generator that transforms IR into bytecode:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/codegen.rs
+use std::collections::HashMap;
+
+use crate::ir::*;
+use crate::bytecode::*;
+use crate::error::CompileError;
+
+/// Generator for bytecode from IR
+pub struct CodeGenerator {
+    /// Constants pool
+    constants: Vec&lt;Constant&gt;,
+
+    /// Map from IR variables to local variable indices
+    variables: HashMap&lt;VarId, u8&gt;,
+
+    /// Map from function names to function indices
+    functions: HashMap&lt;String, usize&gt;,
+
+    /// Next available local variable index
+    next_local: u8,
+
+    /// Map from label names to instruction indices
+    labels: HashMap&lt;String, usize&gt;,
+
+    /// Pending jumps that need to be resolved
+    pending_jumps: Vec&lt;(usize, String)&gt;,
+}
+
+impl CodeGenerator {
+    /// Create a new code generator
+    pub fn new() -&gt; Self {
+        Self {
+            constants: Vec::new(),
+            variables: HashMap::new(),
+            functions: HashMap::new(),
+            next_local: 0,
+            labels: HashMap::new(),
+            pending_jumps: Vec::new(),
+        }
+    }
+
+    /// Add a constant to the constants pool, returning its index
+    fn add_constant(&amp;mut self, constant: Constant) -&gt; u16 {
+        let index = self.constants.len();
+        self.constants.push(constant);
+        index as u16
+    }
+
+    /// Allocate a local variable for an IR variable
+    fn allocate_local(&amp;mut self, var: &amp;VarId) -&gt; u8 {
+        let local = self.next_local;
+        self.next_local += 1;
+        self.variables.insert(var.clone(), local);
+        local
+    }
+
+    /// Get the local variable index for an IR variable
+    fn get_local(&amp;self, var: &amp;VarId) -&gt; Result&lt;u8, CompileError&gt; {
+        self.variables.get(var).copied().ok_or_else(|| {
+            CompileError::CodeGenError {
+                message: format!("Unknown variable: {:?}", var),
+            }
+        })
+    }
+
+    /// Generate bytecode for a program
+    pub fn generate_program(&amp;mut self, program: &amp;IrProgram) -&gt; Result&lt;BytecodeProgram, CompileError&gt; {
+        // First pass: register all functions
+        for (i, func) in program.functions.iter().enumerate() {
+            self.functions.insert(func.name.clone(), i);
+
+            // Add function name to constants pool
+            self.add_constant(Constant::Function(func.name.clone()));
+        }
+
+        // Find the main function
+        let main_index = self.functions.get("main").cloned().ok_or_else(|| {
+            CompileError::CodeGenError {
+                message: "No main function found".to_string(),
+            }
+        })?;
+
+        // Second pass: generate bytecode for each function
+        let mut bytecode_functions = Vec::new();
+
+        for func in &amp;program.functions {
+            bytecode_functions.push(self.generate_function(func)?);
+        }
+
+        Ok(BytecodeProgram {
+            constants: self.constants.clone(),
+            functions: bytecode_functions,
+            main_function_index: main_index,
+        })
+    }
+
+    /// Generate bytecode for a function
+    fn generate_function(&amp;mut self, func: &amp;IrFunction) -&gt; Result&lt;BytecodeFunction, CompileError&gt; {
+        // Reset state for this function
+        self.variables.clear();
+        self.next_local = 0;
+        self.labels.clear();
+        self.pending_jumps.clear();
+
+        // Allocate locals for parameters
+        for param in &amp;func.params {
+            self.allocate_local(param);
+        }
+
+        let param_count = func.params.len() as u8;
+
+        // Generate bytecode for function body
+        let mut instructions = Vec::new();
+
+        for (i, instr) in func.body.iter().enumerate() {
+            match instr {
+                IrInstruction::Label { name } =&gt; {
+                    // Register label position
+                    self.labels.insert(name.clone(), instructions.len());
+                },
+
+                _ =&gt; {
+                    // Generate bytecode for instruction
+                    let mut instr_bytecode = self.generate_instruction(instr)?;
+                    instructions.append(&amp;mut instr_bytecode);
+                },
+            }
+        }
+
+        // Resolve pending jumps
+        for (jump_index, label) in &amp;self.pending_jumps {
+            let target = self.labels.get(label).ok_or_else(|| {
+                CompileError::CodeGenError {
+                    message: format!("Unknown label: {}", label),
+                }
+            })?;
+
+            instructions[*jump_index].operand = Some(*target as u16);
+        }
+
+        Ok(BytecodeFunction {
+            name: func.name.clone(),
+            param_count,
+            local_count: self.next_local,
+            instructions,
+        })
+    }
+
+    /// Generate bytecode for an instruction
+    fn generate_instruction(&amp;mut self, instr: &amp;IrInstruction) -&gt; Result&lt;Vec&lt;Instruction&gt;, CompileError&gt; {
+        let mut instructions = Vec::new();
+
+        match instr {
+            IrInstruction::Assign { target, value } =&gt; {
+                // Allocate local for target if needed
+                if !self.variables.contains_key(target) {
+                    self.allocate_local(target);
+                }
+
+                // Generate code to put value on stack
+                match value {
+                    IrOperand::Literal(lit) =&gt; {
+                        let const_index = match lit {
+                            IrLiteral::Int(i) =&gt; self.add_constant(Constant::Int(*i)),
+                            IrLiteral::Float(f) =&gt; self.add_constant(Constant::Float(*f)),
+                            IrLiteral::Bool(b) =&gt; self.add_constant(Constant::Bool(*b)),
+                            IrLiteral::String(s) =&gt; self.add_constant(Constant::String(s.clone())),
+                        };
+
+                        instructions.push(Instruction::with_operand(OpCode::Const, const_index));
+                    },
+
+                    IrOperand::Var(var) =&gt; {
+                        let local = self.get_local(var)?;
+                        instructions.push(Instruction::with_operand(OpCode::Load, local as u16));
+                    },
+                };
+
+                // Store value to target
+                let target_local = self.get_local(target)?;
+                instructions.push(Instruction::with_operand(OpCode::Store, target_local as u16));
+            },
+
+            IrInstruction::BinaryOp { target, op, left, right } =&gt; {
+                // Allocate local for target if needed
+                if !self.variables.contains_key(target) {
+                    self.allocate_local(target);
+                }
+
+                // Put left and right operands on stack
+                self.push_operand(left, &amp;mut instructions)?;
+                self.push_operand(right, &amp;mut instructions)?;
+
+                // Perform operation
+                let opcode = match op {
+                    IrBinaryOp::Add =&gt; OpCode::Add,
+                    IrBinaryOp::Subtract =&gt; OpCode::Sub,
+                    IrBinaryOp::Multiply =&gt; OpCode::Mul,
+                    IrBinaryOp::Divide =&gt; OpCode::Div,
+                    IrBinaryOp::Modulo =&gt; OpCode::Mod,
+                    IrBinaryOp::Equal =&gt; OpCode::Eq,
+                    IrBinaryOp::NotEqual =&gt; OpCode::Ne,
+                    IrBinaryOp::Less =&gt; OpCode::Lt,
+                    IrBinaryOp::LessEqual =&gt; OpCode::Le,
+                    IrBinaryOp::Greater =&gt; OpCode::Gt,
+                    IrBinaryOp::GreaterEqual =&gt; OpCode::Ge,
+                    IrBinaryOp::And =&gt; OpCode::And,
+                    IrBinaryOp::Or =&gt; OpCode::Or,
+                };
+
+                instructions.push(Instruction::new(opcode));
+
+                // Store result to target
+                let target_local = self.get_local(target)?;
+                instructions.push(Instruction::with_operand(OpCode::Store, target_local as u16));
+            },
+
+            // Handle other instructions...
+
+            _ =&gt; {
+                return Err(CompileError::CodeGenError {
+                    message: format!("Unsupported instruction: {:?}", instr),
+                });
+            },
+        }
+
+        Ok(instructions)
+    }
+
+    /// Push an operand onto the stack
+    fn push_operand(&amp;mut self, operand: &amp;IrOperand, instructions: &amp;mut Vec&lt;Instruction&gt;) -&gt; Result&lt;(), CompileError&gt; {
+        match operand {
+            IrOperand::Literal(lit) =&gt; {
+                let const_index = match lit {
+                    IrLiteral::Int(i) =&gt; self.add_constant(Constant::Int(*i)),
+                    IrLiteral::Float(f) =&gt; self.add_constant(Constant::Float(*f)),
+                    IrLiteral::Bool(b) =&gt; self.add_constant(Constant::Bool(*b)),
+                    IrLiteral::String(s) =&gt; self.add_constant(Constant::String(s.clone())),
+                };
+
+                instructions.push(Instruction::with_operand(OpCode::Const, const_index));
+            },
+
+            IrOperand::Var(var) =&gt; {
+                let local = self.get_local(var)?;
+                instructions.push(Instruction::with_operand(OpCode::Load, local as u16));
+            },
+        }
+
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="extending-the-error-type-3"><a class="header" href="#extending-the-error-type-3">Extending the Error Type</a></h3>
+<p>Let’s update our error type to include code generation errors:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/error.rs
+#[derive(Error, Debug)]
+pub enum CompileError {
+    // ... previous error types ...
+
+    #[error("Code generation error: {message}")]
+    CodeGenError {
+        message: String,
+    },
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="virtual-machine-implementation"><a class="header" href="#virtual-machine-implementation">Virtual Machine Implementation</a></h3>
+<p>Finally, let’s implement the virtual machine that will execute our bytecode:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// src/vm.rs
+use std::collections::HashMap;
+use std::fmt;
+
+use crate::bytecode::*;
+
+/// A value in the virtual machine
+#[derive(Debug, Clone, PartialEq)]
+pub enum Value {
+    Int(i64),
+    Float(f64),
+    Bool(bool),
+    String(String),
+    Array(Vec&lt;Value&gt;),
+    Object(HashMap&lt;String, Value&gt;),
+    Function(usize), // Index in functions array
+    Null,
+}
+
+impl fmt::Display for Value {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            Value::Int(i) =&gt; write!(f, "{}", i),
+            Value::Float(fl) =&gt; write!(f, "{}", fl),
+            Value::Bool(b) =&gt; write!(f, "{}", b),
+            Value::String(s) =&gt; write!(f, "{}", s),
+            Value::Array(a) =&gt; {
+                write!(f, "[")?;
+                for (i, v) in a.iter().enumerate() {
+                    if i &gt; 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}", v)?;
+                }
+                write!(f, "]")
+            },
+            Value::Object(o) =&gt; {
+                write!(f, "{{")?;
+                let mut first = true;
+                for (k, v) in o.iter() {
+                    if !first {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}: {}", k, v)?;
+                    first = false;
+                }
+                write!(f, "}}")
+            },
+            Value::Function(idx) =&gt; write!(f, "&lt;function at index {}&gt;", idx),
+            Value::Null =&gt; write!(f, "null"),
+        }
+    }
+}
+
+/// A call frame on the call stack
+#[derive(Debug, Clone)]
+struct CallFrame {
+    /// Function being executed
+    function_index: usize,
+
+    /// Instruction pointer
+    ip: usize,
+
+    /// Base pointer for local variables
+    bp: usize,
+}
+
+/// Runtime error during VM execution
+#[derive(Debug, thiserror::Error)]
+pub enum RuntimeError {
+    #[error("Stack underflow")]
+    StackUnderflow,
+
+    #[error("Invalid opcode: {0}")]
+    InvalidOpcode(u8),
+
+    #[error("Invalid operand: {0}")]
+    InvalidOperand(u16),
+
+    #[error("Invalid constant index: {0}")]
+    InvalidConstantIndex(u16),
+
+    #[error("Invalid function index: {0}")]
+    InvalidFunctionIndex(usize),
+
+    #[error("Invalid local variable index: {0}")]
+    InvalidLocalIndex(u8),
+
+    #[error("Type error: {0}")]
+    TypeError(String),
+
+    #[error("Division by zero")]
+    DivisionByZero,
+
+    #[error("Index out of bounds: {0}")]
+    IndexOutOfBounds(usize),
+
+    #[error("Unknown field: {0}")]
+    UnknownField(String),
+
+    #[error("Runtime error: {0}")]
+    Other(String),
+}
+
+/// The Flux virtual machine
+pub struct VirtualMachine {
+    /// The bytecode program being executed
+    program: BytecodeProgram,
+
+    /// The value stack
+    stack: Vec&lt;Value&gt;,
+
+    /// The call stack
+    frames: Vec&lt;CallFrame&gt;,
+
+    /// Debug mode flag
+    debug: bool,
+}
+
+impl VirtualMachine {
+    /// Create a new virtual machine
+    pub fn new(program: BytecodeProgram) -&gt; Self {
+        Self {
+            program,
+            stack: Vec::new(),
+            frames: Vec::new(),
+            debug: false,
+        }
+    }
+
+    /// Enable or disable debug mode
+    pub fn set_debug(&amp;mut self, debug: bool) {
+        self.debug = debug;
+    }
+
+    /// Run the program
+    pub fn run(&amp;mut self) -&gt; Result&lt;Value, RuntimeError&gt; {
+        // Push initial call frame for main function
+        self.frames.push(CallFrame {
+            function_index: self.program.main_function_index,
+            ip: 0,
+            bp: 0,
+        });
+
+        // Execute instructions until we run out of frames
+        while let Some(frame) = self.frames.last_mut() {
+            let function = &amp;self.program.functions[frame.function_index];
+
+            // Check if we've reached the end of the function
+            if frame.ip &gt;= function.instructions.len() {
+                // Pop the frame
+                self.frames.pop();
+
+                // If we've popped the last frame, execution is complete
+                if self.frames.is_empty() {
+                    break;
+                }
+
+                continue;
+            }
+
+            // Get the current instruction
+            let instruction = &amp;function.instructions[frame.ip];
+
+            // Debug output
+            if self.debug {
+                println!("Executing: {} (stack: {:?})", instruction, self.stack);
+            }
+
+            // Increment instruction pointer
+            frame.ip += 1;
+
+            // Execute the instruction
+            self.execute_instruction(instruction)?;
+        }
+
+        // Return the top of the stack, or null if stack is empty
+        Ok(self.stack.pop().unwrap_or(Value::Null))
+    }
+
+    /// Execute a single instruction
+    fn execute_instruction(&amp;mut self, instruction: &amp;Instruction) -&gt; Result&lt;(), RuntimeError&gt; {
+        match instruction.opcode {
+            OpCode::Const =&gt; {
+                let const_idx = instruction.operand.ok_or(RuntimeError::InvalidOperand(0))?;
+
+                let constant = self.program.constants.get(const_idx as usize)
+                    .ok_or(RuntimeError::InvalidConstantIndex(const_idx))?;
+
+                let value = match constant {
+                    Constant::Int(i) =&gt; Value::Int(*i),
+                    Constant::Float(f) =&gt; Value::Float(*f),
+                    Constant::Bool(b) =&gt; Value::Bool(*b),
+                    Constant::String(s) =&gt; Value::String(s.clone()),
+                    Constant::Function(name) =&gt; {
+                        // Look up function index by name
+                        let func_idx = self.program.functions.iter()
+                            .position(|f| f.name == *name)
+                            .ok_or(RuntimeError::Other(format!("Unknown function: {}", name)))?;
+
+                        Value::Function(func_idx)
+                    },
+                };
+
+                self.stack.push(value);
+            },
+
+            OpCode::Load =&gt; {
+                let local_idx = instruction.operand.ok_or(RuntimeError::InvalidOperand(0))? as u8;
+
+                let frame = self.frames.last().ok_or(RuntimeError::Other("No call frame".to_string()))?;
+                let value_idx = frame.bp + local_idx as usize;
+
+                if value_idx &gt;= self.stack.len() {
+                    return Err(RuntimeError::InvalidLocalIndex(local_idx));
+                }
+
+                let value = self.stack[value_idx].clone();
+                self.stack.push(value);
+            },
+
+            OpCode::Store =&gt; {
+                let local_idx = instruction.operand.ok_or(RuntimeError::InvalidOperand(0))? as u8;
+
+                let value = self.stack.pop().ok_or(RuntimeError::StackUnderflow)?;
+
+                let frame = self.frames.last().ok_or(RuntimeError::Other("No call frame".to_string()))?;
+                let value_idx = frame.bp + local_idx as usize;
+
+                if value_idx &gt;= self.stack.len() {
+                    // Expand stack if needed
+                    while value_idx &gt;= self.stack.len() {
+                        self.stack.push(Value::Null);
+                    }
+                }
+
+                self.stack[value_idx] = value;
+            },
+
+            OpCode::Pop =&gt; {
+                self.stack.pop().ok_or(RuntimeError::StackUnderflow)?;
+            },
+
+            OpCode::Add =&gt; {
+                let right = self.stack.pop().ok_or(RuntimeError::StackUnderflow)?;
+                let left = self.stack.pop().ok_or(RuntimeError::StackUnderflow)?;
+
+                let result = match (left, right) {
+                    (Value::Int(a), Value::Int(b)) =&gt; Value::Int(a + b),
+                    (Value::Float(a), Value::Float(b)) =&gt; Value::Float(a + b),
+                    (Value::Int(a), Value::Float(b)) =&gt; Value::Float(a as f64 + b),
+                    (Value::Float(a), Value::Int(b)) =&gt; Value::Float(a + b as f64),
+                    (Value::String(a), Value::String(b)) =&gt; Value::String(a + &amp;b),
+                    (a, b) =&gt; return Err(RuntimeError::TypeError(
+                        format!("Cannot add {} and {}", a, b)
+                    )),
+                };
+
+                self.stack.push(result);
+            },
+
+            // More instructions would be implemented here...
+
+            _ =&gt; {
+                return Err(RuntimeError::InvalidOpcode(instruction.opcode as u8));
+            },
+        }
+
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>For brevity, we’ve only implemented a few instructions, but the pattern is clear. The VM:</p>
+<ol>
+<li>Maintains a value stack for operands and results</li>
+<li>Tracks execution with call frames</li>
+<li>Interprets bytecode instructions one by one</li>
+<li>Handles runtime errors appropriately</li>
+</ol>
+<h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
+<p>Let’s update our compiler driver to use all the components we’ve built:</p>
+<pre><pre class="playground"><code class="language-rust">// src/main.rs
+use std::path::PathBuf;
+use clap::{Parser, Subcommand};
+
+use flux::{
+    lexer::Lexer,
+    parser::Parser as FluxParser,
+    typechecker::TypeChecker,
+    ir_gen::IrGenerator,
+    optimizer::Optimizer,
+    codegen::CodeGenerator,
+    vm::VirtualMachine,
+};
+
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+struct Cli {
+    #[command(subcommand)]
+    command: Command,
+}
+
+#[derive(Subcommand)]
+enum Command {
+    /// Compile and run a Flux program
+    Run {
+        /// Input file
+        #[arg(value_name = "FILE")]
+        file: PathBuf,
+
+        /// Enable debug output
+        #[arg(short, long)]
+        debug: bool,
+    },
+
+    /// Start a REPL session
+    Repl {
+        /// Enable debug output
+        #[arg(short, long)]
+        debug: bool,
+    },
+}
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let cli = Cli::parse();
+
+    match cli.command {
+        Command::Run { file, debug } =&gt; {
+            let source = std::fs::read_to_string(file)?;
+            run_program(&amp;source, debug)?;
+        },
+
+        Command::Repl { debug } =&gt; {
+            run_repl(debug)?;
+        },
+    }
+
+    Ok(())
+}
+
+fn run_program(source: &amp;str, debug: bool) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Parsing
+    let mut parser = FluxParser::new(source)?;
+    let ast = parser.parse_program()?;
+
+    if debug {
+        println!("AST: {:#?}", ast);
+    }
+
+    // Type checking
+    let mut type_checker = TypeChecker::new();
+    type_checker.check_program(&amp;ast)?;
+
+    // IR generation
+    let mut ir_generator = IrGenerator::new();
+    let mut ir_program = ir_generator.generate_program(&amp;ast)?;
+
+    if debug {
+        println!("IR Program:");
+        for func in &amp;ir_program.functions {
+            println!("Function {}:", func.name);
+            for instr in &amp;func.body {
+                println!("  {}", instr);
+            }
+            println!();
+        }
+    }
+
+    // Optimization
+    let optimizer = Optimizer::new();
+    optimizer.optimize_program(&amp;mut ir_program);
+
+    if debug {
+        println!("Optimized IR Program:");
+        for func in &amp;ir_program.functions {
+            println!("Function {}:", func.name);
+            for instr in &amp;func.body {
+                println!("  {}", instr);
+            }
+            println!();
+        }
+    }
+
+    // Code generation
+    let mut code_generator = CodeGenerator::new();
+    let bytecode = code_generator.generate_program(&amp;ir_program)?;
+
+    if debug {
+        println!("Bytecode Program:");
+        println!("Constants: {:?}", bytecode.constants);
+
+        for func in &amp;bytecode.functions {
+            println!("Function {} (params: {}, locals: {}):",
+                     func.name, func.param_count, func.local_count);
+
+            for (i, instr) in func.instructions.iter().enumerate() {
+                println!("  {:04}: {}", i, instr);
+            }
+
+            println!();
+        }
+    }
+
+    // Execute bytecode
+    let mut vm = VirtualMachine::new(bytecode);
+    vm.set_debug(debug);
+
+    let result = vm.run()?;
+
+    println!("Result: {}", result);
+
+    Ok(())
+}
+
+fn run_repl(debug: bool) -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    use rustyline::Editor;
+
+    let mut rl = Editor::&lt;()&gt;::new()?;
+    println!("Flux REPL (type 'exit' to quit)");
+
+    loop {
+        let readline = rl.readline("&gt;&gt; ");
+        match readline {
+            Ok(line) =&gt; {
+                if line.trim() == "exit" {
+                    break;
+                }
+
+                rl.add_history_entry(line.as_str());
+
+                // Run the input as a Flux expression
+                match run_program(&amp;format!("fn main() {{ {} }}", line), debug) {
+                    Ok(_) =&gt; (),
+                    Err(e) =&gt; println!("Error: {}", e),
+                }
+            },
+            Err(_) =&gt; break,
+        }
+    }
+
+    Ok(())
+}</code></pre></pre>
+<h3 id="summary-4"><a class="header" href="#summary-4">Summary</a></h3>
+<p>We’ve now completed the implementation of our Flux compiler and virtual machine. Our system:</p>
+<ol>
+<li>
+<p>Compiles Flux source code to bytecode through multiple stages:</p>
+<ul>
+<li>Lexical analysis</li>
+<li>Parsing</li>
+<li>Type checking</li>
+<li>IR generation</li>
+<li>Optimization</li>
+<li>Bytecode generation</li>
+</ul>
+</li>
+<li>
+<p>Executes the bytecode using a stack-based virtual machine</p>
+</li>
+<li>
+<p>Provides both a compiler and a REPL for interactive use</p>
+</li>
+</ol>
+<p>The design is modular, with each component having a clear responsibility, making it easy to extend or modify individual parts of the system.</p>
+<p>This completes our journey of building a programming language from scratch in Rust. We’ve covered all the essential components of a modern language implementation, from the front-end (lexer, parser, type checker) to the back-end (IR, optimizer, code generator, VM).</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>In this chapter, we’ve embarked on an ambitious journey: building a complete programming language from scratch. We’ve implemented “Flux,” a statically-typed, expression-oriented language with modern features like type inference, algebraic data types, and pattern matching.</p>
+<p>Our implementation followed a traditional compiler pipeline:</p>
+<ol>
+<li><strong>Lexical Analysis</strong>: Breaking down source code into tokens</li>
+<li><strong>Parsing</strong>: Building an Abstract Syntax Tree (AST) from tokens</li>
+<li><strong>Semantic Analysis</strong>: Type checking and validating the program</li>
+<li><strong>Intermediate Representation</strong>: Converting the AST to a simpler form</li>
+<li><strong>Optimization</strong>: Improving the code’s efficiency</li>
+<li><strong>Code Generation</strong>: Creating bytecode from the IR</li>
+<li><strong>Execution</strong>: Running the bytecode on a virtual machine</li>
+</ol>
+<p>This modular approach allowed us to focus on each component individually, ensuring a clean design and making it easier to extend the language with new features.</p>
+<h3 id="key-insights"><a class="header" href="#key-insights">Key Insights</a></h3>
+<p>By building a language from scratch, we’ve gained several important insights:</p>
+<ol>
+<li>
+<p><strong>Clean Architecture</strong>: The importance of separating concerns between compiler phases makes the system maintainable and extensible.</p>
+</li>
+<li>
+<p><strong>Error Handling</strong>: Good error messages are crucial for language usability. We implemented detailed error reporting at each phase.</p>
+</li>
+<li>
+<p><strong>Type Systems</strong>: Static typing provides valuable guarantees and enables optimizations, but requires careful design.</p>
+</li>
+<li>
+<p><strong>Intermediate Representations</strong>: IRs simplify optimization and code generation by normalizing the program structure.</p>
+</li>
+<li>
+<p><strong>Virtual Machines</strong>: A bytecode VM provides portability and a controlled execution environment.</p>
+</li>
+</ol>
+<h3 id="extending-flux"><a class="header" href="#extending-flux">Extending Flux</a></h3>
+<p>Our implementation of Flux is just the beginning. Here are some ways you could extend the language:</p>
+<ol>
+<li>
+<p><strong>More Advanced Type System</strong>: Add generics, traits/typeclasses, or dependent types.</p>
+</li>
+<li>
+<p><strong>Garbage Collection</strong>: Implement automatic memory management.</p>
+</li>
+<li>
+<p><strong>Additional Optimizations</strong>: Add more sophisticated optimizations like inlining, tail call elimination, or constant propagation.</p>
+</li>
+<li>
+<p><strong>Standard Library</strong>: Build a comprehensive standard library for Flux.</p>
+</li>
+<li>
+<p><strong>Native Code Generation</strong>: Target LLVM or another backend to generate native code instead of bytecode.</p>
+</li>
+<li>
+<p><strong>Concurrency Primitives</strong>: Add support for threads, async/await, or actors.</p>
+</li>
+</ol>
+<h3 id="learning-from-existing-languages"><a class="header" href="#learning-from-existing-languages">Learning from Existing Languages</a></h3>
+<p>While building Flux, we drew inspiration from several existing languages:</p>
+<ul>
+<li><strong>Rust</strong>: For its ownership model and pattern matching</li>
+<li><strong>OCaml/ML</strong>: For algebraic data types and expression-oriented syntax</li>
+<li><strong>Python</strong>: For clean, minimal syntax</li>
+<li><strong>Go</strong>: For simplicity and performance considerations</li>
+</ul>
+<p>Studying existing languages and their implementations is one of the best ways to improve your language design skills.</p>
+<h3 id="practical-applications"><a class="header" href="#practical-applications">Practical Applications</a></h3>
+<p>Building a programming language has practical applications beyond the educational value:</p>
+<ol>
+<li>
+<p><strong>Domain-Specific Languages (DSLs)</strong>: Create specialized languages for particular domains like data processing, game development, or scientific computing.</p>
+</li>
+<li>
+<p><strong>Embedded Languages</strong>: Design languages that integrate with an existing codebase to provide specific functionality.</p>
+</li>
+<li>
+<p><strong>Language Extensions</strong>: Implement extensions or modifications to existing languages.</p>
+</li>
+<li>
+<p><strong>Compiler Development</strong>: Contribute to real-world compilers and language implementations.</p>
+</li>
+</ol>
+<h3 id="recommended-next-steps"><a class="header" href="#recommended-next-steps">Recommended Next Steps</a></h3>
+<p>If you’re interested in diving deeper into programming language development, here are some resources to explore:</p>
+<ol>
+<li>
+<p><strong>Books</strong>:</p>
+<ul>
+<li>“Crafting Interpreters” by Robert Nystrom</li>
+<li>“Types and Programming Languages” by Benjamin C. Pierce</li>
+<li>“Modern Compiler Implementation in ML” by Andrew W. Appel</li>
+</ul>
+</li>
+<li>
+<p><strong>Projects</strong>:</p>
+<ul>
+<li>Contribute to an open-source language implementation</li>
+<li>Build a specialized DSL for a domain you’re familiar with</li>
+<li>Implement a different language paradigm (logic, functional, etc.)</li>
+</ul>
+</li>
+<li>
+<p><strong>Advanced Topics</strong>:</p>
+<ul>
+<li>Type inference algorithms</li>
+<li>Just-In-Time (JIT) compilation</li>
+<li>Parallel and concurrent language features</li>
+</ul>
+</li>
+</ol>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p><strong>Extend the Type System</strong>: Add support for generics to Flux.</p>
+</li>
+<li>
+<p><strong>Add Standard Library Functions</strong>: Implement common utilities like file I/O, collections, or string manipulation.</p>
+</li>
+<li>
+<p><strong>Optimize Performance</strong>: Implement additional IR optimization passes and measure their impact.</p>
+</li>
+<li>
+<p><strong>Garbage Collection</strong>: Add a mark-and-sweep or reference counting garbage collector to Flux.</p>
+</li>
+<li>
+<p><strong>Pattern Matching</strong>: Enhance the pattern matching capabilities to support nested patterns and guards.</p>
+</li>
+<li>
+<p><strong>Foreign Function Interface</strong>: Create a system for calling Rust functions from Flux code.</p>
+</li>
+<li>
+<p><strong>Error Recovery</strong>: Improve the parser to recover from syntax errors and continue parsing.</p>
+</li>
+<li>
+<p><strong>Debugger</strong>: Implement a simple debugger for Flux programs with breakpoints and variable inspection.</p>
+</li>
+<li>
+<p><strong>Documentation Generator</strong>: Create a tool that extracts documentation from Flux code comments.</p>
+</li>
+<li>
+<p><strong>LLVM Backend</strong>: Replace the bytecode VM with an LLVM-based backend for native code generation.</p>
+</li>
+</ol>
+<p>Building a programming language is a profound exercise in software design and computer science fundamentals. We hope this chapter has given you the knowledge and confidence to explore language implementation further, whether for practical applications or the sheer joy of creation.</p>
+<p>The skills you’ve developed—from parsing to type checking to code generation—are applicable in many areas of software development, not just language design. May your programming language journey continue to be rewarding and enlightening!</p>
+<h2 id="a-sample-flux-program"><a class="header" href="#a-sample-flux-program">A Sample Flux Program</a></h2>
+<p>To tie everything together and demonstrate what we’ve built, let’s look at a complete Flux program. This example showcases many of the language features we’ve implemented, including algebraic data types, pattern matching, functions, and control flow.</p>
+<pre><code class="language-flux">// Type definitions
+type Option&lt;T&gt; = Some(T) | None;
+type List&lt;T&gt; = Cons(T, List&lt;T&gt;) | Nil;
+
+// A simple sorting algorithm
+fn quicksort(list: List&lt;int&gt;) -&gt; List&lt;int&gt; {
+  match list {
+    Nil =&gt; Nil,
+    Cons(pivot, rest) =&gt; {
+      let less = filter(rest, |x| x &lt; pivot);
+      let greater = filter(rest, |x| x &gt;= pivot);
+
+      append(
+        append(
+          quicksort(less),
+          Cons(pivot, Nil)
+        ),
+        quicksort(greater)
+      )
+    }
+  }
+}
+
+// Filter function for lists
+fn filter(list: List&lt;int&gt;, predicate: fn(int) -&gt; bool) -&gt; List&lt;int&gt; {
+  match list {
+    Nil =&gt; Nil,
+    Cons(head, tail) =&gt; {
+      if predicate(head) {
+        Cons(head, filter(tail, predicate))
+      } else {
+        filter(tail, predicate)
+      }
+    }
+  }
+}
+
+// Append two lists
+fn append(first: List&lt;int&gt;, second: List&lt;int&gt;) -&gt; List&lt;int&gt; {
+  match first {
+    Nil =&gt; second,
+    Cons(head, tail) =&gt; Cons(head, append(tail, second))
+  }
+}
+
+// Convert list to string
+fn list_to_string(list: List&lt;int&gt;) -&gt; string {
+  let result = "[";
+
+  let result = list_to_string_impl(list, result);
+
+  result + "]"
+}
+
+fn list_to_string_impl(list: List&lt;int&gt;, acc: string) -&gt; string {
+  match list {
+    Nil =&gt; acc,
+    Cons(head, Nil) =&gt; acc + to_string(head),
+    Cons(head, tail) =&gt; {
+      let new_acc = acc + to_string(head) + ", ";
+      list_to_string_impl(tail, new_acc)
+    }
+  }
+}
+
+// Main function
+fn main() {
+  // Create an unsorted list
+  let list = Cons(3, Cons(1, Cons(4, Cons(1, Cons(5, Cons(9, Cons(2, Cons(6, Nil))))))));
+
+  print("Original list: " + list_to_string(list));
+
+  let sorted = quicksort(list);
+
+  print("Sorted list: " + list_to_string(sorted));
+}
+</code></pre>
+<p>When we run this program through our compiler and VM, it should output:</p>
+<pre><code>Original list: [3, 1, 4, 1, 5, 9, 2, 6]
+Sorted list: [1, 1, 2, 3, 4, 5, 6, 9]
+</code></pre>
+<p>This example demonstrates several features of Flux:</p>
+<ol>
+<li><strong>Algebraic Data Types</strong>: The <code>Option&lt;T&gt;</code> and <code>List&lt;T&gt;</code> types</li>
+<li><strong>Generics</strong>: Type parameters in data type definitions</li>
+<li><strong>Pattern Matching</strong>: The <code>match</code> expressions</li>
+<li><strong>First-Class Functions</strong>: Functions as values in <code>filter</code></li>
+<li><strong>Closures</strong>: The lambda function <code>|x| x &lt; pivot</code></li>
+<li><strong>Recursion</strong>: For list processing</li>
+<li><strong>Conditionals</strong>: <code>if</code> expressions</li>
+<li><strong>Expressions</strong>: Everything is an expression that returns a value</li>
+</ol>
+<p>The implementation of this program exercises every part of our compiler pipeline:</p>
+<ul>
+<li>The lexer tokenizes the source</li>
+<li>The parser builds an AST representing the program structure</li>
+<li>The type checker verifies the types (including generics and function types)</li>
+<li>The IR generator converts the AST to a simpler form</li>
+<li>The optimizer improves the code</li>
+<li>The code generator produces bytecode</li>
+<li>The VM executes the program</li>
+</ul>
+<p>By exploring this example, you can see how all the pieces of our language implementation work together to create a functional programming language with modern features.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/45-search-engine.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/47-blockchain.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/45-search-engine.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/47-blockchain.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

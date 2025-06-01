@@ -1,0 +1,1035 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Build Systems and Tooling - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/35-build-systems.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-35-build-systems-and-tooling"><a class="header" href="#chapter-35-build-systems-and-tooling">Chapter 35: Build Systems and Tooling</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In modern software development, the tools and systems that support the development process are just as important as the language itself. Rust excels not only as a language but also through its rich ecosystem of build tools, development aids, and continuous integration support. This chapter explores the advanced tooling that makes Rust development productive, maintainable, and reliable.</p>
+<p>Beyond the basics of Cargo that we covered in the previous chapter, Rust offers a sophisticated suite of tools for customizing builds, ensuring code quality, debugging applications, and automating workflows. Understanding these tools is essential for scaling your Rust projects, supporting diverse platforms, and maintaining high standards of code quality.</p>
+<p>In this chapter, we’ll explore custom build scripts, cross-compilation strategies, code quality tools like rustfmt and clippy, debugging techniques, and continuous integration practices. We’ll also develop a practical project to create a cross-platform build pipeline that can target multiple operating systems and architectures.</p>
+<p>By the end of this chapter, you’ll have a comprehensive understanding of Rust’s tooling ecosystem and the skills to implement sophisticated build and development workflows for your Rust projects.</p>
+<h2 id="custom-build-scripts"><a class="header" href="#custom-build-scripts">Custom Build Scripts</a></h2>
+<p>(Custom build scripts section content goes here)</p>
+<h2 id="build-script-debugging"><a class="header" href="#build-script-debugging">Build Script Debugging</a></h2>
+<p>(Build script debugging section content goes here)</p>
+<h2 id="conditional-compilation"><a class="header" href="#conditional-compilation">Conditional Compilation</a></h2>
+<p>(Conditional compilation section content goes here)</p>
+<h2 id="rust-targets-and-architectures"><a class="header" href="#rust-targets-and-architectures">Rust Targets and Architectures</a></h2>
+<p>(Rust targets and architectures section content goes here)</p>
+<h2 id="cross-compilation"><a class="header" href="#cross-compilation">Cross-Compilation</a></h2>
+<p>(Cross-compilation section content goes here)</p>
+<h2 id="cargo-extensions"><a class="header" href="#cargo-extensions">Cargo Extensions</a></h2>
+<p>(Cargo extensions section content goes here)</p>
+<h2 id="ide-integration"><a class="header" href="#ide-integration">IDE Integration</a></h2>
+<p>(IDE integration section content goes here)</p>
+<h2 id="code-formatting-with-rustfmt"><a class="header" href="#code-formatting-with-rustfmt">Code Formatting with rustfmt</a></h2>
+<p>(Code formatting with rustfmt section content goes here)</p>
+<h2 id="linting-with-clippy"><a class="header" href="#linting-with-clippy">Linting with clippy</a></h2>
+<p>(Linting with clippy section content goes here)</p>
+<h2 id="debugging-tools"><a class="header" href="#debugging-tools">Debugging Tools</a></h2>
+<p>(Debugging tools section content goes here)</p>
+<h2 id="continuous-integration"><a class="header" href="#continuous-integration">Continuous Integration</a></h2>
+<p>(Continuous integration section content goes here)</p>
+<h2 id="project-cross-platform-build-system"><a class="header" href="#project-cross-platform-build-system">Project: Cross-Platform Build System</a></h2>
+<p>In this project, we’ll develop a cross-platform build pipeline that can compile and package a Rust application for multiple operating systems and architectures. This practical exercise will demonstrate how to leverage Rust’s tooling to support diverse deployment targets from a single codebase.</p>
+<p>We’ll create a small web server application and configure it to build for Linux, macOS, and Windows on different CPU architectures. The project will include automated testing, artifact creation, and release management.</p>
+<h3 id="project-requirements"><a class="header" href="#project-requirements">Project Requirements</a></h3>
+<p>Our build system will:</p>
+<ol>
+<li>Compile the application for multiple target platforms</li>
+<li>Run appropriate tests for each platform</li>
+<li>Package the application with platform-specific considerations</li>
+<li>Generate release artifacts with proper versioning</li>
+<li>Provide a simple way to add new target platforms</li>
+</ol>
+<h3 id="setting-up-the-project"><a class="header" href="#setting-up-the-project">Setting Up the Project</a></h3>
+<p>Let’s start by creating a new Rust project for our simple web server:</p>
+<pre><code class="language-bash">cargo new --bin cross-platform-server
+cd cross-platform-server
+</code></pre>
+<p>We’ll use a minimal web server based on the <code>axum</code> framework. Update <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = "cross-platform-server"
+version = "0.1.0"
+edition = "2021"
+description = "A cross-platform web server example"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+axum = "0.6"
+tokio = { version = "1.28", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tower-http = { version = "0.4", features = ["cors"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winuser"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+reqwest = { version = "0.11", features = ["json"] }
+</code></pre>
+<p>Next, let’s create a basic web server in <code>src/main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use axum::{
+    routing::{get, post},
+    Router, Json, extract::Path,
+};
+use serde::{Deserialize, Serialize};
+use std::net::SocketAddr;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
+#[derive(Debug, Serialize)]
+struct ServerInfo {
+    version: String,
+    os: String,
+    arch: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct Message {
+    content: String,
+}
+
+#[tokio::main]
+async fn main() {
+    // Initialize tracing for logging
+    tracing_subscriber::registry()
+        .with(tracing_subscriber::EnvFilter::new(
+            std::env::var("RUST_LOG").unwrap_or_else(|_| "info".into()),
+        ))
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
+    // Create a new router with our routes
+    let app = Router::new()
+        .route("/", get(root))
+        .route("/info", get(info))
+        .route("/echo/:message", get(echo))
+        .route("/message", post(receive_message));
+
+    // Set up the address to listen on
+    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    tracing::info!("Server listening on {}", addr);
+
+    // Start the server
+    axum::Server::bind(&amp;addr)
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
+}
+
+async fn root() -&gt; &amp;'static str {
+    "Welcome to the cross-platform server!"
+}
+
+async fn info() -&gt; Json&lt;ServerInfo&gt; {
+    Json(ServerInfo {
+        version: env!("CARGO_PKG_VERSION").to_string(),
+        os: std::env::consts::OS.to_string(),
+        arch: std::env::consts::ARCH.to_string(),
+    })
+}
+
+async fn echo(Path(message): Path&lt;String&gt;) -&gt; String {
+    format!("Echo: {}", message)
+}
+
+async fn receive_message(Json(message): Json&lt;Message&gt;) -&gt; String {
+    format!("Received: {}", message.content)
+}</code></pre></pre>
+<h3 id="creating-platform-specific-features"><a class="header" href="#creating-platform-specific-features">Creating Platform-Specific Features</a></h3>
+<p>Let’s add some platform-specific code to demonstrate conditional compilation. Create a new file <code>src/platform.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Platform-specific functionality
+
+// Common interface
+pub fn platform_name() -&gt; &amp;'static str {
+    std::env::consts::OS
+}
+
+pub fn get_temp_directory() -&gt; std::path::PathBuf {
+    #[cfg(windows)]
+    {
+        // Windows-specific code
+        use std::ffi::OsString;
+        use std::os::windows::ffi::OsStringExt;
+        use winapi::um::fileapi::GetTempPathW;
+        let mut buffer = [0u16; 260]; // MAX_PATH
+        unsafe {
+            let len = GetTempPathW(buffer.len() as u32, buffer.as_mut_ptr());
+            if len &gt; 0 {
+                let path = OsString::from_wide(&amp;buffer[0..len as usize]);
+                return std::path::PathBuf::from(path);
+            }
+        }
+        // Fallback
+        std::env::temp_dir()
+    }
+
+    #[cfg(unix)]
+    {
+        // Unix-specific code (Linux, macOS, etc.)
+        std::env::temp_dir()
+    }
+
+    #[cfg(not(any(windows, unix)))]
+    {
+        // Fallback for other platforms
+        std::env::temp_dir()
+    }
+}
+
+pub fn platform_info() -&gt; String {
+    #[cfg(target_os = "windows")]
+    let info = "Windows platform";
+
+    #[cfg(target_os = "macos")]
+    let info = "macOS platform";
+
+    #[cfg(target_os = "linux")]
+    let info = "Linux platform";
+
+    #[cfg(not(any(target_os = "windows", target_os = "macos", target_os = "linux")))]
+    let info = "Unknown platform";
+
+    format!("{} on {} architecture", info, std::env::consts::ARCH)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Update <code>src/main.rs</code> to use this module:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Add at the top with other imports
+mod platform;
+
+// Add a new route in the router setup
+.route("/platform", get(platform_info))
+
+// Add the new handler function
+async fn platform_info() -&gt; String {
+    format!(
+        "Running on {} with temp directory: {:?}",
+        platform::platform_info(),
+        platform::get_temp_directory()
+    )
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="setting-up-the-build-system"><a class="header" href="#setting-up-the-build-system">Setting Up the Build System</a></h3>
+<p>Now, let’s create a build script that will help us customize the build process. Create a new file <code>build.rs</code> in the project root:</p>
+<pre><pre class="playground"><code class="language-rust">use std::env;
+use std::fs;
+use std::path::Path;
+use std::process::Command;
+
+fn main() {
+    // Get build information
+    let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap_or_else(|_| "unknown".to_string());
+    let target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap_or_else(|_| "unknown".to_string());
+
+    println!("cargo:rustc-env=BUILD_TARGET_OS={}", target_os);
+    println!("cargo:rustc-env=BUILD_TARGET_ARCH={}", target_arch);
+
+    // Get Git commit hash if available
+    let git_hash = Command::new("git")
+        .args(&amp;["rev-parse", "--short", "HEAD"])
+        .output()
+        .map(|output| String::from_utf8_lossy(&amp;output.stdout).trim().to_string())
+        .unwrap_or_else(|_| "unknown".to_string());
+
+    println!("cargo:rustc-env=BUILD_GIT_HASH={}", git_hash);
+
+    // Create a build_info.rs file with the build information
+    let out_dir = env::var("OUT_DIR").unwrap();
+    let dest_path = Path::new(&amp;out_dir).join("build_info.rs");
+
+    let build_info = format!(
+        r#"
+        /// Information about the build environment.
+        pub struct BuildInfo {{
+            /// The operating system for which the binary was built.
+            pub target_os: &amp;'static str,
+            /// The architecture for which the binary was built.
+            pub target_arch: &amp;'static str,
+            /// The Git commit hash at build time.
+            pub git_hash: &amp;'static str,
+            /// The time when the binary was built.
+            pub build_time: &amp;'static str,
+        }}
+
+        /// Returns information about the current build.
+        pub fn get_build_info() -&gt; BuildInfo {{
+            BuildInfo {{
+                target_os: "{}",
+                target_arch: "{}",
+                git_hash: "{}",
+                build_time: "{}",
+            }}
+        }}
+        "#,
+        target_os,
+        target_arch,
+        git_hash,
+        chrono::Utc::now().to_rfc3339()
+    );
+
+    fs::write(dest_path, build_info).unwrap();
+
+    // Enable link-time optimization in release builds
+    if env::var("PROFILE").unwrap() == "release" {
+        println!("cargo:rustc-cfg=release");
+        // Platform-specific optimizations
+        if target_os == "windows" {
+            println!("cargo:rustc-link-arg=/LTCG");
+        } else {
+            // Common to Unix platforms
+            println!("cargo:rustc-link-arg=-flto");
+        }
+    }
+
+    println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=Cargo.toml");
+    println!("cargo:rerun-if-changed=src/");
+}</code></pre></pre>
+<p>You’ll need to add the <code>chrono</code> crate to your build dependencies in <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[build-dependencies]
+chrono = "0.4"
+</code></pre>
+<p>Now, let’s create a module to use the generated build information. Create <code>src/build_info.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! Module containing build information generated during compilation.
+
+// Include the generated build_info.rs file
+include!(concat!(env!("OUT_DIR"), "/build_info.rs"));
+<span class="boring">}</span></code></pre></pre>
+<p>Update <code>src/main.rs</code> to use this module:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Add at the top with other imports
+mod build_info;
+
+// Add a new route in the router setup
+.route("/build", get(build_info))
+
+// Add the new handler function
+async fn build_info() -&gt; Json&lt;build_info::BuildInfo&gt; {
+    Json(build_info::get_build_info())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="creating-a-cross-platform-build-script"><a class="header" href="#creating-a-cross-platform-build-script">Creating a Cross-Platform Build Script</a></h3>
+<p>Now, let’s create a shell script to build our application for multiple platforms. Create a file called <code>cross-build.sh</code> in the project root:</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -e
+
+# Ensure script fails on any error
+set -euo pipefail
+
+# Directory for build artifacts
+ARTIFACTS_DIR="./artifacts"
+mkdir -p "$ARTIFACTS_DIR"
+
+# Version from Cargo.toml
+VERSION=$(grep -m1 'version =' Cargo.toml | cut -d '"' -f2)
+echo "Building version $VERSION"
+
+# Function to build for a specific target
+build_target() {
+  local target=$1
+  local binary_name=$2
+  local target_dir="target/$target/release"
+
+  echo "Building for $target..."
+
+  if [[ "$target" == *"windows"* ]]; then
+    binary_name="$binary_name.exe"
+  fi
+
+  # Build the binary
+  cargo build --release --target "$target"
+
+  # Create a directory for this target's artifacts
+  local artifact_dir="$ARTIFACTS_DIR/$target"
+  mkdir -p "$artifact_dir"
+
+  # Copy the binary to the artifacts directory
+  cp "$target_dir/$binary_name" "$artifact_dir/"
+
+  # Create a tarball or zip file
+  if [[ "$target" == *"windows"* ]]; then
+    (cd "$ARTIFACTS_DIR" &amp;&amp; zip -r "${binary_name%.exe}-$target-$VERSION.zip" "$target")
+  else
+    (cd "$ARTIFACTS_DIR" &amp;&amp; tar -czf "$binary_name-$target-$VERSION.tar.gz" "$target")
+  fi
+
+  echo "Build for $target completed."
+}
+
+# Build for Linux (x86_64)
+build_target "x86_64-unknown-linux-gnu" "cross-platform-server"
+
+# Build for macOS (x86_64)
+build_target "x86_64-apple-darwin" "cross-platform-server"
+
+# Build for Windows (x86_64)
+build_target "x86_64-pc-windows-gnu" "cross-platform-server"
+
+echo "All builds completed successfully!"
+echo "Artifacts available in $ARTIFACTS_DIR"
+</code></pre>
+<p>Make the script executable:</p>
+<pre><code class="language-bash">chmod +x cross-build.sh
+</code></pre>
+<h3 id="setting-up-github-actions-for-ci"><a class="header" href="#setting-up-github-actions-for-ci">Setting Up GitHub Actions for CI</a></h3>
+<p>Let’s create a GitHub Actions workflow to automate our build process. Create a directory <code>.github/workflows</code> and add a file <code>cross-platform-build.yml</code>:</p>
+<pre><code class="language-yaml">name: Cross-Platform Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            binary_extension: ""
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            binary_extension: ""
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            binary_extension: ".exe"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+          override: true
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --target ${{ matrix.target }}
+
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --target ${{ matrix.target }}
+
+      - name: Package binary
+        shell: bash
+        run: |
+          BINARY_NAME=cross-platform-server${{ matrix.binary_extension }}
+          VERSION=$(grep -m1 'version =' Cargo.toml | cut -d '"' -f2)
+
+          # Create artifacts directory
+          mkdir -p artifacts
+
+          # Copy binary to artifacts
+          cp target/${{ matrix.target }}/release/$BINARY_NAME artifacts/
+
+          # Create archive based on OS
+          cd artifacts
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            7z a ../cross-platform-server-${{ matrix.target }}-$VERSION.zip $BINARY_NAME
+          else
+            tar -czf ../cross-platform-server-${{ matrix.target }}-$VERSION.tar.gz $BINARY_NAME
+          fi
+          cd ..
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: cross-platform-server-${{ matrix.target }}
+          path: |
+            cross-platform-server-${{ matrix.target }}-*.zip
+            cross-platform-server-${{ matrix.target }}-*.tar.gz
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          files: |
+            cross-platform-server-${{ matrix.target }}-*.zip
+            cross-platform-server-${{ matrix.target }}-*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+</code></pre>
+<h3 id="creating-a-build-configuration-file"><a class="header" href="#creating-a-build-configuration-file">Creating a Build Configuration File</a></h3>
+<p>To make our build system even more flexible, let’s create a configuration file that defines our build targets. Create a file named <code>build-config.json</code>:</p>
+<pre><code class="language-json">{
+  "app_name": "cross-platform-server",
+  "version": "0.1.0",
+  "targets": [
+    {
+      "name": "linux-x86_64",
+      "target": "x86_64-unknown-linux-gnu",
+      "os": "linux",
+      "arch": "x86_64",
+      "file_extension": "",
+      "archive_format": "tar.gz"
+    },
+    {
+      "name": "macos-x86_64",
+      "target": "x86_64-apple-darwin",
+      "os": "macos",
+      "arch": "x86_64",
+      "file_extension": "",
+      "archive_format": "tar.gz"
+    },
+    {
+      "name": "windows-x86_64",
+      "target": "x86_64-pc-windows-gnu",
+      "os": "windows",
+      "arch": "x86_64",
+      "file_extension": ".exe",
+      "archive_format": "zip"
+    }
+  ],
+  "build_options": {
+    "include_debug_info": true,
+    "strip_binaries": true,
+    "optimize_level": 3,
+    "lto": true
+  },
+  "package_files": [
+    {
+      "source": "README.md",
+      "destination": "README.md"
+    },
+    {
+      "source": "LICENSE",
+      "destination": "LICENSE"
+    }
+  ]
+}
+</code></pre>
+<p>Now let’s update our build script to use this configuration. Create a new file <code>build.js</code> (you’ll need Node.js installed):</p>
+<pre><code class="language-javascript">#!/usr/bin/env node
+
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+
+// Load build configuration
+const config = JSON.parse(fs.readFileSync("build-config.json", "utf8"));
+
+// Create artifacts directory
+const artifactsDir = path.join(__dirname, "artifacts");
+if (!fs.existsSync(artifactsDir)) {
+  fs.mkdirSync(artifactsDir);
+}
+
+// Build all targets
+for (const target of config.targets) {
+  console.log(`Building for ${target.name} (${target.target})...`);
+
+  // Set up build options
+  const buildOpts = [];
+  buildOpts.push("--release");
+  buildOpts.push("--target", target.target);
+
+  if (config.build_options.optimize_level) {
+    buildOpts.push(
+      "--",
+      `-C`,
+      `opt-level=${config.build_options.optimize_level}`
+    );
+  }
+
+  if (config.build_options.lto) {
+    buildOpts.push(`-C`, `lto=true`);
+  }
+
+  // Execute the build
+  try {
+    execSync(`cargo build ${buildOpts.join(" ")}`, { stdio: "inherit" });
+  } catch (error) {
+    console.error(`Error building for ${target.name}: ${error.message}`);
+    process.exit(1);
+  }
+
+  // Create target artifact directory
+  const targetArtifactDir = path.join(artifactsDir, target.name);
+  if (!fs.existsSync(targetArtifactDir)) {
+    fs.mkdirSync(targetArtifactDir);
+  }
+
+  // Copy binary
+  const binaryName = `${config.app_name}${target.file_extension}`;
+  const binarySource = path.join(
+    __dirname,
+    "target",
+    target.target,
+    "release",
+    binaryName
+  );
+  const binaryDest = path.join(targetArtifactDir, binaryName);
+
+  fs.copyFileSync(binarySource, binaryDest);
+  console.log(`Copied binary to ${binaryDest}`);
+
+  // Copy additional files
+  for (const file of config.package_files) {
+    const sourcePath = path.join(__dirname, file.source);
+    const destPath = path.join(targetArtifactDir, file.destination);
+
+    fs.copyFileSync(sourcePath, destPath);
+    console.log(`Copied ${file.source} to ${destPath}`);
+  }
+
+  // Create archive
+  const archiveName = `${config.app_name}-${target.name}-${config.version}`;
+  if (target.archive_format === "zip") {
+    execSync(`cd ${artifactsDir} &amp;&amp; zip -r ${archiveName}.zip ${target.name}`, {
+      stdio: "inherit",
+    });
+  } else {
+    execSync(
+      `cd ${artifactsDir} &amp;&amp; tar -czf ${archiveName}.tar.gz ${target.name}`,
+      { stdio: "inherit" }
+    );
+  }
+
+  console.log(`Created archive for ${target.name}`);
+}
+
+console.log("All builds completed successfully!");
+</code></pre>
+<p>Make the script executable:</p>
+<pre><code class="language-bash">chmod +x build.js
+</code></pre>
+<h3 id="extending-the-build-system"><a class="header" href="#extending-the-build-system">Extending the Build System</a></h3>
+<p>To make our build system more robust, let’s add support for running tests across platforms and creating a release notes file. Update the <code>build.js</code> script:</p>
+<pre><code class="language-javascript">// Add after loading the config
+const version = config.version;
+const releaseNotesPath = path.join(artifactsDir, `RELEASE_NOTES-${version}.md`);
+
+// Create release notes
+function generateReleaseNotes() {
+  const now = new Date();
+  const dateStr = now.toISOString().split("T")[0];
+
+  let notes = `# Release Notes for ${config.app_name} v${version}\n\n`;
+  notes += `Released on ${dateStr}\n\n`;
+
+  // Try to get Git commit information
+  try {
+    const gitLog = execSync(
+      'git log -n 10 --pretty=format:"* %s" --no-merges'
+    ).toString();
+    notes += `## Recent Changes\n\n${gitLog}\n\n`;
+  } catch (error) {
+    notes += `## Changes\n\nNo Git history available.\n\n`;
+  }
+
+  notes += `## Supported Platforms\n\n`;
+  for (const target of config.targets) {
+    notes += `* ${target.os} (${target.arch})\n`;
+  }
+
+  fs.writeFileSync(releaseNotesPath, notes);
+  console.log(`Generated release notes at ${releaseNotesPath}`);
+}
+
+// Add function to run tests
+function runTests(target) {
+  console.log(`Running tests for ${target.name}...`);
+  try {
+    execSync(`cargo test --target ${target.target}`, { stdio: "inherit" });
+    return true;
+  } catch (error) {
+    console.error(`Tests failed for ${target.name}: ${error.message}`);
+    return false;
+  }
+}
+
+// Call these functions in the main build flow
+generateReleaseNotes();
+
+// After the for-loop for building targets, add:
+let allTestsPassed = true;
+if (process.argv.includes("--test")) {
+  console.log("\nRunning tests for all targets...");
+  for (const target of config.targets) {
+    const testsPassed = runTests(target);
+    if (!testsPassed) {
+      allTestsPassed = false;
+    }
+  }
+
+  if (!allTestsPassed) {
+    console.error("Some tests failed!");
+    process.exit(1);
+  }
+
+  console.log("All tests passed!");
+}
+
+// Copy release notes to each target directory
+for (const target of config.targets) {
+  const targetReleaseNotesPath = path.join(
+    artifactsDir,
+    target.name,
+    "RELEASE_NOTES.md"
+  );
+  fs.copyFileSync(releaseNotesPath, targetReleaseNotesPath);
+}
+</code></pre>
+<h3 id="using-the-build-system"><a class="header" href="#using-the-build-system">Using the Build System</a></h3>
+<p>Now you can use your build system in various ways:</p>
+<ol>
+<li>
+<p>For local development and testing:</p>
+<pre><code class="language-bash">cargo build
+cargo test
+</code></pre>
+</li>
+<li>
+<p>To build for all platforms using the shell script:</p>
+<pre><code class="language-bash">./cross-build.sh
+</code></pre>
+</li>
+<li>
+<p>To build with the Node.js script (which uses the config file):</p>
+<pre><code class="language-bash">./build.js
+</code></pre>
+</li>
+<li>
+<p>To build and run tests:</p>
+<pre><code class="language-bash">./build.js --test
+</code></pre>
+</li>
+<li>
+<p>For continuous integration, push your code to GitHub, and the GitHub Actions workflow will automatically build for all platforms.</p>
+</li>
+</ol>
+<h3 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h3>
+<p>In this project, we’ve created a comprehensive cross-platform build system for Rust applications that:</p>
+<ol>
+<li>Compiles for multiple target platforms using Rust’s cross-compilation capabilities</li>
+<li>Handles platform-specific code and dependencies</li>
+<li>Runs tests across all target platforms</li>
+<li>Packages the application with appropriate formats for each OS</li>
+<li>Generates release artifacts with proper versioning and documentation</li>
+<li>Integrates with GitHub Actions for continuous integration</li>
+</ol>
+<p>This build system demonstrates many of the concepts covered in this chapter, from custom build scripts and conditional compilation to cross-compilation and continuous integration. By adopting similar approaches in your own Rust projects, you can create maintainable, portable applications that work consistently across diverse computing environments.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored the rich tooling ecosystem that supports Rust development. We’ve covered:</p>
+<ul>
+<li><strong>Custom build scripts</strong>: Extending the build process with custom logic in <code>build.rs</code> files</li>
+<li><strong>Build script debugging</strong>: Troubleshooting and optimizing your build scripts</li>
+<li><strong>Conditional compilation</strong>: Using features and cfg attributes to adapt code for different environments</li>
+<li><strong>Rust targets and architectures</strong>: Understanding Rust’s support for diverse platforms</li>
+<li><strong>Cross-compilation</strong>: Building Rust code for different operating systems and CPU architectures</li>
+<li><strong>Cargo extensions</strong>: Enhancing Cargo with plugins and customizations</li>
+<li><strong>IDE integration</strong>: Setting up effective development environments for Rust</li>
+<li><strong>Code formatting with rustfmt</strong>: Maintaining consistent code style</li>
+<li><strong>Linting with clippy</strong>: Catching common mistakes and improving code quality</li>
+<li><strong>Debugging tools</strong>: Finding and fixing issues in Rust programs</li>
+<li><strong>Continuous integration</strong>: Automating build, test, and deployment processes</li>
+</ul>
+<p>We’ve also created a practical cross-platform build system that ties these concepts together, demonstrating how to create a robust development workflow for Rust applications targeting multiple platforms.</p>
+<p>Rust’s tooling is one of its greatest strengths as a language ecosystem. The combination of Cargo, rustfmt, clippy, and the broader collection of development tools provides a cohesive, productive environment for building reliable software. By mastering these tools, you can maximize your effectiveness as a Rust developer and create high-quality applications that work consistently across diverse computing environments.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p><strong>Custom Build Task</strong>: Create a <code>build.rs</code> script that generates a Rust module containing system information available at compile time.</p>
+</li>
+<li>
+<p><strong>Cross-Platform Library</strong>: Design a small library crate that provides consistent file path handling across Windows, macOS, and Linux platforms.</p>
+</li>
+<li>
+<p><strong>Conditional Features</strong>: Implement a crate with at least three feature flags that enable platform-specific optimizations for different operating systems.</p>
+</li>
+<li>
+<p><strong>Target-Specific Dependencies</strong>: Create a project that uses different dependencies based on the target platform (e.g., WinAPI for Windows and libc for Unix).</p>
+</li>
+<li>
+<p><strong>GitHub Actions Workflow</strong>: Set up a GitHub Actions workflow that builds, tests, and lints a Rust project on multiple platforms.</p>
+</li>
+<li>
+<p><strong>Custom Cargo Command</strong>: Develop a Cargo extension that provides a custom subcommand for your workflow.</p>
+</li>
+<li>
+<p><strong>VS Code Integration</strong>: Configure a Rust project with VS Code tasks and launch configurations for building, testing, and debugging.</p>
+</li>
+<li>
+<p><strong>Build Matrix</strong>: Create a build matrix for a Rust application that targets at least six different platform combinations.</p>
+</li>
+<li>
+<p><strong>Debug Optimization</strong>: Set up separate debug and release profiles with different optimization settings, and benchmark the performance difference.</p>
+</li>
+<li>
+<p><strong>Documentation Pipeline</strong>: Create a workflow that automatically builds and publishes documentation for your Rust project.</p>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/cargo/">The Cargo Book</a> - Official documentation for Cargo</li>
+<li><a href="https://forge.rust-lang.org/">Rust Forge</a> - Information about Rust’s development tools and practices</li>
+<li><a href="https://rust-lang.github.io/rustup/">The rustup Book</a> - Guide to Rust’s toolchain manager</li>
+<li><a href="https://github.com/actions-rs">GitHub Actions for Rust</a> - Collection of GitHub Actions for Rust projects</li>
+<li><a href="https://rust-lang.github.io/rustup/cross-compilation.html">Cross-compilation Guide</a> - Official guide to cross-compiling Rust</li>
+<li><a href="https://doc.rust-lang.org/clippy/">Clippy Documentation</a> - Guide to Rust’s linter</li>
+<li><a href="https://rust-lang.github.io/rustfmt/">rustfmt Documentation</a> - Guide to Rust’s code formatter</li>
+<li><a href="https://rustwiki.org/en/book/appendix-04-useful-development-tools.html">Rust Debugging Guide</a> - Overview of Rust debugging tools</li>
+<li><a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">Rust Build Scripts Documentation</a> - Guide to custom build scripts</li>
+</ul>
+<p>In the next chapter, we’ll explore Embedded Programming in Rust, where we’ll apply many of these build and tooling concepts to the constrained environment of embedded devices.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/34-cargo.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/36-performance.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/34-cargo.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/36-performance.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

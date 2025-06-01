@@ -1,0 +1,1003 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Traits and Polymorphism - Rust Universe: Fearless Systems Engineering</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide to learning the Rust programming language from fundamentals to mastery.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/custom.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust Universe: Fearless Systems Engineering</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/saeedalam/rust-universe/edit/main/src/chapters/16-traits.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-16-traits-and-polymorphism"><a class="header" href="#chapter-16-traits-and-polymorphism">Chapter 16: Traits and Polymorphism</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>In the previous chapter, we explored generics as a way to write code that works with different types. Generics provide compile-time polymorphism, but they’re only part of Rust’s type system story. In this chapter, we’ll delve into traits, which are Rust’s primary mechanism for defining shared behavior across different types.</p>
+<p>Traits are similar to interfaces or abstract classes in other languages, but with some important differences. They allow us to define a set of methods that types must implement, enabling us to write code that works with any type that satisfies the trait’s requirements. This approach gives us a powerful way to build abstractions while maintaining Rust’s performance and safety guarantees.</p>
+<p>In this chapter, we’ll explore:</p>
+<ul>
+<li>Understanding polymorphism in programming</li>
+<li>Defining and implementing traits</li>
+<li>Using trait bounds with generic types</li>
+<li>Combining multiple trait bounds</li>
+<li>Creating default implementations</li>
+<li>Trait inheritance through supertraits</li>
+<li>Working with trait objects and dynamic dispatch</li>
+<li>Comparing static and dynamic dispatch</li>
+<li>Understanding object safety</li>
+<li>Implementing traits for external types</li>
+<li>The <code>Sized</code> trait and its significance</li>
+<li>Overview of standard library traits</li>
+</ul>
+<p>By the end of this chapter, you’ll understand how to use traits to write flexible, reusable code that works with a variety of types.</p>
+<h2 id="understanding-polymorphism"><a class="header" href="#understanding-polymorphism">Understanding Polymorphism</a></h2>
+<p>Polymorphism is a core concept in programming that allows code to work with values of different types in a uniform way. The term comes from Greek words meaning “many forms.”</p>
+<h3 id="types-of-polymorphism"><a class="header" href="#types-of-polymorphism">Types of Polymorphism</a></h3>
+<p>In programming languages, there are several forms of polymorphism:</p>
+<ol>
+<li>
+<p><strong>Ad-hoc polymorphism</strong>: Function or operator overloading, where the same function name can have different implementations depending on the types of arguments.</p>
+</li>
+<li>
+<p><strong>Parametric polymorphism</strong>: Using generic types to write code that can work with any type (what we covered in the previous chapter).</p>
+</li>
+<li>
+<p><strong>Subtype polymorphism</strong>: Common in object-oriented languages, where a subclass can be used anywhere its parent class is expected.</p>
+</li>
+<li>
+<p><strong>Bounded polymorphism</strong>: Using constraints to restrict the types that can be used with generics (what we’ll explore with trait bounds).</p>
+</li>
+</ol>
+<p>Rust primarily uses parametric polymorphism (through generics) and bounded polymorphism (through traits). It does not use subtype polymorphism like traditional object-oriented languages, but instead uses traits and trait objects to achieve similar goals in a more controlled way.</p>
+<h3 id="why-polymorphism-matters"><a class="header" href="#why-polymorphism-matters">Why Polymorphism Matters</a></h3>
+<p>Polymorphism is essential for writing reusable, modular code. It allows us to:</p>
+<ul>
+<li>Write functions that work with many different types</li>
+<li>Build abstractions that hide implementation details</li>
+<li>Create extensible systems where new types can be added without modifying existing code</li>
+<li>Express relationships between different types</li>
+</ul>
+<p>Let’s see how Rust’s trait system enables these capabilities.</p>
+<h2 id="defining-and-implementing-traits"><a class="header" href="#defining-and-implementing-traits">Defining and Implementing Traits</a></h2>
+<p>A trait defines functionality a particular type has and can share with other types. Think of traits as defining a contract that types can fulfill.</p>
+<h3 id="defining-traits"><a class="header" href="#defining-traits">Defining Traits</a></h3>
+<p>Let’s start by defining a simple trait:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Summary {
+    fn summarize(&amp;self) -&gt; String;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This trait has one method, <code>summarize</code>, which returns a <code>String</code>. Any type that implements this trait must provide an implementation for this method.</p>
+<h3 id="implementing-traits-for-types"><a class="header" href="#implementing-traits-for-types">Implementing Traits for Types</a></h3>
+<p>Now let’s implement this trait for some types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct NewsArticle {
+    headline: String,
+    location: String,
+    author: String,
+    content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&amp;self) -&gt; String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+
+struct Tweet {
+    username: String,
+    content: String,
+    reply: bool,
+    retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize(&amp;self) -&gt; String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now we can call the <code>summarize</code> method on instances of both <code>NewsArticle</code> and <code>Tweet</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let article = NewsArticle {
+    headline: String::from("Penguins win the Stanley Cup Championship!"),
+    location: String::from("Pittsburgh, PA, USA"),
+    author: String::from("Iceburgh"),
+    content: String::from("The Pittsburgh Penguins once again are the best hockey team in the NHL."),
+};
+
+let tweet = Tweet {
+    username: String::from("horse_ebooks"),
+    content: String::from("of course, as you probably already know, people"),
+    reply: false,
+    retweet: false,
+};
+
+println!("New article summary: {}", article.summarize());
+println!("New tweet: {}", tweet.summarize());
+<span class="boring">}</span></code></pre></pre>
+<p>This demonstrates how different types can implement the same trait, each with its own specific behavior, while sharing a common interface.</p>
+<h2 id="trait-bounds"><a class="header" href="#trait-bounds">Trait Bounds</a></h2>
+<p>Trait bounds allow us to restrict generic types to only those that implement specific traits. This is a form of bounded polymorphism.</p>
+<h3 id="basic-trait-bounds"><a class="header" href="#basic-trait-bounds">Basic Trait Bounds</a></h3>
+<p>Let’s define a function that uses trait bounds:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn notify&lt;T: Summary&gt;(item: &amp;T) {
+    println!("Breaking news! {}", item.summarize());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This function can be called with any type that implements the <code>Summary</code> trait:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>notify(&amp;article);
+notify(&amp;tweet);
+<span class="boring">}</span></code></pre></pre>
+<p>The compiler will ensure that only types implementing <code>Summary</code> can be passed to <code>notify</code>.</p>
+<h3 id="trait-bounds-with-impl-keyword"><a class="header" href="#trait-bounds-with-impl-keyword">Trait Bounds with Impl Keyword</a></h3>
+<p>We can also use trait bounds with <code>impl</code> blocks to conditionally implement methods only for types that meet certain constraints:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Pair&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Pair&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Pair { x, y }
+    }
+}
+
+// Only implement cmp_display if T implements Display and PartialOrd
+impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
+    fn cmp_display(&amp;self) {
+        if self.x &gt;= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>In this example, the <code>cmp_display</code> method is only available for <code>Pair&lt;T&gt;</code> instances where <code>T</code> implements both <code>Display</code> and <code>PartialOrd</code>.</p>
+<h3 id="returning-types-that-implement-traits"><a class="header" href="#returning-types-that-implement-traits">Returning Types that Implement Traits</a></h3>
+<p>We can use traits to specify return types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn returns_summarizable() -&gt; impl Summary {
+    Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from("of course, as you probably already know, people"),
+        reply: false,
+        retweet: false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is particularly useful when returning iterator adaptors or closures, which have complex types that would be difficult to write explicitly.</p>
+<h2 id="multiple-trait-bounds"><a class="header" href="#multiple-trait-bounds">Multiple Trait Bounds</a></h2>
+<p>We can require a type to implement multiple traits by using the <code>+</code> syntax:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt::Display;
+
+pub fn notify&lt;T: Summary + Display&gt;(item: &amp;T) {
+    println!("Breaking news! {}", item.summarize());
+    println!("Display: {}", item);
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="where-clauses"><a class="header" href="#where-clauses">Where Clauses</a></h3>
+<p>For functions with many generic type parameters and trait bounds, we can use <code>where</code> clauses for better readability:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt::{Display, Debug};
+
+fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
+    where T: Display + Clone,
+          U: Clone + Debug
+{
+    // Function body
+    42
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Where clauses are especially useful when you have complex trait bounds or multiple generic parameters.</p>
+<h2 id="default-implementations"><a class="header" href="#default-implementations">Default Implementations</a></h2>
+<p>Traits can provide default implementations for some or all of their methods:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Summary {
+    fn summarize_author(&amp;self) -&gt; String;
+
+    fn summarize(&amp;self) -&gt; String {
+        format!("(Read more from {}...)", self.summarize_author())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now, when implementing this trait, we only need to provide an implementation for <code>summarize_author</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Summary for Tweet {
+    fn summarize_author(&amp;self) -&gt; String {
+        format!("@{}", self.username)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>And we’ll automatically get the default implementation for <code>summarize</code>. However, we can also override the default if needed:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Summary for NewsArticle {
+    fn summarize_author(&amp;self) -&gt; String {
+        format!("{}", self.author)
+    }
+
+    fn summarize(&amp;self) -&gt; String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Default implementations can call other methods in the same trait, even if those methods don’t have default implementations themselves.</p>
+<h2 id="trait-inheritance"><a class="header" href="#trait-inheritance">Trait Inheritance</a></h2>
+<p>Traits can inherit from other traits using what Rust calls “supertraits.” This means that if a type implements a trait, it must also implement the supertrait.</p>
+<h3 id="using-supertraits"><a class="header" href="#using-supertraits">Using Supertraits</a></h3>
+<p>Here’s an example of a trait that requires another trait:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt::Display;
+
+trait OutputPrettify: Display {
+    fn prettify(&amp;self) -&gt; String {
+        let output = self.to_string();
+        format!("✨ {} ✨", output)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>To implement <code>OutputPrettify</code>, a type must also implement <code>Display</code>:</p>
+<pre><pre class="playground"><code class="language-rust">struct Point {
+    x: i32,
+    y: i32,
+}
+
+// First implement Display
+impl Display for Point {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+
+// Now we can implement OutputPrettify
+impl OutputPrettify for Point {}
+
+fn main() {
+    let p = Point { x: 1, y: 2 };
+    println!("{}", p.prettify()); // Prints: ✨ (1, 2) ✨
+}</code></pre></pre>
+<p>Trait inheritance is useful for building trait hierarchies and expressing relationships between different behaviors.</p>
+<h2 id="trait-objects-and-dynamic-dispatch"><a class="header" href="#trait-objects-and-dynamic-dispatch">Trait Objects and Dynamic Dispatch</a></h2>
+<p>So far, we’ve been using generics with trait bounds for static dispatch. This means the compiler generates specialized code for each concrete type at compile time. But what if we want to store different types that implement the same trait in a collection?</p>
+<h3 id="trait-objects"><a class="header" href="#trait-objects">Trait Objects</a></h3>
+<p>A trait object is a value that holds an instance of a type that implements a specific trait, along with a table used to look up trait methods on that type at runtime. We create a trait object by specifying the <code>dyn</code> keyword with a trait name:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Draw {
+    fn draw(&amp;self);
+}
+
+pub struct Screen {
+    pub components: Vec&lt;Box&lt;dyn Draw&gt;&gt;,
+}
+
+impl Screen {
+    pub fn run(&amp;self) {
+        for component in &amp;self.components {
+            component.draw();
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>Vec&lt;Box&lt;dyn Draw&gt;&gt;</code> contains multiple values of different types, as long as each type implements the <code>Draw</code> trait.</p>
+<h3 id="implementing-draw-for-different-types"><a class="header" href="#implementing-draw-for-different-types">Implementing Draw for Different Types</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Button {
+    pub width: u32,
+    pub height: u32,
+    pub label: String,
+}
+
+impl Draw for Button {
+    fn draw(&amp;self) {
+        // Draw the button
+        println!("Drawing a button: {}", self.label);
+    }
+}
+
+pub struct SelectBox {
+    pub width: u32,
+    pub height: u32,
+    pub options: Vec&lt;String&gt;,
+}
+
+impl Draw for SelectBox {
+    fn draw(&amp;self) {
+        // Draw the select box
+        println!("Drawing a select box with options: {:?}", self.options);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Now we can create a <code>Screen</code> with components of different types:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let screen = Screen {
+        components: vec![
+            Box::new(Button {
+                width: 50,
+                height: 20,
+                label: String::from("OK"),
+            }),
+            Box::new(SelectBox {
+                width: 100,
+                height: 30,
+                options: vec![
+                    String::from("Yes"),
+                    String::from("No"),
+                    String::from("Maybe"),
+                ],
+            }),
+        ],
+    };
+
+    screen.run();
+}</code></pre></pre>
+<p>This code demonstrates heterogeneous collections, where we can store different types in the same collection as long as they implement a common trait.</p>
+<h2 id="static-vs-dynamic-dispatch"><a class="header" href="#static-vs-dynamic-dispatch">Static vs Dynamic Dispatch</a></h2>
+<p>Rust provides two main ways to use polymorphism: static dispatch and dynamic dispatch.</p>
+<h3 id="static-dispatch"><a class="header" href="#static-dispatch">Static Dispatch</a></h3>
+<p>Static dispatch is what happens when you use generics with trait bounds:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process&lt;T: Summary&gt;(item: &amp;T) {
+    println!("Summary: {}", item.summarize());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With static dispatch:</p>
+<ul>
+<li>The compiler generates specialized code for each type at compile time</li>
+<li>There’s no runtime overhead for method calls</li>
+<li>The binary may be larger due to code duplication (monomorphization)</li>
+<li>The compiler can often inline and optimize the specialized code</li>
+</ul>
+<h3 id="dynamic-dispatch"><a class="header" href="#dynamic-dispatch">Dynamic Dispatch</a></h3>
+<p>Dynamic dispatch is what happens when you use trait objects:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process(item: &amp;dyn Summary) {
+    println!("Summary: {}", item.summarize());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>With dynamic dispatch:</p>
+<ul>
+<li>The correct implementation is looked up at runtime</li>
+<li>There’s a small runtime overhead for method calls</li>
+<li>The binary can be smaller since there’s no code duplication</li>
+<li>Some compiler optimizations aren’t possible</li>
+</ul>
+<h3 id="when-to-use-each"><a class="header" href="#when-to-use-each">When to Use Each</a></h3>
+<ul>
+<li>
+<p>Use <strong>static dispatch</strong> (generics) when:</p>
+<ul>
+<li>Performance is critical</li>
+<li>You have a small number of types that will be used</li>
+<li>The types are known at compile time</li>
+</ul>
+</li>
+<li>
+<p>Use <strong>dynamic dispatch</strong> (trait objects) when:</p>
+<ul>
+<li>You need to store different types in the same collection</li>
+<li>You want to reduce binary size</li>
+<li>The exact types aren’t known at compile time</li>
+</ul>
+</li>
+</ul>
+<h2 id="object-safety"><a class="header" href="#object-safety">Object Safety</a></h2>
+<p>Not all traits can be used to create trait objects. For a trait to be “object safe,” it must meet certain requirements:</p>
+<ol>
+<li>The return type isn’t <code>Self</code></li>
+<li>There are no generic methods</li>
+<li>All methods are object safe</li>
+</ol>
+<h3 id="non-object-safe-traits"><a class="header" href="#non-object-safe-traits">Non-Object-Safe Traits</a></h3>
+<p>Here’s an example of a trait that isn’t object safe:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Clone {
+    fn clone(&amp;self) -&gt; Self;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The problem is that <code>clone</code> returns <code>Self</code>, which could be any type that implements <code>Clone</code>. With a trait object, the concrete type is erased, so the compiler doesn’t know what type to return.</p>
+<h3 id="working-around-object-safety"><a class="header" href="#working-around-object-safety">Working Around Object Safety</a></h3>
+<p>If you need to use a non-object-safe trait, you have a few options:</p>
+<ol>
+<li>Redesign the trait to be object safe</li>
+<li>Use static dispatch instead of dynamic dispatch</li>
+<li>Create a wrapper trait that is object safe</li>
+</ol>
+<p>Here’s an example of a wrapper trait:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait CloneableBox {
+    fn clone_box(&amp;self) -&gt; Box&lt;dyn CloneableBox&gt;;
+}
+
+impl&lt;T: Clone + 'static&gt; CloneableBox for T {
+    fn clone_box(&amp;self) -&gt; Box&lt;dyn CloneableBox&gt; {
+        Box::new(self.clone())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This approach allows you to use dynamic dispatch with types that implement <code>Clone</code>, even though <code>Clone</code> itself isn’t object safe.</p>
+<h2 id="implementing-external-traits"><a class="header" href="#implementing-external-traits">Implementing External Traits</a></h2>
+<p>In Rust, you can implement a trait for a type as long as either the trait or the type is local to your crate. This is known as the “orphan rule” and it helps prevent conflicts between different crates.</p>
+<h3 id="implementing-standard-library-traits"><a class="header" href="#implementing-standard-library-traits">Implementing Standard Library Traits</a></h3>
+<p>You can implement standard library traits for your own types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt::Display;
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Display for Point {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="the-newtype-pattern"><a class="header" href="#the-newtype-pattern">The Newtype Pattern</a></h3>
+<p>To implement an external trait for an external type, you can use the “newtype” pattern by creating a wrapper type:</p>
+<pre><pre class="playground"><code class="language-rust">use std::fmt;
+
+// Vec&lt;T&gt; and Display are both external
+struct Wrapper(Vec&lt;String&gt;);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
+fn main() {
+    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    println!("w = {}", w);
+}</code></pre></pre>
+<p>This pattern allows you to work around the orphan rule while adding new functionality to existing types.</p>
+<h2 id="the-sized-trait"><a class="header" href="#the-sized-trait">The Sized Trait</a></h2>
+<p>The <code>Sized</code> trait is a marker trait that indicates that a type’s size is known at compile time. Most types in Rust are <code>Sized</code> by default.</p>
+<h3 id="unsized-types"><a class="header" href="#unsized-types">Unsized Types</a></h3>
+<p>Some types in Rust are “unsized,” meaning their size isn’t known at compile time:</p>
+<ul>
+<li>Trait objects (<code>dyn Trait</code>)</li>
+<li>Slices (<code>[T]</code>)</li>
+<li>Strings (<code>str</code>)</li>
+</ul>
+<p>Unsized types can only be used behind a pointer, such as <code>&amp;[T]</code>, <code>&amp;str</code>, or <code>Box&lt;dyn Trait&gt;</code>.</p>
+<h3 id="the-sized-bound"><a class="header" href="#the-sized-bound">The ?Sized Bound</a></h3>
+<p>By default, type parameters have a <code>Sized</code> bound. To opt out of this, you can use the special <code>?Sized</code> bound:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn process&lt;T: ?Sized + Debug&gt;(item: &amp;T) {
+    println!("{:?}", item);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This function can accept references to both sized and unsized types, as long as they implement <code>Debug</code>.</p>
+<h2 id="standard-library-traits-overview"><a class="header" href="#standard-library-traits-overview">Standard Library Traits Overview</a></h2>
+<p>The Rust standard library includes many useful traits. Here’s an overview of some of the most important ones:</p>
+<h3 id="common-traits"><a class="header" href="#common-traits">Common Traits</a></h3>
+<ul>
+<li><strong>Debug</strong>: Enables formatting with <code>{:?}</code></li>
+<li><strong>Display</strong>: Enables formatting with <code>{}</code></li>
+<li><strong>Clone</strong>: Provides a method to create a deep copy</li>
+<li><strong>Copy</strong>: Marker trait indicating that a type can be copied bit-by-bit</li>
+<li><strong>PartialEq and Eq</strong>: Enable equality comparisons</li>
+<li><strong>PartialOrd and Ord</strong>: Enable ordering comparisons</li>
+<li><strong>Hash</strong>: Enables hashing</li>
+<li><strong>Default</strong>: Provides a default value for a type</li>
+<li><strong>Iterator</strong>: Enables iteration over a sequence of values</li>
+<li><strong>IntoIterator</strong>: Converts a type into an iterator</li>
+<li><strong>From and Into</strong>: Enable type conversions</li>
+<li><strong>AsRef and AsMut</strong>: Enable reference conversions</li>
+<li><strong>Deref and DerefMut</strong>: Enable smart pointer behavior</li>
+<li><strong>Drop</strong>: Customizes what happens when a value goes out of scope</li>
+</ul>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<p>Here’s how to implement some of these traits:</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug, Clone, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Default for Point {
+    fn default() -&gt; Self {
+        Point { x: 0, y: 0 }
+    }
+}
+
+impl From&lt;(i32, i32)&gt; for Point {
+    fn from(pair: (i32, i32)) -&gt; Self {
+        Point {
+            x: pair.0,
+            y: pair.1,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point { x: 1, y: 2 };
+    let p2 = p1.clone();
+    let p3 = Point::default();
+    let p4 = Point::from((3, 4));
+
+    println!("{:?}", p1);
+    println!("p1 == p2: {}", p1 == p2);
+    println!("Default point: {:?}", p3);
+    println!("Point from tuple: {:?}", p4);
+}</code></pre></pre>
+<p>Understanding these standard library traits will help you write more idiomatic Rust code and make better use of the ecosystem.</p>
+<h2 id="project-serialization-framework"><a class="header" href="#project-serialization-framework">Project: Serialization Framework</a></h2>
+<p>Let’s put our knowledge of traits and polymorphism to use by creating a simple serialization framework. This project will demonstrate how to use traits to create a flexible system that can serialize different types to various formats.</p>
+<h3 id="defining-the-core-traits"><a class="header" href="#defining-the-core-traits">Defining the Core Traits</a></h3>
+<p>First, let’s define the core traits for our serialization framework:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Trait for types that can be serialized
+pub trait Serialize {
+    fn serialize(&amp;self) -&gt; String;
+}
+
+// Trait for serializer implementations
+pub trait Serializer {
+    fn serialize&lt;T: Serialize&gt;(&amp;self, value: &amp;T) -&gt; String;
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="implementing-serialize-for-various-types"><a class="header" href="#implementing-serialize-for-various-types">Implementing Serialize for Various Types</a></h3>
+<p>Now, let’s implement <code>Serialize</code> for some common types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Implement Serialize for primitive types
+impl Serialize for i32 {
+    fn serialize(&amp;self) -&gt; String {
+        self.to_string()
+    }
+}
+
+impl Serialize for f64 {
+    fn serialize(&amp;self) -&gt; String {
+        self.to_string()
+    }
+}
+
+impl Serialize for bool {
+    fn serialize(&amp;self) -&gt; String {
+        self.to_string()
+    }
+}
+
+impl Serialize for String {
+    fn serialize(&amp;self) -&gt; String {
+        format!("\"{}\"", self)
+    }
+}
+
+impl&lt;T: Serialize&gt; Serialize for Vec&lt;T&gt; {
+    fn serialize(&amp;self) -&gt; String {
+        let mut result = String::from("[");
+        for (i, item) in self.iter().enumerate() {
+            if i &gt; 0 {
+                result.push_str(", ");
+            }
+            result.push_str(&amp;item.serialize());
+        }
+        result.push(']');
+        result
+    }
+}
+
+// User-defined type
+struct Person {
+    name: String,
+    age: i32,
+    is_student: bool,
+}
+
+impl Serialize for Person {
+    fn serialize(&amp;self) -&gt; String {
+        format!(
+            "{{ \"name\": {}, \"age\": {}, \"is_student\": {} }}",
+            self.name.serialize(),
+            self.age.serialize(),
+            self.is_student.serialize()
+        )
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="creating-different-serializers"><a class="header" href="#creating-different-serializers">Creating Different Serializers</a></h3>
+<p>Next, let’s create some different serializer implementations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// JSON Serializer
+struct JsonSerializer;
+
+impl Serializer for JsonSerializer {
+    fn serialize&lt;T: Serialize&gt;(&amp;self, value: &amp;T) -&gt; String {
+        value.serialize()
+    }
+}
+
+// XML Serializer (simplified)
+struct XmlSerializer;
+
+impl Serializer for XmlSerializer {
+    fn serialize&lt;T: Serialize&gt;(&amp;self, value: &amp;T) -&gt; String {
+        // This is a very simplified XML serialization
+        format!("&lt;value&gt;{}&lt;/value&gt;", value.serialize())
+    }
+}
+
+// YAML Serializer (simplified)
+struct YamlSerializer;
+
+impl Serializer for YamlSerializer {
+    fn serialize&lt;T: Serialize&gt;(&amp;self, value: &amp;T) -&gt; String {
+        // This is a very simplified YAML serialization
+        format!("value: {}", value.serialize())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="using-dynamic-dispatch-for-serialization"><a class="header" href="#using-dynamic-dispatch-for-serialization">Using Dynamic Dispatch for Serialization</a></h3>
+<p>Now, let’s create a function that can serialize any value using any serializer:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn serialize_value&lt;T: Serialize&gt;(value: &amp;T, serializer: &amp;dyn Serializer) -&gt; String {
+    serializer.serialize(value)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
+<p>Let’s use our serialization framework:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // Create a person
+    let person = Person {
+        name: String::from("Alice"),
+        age: 30,
+        is_student: false,
+    };
+
+    // Create serializers
+    let json_serializer = JsonSerializer;
+    let xml_serializer = XmlSerializer;
+    let yaml_serializer = YamlSerializer;
+
+    // Create a vector of serializers using dynamic dispatch
+    let serializers: Vec&lt;&amp;dyn Serializer&gt; = vec![
+        &amp;json_serializer,
+        &amp;xml_serializer,
+        &amp;yaml_serializer,
+    ];
+
+    // Serialize with each serializer
+    for (i, serializer) in serializers.iter().enumerate() {
+        let format_name = match i {
+            0 =&gt; "JSON",
+            1 =&gt; "XML",
+            2 =&gt; "YAML",
+            _ =&gt; "Unknown",
+        };
+
+        println!("{} output:", format_name);
+        println!("{}", serialize_value(&amp;person, *serializer));
+        println!();
+    }
+
+    // Serialize different types
+    let values: Vec&lt;Box&lt;dyn Serialize&gt;&gt; = vec![
+        Box::new(42),
+        Box::new(3.14),
+        Box::new(true),
+        Box::new(String::from("Hello")),
+        Box::new(vec![1, 2, 3]),
+        Box::new(person),
+    ];
+
+    println!("JSON serialization of different types:");
+    for value in &amp;values {
+        println!("{}", serialize_value(value.as_ref(), &amp;json_serializer));
+    }
+}</code></pre></pre>
+<p>This project demonstrates:</p>
+<ul>
+<li>How to define traits for a common interface</li>
+<li>Implementing traits for different types</li>
+<li>Using trait bounds for generic functions</li>
+<li>Creating a heterogeneous collection with trait objects</li>
+<li>Dynamic dispatch with trait objects</li>
+<li>Extending functionality without modifying existing code</li>
+</ul>
+<p>By using traits and polymorphism, we’ve created a flexible serialization framework that can handle different types and formats. This is a simple example, but it illustrates how powerful traits can be for building extensible systems.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>In this chapter, we’ve explored traits and polymorphism in Rust:</p>
+<ul>
+<li>We learned that polymorphism allows code to work with values of different types in a unified way</li>
+<li>We defined traits as Rust’s mechanism for shared behavior across types</li>
+<li>We implemented traits for different types, including default implementations</li>
+<li>We used trait bounds to constrain generic types</li>
+<li>We combined multiple trait bounds to express complex requirements</li>
+<li>We explored trait inheritance through supertraits</li>
+<li>We learned about trait objects and dynamic dispatch</li>
+<li>We compared static and dynamic dispatch, understanding their trade-offs</li>
+<li>We discussed object safety and its implications</li>
+<li>We learned how to implement traits for external types</li>
+<li>We explored the <code>Sized</code> trait and its role in Rust’s type system</li>
+<li>We surveyed important traits in the standard library</li>
+<li>We built a serialization framework showcasing traits and polymorphism</li>
+</ul>
+<p>Traits are a fundamental feature of Rust that enable powerful abstractions while maintaining safety and performance. By understanding traits and how to use them effectively, you’ll be able to write more flexible, reusable, and expressive code.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ol>
+<li>
+<p>Implement a <code>Shape</code> trait with methods for calculating area and perimeter, then implement it for <code>Circle</code>, <code>Rectangle</code>, and <code>Triangle</code> structs.</p>
+</li>
+<li>
+<p>Create a <code>Sort</code> trait with a method for sorting, then implement different sorting algorithms (e.g., bubble sort, quick sort) as types that implement this trait.</p>
+</li>
+<li>
+<p>Design a <code>Logger</code> trait with methods for logging messages at different levels, then implement it for console logging, file logging, and network logging.</p>
+</li>
+<li>
+<p>Implement the <code>Iterator</code> trait for a custom collection type, like a binary tree or a graph.</p>
+</li>
+<li>
+<p>Create a trait for parsing text into custom types, then implement it for different formats (e.g., CSV, JSON).</p>
+</li>
+<li>
+<p>Extend the serialization framework project to handle more complex types, like nested structures and optional values.</p>
+</li>
+<li>
+<p>Implement the <code>Display</code> and <code>Debug</code> traits for a custom data structure, exploring the differences between them.</p>
+</li>
+<li>
+<p>Create a trait for validating data, then implement it for different validation rules and compose them together.</p>
+</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch10-02-traits.html">Rust Book: Traits</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/trait.html">Rust By Example: Traits</a></li>
+<li><a href="https://doc.rust-lang.org/reference/items/traits.html">Rust Reference: Traits</a></li>
+<li><a href="https://doc.rust-lang.org/std/index.html#traits">Rust Standard Library Traits</a></li>
+<li><a href="https://doc.rust-lang.org/nomicon/subtyping.html">Rustonomicon: Subtyping and Variance</a></li>
+<li><a href="https://brson.github.io/rust-anthology/1/traits-and-trait-objects.html">Trait Objects vs. Generic Parameters</a></li>
+<li><a href="https://github.com/pretzelhammer/rust-blog/blob/master/posts/tour-of-rusts-standard-library-traits.md">Effective Rust: Understanding Traits and Trait Objects</a></li>
+<li><a href="https://www.youtube.com/watch?v=bnnacleqg6k">Type-Driven API Design in Rust</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/15-generics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/17-advanced-traits.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/15-generics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/17-advanced-traits.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
