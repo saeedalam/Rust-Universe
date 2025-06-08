@@ -147,185 +147,172 @@ This book is organized into 10 sections, each building on the previous one:
 
 By the end of this journey, you'll not only understand Rust deeply but also have the skills to apply it professionally across a wide range of applications.
 
-## 🔨 Project: Your Rust Universe Journal
+## 🔨 Project: A Simple Weather CLI App
 
-To begin your journey through Rust Universe, we'll start with a simple but meaningful project: creating a Rust learning journal that you'll maintain throughout this book.
+To begin your journey through Rust Universe, we'll start with a simple but practical project: creating a command-line weather application that demonstrates real-world Rust capabilities while keeping the code approachable for beginners.
 
 ### Project Goal
 
-Create a command-line Rust application that allows you to record your learning insights, questions, and achievements as you progress through this book.
+Create a command-line Rust application that fetches and displays the current weather for a given city, introducing you to essential Rust concepts and external dependencies.
 
-### Step 1: Set Up Your First Rust Project
+### Step 1: Set Up Your Project
 
-1. Open your terminal and create a new directory for your journal:
+1. Open your terminal and create a new directory for your project:
 
    ```bash
-   mkdir rust_journal
-   cd rust_journal
+   mkdir weather_cli
+   cd weather_cli
    ```
 
 2. Initialize a new Rust project:
 
    ```bash
-   cargo new journal
-   cd journal
+   cargo new weather_app
+   cd weather_app
    ```
 
 3. Open the project in your editor of choice.
 
-### Step 2: Modify the Main File
+### Step 2: Add Dependencies
+
+Edit `Cargo.toml` to add the required dependencies:
+
+```toml
+[package]
+name = "weather_app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "0.11", features = ["json", "blocking"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+```
+
+These dependencies will help us make HTTP requests and parse JSON responses.
+
+### Step 3: Create the Main Application
 
 Replace the contents of `src/main.rs` with the following code:
 
 ```rust
-use std::fs::{File, OpenOptions};
-use std::io::{self, Read, Write};
-use std::path::Path;
-use std::time::{SystemTime, UNIX_EPOCH};
+use serde::{Deserialize, Serialize};
+use std::env;
+use std::process;
+
+// Define a struct to hold the weather data we care about
+#[derive(Serialize, Deserialize, Debug)]
+struct WeatherData {
+    main: MainData,
+    weather: Vec<WeatherDescription>,
+    name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct MainData {
+    temp: f64,
+    humidity: i32,
+    pressure: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct WeatherDescription {
+    description: String,
+}
 
 fn main() {
-    println!("=== Rust Universe Learning Journal ===");
-    println!("1. Write a new entry");
-    println!("2. Read previous entries");
-    println!("3. Exit");
+    // Get command-line arguments
+    let args: Vec<String> = env::args().collect();
 
-    loop {
-        println!("\nWhat would you like to do? (1-3)");
-        let choice = get_user_input();
+    // Check if a city was provided
+    if args.len() < 2 {
+        println!("Please provide a city name!");
+        println!("Usage: cargo run -- <city_name>");
+        process::exit(1);
+    }
 
-        match choice.trim() {
-            "1" => write_entry(),
-            "2" => read_entries(),
-            "3" => {
-                println!("Goodbye! Keep learning Rust!");
-                break;
-            }
-            _ => println!("Invalid choice, please try again."),
+    // Get the city name from arguments
+    let city = &args[1];
+
+    // Call function to get weather data
+    match get_weather(city) {
+        Ok(weather) => display_weather(&weather),
+        Err(e) => {
+            println!("Error fetching weather data: {}", e);
+            process::exit(1);
         }
     }
 }
 
-fn get_user_input() -> String {
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).expect("Failed to read input");
-    input
+// Function to fetch weather data
+fn get_weather(city: &str) -> Result<WeatherData, Box<dyn std::error::Error>> {
+    // For this example, we'll use a free API (no key required for limited use)
+    let api_url = format!(
+        "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=YOUR_API_KEY",
+        city
+    );
+
+    // Make a blocking HTTP request
+    let response = reqwest::blocking::get(&api_url)?;
+
+    // Parse the JSON response
+    let weather_data: WeatherData = response.json()?;
+
+    Ok(weather_data)
 }
 
-fn write_entry() {
-    println!("Write your journal entry (type 'END' on a new line when finished):");
-    let mut entry = String::new();
+// Function to display weather information
+fn display_weather(data: &WeatherData) {
+    println!("Weather for {}", data.name);
+    println!("---------------------");
+    println!("Temperature: {}°C", data.main.temp);
+    println!("Humidity: {}%", data.main.humidity);
+    println!("Pressure: {} hPa", data.main.pressure);
 
-    loop {
-        let line = get_user_input();
-        if line.trim() == "END" {
-            break;
-        }
-        entry.push_str(&line);
-    }
-
-    let timestamp = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .expect("Time went backwards")
-        .as_secs();
-
-    let filename = format!("entries/entry_{}.txt", timestamp);
-
-    // Create entries directory if it doesn't exist
-    if !Path::new("entries").exists() {
-        std::fs::create_dir("entries").expect("Failed to create entries directory");
-    }
-
-    let mut file = File::create(&filename).expect("Failed to create file");
-    file.write_all(entry.as_bytes()).expect("Failed to write to file");
-
-    println!("Entry saved successfully!");
-}
-
-fn read_entries() {
-    if !Path::new("entries").exists() {
-        println!("No entries found. Write your first entry!");
-        return;
-    }
-
-    let entries = std::fs::read_dir("entries").expect("Failed to read entries directory");
-    let mut entry_files: Vec<_> = entries
-        .filter_map(Result::ok)
-        .collect();
-
-    // Sort entries by filename (which contains timestamp)
-    entry_files.sort_by(|a, b| b.file_name().cmp(&a.file_name()));
-
-    if entry_files.is_empty() {
-        println!("No entries found. Write your first entry!");
-        return;
-    }
-
-    println!("Your journal entries:");
-
-    for (i, entry) in entry_files.iter().enumerate() {
-        let filename = entry.file_name();
-        println!("{}. {}", i + 1, filename.to_string_lossy());
-    }
-
-    println!("\nWhich entry would you like to read? (number)");
-    let choice = get_user_input();
-
-    if let Ok(index) = choice.trim().parse::<usize>() {
-        if index > 0 && index <= entry_files.len() {
-            let entry_path = entry_files[index - 1].path();
-            let mut file = OpenOptions::new()
-                .read(true)
-                .open(entry_path)
-                .expect("Failed to open file");
-
-            let mut contents = String::new();
-            file.read_to_string(&mut contents).expect("Failed to read file");
-
-            println!("\n=== Entry Contents ===");
-            println!("{}", contents);
-        } else {
-            println!("Invalid entry number.");
-        }
-    } else {
-        println!("Invalid input. Please enter a number.");
+    if let Some(weather) = data.weather.first() {
+        println!("Conditions: {}", weather.description);
     }
 }
 ```
 
-### Step 3: Build and Run Your Journal
+### Step 4: Run Your Weather App
 
-Run your journal application with:
+Before running the app, you'll need to:
+
+1. Get a free API key from [OpenWeatherMap](https://openweathermap.org/api)
+2. Replace `YOUR_API_KEY` in the code with your actual API key
+
+Then run your application with a city name:
 
 ```bash
-cargo run
+cargo run -- London
 ```
 
-Try writing your first entry about why you're learning Rust and what you hope to achieve with this book.
+You should see the current weather information for London displayed in your terminal.
 
-### Step 4: Understand the Code
+### Step 5: Understand the Code
 
-Even if you don't understand all the Rust code yet, try to identify the elements we discussed in this chapter:
+Let's break down what this simple but practical program demonstrates:
 
-- The `main` function as the entry point
-- Use of the standard library with `use std::`
-- Basic control flow with `match` and `loop`
-- Functions like `get_user_input`, `write_entry`, and `read_entries`
-- Error handling with `.expect()`
+1. **Structs and Data Modeling**: Using Rust's structs to model JSON data
+2. **External Dependencies**: Incorporating external libraries (crates) for HTTP requests and JSON parsing
+3. **Error Handling**: Using Rust's `Result` type to handle potential errors
+4. **Command-Line Arguments**: Processing user input from the command line
+5. **Pattern Matching**: Using `match` to handle success and error cases
+6. **API Integration**: Making HTTP requests to an external service
+7. **Data Deserialization**: Converting JSON to Rust structs
 
-Throughout this book, you'll learn about all these concepts in depth, and your understanding of this code will grow dramatically.
+### Step 6: Enhance Your Weather App (Optional)
 
-### Step 5: Extend Your Journal (Optional)
+Now that you understand the basics, try extending the application:
 
-If you're feeling adventurous, try adding these features to your journal:
+1. Add support for displaying a forecast instead of just current weather
+2. Improve error handling with more specific error messages
+3. Add colorized output for different weather conditions
+4. Add unit tests for your functions
 
-- Add a date and title to each entry
-- Allow editing existing entries
-- Implement a search function to find entries by content
-
-This journal project is your companion throughout this book. Use it to document your Rust learning journey, record insights, and track your progress. By the end of the book, you'll have not only a collection of your thoughts but also a tangible demonstration of how far your Rust skills have come.
+This simple project demonstrates how Rust can be used for practical applications with external APIs. Throughout this book, we'll build on these concepts to create increasingly sophisticated and robust applications.
 
 ## Looking Ahead
 
-Now that you understand how to use this book effectively, we're ready to dive into the Rust language itself. In the next chapter, we'll explore what makes Rust special, its history and philosophy, and how it compares to other programming languages.
-
-Get ready to embark on an exciting journey into the Rust Universe—a journey that will transform you from a curious beginner to a confident Rust professional capable of building robust, high-performance software for diverse domains. The road ahead is challenging but immensely rewarding. Let's begin!
+Now that you've created your first practical Rust application, we're ready to dive deeper into the Rust language itself. In the next chapter, we'll explore what makes Rust special, its history and philosophy, and how it compares to other programming languages.
