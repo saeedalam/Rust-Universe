@@ -275,6 +275,31 @@ fn display_weather(data: &WeatherData) {
 }
 ```
 
+> **Note**: This code requires the dependencies specified in `Cargo.toml` and won't work directly in the Rust Playground. It's designed to be run locally using Cargo. If you're trying to experiment with Rust code online without dependencies, consider starting with the simplified example below:
+
+```rust
+// A simplified example that works in the Rust Playground
+fn main() {
+    println!("Weather CLI App");
+
+    // Simulate fetching weather for a city
+    let city = "London";
+    println!("Fetching weather for {}...", city);
+
+    // Simulate weather data
+    let temp = 15.5;
+    let humidity = 72;
+    let conditions = "Partly Cloudy";
+
+    // Display the weather
+    println!("Weather for {}", city);
+    println!("---------------------");
+    println!("Temperature: {}°C", temp);
+    println!("Humidity: {}%", humidity);
+    println!("Conditions: {}", conditions);
+}
+```
+
 ### Step 4: Run Your Weather App
 
 Before running the app, you'll need to:
